@@ -408,11 +408,42 @@ if ( !is_numeric( $EditVersion ) )
             $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
 
             // Check permission for version in specified language
-            if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) ||
-                 !$draftVersions[0]->checkAccess( 'edit', false, false, false, $EditLanguage ) )
+            if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
             {
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                              array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+            }
+            if ( !$draftVersions[0]->checkAccess( 'edit', false, false, false, $EditLanguage ) )
+            {
+                // There are already drafts for the specified language so we need to ask the user what to do.
+                $mostRecentDraft =& $draftVersions[0];
+                foreach( $draftVersions as $currentDraft )
+                {
+                    if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
+                    {
+                        $mostRecentDraft =& $currentDraft;
+                    }
+                }
+                include_once( 'kernel/common/template.php' );
+                $tpl =& templateInit();
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                                    array( 'class', $class->attribute( 'id' ) ),
+                                    array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                                    array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+
+                $tpl->setVariable( 'edit_language', $EditLanguage );
+                $tpl->setVariable( 'from_language', $FromLanguage );
+                $tpl->setVariable( 'object', $obj );
+                $tpl->setVariable( 'class', $class );
+                $tpl->setVariable( 'draft_versions', $draftVersions );
+                $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
+
+                $Result = array();
+                $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
+                return $Result;
+
             }
             $isAccessChecked = true;
 
@@ -596,6 +627,46 @@ if ( !function_exists( 'checkContentActions' ) )
         if ( $module->isCurrentAction( 'Publish' ) )
         {
             $user =& eZUser::currentUser();
+            // Get drafts (with published or archived status)
+            $draftVersions =& $object->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_PUBLISHED, EZ_VERSION_STATUS_ARCHIVED ) ),
+                                                                                  'language_code' => $EditLanguage ) ) );
+            // Checking the source and destination language from the url,
+            // if they are the same no confirmation is needed.
+            if ( $EditLanguage != $FromLanguage )
+            {
+                $isPublishedByOther = false;
+                foreach ( $draftVersions as $draftVersion )
+                {
+                    // if there is another draft (published or archived status) which has higher modification time than the
+                    // creation date of the current version.
+                    if ( $draftVersion->attribute( 'modified' ) > $version->attribute( 'created' ) )
+                    {
+                        $isPublishedByOther = true;
+                        break;
+                    }
+                }
+                if ( $isPublishedByOther )
+                {
+                    include_once( 'kernel/common/template.php' );
+                    $tpl =& templateInit();
+
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                                        array( 'class', $class->attribute( 'id' ) ),
+                                        array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                                        array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+
+                    $tpl->setVariable( 'edit_language', $EditLanguage );
+                    $tpl->setVariable( 'current_version', $version->attribute( 'version' ) );
+                    $tpl->setVariable( 'object', $object );
+                    $tpl->setVariable( 'draft_versions', $draftVersions );
+
+                    $Result = array();
+                    $Result['content'] =& $tpl->fetch( 'design:content/edit_conflict.tpl' );
+                    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+                }
+            }
+
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             eZDebug::accumulatorStart( 'publish', '', 'publish' );
             $oldObjectName = $object->name();

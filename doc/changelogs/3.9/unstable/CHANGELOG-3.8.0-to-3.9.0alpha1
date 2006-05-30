@@ -70,4 +70,5 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.8 (3.8.1) rev. 16151)
 - Fixed bug #8380: eZWizardBase - Operation in step definition does not work 
   properly.
-  ( Merged from stable/3.6 rev. 16157, stable/3.7 16158, stable/3.8 rev. 16159 )
+  (Merged from stable/3.6 rev. 16157, stable/3.7 16158, stable/3.8 rev. 16159)
+- Fixed bug #8287: kernel 1 error when editing content.
