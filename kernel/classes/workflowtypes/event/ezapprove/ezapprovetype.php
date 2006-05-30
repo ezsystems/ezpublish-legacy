@@ -391,38 +391,43 @@ class eZApproveType extends eZWorkflowEventType
             {
                 $returnState = eZApproveType::validateUserIDList( $approversIDs, $reason );
             }
+            else
+                $returnState = false;
 
-            // check approve-groups
             if ( $returnState != EZ_INPUT_VALIDATOR_STATE_INVALID )
             {
+                // check approve-groups
                 $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'approve_groups' ) );
                 if ( is_array( $userGroupIDList ) and
                      count( $userGroupIDList ) > 0 )
                 {
                     $returnState = eZApproveType::validateGroupIDList( $userGroupIDList, $reason );
                 }
-                else
+                else if ( $returnState === false )
                 {
+                    // if no one user or user-group was passed as approvers
                     $returnState = EZ_INPUT_VALIDATOR_STATE_INVALID;
                     $reason[ 'text' ] = "There must be passed at least one valid user or user group who approves content for the event.";
                 }
-            }
 
-            // check excluded-users
-            if ( $returnState != EZ_INPUT_VALIDATOR_STATE_INVALID )
-            {
-                // TODO:
-                // ....
-            }
-
-            // check excluded-groups
-            if ( $returnState != EZ_INPUT_VALIDATOR_STATE_INVALID )
-            {
-                $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ) );
-                if ( is_array( $userGroupIDList ) and
-                     count( $userGroupIDList ) > 0 )
+                // check excluded-users
+                /*
+                if ( $returnState != EZ_INPUT_VALIDATOR_STATE_INVALID )
                 {
-                    $returnState = eZApproveType::validateGroupIDList( $userGroupIDList, $reason );
+                    // TODO:
+                    // ....
+                }
+                */
+
+                // check excluded-groups
+                if ( $returnState != EZ_INPUT_VALIDATOR_STATE_INVALID )
+                {
+                    $userGroupIDList = array_unique( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ) );
+                    if ( is_array( $userGroupIDList ) and
+                         count( $userGroupIDList ) > 0 )
+                    {
+                        $returnState = eZApproveType::validateGroupIDList( $userGroupIDList, $reason );
+                    }
                 }
             }
         }
