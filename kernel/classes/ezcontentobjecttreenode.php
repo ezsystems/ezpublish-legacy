@@ -3786,7 +3786,7 @@ WHERE
 
         // Clean up content cache
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
-        eZContentCacheManager::clearContentCache( $node->attribute( 'contentobject_id' ) );
+        eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
 
         // Clean up policies and limitations
         eZRole::cleanupByNode( $node );
@@ -3805,18 +3805,6 @@ WHERE
         eZTipafriendCounter::remove( $nodeID );
 
         $db->commit();
-
-        // Clean up template cache bocks
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
-
-        // Clean up content view cache
-        $ini =& eZINI::instance();
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
-        if ( $viewCacheEnabled )
-        {
-            include_once( 'kernel/classes/ezcontentcache.php' );
-            eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
-        }
     }
 
     /*!
