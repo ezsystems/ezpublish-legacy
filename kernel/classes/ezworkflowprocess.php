@@ -55,7 +55,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                                  'datatype' => 'string',
                                                                  'default' => '',
                                                                  'required' => true ),
-                                         'workflow_id' => array( 'name' => 'WorflowID',
+                                         'workflow_id' => array( 'name' => 'WorkflowID',
                                                                  'datatype' => 'integer',
                                                                  'default' => 0,
                                                                  'required' => true ),
