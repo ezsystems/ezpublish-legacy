@@ -3813,7 +3813,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Update children, part #2 (ezurlalias table)
         // This part is separated from the first one to avoid deadlocks in mysql.
-        eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
+        // Only update children if the node has had an URL alias before.
+        // Which means that it has been published before
+        if ( $oldPathString != "" )
+            eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
 
         eZURLAlias::expireWildcards();
         $db->commit();

@@ -1,0 +1,10 @@
+*Title: Impoved updating process of the 'eZURLAlias'es
+
+*Original author: Bard Farstad
+
+*Documentation:
+A small patch which allows to update the URL alias children only when  
+actually needed on publishing. This increases publishing performance  
+in first time publishing - which is the most common case. On large  
+sites (nx100k of objects) you get significant speed boost on  
+publishing in these cases.
