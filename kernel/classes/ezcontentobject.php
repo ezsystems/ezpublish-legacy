@@ -1210,10 +1210,17 @@ class eZContentObject extends eZPersistentObject
             	}
             	else
             	{
+                    // If attribute is NOT Translatable we should check isAlwaysAvailable(),
+                    // For example,
+                    // if initial_language_id is 4 and the attribute is always available
+                    // language_id will be 5 in ezcontentobject_version/ezcontentobject_attribute,
+                    // this means it uses language ID 4 but also has the bit 0 set to 1 (a reservered bit),
+                    // You can read about this in the document in doc/features/3.8/.
+                    $initialLangID = !$this->isAlwaysAvailable() ? $this->attribute( 'initial_language_id' ) : $this->attribute( 'initial_language_id' ) | 1;
                     $contentAttribute = eZContentObjectAttribute::fetchByClassAttributeID( $classAttribute->attribute( 'id' ),
                                                                                            $this->attribute( 'id' ),
                                                                                            $this->attribute( 'current_version' ),
-                                                                                           $this->attribute( 'initial_language_id' ) );
+                                                                                           $initialLangID );
             	    if ( $contentAttribute )
             	    {
             	        $newAttribute = $contentAttribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
@@ -1765,13 +1772,7 @@ class eZContentObject extends eZPersistentObject
             $versionText = "AND\n                    ezcontentobject_attribute.version = '$version'";
             if ( $language )
             {
-                // fetch values of attributes that are untranslatable from initial language
-                $initialLanguage =& $this->initialLanguageCode();
-                if ( $initialLanguage != $language )
-                    $languageText = "AND\n ( ( ezcontentclass_attribute.can_translate = '1' AND ezcontentobject_attribute.language_code = '$language' ) OR
-                    ( ezcontentclass_attribute.can_translate = '0' AND ezcontentobject_attribute.language_code = '" . $initialLanguage . "' ) )";
-                else
-                    $languageText = "AND\n ezcontentobject_attribute.language_code = '$language'";
+                $languageText = "AND\n                    ezcontentobject_attribute.language_code = '$language'";
             }
             else
             {
@@ -1854,22 +1855,14 @@ class eZContentObject extends eZPersistentObject
                 $object =& $nodeList[$key]->attribute( 'object' );
 
                 $language = $object->currentLanguage();
-                $initialLanguage = $object->initialLanguageCode();
                 $tmpLanguageObjectList[$object->attribute( 'id' )] = $language;
                 $objectArray = array( 'id' => $object->attribute( 'id' ),
                                       'language' => $language,
                                       'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
-                // fetch values of attributes that are untranslatable from initial language
-                if ( $initialLanguage != $language )
-                    $languageText = "( ( ezcontentclass_attribute.can_translate = '1' AND
-                        ezcontentobject_attribute.language_code = '$language' ) OR
-                        ( ezcontentclass_attribute.can_translate = '0' AND
-                        ezcontentobject_attribute.language_code = '" . $initialLanguage . "' ) )";
-                else
-                    $languageText = "ezcontentobject_attribute.language_code = '$language'";
+
                 $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
                     ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
-                    $languageText ) ";
+                    ezcontentobject_attribute.language_code = '" . $language . "' ) ";
 
                 $i++;
                 if ( $i < $count )
