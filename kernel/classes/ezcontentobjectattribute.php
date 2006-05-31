@@ -386,39 +386,6 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    /**
-     * Swap Language of current object object attribute with another.
-
-     \param languageCode   The locale of a tranlation.
-
-    */
-    function swapLanguage( $languageCode )
-    {
-        $db = eZDB::instance();
-        $db->begin();
-
-        $oldLanguage = eZContentLanguage::fetchByLocale( $languageCode );
-        $needsSwap = $this->language( $languageCode );
-        $needsSwap->removeObject( $needsSwap->definition(),
-                             array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                             "contentobject_id" => $this->ContentObjectID,
-                             "version" => $this->Version,
-                             "language_code" => $languageCode )  );
-        $needsSwap->setAttribute( 'language_code', $this->attribute( 'language_code' ) );
-
-        $this->removeObject( $this->definition(),
-                             array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                             "contentobject_id" => $this->ContentObjectID,
-                             "version" => $this->Version,
-                             "language_code" => $this->attribute( 'language_code' ) ) );
-        $this->setAttribute( 'language_code', $languageCode );
-
-        $needsSwap->store();
-        $this->store();
-
-        $db->commit();
-    }
-
     function &language( $languageCode = false, $asObject = true )
     {
         if ( !$languageCode )
@@ -688,7 +655,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
       Tries to fixup the input text to be acceptable.
-    ï¿½*/
+     */
     function fixupInput( &$http, $base )
     {
         $dataType = $this->dataType();
@@ -710,7 +677,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
       Validates the information collection data.
-   ï¿½*/
+    */
     function validateInformation( &$http, $base,
                                   &$inputParameters, $validationParameters = array() )
     {
