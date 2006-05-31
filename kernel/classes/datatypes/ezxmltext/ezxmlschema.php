@@ -165,6 +165,29 @@ class eZXMLSchema
                               'attributes' => false )
     );
 
+    function eZXMLSchema()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'content.ini' );
+                
+        // Get inline custom tags list
+        $this->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+        
+        include_once( 'lib/version.php' );
+        $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
+        if ( $eZPublishVersion >= 3.8 )
+        {
+            // Fix for empty paragraphs setting
+            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
+            $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
+        }
+        else
+        {
+            // Fix for headers content
+            $this->Schema['header']['inlineChildrenAllowed'] = array( '#text' );
+        }
+    }
+
     function &instance()
     {
         $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
@@ -174,15 +197,6 @@ class eZXMLSchema
         {
             unset( $impl );
             $impl = new eZXMLSchema();
-
-            // Correct schema by settings
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'content.ini' );
-                
-            $impl->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-
-            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
-            $impl->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
 
             // Set global instance
             $GLOBALS["eZXMLSchemaGlobalInstance"] =& $impl;
