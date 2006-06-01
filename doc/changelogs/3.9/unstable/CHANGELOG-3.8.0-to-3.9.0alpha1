@@ -75,3 +75,4 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8287: kernel 1 error when editing content.
 - Fixed bug #8372: Literal tag (even with html class) decodes all entities.
 - Fixed bug #8308: Removing an object invalidates all the viewcache.
+- Fixed bug #7898: Multiplexer fails when redirecting to template or cron.

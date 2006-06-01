@@ -286,20 +286,11 @@ class eZMultiplexerType extends eZWorkflowEventType
             {
                 $workflowToRun = $event->attribute( 'data_int1' );
 
-                if ( isSet( $processParameters['node_id'] ) )
-                {
-                    $childParameters = array_merge( $processParameters,
-                                                    array( 'workflow_id' => $workflowToRun,
-                                                           'user_id' => $userID
-                                                           ) );
-                }
-                else
-                {
-                    $childParameters = array_merge( $processParameters,
-                                                    array( 'workflow_id' => $workflowToRun,
-                                                           'user_id' => $userID
-                                                           ) );
-                }
+                $childParameters = array_merge( $processParameters,
+                                                array( 'workflow_id' => $workflowToRun,
+                                                       'user_id' => $userID,
+                                                       'parent_process_id' => $process->attribute( 'id' )
+                                                       ) );
 
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
 
