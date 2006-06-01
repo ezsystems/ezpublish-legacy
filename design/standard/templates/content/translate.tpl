@@ -159,7 +159,6 @@
     </td>
 </tr>
 <tr>
-    </td>
   <!-- Translated attributes start -->
     <td>
 
