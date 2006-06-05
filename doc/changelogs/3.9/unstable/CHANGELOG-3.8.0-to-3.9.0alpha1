@@ -76,3 +76,9 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8372: Literal tag (even with html class) decodes all entities.
 - Fixed bug #8308: Removing an object invalidates all the viewcache.
 - Fixed bug #7898: Multiplexer fails when redirecting to template or cron.
+- Fixed bug: Images disappear if ezimage attr is Not translatable.
+  (e.g If image object has cze-CZ and eng-GB translations)
+  (Merged from stable/3.8 (3.8.1) rev. 16188)
+- Fixed bug: Image attr isn't updated after publishing if attr is Not translatable.
+  (Image should be fetched from original attr)
+  (Merged from stable/3.8 (3.8.1) rev. 16188)

@@ -98,6 +98,11 @@ class eZImageType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
     }
 
     /*!
