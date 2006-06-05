@@ -107,6 +107,20 @@ class eZPriceType extends eZDataType
     }
 
     /*!
+     reimp
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $dataFloat = $originalContentObjectAttribute->attribute( "data_float" );
+            $contentObjectAttribute->setAttribute( "data_float", $dataFloat );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
+    }
+
+    /*!
      Set default class attribute value
     */
     function initializeClassAttribute( &$classAttribute )
