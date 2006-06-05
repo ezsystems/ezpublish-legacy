@@ -83,3 +83,7 @@ Changes from 3.8.0 to 3.8.1
   (Merged from trunk (3.9.0alpha1) rev. 16173)
 - Fixed bug #7898: Multiplexer fails when redirecting to template or cron.
   (Merged from trunk (3.9.0alpha1) rev. 16182)
+- Fixed bug: Images disappear if ezimage attr is Not translatable.
+  (e.g If image object has che-CZ and eng-GB translations)
+- Fixed bug: Image attr isn't updated after publishing if attr is Not translatable.
+  (Image should be fetched from original attr)

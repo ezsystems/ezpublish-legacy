@@ -753,29 +753,6 @@ class eZImageAliasHandler
     function updateAliasPath( $dirpath, $name )
     {
         $contentObjectAttribute =& $this->ContentObjectAttribute;
-        $contentObjectVersion = $contentObjectAttribute->attribute( 'version' );
-        $can_translate = $contentObjectAttribute->attribute( 'can_translate' );
-        // get eZContentObject for current contentObjectAttribute
-        $obj =& $contentObjectAttribute->object();
-        // get eZContentObjectVersion
-        $currVerobj =& $obj->currentVersion();
-        // get array of ezcontentobjecttranslations
-        $transList = & $currVerobj->translations();
-        $translationList = array();
-        // create translation List
-        // $translationList will contain for example eng-GB, ita-IT etc.
-        foreach ( $transList as $transListName )
-        {
-            $translationList[] = $transListName->LanguageCode;
-        }
-        // get current language_code
-        $langCode = $contentObjectAttribute->attribute( 'language_code' );
-        // get default language_code
-        $defaultLang = $currVerobj->initialLanguageCode();
-        // get count of LanguageCode in translationList
-        $countTsl = count( $translationList );
-        // order by asc
-        sort( $translationList );
         if ( !file_exists( $dirpath ) )
         {
             eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
@@ -803,95 +780,18 @@ class eZImageAliasHandler
                     {
                         continue;
                     }
-                    // if more there are more translations and the attribute is not translatable,
-                    // then it is necessary to copy the image. Otherwise the image should be removed.
-                    if ( !$can_translate and $countTsl > 1 and $translationList[$countTsl - 1] != $langCode )
-                    {
-                        // The file ($oldURL) should be copied (create hard link)
-                        // Save current params in the GLOBAL variable for creating the hard links
-                        $GLOBALS[ 'newAliasesCopy' ][] = array( 'oldURL' => $oldURL,
-                                                                'newURL' => $alias['url'],
-                                                                'AliasName' => $aliasName,
-                                                                'attributeID'=> $this->ContentObjectAttribute->attribute( 'id' )
-                                                                );
-                        // If version of contentObjectAttribute is first we should copy and update ezimagefile table
-                        if ( $contentObjectVersion == 1 )
-                        {
-                           // VS-DBFILE
 
-                           require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                           $fileHandler = eZClusterFileHandler::instance();
-                           $fileHandler->fileCopy( $oldURL, $alias['url'] );
+                    // VS-DBFILE
 
-                           eZImageFile::moveFilepath( $contentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
-                        }
-                    }
-                    else
-                    {
-                        // VS-DBFILE
+                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                    $fileHandler = eZClusterFileHandler::instance();
+                    $fileHandler->fileMove( $oldURL, $alias['url'] );
 
-                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                        $fileHandler = eZClusterFileHandler::instance();
-                        $fileHandler->fileMove( $oldURL, $alias['url'] );
-
-                        $GLOBALS[ 'newAliasesMove' ][] = array( 'oldURL' => $oldURL,
-                                                                'newURL' => $alias['url'],
-                                                                'AliasName' => $aliasName,
-                                                                'attributeID'=> $this->ContentObjectAttribute->attribute( 'id' )
-                                                                );
-
-                        if ( !$can_translate and $countTsl > 1 and isset( $GLOBALS[ 'newAliasesCopy' ] ) )
-                        {
-                            $newAliasesCopy = $GLOBALS[ 'newAliasesCopy' ];
-                            // Create the Hard Link or copy (for win9x/nt/ etc) files from $newURLMove to $GLOBALS[ 'newAliasesCopy' ][ 'newURL' ]
-                            foreach ( array_keys ( $newAliasesCopy ) as $newAliasKey )
-                            {
-                                $newAlias = $newAliasesCopy[ $newAliasKey ];
-                                $passed = false;
-                                if ( $newAlias[ 'AliasName' ] == $aliasName )
-                                {
-                                    $newURL = $newAlias[ 'newURL' ];
-
-                                    // VS-DBFILE
-
-                                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                                    $fileHandler = eZClusterFileHandler::instance();
-                                    $fileHandler->fileLinkCopy( $alias['url'], $newURL, false );
-
-                                    eZImageFile::moveFilepath( $newAlias['attributeID' ], $newAlias[ 'oldURL' ], $newURL );
-                                    unset( $GLOBALS[ 'newAliasesCopy' ][ $newAliasKey ] );
-                                }
-                            }
-                        }
-                        eZDir::cleanupEmptyDirectories( $oldDirpath );
-                        eZImageFile::moveFilepath( $contentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
-                    }
+                    eZDir::cleanupEmptyDirectories( $oldDirpath );
+                    eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
                 }
                 else
                 {
-                    // If current version is the first and isset $GLOBALS[ 'newAliasesMove' ]
-                    // we should change $oldURL (the file $oldURL does not exist now)
-                    if ( $contentObjectVersion == 1 )
-                    {
-                        // Update ezimagefile table
-                        eZImageFile::moveFilepath( $contentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
-                        if ( isset( $GLOBALS[ 'newAliasesMove' ] ) )
-                        {
-                            $newAliasesMove = $GLOBALS[ 'newAliasesMove' ];
-                            foreach ( $newAliasesMove as $newAlias )
-                            {
-                                if ( $aliasName == $newAlias[ 'AliasName' ] )
-                                {
-                                    $oldURL = $newAlias[ 'newURL' ];
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                            eZImageFile::appendFilepath( $contentObjectAttribute->attribute( 'id' ), $alias['url'] );
-                    }
 //                     $hasFileCopy = true;
 
                     // VS-DBFILE
@@ -899,6 +799,7 @@ class eZImageAliasHandler
                     require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $fileHandler = eZClusterFileHandler::instance();
                     $fileHandler->fileLinkCopy( $oldURL, $alias['url'], false );
+                    eZImageFile::appendFilepath( $contentObjectAttribute->attribute( 'id' ), $alias['url'] );
                 }
             }
         }
