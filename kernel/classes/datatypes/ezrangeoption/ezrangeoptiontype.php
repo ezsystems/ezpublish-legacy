@@ -58,7 +58,39 @@ class eZRangeOptionType extends eZDataType
 
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $http->hasPostVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) ) and
+             $http->hasPostVariable( $base . '_data_rangeoption_start_value_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             $http->hasPostVariable( $base . '_data_rangeoption_stop_value_' . $contentObjectAttribute->attribute( 'id' ) ) and
+             $http->hasPostVariable( $base . '_data_rangeoption_step_value_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+
+            $name = $http->postVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) );
+            $startValue = $http->postVariable( $base . '_data_rangeoption_start_value_' . $contentObjectAttribute->attribute( 'id' ) );
+            $stopValue = $http->postVariable( $base . '_data_rangeoption_stop_value_' . $contentObjectAttribute->attribute( 'id' ) );
+            $stepValue = $http->postVariable( $base . '_data_rangeoption_step_value_' . $contentObjectAttribute->attribute( 'id' ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            if ( $name == '' or
+                 $startValue == '' or
+                 $stopValue == '' or
+                 $stepValue == '' )
+            {
+                if ( ( !$classAttribute->attribute( 'is_information_collector' ) and
+                       $contentObjectAttribute->validateIsRequired() ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                     'Missing range option input.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+                else
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+        }
+        else
+        {
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
+
+
     }
 
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -131,7 +163,9 @@ class eZRangeOptionType extends eZDataType
 
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        $option = new eZRangeOption( "" );
+        $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
+        return $option->attribute('name');
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
