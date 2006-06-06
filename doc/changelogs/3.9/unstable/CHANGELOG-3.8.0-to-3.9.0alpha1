@@ -82,3 +82,4 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug: Image attr isn't updated after publishing if attr is Not translatable.
   (Image should be fetched from original attr)
   (Merged from stable/3.8 (3.8.1) rev. 16188)
+- Fixed bug #8447: Template for with error cause crash.
