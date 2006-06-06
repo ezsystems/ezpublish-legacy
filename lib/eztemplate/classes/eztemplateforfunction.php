@@ -119,8 +119,10 @@ class eZTemplateForFunction
         $modifyLoopCounterCode = "\$for_firstval_$uniqid < \$for_lastval_$uniqid ? \$for_i_${uniqid}++ : \$for_i_${uniqid}--"; // . ";\n";
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "for ( \$for_i_$uniqid = \$for_firstval_$uniqid ; ; $modifyLoopCounterCode )\n{" );
         $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+        // Check for index
+        $indexArray = isset( $parameters['loop_var'][0][1] ) ? $parameters['loop_var'][0][1] : array( "", 2, "default_index_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, "for_i_$uniqid", $nodePlacement,
-                                                              array( 'text-result' => true ), $parameters['loop_var'][0][1], false, true, true );
+                                                              array( 'text-result' => true ), $indexArray, false, true, true );
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !( \$for_firstval_$uniqid < \$for_lastval_$uniqid ? " .
                                                                "\$for_i_$uniqid <= \$for_lastval_$uniqid : " .
@@ -132,7 +134,7 @@ class eZTemplateForFunction
         // loop footer
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // for" );
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $parameters['loop_var'][0][1] );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $indexArray );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_firstval_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_lastval_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_i_$uniqid" );
