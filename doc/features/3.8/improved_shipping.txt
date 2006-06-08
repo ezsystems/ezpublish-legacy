@@ -33,18 +33,18 @@ methods:
      * \static
      */
     function getShippingInfo( $productCollectionID );
-    
-    /*
-     * Invoked when the associated product collection is removed
-     * to clean up shipping information.
+
+    /**
+     * Invoked when shopping basket contents are changed
+     * to update shipping info/cost appropriately.
      * \public
      * \static
      */
     function updateShippingInfo( $productCollectionID );
 
-    /**
-     * Invoked when shopping basket contents are changed
-     * to update shipping info/cost appropriately.
+    /*
+     * Invoked when the associated product collection is removed
+     * to clean up shipping information.
      * \public
      * \static
      */
@@ -78,7 +78,7 @@ This information is [partially] displayed in the following places:
 # Specifies shipping handler class/file name. For example, if the value is
 # "ezcustom", then the handler class should be named
 # eZCustomShippingHandler (case does not matter) and placed to file
-# ezcustomvathandler.php residing in a directory specified by
+# ezcustomshippinghandler.php residing in a directory specified by
 # "RepositoryDirectories" and "ExtensionDirectories" settings.
 Handler=ezcustom
 
@@ -89,7 +89,7 @@ RepositoryDirectories[]=kernel/classes/shippinghandlers
 # then you should add the extension name to the list below.
 # In that case shipping handlers will be searched for
 # in the following (hardcoded) directory:
-# extension/<your_extension>/vathandlers
+# extension/<your_extension>/shippinghandlers
 # beside directories specified in 'RepositoryDirectories' setting.
 ExtensionDirectories[]
 ###############################################################################
