@@ -66,6 +66,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
+include_once( 'lib/ezutils/classes/ezextension.php' );
 
 function minBit( $value )
 {
@@ -99,9 +100,35 @@ $script->startup();
 $options = $script->getOptions( "",
                                 "" );
 
-if ( !$options['siteaccess'] || !file_exists( 'settings/siteaccess/' . $options['siteaccess'] ) )
+$extensionBaseDir = eZExtension::baseDirectory();
+$extensionNameArray = eZExtension::activeExtensions();
+$siteAccessPath = '/settings/siteaccess/';
+$siteAccessExists = false;
+
+if ( !$options['siteaccess'] )
 {
-    $cli->error( "Siteaccess was not given or does not exist. Exiting..." );
+    $cli->error( "Siteaccess was not given. Exiting..." );
+    exit( -1 );
+}
+
+$siteAccessExists = file_exists( 'settings/siteaccess/' . $options['siteaccess'] );
+if ( !$siteAccessExists )
+{
+    // check extensions.
+    foreach ( $extensionNameArray as $extensionName )
+    {
+        $extensionSiteaccessPath = $extensionBaseDir . '/' . $extensionName . $siteAccessPath;
+        if ( file_exists( $extensionSiteaccessPath . $options['siteaccess'] ) )
+        {
+            $siteAccessExists = true;
+            break;
+        }
+    }
+}
+
+if ( !$siteAccessExists )
+{
+    $cli->error( "Siteaccess '" . $options['siteaccess'] . "' does not exist. Exiting..." );
     exit( -1 );
 }
 
