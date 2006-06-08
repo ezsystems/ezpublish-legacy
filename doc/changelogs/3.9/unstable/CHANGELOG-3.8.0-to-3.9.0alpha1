@@ -4,6 +4,13 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Improved 'eZURLAlias' updating process(see features/3.9/improved_urlalias_updating_process.txt)
   (patch by Bard Farstad)
 
+Clustering:
+- Changed the way clustering settings are stored.
+  For more details see doc/features/3.8/clustering.txt.
+  (Merged from stable/3.8 (3.8.1) rev. 16215)
+- Optimized index_image.php to gain more speed.
+  (Merged from stable/3.8 (3.8.1) rev. 16215)
+
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
@@ -93,3 +100,5 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug: bin/php/clusterize.php cannot load cluster handler
   from an extension.      
   (Merged from stable/3.8 (3.8.1) rev. 16213)
+- Fixed bug #8394: Fatal error due to typo in clustering code.
+  (Merged from stable/3.8 (3.8.1) rev. 16212)
