@@ -31,16 +31,6 @@
 /*! \file ezdbfilehandlerpgsqlbackend.php
 */
 
-
-define( 'STORAGE_HOST',       'db' );
-define( 'STORAGE_PORT',       5432 );
-define( 'STORAGE_DB',         'cluster' );
-
-
-define( 'STORAGE_USER',       'fred' );
-define( 'STORAGE_PASS',       '' );
-define( 'STORAGE_CHUNK_SIZE', 65535 );
-
 define( 'TABLE_METADATA',     'ezdbfile' );
 
 /*
@@ -63,13 +53,31 @@ class eZDBFileHandlerPgsqlBackend
 {
     function _connect()
     {
-        $connStr  = "host=" .     STORAGE_HOST . " ";
-        $connStr .= "port=" .     STORAGE_PORT . " ";
-        $connStr .= "dbname=" .   STORAGE_DB   . " ";
-        $connStr .= "user=" .     STORAGE_USER . " ";
-        $connStr .= "password=" . STORAGE_PASS;
+        if ( !isset( $GLOBALS['eZDBFileHandlerPgsqlBackend_dbparams'] ) )
+        {
+            $fileINI = eZINI::instance( 'file.ini' );
+
+            $params['host']       = $fileINI->variable( 'ClusteringSettings', 'DBHost' );
+            $params['port']       = $fileINI->variable( 'ClusteringSettings', 'DBPort' );
+            $params['dbname']     = $fileINI->variable( 'ClusteringSettings', 'DBName' );
+            $params['user']       = $fileINI->variable( 'ClusteringSettings', 'DBUser' );
+            $params['pass']       = $fileINI->variable( 'ClusteringSettings', 'DBPassword' );
+            $params['chunk_size'] = $fileINI->variable( 'ClusteringSettings', 'DBChunkSize' );
+
+            $GLOBALS['eZDBFileHandlerPgsqlBackend_dbparams'] = $params;
+        }
+        else
+            $params = $GLOBALS['eZDBFileHandlerPgsqlBackend_dbparams'];
+
+        $connStr  = "host=$params[host] ";
+        $connStr .= "port=$params[port] ";
+        $connStr .= "dbname=$params[dbname] ";
+        $connStr .= "user=$params[user] ";
+        $connStr .= "password=$params[pass]";
         if ( !$this->db = pg_connect( $connStr ) )
             $this->_die( "Unable to connect to storage server." );
+
+        $this->dbparams = $params;
     }
 
     function _delete( $filePath, $insideOfTransaction = false )
@@ -220,8 +228,9 @@ class eZDBFileHandlerPgsqlBackend
 
         // copy large object contents to the file
         pg_query( $this->db, "BEGIN" );
+        $chunkSize = $this->dbparams['chunk_size'];
         $lobHandle = pg_lo_open( $this->db, $metaData['lob_id'], 'r' );
-        while ( $chunk = pg_lo_read( $lobHandle, STORAGE_CHUNK_SIZE ) )
+        while ( $chunk = pg_lo_read( $lobHandle, $chunkSize ) )
             fwrite( $fp, $chunk );
         pg_lo_close( $lobHandle );
         pg_query( $this->db, "COMMIT" );
@@ -244,9 +253,10 @@ class eZDBFileHandlerPgsqlBackend
 
         // fetch large object contents
         $contents = '';
+        $chunkSize = $this->dbparams['chunk_size'];
         pg_query( $this->db, "BEGIN" );
         $lobHandle = pg_lo_open( $this->db, $metaData['lob_id'], 'r' );
-        while ( $chunk = pg_lo_read( $lobHandle, STORAGE_CHUNK_SIZE ) )
+        while ( $chunk = pg_lo_read( $lobHandle, $chunkSize ) )
             $contents .= $chunk;
         pg_lo_close( $lobHandle );
         pg_query( $this->db, "COMMIT" );
@@ -268,6 +278,7 @@ class eZDBFileHandlerPgsqlBackend
             return false;
         $row = pg_fetch_array( $res, null, PGSQL_ASSOC );
         pg_free_result( $res );
+
         return $row;
     }
 
@@ -299,9 +310,10 @@ class eZDBFileHandlerPgsqlBackend
         // Create new large object
         $lobOid = pg_lo_create( $this->db );
         $lobHandle = pg_lo_open( $this->db, $lobOid, 'w');
+        $chunkSize = $this->dbparams['chunk_size'];
         while ( !feof( $fp ) )
         {
-            $chunk = fread( $fp, STORAGE_CHUNK_SIZE );
+            $chunk = fread( $fp, $chunkSize );
 
             if ( pg_lo_write( $lobHandle, $chunk ) === false )
             {
@@ -368,9 +380,10 @@ class eZDBFileHandlerPgsqlBackend
         // Create new large object
         $lobOid = pg_lo_create( $this->db );
         $lobHandle = pg_lo_open( $this->db, $lobOid, 'w');
-        for ( $pos = 0; $pos < $contentLength; $pos += STORAGE_CHUNK_SIZE )
+        $chunkSize = $this->dbparams['chunk_size'];
+        for ( $pos = 0; $pos < $contentLength; $pos += $chunkSize )
         {
-            $chunk = substr( $contents, $pos, STORAGE_CHUNK_SIZE );
+            $chunk = substr( $contents, $pos, $chunkSize );
 
             if ( pg_lo_write( $lobHandle, $chunk ) === false )
             {
@@ -437,7 +450,8 @@ class eZDBFileHandlerPgsqlBackend
         $dstLobOid = pg_lo_create( $this->db );
         $dstLobHandle = pg_lo_open( $this->db, $dstLobOid, 'w');
         $srcLobHandle = pg_lo_open( $this->db, $srcMetadata['lob_id'], 'r' );
-        while ( $chunk = pg_lo_read( $srcLobHandle, STORAGE_CHUNK_SIZE ) )
+        $chunkSize = $this->dbparams['chunk_size'];
+        while ( $chunk = pg_lo_read( $srcLobHandle, $chunkSize ) )
         {
             if ( pg_lo_write( $dstLobHandle, $chunk ) === false )
             {
@@ -524,7 +538,8 @@ class eZDBFileHandlerPgsqlBackend
 
         pg_query( $this->db, "BEGIN" );
         $lobHandle = pg_lo_open( $this->db, $metaData['lob_id'], 'r' );
-        while ( $chunk = pg_lo_read( $lobHandle, STORAGE_CHUNK_SIZE ) )
+        $chunkSize = $this->dbparams['chunk_size'];
+        while ( $chunk = pg_lo_read( $lobHandle, $chunkSize ) )
             echo $chunk;
         pg_lo_close( $lobHandle );
         pg_query( $this->db, "COMMIT" );

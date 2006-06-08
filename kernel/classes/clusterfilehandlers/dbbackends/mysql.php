@@ -31,15 +31,6 @@
 /*! \file ezdbfilehandlermysqlbackend.php
 */
 
-
-define( 'STORAGE_HOST',       'db' );
-define( 'STORAGE_PORT',       3400 );
-define( 'STORAGE_DB',         'cluster' );
-
-define( 'STORAGE_USER',       'root' );
-define( 'STORAGE_PASS',       '' );
-define( 'STORAGE_CHUNK_SIZE', 65535 );
-
 define( 'TABLE_METADATA',     'ezdbfile' );
 define( 'TABLE_DATA',         'ezdbfile_data' );
 
@@ -73,11 +64,29 @@ class eZDBFileHandlerMysqlBackend
 {
     function _connect()
     {
-        if ( !$this->db = @mysql_connect( STORAGE_HOST . ":" . STORAGE_PORT, STORAGE_USER, STORAGE_PASS ) )
-            $this->_die( "Unable to connect to storage server." );
+        if ( !isset( $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'] ) )
+        {
+            $fileINI = eZINI::instance( 'file.ini' );
 
-        if ( !mysql_select_db( STORAGE_DB, $this->db ) )
-            $this->_die( "Unable to connect to storage database." );
+            $params['host']       = $fileINI->variable( 'ClusteringSettings', 'DBHost' );
+            $params['port']       = $fileINI->variable( 'ClusteringSettings', 'DBPort' );
+            $params['dbname']     = $fileINI->variable( 'ClusteringSettings', 'DBName' );
+            $params['user']       = $fileINI->variable( 'ClusteringSettings', 'DBUser' );
+            $params['pass']       = $fileINI->variable( 'ClusteringSettings', 'DBPassword' );
+            $params['chunk_size'] = $fileINI->variable( 'ClusteringSettings', 'DBChunkSize' );
+
+            $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'] = $params;
+        }
+        else
+            $params = $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'];
+
+        if ( !$this->db = mysql_connect( "$params[host]:$params[port]", $params['user'], $params['pass'] ) )
+            $this->_die( "Unable to connect to storage server" );
+
+        if ( !mysql_select_db( $params['dbname'], $this->db ) )
+            $this->_die( "Unable to connect to storage database" );
+
+        $this->dbparams = $params;
     }
 
     function _copy( $srcFilePath, $dstFilePath )
@@ -177,13 +186,12 @@ class eZDBFileHandlerMysqlBackend
                 $result = false;
                 break;
             }
+        }
 
-            if ( !mysql_query( "DELETE FROM " . TABLE_METADATA . " WHERE id=$fileID", $this->db ) )
-            {
-                eZDebug::writeError( "Failed to delete file metadata: $filePath: " . mysql_error( $this->db ) );
-                $result = false;
-                break;
-            }
+        if ( !mysql_query( "DELETE FROM " . TABLE_METADATA . " WHERE id=$fileID", $this->db ) )
+        {
+            eZDebug::writeError( "Failed to delete file metadata: $filePath: " . mysql_error( $this->db ) );
+            $result = false;
         }
 
         mysql_free_result( $res );
@@ -265,7 +273,8 @@ class eZDBFileHandlerMysqlBackend
     function _exists( $filePath )
     {
         $filePath = mysql_real_escape_string( $filePath );
-        $rslt = mysql_query( "SELECT COUNT(*) FROM " . TABLE_METADATA . " WHERE name='$filePath' ", $this->db );
+        $filePathHash = md5( $filePath );
+        $rslt = mysql_query( "SELECT COUNT(*) FROM " . TABLE_METADATA . " WHERE name_hash='$filePathHash' ", $this->db );
         if ( !$rslt )
         {
             eZDebug::writeError( "Failed to check file '$filePath' existance: " . mysql_error( $this->db ) );
@@ -315,7 +324,6 @@ class eZDBFileHandlerMysqlBackend
             eZDebug::writeNotice( "File '$filePath' does not exists while trying to fetch." );
             return false;
         }
-
 
         $fileID = $metaData['id'];
         $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
@@ -511,10 +519,11 @@ class eZDBFileHandlerMysqlBackend
             return;
         }
 
+        $chunkSize = $this->dbparams['chunk_size'];
         while ( !feof( $fp ) )
         {
             // make the data mysql insert safe.
-            $binarydata = mysql_real_escape_string( fread( $fp, STORAGE_CHUNK_SIZE ) );
+            $binarydata = mysql_real_escape_string( fread( $fp, $chunkSize ) );
 
             $sql = "INSERT INTO " . TABLE_DATA . " (masterid, filedata) VALUES ($fileID, '$binarydata')";
 
@@ -558,9 +567,10 @@ class eZDBFileHandlerMysqlBackend
         $fileID = mysql_insert_id( $this->db );
 
         // Insert file contents.
-        for ( $pos = 0; $pos < $contentLength; $pos += STORAGE_CHUNK_SIZE )
+        $chunkSize = $this->dbparams['chunk_size'];
+        for ( $pos = 0; $pos < $contentLength; $pos += $chunkSize )
         {
-            $chunk = substr( $contents, $pos, STORAGE_CHUNK_SIZE );
+            $chunk = substr( $contents, $pos, $chunkSize );
 
             $sql = "INSERT INTO " . TABLE_DATA . " ( masterid, filedata ) VALUES (";
             $sql .= $fileID . ", '" . mysql_real_escape_string( $chunk ) . "')";
@@ -608,7 +618,11 @@ class eZDBFileHandlerMysqlBackend
 
     function _die( $msg, $sql = null )
     {
-        eZDebug::writeError( $sql, "$msg: " . mysql_error( $this->db ) );
+        if ( $this->db )
+            eZDebug::writeError( $sql, "$msg" . mysql_error( $this->db ) );
+        else
+            eZDebug::writeError( $sql, "$msg: " . mysql_error() );
+
         if( @include_once( '../bt.php' ) )
         {
             bt();
