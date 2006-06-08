@@ -411,7 +411,7 @@ class eZDBFileHandlerMysqlBackend
 
     function _linkCopy( $srcPath, $dstPath )
     {
-        return _copy( $srcPath, $dstPath );
+        return $this->_copy( $srcPath, $dstPath );
     }
 
     function _passThrough( $filePath )
