@@ -84,4 +84,6 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.8 (3.8.1) rev. 16188)
 - Fixed bug #8447: Template for with error cause crash.
 - Fixed bug #8238: multilingual upgrade script cause seg fault, and has memory leakage.
-- Fixed bug #8203: Memory leak in updatemultilingual.php
+- Fixed bug #8203: Memory leak in updatemultilingual.php.
+- Fixed bug #8469: updatemultilingual.php doesn't work with siteacceses in extensions.
+  (Patch by Ole Marius Smestad)
