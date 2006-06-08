@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/* 
+/*
 
 -- The following SQLs must be run before running this script:
 
@@ -137,6 +137,7 @@ sleep( 10 );
 
 $cli->notice( 'Step 1/6: Removing the drafts:' );
 
+$count = 0;
 if ( $draftCount )
 {
     $rows = $db->arrayQuery( "SELECT *
@@ -144,12 +145,22 @@ if ( $draftCount )
                               WHERE status=0" );
     foreach( $rows as $row )
     {
+        ++$count;
+        if ( ( $count % 100 ) == 0 )
+            $cli->warning( "Processed: $count of $draftCount " );
+
         $draft = new eZContentObjectVersion( $row );
         $draft->remove();
+        eZContentObject::clearCache();
         unset( $draft );
     }
 }
 
+if ( $count > 0 )
+{
+    // last message
+    $cli->warning( "Processed: $count of $draftCount " );
+}
 // ------------------------------------------
 
 $cli->notice( 'Step 2/6: Identifying languages used on the site:' );
@@ -272,7 +283,7 @@ while ( $rows = $db->arrayQuery( "SELECT a.*, b.language_mask as object_language
             $candidate *= 2;
         }
 
-        $attributes = $db->arrayQuery( "SELECT * 
+        $attributes = $db->arrayQuery( "SELECT *
                                         FROM ezcontentobject_attribute
                                         WHERE contentobject_id = '$objectID'
                                           AND version = '$version'".
@@ -363,7 +374,7 @@ $limit = 100;
 $offset = 0;
 $lastID = 0;
 
-while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.contentclass_id, 
+while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.contentclass_id,
                                             ezcontentobject_version.language_mask, ezcontentobject_version.initial_language_id
                                      FROM ezcontentobject, ezcontentobject_version
                                      WHERE ezcontentobject.id > '$lastID'
@@ -379,7 +390,7 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
         $languageMask--;
         $originalLanguageMask = (int) $languageMask;
         $initialLanguage = $object['initial_language_id'];
-        
+
         // if the object is a folder, a user, a user group etc. or if it is a top-leve object, make it always available
         if ( in_array( $object['contentclass_id'], $alwaysAvailableClasses ) ||
              in_array( $objectID, $topLevelObjects ) )
@@ -390,7 +401,7 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
                          SET language_id='$newLanguageID'
                          WHERE contentobject_id='$objectID' AND version='$version' AND language_id='$initialLanguage'" );
             $db->query( "UPDATE ezcontentobject_name
-                         SET language_id='$newLanguageID' 
+                         SET language_id='$newLanguageID'
                          WHERE contentobject_id='$objectID' AND content_version='$version' AND language_id='$initialLanguage'" );
         }
 

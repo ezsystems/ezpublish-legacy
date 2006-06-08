@@ -255,7 +255,7 @@ class eZImageType extends eZDataType
             }
             if ( $imageHandler->isStorageRequired() )
             {
-                $imageHandler->store();
+                $imageHandler->store( $contentObjectAttribute );
             }
         }
     }
@@ -393,7 +393,7 @@ class eZImageType extends eZDataType
             }
             if ( $imageHandler->isStorageRequired() )
             {
-                $imageHandler->store();
+                $imageHandler->store( $contentObjectAttribute );
                 $contentObjectAttribute->store();
             }
         }
