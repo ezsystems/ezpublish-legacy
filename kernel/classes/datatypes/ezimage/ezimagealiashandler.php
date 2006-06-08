@@ -1107,10 +1107,7 @@ class eZImageAliasHandler
             eZDir::mkdir( $mimeData['dirpath'], false, true );
         }
 
-        // VS-DBFILE
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $fileHandler = eZClusterFileHandler::instance();
-        $fileHandler->fileCopy( $filename, $mimeData['url'] );
+        eZFileHandler::copy( $filename, $mimeData['url'] );
 
         return $this->initialize( $mimeData, $originalFilename, $imageAltText );
     }

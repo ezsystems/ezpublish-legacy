@@ -87,3 +87,6 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8203: Memory leak in updatemultilingual.php.
 - Fixed bug #8469: updatemultilingual.php doesn't work with siteacceses in extensions.
   (Patch by Ole Marius Smestad)
+- Fixed bug: Importing an OO document containing images does not work
+  if clustering is enabled.
+  (Merged from stable/3.8 (3.8.1) rev. 16208)
