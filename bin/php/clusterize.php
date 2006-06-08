@@ -121,7 +121,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish (un)cluster
                                                          "./bin/php/clusterize.php" ),
                                       'use-session'    => false,
                                       'use-modules'    => false,
-                                      'use-extensions' => false ) );
+                                      'use-extensions' => true ) );
 
 $script->startup();
 
