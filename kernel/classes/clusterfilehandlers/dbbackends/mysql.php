@@ -70,6 +70,7 @@ class eZDBFileHandlerMysqlBackend
 
             $params['host']       = $fileINI->variable( 'ClusteringSettings', 'DBHost' );
             $params['port']       = $fileINI->variable( 'ClusteringSettings', 'DBPort' );
+            $params['socket']     = $fileINI->variable( 'ClusteringSettings', 'DBSocket' );
             $params['dbname']     = $fileINI->variable( 'ClusteringSettings', 'DBName' );
             $params['user']       = $fileINI->variable( 'ClusteringSettings', 'DBUser' );
             $params['pass']       = $fileINI->variable( 'ClusteringSettings', 'DBPassword' );
@@ -80,7 +81,13 @@ class eZDBFileHandlerMysqlBackend
         else
             $params = $GLOBALS['eZDBFileHandlerMysqlBackend_dbparams'];
 
-        if ( !$this->db = mysql_connect( "$params[host]:$params[port]", $params['user'], $params['pass'] ) )
+        $serverString = $params['host'];
+        if ( $params['socket'] )
+            $serverString .= ':' . $params['socket'];
+        elseif ( $params['port'] )
+            $serverString .= ':' . $params['port'];
+
+        if ( !$this->db = mysql_connect( $serverString, $params['user'], $params['pass'] ) )
             $this->_die( "Unable to connect to storage server" );
 
         if ( !mysql_select_db( $params['dbname'], $this->db ) )
