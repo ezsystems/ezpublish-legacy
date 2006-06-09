@@ -102,3 +102,6 @@ Clustering:
   (Merged from stable/3.8 (3.8.1) rev. 16213)
 - Fixed bug #8394: Fatal error due to typo in clustering code.
   (Merged from stable/3.8 (3.8.1) rev. 16212)
+- Fixed bug #8395: Not possible to define MySQL socket when using
+  MySQL cluster handler.
+  (Merged from stable/3.8 (3.8.1) rev. 16219)
