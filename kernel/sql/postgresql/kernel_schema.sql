@@ -2626,6 +2626,22 @@ CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
 
 
 
+CREATE INDEX ezkeyword_keyword_id ON ezkeyword USING btree (keyword, id);
+
+
+
+
+
+
+
+CREATE INDEX ezkeyword_attr_link_kid_oaid ON ezkeyword_attribute_link USING btree (keyword_id, objectattribute_id);
+
+
+
+
+
+
+
 CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btree (workflow_process_id);
 
 
