@@ -2655,6 +2655,15 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezkeyword_keyword_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'keyword',
+          1 => 'id',
+        ),
+      ),
     ),
   ),
   'ezkeyword_attribute_link' => 
@@ -2690,6 +2699,15 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezkeyword_attr_link_kid_oaid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'keyword_id',
+          1 => 'objectattribute_id',
         ),
       ),
     ),
