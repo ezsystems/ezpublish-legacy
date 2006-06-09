@@ -616,7 +616,8 @@ CREATE TABLE ezkeyword (
   class_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   keyword varchar(255) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezkeyword_keyword_id (keyword,id)
 ) TYPE=MyISAM;
 
 
@@ -627,7 +628,8 @@ CREATE TABLE ezkeyword_attribute_link (
   id int(11) NOT NULL auto_increment,
   keyword_id int(11) NOT NULL default '0',
   objectattribute_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezkeyword_attr_link_kid_oaid (keyword_id,objectattribute_id)
 ) TYPE=MyISAM;
 
 
