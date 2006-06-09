@@ -105,3 +105,4 @@ Clustering:
 - Fixed bug #8395: Not possible to define MySQL socket when using
   MySQL cluster handler.
   (Merged from stable/3.8 (3.8.1) rev. 16219)
+- Fixed bug #8259: Performance issue with eZKeyword datatype.
