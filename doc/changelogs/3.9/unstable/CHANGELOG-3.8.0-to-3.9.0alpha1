@@ -106,3 +106,5 @@ Clustering:
   MySQL cluster handler.
   (Merged from stable/3.8 (3.8.1) rev. 16219)
 - Fixed bug #8259: Performance issue with eZKeyword datatype.
+- Fixed bug: "Relation" and "Relation List" attributes were not imported properly
+  when installing a package.

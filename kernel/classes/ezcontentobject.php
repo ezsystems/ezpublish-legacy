@@ -4434,6 +4434,21 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+      Performs additional unserialization actions that need to be performed when all
+      objects contained in the package are already installed. (maintain objects' cross-relations)
+    */
+
+    function postUnserialize( &$package )
+    {
+        $versions =& $this->versions();
+        foreach( array_keys( $versions ) as $key )
+        {
+            $version = &$versions[$key];
+            $version->postUnserialize( $package );
+        }
+    }
+
+    /*!
      \return a DOM structure of the content object and it's attributes.
 
      \param package

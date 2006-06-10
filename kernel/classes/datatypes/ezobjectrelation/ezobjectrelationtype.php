@@ -181,15 +181,15 @@ class eZObjectRelationType extends eZDataType
         $obj = $contentObjectAttribute->object();
         //get eZContentObjectVersion
         $currVerobj = $obj->version( $contentObjectVersion );
-        // get array of ezcontentobjecttranslations
-        $transList = $currVerobj->translationList();
-        // get count of LanguageCode in translationList
+        // get array of language codes
+        $transList =& $currVerobj->translations( false );
         $countTsl = count( $transList );
 
         if ( ( $countTsl == 1 ) )
              eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
+
         if ( $objectID )
             eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
     }
@@ -280,7 +280,7 @@ class eZObjectRelationType extends eZDataType
         //get eZContentObjectVersion
         $currVerobj = $obj->currentVersion();
         // get array of ezcontentobjecttranslations
-        $transList =  $currVerobj->translations();
+        $transList =& $currVerobj->translations( false );
         // get count of LanguageCode in transList
         $countTsl = count( $transList );
         // Delete the old version from ezcontentobject_link if count of translations > 1
@@ -574,16 +574,49 @@ class eZObjectRelationType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $relatedObjectRemoteID = $attributeNode->elementTextContentByName( 'related-object-remote-id' );
+        $relatedObjectID = null;
 
-        if ( $relatedObjectRemoteID === false ) // old package (that was created when the datatype did not support proper serialization)
-            $relatedObjectID = null;
-        else
+        if ( $relatedObjectRemoteID != false )
         {
             $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
-            $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
+            if ( $object )
+            {
+                $relatedObjectID = $object->attribute( 'id' );
+            }
+            else
+            {
+                // store remoteID so it can be used in postUnserialize
+                $objectAttribute->setAttribute( 'data_text', $relatedObjectRemoteID );
+            }
         }
 
         $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
+    }
+
+    /*!
+     \reimp
+    */
+    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $relatedObjectID = $objectAttribute->attribute( 'data_int' );
+
+        if ( !$relatedObjectID )
+        {
+            // Restore cross-relations using preserved remoteID
+            $relatedObjectRemoteID = $objectAttribute->attribute( 'data_text' );
+            if ( !$relatedObjectRemoteID)
+                return false;
+
+            $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+            $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
+
+            if ( $relatedObjectID )
+            {
+                $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
+                return true;
+            }
+        }
+        return false;
     }
 
     /*!
