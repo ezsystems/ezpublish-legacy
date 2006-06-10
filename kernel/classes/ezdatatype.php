@@ -1125,6 +1125,15 @@ class eZDataType
         }
     }
 
+    /*
+        Post unserialize. Called after all related objects are created.
+        \return true means that attribute has been modified and should be stored
+    */
+    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        return false;
+    }
+
     function allowedTypes()
     {
         $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];

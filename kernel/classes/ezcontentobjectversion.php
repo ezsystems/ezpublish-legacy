@@ -1329,6 +1329,20 @@ class eZContentObjectVersion extends eZPersistentObject
         return $contentObjectVersion;
     }
 
+    function postUnserialize( &$package )
+    {
+        $transltaions =& $this->translations( false );
+        foreach( $transltaions as $language )
+        {
+            $attributeArray =& $this->contentObjectAttributes( $language );
+            foreach( array_keys( $attributeArray ) as $key )
+            {
+                $attribute =& $attributeArray[$key];
+                $attribute->postUnserialize( $package );
+            }
+        }
+    }
+
     /*!
      \return a DOM structure of the content object version, it's translations and attributes.
 

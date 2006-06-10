@@ -1004,6 +1004,24 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $installParameters['error'] = array();
         }
 
+        // Call postUnserialize on all installed objects
+        foreach( $objectNodes as $objectNode )
+        {
+            if ( $objectNode->nodeName == 'object' )
+            {
+                $remoteID = $objectNode->getAttribute( 'remote_id' );
+            }
+            else
+            {
+                $remoteID = substr( $objectNode->getAttribute( 'filename' ), 7, 32 );
+            }
+
+            $object =& eZContentObject::fetchByRemoteID( $remoteID );
+            $object->postUnserialize( $package );
+            eZContentObject::clearCache( $object->attribute( 'id' ) );
+            unset( $object );
+        }
+
         return true;
     }
 

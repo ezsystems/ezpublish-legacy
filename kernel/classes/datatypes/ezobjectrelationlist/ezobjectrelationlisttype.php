@@ -237,15 +237,11 @@ class eZObjectRelationListType extends eZDataType
         $obj = $attribute->object();
         //get eZContentObjectVersion
         $currVerobj = $obj->version( $contentObjectVersion );
-        // get array of ezcontentobjecttranslations
-        $transList =  $currVerobj->translations();
-        $translationList = array();
+
         // create translation List
         // $translationList will contain for example eng-GB, ita-IT etc.
-        foreach ( $transList as $transListName )
-        {
-            $translationList[] = $transListName->LanguageCode;
-        }
+        $translationList =& $currVerobj->translations( false );
+
         // get current language_code
         $langCode = $attribute->attribute( 'language_code' );
         // get count of LanguageCode in translationList
@@ -261,6 +257,11 @@ class eZObjectRelationListType extends eZDataType
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem =& $content['relation_list'][$i];
+
+            // Installing content object, postUnserialize is not called yet,
+            // so object's ID is unknown.
+            if ( !$relationItem['contentobject_id'] || !isset( $relationItem['contentobject_id'] ) )
+                continue;
 
             $subObjectID = $relationItem['contentobject_id'];
             $subObjectVersion = $relationItem['contentobject_version'];
@@ -583,7 +584,8 @@ class eZObjectRelationListType extends eZDataType
                       'parent-node-id' => 'parent_node_id',
                       'contentclass-id' => 'contentclass_id',
                       'contentclass-identifier' => 'contentclass_identifier',
-                      'is-modified' => 'is_modified' );
+                      'is-modified' => 'is_modified',
+                      'contentobject-remote-id' => 'contentobject_remote_id' );
     }
 
     /*!
@@ -1157,6 +1159,9 @@ class eZObjectRelationListType extends eZDataType
         {
             $relationItem = $content['relation_list'][$i];
             $subObjectID = $relationItem['contentobject_id'];
+            if ( !$subObjectID )
+                continue;
+
             $attributes =& $content['temp'][$subObjectID]['attributes'];
             if ( !$attributes )
             {
@@ -1305,38 +1310,49 @@ class eZObjectRelationListType extends eZDataType
             $xmlString = '';
         else
         {
-            $relationList =& $rootNode->elementByName( 'relation-list' );
-
-            if ( $relationList )
-            {
-                require_once( 'kernel/classes/ezcontentobject.php' );
-                $relationItems = $relationList->elementsByName( 'relation-item' );
-                foreach( $relationItems as $i => $relationItem )
-                {
-                    $relatedObjectRemoteID = $relationItem->attributeValue( 'contentobject-remote-id' );
-                    $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
-
-                    if ( $object === null )
-                    {
-                        eZDebug::writeWarning( "Object with remote id '$relatedObjectRemoteID' not found: removing the link.",
-                                               'eZObjectRelationListType::unserializeContentObjectAttribute()' );
-                        unset( $relationItems[$i] );
-                        continue;
-                    }
-
-                    $relationItems[$i]->setAttribute( 'contentobject-id',        $object->attribute( 'id' ) );
-                    $relationItems[$i]->setAttribute( 'contentobject-version',   $object->attribute( 'current_version' ) );
-                    $relationItems[$i]->setAttribute( 'node-id',                 $object->attribute( 'main_node_id' ) );
-                    $relationItems[$i]->setAttribute( 'parent-node-id',          $object->attribute( 'main_parent_node_id' ) );
-                    $relationItems[$i]->setAttribute( 'contentclass-id',         $object->attribute( 'contentclass_id' ) );
-                    $relationItems[$i]->setAttribute( 'contentclass-identifier', $object->attribute( 'class_identifier' ) );
-                }
-            }
-
             $xmlString = $rootNode->toString( 0 );
         }
 
         $objectAttribute->setAttribute( 'data_text', $xmlString );
+    }
+
+    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $xmlString = $objectAttribute->attribute( 'data_text' );
+        $doc =& $this->parseXML( $xmlString );
+        $rootNode =& $doc->root();
+
+        $relationList =& $rootNode->elementByName( 'relation-list' );
+        if ( !$relationList )
+            return false;
+
+        require_once( 'kernel/classes/ezcontentobject.php' );
+        $relationItems = $relationList->elementsByName( 'relation-item' );
+        foreach( $relationItems as $i => $relationItem )
+        {
+            $relatedObjectRemoteID = $relationItem->attributeValue( 'contentobject-remote-id' );
+            $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+
+            if ( $object === null )
+            {
+                eZDebug::writeWarning( "Object with remote id '$relatedObjectRemoteID' not found: removing the link.",
+                                       'eZObjectRelationListType::unserializeContentObjectAttribute()' );
+                unset( $relationItems[$i] );
+                continue;
+            }
+
+            $relationItems[$i]->setAttribute( 'contentobject-id',        $object->attribute( 'id' ) );
+            $relationItems[$i]->setAttribute( 'contentobject-version',   $object->attribute( 'current_version' ) );
+            $relationItems[$i]->setAttribute( 'node-id',                 $object->attribute( 'main_node_id' ) );
+            $relationItems[$i]->setAttribute( 'parent-node-id',          $object->attribute( 'main_parent_node_id' ) );
+            $relationItems[$i]->setAttribute( 'contentclass-id',         $object->attribute( 'contentclass_id' ) );
+            $relationItems[$i]->setAttribute( 'contentclass-identifier', $object->attribute( 'class_identifier' ) );
+        }
+
+        $newXmlString = $rootNode->toString( 0 );
+
+        $objectAttribute->setAttribute( 'data_text', $newXmlString );
+        return true;
     }
 
     /*!
