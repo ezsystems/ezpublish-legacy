@@ -446,17 +446,6 @@ class eZInformationCollection extends eZPersistentObject
         return $resArray[0]['count'];
     }
 
-    function fetchCountForObject( $objectID )
-    {
-        $db =& eZDB::instance();
-        // Do a count on the value of collected integer info. Useful for e.g. polls
-        $objectID =(int) $objectID;
-        $resArray = $db->arrayQuery( "SELECT count( ezinfocollection.id ) as count FROM ezinfocollection
-                                       WHERE ezinfocollection.contentobject_id = '" . $objectID . "' " );
-
-        return $resArray[0]['count'];
-    }
-
     function fetchCollectionCountForObject( $objectID )
     {
         if( !is_numeric( $objectID ) )
@@ -573,22 +562,22 @@ class eZInformationCollection extends eZPersistentObject
     function fetchCollectionsCount( $contentObjectID = false, $creatorID = false, $userIdentifier = false )
     {
          $conditions = array();
-         if ( $contentObjectID )
+         if ( is_numeric( $contentObjectID ) )
             $conditions = array( 'contentobject_id' => $contentObjectID  );
-         if ( $creatorID )
+         if ( is_numeric( $creatorID ) )
             $conditions['creator_id'] = $creatorID ;
          if ( $userIdentifier )
             $conditions['user_identifier'] = $userIdentifier;
 
          $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
-                                                            array(),
-                                                            $conditions,
-                                                            null,
-                                                            null,
-                                                            false,
-                                                            false,
-                                                            array( array( 'operation' => 'count(id)',
-                                                                          'name' => 'count' ) ) );
+                                                           array(),
+                                                           $conditions,
+                                                           null,
+                                                           null,
+                                                           false,
+                                                           false,
+                                                           array( array( 'operation' => 'count(id)',
+                                                                         'name' => 'count' ) ) );
          return $resultSet[0]['count'];
    }
 

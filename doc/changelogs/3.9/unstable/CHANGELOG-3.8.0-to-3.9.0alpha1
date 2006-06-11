@@ -108,3 +108,4 @@ Clustering:
 - Fixed bug #8259: Performance issue with eZKeyword datatype.
 - Fixed bug: "Relation" and "Relation List" attributes were not imported properly
   when installing a package.
+- Fixed bug #8445: Poll return wrong report.
