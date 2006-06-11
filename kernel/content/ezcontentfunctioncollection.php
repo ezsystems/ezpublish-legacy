@@ -642,15 +642,13 @@ class eZContentFunctionCollection
         return array( 'result' => $contentNodeList );
     }
 
-    function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value )
+    function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
     {
         include_once( 'kernel/classes/ezinformationcollection.php' );
         if ( $objectAttributeID )
             $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
-        else if ( $objectID )
-            $count = eZInformationCollection::fetchCountForObject( $objectID, $value );
         else
-            $count = 0;
+            $count = eZInformationCollection::fetchCollectionsCount( $objectID, $creatorID, $userIdentifier );
         return array( 'result' => $count );
     }
 
@@ -687,14 +685,6 @@ class eZContentFunctionCollection
                                                                    );
         return array( 'result' => &$collection );
      }
-
-    function fetchCollectionsCount( $objectID = false, $creatorID = false, $userIdentifier = false )
-    {
-        include_once( 'kernel/classes/ezinformationcollection.php' );
-        $collection = eZInformationCollection::fetchCollectionsCount( $objectID, $creatorID, $userIdentifier );
-        return array( 'result' => &$collection );
-    }
-
 
     function fetchObjectByAttribute( $identifier )
     {
