@@ -109,3 +109,4 @@ Clustering:
 - Fixed bug: "Relation" and "Relation List" attributes were not imported properly
   when installing a package.
 - Fixed bug #8445: Poll return wrong report.
+- Fixed bug #8342: Missing index on ezurlalias, eznode_assignment table.

@@ -3265,6 +3265,31 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'eznode_assignment_coid_cov' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+          1 => 'contentobject_version',
+        ),
+      ),
+      'eznode_assignment_is_main' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_main',
+        ),
+      ),
+      'eznode_assignment_parent_node' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'parent_node',
+        ),
+      ),
     ),
   ),
   'eznotificationcollection' => 
@@ -5634,6 +5659,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'destination_url',
+        ),
+      ),
+      'ezurlalias_is_wildcard' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_wildcard',
         ),
       ),
       'ezurlalias_source_md5' => 
