@@ -2650,6 +2650,30 @@ CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btr
 
 
 
+CREATE INDEX eznode_assignment_coid_cov ON eznode_assignment USING btree (contentobject_id, contentobject_version);
+
+
+
+
+
+
+
+CREATE INDEX eznode_assignment_is_main ON eznode_assignment USING btree (is_main);
+
+
+
+
+
+
+
+CREATE INDEX eznode_assignment_parent_node ON eznode_assignment USING btree (parent_node);
+
+
+
+
+
+
+
 CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
 
 
@@ -2907,6 +2931,14 @@ CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
 
 
 CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_is_wildcard ON ezurlalias USING btree (is_wildcard);
 
 
 

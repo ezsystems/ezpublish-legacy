@@ -670,7 +670,10 @@ CREATE TABLE eznode_assignment (
   remote_id int(11) NOT NULL default '0',
   sort_field int(11) default '1',
   sort_order int(11) default '1',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY eznode_assignment_coid_cov (contentobject_id,contentobject_version),
+  KEY eznode_assignment_is_main (is_main),
+  KEY eznode_assignment_parent_node (parent_node)
 ) TYPE=MyISAM;
 
 
@@ -1206,6 +1209,7 @@ CREATE TABLE ezurlalias (
   source_url longtext NOT NULL,
   PRIMARY KEY  (id),
   KEY ezurlalias_desturl (destination_url(200)),
+  KEY ezurlalias_is_wildcard (is_wildcard),
   KEY ezurlalias_source_md5 (source_md5),
   KEY ezurlalias_source_url (source_url(255))
 ) TYPE=MyISAM;
