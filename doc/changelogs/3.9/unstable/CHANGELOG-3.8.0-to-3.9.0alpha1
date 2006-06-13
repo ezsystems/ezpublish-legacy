@@ -115,3 +115,5 @@ Clustering:
   Changed: If an image exists in other ezimage attributes we should not delete 
   it from storage. ezImageFile table contains not unique filepath. 
   (Merged from stable/3.8 (3.8.1) rev. 16235)
+- Fixed bug #8312: bug with SearchContentClassID in advancedsearch.php.
+  (Merged from stable/3.8 (3.8.1) rev. 16236)
