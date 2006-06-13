@@ -117,3 +117,7 @@ Clustering:
   (Merged from trunk (3.9.0alpha1) rev. 16227)
 - Fixed bug #8342: Missing index on ezurlalias, eznode_assignment table.
   (Merged from trunk (3.9.0alpha1) rev. 16229)
+- Fixed bug: Images disappear when changing/removing versions/translations
+  If ezimage attr is not translatable.
+  Changed: If an image exists in other ezimage attributes we should not delete 
+  it from storage. ezImageFile table contains not unique filepath. 
