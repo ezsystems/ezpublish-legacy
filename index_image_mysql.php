@@ -5,7 +5,7 @@ define( 'TABLE_DATA', 'ezdbfile_data' );
 
 // Connect to storage database.
 $serverString = STORAGE_HOST;
-if ( defined( 'STORAGE_SOCKET' ) )
+if ( defined( 'STORAGE_SOCKET' ) && STORAGE_SOCKET )
     $serverString .= ':' . STORAGE_SOCKET;
 elseif ( defined( 'STORAGE_PORT' ) )
     $serverString .= ':' . STORAGE_PORT;
