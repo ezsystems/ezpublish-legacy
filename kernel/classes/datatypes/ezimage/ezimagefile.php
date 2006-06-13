@@ -93,6 +93,21 @@ class eZImageFile extends eZPersistentObject
         else
             return $rows;
     }
+    /*!
+      \return An array of ids and versions of ezimage ezcontentobject_attributes have \a $filepath.
+    */
+    function fetchImageAttributesByFilepath( $filepath )
+    {
+       $db = eZDB::instance();
+       $filepath = $db->escapeString( $filepath );
+       $query = "SELECT id, version
+                 FROM   ezcontentobject_attribute
+                 WHERE  data_type_string = 'ezimage' and
+                        data_text like '%url=\"$filepath\"%'";
+
+       $rows = $db->arrayQuery( $query );
+       return $rows;
+    }
 
     function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
@@ -122,16 +137,19 @@ class eZImageFile extends eZPersistentObject
         return $result;
     }
 
-    function appendFilepath( $contentObjectAttributeID, $filepath )
+    function appendFilepath( $contentObjectAttributeID, $filepath, $ignoreUnique = false )
     {
         if ( empty( $filepath ) )
             return false;
-        // Fetch ezimagefile objects having the $filepath
-        $imageFiles = eZImageFile::fetchByFilePath( false, $filepath, false );
-        // Checking If the filePath already exists in ezimagefile table
-        if ( isset( $imageFiles[ 'contentobject_attribute_id' ] ) )
-            return false;
 
+        if ( !$ignoreUnique )
+        {
+            // Fetch ezimagefile objects having the $filepath
+            $imageFiles = eZImageFile::fetchByFilePath( false, $filepath, false );
+            // Checking If the filePath already exists in ezimagefile table
+            if ( isset( $imageFiles[ 'contentobject_attribute_id' ] ) )
+                return false;
+        }
         $fileObject = eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;

@@ -110,3 +110,8 @@ Clustering:
   when installing a package.
 - Fixed bug #8445: Poll return wrong report.
 - Fixed bug #8342: Missing index on ezurlalias, eznode_assignment table.
+- Fixed bug: Images disappear when changing/removing versions/translations
+  If ezimage attr is not translatable.
+  Changed: If an image exists in other ezimage attributes we should not delete 
+  it from storage. ezImageFile table contains not unique filepath. 
+  (Merged from stable/3.8 (3.8.1) rev. 16235)

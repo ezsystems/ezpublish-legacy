@@ -659,11 +659,6 @@ class eZImageAliasHandler
                 $file->delete();
                 $dirs[] = eZDir::dirpath( $filepath );
             }
-            else
-            {
-                eZDebug::writeError( "Image file $filepath does not exist, could not remove from disk",
-                                     'eZImageAliasHandler::removeAllAliases' );
-            }
         }
         $dirs = array_unique( $dirs );
         foreach ( $dirs as $dirpath )
@@ -689,28 +684,60 @@ class eZImageAliasHandler
         $alternativeText = false;
 
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
+        $contentObjectAttributeVersion = $contentObjectAttributeData['version'];
+        $contentObjectAttributeID = $contentObjectAttributeData['id'];
 
-        if ( $this->isImageOwner() )
+        $isImageOwner = $this->isImageOwner();
+        foreach ( array_keys( $aliasList ) as $aliasName )
         {
-            foreach ( array_keys( $aliasList ) as $aliasName )
+            $alias =& $aliasList[$aliasName];
+            $dirpath = $alias['dirpath'];
+            $doNotDelete = false; // Do not delete files from storage
+
+            if ( $aliasName == 'original' )
+                $alternativeText = $alias['alternative_text'];
+            if ( $alias['is_valid'] )
             {
-                $alias =& $aliasList[$aliasName];
-                $dirpath = $alias['dirpath'];
+                // VS-DBFILE
 
-                if ( $aliasName == 'original' )
-                    $alternativeText = $alias['alternative_text'];
-                if ( $alias['is_valid'] )
+                $filepath = $alias['url'];
+
+                // Fetch ezimage attributes that have $filepath.
+                // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
+                $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath );
+                // Check if there are the attributes.
+                if ( count( $dbResult ) > 1 )
                 {
-                    // VS-DBFILE
+                    $doNotDelete = true;
+                    foreach ( $dbResult as $res )
+                    {
+                        $canAppend = true;
+                        // If attr is current
+                        if ( $res['id'] == $contentObjectAttributeID and
+                             $res['version'] == $contentObjectAttributeVersion )
+                            $canAppend = false;
 
-                    $filepath = $alias['url'];
+                        // If the attr is not current we should append $filepath to ezimagefile for $res['id']
+                        if ( $canAppend )
+                        {
+                            eZImageFile::appendFilepath( $res['id'], $filepath, true );
+                            // If $filepath for $contentObjectAttributeID was appended
+                            // we should not delete it from ezimagefile table.
+                            if ( $res['id'] != $contentObjectAttributeID )
+                                eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
+                        }
+                    }
+                }
+
+                if ( !$doNotDelete )
+                {
                     require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     $file = eZClusterFileHandler::instance( $filepath );
                     if ( $file->exists() )
                     {
                         $file->delete();
-                        eZImageFile::removeFilepath( $contentObjectAttributeData['id'], $filepath );
-                        eZDir::cleanupEmptyDirectories( $alias['dirpath'] );
+                        eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
+                        eZDir::cleanupEmptyDirectories( $dirpath );
                     }
                     else
                     {
@@ -718,16 +745,6 @@ class eZImageAliasHandler
                                              'eZImageAliasHandler::removeAliases' );
                     }
                 }
-            }
-            // Cleanup garbage
-            if ( isset( $dirpath )  )
-            {
-                include_once( "lib/ezdb/classes/ezdb.php" );
-                $db =& eZDB::instance();
-                $db->query( "DELETE
-                             FROM   ezimagefile
-                             WHERE  filepath like '".$dirpath."/%'" );
-                eZDir::recursiveDelete( $dirpath );
             }
         }
         unset( $aliasList );
