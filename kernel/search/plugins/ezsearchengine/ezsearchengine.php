@@ -628,7 +628,7 @@ class eZSearchEngine
             else if ( is_array( $searchContentClassID ) )
             {
                 // Build query for searching in a number of classes
-                $classString = implode( ', ', $searchContentClassID );
+                $classString = $db->implodeWithTypeCast( ', ', $searchContentClassID, 'int' );
                 $classQuery = "ezsearch_object_word_link.contentclass_id IN ( $classString ) AND ";
                 $this->GeneralFilter['classAttributeQuery'] = $classQuery;
             }
