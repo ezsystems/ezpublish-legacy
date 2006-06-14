@@ -581,6 +581,9 @@ class eZXMLTextType extends eZDataType
         $xml = new eZXML();
         $doc =& $xml->domTree( $xmlString );
 
+        if ( !is_object( $doc ) )
+            return false;
+
         $links =& $doc->elementsByName( 'link' );
         $embeds =& $doc->elementsByName( 'embed' );
         $embedsInline =& $doc->elementsByName( 'embed-inline' );
