@@ -117,3 +117,5 @@ Clustering:
   (Merged from stable/3.8 (3.8.1) rev. 16235)
 - Fixed bug #8312: bug with SearchContentClassID in advancedsearch.php.
   (Merged from stable/3.8 (3.8.1) rev. 16236)
+- Fixed bug #8516: Create static cache via admin interface fails.
+  (Merged from stable/3.8 (3.8.1) rev. 16241)
