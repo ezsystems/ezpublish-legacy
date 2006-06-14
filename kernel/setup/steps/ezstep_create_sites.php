@@ -898,6 +898,24 @@ id $inSql";
                                            'settings' => array( 'RegionalSettings' => array( 'ShowUntranslatedObjects' => 'enabled' ) ) );
         }
 
+        // Enable OE by default
+        $oeEnableSettingAdded = false;
+        foreach ( $extraCommonSettings as $key => $extraCommonSetting )
+        {
+            if ( $extraCommonSetting['name'] == 'site.ini' &&
+                 isset( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] ) )
+            {
+                $oeEnableSettingAdded = true;
+                $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'][] = 'ezdhtml';
+                break;
+            }
+        }
+        if ( !$oeEnableSettingAdded )
+        {
+            $extraCommonSettings[] = array( 'name' => 'site.ini',
+                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezdhtml' ) ) ) );
+        }
+
         $resultArray['common_settings'] = $extraCommonSettings;
 
         foreach ( $extraSettings as $extraSetting )
