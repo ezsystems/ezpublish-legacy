@@ -1365,8 +1365,6 @@ class eZImageAliasHandler
     */
     function store( &$contentObjectAttribute )
     {
-        include_once( '../ezbacktrace.php' );
-        eZDebug::writeDebug( ezbacktrace(), 'lazy: backtrace for ' );
 
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
 
