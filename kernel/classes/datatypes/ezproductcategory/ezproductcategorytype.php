@@ -190,8 +190,8 @@ class eZProductCategoryType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         $categoryID = $contentObjectAttribute->attribute( "data_int" );
-        $category = eZProductCategory::fetch( $categoryID );
-        return $category->attribute( 'name' );
+        $category = $categoryID > 0 ? eZProductCategory::fetch( $categoryID ) : false;
+        return is_object( $category ) ? $category->attribute( 'name' ) : '';
     }
 
     /*!
