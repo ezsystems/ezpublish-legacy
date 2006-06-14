@@ -563,7 +563,7 @@ class eZLDAPUser extends eZUser
                         $keepGroupAssignment = $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled";
                     }
 
-                    if ( $keepGroupAssignment == true )
+                    if ( $keepGroupAssignment == false )
                     {
                         if ( $defaultUserPlacement != $parentNodeID )
                         {
