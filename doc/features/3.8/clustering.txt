@@ -32,9 +32,11 @@ Changing FileHandler to ezdb will force eZ publish to use database for
 storing images, binary files and content-related caches.
 
  2. Create table(s) in database.
- 
+
 See table creation queries in the same file you edited db settings in
-and run them on the database.
+your ezdb backend source code (i.e.
+kernel/classes/clusterfilehandlers/dbbackends/mysql.php) and run them on
+the database.
 
  3. Copy your files stored in var dir into database.
 
