@@ -454,12 +454,12 @@ class eZXMLTextType extends eZDataType
     {
         include_once( 'lib/ezxml/classes/ezxml.php' );
 
-        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $xml = new eZXML();
-        $domDocument =& $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $doc =& $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
 
-        if ( $domDocument )
+        if ( $doc )
         {
             /* For all links found in the XML, do the following:
              * - add "href" attribute fetching it from ezurl table.
@@ -469,26 +469,53 @@ class eZXMLTextType extends eZDataType
                 include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
                 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-                $links =& $domDocument->elementsByName( 'link' );
-                if ( !is_array( $links ) )
-                    $links = array();
-                foreach ( array_keys( $links ) as $index )
+                $links =& $doc->elementsByName( 'link' );
+                $embeds =& $doc->elementsByName( 'embed' );
+                $embedsInline =& $doc->elementsByName( 'embed-inline' );
+
+                $allTags = array_merge( $links, $embeds, $embedsInline );
+
+                if ( is_array( $allTags ) )
                 {
-                    $linkRef =& $links[$index];
-                    $linkID = $linkRef->attributeValue( 'url_id' );
-                    if ( !( $urlObj = eZURL::fetch( $linkID ) ) ) // an error occured
-                        continue;
-                    $url =& $urlObj->attribute( 'url' );
-                    $linkRef->set_attribute( 'href', $url );
-                    $linkRef->remove_attribute( 'url_id' );
-                    unset( $urlObj );
+                    foreach ( array_keys( $allTags ) as $index )
+                    {
+                        $tag =& $allTags[$index];
+                        $linkID = $tag->getAttribute( 'url_id' );
+                        $objectID = $tag->getAttribute( 'object_id' );
+                        $nodeID = $tag->getAttribute( 'node_id' );
+                        if ( $linkID )
+                        {
+                            $urlObj = eZURL::fetch( $linkID );
+                            if ( !$urlObj ) // an error occured
+                                continue;
+                            $url =& $urlObj->attribute( 'url' );
+                            $tag->setAttribute( 'href', $url );
+                            $tag->removeAttribute( 'url_id' );
+                            unset( $urlObj );
+                        }
+                        elseif ( $objectID )
+                        {
+                            $object = eZContentObject::fetch( $objectID, false );
+                            if ( is_array( $object ) )
+                                $tag->setAttribute( 'object_remote_id', $object['remote_id'] );
+
+                            $tag->removeAttribute( 'object_id' );
+                        }
+                        elseif ( $nodeID )
+                        {
+                            $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                            if ( is_array( $node ) )
+                                $tag->setAttribute( 'node_remote_id', $node['remote_id'] );
+                            $tag->removeAttribute( 'node_id' );
+                        }
+                    }
                 }
             }
 
-            $node->appendChild( $domDocument->root() );
+            $DOMNode->appendChild( $doc->root() );
         }
 
-        return $node;
+        return $DOMNode;
     }
 
     /*!
@@ -524,8 +551,8 @@ class eZXMLTextType extends eZDataType
                 foreach ( array_keys( $links ) as $index )
                 {
                     $linkRef =& $links[$index];
-                    $href    =  $linkRef->attributeValue( 'href' );
-                    if ( $href === false )
+                    $href = $linkRef->attributeValue( 'href' );
+                    if ( !$href )
                         continue;
                     $urlObj = eZURL::urlByURL( $href );
 
@@ -548,6 +575,63 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $xmlString = $objectAttribute->attribute( 'data_text' );
+        $xml = new eZXML();
+        $doc =& $xml->domTree( $xmlString );
+
+        $links =& $doc->elementsByName( 'link' );
+        $embeds =& $doc->elementsByName( 'embed' );
+        $embedsInline =& $doc->elementsByName( 'embed-inline' );
+
+        $allTags = array_merge( $links, $embeds, $embedsInline );
+        $modified = false;
+
+        foreach( array_keys( $allTags ) as $key )
+        {
+            $tag =& $allTags[$key];
+            
+            $objectRemoteID = $tag->getAttribute( 'object_remote_id' );
+            $nodeRemoteID = $tag->getAttribute( 'node_remote_id' );
+            if ( $objectRemoteID )
+            {
+                $objectArray = eZContentObject::fetchByRemoteID( $objectRemoteID, false );
+                if ( !is_array( $objectArray ) )
+                {
+                    eZDebug::writeWarning( "Can't fetch object with remoteID = $objectRemoteID", 'eZXMLTextType::unserialize' );
+                    continue;
+                }
+
+                $objectID = $objectArray['id'];
+                $tag->setAttribute( 'object_id', $objectID );
+                $tag->removeAttribute( 'object_remote_id' );
+                $modified = true;
+            }
+            elseif ( $nodeRemoteID )
+            {
+                $nodeArray = eZContentObjectTreeNode::fetchByRemoteID( $nodeRemoteID, false );
+                if ( !is_array( $nodeArray ) )
+                {
+                    eZDebug::writeWarning( "Can't fetch node with remoteID = $nodeRemoteID", 'eZXMLTextType::unserialize' );
+                    continue;
+                }
+
+                $nodeID = $nodeArray['node_id'];
+                $tag->setAttribute( 'node_id', $nodeID );
+                $tag->removeAttribute( 'node_remote_id' );
+                $modified = true;
+            }
+        }
+
+        if ( $modified )
+        {
+            $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $doc ) );
+            return true;
+        }
+        else
+            return false;
+    }
     /*!
      Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
     */
