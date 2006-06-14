@@ -207,7 +207,7 @@ class eZStaticCache
                             $cli->output( sprintf("   %5.1f%% CACHE  $url", 100 * ($currentURL / $urlCount)));
                         }
                     }
-                    else
+                    elseif ( !$quiet and $cli )
                     {
                         $cli->output( sprintf("   %5.1f%% SKIP   $url", 100 * ($currentURL / $urlCount)));
                     }
