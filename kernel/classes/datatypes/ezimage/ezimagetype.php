@@ -548,7 +548,7 @@ class eZImageType extends eZDataType
             $alternativeText = $attributeNode->attributeValue( 'alternativ-text' );
         $content =& $objectAttribute->attribute( 'content' );
         $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativeText );
-        $content->store();
+        $content->store( $objectAttribute );
     }
 }
 
