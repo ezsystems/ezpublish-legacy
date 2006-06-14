@@ -122,3 +122,5 @@ Clustering:
 - Fixed bug #8439: Empty product category attribute gives a Fatal error.
 - Fixed bug #8519: Vise versa behavior of KeepGroupAssignment ini-setting (ldap.ini).
 - Fixed bug #8459: Content object packages does not support embedded objects.
+- Fixed bug #8325: problem with versionview.tpl (standard)
+  (Merged from stable/3.7 (3.7.7) rev. 16253)
