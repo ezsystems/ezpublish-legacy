@@ -570,6 +570,8 @@ class eZStepCreateSites extends eZStepInstaller
         $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
         $installParameters['variables']['design'] = $userDesignName;
 
+        $ini =& eZINI::instance();
+        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
         /*
         $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
@@ -579,8 +581,6 @@ class eZStepCreateSites extends eZStepInstaller
                                            $typeFunctionality['required'] );
         $extraFunctionality = array_unique( $extraFunctionality );
         */
-
-        $ini =& eZINI::instance();
 
         $sitePackageName = $this->chosenSitePackage();
         $sitePackage = eZPackage::fetch( $sitePackageName );

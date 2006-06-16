@@ -124,3 +124,5 @@ Clustering:
 - Fixed bug #8459: Content object packages does not support embedded objects.
 - Fixed bug #8325: problem with versionview.tpl (standard)
   (Merged from stable/3.7 (3.7.7) rev. 16253)
+- Fixed bug #8534: Images are installed under var/storage instead of
+  var/<siteaccess>/storage.
