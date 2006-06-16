@@ -126,3 +126,6 @@ Clustering:
   (Merged from stable/3.7 (3.7.7) rev. 16253)
 - Fixed bug #8534: Images are installed under var/storage instead of
   var/<siteaccess>/storage.
+- Fixed bug #8381: PathPrefix not removed when linking to root node.
+  (Merged from stable/3.7 (3.7.7) rev. 16269)
+  

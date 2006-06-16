@@ -5558,7 +5558,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-                if ( strncmp( $this->PathIdentificationString, $prepend, strlen( $prepend ) ) == 0 )
+                $pathIdenStr = substr( $prepend, strlen( $prepend ) -1 ) == '/'
+                                ? $this->PathIdentificationString . '/'
+                                : $this->PathIdentificationString;
+                if ( strncmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
                     $cleanURL = eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
                 else
                     $cleanURL = eZUrlAlias::cleanURL( $this->PathIdentificationString );
