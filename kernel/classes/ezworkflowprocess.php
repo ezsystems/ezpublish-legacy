@@ -570,7 +570,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
         if ( !is_null( $parameterList ) )
         {
-            $this->Parameters =& $parameterList;
+            $this->Parameters = $parameterList;
             unset( $this->ParameterList );
         }
         $this->setAttribute( 'parameters', serialize( $this->Parameters ) );
