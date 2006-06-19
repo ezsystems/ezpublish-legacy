@@ -131,6 +131,10 @@
 /*END:code-template::class-policy-list*/
 /*START:code-template::object-policy-list*/
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
+                if ( count( $policyArray ) == 0 )
+                {
+                    continue;
+                }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
 /*END:code-template::object-policy-list*/
