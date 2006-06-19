@@ -149,17 +149,25 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         if ( isset( $Params['ExtraParameters']['AccessList'] ) )
         {
             $accessMessage = "Function required:\n";
-            foreach ( array_keys ( $Params['ExtraParameters']['AccessList']['FunctionRequired'] ) as $key )
-                $accessMessage .= " $key : " . $Params['ExtraParameters']['AccessList']['FunctionRequired'][$key] . "\n" ;
-            $accessMessage .= "Policies that didn't match:\n";
-            foreach ( $Params['ExtraParameters']['AccessList']['PolicyList'] as $policy )
+            if ( is_array( $Params['ExtraParameters']['AccessList']['FunctionRequired'] ) )
             {
-                $accessMessage .= " PolicyID : " . $policy['PolicyID'] . "\n" ;
-                $accessMessage .= "  Limitation : " . $policy['LimitationList']['Limitation'] . "\n" ;
-                $accessMessage .= "  Required : ";
-                foreach ( $policy['LimitationList']['Required'] as $required )
-                    $accessMessage .= "$required, ";
-                $accessMessage .= "\n";
+                foreach ( array_keys ( $Params['ExtraParameters']['AccessList']['FunctionRequired'] ) as $key )
+                {
+                    $accessMessage .= " $key : " . $Params['ExtraParameters']['AccessList']['FunctionRequired'][$key] . "\n" ;
+                }
+            }
+            $accessMessage .= "Policies that didn't match:\n";
+            if ( is_array( $Params['ExtraParameters']['AccessList']['PolicyList'] ) )
+            {
+                foreach ( $Params['ExtraParameters']['AccessList']['PolicyList'] as $policy )
+                {
+                    $accessMessage .= " PolicyID : " . $policy['PolicyID'] . "\n" ;
+                    $accessMessage .= "  Limitation : " . $policy['LimitationList']['Limitation'] . "\n" ;
+                    $accessMessage .= "  Required : ";
+                    foreach ( $policy['LimitationList']['Required'] as $required )
+                        $accessMessage .= "$required, ";
+                    $accessMessage .= "\n";
+                }
             }
 
             eZDebug::writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
