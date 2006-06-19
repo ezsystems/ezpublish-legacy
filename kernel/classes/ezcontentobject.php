@@ -3200,9 +3200,9 @@ class eZContentObject extends eZPersistentObject
                                 {
                                     if ( $languageList === false )
                                     {
-                                        $languageMask = $this->attribute( 'language_mask' );
+                                        $languageMask = (int)$this->attribute( 'language_mask' );
                                         // We are restricting language check to just one language
-                                        $languageMask &= $language;
+                                        $languageMask &= (int)$language;
                                         // If the resulting mask is 0 it means that the user is trying to
                                         // edit a language which does not exist, ie. translating.
                                         // The mask will then become the language trying to edit.
@@ -4304,7 +4304,7 @@ class eZContentObject extends eZPersistentObject
         if ( $alwaysAvailable )
         {
             // Make sure always available bit is set.
-            $contentObject->setAttribute( 'language_mask', $contentObject->attribute( 'language_mask' ) | 1 );
+            $contentObject->setAttribute( 'language_mask', (int)$contentObject->attribute( 'language_mask' ) | 1 );
         }
         $contentObject->store();
         $activeVersion = false;
@@ -4495,7 +4495,7 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ) ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_identifier', $contentClass->attribute( 'identifier' ), 'ezremote' ) );
         $alwaysAvailableText = '0';
-        if ( $this->attribute( 'language_mask' ) & 1 )
+        if ( (int)$this->attribute( 'language_mask' ) & 1 )
         {
             $alwaysAvailableText = '1';
         }
@@ -4879,7 +4879,7 @@ class eZContentObject extends eZPersistentObject
         }
 
         // change language_mask of the object
-        $languageMask = $this->attribute( 'language_mask' );
+        $languageMask = (int) $this->attribute( 'language_mask' );
         $languageMask = (int) $languageMask & ~ (int) $languageID;
         $this->setAttribute( 'language_mask', $languageMask );
 
@@ -4963,11 +4963,11 @@ class eZContentObject extends eZPersistentObject
             $version = $this->currentVersion();
             if ( $languageID )
             {
-                $this->setAttribute( 'language_mask', $this->attribute( 'language_mask' ) | 1 );
+                $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) | 1 );
             }
             else
             {
-                $this->setAttribute( 'language_mask', $this->attribute( 'language_mask' ) & ~1 );
+                $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) & ~1 );
             }
             $this->store();
         }

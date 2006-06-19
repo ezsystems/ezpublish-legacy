@@ -534,18 +534,18 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
+     * \static
      * Returns id of the language specified.
      *
      * \param locale String specifying locale code of the language, e. g. 'slk-SK'
      * \return ID of the language specified by locale or false if the language is not set on the site.
-     * \static 
      */
     function idByLocale( $locale )
     {
         $language = eZContentLanguage::fetchByLocale( $locale );
         if ( $language )
         {
-            return $language->attribute( 'id' );
+            return (int)$language->attribute( 'id' );
         }
         else
         {

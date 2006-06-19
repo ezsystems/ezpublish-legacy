@@ -1533,7 +1533,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function &languageMask()
     {
-    	return $this->attribute( 'language_mask' );
+    	return (int)$this->attribute( 'language_mask' );
     }
 
     function updateLanguageMask( $mask = false, $forceStore = true )
@@ -1542,7 +1542,7 @@ class eZContentObjectVersion extends eZPersistentObject
     	{
     		$mask = eZContentLanguage::maskByLocale( $this->translationList( false, false ), true );
     	}
-    	
+
         $this->setAttribute( 'language_mask', $mask );
 
         if ( $forceStore )

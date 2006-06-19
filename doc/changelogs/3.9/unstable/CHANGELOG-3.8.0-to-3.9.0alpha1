@@ -130,3 +130,5 @@ Clustering:
   (Merged from stable/3.7 (3.7.7) rev. 16269)
 - Fixed bug #8476: Reference usage in eZWorkflowProcess::setParameters().
   (Merged from stable/3.8 (3.8.1) rev. 16273)
+- Fixed bug #8539: CRITICAL language permissions bug (if languages >= 4).
+  (Merged from stable/3.8 (3.8.1) rev. 16279)

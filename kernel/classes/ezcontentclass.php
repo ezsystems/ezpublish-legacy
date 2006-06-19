@@ -209,7 +209,7 @@ class eZContentClass extends eZPersistentObject
 
         if ( $this->attribute( 'always_available' ) )
         {
-            $object->setAttribute( 'language_mask', $object->attribute( 'language_mask') | 1 );
+            $object->setAttribute( 'language_mask', (int)$object->attribute( 'language_mask') | 1 );
         }
 
         $db =& eZDB::instance();
