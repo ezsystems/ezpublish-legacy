@@ -557,23 +557,43 @@ class eZLDAPUser extends eZUser
                     $existUser->setAttribute('password_hash_type', 0 );
                     $existUser->store();
 
-                    $keepGroupAssignment = false;
-                    if ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) )
-                    {
-                        $keepGroupAssignment = $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled";
-                    }
+                    $keepGroupAssignment = ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) ) ?
+                                                ( $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled" ) : false;
 
                     if ( $keepGroupAssignment == false )
                     {
                         if ( $defaultUserPlacement != $parentNodeID )
                         {
-                            $newVersion = $contentObject->createNewVersion();
-                            $newVersion->assignToNode( $defaultUserPlacement, 1 );
-                            $newVersion->removeAssignment( $parentNodeID );
-                            $newVersionNr = $newVersion->attribute( 'version' );
-                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                         'version' => $newVersionNr ) );
+                            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                            $adminUser = eZUser::fetchByName( 'admin' );
+                            eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
+
+                            $mainNodeID = $contentObject->attribute( 'main_node_id' );
+                            $mainNode = eZContentObjectTreeNode::fetch( $mainNodeID );
+
+                            if ( !$mainNode->canMoveFrom() )
+                            {
+                                eZDebug::writeError( "Cannot move node $mainNodeID.",
+                                                     'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            }
+
+                            $newParentNode = eZContentObjectTreeNode::fetch( $defaultUserPlacement );
+
+                            // Check if we try to move the node as child of itself or one of its children
+                            if ( in_array( $mainNodeID, $newParentNode->pathArray() ) )
+                            {
+                                eZDebug::writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
+                                                     'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            }
+                            else
+                            {
+                                include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+                                if( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
+                                {
+                                    eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
+                                                         'kernel/classes/datatypes/ezuser/ezldapuser' );
+                                }
+                            }
                         }
                     }
 
