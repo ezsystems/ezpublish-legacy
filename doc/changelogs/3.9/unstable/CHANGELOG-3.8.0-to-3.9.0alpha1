@@ -132,3 +132,5 @@ Clustering:
   (Merged from stable/3.8 (3.8.1) rev. 16273)
 - Fixed bug #8539: CRITICAL language permissions bug (if languages >= 4).
   (Merged from stable/3.8 (3.8.1) rev. 16279)
+- Fixed bug #8568: eZModuleGlobalPathList undefined using eZ SOAP server.
+  ( Merged from stable/3.6 rev. 16287, stable/3.7 rev. 16288, stable/3.8 rev. 16289 )
