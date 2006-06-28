@@ -264,6 +264,10 @@ class eZMediaType extends eZDataType
             $controls = null;
 
         $media = eZMedia::fetch( $contentObjectAttributeID, $version );
+        if ( $media == null )
+        {
+           $media = eZMedia::create( $contentObjectAttributeID, $version );
+        }
 
         $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
         $media->setAttribute( "version", $version );
@@ -314,6 +318,7 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
 
+            $media->store();
             // VS-DBFILE
 
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -322,7 +327,6 @@ class eZMediaType extends eZDataType
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $filePath, 'media', true, $mime );
         }
-        $media->store();
 
         $contentObjectAttribute->setContent( $media );
         return true;
