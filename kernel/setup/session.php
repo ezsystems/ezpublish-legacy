@@ -295,6 +295,13 @@ function &eZFetchActiveSessionCount( $params = array() )
     }
 
     $expirationFilterType = $params['expiration_filter'];
+
+    $userID = $params['user_id'];
+    if ( $userID )
+    {
+        $filterSQL = ' ezsession.user_id = ' .  (int)$userID;
+    }
+
     switch ( $expirationFilterType )
     {
         case 'active':
@@ -315,12 +322,6 @@ function &eZFetchActiveSessionCount( $params = array() )
         {
             $expirationFilterSQL = '';
         } break;
-    }
-
-    $userID = $params['user_id'];
-    if ( $userID )
-    {
-        $filterSQL = ' ezsession.user_id = ' .  (int)$userID;
     }
 
     $whereSQL = '';
