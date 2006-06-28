@@ -137,4 +137,5 @@ Clustering:
 - Fixed bug #8470: Error when publishing content with removed flash 
   from not required field.
   (Merged from stable/3.8 (3.8.2) rev. 16291)
-  
+- Fixed bug #8536: Module setup/session error in SQL query.
+  (Merged from stable/3.8 (3.8.2) rev. 16295)
