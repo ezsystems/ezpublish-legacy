@@ -143,3 +143,5 @@ Clustering:
   (Merged from stable/3.6 (3.6.9) rev. 16303)
 - Fixed bug #8548: Invalid comment in site.ini.
   (Merged from stable/3.6 (3.6.9) rev. 16307)
+- Fixed bug #8545: Wash operator applied twice in text_linked.tpl
+  (Merged from stable/3.8 (3.8.2) rev. 16311)
