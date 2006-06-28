@@ -206,7 +206,7 @@ function &eZFetchActiveSessions( $params = array() )
 
     $userID = $params['user_id'];
     $countField = '';
-    $countGroup = '';
+    $countGroup = 'GROUP BY ezsession.user_id';
     if ( $userID )
     {
         $filterSQL = 'AND ezsession.user_id = ' .  (int)$userID;
@@ -215,7 +215,6 @@ function &eZFetchActiveSessions( $params = array() )
     else
     {
         $countField = ', count( ezsession.user_id ) AS count';
-        $countGroup = 'GROUP BY ezsession.user_id';
         $expirationSQL = 'max( ezsession.expiration_time ) as expiration_time';
     }
 
