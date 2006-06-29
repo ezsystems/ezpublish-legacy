@@ -105,7 +105,7 @@ class eZPackageType extends eZDataType
                         }
                     }
 
-                    $iniPath = 'settings/override';
+                    $iniPath = 'settings/siteaccess/' . $GLOBALS['eZCurrentAccess']['name'];
                     $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
                     $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
                     $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
