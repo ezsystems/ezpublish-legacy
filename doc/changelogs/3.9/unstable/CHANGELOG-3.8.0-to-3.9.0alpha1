@@ -147,3 +147,5 @@ Clustering:
   (Merged from stable/3.8 (3.8.2) rev. 16311)
 - Fixed bug #8517: Site style edit overrides global settings.
   (Merged from stable/3.8 (3.8.2) rev. 16315)
+- Fixed bug #8567: Missing quote with automatic numbering of xml text headers.
+  (Merged from stable/3.8 (3.8.2) rev. 16319)
