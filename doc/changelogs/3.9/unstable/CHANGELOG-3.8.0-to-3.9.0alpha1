@@ -149,3 +149,7 @@ Clustering:
   (Merged from stable/3.8 (3.8.2) rev. 16315)
 - Fixed bug #8567: Missing quote with automatic numbering of xml text headers.
   (Merged from stable/3.8 (3.8.2) rev. 16319)
+- Fixed bug #8560: eZURLAlias::fetchByDestinationURL wrong "sql select" 
+  when is not internal.
+  (Merged from stable/3.7 (3.7.7) rev. 16325)
+  
