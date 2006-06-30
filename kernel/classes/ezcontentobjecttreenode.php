@@ -1238,7 +1238,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $depth )
         {
 
-            $sqlDepthOperator = '=';
+            $sqlDepthOperator = '<=';
             if ( $depthOperator )
             {
                 if ( $depthOperator == 'lt' )
@@ -1288,7 +1288,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $depthCond      = '';
                 if ( $depth )
                 {
-                    $sqlDepthOperator = '=';
+                    $sqlDepthOperator = '<=';
                     if ( $depthOperator )
                     {
                         if ( $depthOperator == 'lt' )
