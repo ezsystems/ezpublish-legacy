@@ -81,7 +81,6 @@ class eZPackageType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data =& $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $contentObjectAttribute->setAttribute( 'data_text', $data );
 
             // Save in ini files if the package type is sitestyle.
             $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -104,14 +103,23 @@ class eZPackageType extends eZDataType
                             $classesCSS = $package->fileItemPath( $file, 'default' );
                         }
                     }
+                    $currentSiteAccess = $http->hasPostVariable( 'CurrentSiteAccess' )
+                                         ? $http->postVariable( 'CurrentSiteAccess' )
+                                         : false;
+                    $iniPath = 'settings/override';
+                    if ( $currentSiteAccess != 'Global' and $currentSiteAccess !== false )
+                    {
+                        $data .= ':' . $currentSiteAccess;
+                        $iniPath = 'settings/siteaccess/' . $currentSiteAccess;
+                    }
 
-                    $iniPath = 'settings/siteaccess/' . $GLOBALS['eZCurrentAccess']['name'];
                     $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
                     $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
                     $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                     $designINI->save();
                 }
             }
+            $contentObjectAttribute->setAttribute( 'data_text', $data );
         }
         return true;
     }
