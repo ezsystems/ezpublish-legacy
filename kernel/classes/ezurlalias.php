@@ -352,6 +352,7 @@ WHERE
     function &fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
         $url = eZURLAlias::cleanURL( $url );
+        $isInternal = $isInternal ? 1 : 0;
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
                                                 array( "destination_url" => $url,
