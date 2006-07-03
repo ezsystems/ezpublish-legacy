@@ -154,3 +154,6 @@ Clustering:
   (Merged from stable/3.7 (3.7.7) rev. 16325)
 - Fixed bug #8491: Folders list in file uploading dialog contains wrong items.
   (Merged from stable/3.8 (3.8.2) rev. 16329)
+- Fixed bug #8544: Add locations allows non containers.
+  (Merged from stable/3.8 (3.8.2) rev. 16337)
+  
