@@ -175,7 +175,7 @@ following line into the "[ContentSettings]" section of the
 "site.ini.append.php" file located in the "settings/override/"
 directory:
 
-CachedViewPreferences[full]=user_country
+CachedViewPreferences[full]=user_preferred_country
 
  3.3. Creating VAT charging rules.
 
