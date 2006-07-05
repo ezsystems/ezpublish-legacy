@@ -522,9 +522,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     // if not all children tags are inline, we use no template for link tag, all link parameters are used
                     // inside the templates of it's children, so we update tagText directly
                     // else we process link as other tags
-
-                    eZDebug::writeDebug( $isChildrenInline, '$isChildrenInline' );
-
                     if ( !$isChildrenInline )
                     {
                         $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
