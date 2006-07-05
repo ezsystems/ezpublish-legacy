@@ -3,6 +3,15 @@ Changes from 3.7.6 to 3.7.7
 *INI settings:
 - Added site.ini:[SiteAccessSettings].PathPrefixExclude[]
   Which URLs to exclude from being affected by PathPrefix setting. 
+- Added support of "ResetArrays" for setting group:
+  If ResetArrays is false arrays in specified group
+  will be never cleared (after saving of ini file)
+  Otherwise clearing of arrays will be defined by parameter in
+  ezini:save()
+  For example:
+  [Tool] 
+  AvailableToolArray[]=test
+  ResetArrays=false
 
 *Bugfixes:
 - Fixed bug #8243: Template compiler does not check if object isset 
@@ -87,3 +96,6 @@ Changes from 3.7.6 to 3.7.7
 - Fixed bug #8003: PathPrefix doesn't work with user folder.
 - Fixed bug #8334: link checker check deleted /no longer present links.
   (Merged from stable/3.8 (3.8.2) rev. 16350)
+- Fixed bug 7994: Adding toolbar or tool in siteaccess override 
+  toolbar.ini breaks toolbar manager.
+  (Merged from stable/3.8 (3.8.2) rev. 16362)
