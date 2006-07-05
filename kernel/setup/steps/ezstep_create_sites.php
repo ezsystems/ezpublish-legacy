@@ -570,8 +570,15 @@ class eZStepCreateSites extends eZStepInstaller
         $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
         $installParameters['variables']['design'] = $userDesignName;
 
-        $ini =& eZINI::instance();
-        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+        $tmpSiteINI =& eZINI::create( 'site.ini' );
+        $tmpSiteINI->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+
+        // Change the current translation variables, before other parts start using them
+        $tmpSiteINI->setVariable( 'RegionalSettings', 'Locale', $siteINIChanges['RegionalSettings']['Locale'] );
+        $tmpSiteINI->setVariable( 'RegionalSettings', 'ContentObjectLocale', $siteINIChanges['RegionalSettings']['ContentObjectLocale'] );
+        $tmpSiteINI->setVariable( 'RegionalSettings', 'TextTranslation', $siteINIChanges['RegionalSettings']['TextTranslation'] );
+
+        $tmpSiteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
 
         /*
         $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
@@ -794,11 +801,6 @@ id $inSql";
                 unset( $package );
             }
         }
-
-        // Change the current translation variables, before other parts start using them
-        $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
-        $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
-        $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
 
         $GLOBALS['eZContentObjectDefaultLanguage'] = $primaryLanguageLocaleCode;
 

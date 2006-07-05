@@ -162,4 +162,4 @@ Clustering:
   (Merged from stable/3.8 (3.8.2) rev. 16348)
 - Fixed bug #8334: link checker check deleted /no longer present links.
   (Merged from stable/3.8 (3.8.2) rev. 16350)
-  
+- Fixed bug #8605: Wrong settings in settings/override/site.ini.append.php

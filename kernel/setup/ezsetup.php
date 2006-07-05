@@ -56,7 +56,7 @@ if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
 //eZDebug::setLogOnly( true );
 
-$ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
+//$ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
 
 
 $Module =& $Params['Module'];
