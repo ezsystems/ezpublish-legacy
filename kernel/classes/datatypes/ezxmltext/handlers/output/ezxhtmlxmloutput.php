@@ -221,8 +221,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $this->HeaderCount[$currentSectionLevel + 1] = 0;
 
-        foreach ( $section->children() as $sectionNode )
+        $sections =& $section->Children;
+        foreach ( array_keys( $sections ) as $key )
         {
+            $sectionNode =& $sections[$key];
+
             if ( $tdSectionLevel == null )
             {
                 $sectionLevel = $currentSectionLevel;
@@ -321,7 +324,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      \return XHTML rendered version of the paragrph
     */
-    function &renderXHTMLParagraph( &$tpl, $paragraph, $currentSectionLevel, $tdSectionLevel = null )
+    function &renderXHTMLParagraph( &$tpl, &$paragraph, $currentSectionLevel, $tdSectionLevel = null )
     {
         $insideParagraph = true;
         $paragraphCount = 0;
@@ -329,20 +332,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $sectionLevel = $currentSectionLevel;
         $class = $paragraph->attributeValue( 'class' );
-        $curChildIndex = 0;
-        $totalChildren = count( $paragraph->children() );
-        foreach ( $paragraph->children() as $paragraphNode )
-        {
-            $curChildIndex++;
 
-            if ( $curChildIndex == $totalChildren )
-            {
-              $this->LastParagraphChild = true;
-            }
-            else
-            {
-                $this->LastParagraphChild = false;
-            }
+        $pChildren =& $paragraph->Children;
+        foreach ( array_keys( $pChildren ) as $key )
+        {
+            $paragraphNode =& $pChildren[$key];
+
             $isBlockTag = false;
             $content =& $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel, $isBlockTag, $tdSectionLevel );
             if ( $isBlockTag === true )
@@ -359,6 +354,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $paragraphCount++;
             }
         }
+
         $output = "";
         foreach ( $paragraphContentArray as $paragraphContent )
         {
@@ -473,13 +469,48 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
                 $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
             }
+
+            //check if all children of link are inline tags
+            $isChildrenInline = true;
+
+            $tagChildren =& $tag->Children;
+            foreach ( array_keys( $tagChildren ) as $key )
+            {
+                $linkChild =& $tagChildren[$key];
+
+                $isInline = false;
+
+                if ( $linkChild->name()=='custom' )
+                {
+                    // check inline setting for custom tag from ini
+                    $name = $linkChild->attributeValue( 'name' );
+                    include_once( "lib/ezutils/classes/ezini.php" );
+                    $ini =& eZINI::instance( 'content.ini' );
+
+                    $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+                    if ( isset( $isInlineTagList[$name] ) )
+                    {
+                        if ( $isInlineTagList[$name] == 'true' )
+                            $isInline = true;
+                    }
+                }
+                else
+                {
+                    $isInline = in_array( $linkChild->name(), $this->InLineTagArray );
+                }
+
+                if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
+            }
+            //true if all $linkChild are inline
+            $isChildrenInline = $isInline;
         }
 
         // render children tags using recursion
-        $tagChildren = $tag->children();
-
-        foreach ( $tagChildren as $childTag )
+        $tagChildren =& $tag->Children;
+        foreach ( array_keys( $tagChildren ) as $key )
         {
+            $childTag =& $tagChildren[$key];
+
             switch( $tagName )
             {
                 case "literal" :
@@ -488,41 +519,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }break;
                 case "link" :
                 {
-                    $isChildrenInline = true;
-
-                    //check if al children of link are inline tags
-                    $linkChildren = $tag->children();
-                    foreach( $linkChildren as $linkChild )
-                    {
-                        $isInline = false;
-
-                        if ( $linkChild->name()=='custom' )
-                        {
-                            // check inline setting for custom tag from ini
-                            $name = $linkChild->attributeValue( 'name' );
-                            include_once( "lib/ezutils/classes/ezini.php" );
-                            $ini =& eZINI::instance( 'content.ini' );
-
-                            $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
-                            if ( isset( $isInlineTagList[$name] ) )
-                            {
-                                if ( $isInlineTagList[$name] == 'true' )
-                                    $isInline = true;
-                            }
-                        }
-                        else
-                        {
-                            $isInline = in_array( $linkChild->name(), $this->InLineTagArray );
-                        }
-
-                        if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
-                    }
-                    //true if all $linkChild are inline
-                    $isChildrenInline = $isInline;
-
                     // if not all children tags are inline, we use no template for link tag, all link parameters are used
                     // inside the templates of it's children, so we update tagText directly
                     // else we process link as other tags
+
+                    eZDebug::writeDebug( $isChildrenInline, '$isChildrenInline' );
+
                     if ( !$isChildrenInline )
                     {
                         $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
@@ -835,14 +837,22 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $rowCount = 0;
                 // find all table rows
-                foreach ( $tag->children() as $tableRow )
+
+                $tagChildren =& $tag->Children;
+                foreach ( array_keys( $tagChildren ) as $key )
                 {
+                    $tableRow =& $tagChildren[$key];
+
                     $tableData = "";
                     $cellCount = 0;
-                    foreach ( $tableRow->children() as $tableCell )
+
+                    $rowChildren =& $tableRow->Children;
+                    foreach ( array_keys( $rowChildren ) as $key )
                     {
+                        $tableCell =& $rowChildren[$key];
+
                         $cellContent = "";
-                        $tableCellChildren = $tableCell->children();
+                        $tableCellChildren =& $tableCell->Children;
                         // If <paragraph> is the one and only child then rendering <p> depends of
                         // RenderParagraphInTableCells option setting.
                         if ( count( $tableCellChildren ) == 1 && $tableCellChildren[0]->name() == "paragraph" )
@@ -944,35 +954,30 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $listContent = "";
                 // find all list elements
-                foreach ( $tag->children() as $listItemNode )
+
+                $tagChildren =& $tag->Children;
+                foreach ( array_keys( $tagChildren ) as $key )
                 {
+                    $listItemNode =& $tagChildren[$key];
                     $listItemContent = "";
 
                     $listSectionLevel = $currentSectionLevel;
 
-                    $listChildren = $listItemNode->children();
 
-                    // If <paragraph> is the one and only child then don't render it as <p>.
-                    if ( count( $listChildren ) == 1 )
+                    $tableCell =& $rowChildren[$key];
+
+                    $cellContent = "";
+                    $listItemChildren =& $listItemNode->Children;
+                    // If <paragraph> is the one and only child then rendering <p> depends of
+                    // RenderParagraphInTableCells option setting.
+                    if ( count( $listItemChildren ) == 1 && $listItemChildren[0]->name() == "paragraph" )
                     {
-                        if ( $listChildren[0]->name() == "paragraph" )
-                        {
-                            $listChildren = $listChildren[0]->children();
-                        }
+                        $isChildrenBlock = false;
+                        $listItemContent .= $this->renderXHTMLTag( $tpl, $listItemChildren[0], 0, $isChildrenBlock );
                     }
-
-                    foreach ( $listChildren as $itemChildNode )
+                    else
                     {
-                        $listSectionLevel = $currentSectionLevel;
-                        if ( $itemChildNode->name() == "section" or $itemChildNode->name() == "paragraph" )
-                        {
-                            $listItemContent .= $this->renderList( $tpl, $itemChildNode, $currentSectionLevel, $listSectionLevel );
-                        }
-                        else
-                        {
-                            $isChildrenBlock = false;
-                            $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isChildrenBlock );
-                        }
+                        $listItemContent .= $this->renderXHTMLSection( $tpl, $listItemNode, 0, 0 );
                     }
 
                     $liClass = $listItemNode->attributeValue( 'class' );
@@ -1033,13 +1038,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
 
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
-                $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 //force rendering last line without <br> i.e. as plain text
-                if ( $tagName == 'line' && $this->LastParagraphChild )
-                {
-                    $uri = "design:content/datatype/view/ezxmltags/text.tpl";
-                }
+                $next =& $tag->nextSibling();
+                if ( $next )
+                    $uri = 'design:content/datatype/view/ezxmltags/line.tpl';
+                else
+                    $uri = 'design:content/datatype/view/ezxmltags/text.tpl';
 
                 $textElements = array();
                 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
@@ -1181,10 +1186,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Nodes hashed by ID
     var $NodeArray = array();
-
-    /// Contains boolean flag if current child is last among paragraph children
-    /// used when rendering last <line> tag.
-    var $LastParagraphChild = false;
 
     /// Array of parameters for rendering tags that are children of 'link' tag
     var $LinkParameters = array();

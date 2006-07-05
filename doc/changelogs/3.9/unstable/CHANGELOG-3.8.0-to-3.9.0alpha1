@@ -159,3 +159,4 @@ Clustering:
 - Fixed bug #8003: PathPrefix doesn't work with user folder.
   (Merged from stable/3.7 (3.7.7) rev. 16343)
 - Fixed bug #8582: Removed linebreak in an item on a list.
+  (Merged from stable/3.8 (3.8.2) rev. 16348)
