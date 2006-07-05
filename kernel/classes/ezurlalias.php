@@ -737,6 +737,7 @@ WHERE
             $uriString = $uri;
         }
         $uriString = eZURLAlias::cleanURL( $uriString );
+        $internalURIString = $uriString;
 
         if ( isset( $GLOBALS['eZURLAliasTranslate'][$uriString] ) )
         {
@@ -754,15 +755,22 @@ WHERE
             // Only prepend the path prefix if it's not already the first element of the url.
             if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
             {
-                $internalURIString = eZUrlAlias::cleanURL( eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString);
-            }
-            else
-            {
-                $internalURIString = $uriString;
+                $exclude = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefixExclude' )
+                           ? $ini->variable( 'SiteAccessSettings', 'PathPrefixExclude' )
+                           : false;
+                $breakInternalURI = false;
+                foreach ( $exclude as $item )
+                {
+                    if ( preg_match( "#^$item(/.*)?$#", $uriString )  )
+                    {
+                        $breakInternalURI = true;
+                        break;
+                    }
+                }
+                if ( !$breakInternalURI )
+                    $internalURIString = eZUrlAlias::cleanURL( eZUrlAlias::cleanURL( $prefix ) . '/' . $uriString );
             }
         }
-        else
-            $internalURIString = $uriString;
 
         $db =& eZDB::instance();
         if ( $reverse )
