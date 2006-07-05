@@ -857,7 +857,11 @@ class eZINI
                     {
                         if ( count( $varValue ) > 0 )
                         {
-                            if ( $resetArrays )
+                            $customResetArray = ( isset( $this->BlockValues[$blockName]['ResetArrays'] ) and
+                                                  $this->BlockValues[$blockName]['ResetArrays'] == 'false' )
+                                                ? true
+                                                : false;
+                            if ( $resetArrays and !$customResetArray )
                                 $written = fwrite( $fp, "$varKey" . "[]$lineSeparator" );
                             foreach ( $varValue as $varArrayKey => $varArrayValue )
                             {
