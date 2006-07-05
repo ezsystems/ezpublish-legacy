@@ -11,6 +11,10 @@ Clustering:
 - Optimized index_image.php to gain more speed.
   (Merged from stable/3.8 (3.8.1) rev. 16215)
 
+*INI settings:
+- Added site.ini:[SiteAccessSettings].PathPrefixExclude[]
+  Which URLs to exclude from being affected by PathPrefix setting. 
+
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
