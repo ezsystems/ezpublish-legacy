@@ -197,24 +197,6 @@ class eZXMLTextType extends eZDataType
     */
     function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        // Update url-object links
-
-        $objectAttributeID = $objectAttribute->attribute( 'id' );
-        $objectAttributeVersion = $objectAttribute->attribute( 'version' );
-
-        $origObjectAttributeID = $originalContentObjectAttribute->attribute( 'id' );
-        $origObjectAttributeVersion = $originalContentObjectAttribute->attribute( 'version' );
-
-        if ( $objectAttributeID != $origObjectAttributeID or
-             $objectAttributeVersion != $origObjectAttributeVersion )
-        {
-              $origlinkList = eZURLObjectLink::fetchLinkList( $origObjectAttributeID, $origObjectAttributeVersion, false );
-              foreach ( $origlinkList as $origUrlID )
-              {
-                  $linkObjectLink = eZURLObjectLink::create( $origUrlID, $objectAttributeID, $objectAttributeVersion );
-                  $linkObjectLink->store();
-              }
-        }
     }
 
     /*!
