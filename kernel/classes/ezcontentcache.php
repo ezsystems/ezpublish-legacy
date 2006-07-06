@@ -319,9 +319,9 @@ class eZContentCache
         // Figure out the siteaccess which are related, first using the new
         // INI setting RelatedSiteAccessList then the old existing one
         // AvailableSiteAccessList
-        if ( $ini->hasVariable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) )
+        if ( $ini->hasVariable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) &&
+             $relatedSiteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) )
         {
-            $relatedSiteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
             if ( !is_array( $relatedSiteAccessList ) )
             {
                 $relatedSiteAccessList = array( $relatedSiteAccessList );
