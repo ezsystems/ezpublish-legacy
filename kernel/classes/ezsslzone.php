@@ -244,7 +244,8 @@ class eZSSLZone
             // switch to HTTPS
             $host = preg_replace( '/:\d+$/', '', $host = eZSys::serverVariable( 'HTTP_HOST' ) );
             $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
-            $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $requestURI;
+            $indexDir = eZSys::indexDir( false );
+            $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI;
         }
 
         if ( $sslZoneRedirectionURL ) // if a redirection URL is found
