@@ -5,7 +5,7 @@
   <h1>{"Language support"|i18n("design/standard/setup/init")}</h1>
 </div>
 <p>
-{"Use the radio buttons to choose the primary language, and the checkboxes to choose additional languages. You may choose more than one additional language."|i18n("design/standard/setup/init")}
+{"Use the radio buttons to choose the default language, and the checkboxes to choose additional languages. You will be able to use any of the selected languages for translating your content. The default language will determine the locale settings and will be used as the most prioritized language for your site."|i18n("design/standard/setup/init")}
 </p>
 <p>
 {section show=$show_unicode_error}
@@ -23,7 +23,7 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 <form method="post" action="{$script}">
 
 <fieldset>
-  <legend>{"Primary/Additional"|i18n("design/standard/setup/init")}:</legend>
+  <legend>{"Default/Additional"|i18n("design/standard/setup/init")}:</legend>
 
   <table border="0" cellspacing="0" cellpadding="0">
   {section name=Language loop=$language_list}
