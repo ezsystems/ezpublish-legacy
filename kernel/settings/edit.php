@@ -83,10 +83,11 @@ if ( !isset( $settingPlacement ) )
 
 if ( $http->hasPostVariable( 'WriteSetting' ) )
 {
+    $path = 'settings/override';
     if ( $settingPlacement == 'siteaccess' )
         $path = "settings/siteaccess/$siteAccess";
-    else
-        $path = 'settings/override';
+    elseif ( $settingPlacement != 'override' )
+        $path = "extension/$settingPlacement/settings";
 
     $ini =& eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
 
@@ -207,7 +208,7 @@ if ( ( is_array( $value ) || $value ) and !isset( $settingType ) )
 if ( !isset( $settingType ) )
     $settingType = 'string';
 
-$tpl->setVariable( 'setting', $settingName );
+$tpl->setVariable( 'setting_name', $settingName );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 $tpl->setVariable( 'setting_type_array', $settingTypeArray );
 $tpl->setVariable( 'setting_type', $settingType );

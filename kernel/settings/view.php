@@ -72,29 +72,30 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
             {
                 foreach ( $placements[$block][$setting] as $settingElementKey=>$key )
                 {
-                    $elementPlacement = $ini->findSettingPlacement( $placements[$block][$setting][$settingElementKey] );
-                    if ( $elementPlacement == "override" )
-                    {
-                        $placement = "override";
-                        break;
-                    }
-                    if ( $elementPlacement == "siteaccess" )
-                    {
-                        $placement = "siteaccess";
-                    }
+                    $placement = $ini->findSettingPlacement( $placements[$block][$setting][$settingElementKey] );
+                    break;
                 }
             }
             else
             {
                 $placement = $ini->findSettingPlacement( $placements[$block][$setting] );
             }
+            // Get extension name if exists, $placement might be "extension:ezdhtml"
+            $exploded = explode( ':', $placement );
+            $extension = $exploded[0] == 'extension'
+                        ? $exploded[1]
+                        : false;
 
+            $path = 'settings/override';
             if ( $placement == 'siteaccess' )
                 $path = "settings/siteaccess/$currentSiteAccess";
-            else
-                $path = 'settings/override';
+            elseif ( $placement != 'override' and $extension !== false )
+                $path = "extension/$extension/settings";
 
-            $iniTemp = eZINI::instance( $settingFile . '.append.php', $path, null, null, null, true );
+            // We should use "reference" if multiply removing of ini setting.
+            // if eZINI::instance() is called twice instance will be fetched from GLOBAL variable.
+            // Without reference there will be a inconsistency with GLOBAL instance and stored ini file.
+            $iniTemp =& eZINI::instance( $settingFile . '.append.php', $path, null, null, null, true );
             $iniTemp->removeSetting( $block, $setting );
             $iniTemp->save();
             unset( $iniTemp );

@@ -1220,8 +1220,8 @@ class eZINI
     {
         if ( is_array( $path ) && count( $path ) )
             $path = $path[0];
-        $directoryCount = count( explode( '/', $path ) );
-
+        $exploded = explode( '/', $path );
+        $directoryCount = count( $exploded );
         switch ( $directoryCount )
         {
             case 2:
@@ -1231,7 +1231,11 @@ class eZINI
                 $placement = 'override';
             break;
             case 4:
+            {
                 $placement = 'siteaccess';
+                if ( $exploded[0] == 'extension' )
+                    $placement = 'extension:' . $exploded[1];
+            }
             break;
             default:
                 $placement = 'undefined';

@@ -108,7 +108,7 @@
             <td width="1">
             {section show=eq( $Settings.item.placement, '' )}
                 {section var=Placements loop=$Settings.item.content}
-                    {$Placements.item.placement}
+                    {$Placements.item.placement}<br/>
                 {/section}
             {section-else}
                 {$Settings.item.placement}
