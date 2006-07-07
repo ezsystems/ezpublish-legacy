@@ -188,3 +188,4 @@ Clustering:
 - Fixed bug #8622: eZXHTMLXMLOutput Handler crashes on eZ survey extension.
   (Merged from stable/3.8 (3.8.2) rev. 16374)
 - Fixed bug #7060: eZINI code makes it hard to use settings in extensions.
+- Fixed bug #3604: Debug redirect always on when using Debug by IP

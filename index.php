@@ -959,6 +959,8 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
             }
         }
 
+        if( $debugEnabled )
+        {
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
         if ( count( $warningList ) == 0 )
@@ -971,6 +973,11 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         eZDebug::addTimingPoint( "End" );
 
         eZDisplayResult( $templateResult );
+        }
+        else
+        {
+            eZHTTPTool::redirect( $redirectURI );
+        }
     }
 
     eZExecution::cleanExit();
