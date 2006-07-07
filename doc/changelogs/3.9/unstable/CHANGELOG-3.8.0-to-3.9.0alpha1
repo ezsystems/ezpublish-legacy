@@ -183,3 +183,7 @@ Clustering:
 - Fixed bug #8510: Problem with redirect on SSLZones (they don't work in
   non-VH mode).
   (Merged from stable/3.8 (3.8.2) rev. 16372)
+- Fixed bug #8625: Header numeration is wrong on first-level headers.
+  (Merged from stable/3.8 (3.8.2) rev. 16374)
+- Fixed bug #8622: eZXHTMLXMLOutput Handler crashes on eZ survey extension.
+  (Merged from stable/3.8 (3.8.2) rev. 16374)

@@ -39,8 +39,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function eZXHTMLXMLOutput( &$xmlData, $aliasedType, &$contentObjectAttribute )
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
-        $this->ContentObjectAttribute = $contentObjectAttribute;
-        $this->ObjectAttributeId = $contentObjectAttribute->attribute( 'id' );
+        $this->ContentObjectAttribute =& $contentObjectAttribute;
+        if ( is_object( $contentObjectAttribute ) )
+            $this->ObjectAttributeId = $contentObjectAttribute->attribute( 'id' );
 
         $ini =& eZINI::instance( 'ezxml.ini' );
         if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
@@ -216,10 +217,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
 
         // Reset header counter
-        if ( !isset( $this->HeaderCount[$currentSectionLevel] ) )
-            $this->HeaderCount[$currentSectionLevel] = 0;
+        if ( $currentSectionLevel != 0 )
+        {
+            if ( !isset( $this->HeaderCount[$currentSectionLevel] ) )
+                $this->HeaderCount[$currentSectionLevel] = 0;
 
-        $this->HeaderCount[$currentSectionLevel + 1] = 0;
+            $this->HeaderCount[$currentSectionLevel + 1] = 0;
+        }
 
         $sections =& $section->Children;
         foreach ( array_keys( $sections ) as $key )
@@ -1146,7 +1150,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
              }
 
              $levelNumber = str_replace( "_", ".", $headerAutoName );
-             $headerAutoName = $this->ObjectAttributeId . '_' . $headerAutoName;
+
+             if ( $this->ObjectAttributeId )
+                 $headerAutoName = $this->ObjectAttributeId . '_' . $headerAutoName;
 
              $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
              $tpl->setVariable( 'toc_anchor_name', $headerAutoName, 'xmltagns' );
@@ -1189,7 +1195,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     var $HeaderCount = array();
 
-    var $ObjectAttributeId;
+    var $ObjectAttributeId = null;
 
     var $AllowMultipleSpaces = false;
 }
