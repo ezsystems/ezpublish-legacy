@@ -5,8 +5,8 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h1 class="context-title">
-{section show=$setting}
-    {'Edit setting %setting'|i18n('design/admin/settings',,hash( '%setting', $setting) )}
+{section show=$setting_name}
+    {'Edit setting %setting'|i18n('design/admin/settings',,hash( '%setting', $setting_name ) )}
 {section-else}
     {'New setting'|i18n('design/admin/settings')}
 {/section}
@@ -21,8 +21,8 @@
 
 <div class="object">
     <p>{'Block'|i18n( 'design/admin/settings')}: {$block}</p>
-    {section show=$setting}
-        <p>{'Setting'|i18n( 'design/admin/settings' )}: {$setting}</p>
+    {section show=$setting_name}
+        <p>{'Setting'|i18n( 'design/admin/settings' )}: {$setting_name}</p>
         {section-else}
         <p>{'Setting: <new setting>'|i18n( 'design/admin/settings' )|wash}</p>
     {/section}
@@ -55,7 +55,11 @@
 <p><strong>{'Note'|i18n( 'design/admin/settings' )}:</strong> {'A global setting will override a siteaccess setting'|i18n( 'design/admin/settings' )}</p>
 <p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
 
+{def $active_extensions=ezini( 'ExtensionSettings', 'ActiveExtensions', 'site.ini' )}
 <div class="block">
+    {foreach $active_extensions as $extension_name}
+        <label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label>
+    {/foreach}
     {section show=eq( $placement, "siteaccess" )}
         <label><input type="radio" name="SettingPlacement" checked="checked" value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label>
         <label><input type="radio" name="SettingPlacement" value="override" >{'Override setting (global)'|i18n( 'design/admin/settings' )}</label>
@@ -67,8 +71,8 @@
 
 <input type="hidden" name="Block" value="{$block}" />
 
-{section show=$setting}
-    <input type="hidden" name="SettingName" value="{$setting}" />
+{section show=$setting_name}
+    <input type="hidden" name="SettingName" value="{$setting_name}" />
 {section-else}
     <div class="block">
         <label>{'Setting Name'|i18n( 'design/admin/settings' )}:</label>
