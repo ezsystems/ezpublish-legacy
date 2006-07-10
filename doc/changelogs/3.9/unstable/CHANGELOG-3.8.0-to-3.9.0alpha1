@@ -189,3 +189,5 @@ Clustering:
   (Merged from stable/3.8 (3.8.2) rev. 16374)
 - Fixed bug #7060: eZINI code makes it hard to use settings in extensions.
 - Fixed bug #3604: Debug redirect always on when using Debug by IP
+- Fixed bug #8634: Impossible to delete order, bug in the design/admin/templates/shop/orderview.tpl
+  (Merged from stable/3.8 (3.8.2) rev.16384)
