@@ -97,7 +97,7 @@ class eZFloatType extends eZDataType
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale =& eZLocale::instance();
-            $data =& $locale->internalNumber( $data );
+            $data = $locale->internalNumber( $data );
 
             $contentObjectAttribute->setAttribute( "data_float", $data );
             return true;
@@ -127,7 +127,7 @@ class eZFloatType extends eZDataType
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale =& eZLocale::instance();
-            $data =& $locale->internalNumber( $data );
+            $data = $locale->internalNumber( $data );
 
             switch( $input_state )
             {
