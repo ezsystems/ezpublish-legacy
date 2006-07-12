@@ -98,7 +98,7 @@ class eZMediaType extends eZDataType
         $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
-        if( $version == null )
+        if ( $version == null )
         {
             foreach ( $mediaFiles as $mediaFile )
             {
@@ -107,7 +107,7 @@ class eZMediaType extends eZDataType
 //                $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $mediaFile->attribute( "filename" );
-                if( file_exists( $orig_dir . "/" .$fileName ) )
+                if ( file_exists( $orig_dir . "/" . $fileName ) and $fileName != '' )
                     unlink( $orig_dir . "/" . $fileName );
             }
         }
@@ -128,9 +128,9 @@ class eZMediaType extends eZDataType
                     if( $currentFileName == $fileName )
                         $count += 1;
                 }
-                if( $count == 1 )
+                if ( $count == 1 && $currentFileName != '' )
                 {
-                    if( file_exists( $orig_dir . "/" . $currentFileName ) )
+                    if ( file_exists( $orig_dir . "/" . $currentFileName ) )
                         unlink( $orig_dir . "/" .  $currentFileName );
                 }
             }
@@ -308,8 +308,8 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
-            $media->store();
         }
+        $media->store();
         $contentObjectAttribute->setContent( $media );
         return true;
     }
