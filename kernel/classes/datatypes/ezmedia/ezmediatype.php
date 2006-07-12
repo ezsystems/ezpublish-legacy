@@ -108,11 +108,14 @@ class eZMediaType extends eZDataType
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $mediaFile->attribute( "filename" );
 
+                if ( $fileName == '' )
+                    continue;
+
                 // VS-DBFILE
 
                 require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $file = eZClusterFileHandler::instance( $orig_dir . "/" . $fileName );
-                if ( $file->exists() and $fileName != '' )
+                if ( $file->exists() )
                     $file->delete();
             }
         }
