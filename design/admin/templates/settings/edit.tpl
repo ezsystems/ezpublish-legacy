@@ -60,13 +60,8 @@
     {foreach $active_extensions as $extension_name}
         <label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label>
     {/foreach}
-    {section show=eq( $placement, "siteaccess" )}
-        <label><input type="radio" name="SettingPlacement" checked="checked" value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label>
-        <label><input type="radio" name="SettingPlacement" value="override" >{'Override setting (global)'|i18n( 'design/admin/settings' )}</label>
-     {section-else}
-        <label><input type="radio" name="SettingPlacement" value="siteaccess" >{'Siteaccess setting'|i18n( 'design/admin/settings' )}</label>
-        <label><input type="radio" name="SettingPlacement" value="override" checked="checked">{'Global setting'|i18n( 'design/admin/settings' )}</label>
-    {/section}
+    <label><input type="radio" name="SettingPlacement" {section show=eq( $placement, "siteaccess" )}checked="checked"{/section} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label>
+    <label><input type="radio" name="SettingPlacement" value="override" {section show=ne( $placement, "siteaccess" )}checked="checked"{/section}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label>
 </div>
 
 <input type="hidden" name="Block" value="{$block}" />
