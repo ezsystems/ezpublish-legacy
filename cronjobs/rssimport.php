@@ -471,40 +471,22 @@ function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
 {
     include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
     $contentObjectID = $attribute->attribute( "contentobject_id" );
-    $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
-    $parser->setParseLineBreaks( true );
-    // Convert special chars
-    $tagContent = str_replace( "&", "&amp;", $attributeValue );
-    $tagContent = str_replace( ">", "&gt;", $tagContent );
-    $tagContent = str_replace( "<", "&lt;", $tagContent );
-    $tagContent = str_replace( "'", "&apos;", $tagContent );
-    $tagContent = str_replace( '"', "&quot;", $tagContent );
+    $parser = new eZSimplifiedXMLInputParser( $contentObjectID, false, 0 );
 
-    $document = $parser->process( $tagContent );
+    $attributeValue = str_replace( "\r", '', $attributeValue );
+    $attributeValue = str_replace( "\n", '', $attributeValue );
+    $attributeValue = str_replace( "\t", ' ', $attributeValue );
+
+    $document = $parser->process( $attributeValue );
     if ( !is_object( $document ) )
     {
-        $errorMessage = implode( ' ', $parser->getMessages() );
-        eZDebug::writeError( $errorMessage );
+        $cli =& eZCLI::instance();
+        $cli->output( 'Error in xml parsing' );
         return;
     }
     $domString = eZXMLTextType::domString( $document );
 
-    $domString = str_replace( "<paragraph> </paragraph>", "", $domString );
-    $domString = str_replace( "<paragraph />" , "", $domString );
-    $domString = str_replace( "<line />" , "", $domString );
-    $domString = str_replace( "<paragraph></paragraph>" , "", $domString );
-    $domString = str_replace( "<paragraph>&nbsp;</paragraph>", "", $domString );
-    $domString = str_replace( "<paragraph></paragraph>", "", $domString );
-
-    $domString = preg_replace( "#[\n]+#", "", $domString );
-    $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
-    $domString = preg_replace( "#&lt;paragraph&gt;#", "\n\n", $domString );
-
-    $xml = new eZXML();
-    $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
-    $description = eZXMLTextType::domString( $tmpDom );
-
-    $attribute->setAttribute( 'data_text', $description );
+    $attribute->setAttribute( 'data_text', $domString );
     $attribute->store();
 }
 

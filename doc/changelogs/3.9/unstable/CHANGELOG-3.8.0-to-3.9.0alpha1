@@ -199,3 +199,4 @@ Clustering:
   (Merged from stable/3.8 (3.8.2) rev. 16394)
 - Fixed bug #8628: data loss: entire storage/original dir wiped.
   (Merged from stable/3.8 (3.8.2) rev. 16398)
+- Fixed bug #8649: RSS import to XML text block is broken.
