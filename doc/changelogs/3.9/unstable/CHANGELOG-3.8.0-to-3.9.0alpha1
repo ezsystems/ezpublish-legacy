@@ -197,3 +197,5 @@ Clustering:
   (Merged from stable/3.7 (3.7.7) rev. 16391)  
 - Fixed bug #8640: max file size of 0 bytes no longer means unlimited in 3.8.X
   (Merged from stable/3.8 (3.8.2) rev. 16394)
+- Fixed bug #8628: data loss: entire storage/original dir wiped.
+  (Merged from stable/3.8 (3.8.2) rev. 16398)

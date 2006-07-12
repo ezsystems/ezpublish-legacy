@@ -98,7 +98,7 @@ class eZMediaType extends eZDataType
         $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
-        if( $version == null )
+        if ( $version == null )
         {
             foreach ( $mediaFiles as $mediaFile )
             {
@@ -111,8 +111,8 @@ class eZMediaType extends eZDataType
                 // VS-DBFILE
 
                 require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                $file = eZClusterFileHandler::instance( $orig_dir . "/" .$fileName );
-                if ( $file->exists() )
+                $file = eZClusterFileHandler::instance( $orig_dir . "/" . $fileName );
+                if ( $file->exists() and $fileName != '' )
                     $file->delete();
             }
         }
@@ -133,7 +133,7 @@ class eZMediaType extends eZDataType
                     if( $currentFileName == $fileName )
                         $count += 1;
                 }
-                if( $count == 1 )
+                if ( $count == 1 && $currentFileName != '' )
                 {
                     // VS-DBFILE
 
@@ -318,7 +318,6 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
 
-            $media->store();
             // VS-DBFILE
 
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -328,6 +327,7 @@ class eZMediaType extends eZDataType
             $fileHandler->fileStore( $filePath, 'media', true, $mime );
         }
 
+        $media->store();
         $contentObjectAttribute->setContent( $media );
         return true;
     }
