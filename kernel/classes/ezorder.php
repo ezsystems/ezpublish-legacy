@@ -280,7 +280,7 @@ class eZOrder extends eZPersistentObject
         {
             $nextMonth = $month + 1;
             $startDate = mktime( 0, 0, 0, $month, 1, $year );
-            $stopDate = mktime( 0, 0, 0, $nextMonth, 0, $year );
+            $stopDate = mktime( 23, 59, 59, $nextMonth, 0, $year );
         }
 
         $db =& eZDB::instance();
