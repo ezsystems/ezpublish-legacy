@@ -198,12 +198,17 @@
 {/section}
 
 <div class="block">
+    <label>{"Name"|i18n( 'design/admin/content/upload' )}:</label>
+    <input class="halfbox" name="ObjectName" type="text" />
+</div>
+
+<div class="block">
     <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>
-    <input name="UploadFile" type="file" title="{'Select the file that you wish to upload.'|i18n( 'design/admin/content/upload' )}" />
+    <input class="halfbox" name="UploadFile" type="file" title="{'Select the file that you wish to upload.'|i18n( 'design/admin/content/upload' )}" />
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 </div>
 
- </div>
+</div>
 
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">

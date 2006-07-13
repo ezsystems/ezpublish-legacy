@@ -81,7 +81,10 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
     if ( $module->hasActionParameter( 'UploadLocation' ) )
         $location = $module->actionParameter( 'UploadLocation' );
 
-    if ( $upload->handleUpload( $result, 'UploadFile', $location, false ) )
+    if ( $module->hasActionParameter( 'ObjectName' ) )
+        $objectName = $module->actionParameter( 'ObjectName' );
+
+    if ( $upload->handleUpload( $result, 'UploadFile', $location, false, $objectName ) )
     {
         $object =& $result['contentobject'];
         $mainNode =& $result['contentobject_main_node'];

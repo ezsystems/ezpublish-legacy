@@ -214,7 +214,8 @@ $ViewList['upload'] = array(
     'script' => 'upload.php',
     'single_post_actions' => array( 'UploadFileButton' => 'UploadFile',
                                     'CancelUploadButton' => 'CancelUpload' ),
-    'post_action_parameters' => array( 'UploadFile' => array( 'UploadLocation' => 'UploadLocationChoice' ) ),
+    'post_action_parameters' => array( 'UploadFile' => array( 'UploadLocation' => 'UploadLocationChoice',
+                                                              'ObjectName' => 'ObjectName' ) ),
     'params' => array() );
 
 $ViewList['removeobject'] = array(
