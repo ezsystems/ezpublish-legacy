@@ -821,12 +821,12 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         }
     }
 
+    $debugEnabled = false;
     if ( $debugByIP == 'enabled' )
     {
         $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
         if ( $ipAddress )
         {
-            $debugEnabled = false;
             foreach( $debugIPList as $itemToMatch )
             {
                 if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
@@ -858,7 +858,10 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
             );
         }
     }
-
+    else if( $redirUri == "enabled" && $debugByIP == "disabled" )
+    {
+        $debugEnabled = true;
+    }
 
 
     $redirectURI =& eZSys::indexDir();
@@ -961,18 +964,18 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
         if( $debugEnabled )
         {
-        include_once( "kernel/common/template.php" );
-        $tpl =& templateInit();
-        if ( count( $warningList ) == 0 )
-            $warningList = false;
-        $tpl->setVariable( 'site', $site );
-        $tpl->setVariable( 'warning_list', $warningList );
-        $tpl->setVariable( 'redirect_uri', $redirectURI );
-        $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
+            include_once( "kernel/common/template.php" );
+            $tpl =& templateInit();
+            if ( count( $warningList ) == 0 )
+                $warningList = false;
+            $tpl->setVariable( 'site', $site );
+            $tpl->setVariable( 'warning_list', $warningList );
+            $tpl->setVariable( 'redirect_uri', $redirectURI );
+            $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
 
-        eZDebug::addTimingPoint( "End" );
+            eZDebug::addTimingPoint( "End" );
 
-        eZDisplayResult( $templateResult );
+            eZDisplayResult( $templateResult );
         }
         else
         {
