@@ -55,11 +55,16 @@
 </div>
 
 <div class="createblock">
+    <label>{'Name'|i18n( 'design/standard/content/upload' )}</label>
+    <input name="ObjectName" type="text" />
+</div>
+
+<div class="createblock">
+    <label>{'File'|i18n( 'design/standard/content/upload' )}</label>
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
     <input name="UploadFile" type="file" />
     &nbsp;
-
     <input class="defaultbutton" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/standard/content/upload' )}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu on the top.'|i18n( 'design/standard/content/upload' )}" />
 
- </div>
+</div>
 

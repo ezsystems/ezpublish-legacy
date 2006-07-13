@@ -226,7 +226,7 @@ class eZContentUpload
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function handleLocalFile( &$result, $filePath, $location, $existingNode )
+    function handleLocalFile( &$result, $filePath, $location, $existingNode, $nameString = '' )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -324,7 +324,6 @@ class eZContentUpload
         }
 
         $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
-        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
         $dataMap = $class->dataMap();
 
         $fileAttribute = $this->findRegularFileAttribute( $dataMap, $fileAttribute );
@@ -335,7 +334,11 @@ class eZContentUpload
             return false;
         }
 
-        $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
+        if ( !$nameAttribute )
+        {
+            $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        }
         if ( !$nameAttribute )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -348,10 +351,11 @@ class eZContentUpload
         $variables['original_filename_base'] = $mimeData['basename'];
         $variables['original_filename_suffix'] = $mimeData['suffix'];
 
-
-        $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
-        $nameString = $this->processNamePattern( $variables, $namePattern );
-
+        if ( !$nameString )
+        {
+            $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
+            $nameString = $this->processNamePattern( $variables, $namePattern );
+        }
         // If we have an existing node we need to create
         // a new version in it.
         // If we don't we have to make a new object
@@ -446,7 +450,7 @@ class eZContentUpload
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode )
+    function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode, $nameString = '' )
     {
         $result = array( 'errors' => array(),
                          'notices' => array(),
@@ -545,7 +549,6 @@ class eZContentUpload
         }
 
         $fileAttribute = $uploadINI->variable( $iniGroup, 'FileAttribute' );
-        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
         $dataMap = $class->dataMap();
 
         if ( $classIdentifier == 'image' )
@@ -569,7 +572,11 @@ class eZContentUpload
             return false;
         }
 
-        $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
+        if ( !$nameAttribute )
+        {
+            $nameAttribute = $this->findStringAttribute( $dataMap, $nameAttribute );
+        }
         if ( !$nameAttribute )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -582,9 +589,11 @@ class eZContentUpload
         $variables['original_filename_base'] = $mimeData['basename'];
         $variables['original_filename_suffix'] = $mimeData['suffix'];
 
-
-        $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
-        $nameString = $this->processNamePattern( $variables, $namePattern );
+        if ( !$nameString )
+        {
+            $namePattern = $uploadINI->variable( $iniGroup, 'NamePattern' );
+            $nameString = $this->processNamePattern( $variables, $namePattern );
+        }
 
         $db =& eZDB::instance();
         $db->begin();
