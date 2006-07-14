@@ -157,45 +157,50 @@ class eZNodeAssignment extends eZPersistentObject
      * Returns true if the assignment is a nop (no operation) operation.
      * \return bool
      */
-    function isNopOperation()
+    function &isNopOperation()
     {
-        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;
+        $isNopOperation = ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;   
+        return $isNopOperation;
     }
 
     /*!
      * Returns true if the assignment is a create operation.
      * \return bool
      */
-    function isCreateOperation()
-    {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+    function &isCreateOperation()
+    {   
+        $isCreateOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+        return $isCreateOperation;
     }
 
     /*!
      * Returns true if the assignment is a move operation.
      * \return bool
      */
-    function isMoveOperation()
+    function &isMoveOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
+        $isMoveOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
+        return $isMoveOperation;
     }
 
     /*!
      * Returns true if the assignment is a remove operation.
      * \return bool
      */
-    function isRemoveOperation()
+    function &isRemoveOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
+        $isRemoveOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
+        return $isRemoveOperation;
     }
 
     /*!
      * Returns true if the assignment is a set (update/create) operation.
      * \return bool
      */
-    function isSetOperation()
+    function &isSetOperation()
     {
-        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
+        $isSetOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
+        return $isSetOperation;
     }
 
     function &create( $parameters = array() )
