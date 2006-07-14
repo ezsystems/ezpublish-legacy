@@ -205,4 +205,5 @@ Clustering:
 - Fixed bug #8649: RSS import to XML text block is broken.
 - Fixed bug #8409: New bug: Order Statistics doesn't compute last day of the month.
 - Fixed bug #8638: Notice: Only variables should be assigned by reference ... ezpersistentobject.php on line 1109
-
+- Fixed bug #8642: $view_parameters holds trialing slash.
+  (Merged from stable/3.8 rev. 16424)

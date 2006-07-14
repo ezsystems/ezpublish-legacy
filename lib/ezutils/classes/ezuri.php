@@ -117,7 +117,8 @@ class eZURI
                         {
                             if ( isset( $paramName ) )
                             {
-                                $this->UserArray[ $paramName ] .= "/" . $this->URIArray[$key];
+                                if ( isset( $this->URIArray[$key + 1] ) )
+                                    $this->UserArray[ $paramName ] .= '/' . $this->URIArray[$key];
                                 unset( $this->URIArray[$key] );
                             }
                         }
