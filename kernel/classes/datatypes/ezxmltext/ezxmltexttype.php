@@ -363,7 +363,32 @@ class eZXMLTextType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return eZXMLTextType::rawXMLText( $contentObjectAttribute );
+        $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
+        // parse xml
+        include_once( 'lib/ezxml/classes/ezxml.php' );
+        $xml = new eZXML();
+        $document =& $xml->domTree( $text );
+
+        // Get first text element of xml
+        if ( !$document )
+            return $text;
+
+        $root =& $document->root();
+        $section =& $root->firstChild();
+        $textDom = false;
+        if ( $section )
+            $textDom =& $section->firstChild();
+
+        if ( $textDom and $textDom->hasChildren() )
+        {
+            $textDomContent =& $textDom->firstChild();
+            $text = $textDomContent->content();
+        }
+        elseif ( $textDom )
+        {
+            $text = $textDom->content();
+        }
+        return $text;
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
