@@ -330,7 +330,7 @@ class eZURI
      Implementation of an 'ezurl' template operator.
      Makes valid ez publish urls to use in links.
     */
-    function transformURI( &$href )
+    function transformURI( &$href, $ignoreIndexDir = false )
     {
         if ( preg_match( "#^[a-zA-Z0-9]+:#", $href ) || substr( $href, 0, 2 ) == '//' )
             return false;
@@ -349,7 +349,8 @@ class eZURI
 
         include_once( 'lib/ezutils/classes/ezsys.php' );
         $sys =& eZSys::instance();
-        $href = $sys->indexDir() . $href;
+        $dir = !$ignoreIndexDir ? $sys->indexDir() : $sys->wwwDir();
+        $href = $sys->serverURL() . $dir . $href;
         $href = preg_replace( "#^(//)#", "/", $href );
         $href = preg_replace( "#(^.*)(/+)$#", "\$1", $href );
         $href = htmlspecialchars( $href );
