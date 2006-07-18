@@ -158,7 +158,7 @@ class eZTOCOperator
                     $headerAutoName .= $this->HeaderCounter[$i];
                     $i++;
                 }
-                $tocText .= '<a href="#' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a>';
+                $tocText .= '<a href="#eztoc' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a>';
             }
         }
 
