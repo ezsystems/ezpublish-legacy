@@ -26,6 +26,8 @@ Clustering:
   [Tool] 
   AvailableToolArray[]=test
   ResetArrays=false
+- Implemented enhancement #8474: Add possibility to set Content-Type for layout 
+  module.
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
