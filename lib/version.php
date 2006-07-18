@@ -32,7 +32,7 @@
 
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 7 );
-define( "EZ_SDK_VERSION_RELEASE", 7 );
+define( "EZ_SDK_VERSION_RELEASE", 8 );
 define( "EZ_SDK_VERSION_STATE", '' );
 define( "EZ_SDK_VERSION_DEVELOPMENT", false );
 define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
