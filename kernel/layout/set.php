@@ -41,10 +41,14 @@ $Result['content'] = '';
 $Result['rerun_uri'] = '/' . implode( '/', array_splice( $Params['Parameters'], 1 ) ) . $userParamString;
 
 $layoutINI =& eZINI::instance( 'layout.ini' );
+$i18nINI =& eZINI::instance( 'i18n.ini' );
 if ( $layoutINI->hasGroup( $LayoutStyle ) )
 {
     if ( $layoutINI->hasVariable( $LayoutStyle, 'PageLayout' ) )
         $Result['pagelayout'] = $layoutINI->variable( $LayoutStyle, 'PageLayout' );
+
+	if ( $layoutINI->hasVariable( $LayoutStyle, 'ContentType' ) )
+		header( 'Content-Type: ' . $layoutINI->variable( $LayoutStyle, 'ContentType' ) . '; charset=' . $i18nINI->variable( 'CharacterSettings', 'Charset' ) );
 
     include_once( 'kernel/common/eztemplatedesignresource.php' );
     $res =& eZTemplateDesignResource::instance();
