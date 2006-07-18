@@ -327,7 +327,7 @@ class eZURI
 
         include_once( 'lib/ezutils/classes/ezsys.php' );
         $sys =& eZSys::instance();
-        $dir = !$ignoreIndexDir ? $sys->indexDir() : eZSys::wwwDir();
+        $dir = !$ignoreIndexDir ? $sys->indexDir() : $sys->wwwDir();
         $href = $sys->serverURL() . $dir . $href;
         $href = preg_replace( "#^(//)#", "/", $href );
         $href = preg_replace( "#(^.*)(/+)$#", "\$1", $href );
