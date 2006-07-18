@@ -236,10 +236,8 @@ class eZURLOperator
                                 $url = '/' . $url;
                             }
 
-                            $url = $this->Sys->indexDir() . $url;
-                            $url = preg_replace( "#(?<!:)//#", "/", $url );
-                            $url = preg_replace( "#^(.+)(/+)$#", '$1', $url );
-                            $url = htmlspecialchars( $url );
+                            include_once( 'lib/ezutils/classes/ezuri.php' );
+                            eZURI::transformURI( $url );
                         }
                     }
                     $url = $this->applyQuotes( $url, $parameters[1] );
@@ -248,6 +246,7 @@ class eZURLOperator
                 }
                 $values[] = $parameters[0];
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->indexDir() ) );
+                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->serverURL() ) );
                 $code = <<<CODEPIECE
 if ( preg_match( "#^[a-zA-Z0-9]+:#", %1% ) or
     substr( %1%, 0, 2 ) == '//')
@@ -270,9 +269,9 @@ else
         {
             %1% = '/' . %1%;
         };
-        %1% = %2% . %1%;
-        %1% = preg_replace( "#(//)#", "/", %1% );
-        %1% = preg_replace( "#^(.+)(/+)$#", "\$1", %1% );
+        %1% = %3% . %2% . %1%;
+        %1% = preg_replace( "#^(//)#", "/", %1% );
+        %1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );
         %1% = htmlspecialchars( %1% );
     }
 }
@@ -296,8 +295,9 @@ CODEPIECE;
                               $url[0] != '/' )
                         $url = '/' . $url;
 
-                    $url = $this->Sys->wwwDir() . $url;
-                    $url = htmlspecialchars( $url );
+                    // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
+                    include_once( 'lib/ezutils/classes/ezuri.php' );
+                    eZURI::transformURI( $url, true );
 
                     $url = $this->applyQuotes( $url, $parameters[1] );
 
@@ -314,9 +314,11 @@ CODEPIECE;
                     $values[] = $parameters[0];
                 }
 
-                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
+                $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->serverURL() . $this->Sys->wwwDir() ) );
                 $code .= '%1% = %2% . %1%;' . "\n" .
-                     '%1% = htmlspecialchars( %1% );' . "\n";
+                         '%1% = preg_replace( "#^(//)#", "/", %1% );' . "\n" .
+                         '%1% = preg_replace( "#(^.*)(/+)$#", "\$1", %1% );' . "\n" .
+                         '%1% = htmlspecialchars( %1% );' . "\n";
                 ++$paramCount;
                 ++$tmpCount;
             } break;
@@ -700,8 +702,6 @@ CODEPIECE;
                 include_once( 'lib/ezutils/classes/ezuri.php' );
                 eZURI::transformURI( $operatorValue );
 
-                if ( $operatorValue == "" )
-                    $operatorValue = "/";
             } break;
 
             case $this->URLRootName:
@@ -712,8 +712,11 @@ CODEPIECE;
                 if ( strlen( $operatorValue ) > 0 and
                      $operatorValue[0] != '/' )
                     $operatorValue = '/' . $operatorValue;
-                $operatorValue = $this->Sys->wwwDir() . $operatorValue;
-                $operatorValue = htmlspecialchars( $operatorValue );
+
+                // Same as "ezurl" without "index.php" and the siteaccess name in the returned address.
+                include_once( 'lib/ezutils/classes/ezuri.php' );
+                eZURI::transformURI( $operatorValue, true );
+
             } break;
 
             case $this->SysName:
