@@ -3,7 +3,7 @@
      class_list=fetch( class, list, hash( class_filter, $class_content.class_constraint_list ) )
      can_create=true()
      new_object_initial_node_placement=false()
-     browse_object_start_node=false()}
+     browse_object_start_node=$attribute.class_content.default_placement.node_id}
 
 {* Optional controls. *}
 {include uri='design:content/datatype/edit/ezobjectrelationlist_controls.tpl'}
@@ -176,6 +176,9 @@
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" />&nbsp;
 {section-else}
 <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_objects]" value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />&nbsp;
+{/section}
+{section show=$browse_object_start_node}
+<input type="hidden" name="{$attribute_base}_browse_for_object_start_node[{$attribute.id}]" value="{$browse_object_start_node|wash}" />
 {/section}
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_objects]" value="{'Add objects'|i18n( 'design/standard/content/datatype' )}" />
 
