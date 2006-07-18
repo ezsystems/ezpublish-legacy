@@ -637,6 +637,33 @@ class eZSys
     }
 
     /*!
+     Returns the server URL. (protocol with hostname and port)
+     \static
+    */
+    function serverURL()
+    {
+        $ini =& eZINI::instance();
+        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+        if ( !isset( $sslPort ) )
+            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
+        // $nowSSl is true if current access mode is HTTPS.
+        $nowSSL = ( eZSys::serverPort() == $sslPort );
+        $url = false;
+        if ( !$nowSSL )
+        {
+            // switch to plain HTTP
+            $host = eZSys::hostname();
+            $url = "http://" . $host;
+            return $url;
+        }
+
+        // switch to HTTPS
+        $host = preg_replace( '/:\d+$/', '', $host = eZSys::hostname() );
+        $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
+        $url = "https://" . $host  . $sslPortString;
+        return $url;
+    }
+    /*!
       \static
       \return the port of the server.
     */
