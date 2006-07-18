@@ -218,3 +218,4 @@ eZTemplate:
 - Fixed bug #8662: title() of eZXMLtexttype datatype works incorrectly.
 - Fixed bug #8654: XHTML Conformance of generated anchor tags preceding the header (a name="XXX").
   (Merged from stable/3.8 rev. 16435)
+- Fixed bug #8585: default location in object relation list will not be used.
