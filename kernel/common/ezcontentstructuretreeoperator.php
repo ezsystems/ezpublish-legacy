@@ -68,7 +68,7 @@ class eZContentStructureTreeOperator
                       'max_nodes' => array( 'type' => 'int',
                                             'required' => false,
                                             'default' => 0 ),
-                      'sort_by' => array( 'type' => 'string',
+                      'sort_by' => array( 'type' => 'array',
                                           'required' => false,
                                           'default' => 'false' ),
                       'fetch_hidden' => array( 'type' => 'bool',
@@ -86,14 +86,25 @@ class eZContentStructureTreeOperator
     {
         $sortArray = false;
         $fetchHidden = false;
-
         if ( $namedParameters[ 'sort_by' ] != 'false' )
         {
-            $sortingMethod = explode("/", $namedParameters[ 'sort_by' ]);
-            $sortingMethod[1] = ($sortingMethod[1] == 'ascending') ? '1' : '0';
-
-            $sortArray = array();
-            $sortArray[] =& $sortingMethod;
+            if( is_array($namedParameters[ 'sort_by' ]))
+            {
+                $sortArray = array();
+                foreach( $namedParameters[ 'sort_by' ] as $parameter )
+                {
+                    $sortingMethod = explode("/", $parameter );
+                    $sortingMethod[1] = ($sortingMethod[1] == 'ascending') ? '1' : '0';
+                    $sortArray[] = $sortingMethod;
+                }
+            }
+            else
+            {
+                $sortingMethod = explode("/", $namedParameters[ 'sort_by' ]);
+                $sortingMethod[1] = ($sortingMethod[1] == 'ascending') ? '1' : '0';
+                $sortArray = array();
+                $sortArray[] =& $sortingMethod;
+            }
         }
 
         if ( $namedParameters[ 'fetch_hidden' ] != 'false' )
