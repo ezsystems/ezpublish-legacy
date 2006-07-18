@@ -1,0 +1,15 @@
+*Title: Impoved 'content_structure_tree' operator
+
+*Original author: Dirk Schmedding
+
+*Documentation:
+Currently the content_structure_tree template operator only supports one sort 
+criteria. It is only possible to sort the entries by name OR by priority OR date.
+The applied patch adds the possibiliy to sort by multiple sort criteria. The old
+behaviour is still there, but instead setting a string, it is now possible to 
+use an array with multiple sort criterias.
+example:
+{def  [...]
+  $sort_by=array('priority/descending','name/ascending')
+  $content_tree = content_structure_tree( 2, $class_filter, $max_depth, $max_nodes, $sort_by, $fetch_hidden ) }
+[...]

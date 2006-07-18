@@ -29,6 +29,12 @@ Clustering:
 - Implemented enhancement #8474: Add possibility to set Content-Type for layout 
   module.
 
+*Library:
+
+eZTemplate:
+- Implemented enhancement #8584: 'content_structure_tree' operator should support 
+  multiple sort criteria.
+
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
