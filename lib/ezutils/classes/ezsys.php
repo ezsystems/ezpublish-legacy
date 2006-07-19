@@ -634,8 +634,11 @@ class eZSys
     */
     function serverURL()
     {
-       $url = 'http://' . eZSys::hostname();
-       return $url;
+        $url = '';
+        $hostname = eZSys::hostname();
+        if ( $hostname )
+            $url = 'http://' . $hostname;
+        return $url;
     }
     /*!
       \static
