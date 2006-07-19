@@ -653,7 +653,8 @@ class eZSys
         {
             // switch to plain HTTP
             $host = eZSys::hostname();
-            $url = "http://" . $host;
+            if ( $host )
+                $url = "http://" . $host;
             return $url;
         }
 
