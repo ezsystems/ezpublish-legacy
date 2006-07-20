@@ -75,7 +75,7 @@ foreach ( array_keys( $linkList ) as $key )
                 {
                     if ( !$isValid )
                         eZURL::setIsValid( $linkID, true );
-                    $cli->output( $cli->stylize( 'success', "valid" ) );
+                    //$cli->output( $cli->stylize( 'success', "valid" ) );
                 }
             }
         }
@@ -95,7 +95,7 @@ foreach ( array_keys( $linkList ) as $key )
                 fclose($fp);
                 if ( !$isValid )
                     eZURL::setIsValid( $linkID, true );
-                $cli->output( $cli->stylize( 'success', "valid" ) );
+                //$cli->output( $cli->stylize( 'success', "valid" ) );
             }
         }
         else
@@ -134,7 +134,7 @@ foreach ( array_keys( $linkList ) as $key )
         {
             if ( !$isValid )
                 eZURL::setIsValid( $linkID, true );
-            $cli->output( $cli->stylize( 'success', "valid" ) );
+            //$cli->output( $cli->stylize( 'success', "valid" ) );
         }
         else
         {
