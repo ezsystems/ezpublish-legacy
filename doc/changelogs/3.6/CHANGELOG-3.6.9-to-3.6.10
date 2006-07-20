@@ -1,4 +1,4 @@
 Changes from 3.6.9 to 3.6.10
 
 *Bugfixes:
-  
+- Fixed bug #8610: Problem with option datatype in form management.  
