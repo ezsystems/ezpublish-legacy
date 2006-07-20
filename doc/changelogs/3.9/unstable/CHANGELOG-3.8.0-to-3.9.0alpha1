@@ -223,3 +223,5 @@ eZTemplate:
   (Merged from stable/3.6 (3.6.9) rev. 16441)
 - Fixed bug #7619: RSS: Relative image src in XML field.
   (Merged from stable/3.6 (3.6.9) rev. 16441)
+- Fixed bug #8610: Problem with option datatype in form management.
+  (Merged from stable/3.6 (3.6.10) rev. 16477)
