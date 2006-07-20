@@ -52,6 +52,30 @@ class eZOptionType extends eZDataType
     }
 
     /*!
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $value = $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+
+            if ( $contentObjectAttribute->validateIsRequired() and !$value )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Input required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
+        else
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Input required.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
