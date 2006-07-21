@@ -227,3 +227,4 @@ eZTemplate:
   (Merged from stable/3.6 (3.6.10) rev. 16477)
 - Fixed bug #8702: bold and italic formating with ezxmltext does not work.
   (Merged from stable/3.8 rev. 16484)
+- Fixed bug #8700: New bug: No more [depth_operator = 'eq']-support in ContentObjectTreeNode
