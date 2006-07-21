@@ -1040,12 +1040,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
 
-                //force rendering last line without <br> i.e. as plain text
-                $next =& $tag->nextSibling();
-                if ( $next )
-                    $uri = 'design:content/datatype/view/ezxmltags/line.tpl';
+                 //force rendering last line without <br> i.e. as plain text
+                if ( $tagName == 'line' )
+                {
+                    //force rendering last line without <br> i.e. as plain text
+                    $next =& $tag->nextSibling();
+                    if ( $next )
+                        $uri = 'design:content/datatype/view/ezxmltags/line.tpl';
+                    else
+                        $uri = 'design:content/datatype/view/ezxmltags/text.tpl';
+                }
                 else
-                    $uri = 'design:content/datatype/view/ezxmltags/text.tpl';
+                {
+                    $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+                }
 
                 $textElements = array();
                 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
