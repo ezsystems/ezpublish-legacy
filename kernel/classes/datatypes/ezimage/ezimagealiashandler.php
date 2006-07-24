@@ -601,7 +601,7 @@ class eZImageAliasHandler
 
      \note Transaction unsafe.
     */
-    function removeAliases()
+    function removeAliases( &$contentObjectAttribute )
     {
         $aliasList =& $this->aliasList();
         $alternativeText = false;
@@ -666,7 +666,8 @@ class eZImageAliasHandler
 
         $contentObjectAttributeData['DataTypeCustom']['dom_tree'] =& $doc;
         unset( $contentObjectAttributeData['DataTypeCustom']['alias_list'] );
-        $this->storeDOMTree( $doc );
+
+        $this->storeDOMTree( $doc, true, $contentObjectAttribute );
     }
 
     /*!
@@ -1036,8 +1037,8 @@ class eZImageAliasHandler
 
         eZMimeType::changeBaseName( $mimeData, $objectName );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
-
-        $this->removeAliases();
+        $attr = false;
+        $this->removeAliases( $attr );
 
         $httpFile->store( false, false, $mimeData );
 
@@ -1079,7 +1080,9 @@ class eZImageAliasHandler
 
         eZMimeType::changeBaseName( $mimeData, $objectName );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
-        $this->removeAliases();
+        $attr = false;
+        $this->removeAliases( $attr );
+
         if ( !file_exists( $mimeData['dirpath'] ) )
         {
             eZDir::mkdir( $mimeData['dirpath'], false, true );
@@ -1227,7 +1230,8 @@ class eZImageAliasHandler
                 $imageAlias['is_new'] = false;
             }
         }
-        $this->storeDOMTree( $domTree );
+        $attr = false;
+        $this->storeDOMTree( $domTree, true, $attr );
     }
 
     /*!
@@ -1237,7 +1241,8 @@ class eZImageAliasHandler
     {
         $domTree =& $this->domTree();
         $this->addImageAliasToXML( $domTree, $imageAlias );
-        $this->storeDOMTree( $domTree );
+        $attr = false;
+        $this->storeDOMTree( $domTree, true, $attr );
     }
 
     /*!
@@ -1309,7 +1314,7 @@ class eZImageAliasHandler
     /*!
      Stores the XML DOM document \a $domTree to the content object attribute.
     */
-    function storeDOMTree( &$domTree, $storeAttribute = true )
+    function storeDOMTree( &$domTree, $storeAttribute, &$contentObjectAttributeRef )
     {
         if ( !$domTree )
             return false;
@@ -1321,7 +1326,11 @@ class eZImageAliasHandler
 
         if ( $storeAttribute )
         {
-            $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeData['id'], $contentObjectAttributeData['version'] );
+            if ( is_object( $contentObjectAttributeRef )  )
+                $contentObjectAttribute =& $contentObjectAttributeRef;
+            else
+                $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeData['id'], $contentObjectAttributeData['version'] );
+
             if ( is_object( $contentObjectAttribute )  )
             {
                 $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
@@ -1350,13 +1359,13 @@ class eZImageAliasHandler
         {
             if ( is_object( $contentObjectAttribute ) )
             {
-                $this->storeDOMTree( $domTree, false );
+                $this->storeDOMTree( $domTree, false, $contentObjectAttribute );
                 $contentObjectAttribute->setAttribute( 'data_text', $contentObjectAttributeData['data_text'] );
                 $contentObjectAttribute->storeData();
             }
             else
             {
-                $this->storeDOMTree( $domTree, true );
+                $this->storeDOMTree( $domTree, true, $contentObjectAttribute );
             }
         }
 
@@ -1638,7 +1647,8 @@ class eZImageAliasHandler
 
         $this->createImageInformationNode( $imageNode, $mimeData );
 
-        $this->storeDOMTree( $doc );
+        $attr = false;
+        $this->storeDOMTree( $doc, true, $attr );
 
         eZImageFile::appendFilepath( $contentObjectAttributeData['id'], $filePath );
     }
