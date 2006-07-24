@@ -119,7 +119,7 @@ class eZImageType extends eZDataType
         {
             $imageHandler =& $contentObjectAttribute->attribute( 'content' );
             if ( $imageHandler )
-                $imageHandler->removeAliases();
+                $imageHandler->removeAliases( $contentObjectAttribute );
         }
     }
 
@@ -424,7 +424,7 @@ class eZImageType extends eZDataType
             $content =& $contentObjectAttribute->attribute( 'content' );
             if ( $content )
             {
-                $content->removeAliases();
+                $content->removeAliases( $contentObjectAttribute );
             }
         }
     }

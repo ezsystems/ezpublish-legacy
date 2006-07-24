@@ -219,10 +219,6 @@ eZTemplate:
 - Fixed bug #8654: XHTML Conformance of generated anchor tags preceding the header (a name="XXX").
   (Merged from stable/3.8 rev. 16435)
 - Fixed bug #8585: default location in object relation list will not be used.
-- Fixed bug #8681: ezurl and ezroot operators don't work correctly.
-  (Merged from stable/3.6 (3.6.9) rev. 16441)
-- Fixed bug #7619: RSS: Relative image src in XML field.
-  (Merged from stable/3.6 (3.6.9) rev. 16441)
 - Fixed bug #8610: Problem with option datatype in form management.
   (Merged from stable/3.6 (3.6.10) rev. 16477)
 - Fixed bug #8702: bold and italic formating with ezxmltext does not work.
