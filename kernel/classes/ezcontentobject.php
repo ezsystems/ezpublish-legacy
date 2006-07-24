@@ -3641,6 +3641,10 @@ class eZContentObject extends eZPersistentObject
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
+                if ( count( $policyArray ) == 0 )
+                {
+                    continue;
+                }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
                 if ( $classIDArrayPart == '*' )
