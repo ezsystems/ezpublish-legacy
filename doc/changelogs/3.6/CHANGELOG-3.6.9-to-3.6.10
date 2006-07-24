@@ -4,3 +4,7 @@ Changes from 3.6.9 to 3.6.10
 - Fixed bug #8610: Problem with option datatype in form management.  
 - Fixed bug #8700: New bug: No more [depth_operator = 'eq']-support in ContentObjectTreeNode
   (Merged from trunk (3.9.0alpha1) rev. 16487)
+- Fixed suggestion #7588: "ignore_visibility" and "limitation" parameters 
+  to "search" fetch function.
+  (Merged from trunk (3.9.0alpha1) rev. 16491)
+  

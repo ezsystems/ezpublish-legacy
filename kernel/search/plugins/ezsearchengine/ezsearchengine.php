@@ -509,6 +509,8 @@ class eZSearchEngine
             else
                 $sortArray = array();
 
+            $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
+
             // strip multiple spaces
             $searchText = preg_replace( "(\s+)", " ", $searchText );
 
@@ -808,8 +810,9 @@ class eZSearchEngine
 
             // Loop every word and insert result in temporary table
 
+            // Determine whether we should search invisible nodes.
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( true );
+            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
             foreach ( $searchPartsArray as $searchPart )
             {
