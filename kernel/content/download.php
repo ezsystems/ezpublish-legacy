@@ -41,24 +41,33 @@ $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
 $contentObject = eZContentObject::fetch( $contentObjectID );
 if ( !is_object( $contentObject ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
+$currentVersion = $contentObject->attribute( 'current_version' );
 
 if ( isset(  $Params['Version'] ) && is_numeric( $Params['Version'] ) )
      $version = $Params['Version'];
 else
-     $version = $contentObject->attribute( 'current_version' );
-     
+     $version = $currentVersion;
+
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
 if ( !is_object( $contentObjectAttribute ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
-$contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-
-if ( ! $contentObject->attribute( 'can_read' ) )
+$contentObjectIDAttr = $contentObjectAttribute->attribute( 'contentobject_id' );
+if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'can_read' ) )
 {
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED );
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+}
+
+// If $version is not current version (published)
+// we should check permission versionRead for the $version.
+if ( $version != $currentVersion )
+{
+    $versionObj = eZContentObjectVersion::fetchVersion( $version, $contentObjectID );
+    if ( is_object( $versionObj ) and !$versionObj->canVersionRead() )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 $fileHandler =& eZBinaryFileHandler::instance();
