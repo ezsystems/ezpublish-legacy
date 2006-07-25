@@ -230,3 +230,4 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.3) rev. 16499)
 - Fixed bug #7619: RSS: Relative image src in XML field.
   (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug #8707: Missing i18n (poll view full).
