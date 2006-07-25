@@ -163,6 +163,8 @@ class eZContentObject extends eZPersistentObject
                                                       'reverse_related_contentobject_array' => 'reverseRelatedObjectList',
                                                       'reverse_related_contentobject_count' => 'reverseRelatedObjectCount',
                                                       "can_read" => "canRead",
+                                                      "can_pdf" => "canPdf",
+                                                      "can_diff" => "canDiff",
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
                                                       "can_edit" => "canEdit",
@@ -3783,7 +3785,22 @@ class eZContentObject extends eZPersistentObject
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
-
+    
+    /*!
+     \return \c true if the current user can create a pdf of this content object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canPdf( )
+    {
+        if ( !isset( $this->Permissions["can_pdf"] ) )
+        {
+            $this->Permissions["can_pdf"] = $this->checkAccess( 'pdf' );
+        }
+        $p = ( $this->Permissions["can_pdf"] == 1 );
+        return $p;
+    }
+    
     /*!
      \return \c true if the node can be viewed as embeded object by the current user.
      \sa checkAccess().
@@ -3797,6 +3814,21 @@ class eZContentObject extends eZPersistentObject
             $this->Permissions["can_view_embed"] = $this->checkAccess( 'view_embed' );
         }
         $p = ( $this->Permissions["can_view_embed"] == 1 );
+        return $p;
+    }
+    
+    /*!
+     \return \c true if the current user can diff this content object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canDiff( )
+    {
+        if ( !isset( $this->Permissions["can_diff"] ) )
+        {
+            $this->Permissions["can_diff"] = $this->checkAccess( 'diff' );
+        }
+        $p = ( $this->Permissions["can_diff"] == 1 );
         return $p;
     }
 
