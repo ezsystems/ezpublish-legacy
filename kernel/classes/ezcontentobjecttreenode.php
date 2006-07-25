@@ -155,6 +155,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
                                                       'sort_array' => 'sortArray',
                                                       'can_read' => 'canRead',
+                                                      'can_pdf' =>  'canPdf',
                                                       'can_create' => 'canCreate',
                                                       'can_edit' => 'canEdit',
                                                       'can_hide' => 'canHide',
@@ -372,6 +373,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
+    
+    /*!
+     \return \c true if the current user can create a pdf of this content object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canPdf( )
+    {
+        if ( !isset( $this->Permissions["can_pdf"] ) )
+        {
+            $this->Permissions["can_pdf"] = $this->checkAccess( 'pdf' );
+        }
+        $p = ( $this->Permissions["can_pdf"] == 1 );
+        return $p;
+    }
+    
 
     /*!
      \return \c true if the node can be edited by the current user.

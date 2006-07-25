@@ -188,6 +188,12 @@ switch( $operationResult['status'] )
             if ( !$object->attribute( 'can_read' ) )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+             if ( !$node->attribute( 'can_pdf' ) )
+                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+  
+             if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
+                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
             $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
                                                              array( 'view_parameters' => $viewParameters ) );
             $node =& eZContentObjectTreeNode::fetch( $NodeID );
