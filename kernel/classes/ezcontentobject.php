@@ -127,6 +127,7 @@ class eZContentObject extends eZPersistentObject
                                                       'reverse_related_contentobject_array' => 'reverseRelatedObjectList',
                                                       'reverse_related_contentobject_count' => 'reverseRelatedObjectCount',
                                                       "can_read" => "canRead",
+                                                      "can_pdf" => "canPdf",
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
                                                       "can_edit" => "canEdit",
@@ -3175,6 +3176,21 @@ class eZContentObject extends eZPersistentObject
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
+
+     /*!
+      \return \c true if the current user can create a pdf of this content object.
+      \note The reference for the return value is required to workaround
+            a bug with PHP references.
+     */
+     function &canPdf( )
+     {
+         if ( !isset( $this->Permissions["can_pdf"] ) )
+         {
+             $this->Permissions["can_pdf"] = $this->checkAccess( 'pdf' );
+         }
+         $p = ( $this->Permissions["can_pdf"] == 1 );
+         return $p;
+     }
 
     /*!
      \note The reference for the return value is required to workaround
