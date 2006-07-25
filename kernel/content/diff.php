@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-//include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezdiff/classes/ezdiff.php' );
@@ -48,11 +48,12 @@ if ( !$contentObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-if ( !$contentObject->canRead() )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $contentObject->accessList( 'read' ) ) );
-}
-
+if ( !$contentObject->attribute( 'can_read' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    
+if ( !$contentObject->attribute( 'can_diff' ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    
 $http =& eZHTTPTool::instance();
 $tpl =& templateInit();
 
