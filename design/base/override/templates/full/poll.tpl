@@ -18,7 +18,7 @@
         </div>
 
         {section show=is_unset( $versionview_mode )}
-        <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
+        <input class="button" type="submit" name="ActionCollectInformation" value={"Vote"|i18n("design/base")} />
         {/section}
 
         </form>

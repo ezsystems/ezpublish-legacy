@@ -21,7 +21,7 @@
         {/section}
 
         {/let}
-        <input class="button" type="submit" name="ActionCollectInformation" value="Vote" />
+        <input class="button" type="submit" name="ActionCollectInformation" value={"Vote"|i18n("design/base")} />
 
         </form>
         </div>
