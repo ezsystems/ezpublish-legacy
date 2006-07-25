@@ -287,13 +287,10 @@ class eZOrder extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-
-        $db_params["offset"] = $offset;
-        $db_params["limit"] = $limit;
         $query = "SELECT count( * ) AS count FROM ezorder WHERE ".eZOrder::getShowOrdersQuery( $show )." AND is_temporary='0'";
-
-        $countArray = $db->arrayQuery( $query, $db_params );
-        return $countArray[0]['count'];
+        $countArray = $db->arrayQuery( $query );
+        $result = isset( $countArray[0]['count'] ) ? $countArray[0]['count'] : 0;
+        return $result;
     }
 
     /*!
