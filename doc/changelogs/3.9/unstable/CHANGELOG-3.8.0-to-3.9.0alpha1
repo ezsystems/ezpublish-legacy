@@ -237,3 +237,5 @@ eZTemplate:
 - Fixed bug #8707: Missing i18n (poll view full).
 - Fixed bug #8680: Navigator disappears in order list.
   (Merged from stable/3.8 (3.8.4) rev. 16528)
+- Fixed bug #8597: Problem with path to icons on list of used templates.
+  (Merged from stable/3.8 (3.8.4) rev. 16536)
