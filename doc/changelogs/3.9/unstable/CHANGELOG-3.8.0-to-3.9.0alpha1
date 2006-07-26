@@ -29,6 +29,10 @@ Clustering:
 - Implemented enhancement #8474: Add possibility to set Content-Type for layout 
   module.
 
+*Design:
+- Fixed suggestion #8262: No need displaying language 
+  when only one is installed.
+
 *Library:
 
 eZTemplate:

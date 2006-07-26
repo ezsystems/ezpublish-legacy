@@ -193,7 +193,7 @@
             if ( !languageSelector )
             {
                 return;
-            }            
+            }
 
             classID = classSelector.value;
             languages = languagesByClassID[classID];
@@ -256,7 +256,7 @@
 
         window.onload = function() { updateLanguageSelector( document.forms['children'].ClassID ); }
         {/literal}
-    
+
         languagesByClassID = new Array();
         {foreach $can_create_classes as $class}
         languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $language}'{$language}'{delimiter}, {/delimiter} {/foreach} ];
@@ -271,17 +271,21 @@
         {/if}
         {/section}
     </select>
-
-    <script type="text/javascript">
-    <!--
-        document.writeln( '<select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">' );
-        {foreach fetch( content, prioritized_languages ) as $language}
-            document.writeln( '<option value="{$language.locale|wash()}">{$language.name|wash()}</option>' );
-        {/foreach}
-        document.writeln( '</select>' );
-    -->
-    </script>
-
+    {def $can_create_languages=fetch( content, prioritized_languages )}
+    {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
+            <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden">
+    {else}
+        <script type="text/javascript">
+        <!--
+            document.writeln( '<select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">' );
+            {foreach $can_create_languages as $language}
+                document.writeln( '<option value="{$language.locale|wash()}">{$language.name|wash()}</option>' );
+            {/foreach}
+            document.writeln( '</select>' );
+        -->
+        </script>
+    {/if}
+    {undef $can_create_languages}
     {/let}
 
     <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/node/view/full' )}" />
