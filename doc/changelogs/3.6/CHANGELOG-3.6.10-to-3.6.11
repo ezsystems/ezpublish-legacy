@@ -1,4 +1,6 @@
 Changes from 3.6.10 to 3.6.11
 
 *Bugfixes:
+- Fixed bug #8597: Problem with path to icons on list of used templates.
+  (Merged from stable/3.8 (3.8.4) rev. 16536)
   
