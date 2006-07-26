@@ -83,8 +83,9 @@ class eZTemplatesStatisticsReporter
             $templateOverrideFunction = 'visual/templatecreate/';
 
             $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-            $editIconFile = "/design/$std_base/images/edit.gif";
-            $overrideIconFile = "/design/$std_base/images/override-template.gif";
+            $wwwDir = eZSys::wwwDir();
+            $editIconFile = "$wwwDir/design/$std_base/images/edit.gif";
+            $overrideIconFile = "$wwwDir/design/$std_base/images/override-template.gif";
 
             $tdClass = 'used_templates_stats1';
             $j = 0;
