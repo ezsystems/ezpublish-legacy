@@ -34,6 +34,8 @@ Clustering:
 eZTemplate:
 - Implemented enhancement #8584: 'content_structure_tree' operator should support 
   multiple sort criteria.
+- Fixed suggestion #7588: "ignore_visibility" and "limitation" parameters 
+  to "search" fetch function.
 - Implemented enhancement #7449: No way to check existance of variable 
   in ezini or ezhttp. 
   (Added new tpl operators ezini_hasvariable,ezhttp_hasvariable and added new parameters
@@ -228,8 +230,6 @@ eZTemplate:
 - Fixed bug #8702: bold and italic formating with ezxmltext does not work.
   (Merged from stable/3.8 rev. 16484)
 - Fixed bug #8700: New bug: No more [depth_operator = 'eq']-support in ContentObjectTreeNode
-- Fixed suggestion #7588: "ignore_visibility" and "limitation" parameters 
-  to "search" fetch function.
 - Fixed bug #8681: ezurl and ezroot operators don't work correctly.
   (Merged from stable/3.8 (3.8.3) rev. 16499)
 - Fixed bug #7619: RSS: Relative image src in XML field.
