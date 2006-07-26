@@ -60,14 +60,18 @@
 {def $can_edit_languages   = $node.object.can_edit_languages
      $can_create_languages = $node.object.can_create_languages}
 {section show=$node.can_edit}
-    <select name="ContentObjectLanguageCode">
-    {foreach $node.object.can_edit_languages as $language}
-                <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
-    {/foreach}
-    {if gt( $can_create_languages|count, 0 )}
-        <option value="">{'Another language'|i18n( 'design/admin/node/view/full')}</option>
+    {if and(eq( $can_create_languages|count, 0 ), is_set( $can_edit_languages[0] ) )}
+            <input name="ContentObjectLanguageCode" value="{$can_edit_languages[0].locale}" type="hidden">
+    {else}
+            <select name="ContentObjectLanguageCode">
+            {foreach $node.object.can_edit_languages as $language}
+                       <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+            {/foreach}
+            {if gt( $can_create_languages|count, 0 )}
+                <option value="">{'Another language'|i18n( 'design/admin/node/view/full')}</option>
+            {/if}
+            </select>
     {/if}
-    </select>
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit the contents of this item.'|i18n( 'design/admin/node/view/full' )}" />
 {section-else}
     <select name="ContentObjectLanguageCode" disabled="disabled">
