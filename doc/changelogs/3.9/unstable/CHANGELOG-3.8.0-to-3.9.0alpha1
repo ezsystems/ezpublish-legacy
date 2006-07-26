@@ -34,6 +34,10 @@ Clustering:
 eZTemplate:
 - Implemented enhancement #8584: 'content_structure_tree' operator should support 
   multiple sort criteria.
+- Implemented enhancement #7449: No way to check existance of variable 
+  in ezini or ezhttp. 
+  (Added new tpl operators ezini_hasvariable,ezhttp_hasvariable and added new parameters
+   to ezini and ezhttp).
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
