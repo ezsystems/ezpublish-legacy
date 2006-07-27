@@ -96,7 +96,7 @@ class eZContentStructureTreeOperator
             $sortArray[] =& $sortingMethod;
         }
 
-        if ( $namedParameters[ 'fetch_hidden' ] != 'false' )
+        if ( $namedParameters[ 'fetch_hidden' ] == 'true' )
         {
             $fetchHidden = true;
         }
