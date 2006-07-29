@@ -104,7 +104,7 @@ $contentINI =& eZINI::instance( 'content.ini' );
 // Check if number of nodes being removed not more then MaxNodesRemoveSubtree setting.
 $maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ? $contentINI->variable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) : 100;
 
-$deleteItemsExist = true; // If false, we should disabled 'OK' button if count of each deletion items more then MaxNodesRemoveSubtree setting.
+$deleteItemsExist = true; // If false, we should disable 'OK' button if count of each deletion items more then MaxNodesRemoveSubtree setting.
 
 foreach ( array_keys( $deleteResult ) as $removeItemKey )
 {
