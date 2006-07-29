@@ -23,6 +23,14 @@
     {section show=$reverse_related}
         <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
+
+    {section show=eq( $exceeded_limit, true() )}
+        <hr />
+	<h4>Warnings:</h4>
+        <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removing and will not be deleted. You can remove this subtree using Subtree Remove script.'|i18n( 'design/admin/node/removeobject' )}</p>
+	<hr />
+    {/section}
+
     {section show=$remove_info.can_remove_all}
         <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
         <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -47,7 +55,7 @@
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 
-<tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
+<tr class="{$remove_item.sequence}{section show=or( $remove_item.can_remove|not, and( is_set( $remove_item.exceeded_limit_of_subitems ), eq( $remove_item.exceeded_limit_of_subitems, true() ) ) )} object-cannot-remove{/section}">
     {* Object icon. *}
     <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name|wash )}</td>
 
@@ -82,7 +90,7 @@
 </table>
 
 <div class="block">
-{section show=$remove_info.can_remove_all}
+{section show=and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ) )}
     {section show=$move_to_trash_allowed}
         <input type="hidden" name="SupportsMoveToTrash" value="1" />
         <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
@@ -98,7 +106,7 @@
 
 <div class="block">
 
-    {section show=$remove_info.can_remove_all}
+    {section show=and( $remove_info.can_remove_all, eq( $delete_items_exist, true() ) )}
         <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
     {section-else}
         <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />

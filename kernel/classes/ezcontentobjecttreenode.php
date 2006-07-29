@@ -387,7 +387,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $p = ( $this->Permissions["can_edit"] == 1 );
         return $p;
     }
-    
+
     /*!
      \return \c true if the current user can create a pdf of this content object.
      \note The reference for the return value is required to workaround
@@ -402,7 +402,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $p = ( $this->Permissions["can_pdf"] == 1 );
         return $p;
     }
-    
+
 
     /*!
      \return \c true if the node can be hidden by the current user.
@@ -3975,7 +3975,10 @@ WHERE
                     // Remove children, fetching them by 100 to avoid memory overflow.
                     while ( 1 )
                     {
+                        // We should remove the latest subitems first,
+                        // so we should fetch subitems sorted by 'path_string' DESC
                         $children =& $node->subTree( array( 'Limitation' => array(),
+                                                            'SortBy' => array( 'path' , false ),
                                                             'Limit' => 100 ) );
                         if ( !$children )
                             break;
