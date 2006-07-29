@@ -98,6 +98,36 @@ if ( !$info['move_to_trash'] )
 }
 $totalChildCount = $info['total_child_count'];
 $canRemoveAll = $info['can_remove_all'];
+$exceededLimit = false;
+
+$contentINI =& eZINI::instance( 'content.ini' );
+// Check if number of nodes being removed not more then MaxNodesRemoveSubtree setting.
+$maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ? $contentINI->variable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) : 100;
+
+$deleteItemsExist = true; // If false, we should disabled 'OK' button if count of each deletion items more then MaxNodesRemoveSubtree setting.
+
+foreach ( array_keys( $deleteResult ) as $removeItemKey )
+{
+    $removeItem =& $deleteResult[$removeItemKey];
+    if ( $removeItem['child_count'] > $maxNodesRemoveSubtree )
+    {
+        $removeItem['exceeded_limit_of_subitems'] = true;
+        $exceededLimit = true;
+        $nodeObj = $removeItem['node'];
+        if ( !$nodeObj )
+            continue;
+
+        $nodeID = $nodeObj->attribute( 'node_id' );
+        $deleteIDArrayNew = array();
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            if ( $deleteID != $nodeID )
+                $deleteIDArrayNew[] = $deleteID;
+        }
+        $deleteItemsExist = count( $deleteIDArrayNew ) != 0;
+        $http->setSessionVariable( "DeleteIDArray", $deleteIDArrayNew );
+    }
+}
 
 // We check if we can remove the nodes without confirmation
 // to do this the following must be true:
@@ -132,6 +162,8 @@ $tpl->setVariable( 'move_to_trash_allowed', $moveToTrashAllowed );
 $tpl->setVariable( "remove_list",  $deleteResult );
 $tpl->setVariable( 'total_child_count', $totalChildCount );
 $tpl->setVariable( 'remove_info', $info );
+$tpl->setVariable( 'exceeded_limit', $exceededLimit );
+$tpl->setVariable( 'delete_items_exist', $deleteItemsExist );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );

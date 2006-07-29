@@ -28,6 +28,8 @@ Clustering:
   ResetArrays=false
 - Implemented enhancement #8474: Add possibility to set Content-Type for layout 
   module.
+- Added content.ini[RemoveSettings].MaxNodesRemoveSubtree
+  Maximum number of nodes to remove (using Remove Subtrees feature)
 
 *Design:
 - Fixed suggestion #8262: No need displaying language 
@@ -243,3 +245,4 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.4) rev. 16528)
 - Fixed bug #8597: Problem with path to icons on list of used templates.
   (Merged from stable/3.8 (3.8.4) rev. 16536)
+- Fixed bug #7776: Remove many objects does not work correctly.
