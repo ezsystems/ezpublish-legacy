@@ -72,8 +72,26 @@ class eZShopOperationCollection
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
+        if ( $user->attribute( 'is_logged_in' ) )
+            $userCountry = eZVATManager::getUserCountry( $user, false );
+
         $acctInfo = $order->attribute( 'account_information' );
-        if ( !isset( $acctInfo['country'] ) )
+        if ( isset( $acctInfo['country'] ) )
+        {
+            $country = $acctInfo['country'];
+
+            // If user is registered and logged in
+            // and country is not yet specified for the user
+            // then save entered country to the user information.
+            if ( !isset( $userCountry ) || !$userCountry )
+                eZVATManager::setUserCountry( $user, $country );
+        }
+        elseif ( isset( $userCountry ) && $userCountry )
+        {
+            // If country is not set in shop account handler, we get it from logged user's information.
+            $country = $userCountry;
+        }
+        else
         {
             //eZDebug::writeError( $acctInfo, "User country was not found in the following account information" );
 
@@ -93,18 +111,6 @@ class eZShopOperationCollection
                 'result' => array( 'content' => $tpl->fetch( "design:shop/cancelconfirmorder.tpl" ) )
                 );
             return $operationResult;
-        }
-
-        $country = $acctInfo['country'];
-
-        // If user is registered and logged in
-        // and country is not yet specified for the user
-        // then save entered country to the user information.
-        if ( $user->attribute( 'is_logged_in' ) )
-        {
-            $userCountry = eZVATManager::getUserCountry( $user, false );
-            if ( !$userCountry )
-                eZVATManager::setUserCountry( $user, $country );
         }
 
         // Recalculate VAT for order's product collection items
