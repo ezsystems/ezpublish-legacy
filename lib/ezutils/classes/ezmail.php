@@ -586,13 +586,17 @@ class eZMail
 
      Example: John Doe <john@doe.com> or just john@doe.com
     */
-    function composeEmailName( $item, $key = false )
+    function composeEmailName( $item, $key = false, $convert = true )
     {
         if ( $key !== false and
              isset( $item[$key] ) )
             return $item[$key];
         if ( $item['name'] )
+        {
+            if ( $convert )
+                $item['name'] = $this->convertHeaderText( $item['name'] );
             $text = $item['name'] . ' <' . $item['email'] . '>';
+        }
         else
             $text = $item['email'];
         return $text;
@@ -608,15 +612,24 @@ class eZMail
         $textElements = array();
         foreach ( $items as $item )
         {
-            $textElements[] = eZMail::composeEmailName( $item, $key );
+            $textElements[] = eZMail::composeEmailName( $item, $key, $convert );
         }
+
+        if ( $convert )
+        {
+            foreach ( array_keys( $textElements ) as $elementKey )
+            {
+                $element =& $textElements[$elementKey];
+                $element = $this->convertHeaderText( $element );
+            }
+        }
+
         if ( $join )
             $text = implode( ', ', $textElements );
         else
             $text = $textElements;
-        if ( !$convert )
-            return $text;
-        return $this->convertHeaderText( $text );
+
+        return $text;
     }
 
     /*!
@@ -657,7 +670,7 @@ class eZMail
              !in_array( 'subject', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Subject',
-                                'content' => $this->Subject );
+                                'content' => $this->subject() );
             $headerNames[] = 'subject';
         }
         if ( $this->From !== false and
@@ -762,10 +775,7 @@ class eZMail
         {
             $headerText = $this->blankNewlines( $header['name'] ) . ': ';
             $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
-            if ( $convert )
-                $headerText .= $this->convertHeaderText( $contentText );
-            else
-                $headerText .= $contentText;
+            $headerText .= $contentText;
             $textElements[] = $headerText;
         }
         return $textElements;
@@ -789,10 +799,7 @@ class eZMail
                 $text .= EZ_MAIL_LINE_SEPARATOR;
             $text .= $this->blankNewlines( $header['name'] ) . ': ';
             $contentText = $this->blankNewlines( $this->contentString( $header['content'] ) );
-            if ( $convert )
-                $text .= $this->convertHeaderText( $contentText );
-            else
-                $text .= $contentText;
+            $text .= $contentText;
         }
         return $text;
     }
@@ -802,8 +809,49 @@ class eZMail
     */
     function convertHeaderText( $text )
     {
-        return $this->convertText( $text, true );
+        $charset = $this->contentCharset();
+        if ( $charset != 'us-ascii' )
+        {
+            $newText = $this->encodeMimeHeader( $text );
+            return $newText;
+        }
+        return $text;
     }
+
+    /*!
+      Encodes $str using mb_encode_mimeheader() if it is aviable, or does base64 encodin of a header if not.
+     */
+    function encodeMimeHeader( $str )
+    {
+        if ( !$this->TextCodec )
+        {
+             $this->TextCodec =& eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
+        }
+
+        if ( function_exists( "mb_encode_mimeheader" ) )
+        {
+            $encoded = mb_encode_mimeheader( $str, $this->TextCodec->InputCharsetCode, "B" );
+        }
+        else
+        {
+            if (  0 == preg_match_all( '/[\000-\010\013\014\016-\037\177-\377]/', $str, $matches ) )
+                return $str;
+
+            $maxlen = 75 - 7 - strlen( $this->TextCodec->InputCharsetCode );
+
+            $encoding = 'B';
+            $encoded = base64_encode( $str );
+            $maxlen -= $maxlen % 4;
+            $encoded = trim( chunk_split( $encoded, $maxlen, "\n" ) );
+
+            $encoded = preg_replace( '/^(.*)$/m', " =?".$this->TextCodec->InputCharsetCode."?$encoding?\\1?=", $encoded );
+
+            $encoded = trim( str_replace( "\n", EZ_MAIL_LINE_SEPARATOR, $encoded ) );
+        }
+
+        return $encoded;
+    }
+
 
     /*!
      Converts the text \a $text to a suitable output format.
@@ -811,8 +859,7 @@ class eZMail
     */
     function convertText( $text, $isHeader = false )
     {
-        if ( $isHeader )
-            return $text;
+
         $charset = $this->contentCharset();
         if ( $this->isAllowedCharset( $charset ) )
             return $text;
