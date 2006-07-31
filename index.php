@@ -809,15 +809,14 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         {
             $debugEnabled = (
                 in_array( 'commandline', $debugIPList ) &&
-                (php_sapi_name() == 'cli')
+                ( php_sapi_name() == 'cli' )
             );
         }
     }
-    else if( $redirUri == "enabled" && $debugByIP == "disabled" )
+    if ( !$debugEnabled && $redirUri == 'disabled' )
     {
-        $debugEnabled = true;
+        $automatic_redir = true;
     }
-
 
     $redirectURI = eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
@@ -897,26 +896,18 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
                                             'text' => ezi18n( 'index.php', 'Some general warnings occured, see debug for more information.' ) ) );
             }
         }
+        include_once( "kernel/common/template.php" );
+        $tpl =& templateInit();
+        if ( count( $warningList ) == 0 )
+            $warningList = false;
+        $tpl->setVariable( 'site', $site );
+        $tpl->setVariable( 'warning_list', $warningList );
+        $tpl->setVariable( 'redirect_uri', $redirectURI );
+        $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
 
-        if( $debugEnabled )
-        {
-            include_once( "kernel/common/template.php" );
-            $tpl =& templateInit();
-            if ( count( $warningList ) == 0 )
-                $warningList = false;
-            $tpl->setVariable( 'site', $site );
-            $tpl->setVariable( 'warning_list', $warningList );
-            $tpl->setVariable( 'redirect_uri', $redirectURI );
-            $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
+        eZDebug::addTimingPoint( "End" );
 
-            eZDebug::addTimingPoint( "End" );
-
-            eZDisplayResult( $templateResult );
-        }
-        else
-        {
-            eZHTTPTool::redirect( $redirectURI );
-        }
+        eZDisplayResult( $templateResult );
     }
 
     eZExecution::cleanExit();
