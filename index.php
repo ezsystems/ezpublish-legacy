@@ -112,10 +112,10 @@ function eZUpdateDebugSettings()
     $ini =& eZINI::instance();
 
     $settings = array();
-    list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['log-only'], $settings['debug-ip-list'], $logList ) =
+    list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['log-only'], $settings['debug-by-user'], $settings['debug-ip-list'], $logList, $settings['debug-user-list'] ) =
         $ini->variableMulti( 'DebugSettings',
-                             array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugIPList', 'AlwaysLog' ),
-                             array( 'enabled', 'enabled', 'disabled' ) );
+                             array( 'DebugOutput', 'DebugByIP', 'DebugLogOnly', 'DebugByUser', 'DebugIPList', 'AlwaysLog', 'DebugUserIDList' ),
+                             array( 'enabled', 'enabled', 'disabled', 'enabled' ) );
     $logMap = array( 'notice' => EZ_LEVEL_NOTICE,
                      'warning' => EZ_LEVEL_WARNING,
                      'error' => EZ_LEVEL_ERROR,
@@ -367,6 +367,9 @@ $access = accessType( $uri,
 $access = changeAccess( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
 $GLOBALS['eZCurrentAccess'] =& $access;
+
+// Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
+eZDebug::checkDebugByUser();
 
 // Check for siteaccess extension
 eZExtension::activateExtensions( 'access' );

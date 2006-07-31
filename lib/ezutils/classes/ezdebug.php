@@ -1002,6 +1002,8 @@ class eZDebug
      - debug-enabled - boolean which controls debug handling
      - debug-by-ip   - boolean which controls IP controlled debugging
      - debug-ip-list - array of IPs which gets debug
+     - debug-by-user - boolean which controls userID controlled debugging
+     - debug-user-list - array of UserIDs which gets debug
     */
     function updateSettings( $settings )
     {
@@ -1032,6 +1034,7 @@ class eZDebug
             $GLOBALS['eZDebugLogOnly'] = ( $settings['log-only'] == 'enabled' );
         }
 
+        $notDebugByIP = true;
         $debugEnabled = $settings['debug-enabled'];
         if ( $settings['debug-enabled'] and
              $settings['debug-by-ip'] )
@@ -1040,38 +1043,79 @@ class eZDebug
             if ( $ipAddress )
             {
                 $debugEnabled = false;
-            	foreach( $settings['debug-ip-list'] as $itemToMatch )
-            	{
-                	if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
-                	{
-                    	if ( $matches[6] )
-                    	{
-                        	if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
-                        	{
-                            	$debugEnabled=true;
-                            	break;
-                        	}
-                    	}
-                    	else
-                    	{
-                        	if ( $matches[1] == $ipAddress )
-                        	{
-                            	$debugEnabled=true;
-                            	break;
-                        	}
-                    	}
-                	}
-            	}
+                foreach( $settings['debug-ip-list'] as $itemToMatch )
+                {
+                    if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                    {
+                        if ( $matches[6] )
+                        {
+                            if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
+                            {
+                                $debugEnabled = true;
+                                $notDebugByIP = false;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if ( $matches[1] == $ipAddress )
+                            {
+                                $debugEnabled = true;
+                                $notDebugByIP = false;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             else
             {
                 $debugEnabled = (
                     in_array( 'commandline', $settings['debug-ip-list'] ) &&
-                    (php_sapi_name() == 'cli')
+                    ( php_sapi_name() == 'cli' )
                 );
             }
         }
+        if ( $settings['debug-enabled'] and
+             $settings['debug-by-user'] and
+             $notDebugByIP )
+        {
+            $debugUserIDList = $settings['debug-user-list'] ? $settings['debug-user-list'] : array();
+            $GLOBALS['eZDebugUserIDList'] = $debugUserIDList;
+            // We enable the debug temporarily.
+            // In checkDebugByUser() will be last(final) check for debug by user id.
+            $debugEnabled = true;
+        }
+
         eZDebug::setHandleType( $oldHandleType );
+    }
+
+    /*!
+      \static
+      Final checking for debug by user id.
+      Checks if we should enable debug.
+    */
+    function checkDebugByUser()
+    {
+        $debugUserIDList = isset( $GLOBALS['eZDebugUserIDList'] ) ? $GLOBALS['eZDebugUserIDList'] : false;
+
+        if ( $debugUserIDList === false )
+            return false;
+
+        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
+        if ( count( $debugUserIDList ) == 0 )
+        {
+            // We should set previous value.
+            $debugEnabled = false;
+            return false;
+        }
+
+        if ( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
+            $currentUserID = eZUser::currentUserID();
+
+        $debugEnabled = $currentUserID ? in_array( $currentUserID, $debugUserIDList ) : $debugEnabled;
+
+        unset( $GLOBALS['eZDebugUserIDList'] );
     }
 
     /*!

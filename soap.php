@@ -49,8 +49,8 @@ function eZUpdateDebugSettings()
 {
     $ini =& eZINI::instance();
 
-    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-ip-list'] ) =
-        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugIPList' ), array ( 'enabled', 'enabled' ) );
+    list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-by-user'], $debugSettings['debug-ip-list'], $debugSettings['debug-user-list'] ) =
+        $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugByUser', 'DebugIPList', 'DebugUserIDList' ), array ( 'enabled', 'enabled', 'enabled' ) );
     eZDebug::updateSettings( $debugSettings );
 }
 
@@ -78,6 +78,9 @@ $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
 $access = changeAccess( $access );
 $GLOBALS['eZCurrentAccess'] =& $access;
 // Siteaccess activation end
+
+// Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
+eZDebug::checkDebugByUser();
 
 /*!
  Reads settings from i18n.ini and passes them to eZTextCodec.
