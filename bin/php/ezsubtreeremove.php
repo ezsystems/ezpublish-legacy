@@ -76,21 +76,79 @@ if ( !$user )
 }
 eZUser::setCurrentlyLoggedInUser( $user, $userCreatorID );
 
-$cli->output( "Removing subtrees:" );
-
+$deleteIDArrayResult = array();
 foreach ( $deleteIDArray as $nodeID )
 {
     $node = eZContentObjectTreeNode::fetch( $nodeID );
     if ( $node === null )
     {
-        $cli->error( "\nSubtree remove Error!\nCannot find subtree with nodeID = '$nodeID'." );
+        $cli->error( "\nSubtree remove Error!\nCannot find subtree with nodeID: '$nodeID'." );
         continue;
     }
-    $cli->output( "\n-with nodeID = '$nodeID'" );
-    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash );
-    $cli->output( "Done." );
+    $deleteIDArrayResult[] = $nodeID;
+}
+// Get subtree removal information
+$info = eZContentObjectTreeNode::subtreeRemovalInformation( $deleteIDArrayResult );
+
+$deleteResult = $info['delete_list'];
+
+if ( count( $deleteResult ) == 0 )
+{
+    $cli->output( "\nExit." );
+    $script->shutdown( 1 );
 }
 
+$totalChildCount = $info['total_child_count'];
+$canRemoveAll = $info['can_remove_all'];
+$moveToTrashStr = $moveToTrash ? 'true' : 'false';
+$reverseRelatedCount = $info['reverse_related_count'];
+
+$cli->output( "\nTotal child count: $totalChildCount" );
+$cli->output( "Move to trash: $moveToTrashStr" );
+$cli->output( "Reverse related count: $reverseRelatedCount\n" );
+
+$cli->output( "Removing subtrees:\n" );
+
+foreach ( $deleteResult as $deleteItem )
+{
+    $node = $deleteItem['node'];
+    $nodeName = $deleteItem['node_name'];
+    if ( $node === null )
+    {
+        $cli->error( "\nSubtree remove Error!\nCannot find subtree '$nodeName'." );
+        continue;
+    }
+    $nodeID = $node->attribute( 'node_id' );
+    $childCount = $deleteItem['child_count'];
+    $objectNodeCount = $deleteItem['object_node_count'];
+
+    $cli->output( "Node id: $nodeID" );
+    $cli->output( "Node name: $nodeName" );
+
+    $canRemove = $deleteItem['can_remove'];
+    if ( !$canRemove )
+    {
+        $cli->error( "\nSubtree remove Error!\nInsufficient permissions. You do not have permissions to remove the subtree with nodeID: $nodeID\n" );
+        continue;
+    }
+    $cli->output( "Child count: $childCount" );
+    $cli->output( "Object node count: $objectNodeCount" );
+
+    // Remove subtrees
+    eZContentObjectTreeNode::removeSubtrees( array( $nodeID ), $moveToTrash );
+
+    // We should make sure that all subitems have been removed.
+    $itemInfo = eZContentObjectTreeNode::subtreeRemovalInformation( array( $nodeID ) );
+    $itemTotalChildCount = $itemInfo['total_child_count'];
+    $itemDeleteList = $itemInfo['delete_list'];
+
+    if ( count( $itemDeleteList ) != 0 or ( $childCount != 0 and $itemTotalChildCount != 0 ) )
+        $cli->error( "\nWARNING!\nSome subitems have not been removed.\n" );
+    else
+        $cli->output( "Successfuly DONE.\n" );
+}
+
+$cli->output( "Done." );
 $script->shutdown();
 
 ?>
