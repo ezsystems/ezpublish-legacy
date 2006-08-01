@@ -553,7 +553,7 @@ class eZMimeType
         array( 'xslt', 'application/xslt+xml' ),
         array( 'rdf', 'application/rdf+xml' ),
         array( 'mml', 'application/mathml+xml' ),
-        
+
         array( 'wbmp', 'image/vnd.wap.wbmp' ),
         array( 'ras', 'image/x-cmu-raster' ),
         array( 'pnm', 'image/x-portable-anymap' ),
@@ -609,6 +609,7 @@ class eZMimeType
         array( 'swf', 'image/vnd.rn-realflash' ),
         array( 'rf', 'application/x-shockwave-flash2-preview' ),
         array( 'swf', 'application/x-shockwave-flash2-preview' ),
+        array( 'flv', 'video/x-flv' ),
         array( 'sdp', 'application/sdp' ),
         array( 'sdp', 'application/x-sdp' ),
         array( 'rm', 'application/vnd.rn-realmedia' ),
