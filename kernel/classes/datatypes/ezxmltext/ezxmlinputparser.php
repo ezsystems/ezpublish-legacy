@@ -549,7 +549,7 @@ class eZXMLInputParser
                 {
                     $this->isInputValid = false;
                     if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $newTagName ) );
+                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $element->nodeName ) );
                     continue;
                 }
             }
@@ -727,7 +727,7 @@ class eZXMLInputParser
         $tmp = null;
 
         //eZDOMNode::writeDebugStr( $element, '$element' );
-        eZDOMNode::writeDebugStr( $this->Document->Root, 'root' );
+        //eZDOMNode::writeDebugStr( $this->Document->Root, 'root' );
 
         // Call "Init handler"
         $this->callOutputHandler( 'initHandler', $element, $tmp );
