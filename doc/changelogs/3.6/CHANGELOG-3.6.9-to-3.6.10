@@ -15,4 +15,5 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.3) rev. 16499)
 - Fixed bug #8707: Missing i18n (poll view full).
   (Merged from trunk (3.9.0alpha1) rev. 16523)
-  
+- Fixed bug #8109: Missing MIMEType (flv/flash video).
+  (Merged from trunk (3.9.0alpha1) rev. 16570)
