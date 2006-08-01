@@ -599,6 +599,7 @@ class eZMimeType
         array( 'swf', 'image/vnd.rn-realflash' ),
         array( 'rf', 'application/x-shockwave-flash2-preview' ),
         array( 'swf', 'application/x-shockwave-flash2-preview' ),
+        array( 'flv', 'video/x-flv' ),
         array( 'sdp', 'application/sdp' ),
         array( 'sdp', 'application/x-sdp' ),
         array( 'rm', 'application/vnd.rn-realmedia' ),
