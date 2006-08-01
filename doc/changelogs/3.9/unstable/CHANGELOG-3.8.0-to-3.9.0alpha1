@@ -254,3 +254,4 @@ eZTemplate:
 - Fixed bug #8708: Another problem with strong and emphasize ezxmltags.
   (Merged from 3.8.3)
 - Fixed bug #8698: Automatic VAT calculation broken with ezdefaultshopaccounthandler.
+- Fixed bug #8109: Missing MIMEType (flv/flash video).
