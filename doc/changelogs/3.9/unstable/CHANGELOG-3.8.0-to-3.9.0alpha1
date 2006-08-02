@@ -255,3 +255,5 @@ eZTemplate:
   (Merged from 3.8.3)
 - Fixed bug #8698: Automatic VAT calculation broken with ezdefaultshopaccounthandler.
 - Fixed bug #8109: Missing MIMEType (flv/flash video).
+- Fixed bug #8741: ezurl can cause fatal error in compiled state.
+  (Merged from stable/3.8 (3.8.4) rev. 16574)
