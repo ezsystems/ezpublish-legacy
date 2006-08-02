@@ -226,7 +226,7 @@ class eZURLOperator
                 $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
                 $code = <<<CODEPIECE
 
-include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'lib/ezutils/classes/ezuri.php' );
 eZURI::transformURI( %1%, false, %2% );
 
 CODEPIECE;
@@ -267,7 +267,7 @@ CODEPIECE;
                     $values[] = $parameters[0];
                 }
                 $values[] = isset( $parameters[2] ) ? $parameters[2] : array( eZTemplateNodeTool::createStringElement( 'relative' ) );
-                $code .= 'include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
+                $code .= 'include_once( \'lib/ezutils/classes/ezuri.php\' );' . "\n" .
                          'eZURI::transformURI( %1%, true, %2% );' . "\n";
 
                 ++$paramCount;
