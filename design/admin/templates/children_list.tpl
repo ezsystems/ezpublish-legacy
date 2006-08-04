@@ -46,7 +46,7 @@
 		{/if}
 	{/if}		
         <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled} {$userLocked}</td>
-    {undef $userEnabled $nodeContent}
+    {undef $userEnabled $nodeContent $userLocked}
 
         {* Class type *}
         <td class="class">{$Nodes.item.class_name|wash()}</td>
