@@ -1240,6 +1240,11 @@ WHERE user_id = '" . $userID . "' AND
         if ( !$userObject )
             return true;
 
+        $isEnabled = $userObject->isEnabled();
+        // If current user is disabled we should not continue
+        if ( !$isEnabled and !$setByForce )
+            return true;
+
         $db =& eZDB::instance();
         $db->begin();
 
