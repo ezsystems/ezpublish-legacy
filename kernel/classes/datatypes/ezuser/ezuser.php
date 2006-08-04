@@ -1307,7 +1307,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         $userID = $this->attribute( 'contentobject_id' );
         $retValue = eZUser::isEnabledAfterFailedLogin( $userID, true );
-        return $retValue;
+        return !$retValue;
     }
 
     /*!

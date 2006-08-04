@@ -19,6 +19,12 @@
 <input type="text" name="max_login" size="11" value="{$userSetting.max_login}" title="{'This functionality is not currently not available. [Use this field to specify the maximum allowed number of concurrent logins.]'|i18n( 'design/admin/user/setting' )}" disabled="disabled" />
 </div>
 
+{if gt( $failed_login_attempts, $max_failed_login_attempts )}
+<div class="block">
+<label>{'Account has been locked after %max_failed_login failed login attempts!'|i18n( 'design/admin/user/setting',,hash( '%max_failed_login', $max_failed_login_attempts) )}</label>
+</div>
+{/if}
+
 <div class="block">
 <label>{'Maximum number of failed login attempts'|i18n( 'design/admin/user/setting' )}: {$max_failed_login_attempts}</label>
 <label>{'Number of failed login attempts for this user'|i18n( 'design/admin/user/setting' )}: {$failed_login_attempts}

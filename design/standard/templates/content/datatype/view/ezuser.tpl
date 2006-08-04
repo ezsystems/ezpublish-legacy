@@ -23,6 +23,10 @@
     {section-else}
 	<span class="userstatus-disabled"> {'disabled'|i18n( 'design/standard/content/datatype' )}</span>
     {/section}
+
+    {section show=$attribute.content.is_locked}
+	(<span class="userstatus-disabled">{'locked'|i18n( 'design/standard/content/datatype' )}</span>)
+    {/section}
 </div>
 
 <div class="break"></div>

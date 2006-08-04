@@ -35,14 +35,17 @@
         </td>
 
         {* Name *}
-	{def $userEnabled=''}
+	{def $userEnabled='' $userLocked=''}
 	{def $nodeContent=fetch( 'content', 'object', hash( 'object_id', $Nodes.item.contentobject_id ) )}
 	{if $nodeContent.class_identifier|eq('user')}
 		{if not($nodeContent.data_map['user_account'].content.is_enabled)}
 		   {set $userEnabled=concat( '<span class="userstatus-disabled">', '(disabled)'|i18n("design/admin/node/view/full") ,'</span>')}
 		{/if}
+		{if $nodeContent.data_map['user_account'].content.is_locked}
+		   {set $userLocked=concat( '<span class="userstatus-disabled">', '(locked)'|i18n("design/admin/node/view/full") ,'</span>')}
+		{/if}
 	{/if}		
-        <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled}</td>
+        <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled} {$userLocked}</td>
     {undef $userEnabled $nodeContent}
 
         {* Class type *}
