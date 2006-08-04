@@ -105,6 +105,7 @@ class eZUser extends eZPersistentObject
                                                       'limited_assignment_value_list' => 'limitValueList',
                                                       'is_logged_in' => 'isLoggedIn',
                                                       'is_enabled' => 'isEnabled',
+                                                      'is_locked' => 'isLocked',
                                                       'last_visit' => 'lastVisit',
                                                       'has_manage_locations' => 'hasManageLocations' ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
@@ -869,7 +870,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         $ini =& eZINI::instance();
 
-        $maxNumberOfFailedLogin = $ini->hasVariable( 'UserSettings', 'MaxNumberOfFaliedLogin' ) ? $ini->variable( 'UserSettings', 'MaxNumberOfFaliedLogin' ) : '0';
+        $maxNumberOfFailedLogin = $ini->hasVariable( 'UserSettings', 'MaxNumberOfFailedLogin' ) ? $ini->variable( 'UserSettings', 'MaxNumberOfFailedLogin' ) : '0';
         return $maxNumberOfFailedLogin;
     }
 
@@ -880,7 +881,7 @@ WHERE user_id = '" . $userID . "' AND
      and user is not trusted
      the user will not be allowed to login.
     */
-    function isEnabledAfterFailedLogin( $userID )
+    function isEnabledAfterFailedLogin( $userID, $ignoreTrusted = false )
     {
         if ( !is_numeric( $userID ) )
             return true;
@@ -891,7 +892,7 @@ WHERE user_id = '" . $userID . "' AND
 
         $trustedUser = eZUser::isTrusted();
         // If user is trusted we should stop processing
-        if ( $trustedUser )
+        if ( $trustedUser and !$ignoreTrusted )
             return true;
 
         $maxNumberOfFailedLogin = eZUser::maxNumberOfFailedLogin();
@@ -1280,7 +1281,7 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $userID === false )
         {
-            $contentObjectID = $this->ContentObjectID;
+            $contentObjectID = $this->attribute( 'contentobject_id' );
         }
         else
         {
@@ -1297,6 +1298,16 @@ WHERE user_id = '" . $userID . "' AND
             $retValue = 0;
             return $retValue;
         }
+    }
+
+    /*!
+     \return \c true if the user is locked (is enabled after failed login) and can be logged on the site.
+    */
+    function &isLocked()
+    {
+        $userID = $this->attribute( 'contentobject_id' );
+        $retValue = eZUser::isEnabledAfterFailedLogin( $userID, true );
+        return $retValue;
     }
 
     /*!
