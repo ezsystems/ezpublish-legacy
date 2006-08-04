@@ -34,6 +34,16 @@ Clustering:
   site.ini[DebugSettings].DebugUserIDList
   Whether debug is set per UserID. If set to enabled only users with
   IDs (in DebugUserIDList) can get debug.
+- Added site.ini[UserSettings].MaxNumberOfFaliedLogin:
+  The possibility to deny login after MaxNumberOfFailedLogin failed login attempts. 
+  Max number of failed login attempts. 
+  If the max number is '0' the possibility will be disabled.
+- Added site.ini[UserSettings].TrustedIPList:
+  An array with IP addresses or networks which will be always 
+  allowed to login after a few failed login attempts.
+- Added site.ini[UserSettings].ShowMessageIfExceeded:
+  If true and failed login attempts of current user execeed MaxNumberOfFaliedLogin 
+  the user will get a message
 
 *Design:
 - Fixed suggestion #8262: No need displaying language 
