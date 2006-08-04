@@ -88,6 +88,8 @@ if ( $http->hasPostVariable( "ResetFailedLoginButton" ) )
 }
 
 $failedLoginAttempts = eZUser::failedLoginAttempts( $UserID );
+$maxFailedLoginAttempts = eZUser::maxNumberOfFailedLogin();
+
 $Module->setTitle( "Edit user settings" );
 // Template handling
 include_once( "kernel/common/template.php" );
@@ -98,6 +100,7 @@ $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "user", $user );
 $tpl->setVariable( "userSetting", $userSetting );
 $tpl->setVariable( "failed_login_attempts", $failedLoginAttempts );
+$tpl->setVariable( "max_failed_login_attempts", $maxFailedLoginAttempts );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/setting.tpl" );

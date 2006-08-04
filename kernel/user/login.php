@@ -317,7 +317,7 @@ if( $http->hasPostVariable( "RegisterButton" ) )
 
 $userIsNotAllowedToLogin = false;
 $failedLoginAttempts = false;
-$maxNumOfFailedLogin = eZUser::maxNumberOfFailedLogin();
+$maxNumOfFailedLogin = !eZUser::isTrusted() ? eZUser::maxNumberOfFailedLogin() : false;
 
 // Should we show message about failed login attempt and max number of failed login
 if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
