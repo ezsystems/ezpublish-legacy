@@ -81,6 +81,13 @@ if ( $http->hasPostVariable( "CancelSettingButton" ) )
     return;
 }
 
+if ( $http->hasPostVariable( "ResetFailedLoginButton" ) )
+{
+    // Reset number of failed login attempts
+    eZUser::setFailedLoginAttempts( $UserID, 0, true );
+}
+
+$failedLoginAttempts = eZUser::failedLoginAttempts( $UserID );
 $Module->setTitle( "Edit user settings" );
 // Template handling
 include_once( "kernel/common/template.php" );
@@ -90,6 +97,7 @@ $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "user", $user );
 $tpl->setVariable( "userSetting", $userSetting );
+$tpl->setVariable( "failed_login_attempts", $failedLoginAttempts );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/setting.tpl" );

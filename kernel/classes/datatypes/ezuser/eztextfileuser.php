@@ -136,8 +136,14 @@ class eZTextFileUser extends eZUser
                 eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
                                                                                $hashType ), "check hash" );
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+                 // If current user has been disabled after a few failed login attempts.
+                $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
+
                 if ( $exists )
                 {
+                    // We should store userID for warning message.
+                    $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
+
                     $userSetting = eZUserSetting::fetch( $userID );
                     $isEnabled = $userSetting->attribute( "is_enabled" );
                     if ( $hashType != eZUser::hashType() and
@@ -152,7 +158,7 @@ class eZTextFileUser extends eZUser
                 }
             }
         }
-        if ( $exists and $isEnabled )
+        if ( $exists and $isEnabled and $canLogin )
         {
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
             $user = new eZUser( $userRow );
@@ -161,6 +167,9 @@ class eZTextFileUser extends eZUser
 
             eZUser::updateLastVisit( $userID );
             eZUser::setCurrentlyLoggedInUser( $user, $userID );
+
+            // Reset number of failed login attempts
+            eZUser::setFailedLoginAttempts( $userID, 0 );
 
             return $user;
         }
@@ -220,6 +229,10 @@ class eZTextFileUser extends eZUser
                 $handle = fopen ( $fileName, "r");
             else
             {
+                // Increase number of failed login attempts.
+                if ( isset( $userID ) )
+                    eZUser::setFailedLoginAttempts( $userID );
+
                 $user = false;
                 return $user;
             }
@@ -291,6 +304,9 @@ class eZTextFileUser extends eZUser
                             eZUser::updateLastVisit( $userID );
                             eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
+                            // Reset number of failed login attempts
+                            eZUser::setFailedLoginAttempts( $userID, 0 );
+
                             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                                          'version' => 1 ) );
@@ -334,11 +350,18 @@ class eZTextFileUser extends eZUser
                             eZUser::updateLastVisit( $userID );
                             eZUser::setCurrentlyLoggedInUser( $existUser, $userID );
 
+                            // Reset number of failed login attempts
+                            eZUser::setFailedLoginAttempts( $userID, 0 );
+
                             return $existUser;
                         }
                     }
                     else
                     {
+                        // Increase number of failed login attempts.
+                        if ( isset( $userID ) )
+                            eZUser::setFailedLoginAttempts( $userID );
+
                         $user = false;
                         return $user;
                     }
@@ -346,6 +369,10 @@ class eZTextFileUser extends eZUser
             }
             fclose( $handle );
         }
+        // Increase number of failed login attempts.
+        if ( isset( $userID ) )
+            eZUser::setFailedLoginAttempts( $userID );
+
         $user = false;
         return $user;
     }

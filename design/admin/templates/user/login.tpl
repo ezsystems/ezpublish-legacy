@@ -3,9 +3,14 @@
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The system could not log you in.'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
-    <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
-    <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
-    <li>{'Please try again or contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
+    {if and( is_set( $User:user_is_not_allowed_to_login ), eq( $User:user_is_not_allowed_to_login, true() ) )}
+         <li>{'"%user_login" is not allowed to login because count of failed login attempts for this user exceeded max number of failed login attempts!'|i18n( 'design/admin/user/login',, hash( '%user_login', $User:login ) )}</li>
+         <li>{'Please contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
+    {else}
+         <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
+         <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
+         <li>{'Please try again or contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
+    {/if}
 </ul>
 </div>
 {section-else}
@@ -40,6 +45,9 @@
 <div class="block">
     <p>{'Please enter a valid username/password combination and click "Log in".'|i18n( 'design/admin/user/login' )}</p>
     <p>{'Use the "Register" button to create a new account.'|i18n( 'design/admin/user/login' )}</p>
+    {if and( is_set( $User:max_num_of_failed_login ), ne( $User:max_num_of_failed_login, false() ) )}
+        {'The user will not be allowed to login after <b>%max_number_failed</b> failed login attempts.'|i18n( 'design/admin/user/login',, hash( '%max_number_failed', $User:max_num_of_failed_login ) )}
+    {/if}
 </div>
 
 <div class="block">

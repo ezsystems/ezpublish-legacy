@@ -20,6 +20,12 @@
 </div>
 
 <div class="block">
+<label>{'Number of failed login attempts'|i18n( 'design/admin/user/setting' )}:</label>
+<input type="text" name="failed_login_attempts" size="11" value="{$failed_login_attempts}" title="{'Number of failed login attempts'|i18n( 'design/admin/user/setting' )}" disabled="disabled" />
+<input class="button" type="submit" name="ResetFailedLoginButton" value="{'Reset'|i18n( 'design/admin/user/setting' )}" />
+</div>
+
+<div class="block">
 <label class="check">{'Enable user account'|i18n( 'design/admin/user/setting' )}:</label>
 <input type="checkbox" name="is_enabled" {section show=$userSetting.is_enabled}checked="checked"{/section} title="{'Use this checkbox to enable or disable the user account.'|i18n( 'design/admin/user/setting' )}" />
 </div>

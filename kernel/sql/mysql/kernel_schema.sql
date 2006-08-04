@@ -1359,6 +1359,7 @@ CREATE TABLE ezuservisit (
   current_visit_timestamp int(11) NOT NULL default '0',
   last_visit_timestamp int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
+  failed_login_attempts int(11) NOT NULL default '0',  
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 

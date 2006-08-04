@@ -314,6 +314,25 @@ if( $http->hasPostVariable( "RegisterButton" ) )
 {
     $Module->redirectToView( 'register' );
 }
+
+$userIsNotAllowedToLogin = false;
+$failedLoginAttempts = false;
+$maxNumOfFailedLogin = eZUser::maxNumberOfFailedLogin();
+
+// Should we show message about failed login attempt and max number of failed login
+if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
+{
+    $ini =& eZINI::instance();
+    $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
+
+    $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];
+    $failedLoginAttempts = eZUser::failedLoginAttempts( $failedUserID );
+
+    $canLogin = eZUser::isEnabledAfterFailedLogin( $failedUserID );
+    if ( $showMessageIfExceeded and !$canLogin )
+        $userIsNotAllowedToLogin = true;
+}
+
 $tpl =& templateInit();
 
 $tpl->setVariable( 'login', $userLogin, 'User' );
@@ -324,6 +343,10 @@ $tpl->setVariable( 'warning', array( 'bad_login' => $loginWarning ), 'User' );
 
 $tpl->setVariable( 'site_access', array( 'allowed' => $siteAccessAllowed,
                                          'name' => $siteAccessName ) );
+$tpl->setVariable( 'user_is_not_allowed_to_login', $userIsNotAllowedToLogin, 'User' );
+$tpl->setVariable( 'failed_login_attempts', $failedLoginAttempts, 'User' );
+$tpl->setVariable( 'max_num_of_failed_login', $maxNumOfFailedLogin, 'User' );
+
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );

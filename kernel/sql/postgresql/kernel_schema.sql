@@ -2386,7 +2386,8 @@ CREATE TABLE ezuser_setting (
 CREATE TABLE ezuservisit (
     current_visit_timestamp integer DEFAULT 0 NOT NULL,
     last_visit_timestamp integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    failed_login_attempts integer DEFAULT 0 NOT NULL    
 );
 
 

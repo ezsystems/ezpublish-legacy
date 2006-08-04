@@ -9,3 +9,7 @@ CREATE INDEX ezurlalias_is_wildcard ON ezurlalias USING btree ( is_wildcard );
 CREATE INDEX eznode_assignment_coid_cov ON eznode_assignment USING btree ( contentobject_id,contentobject_version );
 CREATE INDEX eznode_assignment_is_main ON eznode_assignment USING btree ( is_main );
 CREATE INDEX eznode_assignment_parent_node ON eznode_assignment USING btree ( parent_node );
+
+ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int;
+ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET DEFAULT 0;
+ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET NOT NULL;

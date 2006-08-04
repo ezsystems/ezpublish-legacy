@@ -9,3 +9,5 @@ CREATE INDEX ezurlalias_is_wildcard ON ezurlalias( is_wildcard );
 CREATE INDEX eznode_assignment_coid_cov ON eznode_assignment( contentobject_id,contentobject_version );
 CREATE INDEX eznode_assignment_is_main ON eznode_assignment( is_main );
 CREATE INDEX eznode_assignment_parent_node ON eznode_assignment( parent_node );
+
+ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int NOT NULL DEFAULT 0;

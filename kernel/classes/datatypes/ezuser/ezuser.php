@@ -749,8 +749,14 @@ WHERE user_id = '" . $userID . "' AND
                 eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
                                                                                $hashType ), "check hash" );
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+                 // If current user has been disabled after a few failed login attempts.
+                $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
+
                 if ( $exists )
                 {
+                    // We should store userID for warning message.
+                    $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
+
                     include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
                     $userSetting = eZUserSetting::fetch( $userID );
                     $isEnabled = $userSetting->attribute( "is_enabled" );
@@ -766,7 +772,7 @@ WHERE user_id = '" . $userID . "' AND
                 }
             }
         }
-        if ( $exists and $isEnabled )
+        if ( $exists and $isEnabled and $canLogin )
         {
             $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
@@ -776,13 +782,128 @@ WHERE user_id = '" . $userID . "' AND
 
             eZUser::updateLastVisit( $userID );
             eZUser::setCurrentlyLoggedInUser( $user, $userID );
+
+            // Reset number of failed login attempts
+            eZUser::setFailedLoginAttempts( $userID, 0 );
+
             return $user;
         }
         else
         {
+            // Increase number of failed login attempts.
+            if ( isset( $userID ) )
+                eZUser::setFailedLoginAttempts( $userID );
+
             $user = false;
             return $user;
         }
+    }
+
+    /*!
+     \static
+     Checks if IP address of current user is in \a $ipList.
+    */
+    function isUserIPInList( $ipList )
+    {
+        $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+        if ( $ipAddress )
+        {
+            $result = false;
+            foreach( $ipList as $itemToMatch )
+            {
+                if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                {
+                    if ( $matches[6] )
+                    {
+                        if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7] ) )
+                        {
+                            $result = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if ( $matches[1] == $ipAddress )
+                        {
+                            $result = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            $result = (
+                in_array( 'commandline', $ipList ) &&
+                ( php_sapi_name() == 'cli' )
+            );
+        }
+        return $result;
+    }
+
+    /*!
+     \static
+      Returns true if current user is trusted user.
+    */
+    function isTrusted()
+    {
+        $ini =& eZINI::instance();
+
+        // Check if current user is trusted user.
+        $trustedIPs = $ini->hasVariable( 'UserSettings', 'TrustedIPList' ) ? $ini->variable( 'UserSettings', 'TrustedIPList' ) : array();
+
+        // Check if IP address of current user is in $trustedIPs array.
+        $trustedUser = eZUser::isUserIPInList( $trustedIPs );
+        if ( $trustedUser )
+            return true;
+
+        return false;
+    }
+
+    /*!
+     \static
+     Returns max number of failed login attempts.
+    */
+    function maxNumberOfFailedLogin()
+    {
+        $ini =& eZINI::instance();
+
+        $maxNumberOfFailedLogin = $ini->hasVariable( 'UserSettings', 'MaxNumberOfFaliedLogin' ) ? $ini->variable( 'UserSettings', 'MaxNumberOfFaliedLogin' ) : '0';
+        return $maxNumberOfFailedLogin;
+    }
+
+    /*
+     \static
+     Returns true if the user can login
+     If user has number of failed login attempts more than eZUser::maxNumberOfFailedLogin()
+     and user is not trusted
+     the user will not be allowed to login.
+    */
+    function isEnabledAfterFailedLogin( $userID )
+    {
+        if ( !is_numeric( $userID ) )
+            return true;
+
+        $userObject =& eZUser::fetch( $userID );
+        if ( !$userObject )
+            return true;
+
+        $trustedUser = eZUser::isTrusted();
+        // If user is trusted we should stop processing
+        if ( $trustedUser )
+            return true;
+
+        $maxNumberOfFailedLogin = eZUser::maxNumberOfFailedLogin();
+
+        if ( $maxNumberOfFailedLogin == '0' )
+            return true;
+
+        $failedLoginAttempts = $userObject->failedLoginAttempts();
+        if ( $failedLoginAttempts > $maxNumberOfFailedLogin )
+            return false;
+
+        return true;
     }
 
     /*!
@@ -1092,6 +1213,88 @@ WHERE user_id = '" . $userID . "' AND
         else
         {
             $retValue = time();
+            return $retValue;
+        }
+    }
+
+    /*!
+       If \a $value is false will increase the user's number of failed login attempts
+       otherwise failed_login_attempts will be updated by $value.
+       \a $setByForce if true checking for trusting or max number of failed login attempts will be ignored.
+    */
+    function setFailedLoginAttempts( $userID, $value = false, $setByForce = false )
+    {
+        $trustedUser = eZUser::isTrusted();
+        // If user is trusted we should stop processing
+        if ( $trustedUser and !$setByForce )
+            return true;
+
+        $maxNumberOfFailedLogin = eZUser::maxNumberOfFailedLogin();
+
+        if ( $maxNumberOfFailedLogin == '0' and !$setByForce )
+            return true;
+
+        $userID = (int) $userID;
+        $userObject =& eZUser::fetch( $userID );
+        if ( !$userObject )
+            return true;
+
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $userVisitArray = $db->arrayQuery( "SELECT 1 FROM ezuservisit WHERE user_id=$userID" );
+        $time = time();
+
+        if ( count( $userVisitArray ) == 1 )
+        {
+            if ( $value === false )
+            {
+                $failedLoginAttempts = $userObject->failedLoginAttempts();
+                $failedLoginAttempts += 1;
+            }
+            else
+                $failedLoginAttempts = (int) $value;
+
+            $db->query( "UPDATE ezuservisit SET failed_login_attempts=$failedLoginAttempts WHERE user_id=$userID" );
+        }
+        else
+        {
+            if ( $value === false )
+            {
+                $failedLoginAttempts = 1;
+            }
+            else
+                $failedLoginAttempts = (int) $value;
+
+            $db->query( "INSERT INTO ezuservisit ( failed_login_attempts, user_id ) VALUES ( $failedLoginAttempts, $userID )" );
+        }
+        $db->commit();
+    }
+
+    /*!
+      Returns the current user's number of failed login attempts.
+    */
+    function failedLoginAttempts( $userID = false )
+    {
+        $db =& eZDB::instance();
+
+        if ( $userID === false )
+        {
+            $contentObjectID = $this->ContentObjectID;
+        }
+        else
+        {
+            $contentObjectID = (int) $userID;
+        }
+
+        $userVisitArray = $db->arrayQuery( "SELECT failed_login_attempts FROM ezuservisit WHERE user_id=$contentObjectID" );
+        if ( count( $userVisitArray ) == 1 )
+        {
+            return $userVisitArray[0]['failed_login_attempts'];
+        }
+        else
+        {
+            $retValue = 0;
             return $retValue;
         }
     }
