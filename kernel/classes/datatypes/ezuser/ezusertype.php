@@ -141,10 +141,12 @@ class eZUserType extends eZDataType
                                                                              'eZUserType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
-                    if ( strlen( $password ) < 3 )
+                    $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
+
+                    if ( strlen( $password ) < $minPasswordLength )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The password must be at least 3 characters long.' ) );
+                                                                             'The password must be at least %1 characters long.',null, array( $minPasswordLength ) ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                     if ( strtolower( $password ) == 'password' )

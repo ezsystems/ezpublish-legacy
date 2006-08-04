@@ -44,7 +44,9 @@ Clustering:
 - Added site.ini[UserSettings].ShowMessageIfExceeded:
   If true and failed login attempts of current user execeed MaxNumberOfFaliedLogin 
   the user will get a message
-
+- Implemented enhancement #7556: Need a way to set minimum password length.
+  Added site.ini[UserSettings].MinPasswordLength.
+  
 *Design:
 - Fixed suggestion #8262: No need displaying language 
   when only one is installed.
