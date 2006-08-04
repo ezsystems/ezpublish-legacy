@@ -1306,8 +1306,9 @@ WHERE user_id = '" . $userID . "' AND
     function &isLocked()
     {
         $userID = $this->attribute( 'contentobject_id' );
-        $retValue = eZUser::isEnabledAfterFailedLogin( $userID, true );
-        return !$retValue;
+        $isNotLocked = eZUser::isEnabledAfterFailedLogin( $userID, true );
+        $retValue = !$isNotLocked ? true : false;
+        return $retValue;
     }
 
     /*!
