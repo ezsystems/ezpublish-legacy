@@ -885,7 +885,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( !is_numeric( $userID ) )
             return true;
 
-        $userObject =& eZUser::fetch( $userID );
+        $userObject = eZUser::fetch( $userID );
         if ( !$userObject )
             return true;
 
@@ -1235,7 +1235,7 @@ WHERE user_id = '" . $userID . "' AND
             return true;
 
         $userID = (int) $userID;
-        $userObject =& eZUser::fetch( $userID );
+        $userObject = eZUser::fetch( $userID );
         if ( !$userObject )
             return true;
 
