@@ -34,7 +34,7 @@ Clustering:
   site.ini[DebugSettings].DebugUserIDList
   Whether debug is set per UserID. If set to enabled only users with
   IDs (in DebugUserIDList) can get debug.
-- Added site.ini[UserSettings].MaxNumberOfFaliedLogin:
+- Added site.ini[UserSettings].MaxNumberOfFailedLogin:
   The possibility to deny login after MaxNumberOfFailedLogin failed login attempts. 
   Max number of failed login attempts. 
   If the max number is '0' the possibility will be disabled.
@@ -42,7 +42,7 @@ Clustering:
   An array with IP addresses or networks which will be always 
   allowed to login after a few failed login attempts.
 - Added site.ini[UserSettings].ShowMessageIfExceeded:
-  If true and failed login attempts of current user execeed MaxNumberOfFaliedLogin 
+  If true and failed login attempts of current user execeed MaxNumberOfFailedLogin 
   the user will get a message
 - Implemented enhancement #7556: Need a way to set minimum password length.
   Added site.ini[UserSettings].MinPasswordLength.

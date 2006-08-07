@@ -1,0 +1,39 @@
+*Title: Disabling accounts after a few failed login attempts
+
+*Original author: Valentyn Doroshchuk
+
+*Description:
+The system should automatically disable user accounts after a 
+fixed(configurable) number of failed login attempts.
+
+*Documentation:
+
+New INI settings in site.ini have been added:
+
+-[UserSettings].MaxNumberOfFailedLogin=0 (0 by default)
+Max number of failed login attempts. 
+If the max number is '0' the possibility will be disabled.
+
+-[UserSettings].TrustedIPList[]
+An array with IP addresses or networks which will be always 
+allowed to login after a few failed login attempts.
+
+-[UserSettings].ShowMessageIfExceeded=false
+If true and failed login attempts of current user execeed MaxNumberOfFailedLogin
+the user will get a message about this.
+
+If MaxNumberOfFailedLogin > 0 and user's number of failed login attempts execeed MaxNumberOfFailedLogin
+the user will not be allowed to login (the user account will be locked).
+
+If you want to unlock the user you should go to [admin_siteaccess]/user/setting/[userID] and push the 'reset' button. 
+
+If you want that an user account has always possibility to login after a few failed login attempts
+without locking (especially if you are admin)
+you should add IP address or network of this user to site.ini[UserSettings].TrustedIPList[]
+
+for example:
+
+[UserSettings]
+TrustedIPList[]
+TrustedIPList[]=192.168.0.1
+TrustedIPList[]=192.0.0.0/27
