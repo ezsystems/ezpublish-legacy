@@ -1,0 +1,11 @@
+*Title: ezsubtreeremove.php script
+
+*Incentive:
+You can't delete many objects with the browser cause of the browser time out.
+
+*Original author: Valentyn Doroshchuk
+
+*Documentation:
+The ability to remove a huge number of nodes/objects from commandline.
+
+Added bin/php/ezsubtreeremove.php script.
