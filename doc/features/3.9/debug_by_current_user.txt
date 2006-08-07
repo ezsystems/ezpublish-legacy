@@ -1,0 +1,20 @@
+*Title: The ability to output debug info based on current_user object_id.
+
+*Original author: Valentyn Doroshchuk
+
+*Documentation:
+The ability to output debug info based on current_user object_id.
+
+New INI setting in site.ini has been added:
+
+-[DebugSettings].DebugByUser=enabled/disabled
+ Whether debug is set per UserID. If set to enabled only users with
+ IDs (in DebugUserIDList) can get debug.
+-[DebugSettings].DebugUserIDList[]
+  An array with UserIDs which will get debug information
+
+for example:
+
+[DebugSettings]
+DebugByUser=enabled
+DebugUserIDList[]=14
