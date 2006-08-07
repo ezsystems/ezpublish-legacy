@@ -739,33 +739,37 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             //$isBlockTag = true;
 
+            $tplSuffix = '';
             $objectID = $tag->attributeValue( 'object_id' );
-
             if ( $objectID )
             {
-                $object =& $this->ObjectArray["$objectID"];
-            }
-
-            $nodeID = $tag->attributeValue( 'node_id' );
-            if ( $nodeID )
-            {
-                if ( isset( $this->NodeArray[$nodeID] ) )
+                if ( isset( $this->ObjectArray["$objectID"] ) )
                 {
-                    $node =& $this->NodeArray[$nodeID];
-                    $objectID = $node->attribute( 'contentobject_id' );
-                    $object =& $node->object();
+                    $object =& $this->ObjectArray["$objectID"];
                 }
                 else
                 {
-                 //   eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
-                    break;
+                    //eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
+    	            break;
                 }
             }
-
-			if ( !$object )
+            else
             {
-                //eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
-	            break;
+                $nodeID = $tag->attributeValue( 'node_id' );
+                if ( $nodeID )
+                {
+                    if ( isset( $this->NodeArray[$nodeID] ) )
+                    {
+                        $node =& $this->NodeArray[$nodeID];
+                        $object =& $node->object();
+                        $tplSuffix = '_node';
+                    }
+                    else
+                    {
+                        //eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                        break;
+                    }
+                }
             }
 
             // fetch attributes
@@ -793,20 +797,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $object->attribute( 'can_read' ) ||
                      $object->attribute( 'can_view_embed' ) )
                 {
-                    $xmlTemplate = $tagName;
+                    $tplName = $tagName . $tplSuffix;
                 }
                 else
                 {
-                    $xmlTemplate = $tagName.'_denied';
+                    $tplName = $tagName . '_denied';
                 }
 
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
-                $tpl->setVariable( 'object', $object, 'xmltagns' );
+                if ( $tplSuffix == '_node')
+                    $tpl->setVariable( 'node', $node, 'xmltagns' );
+                else
+                    $tpl->setVariable( 'object', $object, 'xmltagns' );
+
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
                 $tpl->setVariable( 'link_parameters', $this->LinkParameters, 'xmltagns' );
 
-                $uri = "design:content/datatype/view/ezxmltags/$xmlTemplate.tpl";
+                $uri = "design:content/datatype/view/ezxmltags/$tplName.tpl";
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText = implode( '', $textElements );
