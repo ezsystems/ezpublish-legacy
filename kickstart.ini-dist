@@ -143,19 +143,9 @@
 ## Continue=<true|false>
 ## Whether this step should continue after reading the data
 #Continue=true
-## Sites[]=<identifier>
-## Which site to install, identifier is taken from site package (ezpkg)
-#Sites[]
-#Sites[]=news
-
-#[site_packages]
-## Continue=<true|false>
-## Whether this step should continue after reading the data
-#Continue=true
-## Packages[]=<identifier>
-## Which additional package to install, identifier is taken from addon package (ezpkg)
-#Packages[]
-#Packages[]=gallery
+## Site_package=<identifier>
+## Which site package to install, package identifier
+#Site_package=news_site
 
 #[site_access]
 ## Continue=<true|false>
@@ -172,56 +162,47 @@
 ## Continue=<true|false>
 ## Whether this step should continue after reading the data
 #Continue=true
-## Title[<site-identifier>]=<string>
-## The title to use for a given site-identifier
-## if not supplied it uses the site type name
-#Title[]
-#Title[news]=My cool new site
+## Title=<string>
+## The site title
+## if not supplied it uses the site package name
+#Title=My cool new site
 
-## URL[<site-identifier>]=<url>
-## The URL to use for a given site-identifier
+## URL=<url>
+## The URL to use
 ## if not supplied it will generate it from the current url
-#URL[]
-#URL[news]=
+#URL=
 
-## Access[<site-identifier>]=<string>
-## The access name to use for user page
+## Access=<string>
+## The access name to use for user site
 ## if not supplied it will use site identifier
-#Access[]
-#Access[news]=news
+#Access=news
 
-## AdminAccess[<site-identifier>]=<string>
-## The access name to use for admin page
+## AdminAccess=<string>
+## The access name to use for admin site
 ## if not supplied it will use site identifier + _admin
-#AdminAccess[]
-#AdminAccess[news]=news_admin
+#AdminAccess=news_admin
 
-## AccessPort[<site-identifier>]=<number>
+## AccessPort=<number>
 ## The access port to use for user page
-#AccessPort[]
-#AccessPort[news]=8080
+#AccessPort=8080
 
-## AdminAccessPort[<site-identifier>]=<number>
+## AdminAccessPort=<number>
 ## The access port to use for admin page
-#AdminAccessPort[]
-#AdminAccessPort[news]=8081
+#AdminAccessPort=8081
 
-## AccessHostname[<site-identifier>]=<url>
+## AccessHostname=<url>
 ## The access hostname to use for user page
-#AccessHostname[]
-#AccessHostname[news]=news.test.com
+#AccessHostname=news.test.com
 
-## AdminAccessHostname[<site-identifier>]=<url>
+## AdminAccessHostname=<url>
 ## The access hostname to use for admin page
-#AdminAccessHostname[]
-#AdminAccessHostname[news]=news-admin.test.com
+#AdminAccessHostname=news-admin.test.com
 
-## Database[<site-identifier>]=<databasename>
+## Database=<databasename>
 ## The database name to use for site
-#Database[]
-#Database[news]=ezp35test
+#Database=ezp39test
 
-## DatabaseAction[<site-identifier>]=<action>
+## DatabaseAction=<action>
 ## What to do with the database, can be one of:
 ## <action>:
 ## - ignore
@@ -230,8 +211,7 @@
 ##     Clean up entries and add new ones
 ## - skip
 ##     Do not insert database schema + data
-#DatabaseAction[]
-#DatabaseAction[news]=remove
+#DatabaseAction=remove
 
 #[site_admin]
 ## Continue=<true|false>

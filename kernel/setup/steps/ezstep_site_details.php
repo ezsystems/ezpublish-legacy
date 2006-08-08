@@ -226,14 +226,13 @@ class eZStepSiteDetails extends eZStepInstaller
 
             $portCounter = 8080;
 
-            $identifier = $siteType['identifier'];
-            if ( isset( $data['Title'][$identifier] ) )
-                $siteType['title'] = $data['Title'][$identifier];
+            if ( isset( $data['Title'] ) )
+                $siteType['title'] = $data['Title'];
 
             if ( !$siteType['title'] )
                 $siteType['title'] = $siteType['name'];
 
-            $siteType['url'] = isset( $data['URL'][$identifier] ) ? $data['URL'][$identifier] : false;
+            $siteType['url'] = isset( $data['URL'] ) ? $data['URL'] : false;
             if ( strlen( $siteType['url'] ) == 0 )
                 $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
 
@@ -242,14 +241,14 @@ class eZStepSiteDetails extends eZStepInstaller
                 case 'port':
                 {
                     // Change access port for user site, if not use default which is the current value of $portCoutner
-                    if ( isset( $data['AccessPort'][$identifier] ) )
-                        $siteType['access_type_value'] = $data['AccessPort'][$identifier];
+                    if ( isset( $data['AccessPort'] ) )
+                        $siteType['access_type_value'] = $data['AccessPort'];
                     else
                         $siteType['access_type_value'] = $portCounter++;
 
                     // Change access port for admin site, if not use default which is the current value of $portCoutner
-                    if ( isset( $data['AdminAccessPort'][$identifier] ) )
-                        $siteType['admin_access_type_value'] = $data['AdminAccessPort'][$identifier];
+                    if ( isset( $data['AdminAccessPort'] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccessPort'];
                     else
                         $siteType['admin_access_type_value'] = $portCounter++;
                 }
@@ -257,13 +256,13 @@ class eZStepSiteDetails extends eZStepInstaller
 
                 case 'hostname':
                 {
-                    if ( isset( $data['AccessHostname'][$identifier] ) )
-                        $siteType['access_type_value'] = $data['AccessHostname'][$identifier];
+                    if ( isset( $data['AccessHostname'] ) )
+                        $siteType['access_type_value'] = $data['AccessHostname'];
                     else
                         $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
 
-                    if ( isset( $data['AdminAccessHostname'][$identifier] ) )
-                        $siteType['admin_access_type_value'] = $data['AdminAccessHostname'][$identifier];
+                    if ( isset( $data['AdminAccessHostname'] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccessHostname'];
                     else
                         $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
                 }
@@ -272,28 +271,28 @@ class eZStepSiteDetails extends eZStepInstaller
                 default:
                 {
                     // Change access name for user site, if not use default which is the identifier
-                    if ( isset( $data['Access'][$identifier] ) )
-                        $siteType['access_type_value'] = $data['Access'][$identifier];
+                    if ( isset( $data['Access'] ) )
+                        $siteType['access_type_value'] = $data['Access'];
                     else
                         $siteType['access_type_value'] = $siteType['identifier'];
 
                     // Change access name for admin site, if not use default which is the identifier + _admin
-                    if ( isset( $data['AdminAccess'][$identifier] ) )
-                        $siteType['admin_access_type_value'] = $data['AdminAccess'][$identifier];
+                    if ( isset( $data['AdminAccess'] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccess'];
                     else
                         $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
                 }
                 break;
             };
 
-            $siteType['database'] = $data['Database'][$identifier];
+            $siteType['database'] = $data['Database'];
             $action = EZ_SETUP_DB_DATA_APPEND;
             $map = array( 'ignore' => 1,
                           'remove' => 2,
                           'skip' => 3 );
             // Figure out what to do with database, do we need cleanup etc?
-            if ( isset( $map[$data['DatabaseAction'][$identifier]] ) )
-                $action = $map[$data['DatabaseAction'][$identifier]];
+            if ( isset( $map[$data['DatabaseAction']] ) )
+                $action = $map[$data['DatabaseAction']];
             $siteType['existing_database'] = $action;
 
             $chosenDatabases[$siteType['database']] = 1;

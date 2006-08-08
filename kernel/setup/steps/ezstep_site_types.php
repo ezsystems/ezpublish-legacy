@@ -391,11 +391,10 @@ class eZStepSiteTypes extends eZStepInstaller
         {
             $data = $this->kickstartData();
 
-            $chosenSitePackage = $data['Sites'][0];
+            $chosenSitePackage = $data['Site_package'];
 
             // TODO: Download site package and it's related packages
             //       in case of remote package has been choosen.
-
 
             if ( $this->selectSiteType( $chosenSitePackage ) )
             {
