@@ -1,0 +1,21 @@
+*Title: Modifications needed to fix bug #8553: wrong object embedding by "eznode"
+ if you have more locations.
+
+*Documentation:
+
+The next table shows which templates are used to render XML tag, depending on
+tag's name and used protocol (eznode or ezobject).
+
+These templates reside in templates/content/datatype/view/ezxmltags directory.
+
+  +------------------+------------------------+------------------------+
+  | Tags \ protocols | ezobject               | eznode                 |
+  +------------------+------------------------+------------------------+
+  | <embed>          | embed.tpl              | embed_node.tpl         |
+  | <embed-inline>   | embed-inline.tpl       | embed-inline_node.tpl  |
+  +------------------+------------------------+------------------------+
+
+embed.tpl uses 'content_view_gui' template operator to display an object while
+embed_node.tpl uses 'node_view_gui' operator. So different templates are
+used to render an object (templates/content/view/... and templates/node/view/...)
+dependning on eznode or ezobject protocol is choosen.
