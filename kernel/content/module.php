@@ -72,20 +72,6 @@ $ViewList['removenode'] = array(
     'script' => 'removenode.php',
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'NodeID' ) );
 
-///////////////////////////////////
-
-$ViewList['bug_test'] = array(
-    'functions' => array( 'edit' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'ui_context' => 'edit',
-    //'single_post_actions' => array( 'ConfirmButton' => 'ConfirmAssignmentRemove',
-    //                                'CancelButton' => 'CancelAssignmentRemove' ),
-    'script' => 'bug_test.php'//,
-    //'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'NodeID' )
-    );
-
-//////////////////////////////////
-
 $ViewList['removeassignment'] = array(
     'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
