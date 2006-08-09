@@ -148,15 +148,6 @@
 #Sites[]
 #Sites[]=news
 
-#[site_packages]
-## Continue=<true|false>
-## Whether this step should continue after reading the data
-#Continue=true
-## Packages[]=<identifier>
-## Which additional package to install, identifier is taken from addon package (ezpkg)
-#Packages[]
-#Packages[]=gallery
-
 #[site_access]
 ## Continue=<true|false>
 ## Whether this step should continue after reading the data
