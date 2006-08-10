@@ -807,8 +807,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );
                 if ( $tplSuffix == '_node')
                     $tpl->setVariable( 'node', $node, 'xmltagns' );
-                else
-                    $tpl->setVariable( 'object', $object, 'xmltagns' );
+
+                $tpl->setVariable( 'object', $object, 'xmltagns' );
 
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
