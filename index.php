@@ -386,7 +386,7 @@ include_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
 {
-	$dbRequired = true;
+    $dbRequired = true;
 }
 
 $db = false;
@@ -1040,6 +1040,9 @@ if ( $show_page_layout )
 {
     include_once( "kernel/common/template.php" );
     $tpl =& templateInit();
+    if ( $tpl->hasVariable( 'node' ) )
+        $tpl->unsetVariable( 'node' );
+
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
     $moduleResult['uri'] = eZSys::requestURI();

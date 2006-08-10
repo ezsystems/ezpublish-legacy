@@ -1,0 +1,25 @@
+*Title: No more $node variable in pagelayout.
+
+*Documentation:
+Global $node variable only exists in pagelayout template if it was set
+by any other module which has run before fetching pagelayout template
+and viewcache is disabled. Thus it is removed from pagelayout at all to
+do not cause any confusions henceforth.
+$module_result.node_id should be used to fetch current operated node in
+a pagelayout template. Or you can pass any node id you need to fetch
+through 'module_result' array from your own module to pagelayout as it
+is shown in example below:
+
+==============================
+//// your_module.php file
+...
+$Result['some_node_id'] = $anyNodeIdYouNeed;
+...
+
+===============================
+//// pagelayout.tpl file
+...
+{let $somenode = fetch( content, node, hash( node_id, $module_result.some_node_id ) )}
+    {$somenode}
+{/let}
+...
