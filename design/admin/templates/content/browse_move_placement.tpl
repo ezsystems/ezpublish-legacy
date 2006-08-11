@@ -14,7 +14,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-<p>{'Choose a new location for <%version_name> using the radio buttons and click "OK".'|i18n( 'design/admin/content/browse_move_placement',, hash( '%version_name', $version.version_name ) )|wash}</p>
+<p>{'Choose a new location for <%version_name> using the radio buttons and click "Select".'|i18n( 'design/admin/content/browse_move_placement',, hash( '%version_name', $version.version_name ) )|wash}</p>
 <p>{'The previous location was <%previous_location>.'|i18n( 'design/admin/content/browse_move_placement',, hash( '%previous_location', $placement_node.name ) )|wash}</p>
 <p>{'Navigate using the available tabs (above), the tree menu (left) and the content list (middle).'|i18n( 'design/admin/content/browse_move_placement' )}</p>
 </div>
