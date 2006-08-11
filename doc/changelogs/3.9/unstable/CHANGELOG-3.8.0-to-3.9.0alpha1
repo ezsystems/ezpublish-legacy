@@ -288,3 +288,5 @@ eZTemplate:
 - Fixed bug #8553: Wrong object embedding by "eznode" if you have more locations.
 - Fixed bug #8304: kickstart.ini should be updated.
 - Fixed bug #8780: Text in content/browse mentions a "Choose" button, but the button's caption is "Select".
+- Fixed bug #8811: content/diff/ crashes when object_id is not set in the URL.
+  (Merged from stable/3.8 (3.8.4) rev. 16607)

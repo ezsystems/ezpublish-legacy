@@ -40,20 +40,19 @@ $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
 $contentObject = eZContentObject::fetch( $objectID );
+
+if ( !$contentObject )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
 $classID = $contentObject->attribute( 'contentclass_id' );
 $class = eZContentClass::fetch( $classID );
 
-if ( !$contentObject )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-}
-
 if ( !$contentObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-    
+
 if ( !$contentObject->attribute( 'can_diff' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-    
+
 $http =& eZHTTPTool::instance();
 $tpl =& templateInit();
 
@@ -101,7 +100,7 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
     }
     $oldVersion = $http->postVariable( 'FromVersion' );
     $newVersion = $http->postVariable( 'ToVersion' );
-    
+
     if ( is_numeric( $oldVersion ) && is_numeric( $newVersion ) )
     {
         $oldObject = $contentObject->version( $oldVersion );
@@ -120,7 +119,7 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
             {
                 $newAttributes = $contentObject->fetchDataMap( $newVersion, $initLang );
             }
-                
+
         }
         else
         {
