@@ -48,6 +48,7 @@
          page_uri_suffix=concat('?filterString=',$filterString|urlencode )	
          item_count=$template_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=20}
 </div>
 

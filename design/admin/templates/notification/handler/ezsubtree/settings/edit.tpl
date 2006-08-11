@@ -67,6 +67,7 @@
          page_uri='/notification/settings'
          item_count=$subscribed_nodes_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 

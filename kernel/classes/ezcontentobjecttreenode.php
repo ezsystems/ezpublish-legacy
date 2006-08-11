@@ -911,6 +911,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
+    function createObjectNameFilterConditionSQLString( $filter )
+    {
+        if ( !$filter )
+            return '';
+
+        $db =& eZDB::instance();
+        if ( $filter == '*' )
+        {
+            include_once( "lib/ezi18n/classes/ezcodepage.php" );
+            $alphabet = eZCodepage::getAlphabet();
+            $sql = '';
+            foreach ( $alphabet as $letter )
+            {
+                $sql .= " AND ezcontentobject.name NOT LIKE '". $db->escapeString( $letter ) . "%'\n";
+            }
+            return $sql;
+        }
+        $objectNameFilterSQL =  ' AND ezcontentobject.name like \'' . $db->escapeString( $filter ) .'%\'';
+        return $objectNameFilterSQL;
+    }
+
+
+    /*!
+        \a static
+    */
     function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo )
     {
         // Check for attribute filtering
@@ -1676,6 +1701,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groupBy          = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
         $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
+        $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
+
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
@@ -1733,6 +1760,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZContentLanguage::clearPrioritizedLanguages();
         }
+        $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
@@ -1768,6 +1796,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $versionNameJoins
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
+                      $objectNameFilterSQL
                       $languageFilter
                 $groupByText";
 
@@ -1783,7 +1812,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
-                                                              'limit'  => $limit ) );
+                                                             'limit'  => $limit ) );
         }
 
         if ( $asObject )
@@ -2197,7 +2226,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
-
         $ini =& eZINI::instance();
 
         // Check for class filtering
@@ -2579,6 +2607,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZContentLanguage::clearPrioritizedLanguages();
         }
+        $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) ) ? $params['ObjectNameFilter']   : false;
+        $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
         // Determine whether we should show invisible nodes.
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
@@ -2668,6 +2698,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $versionNameJoins
                             $showInvisibleNodesCond
                             $sqlPermissionCheckingString
+                            $objectNameFilterSQL
                             $languageFilter ";
 
         }
@@ -2693,6 +2724,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentclass.id = ezcontentobject.contentclass_id AND
                            $versionNameJoins
                            $showInvisibleNodesCond
+                           $objectNameFilterSQL
                            $languageFilter ";
         }
 

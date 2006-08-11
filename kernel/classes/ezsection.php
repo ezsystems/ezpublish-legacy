@@ -90,11 +90,12 @@ class eZSection extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    function &fetchByOffset( $offset, $limit, $asObject = true, $nameFilter = false )
     {
+        $filter = $nameFilter !== false ? array( 'name' => array( 'like' , $nameFilter . '%' ) ) : null;
         $sectionList = eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                              null,
-                                                             null,
+                                                             $filter,
                                                              array( 'name' => 'ASC' ),
                                                              array( 'offset' => $offset, 'length' => $limit ),
                                                              $asObject );
@@ -104,11 +105,11 @@ class eZSection extends eZPersistentObject
      /*!
      \return the number of active orders
     */
-    function sectionCount()
+    function sectionCount( $nameFilter = false )
     {
         $db =& eZDB::instance();
-
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezsection" );
+        $filter = $nameFilter !== false ? 'WHERE name like \'' . $db->escapeString( $nameFilter ) . '\'' : '';
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezsection $filter" );
         return $countArray[0]['count'];
     }
 

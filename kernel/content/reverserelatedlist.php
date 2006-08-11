@@ -122,8 +122,7 @@ $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
                                         and link.to_contentobject_id = tree.contentobject_id
                                         and obj.id = link.from_contentobject_id
                                         and obj.current_version = link.from_contentobject_version
-                                        and not ( $path_strings_where )
-                            " );
+                                        and not ( $path_strings_where ) " );
 $rowsCount = 0;
 if ( isset( $countOfItems[0] ) )
     $rowsCount = $countOfItems[0]['count'];
@@ -141,7 +140,7 @@ foreach( $rows as $child )
     $childrenList[] = eZContentObjectTreeNode::fetch( $child['node_id'] );
 }
 
-$contentObjectName = $contentObjectTreeNode->attribute('name');
+$contentObjectName = $contentObjectTreeNode->attribute( 'name' );
 $viewParameters = array( 'offset' => $Offset );
 
 $tpl =& templateInit();

@@ -211,6 +211,7 @@
          page_uri='/content/urltranslator'
          item_count=$alias_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$alias_limit}
 </div>
 {section-else}

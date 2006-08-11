@@ -139,6 +139,7 @@
          page_uri=concat( '/url/list/', $view_mode )
          item_count=$url_list_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 

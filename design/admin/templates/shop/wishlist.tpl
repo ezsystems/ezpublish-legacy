@@ -112,6 +112,7 @@
          page_uri='/shop/wishlist'
          item_count=$wish_list_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 

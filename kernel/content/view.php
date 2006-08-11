@@ -120,8 +120,8 @@ else
 $viewParameters = array( 'offset' => $Offset,
                          'year' => $Year,
                          'month' => $Month,
-                         'day' => $Day );
-
+                         'day' => $Day,
+                         'filter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $user =& eZUser::currentUser();

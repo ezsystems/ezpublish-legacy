@@ -96,8 +96,19 @@ else
     $link = preg_replace("/^\//e", "", $link );
     $link = $preFix . "/" . $link;
 }
+// We should allow user parameters for filtering by first letter
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
 
-$viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
+$viewParameters = array( 'offset' => $offset, 'limit'  => $limit, 'filter' => false );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
+
 $http =& eZHttpTool::instance();
 $objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
 $urlViewCount= eZURLObjectLink::fetchObjectVersionCount( $urlID );

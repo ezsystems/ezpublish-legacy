@@ -84,6 +84,7 @@
          page_uri='/content/draft'
          item_count=$list_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 

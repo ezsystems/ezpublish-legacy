@@ -53,6 +53,7 @@ class eZCodePage
         $this->SubstituteChar = 63; // the ? character
         $this->MinCharValue = 0;
         $this->MaxCharValue = 0;
+        $this->Alphabet = array();
 
         $this->load( $use_cache );
     }
@@ -465,6 +466,24 @@ class eZCodePage
             $str .= "\$read_extra[$key] = $item;\n";
             next( $this->ReadExtraMap );
         }
+        reset( $this->Alphabet );
+        while ( ( $key = key( $this->Alphabet ) ) !== null )
+        {
+            $item =& $this->Alphabet[$key];
+            if ( $item == 0 )
+            {
+                $str .= "\$alphabet[] = 0;\n";
+            }
+            else
+            {
+                $val = str_replace( array( "\\", "'" ),
+                                    array( "\\\\", "\\'" ),
+                                    $key );
+                $str .= "\$alphabet['$val'] = $item;\n";
+            }
+            next( $this->Alphabet );
+        }
+
         $str = "<?" . "php
 $str
 \$eZCodePageCacheCodeDate = " . EZ_CODEPAGE_CACHE_CODE_DATE . ";
@@ -568,6 +587,7 @@ $str
                 $min_char =& $this->MinCharValue;
                 $max_char =& $this->MaxCharValue;
                 $read_extra =& $this->ReadExtraMap;
+                $alphabet =& $this->Alphabet;
                 include( $cache );
                 unset( $umap );
                 unset( $utf8map );
@@ -635,6 +655,12 @@ $str
                 {
                     $ucode = hexdec( $args[2] );
                 }
+
+                if ( preg_match( "/SMALL LETTER/", $items[2], $args ) )
+                {
+                    $this->Alphabet[] = $ucode;
+                }
+
                 if ( $code !== false and
                      $ucode !== false )
                 {
@@ -653,6 +679,8 @@ $str
             }
             next( $lines );
         }
+        sort( $this->Alphabet );
+
         $this->Valid = true;
         $this->MinCharValue = min( $this->MinCharValue, $code );
         $this->MaxCharValue = max( $this->MaxCharValue, $code );
@@ -724,6 +752,89 @@ $str
     function isValid()
     {
         return $this->Valid;
+    }
+
+    /*!
+     Returns current alphabet that has been fetched from codepage.
+     */
+    function alphabet()
+    {
+        return $this->Alphabet;
+    }
+
+    /*!static
+     Returns alphabet.
+     If $charsetCode is false, alphabet settings will be fetched from ini file
+     $charsetCode may be an array:
+     for example, array( 'eng-GB' => '97-122' )
+     where 'eng-GB' - name of current alphabet, '97-122' range list in unicode.
+     */
+    function getAlphabet( $charsetCode = false )
+    {
+        if ( is_array( $charsetCode ) )
+        {
+            $alphabetFrom = key( $charsetCode );
+            $alphabetRangeList = $charsetCode;
+        }
+        else
+        {
+            $contentINI =& eZINI::instance( 'content.ini' );
+            $alphabetRangeList = ( $contentINI->hasVariable( 'GoogleSettings', 'AlphabetRangeList' )
+                                   ? $contentINI->variable( 'GoogleSettings', 'AlphabetRangeList' )
+                                   : array() );
+
+            $alphabetFrom = $charsetCode === false
+                            ? ( $contentINI->hasVariable( 'GoogleSettings', 'Alphabet' )
+                                ? $contentINI->variable( 'GoogleSettings', 'Alphabet' )
+                                : 'default' )
+                            : $charsetCode;
+        }
+        $alphabetRangeList = array_merge( $alphabetRangeList, array( 'default' => '97-122' ) );
+        $alphabet = false;
+        // If $alphabetFrom exists in range array $alphabetRangeList
+        if ( isset( $alphabetRangeList[$alphabetFrom] ) )
+        {
+            $rangeArray = explode( '-', $alphabetRangeList[$alphabetFrom] );
+            // Get alphabet from range list
+            $alphabet = ( isset( $rangeArray[0] ) and isset( $rangeArray[1] ) ) ? range( $rangeArray[0], $rangeArray[1] ) : false;
+        }
+        else
+        {
+            // If $alphabetFrom doesn't exist in range list
+            // we should check if codepage of $alphabetFrom exists
+            $file = "share/codepages/" . $alphabetFrom;
+            if ( file_exists( $file ) )
+            {
+                $codepageObj =& eZCodePage::instance( $alphabetFrom );
+                // Get alphabet
+                $alphabet = $codepageObj->alphabet();
+            }
+        }
+        // Get alphabet by default (eng-GB)
+        if ( $alphabet === false )
+        {
+            $rangeArray = explode( '-', $alphabetRangeList['default'] );
+            $alphabet = range( $rangeArray[0], $rangeArray[1] );
+        }
+
+        $i18nINI =& eZINI::instance( 'i18n.ini' );
+        $charset = $i18nINI->variable( 'CharacterSettings', 'Charset' );
+
+        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        $codec =& eZTextCodec::instance( 'utf-8', $charset );
+
+        $utf8_codec =& eZUTF8Codec::instance();
+        // Convert all letters of alphabet from unicode to utf-8 and from utf-8 to current locale
+        foreach ( $alphabet as $item )
+        {
+            $utf8Letter = $utf8_codec->toUtf8( $item );
+            if ( $codec )
+                $resAlphabet[] = $codec->convertString( $utf8Letter );
+            else
+                $resAlphabet[] = $utf8Letter;
+        }
+
+        return $resAlphabet;
     }
 
     /*!
@@ -842,6 +953,8 @@ $str
     var $Valid;
     /// The character to use when an alternative doesn't exist
     var $SubstituteChar;
+    /// The current alphabet of small letters that has been fetched from current codepage
+    var $Alphabet;
 }
 
 // Checks if index.php or any other script has set any codepage permissions

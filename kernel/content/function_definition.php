@@ -283,6 +283,10 @@ $FunctionList['list'] = array( 'name' => 'tree',
                                                       array( 'name' => 'as_object',
                                                              'type' => 'bool',
                                                              'required' => false,
+                                                             'default' => null ),
+                                                      array( 'name' => 'objectname_filter',
+                                                             'type' => 'string',
+                                                             'required' => false,
                                                              'default' => null ) ) );
 $FunctionList['list_count'] = array( 'name' => 'list_count',
                                      'operation_types' => array( 'read' ),
@@ -332,7 +336,11 @@ $FunctionList['list_count'] = array( 'name' => 'list_count',
                                                             array( 'name' => 'main_node_only',
                                                                    'type' => 'bool',
                                                                    'required' => false,
-                                                                   'default' => false ) ) );
+                                                                   'default' => false ),
+                                                            array( 'name' => 'objectname_filter',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => null ) ) );
 $FunctionList['tree'] = array( 'name' => 'tree',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
@@ -409,6 +417,10 @@ $FunctionList['tree'] = array( 'name' => 'tree',
                                                       array( 'name' => 'as_object',
                                                              'type' => 'bool',
                                                              'required' => false,
+                                                             'default' => null ),
+                                                      array( 'name' => 'objectname_filter',
+                                                             'type' => 'string',
+                                                             'required' => false,
                                                              'default' => null ) ) );
 
 $FunctionList['tree_count'] = array( 'name' => 'tree_count',
@@ -459,8 +471,11 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                             array( 'name' => 'main_node_only',
                                                                    'type' => 'bool',
                                                                    'required' => false,
-                                                                   'default' => false ) ) );
-
+                                                                   'default' => false ),
+                                                            array( 'name' => 'objectname_filter',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => null ) ) );
 
 $FunctionList['search'] = array( 'name' => 'search',
                                  'operation_types' => array( 'read' ),
@@ -514,7 +529,11 @@ $FunctionList['search'] = array( 'name' => 'search',
                                                         array( 'name' => 'sort_by',
                                                                'type' => 'mixed',
                                                                'required' => false,
-                                                               'default' => false )) );
+                                                               'default' => false ),
+                                                        array( 'name' => 'objectname_filter',
+                                                               'type' => 'string',
+                                                               'required' => false,
+                                                               'default' => null ) ) );
 
 $FunctionList['trash_count'] = array( 'name' => 'trash_count',
                                       'operation_types' => array( 'read' ),
@@ -522,7 +541,10 @@ $FunctionList['trash_count'] = array( 'name' => 'trash_count',
                                                               'class' => 'eZContentFunctionCollection',
                                                               'method' => 'fetchTrashObjectCount' ),
                                       'parameter_type' => 'standard',
-                                      'parameters' => array(  ) );
+                                      'parameters' => array( array( 'name' => 'objectname_filter',
+                                                                    'type' => 'string',
+                                                                    'required' => false,
+                                                                    'default' => null ) ) );
 
 $FunctionList['trash_object_list'] = array( 'name' => 'trash_object_list',
                                             'operation_types' => array( 'read' ),
@@ -537,7 +559,11 @@ $FunctionList['trash_object_list'] = array( 'name' => 'trash_object_list',
                                                                    array( 'name' => 'limit',
                                                                           'type' => 'integer',
                                                                           'required' => false,
-                                                                          'default' => false ) ) );
+                                                                          'default' => false ),
+                                                                   array( 'name' => 'objectname_filter',
+                                                                          'type' => 'string',
+                                                                          'required' => false,
+                                                                           'default' => null ) ) );
 
 $FunctionList['draft_count'] = array( 'name' => 'draft_count',
                                       'operation_types' => array( 'read' ),

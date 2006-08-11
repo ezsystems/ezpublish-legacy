@@ -1,8 +1,9 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      object_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
-                                                          offset, $view_parameters.offset ) )
-     list_count=fetch( content, trash_count ) }
+                                                          offset, $view_parameters.offset,
+                                                          objectname_filter, $view_parameters.filter ) )
+     list_count=fetch( content, trash_count, hash( objectname_filter, $view_parameters.filter ) ) }
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
 
@@ -81,6 +82,14 @@
 {/section}
 </table>
 
+{section-else}
+
+<div class="block">
+    <p>{'There are no items in the trash'|i18n( 'design/admin/content/trash' )}.</p>
+</div>
+
+{/section}
+
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -89,14 +98,6 @@
          view_parameters=$view_parameters
          item_limit=$number_of_items}
 </div>
-
-{section-else}
-
-<div class="block">
-    <p>{'There are no items in the trash'|i18n( 'design/admin/content/trash' )}.</p>
-</div>
-
-{/section}
 
 {* DESIGN: Content END *}</div></div></div>
 

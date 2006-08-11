@@ -312,8 +312,8 @@ class eZContentFunctionCollection
     }
 
     function fetchObjectTree( $parentNodeID, $sortBy, $onlyTranslated, $language, $offset, $limit, $depth, $depthOperator,
-                               $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
-                               $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject )
+                              $classID, $attribute_filter, $extended_attribute_filter, $class_filter_type, $class_filter_array,
+                              $groupBy, $mainNodeOnly, $ignoreVisibility, $limitation, $asObject, $objectNameFilter )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $treeParameters = array( 'Offset' => $offset,
@@ -328,6 +328,7 @@ class eZContentFunctionCollection
                                  'ClassFilterType' => $class_filter_type,
                                  'ClassFilterArray' => $class_filter_array,
                                  'IgnoreVisibility' => $ignoreVisibility,
+                                 'ObjectNameFilter' => $objectNameFilter,
                                  'MainNodeOnly' => $mainNodeOnly );
         if ( is_array( $groupBy ) )
         {
@@ -367,8 +368,8 @@ class eZContentFunctionCollection
     }
 
     function fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,
-                                    $attributeFilter, $depth, $depthOperator,
-                                    $ignoreVisibility, $limitation, $mainNodeOnly )
+                                   $attributeFilter, $depth, $depthOperator,
+                                   $ignoreVisibility, $limitation, $mainNodeOnly, $objectNameFilter )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
@@ -385,6 +386,7 @@ class eZContentFunctionCollection
                                                                             'IgnoreVisibility' => $ignoreVisibility,
                                                                             'OnlyTranslated' => $onlyTranslated,
                                                                             'Language' => $language,
+                                                                            'ObjectNameFilter' => $objectNameFilter,
                                                                             'MainNodeOnly' => $mainNodeOnly ),
                                                                      $parentNodeID );
         }
@@ -402,7 +404,7 @@ class eZContentFunctionCollection
     }
 
     function fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID,
-                                 $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray )
+                                 $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray, $objectNameFilter )
     {
         include_once( "kernel/classes/ezsearch.php" );
         $searchArray =& eZSearch::buildSearchArray();
@@ -421,6 +423,8 @@ class eZContentFunctionCollection
         $parameters['SearchOffset'] = $offset;
         $parameters['IgnoreVisibility'] = $ignoreVisibility;
         $parameters['Limitation'] = $limitation;
+        $parameters['ObjectNameFilter'] = $objectNameFilter;
+
         if ( $subTreeArray !== false )
             $parameters['SearchSubTreeArray'] = $subTreeArray;
         if ( $searchTimestamp )
@@ -431,10 +435,14 @@ class eZContentFunctionCollection
         return array( 'result' => &$searchResult );
     }
 
-    function fetchTrashObjectCount()
+    function fetchTrashObjectCount( $objectNameFilter )
     {
+        $cond = array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+        if ( $objectNameFilter !== false )
+             $cond['name'] = array( 'like', $objectNameFilter . '%' );
+
         $trashObjectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                  array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                  array(), $cond,
                                                                   array(), null,
                                                                   false,false,
                                                                   array( array( 'operation' => 'count( * )',
@@ -442,10 +450,13 @@ class eZContentFunctionCollection
         return array( 'result' => $trashObjectList[0]['count'] );
     }
 
-    function fetchTrashObjectList( $offset, $limit )
+    function fetchTrashObjectList( $offset, $limit, $objectNameFilter )
     {
+        $cond = array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+        if ( $objectNameFilter !== false )
+             $cond['name'] = array( 'like', $objectNameFilter . '%' );
         $trashObjectList =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                  null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                                  null, $cond,
                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
                                                                   true );
         return array( 'result' => &$trashObjectList );
@@ -462,7 +473,6 @@ class eZContentFunctionCollection
                                                                    array( 'length' => $limit, 'offset' => $offset ),
                                                                    true );
         return array( 'result' => &$draftVersionList );
-
     }
 
     function fetchDraftVersionCount()

@@ -100,6 +100,7 @@
          page_uri='/shop/archivelist'
          item_count=$archive_list_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$limit}
 </div>
 

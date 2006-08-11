@@ -135,6 +135,8 @@ class eZURI
             {
                 $this->UserArray = array();
             }
+            // Convert filter string to current locale
+            $this->convertFilterString();
         }
     }
 
@@ -199,6 +201,29 @@ class eZURI
         }
         else
             return $elements;
+    }
+
+    /*!
+     Converts filter string to current locale.
+     When an user types in browser url like:
+     "/content/view/full/2/(filter)/a"
+     'a' letter should be urldecoded and converted from utf-8 to current locale.
+    */
+    function convertFilterString()
+    {
+        foreach ( array_keys( $this->UserArray ) as $paramKey )
+        {
+            if ( $paramKey == 'filter' )
+            {
+                $char =& $this->UserArray[$paramKey];
+                $char = urldecode( $char );
+
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+                $codec =& eZTextCodec::instance( 'utf-8', false );
+                if ( $codec )
+                    $char = $codec->convertString( $char );
+            }
+        }
     }
 
     /*

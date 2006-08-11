@@ -894,7 +894,7 @@ class eZRole extends eZPersistentObject
         }
     }
 
-    function fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
+    function fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true, $nameFilter = false )
     {
 
         if ( $ignoreTemp && $ignoreNew )
@@ -906,6 +906,14 @@ class eZRole extends eZPersistentObject
             $igTemp = array( 'is_new' => '0' );
         else
             $igTemp = null;
+
+        if ( $nameFilter !== false )
+        {
+            if ( is_array( $igTemp ) )
+                $igTemp['name'] = array( 'like' , $nameFilter . '%' ) ;
+            else
+                $igTemp = array( 'name' => array( 'like' , $nameFilter . '%' ) ) ;
+        }
 
         return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                     null,
@@ -919,11 +927,12 @@ class eZRole extends eZPersistentObject
      \static
      \return the number of roles in the database.
     */
-    function roleCount()
+    function roleCount( $nameFilter = false )
     {
         $db =& eZDB::instance();
+        $filterSql = $nameFilter !== false ?  ' AND name like \'' . $db->escapeString( $nameFilter ) . '%\'' : '';
 
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole WHERE version=0" );
+        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole WHERE version=0 $filterSql" );
         return $countArray[0]['count'];
     }
 

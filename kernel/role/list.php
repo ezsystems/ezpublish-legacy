@@ -100,11 +100,22 @@ if ( $http->hasPostVariable( 'NewButton' )  )
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 
-$viewParameters = array( 'offset' => $offset );
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+
+$viewParameters = array( 'offset' => $offset, 'filter' => false );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
+
 $tpl =& templateInit();
 
-$roles = eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
-$roleCount = eZRole::roleCount();
+$roles = eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true, true, $viewParameters['filter'] );
+$roleCount = eZRole::roleCount( $viewParameters['filter'] );
 $tempRoles = eZRole::fetchList( $temporaryVersions = true );
 $tpl->setVariable( 'roles', $roles );
 $tpl->setVariable( 'role_count', $roleCount );

@@ -94,7 +94,26 @@ else
     $limit = 10;
 }
 
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+$viewParameters = array( 'offset' => $offset, 'filter' => false );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
 
+// Create filtering by first letter
+$objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $viewParameters['filter'] );
+$whereSQLCount = $tableSQLCount = '';
+if ( $objectNameFilterSQL != '' )
+{
+    $whereSQLCount = "WHERE ezinfocollection.contentobject_id=ezcontentobject.id $objectNameFilterSQL";
+    $tableSQLCount = ', ezcontentobject';
+
+}
 $db =& eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentobject.name,
@@ -107,11 +126,11 @@ $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentclass
                              WHERE  ezinfocollection.contentobject_id=ezcontentobject.id
                                     AND ezcontentobject.contentclass_id=ezcontentclass.id
-                                    AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id',
+                                    AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id ' . $objectNameFilterSQL,
                              array( 'limit'  => (int)$limit,
                                     'offset' => (int)$offset ) );
 
-$infoCollectorObjectsQuery = $db->arrayQuery( 'SELECT COUNT( DISTINCT contentobject_id ) as count FROM ezinfocollection' );
+$infoCollectorObjectsQuery = $db->arrayQuery( "SELECT COUNT( DISTINCT contentobject_id ) as count FROM ezinfocollection $tableSQLCount $whereSQLCount" );
 $numberOfInfoCollectorObjects = 0;
 
 if ( $infoCollectorObjectsQuery )
@@ -147,8 +166,6 @@ for( $i=0; $i<count( $objects ); $i++ )
     $objects[$i]['last_collection'] = $last;
     $objects[$i]['collections']= count( $collections );
 }
-
-$viewParameters = array( 'offset' => $offset );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'module', $module );

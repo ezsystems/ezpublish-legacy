@@ -515,6 +515,7 @@ class eZSearchEngine
                 $sortArray = array();
 
             $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
+            $objectNameFilter = isset( $params['ObjectNameFilter'] ) ? $params['ObjectNameFilter'] : false;
 
             // strip multiple spaces
             $searchText = preg_replace( "(\s+)", " ", $searchText );
@@ -765,6 +766,8 @@ class eZSearchEngine
             {
                 $limitationList = $params['Limitation'];
             }
+            // Create filtering by first lettter
+            $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
             $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
             $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
@@ -868,6 +871,7 @@ class eZSearchEngine
                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                          $showInvisibleNodesCond
+                                         $objectNameFilterSQL
                                          $sqlPermissionCheckingString" );
                     }
                     else
@@ -899,6 +903,7 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
+                                          $objectNameFilterSQL
                                           $sqlPermissionCheckingString" );
                     }
                     $i++;
@@ -932,6 +937,7 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
+                                          $objectNameFilterSQL
                                           $sqlPermissionCheckingString" );
                  $this->TempTablesCount = 1;
                  $i = $this->TempTablesCount;
@@ -1011,6 +1017,7 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                     $showInvisibleNodesCond
+                    $objectNameFilterSQL
                     $sortWhereSQL
                     ORDER BY $orderByFieldsSQL";
                 if ( $tmpTableCount == 0 )
@@ -1029,6 +1036,7 @@ class eZSearchEngine
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
                     $showInvisibleNodesCond
+                    $objectNameFilterSQL
                     $sortWhereSQL";
                 }
             }
@@ -1049,6 +1057,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $objectNameFilterSQL
                     $versionNameJoins
                      ";
                 if ( $tmpTableCount == 0 )
@@ -1064,6 +1073,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $objectNameFilterSQL
                     $versionNameJoins
                      ";
                 }

@@ -86,12 +86,16 @@
 
 </table>
 </div>
-	    {include name=navigator
-                     uri='design:navigator/google.tpl'
-                     page_uri=concat( '/content/reverserelatedlist/', $node_id )
-		     item_count=$children_count
-                     view_parameters=$view_parameters
-                     item_limit=$number_of_items}
+
+<div class="context-toolbar">
+{include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat( '/content/reverserelatedlist/', $node_id )
+         item_count=$children_count
+         view_parameters=$view_parameters
+         alphabetical=disabled
+         item_limit=$number_of_items}
+</div>
 
 {* DESIGN: Content END *}
 {/let}</div></div>

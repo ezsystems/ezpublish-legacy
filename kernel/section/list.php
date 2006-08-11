@@ -92,9 +92,19 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     $db->commit();
 }
 
-$viewParameters = array( 'offset' => $offset );
-$sectionArray = eZSection::fetchByOffset( $offset, $limit );
-$sectionCount = eZSection::sectionCount();
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+$viewParameters = array( 'offset' => $offset, 'filter' => false );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
+
+$sectionArray = eZSection::fetchByOffset( $offset, $limit, true, $viewParameters['filter'] );
+$sectionCount = eZSection::sectionCount( $viewParameters['filter'] );
 
 $tpl->setVariable( "limit", $limit );
 $tpl->setVariable( 'section_array', $sectionArray );

@@ -79,6 +79,7 @@
          page_uri=concat( '/infocollector/collectionlist/', $object.id )
          item_count=$collection_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$limit}
 </div>
 {* DESIGN: Content END *}</div></div></div>

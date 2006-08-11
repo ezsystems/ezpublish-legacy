@@ -87,7 +87,16 @@ switch ( eZPreferences::value( 'productsoverview_list_limit' ) )
 $sortingField = eZPreferences::value( 'productsoverview_sorting_field' );
 $sortingOrder = eZPreferences::value( 'productsoverview_sorting_order' );
 
-$viewParameters = array( 'offset' => $offset );
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+$viewParameters = array( 'offset' => $offset, 'filter' => false );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'product_class_list', $productClassList );

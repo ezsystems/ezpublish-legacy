@@ -124,7 +124,6 @@ else
     $viewParameters['offset'] = 0;
 }
 
-
 /*
   Get all sessions by limit and offset, and returns it
 */
@@ -217,6 +216,9 @@ function &eZFetchActiveSessions( $params = array() )
         $countField = ', count( ezsession.user_id ) AS count';
         $expirationSQL = 'max( ezsession.expiration_time ) as expiration_time';
     }
+    // Create sql filter for filtering by first letter
+    $objectNameFilter = ( isset( $params['filter'] ) ) ? $params['filter'] : false;
+    $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
@@ -225,6 +227,7 @@ FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id=ezuser.contentobject_id AND
       ezsession.user_id=ezcontentobject.id
       $filterSQL
+      $objectNameFilterSQL
       $expirationFilterSQL
 $countGroup
 ORDER BY $orderBy";
@@ -299,7 +302,7 @@ function &eZFetchActiveSessionCount( $params = array() )
     $userID = $params['user_id'];
     if ( $userID )
     {
-        $filterSQL = ' ezsession.user_id = ' .  (int)$userID;
+        $filterSQL = ' ezsession.user_id = ' . (int)$userID;
     }
 
     switch ( $expirationFilterType )
@@ -323,6 +326,16 @@ function &eZFetchActiveSessionCount( $params = array() )
             $expirationFilterSQL = '';
         } break;
     }
+    // Create sql filter for filtering by first letter
+    $objectNameFilter = ( isset( $params['filter'] ) ) ? $params['filter'] : false;
+    $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
+    $objectTable = '';
+    $whereObject = '';
+    if ( $objectNameFilterSQL != '' )
+    {
+        $objectTable = ', ezcontentobject';
+        $whereObject = 'AND ezsession.user_id=ezcontentobject.id';
+    }
 
     $whereSQL = '';
     if ( ( strlen( $filterSQL ) + strlen( $expirationFilterSQL ) ) > 0 )
@@ -331,9 +344,11 @@ function &eZFetchActiveSessionCount( $params = array() )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
     $query = "SELECT count( * ) AS count
-FROM ezsession
+FROM ezsession $objectTable
 $whereSQL
 $filterSQL
+$whereObject
+$objectNameFilterSQL
 $expirationFilterSQL";
 
     $rows = $db->arrayQuery( $query );
@@ -347,6 +362,9 @@ $param['expiration_filter'] = $expirationFilterType;
 $param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
+if ( isset( $viewParameters['filter'] ) )
+    $param['filter'] = $viewParameters['filter'];
+
 $sessionsActive = eZSessionCountActive( $param );
 $sessionsCount = eZFetchActiveSessionCount( $param );
 $sessionsList =& eZFetchActiveSessions( $param );

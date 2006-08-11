@@ -186,6 +186,7 @@
          page_uri=concat( 'section/view/', $section.id )
          item_count=$objects_count
          view_parameters=$view_parameters
+         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 
