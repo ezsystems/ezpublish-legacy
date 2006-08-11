@@ -171,6 +171,11 @@ class eZXMLInputParser
         $this->parseLineBreaks = $value;
     }
 
+    function setRemoveDefaultAttrs( $value )
+    {
+        $this->removeDefaultAttrs = $value;
+    }
+
     /*!
         Call this function to process your input
     */
@@ -549,10 +554,11 @@ class eZXMLInputParser
                 {
                     $this->isInputValid = false;
                     if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $element->nodeName ) );
+                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $newTagName ) );
                     continue;
                 }
             }
+
             // Create attribute nodes
             if ( $qualifiedName )
             {
@@ -565,7 +571,7 @@ class eZXMLInputParser
                         $element->setAttributeNS( $URI, $qualifiedName, $value );
                     }
                     else
-                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML converter' );
+                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML input parser' );
                 }
                 else
                 {
@@ -788,7 +794,7 @@ class eZXMLInputParser
             }
             else
             {
-                $this->fixAttributes( $element );
+                $this->processAttributesBySchema( $element );
             }
         }
         return $ret;
@@ -896,7 +902,7 @@ class eZXMLInputParser
         $parent->removeChild( $element );
     }
 
-    function fixAttributes( &$element )
+    function processAttributesBySchema( &$element )
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
@@ -904,39 +910,56 @@ class eZXMLInputParser
         foreach( $attributes as $attr )
         {
             $allowed = false;
+            $removeAttr = false;
+
             // php5 TODO: small letters
             if ( $attr->Prefix )
                 $fullName = $attr->Prefix . ':' . $attr->LocalName;
             else
                 $fullName = $attr->LocalName;
 
-            foreach( $schemaAttributes as $schemaAttrName )
+            if ( $attr->Prefix == 'custom' )
             {
-                if ( $fullName == $schemaAttrName )
-                    $allowed = true;
+                $allowed = true;
             }
+            else
+            {
+                foreach( $schemaAttributes as $schemaAttrName )
+                {
+                    if ( $fullName == $schemaAttrName )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+
             if ( !$allowed )
             {
-                if ( $attr->Prefix )
+                $removeAttr = true;
+                $this->isInputValid = false;
+                if ( $this->errorLevel >= 2 )
                 {
-                    if ( $attr->Prefix != 'custom' )
-                    {
-                        $this->isInputValid = false;
-                        $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
-                    }
-                    else
-                        $allowed = true;
-                }
-                else
-                {
-                    $this->isInputValid = false;
-                    $element->removeAttribute( $attr->nodeName );
+                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
+                                                        false, array( $fullName, $element->nodeName ) );
                 }
             }
-            if ( !$allowed && $this->errorLevel >= 2 )
+            elseif ( $this->removeDefaultAttrs ) 
             {
-                $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
-                                                    false, array( $fullName, $element->nodeName ) );
+                // Remove attributes having default values
+                $default = $this->XMLSchema->attrDefaultValue( $element, $fullName );
+                if ( $attr->Content == $default )
+                {
+                    $removeAttr = true;
+                }
+            }
+
+            if ( $removeAttr )
+            {
+                if ( $attr->Prefix )
+                    $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
+                else
+                    $element->removeAttribute( $attr->nodeName );
             }
         }
     }
@@ -950,7 +973,7 @@ class eZXMLInputParser
             if ( is_callable( array( $this, $thisInputTag[$handlerName] ) ) )
                 eval( '$result =& $this->' . $thisInputTag[$handlerName] . '( $tagName, $attributes );' );
             else
-                eZDebug::writeWarning( "'$handlerName' input handler for tag <$tagName> doesn't exist: '" . $thisInputTag[$handlerName] . "'.", 'eZXML converter' );
+                eZDebug::writeWarning( "'$handlerName' input handler for tag <$tagName> doesn't exist: '" . $thisInputTag[$handlerName] . "'.", 'eZXML input parser' );
         }
         return $result;
     }
@@ -964,7 +987,7 @@ class eZXMLInputParser
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
                 eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $params );' );
             else
-                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML input parser' );
         }
         return $result;
     }
@@ -1025,6 +1048,7 @@ class eZXMLInputParser
     var $allowMultipleSpaces = false;
 
     var $parseLineBreaks = false;
+    var $removeDefaultAttrs = false;
 
     var $createdElements = array();
 }

@@ -44,21 +44,24 @@ class eZXMLSchema
                               'childrenRequired' => false,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
-                                                     'align', 'view', 'xhtml:id', 'class', 'target' ) ),
+                                                     'align', 'view', 'xhtml:id', 'class', 'target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed' ) ),
 
         'embed-inline' => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
-                                                     'align', 'view', 'xhtml:id', 'class', 'target' ) ),
+                                                     'align', 'view', 'xhtml:id', 'class', 'target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline' ) ),
     
         'object'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => true,
                               'attributes' => array( 'class', 'id', 'size', 'align',
-                                                     'view', 'image:ezurl_id', 'image:ezurl_target' ) ),
+                                                     'view', 'image:ezurl_id', 'image:ezurl_target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed' ) ),
     
         'table'     => array( 'blockChildrenAllowed' => array( 'tr' ),
                               'inlineChildrenAllowed' => false,
@@ -138,13 +141,14 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'class' ) ),
     
-        'link'      => array( 'blockChildrenAllowed' => false, //array( 'embed', 'object' ),
+        'link'      => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => true,
                               'attributes' => array( 'class', 'xhtml:id', 'target', 'xhtml:title',
                                                      'object_id', 'node_id', 'show_path', 'anchor_name',
-                                                     'url_id', 'id' ) ),
+                                                     'url_id', 'id' ),
+                              'attributesDefaults' => array( 'target' => '_self' ) ),
     
         'anchor'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
@@ -311,6 +315,12 @@ class eZXMLSchema
     function attributes( $element )
     {
         return $this->Schema[$element->nodeName]['attributes'];
+    }
+
+    function attrDefaultValue( $element, $attrName )
+    {
+        if ( isset( $this->Schema[$element->nodeName]['attributesDefaults'][$attrName] ) )
+            return $this->Schema[$element->nodeName]['attributesDefaults'][$attrName];
     }
 
     function exists( $element )
