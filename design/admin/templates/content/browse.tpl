@@ -33,7 +33,7 @@
 
 <div class="block">
 
-<p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n( 'design/admin/content/browse' )}</p>
+<p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Select" button.'|i18n( 'design/admin/content/browse' )}</p>
 <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n( 'design/admin/content/browse' )}</p>
 
 </div>
@@ -150,7 +150,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="SelectButton" value="{'OK'|i18n( 'design/admin/content/browse' )}" />
+    <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n( 'design/admin/content/browse' )}" />
     <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/admin/content/browse' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
