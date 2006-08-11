@@ -46,6 +46,18 @@ Clustering:
   the user will get a message
 - Implemented enhancement #7556: Need a way to set minimum password length.
   Added site.ini[UserSettings].MinPasswordLength.
+- Improved google navigator.
+  Added alphabetical navigation.
+  Added -
+  *content.ini[GoogleSettings].Alphabetical=enabled/disabled
+  *content.ini[GoogleSettings].Alphabet 
+  Where google will get an alphabet.
+  If Alphabet=iso-8859-1 and iso-8859-1 key doesn't exist in AlphabetRangeList[]
+  alphabet will be fetched from codepage share/codepages/iso-8859-1 (all small letter).
+  If Alphabet=eng-GB and eng-GB key exists in AlphabetRangeList alphabet will be fetched from AlphabetRangeList.
+  English alphabet by default (with range is 97-122).
+  *content.ini[GoogleSettings].AlphabetRangeList:
+  Alphabet range in unicode (range of english alphabet is between 97 and 122).
   
 *Design:
 - Fixed suggestion #8262: No need displaying language 
@@ -62,6 +74,10 @@ eZTemplate:
   in ezini or ezhttp. 
   (Added new tpl operators ezini_hasvariable,ezhttp_hasvariable and added new parameters
    to ezini and ezhttp).
+- Added alphabet() tpl function returns current alphabet.
+  (Settings are in content.ini[GoogleSettings]).
+  alphabet() has one param "charset_code" - where alphabet will be fetched from
+  (see content.ini[GoogleSettings].Alphabet).
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".

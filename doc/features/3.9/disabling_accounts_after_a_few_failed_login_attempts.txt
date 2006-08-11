@@ -1,7 +1,5 @@
 *Title: Disabling accounts after a few failed login attempts
 
-*Original author: Valentyn Doroshchuk
-
 *Description:
 The system should automatically disable user accounts after a 
 fixed(configurable) number of failed login attempts.

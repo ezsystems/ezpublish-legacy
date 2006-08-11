@@ -1,7 +1,5 @@
 *Title: The ability to output debug info based on current_user object_id.
 
-*Original author: Valentyn Doroshchuk
-
 *Documentation:
 The ability to output debug info based on current_user object_id.
 
