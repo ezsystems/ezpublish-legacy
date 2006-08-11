@@ -13,7 +13,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-<p>{'Choose a new location the copy subtree of node <%node_name> using the radio buttons and click "OK".'|i18n( 'design/admin/content/browse_copy_node',, hash( '%node_name', $root_node.name ) )|wash}</p>
+<p>{'Choose a new location the copy subtree of node <%node_name> using the radio buttons and click "Select".'|i18n( 'design/admin/content/browse_copy_node',, hash( '%node_name', $root_node.name ) )|wash}</p>
 <p>{'Navigate using the available tabs (above), the tree menu (left) and the content list (middle).'|i18n( 'design/admin/content/browse_copy_node' )}</p>
 </div>
 

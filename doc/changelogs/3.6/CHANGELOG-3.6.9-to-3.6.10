@@ -17,3 +17,5 @@ eZTemplate:
   (Merged from trunk (3.9.0alpha1) rev. 16523)
 - Fixed bug #8109: Missing MIMEType (flv/flash video).
   (Merged from trunk (3.9.0alpha1) rev. 16570)
+- Fixed bug #8780: Text in content/browse mentions a "Choose" button, but the button's caption is "Select".
+  (Merged from trunk (3.9.0alpha1) rev. 16000)
