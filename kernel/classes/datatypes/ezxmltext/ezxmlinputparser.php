@@ -128,10 +128,14 @@ class eZXMLInputParser
                        in order to get the valid result. 
     */
 
-    function eZXMLInputParser( $validate = false, $errorLevel = 0 )
+    function eZXMLInputParser( $validate = false, $errorLevel = 0, $parseLineBreaks = false,
+                               $removeDefaultAttrs = false )
     {
         $this->quitIfInvalid = $validate;
         $this->errorLevel = $errorLevel;
+
+        $this->removeDefaultAttrs = $removeDefaultAttrs;
+        $this->parseLineBreaks = $parseLineBreaks;
 
         $this->XMLSchema =& eZXMLSchema::instance();
         $this->getClassesList();
@@ -166,14 +170,10 @@ class eZXMLInputParser
         $this->DOMDocumentClass = $DOMDocumentClass;
     }
 
+    // obsolete, use constructor instead.
     function setParseLineBreaks( $value )
     {
         $this->parseLineBreaks = $value;
-    }
-
-    function setRemoveDefaultAttrs( $value )
-    {
-        $this->removeDefaultAttrs = $value;
     }
 
     /*!

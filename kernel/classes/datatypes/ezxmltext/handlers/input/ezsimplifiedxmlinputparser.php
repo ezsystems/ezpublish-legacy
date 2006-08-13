@@ -128,7 +128,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = 2 )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->eZXMLInputParser( $validate, $errorLevel );
+        $this->eZXMLInputParser( $validate, $errorLevel, true, false );
     }
 
     /*

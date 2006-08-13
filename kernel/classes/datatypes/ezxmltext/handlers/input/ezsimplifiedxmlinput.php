@@ -131,8 +131,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $text = preg_replace('/^\n/', '<p></p>', $text );
 
             $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
-            $parser->setParseLineBreaks( true );
-
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
