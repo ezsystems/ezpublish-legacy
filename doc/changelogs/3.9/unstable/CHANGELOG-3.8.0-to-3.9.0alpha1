@@ -281,12 +281,17 @@ eZTemplate:
 - Fixed bug: problem with special chars in email's header.
 - Fixed bug #8708: Another problem with strong and emphasize ezxmltags.
   (Merged from 3.8.3)
-- Fixed bug #8698: Automatic VAT calculation broken with ezdefaultshopaccounthandler.
+- Fixed bug #8698: Automatic VAT calculation broken with
+  ezdefaultshopaccounthandler.
 - Fixed bug #8109: Missing MIMEType (flv/flash video).
 - Fixed bug #8741: ezurl can cause fatal error in compiled state.
   (Merged from stable/3.8 (3.8.4) rev. 16574)
 - Fixed bug #8553: Wrong object embedding by "eznode" if you have more locations.
 - Fixed bug #8304: kickstart.ini should be updated.
-- Fixed bug #8780: Text in content/browse mentions a "Choose" button, but the button's caption is "Select".
+- Fixed bug #8780: Text in content/browse mentions a "Choose" button, but the
+  button's caption is "Select".
 - Fixed bug #8811: content/diff/ crashes when object_id is not set in the URL.
   (Merged from stable/3.8 (3.8.4) rev. 16607)
+- Fixed bug #8558: No warning message when the same user edits the same object
+  twice at the same time.
+  (Merged from stable/3.8 (3.8.4) rev. 16611)

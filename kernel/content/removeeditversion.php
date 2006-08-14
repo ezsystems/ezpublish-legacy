@@ -71,10 +71,19 @@ if ( $isConfirmed )
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
     }
 
+    $versionObject =& $object->version( $version );
+    // If we try to remove versionObject with PUBLISHED status.
+    if ( $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
+    {
+        $nodeID = $versionObject->attribute( 'main_parent_node_id' );
+        if ( !$nodeID )
+            $nodeID = 2;
+        return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
+    }
+
     $db =& eZDB::instance();
     $db->begin();
 
-    $versionObject =& $object->version( $version );
     $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
     foreach ( $contentObjectAttributes as $contentObjectAttribute )
     {

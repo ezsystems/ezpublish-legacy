@@ -404,54 +404,40 @@ if ( !is_numeric( $EditVersion ) )
         }
         elseif ( count( $draftVersions ) == 1 )
         {
-            // If there is only one draft by you, edit it immediately.
-            $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
-
             // Check permission for version in specified language
             if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
             {
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                              array( 'AccessList' => $obj->accessList( 'edit' ) ) );
             }
-            if ( !$draftVersions[0]->checkAccess( 'edit', false, false, false, $EditLanguage ) )
+            // There are already drafts for the specified language so we need to ask the user what to do.
+            $mostRecentDraft =& $draftVersions[0];
+            foreach( $draftVersions as $currentDraft )
             {
-                // There are already drafts for the specified language so we need to ask the user what to do.
-                $mostRecentDraft =& $draftVersions[0];
-                foreach( $draftVersions as $currentDraft )
+                if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
                 {
-                    if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
-                    {
-                        $mostRecentDraft =& $currentDraft;
-                    }
+                    $mostRecentDraft =& $currentDraft;
                 }
-                include_once( 'kernel/common/template.php' );
-                $tpl =& templateInit();
-
-                $res =& eZTemplateDesignResource::instance();
-                $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
-                                    array( 'class', $class->attribute( 'id' ) ),
-                                    array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                                    array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
-
-                $tpl->setVariable( 'edit_language', $EditLanguage );
-                $tpl->setVariable( 'from_language', $FromLanguage );
-                $tpl->setVariable( 'object', $obj );
-                $tpl->setVariable( 'class', $class );
-                $tpl->setVariable( 'draft_versions', $draftVersions );
-                $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
-
-                $Result = array();
-                $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
-                return $Result;
-
             }
-            $isAccessChecked = true;
+            include_once( 'kernel/common/template.php' );
+            $tpl =& templateInit();
 
-            if ( strlen( $FromLanguage ) != 0 )
-            {
-                $parameters[] = $FromLanguage;
-            }
-            return $Module->redirectToView( 'edit', $parameters );
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                                array( 'class', $class->attribute( 'id' ) ),
+                                array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+
+            $tpl->setVariable( 'edit_language', $EditLanguage );
+            $tpl->setVariable( 'from_language', $FromLanguage );
+            $tpl->setVariable( 'object', $obj );
+            $tpl->setVariable( 'class', $class );
+            $tpl->setVariable( 'draft_versions', $draftVersions );
+            $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
+            return $Result;
         }
         else
         {
