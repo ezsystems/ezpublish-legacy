@@ -787,6 +787,9 @@ class eZTemplateArrayOperator
                               'if ( is_string( %tmp1% ) )' . "\n" .
                               '{' . "\n" .
                               '    %output% = ( substr( %tmp1%, 0, ' . $offsetCode . ' )' );
+
+                    $lengthCode = !$lengthCode ? 1 : $lengthCode;
+
                     if ( $lengthCode )
                     {
                         $code .= ' . substr( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' )';
