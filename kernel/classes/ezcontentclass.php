@@ -144,7 +144,8 @@ class eZContentClass extends eZPersistentObject
             "modifier_id" => $this->attribute( 'modifier_id' ),
             "created" => $this->attribute( 'created' ),
             "modified" => $this->attribute( 'modified' ),
-            "is_container" => $this->attribute( 'is_container' ) );
+            "is_container" => $this->attribute( 'is_container' ),
+            "always_available" => $this->attribute( 'always_available' ) );
         $tmpClass = new eZContentClass( $row );
         return $tmpClass;
     }
@@ -154,6 +155,7 @@ class eZContentClass extends eZPersistentObject
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
+        $contentClassDefinition = eZContentClass::definition();
         $row = array(
             "id" => null,
             "version" => 1,
@@ -165,7 +167,8 @@ class eZContentClass extends eZPersistentObject
             "created" => $dateTime,
             'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
             "modified" => $dateTime,
-            "is_container" => 0 );
+            "is_container" => $contentClassDefinition[ 'is_container' ][ 'default' ],
+            "always_available" => $contentClassDefinition[ 'always_available' ][ 'default' ] );
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
         return $contentClass;
@@ -173,7 +176,7 @@ class eZContentClass extends eZPersistentObject
 
     function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = false )
     {
-    	return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
+        return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
 
     /*!
@@ -197,7 +200,7 @@ class eZContentClass extends eZPersistentObject
 
         if ( $languageCode == false )
         {
-        	$languageCode = eZContentObject::defaultLanguage();
+            $languageCode = eZContentObject::defaultLanguage();
         }
 
         $object = eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
