@@ -287,6 +287,21 @@ if ( $Module->isCurrentAction( 'Login' ) and
         $userID = $user->id();
     if ( $userID > 0 )
     {
+        if ( $http->hasPostVariable( 'Cookie' ) )
+        {
+            $ini =& eZINI::instance();
+            $rememberMeTimeout = $ini->hasVariable( 'Session', 'RememberMeTimeout' )
+                                 ? $ini->variable( 'Session', 'RememberMeTimeout' )
+                                 : false;
+            if ( $rememberMeTimeout )
+            {
+                $GLOBALS['RememberMeTimeout'] = $rememberMeTimeout;
+                eZSessionStop();
+                eZSessionStart();
+                unset( $GLOBALS['RememberMeTimeout'] );
+            }
+
+        }
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
 

@@ -34,6 +34,12 @@
 <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" />
 </div>
 
+{if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
+    <div class="block">
+        <input type="checkbox" tabindex="1" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
+    </div>
+{/if}
+
 <div class="buttonblock">
 <input class="defaultbutton" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" tabindex="1" />
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" tabindex="1" />

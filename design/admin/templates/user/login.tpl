@@ -60,6 +60,12 @@
     <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" title="{'Enter a valid password into this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 
+{if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}
+    <div class="block">
+        <input type="checkbox" tabindex="1" name="Cookie" id="id3" /><label for="id3" style="display:inline;">{"Remember me"|i18n("design/admin/user/login")}</label>
+    </div>
+{/if}
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>

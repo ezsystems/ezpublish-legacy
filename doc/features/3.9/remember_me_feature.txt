@@ -1,0 +1,12 @@
+*Title: "Remember me" feature of the login.
+
+*Documentation:
+
+New INI setting in site.ini has been added:
+- [Session].RememberMeTimeout:
+  Number of seconds a session cookie will last,
+  if an user wants to store current session to the cookie
+  should click on "Remember me" checkbox on login page.
+  Empty or 0 means this ability will be disabled and CookieTimeout will be used.
+
+

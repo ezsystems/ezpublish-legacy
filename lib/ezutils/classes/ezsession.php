@@ -362,7 +362,8 @@ function eZSessionStart()
         return false;
     eZRegisterSessionFunctions();
     $ini =& eZINI::instance();
-    $cookieTimeout = $ini->variable( 'Session', 'CookieTimeout' );
+    $cookieTimeout = isset( $GLOBALS['RememberMeTimeout'] ) ? $GLOBALS['RememberMeTimeout'] : $ini->variable( 'Session', 'CookieTimeout' );
+
     if ( is_numeric( $cookieTimeout ) )
     {
         session_set_cookie_params( (int)$cookieTimeout );
