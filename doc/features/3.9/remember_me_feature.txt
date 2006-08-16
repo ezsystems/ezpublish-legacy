@@ -2,11 +2,17 @@
 
 *Documentation:
 
+Standard checkbox "Remember me" has been added on login page.
+If an user wants to store current session (not login/password) to the cookie
+should click on the checkbox.
+After that user will automatically login on site without entering login/password 
+every time (if cookie has not been expired. See site.ini.[Session].RememberMeTimeout)
+
+If site.ini[Session].RememberMeTimeout is empty or 0 this ability will be disabled.
+
 New INI setting in site.ini has been added:
 - [Session].RememberMeTimeout:
   Number of seconds a session cookie will last,
-  if an user wants to store current session to the cookie
-  should click on "Remember me" checkbox on login page.
   Empty or 0 means this ability will be disabled and CookieTimeout will be used.
 
 
