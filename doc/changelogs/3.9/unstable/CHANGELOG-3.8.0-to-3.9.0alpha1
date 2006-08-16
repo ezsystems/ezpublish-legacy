@@ -74,6 +74,7 @@ eZTemplate:
   (Settings are in content.ini[GoogleSettings]).
   alphabet() has one param "charset_code" - where alphabet will be fetched from
   (see content.ini[GoogleSettings].Alphabet).
+- Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
@@ -299,4 +300,3 @@ eZTemplate:
 - Fixed bug #8438: Publish operation doesn't process additional 
   node assignments.
 - Fixed bug #8793: No user/password in final page of install.
-

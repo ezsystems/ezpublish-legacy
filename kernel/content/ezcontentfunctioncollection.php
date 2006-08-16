@@ -369,7 +369,7 @@ class eZContentFunctionCollection
 
     function fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,
                                    $attributeFilter, $depth, $depthOperator,
-                                   $ignoreVisibility, $limitation, $mainNodeOnly, $objectNameFilter )
+                                   $ignoreVisibility, $limitation, $mainNodeOnly, $extendedAttributeFilter, $objectNameFilter )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
@@ -387,6 +387,7 @@ class eZContentFunctionCollection
                                                                             'OnlyTranslated' => $onlyTranslated,
                                                                             'Language' => $language,
                                                                             'ObjectNameFilter' => $objectNameFilter,
+                                                                            'ExtendedAttributeFilter' => $extendedAttributeFilter,
                                                                             'MainNodeOnly' => $mainNodeOnly ),
                                                                      $parentNodeID );
         }
