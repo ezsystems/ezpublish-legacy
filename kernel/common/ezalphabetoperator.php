@@ -98,7 +98,6 @@ class eZAlphabetOperator
             return false;
 
         $alphabetRangeList = array_merge( $alphabetRangeList, array( 'default' => '97-122' ) );
-        $alphabet = false;
         $alphabet = array();
         foreach ( $alphabetFromArray as $alphabetFrom )
         {
