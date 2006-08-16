@@ -332,7 +332,12 @@ $FunctionList['list_count'] = array( 'name' => 'list_count',
                                                             array( 'name' => 'main_node_only',
                                                                    'type' => 'bool',
                                                                    'required' => false,
+                                                                   'default' => false ),
+                                                            array( 'name' => 'extended_attribute_filter',
+                                                                   'type' => 'mixed',
+                                                                   'required' => false,
                                                                    'default' => false ) ) );
+
 $FunctionList['tree'] = array( 'name' => 'tree',
                                'operation_types' => array( 'read' ),
                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
@@ -459,8 +464,11 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                             array( 'name' => 'main_node_only',
                                                                    'type' => 'bool',
                                                                    'required' => false,
+                                                                   'default' => false ),
+                                                            array( 'name' => 'extended_attribute_filter',
+                                                                   'type' => 'mixed',
+                                                                   'required' => false,
                                                                    'default' => false ) ) );
-
 
 $FunctionList['search'] = array( 'name' => 'search',
                                  'operation_types' => array( 'read' ),

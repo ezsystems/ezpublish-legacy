@@ -2580,6 +2580,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZContentLanguage::clearPrioritizedLanguages();
         }
 
+        $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
+
         // Determine whether we should show invisible nodes.
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
@@ -2656,7 +2658,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject,ezcontentclass
                            $versionNameTables
                            $attributeFilterFromSQL
+                           $extendedAttributeFilter[tables]
                       WHERE $pathString
+                            $extendedAttributeFilter[joins]
                             $depthCond
                             $mainNodeOnlyCond
                             $classCondition
@@ -2681,8 +2685,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass
                           $versionNameTables
                           $attributeFilterFromSQL
+                          $extendedAttributeFilter[tables]
                     WHERE
                            $pathString
+                           $extendedAttributeFilter[joins]
                            $depthCond
                            $mainNodeOnlyCond
                            $classCondition
