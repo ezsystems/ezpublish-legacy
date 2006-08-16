@@ -298,3 +298,5 @@ eZTemplate:
   class_filter parameter.
 - Fixed bug #8438: Publish operation doesn't process additional 
   node assignments.
+- Fixed bug #8793: No user/password in final page of install.
+
