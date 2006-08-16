@@ -285,3 +285,4 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.4) rev. 16611)
 - Fixed bug #8810: {fetch( content , list , hash( parent_node_id , 0 ) )} 
   causes fatal error.
+- Fixed bug #8814: Treemenu going nuts.
