@@ -1373,7 +1373,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $nodeID == 0 )
             {
-                if ( !is_object( $treeNode ) )
+                if ( !is_object( $treeNode ) or get_class( $treeNode ) != 'ezcontentobjecttreenode' )
                     return false;
 
                 $node =& $treeNode;
