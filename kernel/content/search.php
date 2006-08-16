@@ -125,17 +125,6 @@ if ( $http->hasVariable( "SubTreeArray" ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
-if ( isset( $Params['UserParameters'] ) )
-{
-    $UserParameters = $Params['UserParameters'];
-}
-else
-{
-    $UserParameters = array();
-}
-$viewParameters = array( 'offset' => $Offset, 'filter' => false );
-$viewParameters = array_merge( $viewParameters, $UserParameters );
-
 if ( $useSearchCode )
 {
     $sortArray = array( array( 'attribute', true, 153 ), array( 'priority', true ) );
@@ -144,8 +133,7 @@ if ( $useSearchCode )
                                                           "SearchSubTreeArray" => $subTreeArray,
                                                           'SearchTimestamp' => $searchTimestamp,
                                                           "SearchLimit" => $pageLimit,
-                                                          "SearchOffset" => $Offset,
-                                                          "ObjectNameFilter" => $viewParameters['filter'] ) );
+                                                          "SearchOffset" => $Offset ) );
 }
 
 if ( $searchSectionID != -1 )
@@ -155,6 +143,7 @@ if ( $searchSectionID != -1 )
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }
 
+$viewParameters = array( 'offset' => $Offset );
 
 $searchData = false;
 $tpl->setVariable( "search_data", $searchData );

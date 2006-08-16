@@ -78,7 +78,6 @@
          page_uri='/shop/customerlist'
          item_count=$customer_list_count
          view_parameters=$view_parameters
-         alphabetical=disabled
          item_limit=$limit}
 </div>
 

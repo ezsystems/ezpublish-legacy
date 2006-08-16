@@ -70,7 +70,6 @@
          page_uri=concat( '/content/diff/', $object.id, '///' )
          item_count=$list_count
          view_parameters=$view_parameters
-         alphabetical=disabled
          item_limit=$plimit}
 </div>
 

@@ -41,6 +41,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezi18noperator.ph
                                     'class' => 'eZI18NOperator',
                                     'operator_names' => array( 'i18n', 'x18n' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezalphabetoperator.php',
+                                    'class' => 'eZAlphabetOperator',
+                                    'operator_names' => array( 'alphabet' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezdateoperatorcollection.php',
                                     'class' => 'eZDateOperatorCollection',
                                     'operator_names' => array( 'month_overview' ) );

@@ -144,14 +144,6 @@ class eZURLObjectLink extends eZPersistentObject
                 {
                     $versionObject =& $object->version( $objectVersion );
                     $versionID = $versionObject->attribute( 'id' );
-                    // Check for Filter
-                    if ( $parameters['filter'] )
-                    {
-                        // If the first letter of object name eq filter letter
-                        $objectName = $object->attribute( 'name' );
-                        if ( $objectName[0] != $parameters['filter'] )
-                            continue;
-                    }
                     if ( !in_array( $versionID, $storedVersionList ) )
                     {
                         $objectVersionList[] =& $versionObject;

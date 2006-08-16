@@ -85,16 +85,14 @@ class eZSearchLog
     {
         $db =& eZDB::instance();
 
-        $nameFilter = ( isset( $parameters['filter'] ) and $parameters['filter'] !== false ) ? ' AND phrase like \'' . $db->escapeString( $parameters['filter'] ) . '%\'' : '';
-        $query = "SELECT count(*) as phrase_count, AVG( ezsearch_return_count.count ) AS result_count, ezsearch_search_phrase.* FROM
+        $query = 'SELECT count(*) as phrase_count, AVG( ezsearch_return_count.count ) AS result_count, ezsearch_search_phrase.* FROM
                     ezsearch_search_phrase,
                     ezsearch_return_count
                   WHERE
                     ezsearch_search_phrase.id = ezsearch_return_count.phrase_id
-                    $nameFilter
                   GROUP BY
                     ezsearch_search_phrase.id, ezsearch_search_phrase.phrase
-                  ORDER BY phrase_count DESC";
+                  ORDER BY phrase_count DESC';
 
         $phraseArray = $db->arrayQuery( $query, $parameters );
 

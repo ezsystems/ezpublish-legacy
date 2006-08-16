@@ -168,14 +168,6 @@
 
 
 </div>
-<div class="context-toolbar">
-    {include name=navigator
-             uri='design:navigator/google.tpl'
-             page_uri=concat( '/setup/session', cond( $user_id, concat( '/', $user_id ), '' ) )
-             item_count=$sessions_count
-             view_parameters=$view_parameters
-             item_limit=$page_limit}
-</div>
 
 {* DESIGN: Content END *}</div></div></div>
 
@@ -191,6 +183,17 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 </div>
+
+
+
+
+
+    {include name=navigator
+             uri='design:navigator/google.tpl'
+             page_uri=concat( '/setup/session', cond( $user_id, concat( '/', $user_id ), '' ) )
+             item_count=$sessions_count
+             view_parameters=$view_parameters
+             item_limit=$page_limit}
 
 </form>
 

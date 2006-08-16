@@ -404,7 +404,7 @@ class eZContentFunctionCollection
     }
 
     function fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID,
-                                 $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray, $objectNameFilter )
+                                 $classID, $classAttributeID, $ignoreVisibility, $limitation, $sortArray )
     {
         include_once( "kernel/classes/ezsearch.php" );
         $searchArray =& eZSearch::buildSearchArray();
@@ -423,7 +423,6 @@ class eZContentFunctionCollection
         $parameters['SearchOffset'] = $offset;
         $parameters['IgnoreVisibility'] = $ignoreVisibility;
         $parameters['Limitation'] = $limitation;
-        $parameters['ObjectNameFilter'] = $objectNameFilter;
 
         if ( $subTreeArray !== false )
             $parameters['SearchSubTreeArray'] = $subTreeArray;

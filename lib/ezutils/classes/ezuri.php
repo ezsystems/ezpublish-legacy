@@ -206,14 +206,14 @@ class eZURI
     /*!
      Converts filter string to current locale.
      When an user types in browser url like:
-     "/content/view/full/2/(filter)/a"
+     "/content/view/full/2/(namefilter)/a"
      'a' letter should be urldecoded and converted from utf-8 to current locale.
     */
     function convertFilterString()
     {
         foreach ( array_keys( $this->UserArray ) as $paramKey )
         {
-            if ( $paramKey == 'filter' )
+            if ( $paramKey == 'namefilter' )
             {
                 $char =& $this->UserArray[$paramKey];
                 $char = urldecode( $char );

@@ -34,13 +34,11 @@
                                                          'offset', $view_parameters.offset,
                                                          'limit', $limit,
                                                          'class_filter_type', 'include',
-                                                         'class_filter_array', array( $product_class.id ),
-                                                         'objectname_filter', $view_parameters.filter ) )
+                                                         'class_filter_array', array( $product_class.id ) ) )
          product_list_count = fetch( 'content', 'tree_count', hash( 'parent_node_id', 2,
                                                          'main_node_only', true(),
                                                          'class_filter_type', 'include',
-                                                         'class_filter_array', array( $product_class.id ),
-                                                         'objectname_filter', $view_parameters.filter ) ) }
+                                                         'class_filter_array', array( $product_class.id ) ) ) }
 {/if}
 
 {* show list of products *}
@@ -107,12 +105,6 @@
 
 </table>
 
-{else}
-    <div class="block">
-    <p>{'The product list is empty.'|i18n( 'design/admin/shop/productsoverview' )}</p>
-    </div>
-{/if}
-
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -122,6 +114,11 @@
          item_limit=$limit}
 </div>
 
+{else}
+    <div class="block">
+    <p>{'The product list is empty.'|i18n( 'design/admin/shop/productsoverview' )}</p>
+    </div>
+{/if}
 {* DESIGN: Content END *}</div></div></div>
 
 {* Button bar for filter and sorting. *}

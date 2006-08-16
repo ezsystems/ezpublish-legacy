@@ -115,7 +115,6 @@
          page_uri='/shop/orderlist'
          item_count=$order_list_count
          view_parameters=$view_parameters
-         alphabetical=disabled
          item_limit=$limit}
 </div>
 

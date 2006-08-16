@@ -121,7 +121,7 @@ $viewParameters = array( 'offset' => $Offset,
                          'year' => $Year,
                          'month' => $Month,
                          'day' => $Day,
-                         'filter' => false );
+                         'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $user =& eZUser::currentUser();

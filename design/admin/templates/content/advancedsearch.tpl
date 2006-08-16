@@ -16,7 +16,6 @@
                            class_id,$search_contentclass_id,
                            class_attribute_id,$search_contentclass_attribute_id,
                            offset,$view_parameters.offset,
-                           objectname_filter,$view_parameters.filter,
                            publish_date,$search_date,
                            limit,$page_limit))}
     {set search_result=$search['SearchResult']}
@@ -75,7 +74,7 @@ selected="selected"
 <select name="SearchContentClassAttributeID">
 <option value="-1">{'Any attribute'|i18n( 'design/admin/content/search' )}</option>
 {section name=ClassAttribute loop=$search_content_class_attribute_array}
-<option value="{$Attribute:ClassAttribute:item.id}"
+<option value="{$Attribute:ClassAttribute:item.id}" 
 {section show=eq( $search_contentclass_attribute_id, $Attribute:ClassAttribute:item.id )}selected="selected"{/section}>
 {$Attribute:ClassAttribute:item.name|wash}
 </option>

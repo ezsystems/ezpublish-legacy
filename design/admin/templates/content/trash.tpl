@@ -2,8 +2,8 @@
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
      object_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
                                                           offset, $view_parameters.offset,
-                                                          objectname_filter, $view_parameters.filter ) )
-     list_count=fetch( content, trash_count, hash( objectname_filter, $view_parameters.filter ) ) }
+                                                          objectname_filter, $view_parameters.namefilter ) )
+     list_count=fetch( content, trash_count, hash( objectname_filter, $view_parameters.namefilter ) ) }
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
 
@@ -92,12 +92,13 @@
 
 <div class="context-toolbar">
 {include name=navigator
-         uri='design:navigator/google.tpl'
+         uri='design:navigator/alphabetical.tpl'
          page_uri='/content/trash'
          item_count=$list_count
          view_parameters=$view_parameters
          item_limit=$number_of_items}
 </div>
+
 
 {* DESIGN: Content END *}</div></div></div>
 

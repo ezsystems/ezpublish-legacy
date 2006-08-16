@@ -150,10 +150,8 @@
 </tr>
 {section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
 
-{let object_version_status=1}
-{if is_set( $Objects.item.contentobject.versions[sub($Objects.item.version,1)].status )}
-    {set object_version_status=$Objects.item.contentobject.versions[sub($Objects.item.version,1)].status}
-{/if}
+{let object_version_status=$Objects.item.contentobject.versions[sub($Objects.item.version,1)].status}
+
 {section show=or(or(eq($view_filter_type,''),eq($view_filter_type,'all')),and(eq($view_filter_type,'published'),eq($object_version_status,1),eq($Objects.item.contentobject.status,1)))}
 <tr class="{$Objects.sequence}">
     <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.contentobject.id, '/', $Objects.item.version )|ezurl} title="{'View the contents of version #%version_number.'|i18n( 'design/admin/url/view',, hash( '%version_number', $Objects.item.version, ) )}">{$Objects.item.name|wash}</a></td>
@@ -181,10 +179,6 @@
 
 </table>
 
-{section-else}
-<p>{'URL #%url_id is not in use by any objects.'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</p>
-{/section}
-
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
@@ -193,6 +187,9 @@
          view_parameters=$view_parameters
          item_limit=$number_of_items}
 </div>
+{section-else}
+<p>{'URL #%url_id is not in use by any objects.'|i18n( 'design/admin/url/view',, hash( '%url_id', $url_object.id ) )}</p>
+{/section}
 
 {/let}
 

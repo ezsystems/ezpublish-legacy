@@ -13,12 +13,12 @@
      can_create=false()
      can_copy=false()
      children_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
-                                                      objectname_filter, $view_parameters.filter ) )
+                                                      objectname_filter, $view_parameters.namefilter ) )
      children=fetch( content, list, hash( parent_node_id, $node.node_id,
                                           sort_by, $node.sort_array,
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset,
-                                          objectname_filter,$view_parameters.filter ) ) }
+                                          objectname_filter, $view_parameters.namefilter ) ) }
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
@@ -135,10 +135,11 @@
 
 <div class="context-toolbar">
 {include name=navigator
-         uri='design:navigator/google.tpl'
+         uri='design:navigator/alphabetical.tpl'
          page_uri=$node.url_alias
          item_count=$children_count
          view_parameters=$view_parameters
+         node_id=$node.node_id
          item_limit=$number_of_items}
 </div>
 

@@ -37,7 +37,6 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
 $Offset = $Params['Offset'];
-
 if ( isset( $Params['UserParameters'] ) )
 {
     $UserParameters = $Params['UserParameters'];
@@ -46,7 +45,7 @@ else
 {
     $UserParameters = array();
 }
-$viewParameters = array( 'offset' => $Offset, 'filter' => false );
+$viewParameters = array( 'offset' => $Offset, 'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $http =& eZHTTPTool::instance();

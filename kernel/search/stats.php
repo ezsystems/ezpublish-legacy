@@ -58,24 +58,12 @@ if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 {
     eZSearchLog::removeStatistics();
 }
-if ( isset( $Params['UserParameters'] ) )
-{
-    $UserParameters = $Params['UserParameters'];
-}
-else
-{
-    $UserParameters = array();
-}
-$viewParameters = array( 'offset' => $offset, 'limit'  => $limit, 'filter' => false );
-$viewParameters = array_merge( $viewParameters, $UserParameters );
 
+$viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 $tpl =& templateInit();
 
 $db =& eZDB::instance();
-// Create google navigator, filtering by first letter
-$nameFilter = ( isset( $viewParameters['filter'] ) and $viewParameters['filter'] !== false ) ? 'WHERE phrase like \'' . $db->escapeString( $viewParameters['filter'] ) . '%\'': '';
-
-$query = "SELECT count(*) as count FROM ezsearch_search_phrase $nameFilter";
+$query = "SELECT count(*) as count FROM ezsearch_search_phrase";
 $searchListCount = $db->arrayQuery( $query );
 
 $mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray( $viewParameters );

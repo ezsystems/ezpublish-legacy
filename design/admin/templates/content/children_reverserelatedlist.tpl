@@ -93,7 +93,6 @@
          page_uri=concat( '/content/reverserelatedlist/', $node_id )
          item_count=$children_count
          view_parameters=$view_parameters
-         alphabetical=disabled
          item_limit=$number_of_items}
 </div>
 

@@ -8,7 +8,6 @@
                            subtree_array,$search_subtree_array,
                            sort_by,array('modified',false()),
                            offset,$view_parameters.offset,
-                           objectname_filter,$view_parameters.filter,
                            limit,$page_limit))}
     {set search_result=$search['SearchResult']}
     {set search_count=$search['SearchCount']}

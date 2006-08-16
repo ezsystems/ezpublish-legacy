@@ -176,17 +176,6 @@ $sectionArray = eZSection::fetchList();
 
 $searchArray =& eZSearch::buildSearchArray();
 
-if ( isset( $Params['UserParameters'] ) )
-{
-    $UserParameters = $Params['UserParameters'];
-}
-else
-{
-    $UserParameters = array();
-}
-$viewParameters = array( 'offset' => $Offset, 'filter' => false );
-$viewParameters = array_merge( $viewParameters, $UserParameters );
-
 if ( $useSearchCode )
 {
     $searchResult = eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
@@ -196,14 +185,15 @@ if ( $useSearchCode )
                                                           'SearchDate' => $searchDate,
                                                           'SearchTimestamp' => $searchTimestamp,
                                                           'SearchLimit' => $pageLimit,
-                                                          'SearchOffset' => $Offset,
-                                                          "ObjectNameFilter" => $viewParameters['filter'] ),
+                                                          'SearchOffset' => $Offset ),
                                        $searchArray );
     if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
     {
         $searchText = 'search by additional parameter';
     }
 }
+
+$viewParameters = array( 'offset' => $Offset );
 
 $searchData = false;
 $tpl->setVariable( "search_data", $searchData );

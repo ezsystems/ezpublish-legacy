@@ -43,12 +43,11 @@ class eZi18nOperator
 {
     /*!
     */
-    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n', $alphabet = 'alphabet' )
+    function eZi18nOperator( $name = 'i18n', $extensionName = 'x18n' )
     {
-        $this->Operators = array( $name, $extensionName, $alphabet );
+        $this->Operators = array( $name, $extensionName );
         $this->Name = $name;
         $this->ExtensionName = $extensionName;
-        $this->Alphabet = $alphabet;
     }
 
     /*!
@@ -92,10 +91,7 @@ class eZi18nOperator
                                                                          'default' => '' ),
                                                      'arguments' => array( 'type' => 'hash',
                                                                            'required' => false,
-                                                                           'default' => false ) ),
-                      $this->Alphabet => array( 'charset_code' => array( 'type' => 'string',
-                                                                         'required' => false,
-                                                                         'default' => false ) ) );
+                                                                           'default' => false ) ) );
     }
 
     function operatorTemplateHints()
@@ -193,14 +189,6 @@ class eZi18nOperator
                 $arguments = $namedParameters['arguments'];
                 $value = ezx18n( $extension, $context, $value, $comment, $arguments );
             } break;
-            case $this->Alphabet:
-            {
-                $charsetCode = $namedParameters['charset_code'];
-                include_once( "lib/ezi18n/classes/ezcodepage.php" );
-                $alphabet = eZCodepage::getAlphabet( $charsetCode );
-                $value = $alphabet;
-            } break;
-
         }
     }
 
@@ -208,7 +196,6 @@ class eZi18nOperator
     var $Operators;
     var $Name;
     var $ExtensionName;
-    var $Alphabet;
 };
 
 ?>

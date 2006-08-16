@@ -917,10 +917,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return '';
 
         $db =& eZDB::instance();
-        if ( $filter == '*' )
+        if ( $filter == 'others' )
         {
-            include_once( "lib/ezi18n/classes/ezcodepage.php" );
-            $alphabet = eZCodepage::getAlphabet();
+            include_once('kernel/common/ezalphabetoperator.php');
+            $alphabet = eZAlphabetOperator::fetchAlphabet();
             $sql = '';
             foreach ( $alphabet as $letter )
             {
@@ -928,7 +928,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             return $sql;
         }
-        $objectNameFilterSQL =  ' AND ezcontentobject.name like \'' . $db->escapeString( $filter ) .'%\'';
+        $objectNameFilterSQL =  " AND ezcontentobject.name LIKE '" . $db->escapeString( $filter ) ."%'";
         return $objectNameFilterSQL;
     }
 

@@ -103,8 +103,7 @@ else
 {
     $UserParameters = array();
 }
-$viewParameters = array( 'offset' => $Offset,
-                         'filter' => false );
+$viewParameters = array( 'offset' => $Offset, 'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
 $tpl->setVariable( 'view_parameters', $viewParameters );

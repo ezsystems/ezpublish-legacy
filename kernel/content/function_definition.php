@@ -529,11 +529,7 @@ $FunctionList['search'] = array( 'name' => 'search',
                                                         array( 'name' => 'sort_by',
                                                                'type' => 'mixed',
                                                                'required' => false,
-                                                               'default' => false ),
-                                                        array( 'name' => 'objectname_filter',
-                                                               'type' => 'string',
-                                                               'required' => false,
-                                                               'default' => null ) ) );
+                                                               'default' => false ) ) );
 
 $FunctionList['trash_count'] = array( 'name' => 'trash_count',
                                       'operation_types' => array( 'read' ),

@@ -28,7 +28,6 @@
          page_uri=concat("/collaboration/group/list/",$collab_group.id)
          item_count=$group_item_count
          view_parameters=$view_parameters
-         alphabetical=disabled
          item_limit=$item_limit}
 
 {section-else}

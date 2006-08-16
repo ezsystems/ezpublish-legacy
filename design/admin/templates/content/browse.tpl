@@ -1,7 +1,7 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.filter))
-     node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array, objectname_filter, $view_parameters.filter ) )
+     browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.namefilter))
+     node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array, objectname_filter, $view_parameters.namefilter ) )
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
      select_attribute='contentobject_id'}
@@ -56,7 +56,7 @@
     <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
     {$current_node.object.content_class.identifier|class_icon( original, $current_node.object.content_class.name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
 {section-else}
-    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$browse_list_count}]</h2>
+    <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
 {/section}
 {/let}
 
@@ -123,11 +123,12 @@
 {/switch}
 
 <div class="context-toolbar">
-{include name=Navigator
-         uri='design:navigator/google.tpl'
+{include name=navigator
+         uri='design:navigator/alphabetical.tpl'
          page_uri=concat( '/content/browse/', $main_node.node_id )
          item_count=$browse_list_count
          view_parameters=$view_parameters
+         node_id=$node_id
          item_limit=$number_of_items}
 </div>
 
