@@ -46,7 +46,15 @@ Clustering:
   the user will get a message
 - Implemented enhancement #7556: Need a way to set minimum password length.
   Added site.ini[UserSettings].MinPasswordLength.
-  
+- Added content.ini[AlphabeticalFilterSettings].ContentFilterList[]
+  List of alphabets that will be used in alphabetical navigation.
+  Alphabets will be fetched from AlphabetList[<name of alphabet>]
+- Added content.ini[AlphabeticalFilterSettings].AlphabetList[]
+  Alphabet range/sequence in unicode.
+- Added content.ini[AlphabeticalFilterSettings].EnableUnusedLetters=true/false
+  If true unused letters in alphabetical navigation (when browsing or fetching subitems)
+  will be disabled.
+
 *Design:
 - Fixed suggestion #8262: No need displaying language 
   when only one is installed.

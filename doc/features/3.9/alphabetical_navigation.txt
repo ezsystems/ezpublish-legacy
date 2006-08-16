@@ -1,0 +1,97 @@
+*Title: Alphabetical navigation.
+
+*Documentation:
+
+Objects can be filtered by first letter.
+If content.ini[AlphabeticalFilterSettings].ContentFilterList[] is not empty
+alphabetical navigator will be enabled.
+Alphabetical navigation is used with google navigation in the children window of content/view,
+in content/browse and trash.
+
+The navigator uses any alphabets (see content.ini[AlphabeticalFilterSettings].AlphabetList[]).
+
+(Make sure that your alphabets in content.ini[AlphabeticalFilterSettings].ContentFilterList[]
+is supported by i18n.ini[CharsetSettings].Charset. All unsupported letters will be shown like question mark '?')
+
+* New settings:
+
+New INI settings in content.ini[AlphabeticalFilterSettings] have been added:
+
+- ContentFilterList[]
+  List of alphabets that will be used in alphabetical navigation.
+  Alphabets will be fetched from AlphabetList[<name of alphabet>]
+  For example:
+      ContentFilterList[]=<name of alphabet>
+      ContentFilterList[]=eng-GB
+      ContentFilterList[]=ger-DE
+  If array is empty means the alphabetical navigation will be disabled.
+
+- AlphabetList[]
+  Alphabet range in unicode (range of english alphabet is between 97 and 122).
+  You can use range (e.g. 97-122) and/or sequence of letters (e.g. 248,249).
+  For example:
+      AlphabetList[eng-GB]=97-122
+      AlphabetList[ger-DE]=97,228,98-111,246,112-115,223,116,117,252,118-122
+      AlphabetList[rus-RU]=1072-1103
+      AlphabetList[nor-NO]=97-122,230,248,229
+
+- EnableUnusedLetters=true/false
+  If true unused letters in alphabetical navigation (when browsing or fetching subitems)
+  will be disabled.
+  For example:
+      if there are no objects with 'a' first letter in the object name 'a' letter will be disabled in alphabetical navigation.
+
+*Implementation details:
+
+1) Added supporting of 'ObjectNameFilter' parameter to
+eZContentObjectTreeNode:subTree() and eZContentObjectTreeNode:subTreeCount()
+
+2) Added 'objectname_filter' parameter to next fetch functions:
+
+- list
+- list_count
+- tree
+- tree_count
+- trash_count
+- trash_object_list
+
+Usage:
+      {let children_count=fetch( content, list_count, hash( parent_node_id, $node.node_id,
+                                                            objectname_filter, $view_parameters.namefilter ) )
+           children=fetch( content, list, hash( parent_node_id, $node.node_id,
+                                                sort_by, $node.sort_array,
+                                                limit, $number_of_items,
+                                                offset, $view_parameters.offset,
+                                                objectname_filter, $view_parameters.namefilter ) ) }
+
+Now you can use object name filtering by first letter like this:
+
+      http://host/<site_access>/content/view/full/2/(namefilter)/a
+
+3) Also alphabet() tpl function has been added.
+Returns alphabets for alphabetical navigation.
+The function has no params.
+
+Usage:
+      {alphabet()}
+
+=============
+
+If you want to use alphabetical navigator
+you should
+1. Add "hash( ... objectname_filter, $view_parameters.namefilter )" to fetch operations in tpls.
+   (see 'Implementation details'[2])
+2. Change
+      uri='design:navigator/google.tpl'
+   to
+      uri='design:navigator/alphabetical.tpl'
+   in 'include' operation.
+
+   For example:
+     {include name=navigator
+              uri='design:navigator/alphabetical.tpl'
+              page_uri=$node.url_alias
+              item_count=$children_count
+              view_parameters=$view_parameters
+              node_id=$node.node_id
+              item_limit=$number_of_items}

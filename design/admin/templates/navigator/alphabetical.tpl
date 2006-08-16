@@ -9,14 +9,14 @@
          gt( count( ezini( 'AlphabeticalFilterSettings', 'ContentFilterList', 'content.ini' ) ), 0 )
 	 )}
 
-   {default alphabetical=enabled
-            children_count_by_letter=false()
+   {default children_count_by_letter=false()
             objectname_filter=false()
             alphabet=alphabet()
 	    node_id=false()
 	    page_uri_suffix=false()
 	    page_count=int( ceil( div( $item_count, $item_limit ) ) )}
 
+   {* Create array of used letters. All unused letters will be disabled in alphabetical navigator. *}
    {if and( ne( $node_id, false() ), eq( ezini( 'AlphabeticalFilterSettings', 'EnableUnusedLetters', 'content.ini' ), 'true' ) )}
       {def $alphabet_tmp=merge( $alphabet,'others' )
            $hash_by_letter=false}
@@ -31,6 +31,7 @@
       {undef $alphabet_tmp $hash_by_letter}
    {/if}
 
+   {* Initialize $objectname_filter *}
    {if is_set( $view_parameters.namefilter )}
       {set objectname_filter=$view_parameters.namefilter}
    {/if}
@@ -66,7 +67,7 @@
 		
                  </span>		
 	    {/if}
-	
+            {* Create alphabetical navigator *}
             {foreach $alphabet as $letter}
                  {if $letter|eq( $:objectname_filter )}
                       <span class="current">{$letter}</span>
@@ -78,7 +79,7 @@
 		         <span class="disabled">
 		      {/if}
 		      {$letter}
-                      {if or( and( ne( $children_count_by_letter, false() ), and( is_set( $children_count_by_letter[$letter] ), gt( $children_count_by_letter[$letter], 0 ) ) ), eq( $children_count_by_letter, false() ) )}		
+                      {if or( and( ne( $children_count_by_letter, false() ), and( is_set( $children_count_by_letter[$letter] ), gt( $children_count_by_letter[$letter], 0 ) ) ), eq( $children_count_by_letter, false() ) )}
 		         </a>
 		      {else}
 		         </span>
