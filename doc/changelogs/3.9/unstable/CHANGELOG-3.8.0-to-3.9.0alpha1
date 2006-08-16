@@ -286,3 +286,7 @@ eZTemplate:
 - Fixed bug #8810: {fetch( content , list , hash( parent_node_id , 0 ) )} 
   causes fatal error.
 - Fixed bug #8814: Treemenu going nuts.
+- Fixed bug #8813: warnings when using treemenu without 
+  class_filter parameter.
+- Fixed bug #8438: Publish operation doesn't process additional 
+  node assignments.

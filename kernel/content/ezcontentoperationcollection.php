@@ -215,7 +215,7 @@ class eZContentOperationCollection
             $node->setName( $object->attribute( 'name' ) );
             $node->updateSubTreePath();
         }
-        
+
         $db->commit();
 
         /* Check if current class is the user class, and if so, clean up the
@@ -307,6 +307,11 @@ class eZContentOperationCollection
         {
             // There is nothing to do so just return
             $db->commit();
+            if ( $mainNodeID == false )
+            {
+                return $existingNode->attribute( 'node_id' );
+            }
+
             return;
         }
 
@@ -403,6 +408,10 @@ class eZContentOperationCollection
             eZContentOperationCollection::updateSectionID( $objectID, $versionNum );
         }
         $db->commit();
+        if ( $mainNodeID == false )
+        {
+            return $existingNode->attribute( 'node_id' );
+        }
     }
 
     function updateSectionID( $objectID, $versionNum )
@@ -619,7 +628,7 @@ class eZContentOperationCollection
 
         $version =& $object->version( $versionNum );
         $versionTranslationList =& $version->translationList( false, false );
- 
+
         foreach ( array_keys( $publishedVersionTranslations ) as $translationKey )
         {
             $translation =& $publishedVersionTranslations[$translationKey];
@@ -627,7 +636,7 @@ class eZContentOperationCollection
             if ( in_array( $translation->attribute( 'language_code' ), $versionTranslationList )
               || !in_array( $translation->attribute( 'language_code' ), $publishedLanguageCodes ) )
             {
-            	continue;
+                continue;
             }
 
             $contentObjectAttributes =& $translation->objectAttributes();
@@ -649,7 +658,7 @@ class eZContentOperationCollection
     {
         $object =& eZContentObject::fetch( $objectID );
         $version =& $object->version( $versionNum );
-        
+
         $nonTranslatableAttributes = $version->nonTranslatableAttributesToUpdate();
         if ( $nonTranslatableAttributes )
         {
