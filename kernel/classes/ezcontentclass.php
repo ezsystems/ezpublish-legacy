@@ -167,8 +167,8 @@ class eZContentClass extends eZPersistentObject
             "created" => $dateTime,
             'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
             "modified" => $dateTime,
-            "is_container" => $contentClassDefinition[ 'is_container' ][ 'default' ],
-            "always_available" => $contentClassDefinition[ 'always_available' ][ 'default' ] );
+            "is_container" => $contentClassDefinition[ 'fields' ][ 'is_container' ][ 'default' ],
+            "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ] );
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
         return $contentClass;
