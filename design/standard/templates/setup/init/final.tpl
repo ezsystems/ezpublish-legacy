@@ -6,7 +6,7 @@
 </div>
 
 <p>
-  {"eZ publish has been installed with the following sites. You will find the username and password mentioned for each site."|i18n("design/standard/setup/init")}
+  {"eZ publish has been installed with the following sites. You will find the username mentioned for each site in the details below."|i18n("design/standard/setup/init")}
 </p>
 
 <blockquote class="note">
