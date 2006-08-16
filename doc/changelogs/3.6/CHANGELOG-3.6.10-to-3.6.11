@@ -4,6 +4,10 @@ Changes from 3.6.10 to 3.6.11
 - Added content.ini[RemoveSettings].MaxNodesRemoveSubtree
   Maximum number of nodes to remove (using Remove Subtrees feature)
 
+eZTemplate:
+- Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
+  (Merged from trunk 3.9.0alpha1 rev. 16647)
+
 *Bugfixes:
 - Fixed bug #8597: Problem with path to icons on list of used templates.
   (Merged from stable/3.8 (3.8.4) rev. 16536)
