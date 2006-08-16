@@ -13,4 +13,7 @@ Changes from 3.6.10 to 3.6.11
   (Merged from trunk (3.9.0alpha1) rev. 16553)
 - Fixed bug #8741: ezurl can cause fatal error in compiled state.
   (Merged from stable/3.8 (3.8.4) rev. 16574)
+- Fixed bug #8810: {fetch( content , list , hash( parent_node_id , 0 ) )} 
+  causes fatal error.
+  (Merged from trunk (3.9.0alpha1) rev. 16630)
  
