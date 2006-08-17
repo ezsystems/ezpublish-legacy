@@ -91,7 +91,7 @@ class eZTreeMenuOperator
         $classFilter = $namedParameters['class_filter'];
         $language = $namedParameters['language'];
 
-        if ( $classFilter == false )
+        if ( $classFilter === false )
         {
             $classFilter = array();
         }
@@ -99,6 +99,7 @@ class eZTreeMenuOperator
         {
             $classFilter = array( 1 );
         }
+        $classFilter = ( count( $classFilter ) == 1 and !isset( $classFilter[0] ) ) ? array( 1 ) : $classFilter;
         if ( !$tmpModulePath[count($tmpModulePath)-1]['url'] and isset( $tmpModulePath[count($tmpModulePath)-1]['node_id'] ) )
             $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $tmpModulePath[count($tmpModulePath)-1]['node_id'];
 
