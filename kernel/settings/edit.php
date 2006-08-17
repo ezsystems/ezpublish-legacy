@@ -179,7 +179,7 @@ if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
     $ini->loadCache();
 }
 
-$value = $ini->variable( $block, $settingName );
+$value = $settingName != '' ? $ini->variable( $block, $settingName ) : '';
 
 // Do modifications to the value before it's sent to the template
 if ( ( is_array( $value ) || $value ) and !isset( $settingType ) )

@@ -54,6 +54,11 @@ Clustering:
 - Added content.ini[AlphabeticalFilterSettings].EnableUnusedLetters=true/false
   If true unused letters in alphabetical navigation (when browsing or fetching subitems)
   will be disabled.
+- Added support of read-only settings.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Added site.ini:[eZINISettings].ReadonlySettingList[]
+  Specifies settings which should be read-only.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
 
 *Design:
 - Fixed suggestion #8262: No need displaying language 
@@ -276,8 +281,6 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.4) rev. 16536)
 - Fixed bug #7776: Remove many objects does not work correctly.
 - Fixed bug: problem with special chars in email's header.
-- Fixed bug #8708: Another problem with strong and emphasize ezxmltags.
-  (Merged from 3.8.3)
 - Fixed bug #8698: Automatic VAT calculation broken with
   ezdefaultshopaccounthandler.
 - Fixed bug #8109: Missing MIMEType (flv/flash video).
@@ -300,3 +303,9 @@ eZTemplate:
 - Fixed bug #8438: Publish operation doesn't process additional 
   node assignments.
 - Fixed bug #8793: No user/password in final page of install.
+- Fixed bug #8708: Another problem with strong and emphasize ezxmltags.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug: content/download ignores node's visibility.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug: 'classification' override does not work for 'embed' tags.
+  (Merged from stable/3.8 (3.8.4) rev.16666)

@@ -218,6 +218,9 @@ class eZStepCreateSites extends eZStepInstaller
                     {
                         $tmpINI =& eZINI::create( $iniName );
                     }
+                    // Set ReadOnlySettingsCheck to false: towards
+                    // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+                    $tmpINI->setReadOnlySettingsCheck( false );
                     $tmpINI->setVariables( $settings );
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
                 }
@@ -230,11 +233,18 @@ class eZStepCreateSites extends eZStepInstaller
         }
 
         $ini =& eZINI::instance();
+        // Set ReadOnlySettingsCheck to false: towards
+        // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+        $ini->setReadOnlySettingsCheck( false );
 
         $regionalInfo = $this->PersistenceList['regional_info'];
         $emailInfo = $this->PersistenceList['email_info'];
 
         $imageINI =& eZINI::create( 'image.ini' );
+        // Set ReadOnlySettingsCheck to false: towards
+        // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+        $imageINI->setReadOnlySettingsCheck( false );
+
         $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
@@ -254,6 +264,10 @@ class eZStepCreateSites extends eZStepInstaller
              $charset !== false )
         {
             $i18nINI =& eZINI::create( 'i18n.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $i18nINI->setReadOnlySettingsCheck( false );
+
             $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
             if ( $saveData )
                 $saveResult = $i18nINI->save( false, '.php', 'append', true );
@@ -437,7 +451,7 @@ class eZStepCreateSites extends eZStepInstaller
         $result = true;
 
         // Initialize the database by inserting schema and data
-        
+
         if ( !isset( $siteType['existing_database'] ) )
         {
             $siteType['existing_database'] = false;
@@ -515,7 +529,7 @@ class eZStepCreateSites extends eZStepInstaller
         {
             return false;
         }
-        
+
         // Database initialization done
 
         // Prepare languages
@@ -571,6 +585,10 @@ class eZStepCreateSites extends eZStepInstaller
         $installParameters['variables']['design'] = $userDesignName;
 
         $tmpSiteINI =& eZINI::create( 'site.ini' );
+        // Set ReadOnlySettingsCheck to false: towards
+        // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+        $tmpSiteINI->setReadOnlySettingsCheck( false );
+
         $tmpSiteINI->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
         // Change the current translation variables, before other parts start using them
@@ -763,7 +781,7 @@ id $inSql";
             {
                 if ( $require['type'] != 'ezpackage' )
                     continue;
-                
+
                 $packageName = $require['name'];
                 $package = eZPackage::fetch( $packageName, false, false, false );
 
@@ -932,6 +950,9 @@ id $inSql";
                 $resetArray = $extraSetting['reset_arrays'];
 
             $tmpINI =& eZINI::create( $iniName );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $tmpINI->setReadOnlySettingsCheck( false );
 
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
@@ -997,6 +1018,10 @@ id $inSql";
         if ( !$siteINIAdminStored )
         {
             $siteINI =& eZINI::create( 'site.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $siteINI->setReadOnlySettingsCheck( false );
+
             $siteINI->setVariables( $siteINIChanges );
             $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
@@ -1006,6 +1031,10 @@ id $inSql";
         if ( !$siteINIStored )
         {
             $siteINI =& eZINI::create( 'site.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $siteINI->setReadOnlySettingsCheck( false );
+
             $siteINI->setVariables( $siteINIChanges );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
             $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
@@ -1014,6 +1043,10 @@ id $inSql";
         if ( !$designINIStored )
         {
             $designINI =& eZINI::create( 'design.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $designINI->setReadOnlySettingsCheck( false );
+
             if ( $siteCSS )
                 $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
             if ( $classesCSS )
@@ -1055,7 +1088,7 @@ id $inSql";
         if ( function_exists( 'eZSiteRoles' ) )
         {
             $extraRoles = eZSiteRoles( $parameters );
-    
+
             foreach ( $extraRoles as $extraRole )
             {
                 if ( !$extraRole )
@@ -1083,7 +1116,7 @@ id $inSql";
                         }
                     }
                 }
-    
+
                 if ( isset( $extraRole['assignments'] ) )
                 {
                     $roleAssignments = $extraRole['assignments'];
