@@ -1,5 +1,10 @@
 Changes from 3.6.9 to 3.6.10
 
+*INI settings:
+- Added support of read-only settings.
+- Added site.ini:[eZINISettings].ReadonlySettingList[]
+  Specifies settings which should be read-only.
+
 *Bugfixes:
 - Fixed bug #8610: Problem with option datatype in form management.  
 - Fixed bug #8700: New bug: No more [depth_operator = 'eq']-support in ContentObjectTreeNode
@@ -7,4 +12,9 @@ Changes from 3.6.9 to 3.6.10
 - Fixed suggestion #7588: "ignore_visibility" and "limitation" parameters 
   to "search" fetch function.
   (Merged from trunk (3.9.0alpha1) rev. 16491)
-  
+- Fixed bug #8681: ezurl and ezroot operators don't work correctly.
+  (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug #7619: RSS: Relative image src in XML field.
+  (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug: content/download ignores node's visibility.
+- Fixed bug: 'classification' override does not work for 'embed' tags.

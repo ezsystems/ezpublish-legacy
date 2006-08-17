@@ -61,6 +61,21 @@ if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'ca
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
+// Check for locations.
+// If exists location that current user has access to and location is visible.
+$nodeAssignments = $contentObject->attribute( 'assigned_nodes' );
+$canAccess = false;
+foreach ( $nodeAssignments as $nodeAssignment )
+{
+    if ( ( eZContentObjectTreeNode::showInvisibleNodes() || !$nodeAssignment->attribute( 'is_invisible' ) ) and $nodeAssignment->canRead() )
+    {
+        $canAccess = true;
+        break;
+    }
+}
+if ( !$canAccess )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
 // If $version is not current version (published)
 // we should check permission versionRead for the $version.
 if ( $version != $currentVersion )

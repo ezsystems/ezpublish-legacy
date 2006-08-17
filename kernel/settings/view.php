@@ -121,6 +121,7 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
     {
         $settingsCount = 0;
         $blockRemoveable = false;
+        $blockEditable = true;
         foreach( $key as $setting=>$settingKey )
         {
             $hasSetPlacement = false;
@@ -184,11 +185,16 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
                     $blockRemoveable = true;
                 }
             }
+            $editable = $ini->isSettingReadOnly( $settingFile, $block, $setting );
+            $removeable = $editable === false ? false : $removeable;
+            $settings[$block]['content'][$setting]['editable'] = $editable;
             $settings[$block]['content'][$setting]['removeable'] = $removeable;
             ++$settingsCount;
         }
+        $blockEditable = $ini->isSettingReadOnly( $settingFile, $block );
         $settings[$block]['count'] = $settingsCount;
         $settings[$block]['removeable'] = $blockRemoveable;
+        $settings[$block]['editable'] = $blockEditable;
         $totalSettingCount += $settingsCount;
         ++$blockCount;
     }

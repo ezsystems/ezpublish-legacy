@@ -626,6 +626,17 @@ class eZSys
     }
 
     /*!
+     Returns the server URL. (protocol with hostname and port)
+     \static
+    */
+    function serverURL()
+    {
+        $hostName = eZSys::hostname();
+        $url = $hostName ? 'http://' . $hostName : '';
+        return $url;
+    }
+
+    /*!
       \static
       \return the port of the server.
     */
