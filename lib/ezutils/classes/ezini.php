@@ -1147,6 +1147,31 @@ class eZINI
         return $ret;
     }
 
+    function isSettingReadOnly( $fileName = false, $blockName = false, $settingName = false )
+    {
+        if ( !$this->readOnlySettingsCheck() )
+            return true;
+
+        $ini =& eZINI::instance();
+        if ( !$ini->hasVariable( 'eZINISettings', 'ReadonlySettingList' ) )
+            return true;
+
+        $fileName = $fileName === false ? $ini->FileName : $fileName;
+        $fileNameExploded = explode( '.', $fileName );
+        $realFileName = $fileNameExploded[0] . '.' . $fileNameExploded[1];
+        $blockName = $blockName === false ? '*' : $blockName;
+        $settingName = $settingName === false ? '*' : $settingName;
+        $currentSetting = $realFileName . '/' . $blockName . '/' . $settingName;
+
+        $settingList = $ini->variable( 'eZINISettings', 'ReadonlySettingList' );
+        $settingList[] = 'site.ini/eZINISettings/*';
+
+        $result = !( in_array( $realFileName . '/*' , $settingList ) or
+                     in_array( $realFileName . '/' . $blockName . '/*'  , $settingList ) or
+                     in_array( $realFileName . '/' . $blockName . '/' . $settingName  , $settingList ) );
+
+        return $result;
+    }
     /*!
       Removes the group and all it's settings from the .ini file
     */
@@ -1237,7 +1262,18 @@ class eZINI
     */
     function setGroups( $groupArray )
     {
-        $this->BlockValues = $groupArray;
+        $resultArray = array();
+        // Check for readOnly
+        foreach ( $groupArray as $blockName => $blockVariables )
+        {
+            foreach ( $blockVariables as $variableName => $variableValue )
+            {
+                if ( !$this->isSettingReadOnly( $this->FileName, $blockName, $variableName ) )
+                    continue;
+                $resultArray[$blockName][$variableName] = $variableValue;
+            }
+        }
+        $this->BlockValues = $resultArray;
     }
 
     /*!
@@ -1257,7 +1293,7 @@ class eZINI
             foreach ( $blockVariables as $variableName => $variableValue )
             {
                 $this->setVariable( $blockName, $variableName, $variableValue );
-           }
+            }
         }
     }
 
@@ -1270,6 +1306,9 @@ class eZINI
     */
     function setVariable( $blockName, $variableName, $variableValue )
     {
+        if ( !$this->isSettingReadOnly( $this->filename(), $blockName, $variableName ) )
+            return false;
+
         $this->BlockValues[$blockName][$variableName] = $variableValue;
         $this->ModifiedBlockValues[$blockName][$variableName] = true;
     }
@@ -1339,6 +1378,21 @@ class eZINI
         return $impl;
     }
 
+    /*!
+       Sets ReadonlySettingsCheck variable.
+    */
+    function setReadOnlySettingsCheck( $readOnly = true )
+    {
+        $this->ReadOnlySettingsCheck = $readOnly;
+    }
+
+    /*!
+       \return ReadonlySettingsCheck variable.
+    */
+    function readOnlySettingsCheck()
+    {
+        return $this->ReadOnlySettingsCheck;
+    }
     /// \privatesection
     /// The charset of the ini file
     var $Charset;
@@ -1384,6 +1438,10 @@ class eZINI
 
     /// If \c true empty element will be created in the beginning of array if it is defined in this ini file.
     var $AddArrayDefinition;
+
+    /// If \c true eZINI will check each setting (before saving) for correspondence of settings in site.ini[eZINISetting].ReadonlySettingList
+    var $ReadOnlySettingsCheck = true;
+
 }
 
 ?>

@@ -1,5 +1,10 @@
 Changes from 3.7.7 to 3.7.8
 
+*INI settings:
+- Added support of read-only settings.
+- Added site.ini:[eZINISettings].ReadonlySettingList[]
+  Specifies settings which should be read-only.
+
 *Bugfixes:
 - Fixed bug #8610: Problem with option datatype in form management.
   (Merged from stable/3.6 (3.6.10) rev. 16477)
@@ -12,3 +17,5 @@ Changes from 3.7.7 to 3.7.8
   (Merged from stable/3.8 (3.8.3) rev. 16499)
 - Fixed bug #7619: RSS: Relative image src in XML field.
   (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug: content/download ignores node's visibility.
+- Fixed bug: 'classification' override does not work for 'embed' tags.

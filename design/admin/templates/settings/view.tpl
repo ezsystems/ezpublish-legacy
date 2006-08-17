@@ -83,7 +83,10 @@
         <tr>
 	    <th class="tight">&nbsp;</th>
             <th width="50%">
-	        {$Blocks.key} ({$Blocks.item.count})&nbsp;&nbsp;&nbsp;<a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
+            {$Blocks.key} ({$Blocks.item.count})&nbsp;&nbsp;&nbsp;
+            {section show=$Blocks.item.editable}
+	             <a href={concat( '/settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key)|ezurl}>{'[add setting]'|i18n('design/admin/settings')}</a>
+            {/section}
             </th>
 	    <th class="tight">
 	        {'Placement'|i18n( 'design/admin/settings' )}
@@ -143,6 +146,7 @@
                 {/switch}
             </td>
             <td align="right" width="1">
+                {section show=$Settings.item.editable}
                 {switch match=$Settings.item.type}
                     {case match='array'}
 	                    <a href={concat('settings/edit/', $current_siteaccess, '/', $ini_file, '/', $Blocks.key, '/', $Settings.key, '/', 'siteaccess')|ezurl}>
@@ -153,6 +157,7 @@
                         <img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/admin/settings')}" /></a>
                     {/case}
                 {/switch}
+                {/section}
             </td>
         </tr>
     {/section}
