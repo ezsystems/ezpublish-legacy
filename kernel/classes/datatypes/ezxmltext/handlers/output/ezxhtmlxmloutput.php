@@ -781,6 +781,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $view = $tagName;
                 $class = $tag->attributeValue( 'class' );
 
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( array( array( 'classification', $class ) ) );
+
                 $objectParameters = array();
                 $objectParameters['align'] = 'right';
                 foreach ( $embedAttributes as $attribute )
@@ -815,6 +818,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $isBlockTag = true;
                 else
                     $isBlockTag = false;
+
+                // Remove the design key, so it will not override other tags
+                $res->removeKey( 'classification' );
+                $tpl->unsetVariable( 'classification', 'xmltagns' );
             }
         }break;
 
