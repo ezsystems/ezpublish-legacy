@@ -675,3 +675,57 @@ Datatype branch:
 - Revision=16023
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.6
 - Date 06-May-2006
+
+3.6.9:
+- Release branch=release/3.6.9
+- Release branch start=16455
+- Release branch configured=16468
+- Release date 19-Jul-2006
+- Revision=16510
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.9
+- Date 25-Jul-2006
+
+3.7.7:
+- Release branch=release/3.7.7
+- Release branch start=16456
+- Release branch configured=16469
+- Release date 19-Jul-2006
+- Revision=16509
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.7
+- Date 25-Jul-2006
+
+3.8.2:
+- Release branch=release/3.8.2
+- Release branch start=16457
+- Release date 19-Jul-2006
+- Release branch configured=16470
+- Revision=16508
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.2
+- Date 25-Jul-2006
+
+3.6.10:
+- Release branch=release/3.6.10
+- Release branch start=16511
+- Release branch configured=16530
+- Release date 25-Jul-2006
+- Revision=16658
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.10
+- Date 17-Aug-2006
+
+3.7.8:
+- Release branch=release/3.7.8
+- Release branch start=16515
+- Release branch configured=16520
+- Release date 25-Jul-2006
+- Revision=16660
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.8
+- Date 17-Aug-2006
+
+3.8.3:
+- Release branch=release/3.8.3
+- Release branch start=16517
+- Release date 25-Jul-2006
+- Release branch configured=16522
+- Revision=16662
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.3
+- Date 17-Aug-2006
