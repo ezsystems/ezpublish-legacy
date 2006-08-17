@@ -247,7 +247,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $ret = null;
         $parent =& $element->parentNode;
         if ( !$parent )
+        {
             return $ret;
+        }
 
         $parentName = $parent->nodeName;
         $newParentName = $newParent != null ? $newParent->nodeName : '';
@@ -267,14 +269,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
         elseif ( $parentName == 'paragraph' )
         {
-            $newLine = $this->Document->createElement( 'line' );
+            $newLine =& $this->createAndPublishElement( 'line' );
             $parent->replaceChild( $newLine, $element );
             $newLine->appendChild( $element );
             $ret =& $newLine;
         }
         elseif ( $newParentName == 'paragraph' )
         {
-            $newLine = $this->Document->createElement( 'line' );
+            $newLine =& $this->createAndPublishElement( 'line' );
             $parent->removeChild( $element );
             $newParent->appendChild( $newLine );
             $newLine->appendChild( $element );
@@ -282,8 +284,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
         elseif ( $this->XMLSchema->check( $parent, 'paragraph' ) )
         {
+            $newLine =& $this->createAndPublishElement( 'line' );
             $newPara =& $this->createAndPublishElement( 'paragraph' );
-            $newLine = $this->Document->createElement( 'line' );
             $parent->replaceChild( $newPara, $element );
             $newPara->appendChild( $newLine );
             $newLine->appendChild( $element );
@@ -356,6 +358,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $parent->removeChild( $next );
             }
         }
+
         return $ret;
     }
 
@@ -562,20 +565,44 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Publish handler for 'paragraph' element.
     function &publishHandlerParagraph( &$element, &$params )
     {
-        // Removes single line tag
         $ret = null;
+        if ( $this->trimSpaces )
+        {
+            // Left trim spaces
+            $lines =& $element->Children;
+            foreach( array_keys( $lines ) as $key )
+            {
+                $line =& $lines[$key];
+                if ( $line->nodeName != 'line' )
+                    continue;
+
+                $firstChild =& $line->firstChild();
+                while( $firstChild != false )
+                {
+                    if ( $firstChild->Type == EZ_XML_NODE_TEXT )
+                    {
+                        $firstChild->content = ltrim( $firstChild->content );
+                        break;
+                    }
+                    $firstChild =& $firstChild->firstChild();
+                }
+            }
+        }
+
+        // Removes single line tag
         // php5 TODO: childNodes->length
         $line =& $element->lastChild();
         if ( count( $element->Children ) == 1 && $line->nodeName == 'line' )
         {
+            $element->removeChild( $line );
             foreach( array_keys( $line->Children ) as $key )
             {
                 $newChild =& $line->Children[$key];
                 $line->removeChild( $newChild );
                 $element->appendChild( $newChild );
-            }
-            $element->removeChild( $line );
+            }   
         }
+
         return $ret;
     }
 

@@ -1,5 +1,10 @@
 Changes from 3.8.2 to 3.8.3
 
+*INI settings:
+- Added support of read-only settings.
+- Added site.ini:[eZINISettings].ReadonlySettingList[]
+  Specifies settings which should be read-only.
+
 *Bugfixes:
 - Fixed bug #8610: Problem with option datatype in form management.
   (Merged from stable/3.6 (3.6.10) rev. 16477)
@@ -11,3 +16,6 @@ Changes from 3.8.2 to 3.8.3
   (Merged from trunk (3.9.0alpha1) rev. 16491)
 - Fixed bug #8681: ezurl and ezroot operators don't work correctly.
 - Fixed bug #7619: RSS: Relative image src in XML field.
+- Fixed bug: content/download ignores node's visibility.
+- Fixed bug: 'classification' override does not work for 'embed' tags.
+- Fixed bug #8708: Another problem with strong and emphasize ezxmltags.

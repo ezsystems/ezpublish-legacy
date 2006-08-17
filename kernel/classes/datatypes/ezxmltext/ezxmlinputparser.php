@@ -257,10 +257,10 @@ class eZXMLInputParser
         // Find tag, determine it's type, name and attributes.
         $initialPos = $pos;
 
-        if ( $this->trimSpaces )
+        /*if ( $this->trimSpaces )
         {
             while( $pos < strlen( $data ) && $data[$pos] == ' ' ) $pos++;
-        }
+        }*/
 
         if ( $pos >= strlen( $data ) )
         {
@@ -757,10 +757,12 @@ class eZXMLInputParser
         }
 
         // Trim text nodes
+        /* Commented out. Now it is done in publish handler for 'paragraph' element
+        
         if ( $element->Type == EZ_XML_NODE_TEXT )
         {
             $this->trimTextNode( $element );
-        }
+        }*/
 
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
@@ -768,11 +770,11 @@ class eZXMLInputParser
         // Process by schema and fix tree
         if ( !$this->processElementBySchema( $element ) )
         {
+
             //unset( $ret );
             //$ret = null;
             return $ret;
         }
-
         $tmp = null;
         // Call "Publish handler"
         $this->callOutputHandler( 'publishHandler', $element, $tmp );
@@ -795,7 +797,7 @@ class eZXMLInputParser
         Helper functions for pass 2
     */
 
-    function trimTextNode( &$element )
+    /*function trimTextNode( &$element )
     {
         // Left trim first text node
         if ( $this->trimSpaces )
@@ -812,7 +814,7 @@ class eZXMLInputParser
             }
             $element->parentNode =& $parent;
         }
-    }
+    }*/
 
     // Check element's schema and fix subtree if needed
     function processElementBySchema( &$element, $verbose = true )
