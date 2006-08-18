@@ -16,19 +16,20 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {* show the section selector *}
+<div class="block">
+	<label>Section:</label>
+	<select name="SelectedSectionId" action='section/assign/'>
+	{foreach $sections as $section}
 
-<label>Section:</label>
-<select name="SelectedSectionId" action='section/assign/'>
-{foreach $sections as $section}
+    	 {if eq( $section.id, $object.section_id )}
+        	 <option value="{$section.id}" selected="selected">{$section.name}</option>
+     	{else}
+        	 <option value="{$section.id}">{$section.name}</option>
+     	{/if}
 
-     {if eq( $section.id, $object.section_id )}
-         <option value="{$section.id}" selected="selected">{$section.name}</option>
-     {else}
-         <option value="{$section.id}">{$section.name}</option>
-     {/if}
-
-{/foreach}
-</select>
+	{/foreach}
+	</select>
+</div>
 
 {* DESIGN: Content END *}</div></div></div>
 
@@ -36,7 +37,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-  <input type="submit" value="OK" name="SectionEditButton" class="button" />
+  <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

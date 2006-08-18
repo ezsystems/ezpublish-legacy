@@ -32,6 +32,14 @@ include_once('lib/ezdb/classes/ezdb.php');
 
 function sectionEditPostFetch( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
+}
+
+function sectionEditPreCommit( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+{
+}
+
+function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+{
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
         $http =& eZHTTPTool::instance();
@@ -44,7 +52,6 @@ function sectionEditPostFetch( &$module, &$class, &$object, &$version, &$content
             $selectedSectionID = 1;
 
         $objectID = $object->attribute( 'id' );
-        $treeNode =& eZContentObjectTreeNode::fetchByContentObjectID( $objectID );
         $assignedNodes =& $object->attribute( 'assigned_nodes' );
         foreach ( $assignedNodes as $node )
         {
@@ -64,14 +71,6 @@ function sectionEditPostFetch( &$module, &$class, &$object, &$version, &$content
 
         $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
     }
-}
-
-function sectionEditPreCommit( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
-{
-}
-
-function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
-{
 }
 
 function sectionEditPreTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
