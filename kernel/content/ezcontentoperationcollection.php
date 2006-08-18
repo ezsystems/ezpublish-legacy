@@ -437,6 +437,16 @@ class eZContentOperationCollection
                 {
                     return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
                 }
+                // We should check if current object already has been updated for section_id
+                // If yes we should not update object section_id by $parentNodeSectionID
+                $http =& eZHTTPTool::instance();
+                if ( $http->hasSessionVariable( 'ShouldNotUpdateSectionID') and $http->sessionVariable( 'ShouldNotUpdateSectionID' ) )
+                {
+                    $http->removeSessionVariable( 'ShouldNotUpdateSectionID' );
+                    // just store
+                    $object->store();
+                    return;
+                }
                 $parentNodeSectionID = $newParentObject->attribute( 'section_id' );
                 $object->setAttribute( 'section_id', $parentNodeSectionID );
                 $object->store();

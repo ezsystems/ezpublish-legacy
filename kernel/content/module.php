@@ -53,7 +53,8 @@ $ViewList['edit'] = array(
                                     'StoreExitButton' => 'StoreExit',
                                     'MoveNodeID' => 'MoveNode',
                                     'RemoveNodeID' => 'DeleteNode',
-                                    'ConfirmButton' => 'ConfirmAssignmentDelete'
+                                    'ConfirmButton' => 'ConfirmAssignmentDelete',
+                                    'SectionEditButton' => 'SectionEdit'
                                     ),
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'FromLanguage' => array( 'FromLanguage' => 'FromLanguage' ),

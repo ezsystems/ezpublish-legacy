@@ -34,6 +34,8 @@ include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );
 initializeRelationEdit( $Module );
+include_once( 'kernel/content/section_edit.php' );
+initializeSectionEdit( $Module );
 $obj =& eZContentObject::fetch( $ObjectID );
 
 if ( !$obj )
