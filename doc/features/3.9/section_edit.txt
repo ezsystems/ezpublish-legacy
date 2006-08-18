@@ -1,0 +1,11 @@
+*Title: Section edit
+
+*Incentive:
+For sites using many different sections or lots of sub-tree section changes this should save a lot of time.
+
+*Documentation:
+Allows you to edit an objects section in the admin object edit view.
+
+This possibility provides an additional module to the object edit view of the admin interface. 
+A dropdown is placed in the object edit view to allow quick section changes 
+without having to go through the setup tab.
