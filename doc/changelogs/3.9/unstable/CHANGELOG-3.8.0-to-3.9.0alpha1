@@ -8,6 +8,8 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.8 (3.8.1) rev. 16420)
 - Added the possibility to assign a section to an object 
   when creating/editing it.
+- Implemented enhancement #4809: Proxy support needed for "outside data" 
+  (RSS, link checking).
 
 Clustering:
 - Changed the way clustering settings are stored.
@@ -61,6 +63,14 @@ Clustering:
 - Added site.ini:[eZINISettings].ReadonlySettingList[]
   Specifies settings which should be read-only.
   (Merged from stable/3.8 (3.8.4) rev.16666)
+- Added site.ini[ProxySettings].ProxyServer
+  Proxy server which will be used in 
+  linkcheck.php/rssimport.php/downloading site packages with "setup wizard".
+  If empty proxy will not be used.
+  NOTE: You will need CURL compiled with your php installation.
+- Added site.ini[ProxySettings].User 
+- Added site.ini[ProxySettings].Password
+  For proxy authentification.
 
 *Design:
 - Fixed suggestion #8262: No need displaying language 

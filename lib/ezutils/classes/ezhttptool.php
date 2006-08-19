@@ -669,6 +669,86 @@ class eZHTTPTool
     {
         return session_id();
     }
+
+    /*!
+     \static
+     \param $url
+     \param $justCheckURL if true, we should check url only not downloading data.
+     \return data from \p $url, false if invalid URL
+    */
+    function getDataByURL( $url, $justCheckURL = false )
+    {
+        // First try CURL
+        if ( extension_loaded( 'curl' ) )
+        {
+            $ch = curl_init( $url );
+            if ( $justCheckURL )
+            {
+                curl_setopt( $ch, CURLOPT_TIMEOUT, 15 );
+                curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+                curl_setopt( $ch, CURLOPT_NOBODY, 1 );
+            }
+
+            $ini =& eZINI::instance();
+            $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
+            // If we should use proxy
+            if ( $proxy )
+            {
+                curl_setopt ( $ch, CURLOPT_PROXY , $proxy );
+                $userName = $ini->hasVariable( 'ProxySettings', 'User' ) ? $ini->variable( 'ProxySettings', 'User' ) : false;
+                $password = $ini->hasVariable( 'ProxySettings', 'Password' ) ? $ini->variable( 'ProxySettings', 'Password' ) : false;
+                if ( $userName )
+                {
+                    curl_setopt ( $ch, CURLOPT_PROXYUSERPWD, "$userName:$password" );
+                }
+            }
+            // If we should check url without downloading data from it.
+            if ( $justCheckURL )
+            {
+                if ( !curl_exec( $ch ) )
+                    return false;
+
+                curl_close( $ch );
+                return true;
+            }
+            // Getting data
+            ob_start();
+            if ( !curl_exec( $ch ) )
+                return false;
+
+            curl_close ( $ch );
+            $xmlData = ob_get_contents();
+            ob_end_clean();
+
+            return $xmlData;
+        }
+        // Open and read url
+        $fid = fopen( $url, 'r' );
+        if ( $fid === false )
+        {
+            return false;
+        }
+
+        if ( $justCheckURL )
+        {
+            if ( $fp )
+                fclose( $fp );
+
+            return $fp;
+        }
+
+        $xmlData = "";
+        do
+        {
+            $data = fread( $fid, 8192 );
+            if ( strlen( $data ) == 0 )
+                break;
+            $xmlData .= $data;
+        } while( true );
+
+        fclose( $fid );
+        return $xmlData;
+    }
 }
 
 ?>

@@ -100,6 +100,19 @@ class eZStepSiteTypes extends eZStepInstaller
             curl_setopt( $ch, CURLOPT_FILE, $fp );
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+            // Get proxy
+            $ini =& eZINI::instance();
+            $proxy = $ini->hasVariable( 'ProxySettings', 'ProxyServer' ) ? $ini->variable( 'ProxySettings', 'ProxyServer' ) : false;
+            if ( $proxy )
+            {
+                curl_setopt ( $ch, CURLOPT_PROXY , $proxy );
+                $userName = $ini->hasVariable( 'ProxySettings', 'User' ) ? $ini->variable( 'ProxySettings', 'User' ) : false;
+                $password = $ini->hasVariable( 'ProxySettings', 'Password' ) ? $ini->variable( 'ProxySettings', 'Password' ) : false;
+                if ( $userName )
+                {
+                    curl_setopt ( $ch, CURLOPT_PROXYUSERPWD, "$userName:$password" );
+                }
+            }
 
             if ( !curl_exec( $ch ) )
             {

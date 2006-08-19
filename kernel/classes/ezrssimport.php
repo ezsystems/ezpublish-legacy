@@ -310,22 +310,11 @@ class eZRSSImport extends eZPersistentObject
     */
     function getRSSVersion( $url )
     {
-        $fid = @fopen( $url, 'r' );
-        if ( $fid === false )
-        {
+        include_once( "lib/ezutils/classes/ezhttptool.php" );
+        $xmlData = eZHTTPTool::getDataByURL( $url );
+
+        if ( $xmlData === false )
             return false;
-        }
-
-        $xmlData = "";
-        do {
-            $data = fread($fid, 8192);
-            if (strlen($data) == 0) {
-                break;
-            }
-            $xmlData .= $data;
-        } while(true);
-
-        fclose( $fid );
 
         include_once( 'lib/ezxml/classes/ezxml.php' );
         // Create DomDocumnt from http data

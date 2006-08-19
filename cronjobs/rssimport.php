@@ -38,6 +38,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 //For ezUser, we would make this the ezUser class id but otherwise just pick and choose.
 
@@ -57,9 +58,8 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Starting.' );
     }
 
-    // Open and read RSSImport url
-    $fid = fopen( $rssSource, 'r' );
-    if ( $fid === false )
+    $xmlData = eZHTTPTool::getDataByURL( $rssSource );
+    if ( $xmlData === false )
     {
         if ( !$isQuiet )
         {
@@ -67,17 +67,6 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         }
         continue;
     }
-
-    $xmlData = "";
-    do {
-        $data = fread($fid, 8192);
-        if (strlen($data) == 0) {
-            break;
-        }
-        $xmlData .= $data;
-    } while(true);
-
-    fclose( $fid );
 
     // Create DomDocumnt from http data
     $xmlObject = new eZXML();
