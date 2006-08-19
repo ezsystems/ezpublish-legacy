@@ -717,10 +717,10 @@ class eZHTTPTool
                 return false;
 
             curl_close ( $ch );
-            $xmlData = ob_get_contents();
+            $data = ob_get_contents();
             ob_end_clean();
 
-            return $xmlData;
+            return $data;
         }
         // Open and read url
         $fid = fopen( $url, 'r' );
@@ -731,23 +731,23 @@ class eZHTTPTool
 
         if ( $justCheckURL )
         {
-            if ( $fp )
-                fclose( $fp );
+            if ( $fid )
+                fclose( $fid );
 
-            return $fp;
+            return $fid;
         }
 
-        $xmlData = "";
+        $data = "";
         do
         {
-            $data = fread( $fid, 8192 );
-            if ( strlen( $data ) == 0 )
+            $dataBody = fread( $fid, 8192 );
+            if ( strlen( $dataBody ) == 0 )
                 break;
-            $xmlData .= $data;
+            $data .= $dataBody;
         } while( true );
 
         fclose( $fid );
-        return $xmlData;
+        return $data;
     }
 }
 

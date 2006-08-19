@@ -1,0 +1,23 @@
+*Title: Proxy support
+
+*Incentive:
+Proxy support needed for "outside data" 
+(RSS, link checking, downloading site packages with "setup wizard").
+
+*Documentation:
+Proxy support with Proxy authentification has been added to 
+linkchek.php, rssimport.php and downloading site packages.
+
+NOTE: You will need CURL compiled with your php installation.
+
+New INI settings in site.ini have been added:
+
+- Added site.ini[ProxySettings].ProxyServer
+  Proxy server which will be used
+  
+  If empty proxy will NOT be used.
+  
+- Added site.ini[ProxySettings].User 
+- Added site.ini[ProxySettings].Password
+  For proxy authentification.
+
