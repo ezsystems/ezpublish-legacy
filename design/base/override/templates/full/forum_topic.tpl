@@ -1,8 +1,6 @@
 {let page_limit=20
-     reply_limit=cond( $view_parameters.offset|gt( 0 ), 20,
-                       19 )
-     reply_offset=cond( $view_parameters.offset|gt( 0 ), sub( $view_parameters.offset, 1 ),
-                        $view_parameters.offset )
+     reply_limit=$page_limit
+     reply_offset=$view_parameters.offset
      reply_list=fetch('content','list', hash( parent_node_id, $node.node_id,
                                               limit, $reply_limit,
                                               offset, $reply_offset,
