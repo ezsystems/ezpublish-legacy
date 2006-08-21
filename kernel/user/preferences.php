@@ -48,9 +48,11 @@ unset( $urlArray );
 
 if ( $url )
 {
-    foreach( array_keys( $Params['UserParameters'] ) as $key )
+    foreach ( array_keys( $Params['UserParameters'] ) as $key )
     {
-        $url .= '/('.$key.')/'.$Params['UserParameters'][$key];
+        if ( $key == 'offset' )
+            continue;
+        $url .= '/(' . $key . ')/' . $Params['UserParameters'][$key];
     }
     $module->redirectTo( '/'.$url );
 }
@@ -58,7 +60,19 @@ else
 {
     include_once( 'kernel/classes/ezredirectmanager.php' );
     $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : false;
-    eZRedirectManager::redirectTo( $module, /* $default = */ false, /* $view = */ true, /* $disallowed = */ false, $preferredRedirectionURI );
+    // We should exclude OFFSET from $preferredRedirectionURI
+    $exploded = explode( '/', $preferredRedirectionURI );
+    foreach ( array_keys( $exploded ) as $itemKey )
+    {
+        $item = $exploded[$itemKey];
+        if ( $item == '(offset)' )
+        {
+            array_splice( $exploded, $itemKey, 2 );
+            break;
+        }
+    }
+    $redirectURI = implode( '/', $exploded );
+    eZRedirectManager::redirectTo( $module, /* $default = */ false, /* $view = */ true, /* $disallowed = */ false, $redirectURI );
     return;
 }
 
