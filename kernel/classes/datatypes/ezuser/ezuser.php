@@ -437,7 +437,7 @@ WHERE user_id != '" . EZ_USER_ANONYMOUS_ID . "' AND
       user_id > 0 AND
       expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
-        $count = $rows[0]['count'];
+        $count = ( count( $rows ) > 0 ) ? $rows[0]['count'] : 0;
         $GLOBALS['eZUserLoggedInCount'] = $count;
         return $count;
     }
@@ -465,7 +465,7 @@ FROM ezsession
 WHERE user_id = '" . EZ_USER_ANONYMOUS_ID . "' AND
       expiration_time > '$time'";
         $rows = $db->arrayQuery( $sql );
-        $count = $rows[0]['count'];
+        $count = ( count( $rows ) > 0 ) ? $rows[0]['count'] : 0;
         $GLOBALS['eZUserAnonymousCount'] = $count;
         return $count;
     }
@@ -1810,7 +1810,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
+                $userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
