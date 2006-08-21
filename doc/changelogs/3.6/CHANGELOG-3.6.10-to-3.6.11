@@ -34,4 +34,6 @@ eZTemplate:
 - Fixed bug #8813: warnings when using treemenu without 
   class_filter parameter.
   (Merged from trunk (3.9.0alpha1) rev. 16635)
+- Fixed bug #8784: Section list in admin interface, pagination bug.
+  (Merged from trunk (3.9.0alpha1) rev. 16674)
  
