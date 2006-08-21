@@ -321,3 +321,4 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.4) rev.16666)
 - Fixed bug: 'classification' override does not work for 'embed' tags.
   (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug #8784: Section list in admin interface, pagination bug.
