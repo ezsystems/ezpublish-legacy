@@ -6381,7 +6381,7 @@ INSERT INTO ezcontentobject_tree (
   56,
   58,
   'design/ez_publish',
-  '/1/58/56',
+  '/1/58/56/',
   0,
   '772da20ecf88b3035d73cbdfcea0f119',
   1,
