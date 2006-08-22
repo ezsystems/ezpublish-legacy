@@ -323,3 +323,4 @@ eZTemplate:
   (Merged from stable/3.8 (3.8.4) rev.16666)
 - Fixed bug #8784: Section list in admin interface, pagination bug.
 - Fixed bug #8846: No navigation (standard forum_topic full view).
+- Fixed bug #8764: Wrong format in ezcontentobject_tree table for design/ez_publish.
