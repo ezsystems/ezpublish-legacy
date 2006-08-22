@@ -5,9 +5,18 @@
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {* get all the available sections *}
-{def $sections=fetch( 'content', 'section_list' )}
+{def $sections=fetch( 'content', 'section_list' )
+     $currentSectionName='unknown'}
+{* get name of current section *}
+{foreach $sections as $sectionItem }
+    {if eq( $sectionItem.id, $object.section_id )}
+         {set $currentSectionName=$sectionItem.name}
+    {/if}
+{/foreach}
 
-<h2 class="context-title">Section [{count($sections)}]</h2>
+<h2 class="context-title">Section: {$currentSectionName} [{count($sections)}]</h2>
+
+{undef $currentSectionName}
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
@@ -17,18 +26,19 @@
 
 {* show the section selector *}
 <div class="block">
-	<label>Section:</label>
+
+	<label>{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
 	<select name="SelectedSectionId" action='section/assign/'>
-	{foreach $sections as $section}
+        {foreach $sections as $section}
 
-    	 {if eq( $section.id, $object.section_id )}
-        	 <option value="{$section.id}" selected="selected">{$section.name}</option>
-     	{else}
-        	 <option value="{$section.id}">{$section.name}</option>
-     	{/if}
+        {if eq( $section.id, $object.section_id )}
+                 <option value="{$section.id}" selected="selected">{$section.name}</option>
+        {else}
+                 <option value="{$section.id}">{$section.name}</option>
+        {/if}
 
-	{/foreach}
-	</select>
+        {/foreach}
+        </select>
 </div>
 
 {* DESIGN: Content END *}</div></div></div>

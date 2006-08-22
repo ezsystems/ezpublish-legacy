@@ -432,20 +432,17 @@ class eZContentOperationCollection
             // we should not update section id for toplevel nodes
             if ( $newMainAssignment && $newMainAssignment->attribute( 'parent_node' ) != 1 )
             {
+                // We should check if current object already has been updated for section_id
+                // If yes we should not update object section_id by $parentNodeSectionID
+                $sectionID = $object->attribute( 'section_id' );
+                // If sectionID is 0 than the object has been newly created
+                if ( $sectionID > 0 )
+                    return;
+
                 $newParentObject =& $newMainAssignment->getParentObject();
                 if ( !$newParentObject )
                 {
                     return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
-                }
-                // We should check if current object already has been updated for section_id
-                // If yes we should not update object section_id by $parentNodeSectionID
-                $http =& eZHTTPTool::instance();
-                if ( $http->hasSessionVariable( 'ShouldNotUpdateSectionID') and $http->sessionVariable( 'ShouldNotUpdateSectionID' ) )
-                {
-                    $http->removeSessionVariable( 'ShouldNotUpdateSectionID' );
-                    // just store
-                    $object->store();
-                    return;
                 }
                 $parentNodeSectionID = $newParentObject->attribute( 'section_id' );
                 $object->setAttribute( 'section_id', $parentNodeSectionID );

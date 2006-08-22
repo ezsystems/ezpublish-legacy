@@ -42,6 +42,15 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
 {
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
+        // Check access
+        $user =& eZUser::currentUser();
+        $access = $user->hasAccessTo( 'section' );
+        if ( !( $access['accessWord'] == 'yes' ) )
+        {
+            eZDebug::writeError( "You are not allowed to assign sections." );
+            return;
+        }
+
         $http =& eZHTTPTool::instance();
 
         $db =& eZDB::instance();
@@ -62,9 +71,6 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
         {
             $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
             $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
-            // The current object has been newly created and has only one version,
-            // we should not update section_id of current object by parentNodeSectionID in eZContentOperationCollection::updateSectionID()
-            $http->setSessionVariable( 'ShouldNotUpdateSectionID', true );
         }
         $object->expireAllViewCache();
         $db->commit();

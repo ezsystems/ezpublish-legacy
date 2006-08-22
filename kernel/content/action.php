@@ -155,7 +155,9 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             {
                 $user =& eZUser::currentUser();
                 $userID =& $user->attribute( 'contentobject_id' );
-                $sectionID = $parentContentObject->attribute( 'section_id' );
+                // We should set sectionID to 0 because when publishing eZContentOperationCollection::updateSectionID() will be called
+                // and sectionID will be updated
+                $sectionID = 0;
 
                 if ( !is_object( $class ) )
                     $class = eZContentClass::fetch( $contentClassID );
