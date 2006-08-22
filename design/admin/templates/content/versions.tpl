@@ -213,7 +213,7 @@
 {section show=is_set( $redirect_uri )}
 <input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
 {/section}
-<input class="button" type="submit" name="BackButton" value="Back" />
+<input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/versions' )}" />
 </div>
 <div class="break"></div>
 </div>
