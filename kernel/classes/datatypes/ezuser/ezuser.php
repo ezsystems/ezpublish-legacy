@@ -1408,7 +1408,8 @@ WHERE user_id = '" . $userID . "' AND
             }
             elseif ( isset( $accessArray[$module][$function] ) )
             {
-                $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$function] );
+                if ( $functionArray !== $accessArray[$module][$function] )
+                    $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$function] );
             }
         }
 
