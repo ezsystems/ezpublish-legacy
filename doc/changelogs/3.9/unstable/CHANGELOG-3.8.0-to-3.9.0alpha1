@@ -325,3 +325,5 @@ eZTemplate:
 - Fixed bug #8846: No navigation (standard forum_topic full view).
 - Fixed bug #8764: Wrong format in ezcontentobject_tree table for design/ez_publish.
 - Fixed bug #8824: PathPrefixing and Url translating dont cooperate.
+- Fixed bug #8864: Toolbar descriptions are only loaded 
+  from default toolbar.ini file.
