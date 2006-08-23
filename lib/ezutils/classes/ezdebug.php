@@ -1077,6 +1077,7 @@ class eZDebug
             }
         }
         if ( $settings['debug-enabled'] and
+             isset( $settings['debug-by-user'] ) and
              $settings['debug-by-user'] and
              $notDebugByIP )
         {
