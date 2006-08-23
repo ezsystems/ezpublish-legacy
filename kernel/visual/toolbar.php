@@ -249,7 +249,11 @@ foreach ( array_keys( $toolArray ) as $toolKey )
     {
         $defaultActionParameters = $ini->group( "Tool_" . $toolName );
     }
-    if ( $ini->hasGroup( "Tool_" . $toolName . '_description' ) )
+    if ( $iniAppend->hasGroup( "Tool_" . $toolName . '_description' ) )
+    {
+        $actionDescription = $iniAppend->group( "Tool_" . $toolName . '_description' );
+    }
+    elseif ( $ini->hasGroup( "Tool_" . $toolName . '_description' ) )
     {
         $actionDescription = $ini->group( "Tool_" . $toolName . '_description' );
     }
