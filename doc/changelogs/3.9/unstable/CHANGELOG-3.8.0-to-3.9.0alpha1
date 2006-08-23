@@ -329,3 +329,4 @@ eZTemplate:
   from default toolbar.ini file.
 - Fixed bug #8715: Module content/keyword does not recognise 
   the special charecters from other languages.
+- Fixed bug #8726: Unpublish cronjob does not flush cache.
