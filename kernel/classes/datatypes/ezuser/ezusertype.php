@@ -143,7 +143,7 @@ class eZUserType extends eZDataType
                     }
                     $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
 
-                    if ( strlen( $password ) < $minPasswordLength )
+                    if ( strlen( $password ) < (int) $minPasswordLength )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The password must be at least %1 characters long.',null, array( $minPasswordLength ) ) );

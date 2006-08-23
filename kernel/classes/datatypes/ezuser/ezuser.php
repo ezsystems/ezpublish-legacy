@@ -257,10 +257,12 @@ class eZUser extends eZPersistentObject
         $this->setAttribute( "contentobject_id", $id );
         $this->setAttribute( "email", $email );
         $this->setAttribute( "login", $login );
+        $ini =& eZINI::instance();
+        $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
         if ( $password !== false and
              $password !== null and
              $password == $passwordConfirm and
-             strlen( $password ) >= 3 ) // Cannot change login or password_hash without login and password
+             strlen( $password ) >= (int) $minPasswordLength ) // Cannot change login or password_hash without login and password
         {
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
