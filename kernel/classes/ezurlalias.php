@@ -748,6 +748,12 @@ WHERE
                         break;
                     }
                 }
+                // We should check if this urlString is internal
+                // If yes we should not use PathPrefix
+                $urlAliasObject = eZURLAlias::fetchBySourceURL( $uriString, false, false );
+                if ( $urlAliasObject )
+                    $breakInternalURI = true;
+
                 if ( !$breakInternalURI )
                     $internalURIString = eZUrlAlias::cleanURL( eZUrlAlias::cleanURL( $prefix ) . '/' . $uriString );
             }
