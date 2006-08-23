@@ -25,12 +25,14 @@
 </div>
 {/if}
 
+{if or( $max_failed_login_attempts, $failed_login_attempts )}
 <div class="block">
 <label>{'Maximum number of failed login attempts'|i18n( 'design/admin/user/setting' )}: {$max_failed_login_attempts}</label>
 <label>{'Number of failed login attempts for this user'|i18n( 'design/admin/user/setting' )}: {$failed_login_attempts}
-<input class="button" type="submit" name="ResetFailedLoginButton" value="{'Reset'|i18n( 'design/admin/user/setting' )}" />
+<input class="button" type="submit" name="ResetFailedLoginButton" {if $failed_login_attempts|not()}disabled="disabled"{/if} value="{'Reset'|i18n( 'design/admin/user/setting' )}" />
 </label>
 </div>
+{/if}
 
 <div class="block">
 <label class="check">{'Enable user account'|i18n( 'design/admin/user/setting' )}:</label>
