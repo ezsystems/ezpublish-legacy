@@ -327,3 +327,5 @@ eZTemplate:
 - Fixed bug #8824: PathPrefixing and Url translating dont cooperate.
 - Fixed bug #8864: Toolbar descriptions are only loaded 
   from default toolbar.ini file.
+- Fixed bug #8715: Module content/keyword does not recognise 
+  the special charecters from other languages.
