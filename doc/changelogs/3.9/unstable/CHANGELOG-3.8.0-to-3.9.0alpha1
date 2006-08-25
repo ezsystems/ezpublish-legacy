@@ -93,6 +93,9 @@ eZTemplate:
   (see content.ini[GoogleSettings].Alphabet).
 - Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
 
+eZMail:
+- Minor improvement in debug output when sending with SMTP.
+
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).

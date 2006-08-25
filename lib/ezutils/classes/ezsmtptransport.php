@@ -103,9 +103,12 @@ class eZSMTPTransport extends eZMailTransport
         {
             $result = $smtp->send( $sendData );
             $mailSent = true;
-            if ( isset( $smtp->errors[0] ) )
+            if ( isset( $smtp->errors ) )
             {
-                eZDebug::writeError( "Error sending SMTP mail: " . $smtp->errors[0], "eZSMTPTransport::sendMail()" );
+                foreach ( $smtp->errors as $error )
+                {
+                    eZDebug::writeError( "Error sending SMTP mail: " . $error, "eZSMTPTransport::sendMail()" );
+                }
                 $mailSent = false;
             }
             $smtp->quit();
