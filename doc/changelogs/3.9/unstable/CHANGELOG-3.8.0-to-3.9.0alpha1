@@ -335,3 +335,4 @@ eZMail:
 - Fixed bug #8726: Unpublish cronjob does not flush cache.
 - Fixed bug #8874: indexcontent cron script does not process 
   all index_object pending actions.
+- Fixed bug #8909: No real item's name in pendiglist.
