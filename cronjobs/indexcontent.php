@@ -75,8 +75,6 @@ while( true )
 
         $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param IN ($inSQL)" );
         $db->commit();
-
-        $offset += $limit;
     }
     else
     {
