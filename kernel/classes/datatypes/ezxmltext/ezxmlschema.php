@@ -41,23 +41,23 @@ class eZXMLSchema
     
         'embed'     => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium' ) ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium', 'class' => '' ) ),
 
         'embed-inline' => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'size' => 'medium' ) ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'size' => 'medium', 'class' => '' ) ),
     
         'object'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'class', 'id', 'size', 'align',
                                                      'view', 'image:ezurl_id', 'image:ezurl_target' ),
@@ -179,6 +179,7 @@ class eZXMLSchema
         
         include_once( 'lib/version.php' );
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
+
         if ( $eZPublishVersion >= 3.8 )
         {
             // Fix for empty paragraphs setting
@@ -317,10 +318,18 @@ class eZXMLSchema
         return $this->Schema[$element->nodeName]['attributes'];
     }
 
-    function attrDefaultValue( $element, $attrName )
+    function attrDefaultValue( $tagName, $attrName )
     {
-        if ( isset( $this->Schema[$element->nodeName]['attributesDefaults'][$attrName] ) )
-            return $this->Schema[$element->nodeName]['attributesDefaults'][$attrName];
+        if ( isset( $this->Schema[$tagName]['attributesDefaults'][$attrName] ) )
+            return $this->Schema[$tagName]['attributesDefaults'][$attrName];
+    }
+
+    function attrDefaultValues( $tagName )
+    {
+        if ( isset( $this->Schema[$tagName]['attributesDefaults'] ) )
+            return $this->Schema[$tagName]['attributesDefaults'];
+        else
+            return array();
     }
 
     function exists( $element )

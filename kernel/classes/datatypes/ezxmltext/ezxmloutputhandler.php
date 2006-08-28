@@ -39,20 +39,31 @@
 */
 
 include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezxml/classes/ezdomnode.php" );
-include_once( "lib/ezxml/classes/ezdomdocument.php" );
+
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+
+include_once( "lib/ezxml/classes/ezxml.php" );
+
+if ( !class_exists( 'eZXMLSchema' ) )
+    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 
 class eZXMLOutputHandler
 {
     /*!
      Constructor
     */
-    function eZXMLOutputHandler( &$xmlData, $aliasedType )
+    function eZXMLOutputHandler( &$xmlData, $aliasedType, $contentObjectAttribute = null )
     {
         $this->XMLData =& $xmlData;
         $this->AliasedType = $aliasedType;
         $this->AliasedHandler = null;
+
+        if ( is_object( $contentObjectAttribute ) )
+        {
+            $this->ContentObjectAttribute =& $contentObjectAttribute;
+            $this->ObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        }
     }
 
     /*!
@@ -154,21 +165,456 @@ class eZXMLOutputHandler
     }
 
     /*!
-     \pure
-     Returns the output text representation of the XML structure, implement this to turn
-     XML into an output format.
-    */
+     Returns the output text representation of the XML structure
+     Default implementation uses default mechanism of rules and tag handlers to render tags.
+     */
     function &outputText()
     {
-        $retVal = null;
-        return $retVal;
+        $this->Tpl =& templateInit();
+        $this->Res =& eZTemplateDesignResource::instance();
+        if ( $this->ContentObjectAttribute )
+        {
+            $this->Res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
+        }
+
+        $ini =& eZINI::instance( 'ezxml.ini' );
+        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
+        {
+            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
+            $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
+        }
+
+        $xml = new eZXML();
+        $this->Document =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false ) );
+        if ( !$this->Document )
+        {
+            $this->Output = '';
+            return $this->Output;
+        }
+
+        $this->prefetch();
+
+        $this->XMLSchema =& eZXMLSchema::instance();
+        $this->NestingLevel = 0;
+        $params = array();
+
+        $output = $this->outputTag( $this->Document->Root, $params );
+        $this->Output = $output[1];
+
+        unset( $this->Document );
+        unset( $this->XMLData );
+
+        $this->Res->removeKey( 'attribute_identifier' );
+        return $this->Output;
     }
 
-    /// \privatesection
+    // Prefetch objects, nodes and urls for further rendering
+    function prefetch()
+    {
+        $relatedObjectIDArray = array();
+        $nodeIDArray = array();
+        
+        // Fetch all links and cache urls
+        $links =& $this->Document->elementsByName( "link" );
+
+        if ( count( $links ) > 0 )
+        {
+            $linkIDArray = array();
+            // Find all Link ids
+            foreach ( $links as $link )
+            {
+                $linkID = $link->attributeValue( 'url_id' );
+                if ( $linkID && !in_array( $linkID, $linkIDArray ) )
+                        $linkIDArray[] = $linkID;
+        
+                $objectID = $link->attributeValue( 'object_id' );
+                if ( $objectID && !in_array( $objectID, $relatedObjectIDArray ) )
+                        $relatedObjectIDArray[] = $objectID;
+        
+                $nodeID = $link->attributeValue( 'node_id' );
+                if ( $nodeID && !in_array( $nodeID, $nodeIDArray ) )
+                        $nodeIDArray[] = $nodeID;
+            }
+        
+            if ( count( $linkIDArray ) > 0 )
+            {
+                $inIDSQL = implode( ', ', $linkIDArray );
+        
+                $db =& eZDB::instance();
+                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+        
+                foreach ( $linkArray as $linkRow )
+                {
+                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                }
+            }
+        }
+        
+        // Fetch all embeded objects and cache by ID
+        $objectArray =& $this->Document->elementsByName( "object" );
+        
+        if ( count( $objectArray ) > 0 )
+        {
+            foreach ( $objectArray as $object )
+            {
+                $objectID = $object->attributeValue( 'id' );
+                if ( $objectID != null && !in_array( $objectID, $relatedObjectIDArray ) )
+                        $relatedObjectIDArray[] = $objectID;
+            }
+        }
+        
+        $embedTagArray =& $this->Document->elementsByName( "embed" );
+        $embedInlineTagArray =& $this->Document->elementsByName( "embed-inline" );
+        
+        $embedTags = array_merge( $embedTagArray, $embedInlineTagArray );
+
+        if ( count( $embedTags ) > 0 )
+        {
+            foreach ( $embedTags as $embedTag )
+            {
+                $objectID = $embedTag->attributeValue( 'object_id' );
+                if ( $objectID && !in_array( $objectID, $relatedObjectIDArray ) )
+                        $relatedObjectIDArray[] = $objectID;
+        
+                $nodeID = $embedTag->attributeValue( 'node_id' );
+                if ( $nodeID && !in_array( $nodeID, $nodeIDArray ) )
+                        $nodeIDArray[] = $nodeID;
+            }
+        }
+        
+        if ( $relatedObjectIDArray != null )
+            $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+        
+        if ( $nodeIDArray != null )
+        {
+            $nodes = eZContentObjectTreeNode::fetch( $nodeIDArray );
+
+            if ( is_array( $nodes ) )
+            {
+                foreach( $nodes as $node )
+                {
+                    $nodeID = $node->attribute( 'node_id' );
+                    $this->NodeArray["$nodeID"] = $node;
+                }
+            }
+            elseif ( $nodes )
+            {
+                $node =& $nodes;
+                $nodeID = $node->attribute( 'node_id' );
+                $this->NodeArray["$nodeID"] = $node;
+            }
+        }
+    }
+
+    // Main recursive functions for rendering tags
+    //  $element        - current element
+    //  $sibilingParams - array of parameters that are passed by reference to all the children of the
+    //                    current tag to provide a way to "communicate" between their handlers.
+    //                    This array is empty for the first child. 
+    //  $parentParams   - parameter passed to this tag handler by the parent tag's handler.
+    //                    This array is passed with no reference. Can by modified in tag's handler
+    //                    for subordinate tags.
+
+    function outputTag( &$element, &$sibilingParams, $parentParams = array() )
+    {
+        //eZDOMNode::writeDebugStr( $element, '$element' );
+
+        if ( $element->Type == EZ_XML_NODE_TEXT )
+        {
+            $text = $this->processText( $element->Content );
+            return array( true, $text );
+        }
+
+        $tagText = '';
+        $tagName = $element->nodeName;
+        if ( isset( $this->OutputTags[$tagName] ) )
+        {
+            $currentTag =& $this->OutputTags[$tagName];
+        }
+        else
+            $currentTag = null;
+
+        // Prepare attributes array
+        $attributeNodes = $element->attributes();
+        $attributes = array();
+        foreach( $attributeNodes as $attrNode )
+        {
+            if ( $attrNode->Prefix && $attrNode->Prefix != 'custom' )
+                $attrName = $attrNode->Prefix . ':' . $attrNode->LocalName;
+            else
+                $attrName = $attrNode->nodeName;
+
+            $attributes[$attrName] = $attrNode->value;
+        }
+
+        // Set default attribute values if not present in the input
+        $attrDefaults = $this->XMLSchema->attrDefaultValues( $tagName );
+        foreach( $attrDefaults as $name=>$value )
+        {
+            if ( !isset( $attributes[$name] ) )
+                $attributes[$name] = $value;
+        }
+
+        // Call tag handler
+        if ( $currentTag && isset( $currentTag['initHandler'] ) )
+        {
+            $result =& $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
+        }
+
+        // Process children
+        $childrenOutput = array();
+        if ( $element->hasChildNodes() )
+        {
+            // Initialize sibiling parameters array for the next level children
+            // Parent parameters for the children may be modified in the current tag handler.
+
+            $nextSibilingParams = array();
+            /*if ( isset( $result['next_parent_params'] ) )
+                 $nextParentParams = array_merge( $parentParams, $result['next_parent_params'] );
+            else
+                 $nextParentParams = $parentParams;*/
+
+            $this->NestingLevel++;
+            foreach( array_keys( $element->Children ) as $key )
+            {
+                $child =& $element->Children[$key];
+                $childOutput = $this->outputTag( $child, $nextSibilingParams, $parentParams );
+                
+                if ( is_array( $childOutput[0] ) )
+                    $childrenOutput = array_merge( $childrenOutput, $childOutput );
+                else
+                    $childrenOutput[] = $childOutput;
+            }
+            $this->NestingLevel--;
+        }
+        else
+        {
+            $childrenOutput = array( array( true, '' ) );
+        }
+
+        if ( isset( $currentTag['noRender'] ) )
+        {
+            foreach( $childrenOutput as $childOutput )
+            {
+                $tagText .= $childOutput[1];
+            }
+            $inline = $this->XMLSchema->isInline( $tagName );
+
+            return array( $inline, $tagText );
+        }
+
+        // Rename some attributes (variables) using control array
+        if ( isset( $currentTag['attrVariables'] ) )
+            $attrVariables =& $currentTag['attrVariables'];
+        else
+            $attrVariables = array();
+
+        foreach( $attributes as $attr=>$value )
+        {
+            if ( isset( $attrVariables[$attr] ) )
+            {
+                unset( $attributes[$attr] );
+                if ( $attrVariables[$attr] !== false )
+                    $attributes[$attrVariables[$attr]] = $value;
+                continue;
+            }
+            // custom attributes - remove prefix
+            if ( substr( $attr, 0, 6 ) == 'custom:' )
+            {
+                unset( $attributes[$attr] );
+                $newAttr = substr( $varName, strpos( $varName, ':' ) + 1 );
+                $attributes[$newAttr] = $value;
+            }
+        }
+
+        // Set additional variables passed by tag handler
+        if ( isset( $result['tpl_vars'] ) )
+        {
+            $attributes = array_merge( $attributes, $result['tpl_vars'] );
+        }
+
+        foreach( $attributes as $attrName=>$value )
+        {
+            $this->Tpl->setVariable( $attrName, $value, 'xmltagns' );
+        }
+
+        // Create design keys array
+        $designKeys = array();
+        if ( isset( $currentTag['attrDesignKeys'] ) )
+        {
+            foreach( $currentTag['attrDesignKeys'] as $attrName=>$keyName )
+            {
+                if ( isset( $attributes[$attrName] ) )
+                    $designKeys[$keyName] = $attributes[$attrName];
+            }
+        }
+        // Merge design keys set in control array and tag handler
+        if ( isset( $result['design_keys'] ) )
+        {
+            $designKeys = array_merge( $designKeys, $result['design_keys'] );
+        }
+
+        $existingKeys = $this->Res->keys();
+        $savedKeys = array();
+
+        // Save old keys values and set new design keys
+        foreach( $designKeys as $key=>$value )
+        {
+            if ( isset( $existingKeys[$key] ) )
+            {
+                $savedKeys[$key] = $existingKeys[$key];
+            }
+            $this->Res->setKeys( array( array( $key, $value ) ) );
+        }
+
+        // Template name
+        if ( isset( $result['template_name'] ) )
+        {
+            $templateName = $result['template_name'];
+        }
+        else
+        {
+            $templateName = $element->nodeName;
+        }
+        $templateUri = $this->TemplatesPath . $templateName . '.tpl';
+
+        $output =& $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
+        //$handlerName = $currentTag['renderHandler'];
+        //$output =& $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
+        
+        // Restore saved template override keys and remove others
+        foreach( $designKeys as $key=>$value )
+        {
+            if ( isset( $savedKeys[$key] ) )
+                $this->Res->setKeys( array( array( $key, $savedKeys[$key] ) ) );
+            else
+                $this->Res->removeKey( $key );
+        }
+
+        // Unset variables
+        foreach( $attributes as $attrName=>$value )
+        {
+            $this->Tpl->unsetVariable( $attrName, 'xmltagns' );
+        }
+
+        return $output;
+    }
+
+    function renderTag( &$element, $templateUri, $content, $attributes )
+    {
+        $currentTag =& $this->OutputTags[$element->nodeName];
+        if ( $currentTag && isset( $currentTag['quickRender'] ) )
+        {
+            $renderedTag = '';
+            $attrString = '';
+            foreach( $attributes as $name=>$value )
+            {
+                $attrString .= " $name=\"$value\"";
+            }
+
+            if ( $currentTag['quickRender'][0] )
+                $renderedTag = '<' . $currentTag['quickRender'][0] . "$attrString>" . $content . '</' . $currentTag['quickRender'][0] . '>';
+            else
+                $renderedTag = $content;
+
+            if ( $currentTag['quickRender'][1] )
+                $renderedTag .= $currentTag['quickRender'][1];
+        }
+        else
+        {
+            if ( isset( $currentTag['contentVarName'] ) )
+                $contentVarName = $currentTag['contentVarName'];
+            else
+                $contentVarName = 'content';
+
+            $this->Tpl->setVariable( $contentVarName, $content, 'xmltagns' );
+            eZTemplateIncludeFunction::handleInclude( $textElements, $templateUri, $this->Tpl, 'foo', 'xmltagns' );
+            $renderedTag = implode( '', $textElements );
+        }
+        return $renderedTag;
+    }
+
+    function processText( $text )
+    {
+        $text = htmlspecialchars( $text );
+        // Get rid of linebreak and spaces stored in xml file
+        $text = preg_replace( "#[\n]+#", "", $text );
+
+        if ( $this->AllowMultipleSpaces )
+            $text = preg_replace( "#  #", " &nbsp;", $text );
+        else
+            $text = preg_replace( "#[ ]+#", " ", $text );
+        return $text;
+    }
+
+    // Handler returns an array that may have following items:
+    //
+    // 'skip_tag_render' (boolean) :
+    //                   if false tag will not be rendered, only it's children (if any).
+    // 'design_keys'     array( 'design_key_name'=>'value' ) :
+    //                   an array of additional design keys
+    // 
+
+    function &callTagInitHandler( $handlerName, &$element, &$attributes, &$sibilingParams, &$parentParams )
+    {
+        $result = array();
+        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        if ( isset( $thisOutputTag[$handlerName] ) )
+        {
+            if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
+                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $attributes, $sibilingParams, $parentParams );' );
+            else
+                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+        }
+        return $result;
+    }
+
+    function &callTagRenderHandler( $handlerName, &$element, $templateUri, $childrenOutput, $attributes )
+    {
+        $result = array();
+        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        if ( isset( $thisOutputTag[$handlerName] ) )
+        {
+            if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
+                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $templateUri, $childrenOutput, $attributes );' );
+            else
+                eZDebug::writeWarning( "'$handlerName' render handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+        }
+        return $result;
+    }
+
+    // This array should be overriden in derived class with the set of rules
+    // for outputting tags.
+    var $OutputTags = array();
+
+    // Path to tags' templates
+    var $TemplatesPath = 'design:content/datatype/view/ezxmltags/';
+
     /// Contains the XML data as text
     var $XMLData;
+    var $Document;
+
+    var $XMLSchema;
+
     var $AliasedType;
     var $AliasedHandler;
+
+    var $Output = '';
+    var $Tpl;
+    var $Res;
+
+    var $AllowMultipleSpaces = false;
+    var $ContentObjectAttribute;
+    var $ObjectAttributeID;
+
+    /// Contains the URL's for <link> tags hashed by ID
+    var $LinkArray = array();
+    /// Contains the Objects hashed by ID
+    var $ObjectArray = array();
+    /// Contains the Nodes hashed by ID
+    var $NodeArray = array();
+
+    var $NestingLevel = 0;
 }
 
 ?>

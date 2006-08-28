@@ -125,10 +125,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'appendLineParagraph' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = 2 )
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS,
+                                         $parseLineBreaks = true, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->eZXMLInputParser( $validate, $errorLevel, true, false );
+        $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );
     }
 
     /*

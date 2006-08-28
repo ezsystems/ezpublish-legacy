@@ -161,7 +161,7 @@ class eZSimplifiedXMLEditOutput
                 $attrString .= ' ' . $name . '="' . $value . '"';
             }
 
-            $this->formatBeforeOpeningTag( $element, $isInline, $isSingle, $hasChildren );
+            $this->formatBeforeOpeningTag( $element, $isInline, $hasChildren );
 
             //Output opening tag
             if ( $isSingle )
@@ -171,7 +171,7 @@ class eZSimplifiedXMLEditOutput
             $this->Output .= '<' . $tagName . $attrString . $closing;
 
             if ( !$isSingle )
-                $this->formatAfterOpeningTag( $element, $isInline, $isSingle, $hasChildren );
+                $this->formatAfterOpeningTag( $element, $isInline, $hasChildren );
 
             $this->NestingLevel++;
         }
@@ -193,18 +193,18 @@ class eZSimplifiedXMLEditOutput
             $this->NestingLevel--;
             if ( !$isSingle )
             {
-                $this->formatBeforeClosingTag( $element, $isInline, $isSingle, $hasChildren );
+                $this->formatBeforeClosingTag( $element, $isInline, $hasChildren );
 
                 $this->Output .= '</' . $tagName . '>';
             }
 
-            $this->formatAfterClosingTag( $element, $isInline, $isSingle, $hasChildren );
+            $this->formatAfterClosingTag( $element, $isInline, $hasChildren );
         }
 
         return;
     }
 
-    function formatBeforeOpeningTag( &$element, $isInline, $isSingle, $hasChildren )
+    function formatBeforeOpeningTag( &$element, $isInline, $hasChildren )
     {
         // Add indenting for block tags
         if ( !$isInline )
@@ -216,7 +216,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
                   
-    function formatAfterOpeningTag( &$element, $isInline, $isSingle, $hasChildren )
+    function formatAfterOpeningTag( &$element, $isInline, $hasChildren )
     {
         // Add linebreak in case we have block tag as a first child
         if ( !$isInline && $hasChildren )
@@ -237,7 +237,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function formatBeforeClosingTag( &$element, $isInline, $isSingle, $hasChildren )
+    function formatBeforeClosingTag( &$element, $isInline, $hasChildren )
     {
         if ( !$isInline && $hasChildren )
         {
@@ -264,7 +264,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function formatAfterClosingTag( &$element, $isInline, $isSingle, $hasChildren )
+    function formatAfterClosingTag( &$element, $isInline, $hasChildren )
     {
         if ( !$isInline )
         {
