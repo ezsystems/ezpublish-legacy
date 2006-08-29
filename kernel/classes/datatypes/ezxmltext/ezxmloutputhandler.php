@@ -317,8 +317,6 @@ class eZXMLOutputHandler
 
     function outputTag( &$element, &$sibilingParams, $parentParams = array() )
     {
-        //eZDOMNode::writeDebugStr( $element, '$element' );
-
         if ( $element->Type == EZ_XML_NODE_TEXT )
         {
             $text = $this->processText( $element->Content );
@@ -409,16 +407,25 @@ class eZXMLOutputHandler
         else
             $attrVariables = array();
 
+        foreach( $attrVariables as $attrName=>$varName )
+        {
+            if ( isset( $attributes[$attrName] ) )
+            {
+                $value = $attributes[$attrName];
+                unset( $attributes[$attrName] );
+            }
+            else
+                $value = '';
+
+            if ( $varName === false )
+                continue;
+
+            $attributes[$varName] = $value;
+        }
+
+        // custom attributes - remove prefix
         foreach( $attributes as $attr=>$value )
         {
-            if ( isset( $attrVariables[$attr] ) )
-            {
-                unset( $attributes[$attr] );
-                if ( $attrVariables[$attr] !== false )
-                    $attributes[$attrVariables[$attr]] = $value;
-                continue;
-            }
-            // custom attributes - remove prefix
             if ( substr( $attr, 0, 6 ) == 'custom:' )
             {
                 unset( $attributes[$attr] );
@@ -444,7 +451,7 @@ class eZXMLOutputHandler
         {
             foreach( $currentTag['attrDesignKeys'] as $attrName=>$keyName )
             {
-                if ( isset( $attributes[$attrName] ) )
+                if ( isset( $attributes[$attrName] ) && $attributes[$attrName] )
                     $designKeys[$keyName] = $attributes[$attrName];
             }
         }
@@ -494,7 +501,8 @@ class eZXMLOutputHandler
         // Unset variables
         foreach( $attributes as $attrName=>$value )
         {
-            $this->Tpl->unsetVariable( $attrName, 'xmltagns' );
+            if ( $this->Tpl->hasVariable( $attrName, 'xmltagns' ) )
+                $this->Tpl->unsetVariable( $attrName, 'xmltagns' );
         }
 
         return $output;

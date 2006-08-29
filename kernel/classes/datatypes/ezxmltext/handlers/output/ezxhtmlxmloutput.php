@@ -2,7 +2,7 @@
 //
 // Definition of eZXHTMLXMLOutput class
 //
-// Created on: <28-Jan-2003 15:05:00 bf>
+// Created on: <18-Aug-2006 15:05:00 ks>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -81,14 +81,16 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'renderHandler' => 'renderAll',
                              'attrVariables' => array( 'xhtml:width' => 'width',
                                                        'xhtml:colspan' => 'colspan',
-                                                       'xhtml:rowspan' => 'rowspan' ),
+                                                       'xhtml:rowspan' => 'rowspan',
+                                                       'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'th'           => array( //'handler' => 'outputTd',
                              'renderHandler' => 'renderAll',
                              'attrVariables' => array( 'xhtml:width' => 'width',
                                                        'xhtml:colspan' => 'colspan',
-                                                       'xhtml:rowspan' => 'rowspan' ),
+                                                       'xhtml:rowspan' => 'rowspan',
+                                                       'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'ol'           => array( 'renderHandler' => 'renderAll',
@@ -138,8 +140,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                                                        'node_id' => false,
                                                        'show_path' => false,
                                                        'ezurl_id' => false,
-                                                       'anchor_name' => false ),
-                             'attrVariables' => array( 'class' => 'classification' ),
+                                                       'anchor_name' => false,
+                                                       'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'anchor'       => array( 'renderHandler' => 'renderInline' ),
