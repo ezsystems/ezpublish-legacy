@@ -3,7 +3,11 @@
      class_list=fetch( class, list, hash( class_filter, $class_content.class_constraint_list ) )
      can_create=true()
      new_object_initial_node_placement=false()
-     browse_object_start_node=$attribute.class_content.default_placement.node_id}
+     browse_object_start_node=false()}
+
+{if is_set( $attribute.class_content.default_placement.node_id )}
+    {set browse_object_start_node=$attribute.class_content.default_placement.node_id}
+{/if}
 
 {* Optional controls. *}
 {include uri='design:content/datatype/edit/ezobjectrelationlist_controls.tpl'}
