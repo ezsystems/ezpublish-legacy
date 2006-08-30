@@ -64,6 +64,13 @@ class eZXMLOutputHandler
             $this->ContentObjectAttribute =& $contentObjectAttribute;
             $this->ObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         }
+
+        $ini =& eZINI::instance( 'ezxml.ini' );
+        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
+        {
+            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
+            $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
+        }
     }
 
     /*!
@@ -175,13 +182,6 @@ class eZXMLOutputHandler
         if ( $this->ContentObjectAttribute )
         {
             $this->Res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
-        }
-
-        $ini =& eZINI::instance( 'ezxml.ini' );
-        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
-        {
-            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
-            $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
         }
 
         $xml = new eZXML();
@@ -356,7 +356,7 @@ class eZXMLOutputHandler
         // Call tag handler
         if ( $currentTag && isset( $currentTag['initHandler'] ) )
         {
-            $result =& $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
+            $result = $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
         }
 
         // Process children
@@ -485,9 +485,9 @@ class eZXMLOutputHandler
         }
         $templateUri = $this->TemplatesPath . $templateName . '.tpl';
 
-        $output =& $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
+        $output = $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
         //$handlerName = $currentTag['renderHandler'];
-        //$output =& $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
+        //$output = $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
         
         // Restore saved template override keys and remove others
         foreach( $designKeys as $key=>$value )
@@ -517,7 +517,8 @@ class eZXMLOutputHandler
             $attrString = '';
             foreach( $attributes as $name=>$value )
             {
-                $attrString .= " $name=\"$value\"";
+                if ( $value != '' )
+                    $attrString .= " $name=\"$value\"";
             }
 
             if ( $currentTag['quickRender'][0] )
@@ -563,28 +564,28 @@ class eZXMLOutputHandler
     //                   an array of additional design keys
     // 
 
-    function &callTagInitHandler( $handlerName, &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function callTagInitHandler( $handlerName, &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $result = array();
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
-                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $attributes, $sibilingParams, $parentParams );' );
+                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $attributes, $sibilingParams, $parentParams );' );
             else
                 eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
         }
         return $result;
     }
 
-    function &callTagRenderHandler( $handlerName, &$element, $templateUri, $childrenOutput, $attributes )
+    function callTagRenderHandler( $handlerName, &$element, $templateUri, $childrenOutput, $attributes )
     {
         $result = array();
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
-                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $templateUri, $childrenOutput, $attributes );' );
+                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $templateUri, $childrenOutput, $attributes );' );
             else
                 eZDebug::writeWarning( "'$handlerName' render handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
         }

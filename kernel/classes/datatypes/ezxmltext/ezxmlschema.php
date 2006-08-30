@@ -147,7 +147,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'class', 'xhtml:id', 'target', 'xhtml:title',
                                                      'object_id', 'node_id', 'show_path', 'anchor_name',
-                                                     'url_id', 'id' ),
+                                                     'url_id', 'id', 'view' ),
                               'attributesDefaults' => array( 'target' => '_self' ) ),
     
         'anchor'    => array( 'blockChildrenAllowed' => false,

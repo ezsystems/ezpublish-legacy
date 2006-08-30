@@ -74,10 +74,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'attrVariables' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'tr'           => array( //'quickRender' => array( '<tr>', '</tr>' ),
+    'tr'           => array( //'quickRender' => array( 'tr', "\n" ),
+                             'initHandler' => 'initHandlerTr',
                              'renderHandler' => 'renderAll' ),
 
-    'td'           => array( //'handler' => 'outputTd',
+    'td'           => array( 'initHandler' => 'initHandlerTd',
                              'renderHandler' => 'renderAll',
                              'attrVariables' => array( 'xhtml:width' => 'width',
                                                        'xhtml:colspan' => 'colspan',
@@ -85,7 +86,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                                                        'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'th'           => array( //'handler' => 'outputTd',
+    'th'           => array( 'initHandler' => 'initHandlerTd',
                              'renderHandler' => 'renderAll',
                              'attrVariables' => array( 'xhtml:width' => 'width',
                                                        'xhtml:colspan' => 'colspan',
@@ -152,7 +153,16 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     //,'#text'        => array( 'handler' => 'handlerText' )
     );
 
-    function &initHandlerSection( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function eZXHTMLXMLOutput( &$xmlData, $aliasedType, $contentObjectAttribute = null )
+    {
+        $this->eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
+
+        $ini =& eZINI::instance('ezxml.ini');
+        if ( $ini->variable( 'ezxhtml', 'RenderParagraphInTableCells' ) == 'disabled' )
+            $this->RenderParagraphInTableCells = false;
+    }
+
+    function initHandlerSection( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
         if( !isset( $parentParams['section_level'] ) )
@@ -173,7 +183,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function &initHandlerHeader( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerHeader( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $level = $parentParams['section_level'];
         $this->HeaderCount[$level]++;
@@ -198,7 +208,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function &initHandlerLink( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerLink( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
 
@@ -213,8 +223,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $nodeID = $element->getAttribute( 'node_id' );
             $node =& $this->NodeArray[$nodeID];
+
             if ( $node != null )
-                $href = $node->attribute( 'url_alias' );
+            {
+                $view = $element->getAttribute( 'view' );
+                if ( $view )
+                    $href = 'content/view/' . $view . '/' . $nodeID;
+                else
+                    $href = $node->attribute( 'url_alias' );
+            }
             else
                 eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: link" );
         }
@@ -225,10 +242,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $object )
             {
                 $node =& $object->attribute( 'main_node' );
+                $nodeID = $node->attribute( 'node_id' );
                 if ( $node )
-                    $href = $node->attribute( 'url_alias' );
+                {
+                    $view = $element->getAttribute( 'view' );
+                    if ( $view )
+                        $href = 'content/view/' . $view . '/' . $nodeID;
+                    else
+                        $href = $node->attribute( 'url_alias' );
+                }
                 else
-                    $href = 'content/view/full/' . $objectID;
+                    $href = 'content/view/full/' . $nodeID;
             }
             else
             {
@@ -254,7 +278,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function &initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
         $objectID = $element->getAttribute( 'object_id' );
@@ -328,9 +352,45 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-
-    function &renderParagraph( &$element, $templateUri, $childrenOutput, $attributes )
+    function initHandlerTr( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
+        $ret = array();
+        if( !isset( $sibilingParams['table_row_count'] ) )
+            $sibilingParams['table_row_count'] = 0;
+        else
+            $sibilingParams['table_row_count']++;
+
+        $parentParams['table_row_count'] = $sibilingParams['table_row_count'];
+
+        return $ret;
+    }
+
+    function initHandlerTd( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    {
+        if( !isset( $sibilingParams['table_col_count'] ) )
+            $sibilingParams['table_col_count'] = 0;
+        else
+            $sibilingParams['table_col_count']++;
+
+        $ret = array( 'tpl_vars' => array( 'col_count' => $sibilingParams['table_col_count'],
+                                           'row_count' => $parentParams['table_row_count'] ) );
+        return $ret;
+    }
+
+    // Render handlers
+
+    function renderParagraph( &$element, $templateUri, $childrenOutput, $attributes )
+    {
+        // don't render if inside 'li' or inside 'td' (by option)
+        $parent =& $element->parentNode;
+
+        if ( $parent->nodeName == 'li' ||
+             ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells ) )
+        {
+            return $childrenOutput;
+        }
+
+        // break paragraph by block tags
         $tagText = '';
         $lastTagInline = null;
         $inlineContent = '';
@@ -354,7 +414,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function &renderAll( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderAll( &$element, $templateUri, $childrenOutput, $attributes )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
@@ -365,11 +425,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function &renderInline( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderInline( &$element, $templateUri, $childrenOutput, $attributes )
     {
         $renderedArray = array();
         $lastTagInline = null;
         $inlineContent = '';
+
         foreach( $childrenOutput as $key=>$childOutput )
         {
             if ( $childOutput[0] === true )
@@ -388,11 +449,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $renderedArray[] = array( false, $childOutput[1] );
 
             $lastTagInline = $childOutput[0];
+
         }
         return $renderedArray;
     }
 
-    function &renderLine( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderLine( &$element, $templateUri, $childrenOutput, $attributes )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -430,15 +492,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function &renderCustom( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderCustom( &$element, $templateUri, $childrenOutput, $attributes )
     {
         if ( $this->XMLSchema->isInline( $element ) )
         {
-            $ret =& $this->renderInline( $element, $templateUri, $childrenOutput, $attributes );
+            $ret = $this->renderInline( $element, $templateUri, $childrenOutput, $attributes );
         }
         else
         {
-            $ret =& $this->renderAll( $element, $templateUri, $childrenOutput, $attributes );
+            $ret = $this->renderAll( $element, $templateUri, $childrenOutput, $attributes );
         }
         return $ret;
     }
@@ -448,6 +510,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     var $LinkParameters = array();
 
     var $HeaderCount = array();
+
+    var $RenderParagraphInTableCells = true;
 }
 
 ?>
