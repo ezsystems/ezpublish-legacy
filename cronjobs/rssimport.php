@@ -460,7 +460,7 @@ function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
 {
     include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
     $contentObjectID = $attribute->attribute( "contentobject_id" );
-    $parser = new eZSimplifiedXMLInputParser( $contentObjectID, false, 0 );
+    $parser = new eZSimplifiedXMLInputParser( $contentObjectID, false, 0, false );
 
     $attributeValue = str_replace( "\r", '', $attributeValue );
     $attributeValue = str_replace( "\n", '', $attributeValue );
