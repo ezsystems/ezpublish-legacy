@@ -910,30 +910,8 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     include_once( 'kernel/classes/ezstaticcache.php' );
     eZStaticCache::executeActions();
 
-    $db =& eZDB::instance();
-    if ( $db->TransactionCounter > 0 )
-    {
-        eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
-        $stack = $db->generateFailedTransactionStack();
-        if ( $stack !== false )
-        {
-            eZDebug::writeError( $stack, 'Transaction stack' );
-        }
-        // In debug mode the transaction will be invalidated causing the top-level commit
-        // to issue an error.
-        if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
-        {
-            $db->invalidateTransaction();
-            $db->reportError();
-        }
-        else
-        {
-            while ( $db->TransactionCounter > 0 )
-            {
-                $db->commit();
-            }
-        }
-    }
+    eZDB::checkTransactionCounter();
+
     if ( $automatic_redir )
     {
         eZHTTPTool::redirect( $redirectURI, array(), $redirectStatus );
@@ -1192,30 +1170,7 @@ eZDebug::addTimingPoint( "End" );
 
 ob_end_flush();
 
-$db =& eZDB::instance();
-if ( $db->TransactionCounter > 0 )
-{
-    eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
-    $stack = $db->generateFailedTransactionStack();
-    if ( $stack !== false )
-    {
-        eZDebug::writeError( $stack, 'Transaction stack' );
-    }
-    // In debug mode the transaction will be invalidated causing the top-level commit
-    // to issue an error.
-    if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
-    {
-        $db->invalidateTransaction();
-        $db->reportError();
-    }
-    else
-    {
-        while ( $db->TransactionCounter > 0 )
-        {
-            $db->commit();
-        }
-    }
-}
+eZDB::checkTransactionCounter();
 
 eZDisplayResult( $templateResult );
 
