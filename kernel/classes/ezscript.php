@@ -362,10 +362,15 @@ class eZScript
     */
     function shutdown( $exitCode = false, $exitText = false )
     {
+        $cli =& eZCLI::instance();
         if ( class_exists( 'ezdb' )
              and eZDB::hasInstance() )
         {
             $db =& eZDB::instance( false, array( 'show_errors' => false ) );
+            // Perform transaction check
+            $transactionCounterCheck = eZDB::checkTransactionCounter();
+            if ( isset( $transactionCounterCheck['error'] ) )
+                $cli->error( $transactionCounterCheck['error'] );
 
             if ( $this->UseSession and
                  $db->isConnected() )
@@ -376,7 +381,6 @@ class eZScript
             }
         }
 
-        $cli =& eZCLI::instance();
         $webOutput = $cli->isWebOutput();
 
         if ( $this->UseDebugOutput or

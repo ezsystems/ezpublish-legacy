@@ -333,6 +333,50 @@ class eZDB
         }
         return $impl;
     }
+
+    /*!
+      Checks transaction counter
+      If the current transaction counter is 1 or higher
+      means 1 or more transactions are running and a negative value
+      means something is wrong.
+      Prints the error.
+    */
+    function checkTransactionCounter()
+    {
+        $db =& eZDB::instance();
+        $result = true;
+
+        if ( $db->transactionCounter() > 0 )
+        {
+            $result = array();
+            $result['error'] = "Internal transaction counter mismatch : " . $db->transactionCounter() . ". Should be zero.";
+            eZDebug::writeError( $result['error'] );
+            $stack = $db->generateFailedTransactionStack();
+            if ( $stack !== false )
+            {
+                eZDebug::writeError( $stack, 'Transaction stack' );
+            }
+            include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini =& eZINI::instance();
+            // In debug mode the transaction will be invalidated causing the top-level commit
+            // to issue an error.
+            if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
+            {
+                $db->invalidateTransaction();
+                $db->reportError();
+            }
+            else
+            {
+                while ( $db->TransactionCounter > 0 )
+                {
+                    $db->commit();
+                }
+            }
+        }
+
+        return $result;
+    }
+
 }
 
 ?>
