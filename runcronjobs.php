@@ -303,6 +303,10 @@ foreach ( $scripts as $cronScript )
         include( $scriptFile );
         eZDebug::addTimingPoint( "Script $scriptFile done" );
         ++$index;
+        // The transaction check
+        $transactionCounterCheck = eZDB::checkTransactionCounter();
+        if ( isset( $transactionCounterCheck['error'] ) )
+            $cli->error( $transactionCounterCheck['error'] );
     }
 }
 
