@@ -333,6 +333,33 @@ class eZDB
         }
         return $impl;
     }
+
+    /*!
+      Checks transaction counter
+      If the current transaction counter is 1 or higher
+      means 1 or more transactions are running and a negative value
+      means something is wrong.
+      Prints the error.
+    */
+    function checkTransactionCounter()
+    {
+        $db =& eZDB::instance();
+        $result = true;
+
+        if ( $db->transactionCounter() > 0 )
+        {
+            $result = array();
+            $result['error'] = "Internal transaction counter mismatch : " . $db->transactionCounter() . ". Should be zero.";
+            eZDebug::writeError( $result['error'] );
+            while ( $db->transactionCounter() > 0 )
+            {
+                $db->commit();
+            }
+        }
+
+        return $result;
+    }
+
 }
 
 ?>
