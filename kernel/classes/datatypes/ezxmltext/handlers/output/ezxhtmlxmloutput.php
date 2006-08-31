@@ -265,7 +265,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }break;
 
                 // Supported tags
-                /*case 'emphasize' :
+                case 'emphasize' :
                 case '#text' :
                 case 'line' :
                 case 'strong' :
@@ -282,7 +282,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
-                */
+                
                 default :
                 {
                     eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
