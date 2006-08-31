@@ -367,7 +367,7 @@ class eZDB
             }
             else
             {
-                while ( $db->TransactionCounter > 0 )
+                while ( $db->transactionCounter() > 0 )
                 {
                     $db->commit();
                 }
