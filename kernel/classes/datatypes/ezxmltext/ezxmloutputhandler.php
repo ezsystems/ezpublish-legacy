@@ -401,48 +401,45 @@ class eZXMLOutputHandler
             return array( $inline, $tagText );
         }
 
-        // Rename some attributes (variables) using control array
+        // Set tpl variables by attributes and rename rules
+        $vars = array();
+
         if ( isset( $currentTag['attrVariables'] ) )
             $attrVariables =& $currentTag['attrVariables'];
         else
             $attrVariables = array();
 
-        foreach( $attrVariables as $attrName=>$varName )
+        foreach( $attributes as $name=>$value )
         {
-            if ( isset( $attributes[$attrName] ) )
+            if ( isset( $attrVariables[$name] ) )
             {
-                $value = $attributes[$attrName];
-                unset( $attributes[$attrName] );
-            }
-            else
-                $value = '';
-
-            if ( $varName === false )
+                $vars[$attrVariables[$name]] = $value;
                 continue;
+            }
 
-            $attributes[$varName] = $value;
+            if ( substr( $name, 0, 6 ) == 'custom:' )
+                $name = substr( $name, strpos( $name, ':' ) + 1 );
+
+            $vars[$name] = $value;
         }
 
-        // custom attributes - remove prefix
-        foreach( $attributes as $attr=>$value )
+        // set missing variables that have defined rename rules
+        // but were not present in the element
+        foreach( $attrVariables as $attrName=>$varName )
         {
-            if ( substr( $attr, 0, 6 ) == 'custom:' )
-            {
-                unset( $attributes[$attr] );
-                $newAttr = substr( $varName, strpos( $varName, ':' ) + 1 );
-                $attributes[$newAttr] = $value;
-            }
+            if ( !isset( $attributes[$attrName] ) )
+                $vars[$varName] = '';
         }
 
         // Set additional variables passed by tag handler
         if ( isset( $result['tpl_vars'] ) )
         {
-            $attributes = array_merge( $attributes, $result['tpl_vars'] );
+            $vars = array_merge( $vars, $result['tpl_vars'] );
         }
 
-        foreach( $attributes as $attrName=>$value )
+        foreach( $vars as $name=>$value )
         {
-            $this->Tpl->setVariable( $attrName, $value, 'xmltagns' );
+            $this->Tpl->setVariable( $name, $value, 'xmltagns' );
         }
 
         // Create design keys array
@@ -499,10 +496,10 @@ class eZXMLOutputHandler
         }
 
         // Unset variables
-        foreach( $attributes as $attrName=>$value )
+        foreach( $vars as $name=>$value )
         {
-            if ( $this->Tpl->hasVariable( $attrName, 'xmltagns' ) )
-                $this->Tpl->unsetVariable( $attrName, 'xmltagns' );
+            if ( $this->Tpl->hasVariable( $name, 'xmltagns' ) )
+                $this->Tpl->unsetVariable( $name, 'xmltagns' );
         }
 
         return $output;

@@ -111,7 +111,7 @@ class eZXMLSchema
                               'isInline' => false,
                               'attributes' => array( 'class', 'anchor_name' ) ),
     
-        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom' ),
+        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom', 'literal' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
@@ -126,7 +126,7 @@ class eZXMLSchema
         'literal'   => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => array( '#text' ),
                               'childrenRequired' => true,
-                              'isInline' => true,
+                              'isInline' => false,
                               'attributes' => array( 'class' ) ),
     
         'strong'    => array( 'blockChildrenAllowed' => false,
@@ -190,6 +190,15 @@ class eZXMLSchema
         {
             // Fix for headers content
             $this->Schema['header']['inlineChildrenAllowed'] = array( '#text' );
+        }
+
+        if ( $eZPublishVersion < 3.9 )
+        {
+            // Literal was inline before 3.9
+            $this->Schema['literal']['isInline'] = true;
+            $this->Schema['link']['attributes'] = array( 'class', 'xhtml:id', 'target', 'xhtml:title',
+                                                         'object_id', 'node_id', 'show_path', 'anchor_name',
+                                                         'url_id', 'id' );
         }
     }
 

@@ -465,8 +465,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $childOutput[0] === true )
                 $inlineContent .= $childOutput[1];
 
-            // Render line tag only if there if the last part is inline and there is something
-            // after line tag within the same paragraph
+            // Render line tag only if the last part is inline and the next tag
+            // within the same paragraph is 'line' too.
             if ( $childOutput[0] === false && $lastTagInline === true )
             {
                 $renderedArray[] = array( true, $inlineContent );
@@ -475,7 +475,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             elseif ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) )
             {
                 $next =& $element->nextSibling();
-                if ( $next )
+                if ( $next && $next->nodeName == 'line' )
                 {
                     $tagText = $this->renderTag( $element, $templateUri, $inlineContent, $attributes );
                     $renderedArray[] = array( true, $tagText );

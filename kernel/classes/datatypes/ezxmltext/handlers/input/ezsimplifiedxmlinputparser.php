@@ -103,7 +103,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                               'attributes' => false ),
 
         'literal'   => array( 'parsingHandler' => 'parsingHandlerLiteral',
-                              'structHandler' => 'appendLineParagraph' ),
+                              'structHandler' => 'appendParagraph' ),
 
         'strong'    => array( 'structHandler' => 'appendLineParagraph' ),
 
