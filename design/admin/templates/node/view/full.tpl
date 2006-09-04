@@ -57,11 +57,11 @@
 
 <div class="left">
 {* Edit button. *}
-{def $can_edit_languages   = $node.object.can_edit_languages
-     $can_create_languages = $node.object.can_create_languages}
+{def $can_create_languages = $node.object.can_create_languages
+     $languages            = fetch( 'content', 'prioritized_languages' )}
 {section show=$node.can_edit}
-    {if and(eq( $can_create_languages|count, 0 ), is_set( $can_edit_languages[0] ) )}
-            <input name="ContentObjectLanguageCode" value="{$can_edit_languages[0].locale}" type="hidden">
+    {if and(eq( $languages|count, 1 ), is_set( $languages[0] ) )}
+            <input name="ContentObjectLanguageCode" value="{$languages[0].locale}" type="hidden">
     {else}
             <select name="ContentObjectLanguageCode">
             {foreach $node.object.can_edit_languages as $language}
@@ -79,7 +79,7 @@
     </select>
     <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
-{undef $can_edit_languages $can_create_languages}
+{undef $can_create_languages}
 
 {* Move button. *}
 {section show=$node.can_move}
