@@ -1,0 +1,66 @@
+*Title: Away to check existance of variable in ezini or ezhttp
+
+*Incentive:
+There is currently no way to check from the templates if a post variable or ini-setting is set.
+ezini and ezhttp will give you an error in the debug, but there is currently no way to check if the
+variable is set before you want to load it.
+
+*Documentation:
+
+Added new tpl operators 
+  ezini_hasvariable
+  ezhttp_hasvariable 
+and added new parameters to ezini and ezhttp.
+
+1. You can use ezini like:
+
+ *Usage:
+
+     ezini( <BlockName>, <SettingName>, <FileName>, 
+            <IniPath>, <Should We Put implamantaion to cache file?: 'inCache' or true()>,
+            <Should We Check for existence: 'hasVariable' or true()> )
+
+ *For example:
+
+     ezini( 'URL', 'URL', 'my.ini',, 'inCache')
+     = 
+     ezini( 'URL', 'URL', 'my.ini',, true())
+
+ Warnings will not be shown when Tpl compilation is enabled
+
+
+2. and you can use ezini_hasvariable:
+
+ *Usage:
+
+     ezini_hasvariable( <BlockName>, <SettingName>, <FileName>, <IniPath> )
+
+ *For example:
+ 
+     ezini_hasvariable( 'URL', 'URL', 'my.site' )
+     =
+     ezini( 'URL', 'URL', 'my.ini',,,'hasVariable' )
+
+3. ezhttp:
+
+  *Usage:
+     
+     ezhttp( <Variable>, <Method: post, get, session>, <Should We Check for existence: 'hasVariable' or true()> )
+
+  *For example:
+     
+    ezhttp( 'getVar','get','hasVariable' )
+
+4. ezhttp_hasvariable
+
+  *Usage:
+     
+    ezhttp_hasvariable( <Variable>, <Method> )
+    
+  *For example:
+     
+    ezhttp( 'getVar', 'get', 'hasVariable' )
+    =
+    ezhttp_hasvariable( 'getVar', 'get' )
+
+    
