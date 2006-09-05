@@ -40,6 +40,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
         $this->ContentObjectAttribute = $contentObjectAttribute;
+
+        $ini =& eZINI::instance( 'content.ini' );
+        if ( $ini->hasVariable( 'literal', 'AvailableClasses' ) )
+        {
+            $literalClasses = $ini->variable( 'literal', 'AvailableClasses' );
+            if ( is_array( $literalClasses ) && count( $literalClasses ) )
+                $this->AllowedClassesLiteral = $literalClasses;
+        }
     }
 
     /*!
@@ -1009,6 +1017,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $isBlockTag = true;
 
                 $class = $tag->attributeValue( 'class' );
+                if ( $class && !in_array( $class, $this->AllowedClassesLiteral ) )
+                {
+                    eZDebug::writeWarning( "Using tag '$tagName' with class '$class' is not allowed.", 'XML output handler' );
+
+                    $tpl->setVariable( 'tagname', $tagName, 'xmltagns' );
+                    $tpl->setVariable( 'classification', $class, 'xmltagns' );
+                    $uri = 'design:content/datatype/view/ezxmltags/class_not_allowed.tpl';
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $tagText .= implode( '', $textElements );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                    $tpl->unsetVariable( 'tagname', 'xmltagns' );
+                    break;
+                }
 
                 $res =& eZTemplateDesignResource::instance();
                 $res->setKeys( array( array( 'classification', $class ) ) );
@@ -1143,6 +1165,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Array of parameters for rendering tags that are children of 'link' tag
     var $LinkParameters = array();
+
+    var $AllowedClassesLiteral = array();
 }
 
 ?>
