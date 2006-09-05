@@ -58,7 +58,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Setup Node Creator\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ publish Top Level Nodes Creator\n\n" .
                                                          "This script will create the setup top level node if it does not exist,\n" .
                                                          "\n" .
                                                          "updatetoplevel.php" ),
