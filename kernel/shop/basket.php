@@ -65,44 +65,61 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
-    $i = 0;
 
-
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $itemIDList as $id )
+    if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count ( $itemIDList ) && is_object( $basket ) )
     {
-        $item = eZProductCollectionItem::fetch( $id );
-        if ( is_object( $item ) )
-        {
-            $item->setAttribute( "item_count", $itemCountList[$i] );
-            $item->store();
-        }
-
-        $i++;
-    }
-
-    $basket =& eZBasket::currentBasket();
-
-    $item = $http->postVariable( "RemoveProductItemButton" );
-    eZDebug::writeDebug( $item, "basket item" );
-    if ( is_numeric( $http->postVariable( "RemoveProductItemButton" ) )  )
-    {
+        $productCollectionID =& $basket->attribute( 'productcollection_id' );
         $item = $http->postVariable( "RemoveProductItemButton" );
-        $basket->removeItem( $item );
-    }
-    else
-    {
-        $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
+        if ( $http->hasPostVariable( "RemoveProductItemDeleteList" ) )
+            $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
+        else
+            $itemList = array();
 
-        foreach ( $itemList as $item )
+        $i = 0;
+
+        $db =& eZDB::instance();
+        $db->begin();
+        $itemCountError = false;
+        foreach ( $itemIDList as $id )
+        {
+            $item = eZProductCollectionItem::fetch( $id );
+            if ( is_object( $item ) && $item->attribute( 'productcollection_id' ) == $productCollectionID )
+            {
+                if ( is_numeric( $itemCountList[$i] ) and $itemCountList[$i] > 0 )
+                {
+                    $item->setAttribute( "item_count", $itemCountList[$i] );
+                    $item->store();
+                }
+                else
+                {
+                    if ( ( is_numeric( $item ) and $id != $item ) or ( is_array( $itemList ) and !in_array( $id, $itemList ) ) )
+                        $itemCountError = true;
+                }
+            }
+            $i++;
+        }
+        if ( is_numeric( $item )  )
         {
             $basket->removeItem( $item );
         }
+        else
+        {
+            foreach ( $itemList as $item )
+            {
+                $basket->removeItem( $item );
+            }
+        }
+        $db->commit();
+
+        if ( $itemCountError )
+        {
+            $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/invaliditemcount" );
+            return;
+        }
+
+        $module->redirectTo( $module->functionURI( "basket" ) . "/" );
+        return;
     }
-    $db->commit();
-    $module->redirectTo( $module->functionURI( "basket" ) . "/" );
-    return;
 }
 
 
@@ -111,49 +128,89 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
 
-    $i = 0;
-
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $itemIDList as $id )
+    if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
-        $item = eZProductCollectionItem::fetch( $id );
-        if ( $itemCountList[$i] == 0 )
+        $productCollectionID =& $basket->attribute( 'productcollection_id' );
+
+        $i = 0;
+        $itemCountError = false;
+        $db =& eZDB::instance();
+        $db->begin();
+        foreach ( $itemIDList as $id )
         {
-            $item->remove();
+            $item = eZProductCollectionItem::fetch( $id );
+            if ( is_object( $item ) && $item->attribute( 'productcollection_id' ) == $productCollectionID )
+            {
+                if ( !is_numeric( $itemCountList[$i] ) || $itemCountList[$i] < 0 )
+                {
+                    $itemCountError = true;
+                }
+                elseif ( is_numeric( $itemCountList[$i] ) and $itemCountList[$i] == 0 )
+                {
+                    $item->remove();
+                }
+                else
+                {
+                    $item->setAttribute( "item_count", $itemCountList[$i] );
+                    $item->store();
+                }
+            }
+            $i++;
         }
-        else
+        $db->commit();
+        if ( $itemCountError )
         {
-            $item->setAttribute( "item_count", $itemCountList[$i] );
-            $item->store();
+            // Redirect to basket
+            $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/invaliditemcount" );
+            return;
         }
 
-        $i++;
+        $module->redirectTo( $module->functionURI( "basket" ) . "/" );
+        return;
     }
-    $db->commit();
-    $module->redirectTo( $module->functionURI( "basket" ) . "/" );
-    return;
 }
 
 if ( $http->hasPostVariable( "ContinueShoppingButton" ) )
 {
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
-
-    $i = 0;
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $itemIDList as $id )
+    if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
-        $item = eZProductCollectionItem::fetch( $id );
-        $item->setAttribute( "item_count", $itemCountList[$i] );
-        $item->store();
+        $productCollectionID = $basket->attribute( 'productcollection_id' );
 
-        $i++;
+        $i = 0;
+
+        $db =& eZDB::instance();
+        $db->begin();
+        $itemCountError = false;
+        foreach ( $itemIDList as $id )
+        {
+            if ( !is_numeric( $itemCountList[$i] ) or $itemCountList[$i] <= 0 )
+            {
+                $itemCountError = true;
+            }
+            else
+            {
+                $item = eZProductCollectionItem::fetch( $id );
+                if ( is_object( $item ) && $item->attribute( 'productcollection_id' ) == $productCollectionID )
+                {
+                    $item->setAttribute( "item_count", $itemCountList[$i] );
+                    $item->store();
+                }
+            }
+            $i++;
+        }
+        $db->commit();
+        if ( $itemCountError )
+        {
+            // Redirect to basket
+            $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/invaliditemcount" );
+            return;
+        }
+
+        $fromURL = $http->sessionVariable( "FromPage" );
+        $module->redirectTo( $fromURL );
     }
-    $db->commit();
-    $fromURL = $http->sessionVariable( "FromPage" );
-    $module->redirectTo( $fromURL );
 }
 
 $doCheckout = false;
@@ -175,19 +232,35 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $itemCountList = $http->postVariable( "ProductItemCountList" );
         $itemIDList = $http->postVariable( "ProductItemIDList" );
 
-        $i = 0;
-
-        $db =& eZDB::instance();
-        $db->begin();
-        foreach ( $itemIDList as $id )
+        if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count ( $itemIDList ) && is_object( $basket ) )
         {
-            $item = eZProductCollectionItem::fetch( $id );
-            $item->setAttribute( "item_count", $itemCountList[$i] );
-            $item->store();
+            $productCollectionID = $basket->attribute( 'productcollection_id' );
+            $db =& eZDB::instance();
+            $db->begin();
 
-            $i++;
+            for ( $i = 0, $itemCountError = false; $i < count( $itemIDList ); ++$i )
+            {
+                // If item count of product <= 0 we should show the error
+                if ( !is_numeric( $itemCountList[$i] ) or $itemCountList[$i] <= 0 )
+                {
+                    $itemCountError = true;
+                    continue;
+                }
+                $item = eZProductCollectionItem::fetch( $itemIDList[$i] );
+                if ( is_object( $item ) && $item->attribute( 'productcollection_id' ) == $productCollectionID )
+                {
+                    $item->setAttribute( "item_count", $itemCountList[$i] );
+                    $item->store();
+                }
+            }
+            $db->commit();
+            if ( $itemCountError )
+            {
+                // Redirect to basket
+                $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/invaliditemcount" );
+                return;
+            }
         }
-        $db->commit();
     }
 
     // Fetch the shop account handler

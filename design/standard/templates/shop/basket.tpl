@@ -18,20 +18,19 @@ teessst
 
 {section show=$error}
 <div class="error">
-{section show=$error|eq(1)}
-<h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
-{/section}
+    {switch match=$error}
+    {case match=1}
+       <h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
+    {/case}
+    {case match="aborted"}
+       <h2>{"Your payment was aborted."|i18n("design/standard/shop",,)}</h2>
+    {/case}
+    {case match="invaliditemcount"}
+       <h2>{"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
+    {/case}
+    {/switch}
 </div>
 {/section}
-
-{section show=$error}
-<div class="error">
-{section show=eq($error, "aborted")}
-<h2>{"Your payment was aborted."|i18n("design/standard/shop",,)}</h2>
-{/section}
-</div>
-{/section}
-
 
     {section name=Basket show=$basket.items}
 
@@ -155,7 +154,7 @@ teessst
 </table>
 <div class="buttonblock">
 <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp;
-<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" /> 
+<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" />
 </div>
 
 <div class="buttonblock">
