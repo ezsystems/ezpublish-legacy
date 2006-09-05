@@ -264,6 +264,9 @@ if ( $contentClassHasInput )
         if ( $http->hasPostVariable( $canTranslateVariable ) )
             $canTranslateCheckedArray = $http->postVariable( $canTranslateVariable );
 
+        if ( $http->hasPostVariable( 'ContentAttribute_priority' ) )
+            $placementArray = $http->postVariable( 'ContentAttribute_priority' );
+
         foreach ( array_keys( $attributes ) as $key )
         {
             $attribute =& $attributes[$key];
@@ -273,6 +276,10 @@ if ( $contentClassHasInput )
             $attribute->setAttribute( 'is_information_collector', in_array( $attributeID, $informationCollectorCheckedArray ) );
             // Set can_translate to 0 if user has clicked Disable translation in GUI
             $attribute->setAttribute( 'can_translate', !in_array( $attributeID, $canTranslateCheckedArray ) );
+
+            $placement = (int) $placementArray[$key];
+            if ( $attribute->attribute( 'placement' ) != $placement )
+                $attribute->setAttribute( 'placement', $placement );
         }
     }
 }
@@ -422,10 +429,22 @@ if ( $validationRequired )
         {
             $classAttribute = $attributes[$attrIndex];
             $identifier = $classAttribute->attribute( 'identifier' );
+            $placement = $classAttribute->attribute( 'placement' );
             for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < count( $attributes ); $attrIndex2++ )
             {
                 $classAttribute2 = $attributes[$attrIndex2];
                 $identifier2 = $classAttribute2->attribute( 'identifier' );
+                $placement2 = $classAttribute2->attribute( 'placement' );
+                if (  $placement ==  $placement2 )
+                {
+                    $validation['attributes'][] = array( 'identifier' => $identifier2,
+                                                         'name' => $classAttribute2->attribute( 'name' ),
+                                                         'id' => $classAttribute2->attribute( 'id' ),
+                                                         'reason' => array ( 'text' => 'duplicate attribute placement' ) );
+                    $canStore = false;
+                    break;
+                }
+
                 if ( $identifier == $identifier2 )
                 {
                     $validation['attributes'][] = array( 'identifier' => $identifier,

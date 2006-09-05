@@ -848,10 +848,16 @@ You will need to change the class of the node by using the swap functionality.' 
         }
     }
 
+    function compareAttributes( $attr1, $attr2 )
+    {
+        return  ( $attr1->attribute( "placement" ) > $attr2->attribute( "placement" )  ) ? 1 : -1;
+    }
+
     function adjustAttributePlacements( &$attributes )
     {
         if ( !is_array( $attributes ) )
             return;
+        usort( $attributes, array( $this, "compareAttributes" ) );
         for ( $i = 0; $i < count( $attributes ); ++$i )
         {
             $attribute =& $attributes[$i];
