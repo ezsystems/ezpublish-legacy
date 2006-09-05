@@ -18,3 +18,8 @@ operator such as 'datetime'. And it is always possible to compare time
 values are stored in various eZTimeType attributes using 'time_of_day'
 attribute.
 So eZTimeType datatype is stored in database as server local time of a day.
+
+These changes were made in ezpublish 3.5.3. Thus you have to run appropriate
+update-script (update/common/scripts/updateeztimetype.php) to fix time values
+in all currently existing eZTimeTypes attributes in your system if you are
+upgrading from 3.5.2 or lower version to 3.5.3 or higher version of ezpublish.
