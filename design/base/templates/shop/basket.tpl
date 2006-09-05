@@ -25,20 +25,19 @@
 
     {section show=$error}
     <div class="error">
-    {section show=$error|eq(1)}
-    <h2>{"Attempted to add object without price to basket."|i18n("design/base/shop",,)}</h2>
-    {/section}
+        {switch match=$error}
+        {case match=1}
+           <h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
+        {/case}
+        {case match="aborted"}
+           <h2>{"Your payment was aborted."|i18n("design/standard/shop",,)}</h2>
+        {/case}
+        {case match="invaliditemcount"}
+           <h2>{"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
+        {/case}
+        {/switch}
     </div>
     {/section}
-
-    {section show=$error}
-    <div class="error">
-    {section show=eq($error, "aborted")}
-    <h2>{"Your payment was aborted."|i18n("design/base/shop",,)}</h2>
-    {/section}
-    </div>
-    {/section}
-
 
     {section show=$basket.items}
 

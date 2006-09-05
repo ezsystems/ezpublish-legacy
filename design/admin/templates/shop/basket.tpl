@@ -19,6 +19,15 @@
 </div>
 {/if}
 
+{section show=$error}
+<div class="message-warning">
+{section show=eq( $error, "invaliditemcount" )}
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span>
+    {"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
+{/section}
+</div>
+{/section}
+
 <form name="basket" method="post" action={'/shop/basket/'|ezurl}>
 
 <div class="context-block">

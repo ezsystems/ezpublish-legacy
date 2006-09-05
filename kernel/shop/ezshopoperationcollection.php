@@ -222,20 +222,32 @@ class eZShopOperationCollection
 
     function updateBasket( $itemCountList, $itemIDList )
     {
-        $i = 0;
-        foreach ( $itemIDList as $id )
+        if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count ( $itemIDList ) )
         {
-            $item = eZProductCollectionItem::fetch( $id );
-            if ( $itemCountList[$i] == 0 )
+            $basket =& eZBasket::currentBasket();
+            if ( is_object( $basket ) )
             {
-                $item->remove();
+                $productCollectionID =& $basket->attribute( 'productcollection_id' );
+
+                $i = 0;
+                foreach ( $itemIDList as $id )
+                {
+                    $item = eZProductCollectionItem::fetch( $id );
+                    if ( is_object( $item ) && $item->attribute( 'productcollection_id' ) == $productCollectionID )
+                    {
+                        if ( is_numeric( $itemCountList[$i] ) and $itemCountList[$i] == 0 )
+                        {
+                            $item->remove();
+                        }
+                        else
+                        {
+                            $item->setAttribute( 'item_count', $itemCountList[$i] );
+                            $item->store();
+                        }
+                    }
+                    ++$i;
+                }
             }
-            else
-            {
-                $item->setAttribute( 'item_count', $itemCountList[$i] );
-                $item->store();
-            }
-            ++$i;
         }
     }
 

@@ -49,6 +49,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
             $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
         }
+
+        $contentIni =& eZINI::instance( 'content.ini' );
+        if ( $contentIni->hasVariable( 'literal', 'AvailableClasses' ) )
+        {
+            $literalClasses = $contentIni->variable( 'literal', 'AvailableClasses' );
+            if ( is_array( $literalClasses ) && count( $literalClasses ) )
+                $this->AllowedClassesLiteral = $literalClasses;
+        }
     }
 
     /*!
@@ -1017,6 +1025,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $isBlockTag = true;
 
                 $class = $tag->attributeValue( 'class' );
+                if ( $class && !in_array( $class, $this->AllowedClassesLiteral ) )
+                {
+                    eZDebug::writeWarning( "Using tag '$tagName' with class '$class' is not allowed.", 'XML output handler' );
+
+                    $tpl->setVariable( 'tagname', $tagName, 'xmltagns' );
+                    $tpl->setVariable( 'classification', $class, 'xmltagns' );
+                    $uri = 'design:content/datatype/view/ezxmltags/class_not_allowed.tpl';
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $tagText .= implode( '', $textElements );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                    $tpl->unsetVariable( 'tagname', 'xmltagns' );
+                    break;
+                }
 
                 $res =& eZTemplateDesignResource::instance();
                 $res->setKeys( array( array( 'classification', $class ) ) );
@@ -1213,6 +1235,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     var $ObjectAttributeId = null;
 
     var $AllowMultipleSpaces = false;
+
+    var $AllowedClassesLiteral = array();
 }
 
 ?>
