@@ -186,6 +186,9 @@
           {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
    {/section}
 
+    {def $can_create_languages=fetch( content, prioritized_languages )}
+
+    {if ne( $can_create_languages|count, 1 )}
     <script type="text/javascript">
     <!--
         {literal}
@@ -265,17 +268,22 @@
     {/foreach}
     // -->
     </script>
+    {/if}
 
-    <select name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
+        <select name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    {else}
+        <select name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    {/if}
         {section var=CanCreateClasses loop=$can_create_classes}
         {if $CanCreateClasses.item.can_instantiate_languages}
             <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
         {/if}
         {/section}
     </select>
-    {def $can_create_languages=fetch( content, prioritized_languages )}
+
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
-            <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden">
+        <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden">
     {else}
         <script type="text/javascript">
         <!--
