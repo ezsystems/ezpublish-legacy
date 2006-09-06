@@ -258,7 +258,7 @@ class eZBasket extends eZPersistentObject
     function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
-        if ( is_object( $item ) )
+        if ( is_object( $item ) && $this->attribute( 'productcollection_id' ) == $item->attribute( 'productcollection_id' ) )
         {
             $item->remove();
         }
