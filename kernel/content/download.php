@@ -25,16 +25,12 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
+
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-//include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "kernel/classes/ezbinaryfilehandler.php" );
 include_once( "kernel/classes/datatypes/ezmedia/ezmedia.php" );
-//include_once( "kernel/common/template.php" );
-
-//$tpl =& templateInit();
 
 $contentObjectID = $Params['ContentObjectID'];
 $contentObjectAttributeID = $Params['ContentObjectAttributeID'];
@@ -61,9 +57,24 @@ if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'ca
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
-// Check for locations.
+// Get locations.
+$nodeAssignments =& $contentObject->attribute( 'assigned_nodes' );
+if ( count( $nodeAssignments ) === 0 )
+{
+    // oops, no locations. probably it's related object. Let's check his owners
+    $ownerList =& eZContentObject::reverseRelatedObjectList( false, $contentObjectID, false, false, false );
+    foreach ( array_keys( $ownerList ) as $key )
+    {
+        $owner =& $ownerList[$key];
+        if ( is_object( $owner ) )
+        {
+            $ownerNodeAssignments =& $owner->attribute( 'assigned_nodes' );
+            $nodeAssignments = array_merge( $nodeAssignments, $ownerNodeAssignments );
+        }
+    }
+}
+
 // If exists location that current user has access to and location is visible.
-$nodeAssignments = $contentObject->attribute( 'assigned_nodes' );
 $canAccess = false;
 foreach ( $nodeAssignments as $nodeAssignment )
 {

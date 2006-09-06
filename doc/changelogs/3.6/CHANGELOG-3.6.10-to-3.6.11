@@ -57,3 +57,4 @@ eZTemplate:
   (Merged from trunk (3.9.0alpha1) rev. 16718)
 - Fixed bug #8867: Cron and cli scripts do not check transactions.
   (Merged from trunk (3.9.0alpha1) rev. 16733)
+- Fixed bug #8932: content/download of files within loose objects in AdvancedObjectRelationList.
