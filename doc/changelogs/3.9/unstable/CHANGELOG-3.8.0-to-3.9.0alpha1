@@ -337,3 +337,5 @@ eZMail:
   all index_object pending actions.
 - Fixed bug #8909: No real item's name in pendiglist.
 - Fixed bug #8867: Cron and cli scripts do not check transactions.
+- Fixed bug #8932: content/download of files within loose objects in AdvancedObjectRelationList.
+  (Merged from release/3.6.11 rev. 16749)
