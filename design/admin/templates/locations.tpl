@@ -3,7 +3,13 @@
      assignment_count=$assigned_nodes|count
      has_manage_locations=fetch( 'user', 'current_user' ).has_manage_locations
      can_edit_node=$node.can_edit
-     can_remove_location=false()}
+     can_remove_location=false()
+     can_manage_location=or(fetch( 'content', 'access',
+                	    hash( 'access', 'manage_locations',
+		            	'contentobject', $node)),
+			    fetch( 'content', 'access',
+                	    hash( 'access', 'create',
+		            	'contentobject', $node)))}
 
 <form name="locationsform" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -123,7 +129,7 @@
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There is no removable location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/if}
 
-    {if and( ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
+    {if and( $can_manage_location, ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
     <input class="button" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'Add one or more new locations.'|i18n( 'design/admin/node/view/full' )}" />
     {else}
     <input class="button-disabled" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'It is not possible to add locations to a top level node.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
