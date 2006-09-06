@@ -99,7 +99,7 @@ class eZExpiryHandler
 
             fwrite( $fp, $storeString );
             fclose( $fp );
-            include "lib/ezutils/classes/ezfile.php";
+            include_once( 'lib/ezutils/classes/ezfile.php' );
             eZFile::rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
 
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
