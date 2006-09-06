@@ -1,3 +1,4 @@
+{default page_uri_suffix=false}
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=$page_uri
@@ -5,7 +6,6 @@
          item_count=$item_count
          view_parameters=$view_parameters
          item_limit=$item_limit}
-
 {if and( ezini_hasvariable( 'AlphabeticalFilterSettings', 'ContentFilterList', 'content.ini' ),
          gt( count( ezini( 'AlphabeticalFilterSettings', 'ContentFilterList', 'content.ini' ) ), 0 )
 	 )}
@@ -102,3 +102,4 @@
    {/if}
    {/default}
 {/if}
+{/default}
