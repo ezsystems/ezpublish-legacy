@@ -3,3 +3,4 @@ Changes from 3.6.11 to 3.6.12
 *Bugfixes:
 - Fixed bug #6804: Role limitation assignment is not part of viewcache hash key
   (Merged from stable/3.8 (3.8.5) rev.16790)
+- Fixed bug #8952: Include used instead of include_once.
