@@ -126,7 +126,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         );
 
     function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS,
-                                         $parseLineBreaks = true, $removeDefaultAttrs = false )
+                                         $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
         $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );

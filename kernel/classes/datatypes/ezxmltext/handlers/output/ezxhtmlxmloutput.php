@@ -39,8 +39,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     var $OutputTags = array(
 
-    'section'      => array( 'initHandler' => 'initHandlerSection',
-                             'noRender' => true ),// 'handler' => 'handlerSection' ),
+    'section'      => array( 'quickRender' => array(),
+                             'initHandler' => 'initHandlerSection',
+                             'renderHandler' => 'renderSection' ),
 
     'embed'        => array( 'initHandler' => 'initHandlerEmbed',
                              'renderHandler' => 'renderAll',
@@ -111,13 +112,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                              'attrVariables' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'paragraph'    => array( 'quickRender' => array( 'p', "\n" ),
+    'paragraph'    => array( //'quickRender' => array( 'p', "\n" ),
                              //'handler' => 'outputParagraph',
                              'renderHandler' => 'renderParagraph',
                              'attrVariables' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'line'         => array( 'quickRender' => array( '', "<br/>" ),
+    'line'         => array( //'quickRender' => array( '', "<br/>" ),
                              'renderHandler' => 'renderLine' ),
 
     'literal'      => array( 'renderHandler' => 'renderAll',
@@ -150,7 +151,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     'custom'       => array( 'renderHandler' => 'renderCustom',
                              'attrVariables' => array( 'name' => false ) ),
 
-    //,'#text'        => array( 'handler' => 'handlerText' )
+    '#text'        => array( 'quickRender' => array(),
+                             'renderHandler' => 'renderText' )
     );
 
     function eZXHTMLXMLOutput( &$xmlData, $aliasedType, $contentObjectAttribute = null )
@@ -503,6 +505,38 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $ret = $this->renderAll( $element, $templateUri, $childrenOutput, $attributes );
         }
         return $ret;
+    }
+
+    function renderSection( &$element, $templateUri, $childrenOutput, $attributes )
+    {
+        $tagText = '';
+        foreach( $childrenOutput as $childOutput )
+        {
+            $tagText .= $childOutput[1];
+        }
+        
+        return array( false, $tagText );
+    }
+
+    function renderText( &$element, $templateUri, $childrenOutput, $attributes )
+    {
+        if ( $element->parentNode->nodeName != 'literal' )
+        {
+            $text = htmlspecialchars( $element->Content );
+            // Get rid of linebreak and spaces stored in xml file
+            $text = preg_replace( "#[\n]+#", "", $text );
+    
+            if ( $this->AllowMultipleSpaces )
+                $text = preg_replace( "#  #", " &nbsp;", $text );
+            else
+                $text = preg_replace( "#[ ]+#", " ", $text );
+        }
+        else
+        {
+            $text = $element->Content;
+        }
+
+        return array( true, $text );
     }
 
 

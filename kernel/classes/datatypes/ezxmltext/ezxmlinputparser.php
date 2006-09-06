@@ -142,7 +142,7 @@ class eZXMLInputParser
         $this->parseLineBreaks = $parseLineBreaks;
 
         $this->XMLSchema =& eZXMLSchema::instance();
-        $this->getClassesList();
+        //$this->getClassesList();
 
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
@@ -581,8 +581,8 @@ class eZXMLInputParser
             // Filter classes
             if ( $qualifiedName == 'class' )
             {
-                if ( isset( $thisOutputTag['classesList'] ) &&
-                     !in_array( $value, $thisOutputTag['classesList'] ) )
+                $classesList = $this->XMLSchema->getClassesList( $element->nodeName );
+                if ( !in_array( $value, $classesList ) )
                 {
                     $this->isInputValid = false;
                     if ( $this->errorLevel >= 2 )
@@ -705,7 +705,7 @@ class eZXMLInputParser
         return $domString;
     }
 
-    function getClassesList()
+    /*function getClassesList()
     {
         $ini =& eZINI::instance( 'content.ini' );
         foreach( array_keys( $this->OutputTags ) as $tagName )
@@ -721,7 +721,7 @@ class eZXMLInputParser
             else
                 $this->OutputTags[$tagName]['classesList'] = array();
         }
-    }
+    }*/
 
     function wordMatchSupport( $newTagName, &$attributes, $attributeString )
     {
@@ -938,6 +938,8 @@ class eZXMLInputParser
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
+        $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
+
         $attributes = $element->attributes();
         foreach( $attributes as $attr )
         {
@@ -950,19 +952,21 @@ class eZXMLInputParser
             else
                 $fullName = $attr->LocalName;
 
-            if ( $attr->Prefix == 'custom' )
+            if ( $attr->Prefix == 'custom' && in_array( $attr->LocalName, $schemaCustomAttributes ) )
             {
                 $allowed = true;
             }
             else
             {
-                foreach( $schemaAttributes as $schemaAttrName )
+                if ( in_array( $fullName, $schemaAttributes ) )
                 {
-                    if ( $fullName == $schemaAttrName )
-                    {
-                        $allowed = true;
-                        break;
-                    }
+                   $allowed = true;
+                }
+                elseif ( in_array( $fullName, $schemaCustomAttributes ) )
+                {
+                    $allowed = true;
+                    $removeAttr = true;
+                    $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $fullName, $attr->content() );
                 }
             }
 

@@ -180,6 +180,22 @@ class eZXMLSchema
         include_once( 'lib/version.php' );
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
+        // Get all tags available classes list
+        $ini =& eZINI::instance( 'content.ini' );
+        foreach( array_keys( $this->Schema ) as $tagName )
+        {
+            if ( $ini->hasVariable( $tagName, 'AvailableClasses' ) )
+            {
+                $avail = $ini->variable( $tagName, 'AvailableClasses' );
+                if ( is_array( $avail ) && count( $avail ) )
+                    $this->Schema[$tagName]['classesList'] = $avail;
+                else
+                    $this->Schema[$tagName]['classesList'] = array();
+            }
+            else
+                $this->Schema[$tagName]['classesList'] = array();
+        }
+
         if ( $eZPublishVersion >= 3.8 )
         {
             // Fix for empty paragraphs setting
@@ -192,7 +208,25 @@ class eZXMLSchema
             $this->Schema['header']['inlineChildrenAllowed'] = array( '#text' );
         }
 
-        if ( $eZPublishVersion < 3.9 )
+        if ( $eZPublishVersion >= 3.9 )
+        {
+            // Get all tags custom attributes list
+            $ini =& eZINI::instance( 'content.ini' );
+            foreach( array_keys( $this->Schema ) as $tagName )
+            {
+                if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
+                {
+                    $avail = $ini->variable( $tagName, 'CustomAttributes' );
+                    if ( is_array( $avail ) && count( $avail ) )
+                        $this->Schema[$tagName]['customAttributes'] = $avail;
+                    else
+                        $this->Schema[$tagName]['customAttributes'] = array();
+                }
+                else
+                    $this->Schema[$tagName]['customAttributes'] = array();
+            }
+        }
+        else
         {
             // Literal was inline before 3.9
             $this->Schema['literal']['isInline'] = true;
@@ -327,10 +361,20 @@ class eZXMLSchema
         return $this->Schema[$element->nodeName]['attributes'];
     }
 
+    function customAttributes( $element )
+    {
+        if ( isset( $this->Schema[$element->nodeName]['customAttributes'] ) )
+            return $this->Schema[$element->nodeName]['customAttributes'];
+        else
+            return array();
+    }
+
     function attrDefaultValue( $tagName, $attrName )
     {
         if ( isset( $this->Schema[$tagName]['attributesDefaults'][$attrName] ) )
             return $this->Schema[$tagName]['attributesDefaults'][$attrName];
+        else
+            return array();
     }
 
     function attrDefaultValues( $tagName )
@@ -345,6 +389,11 @@ class eZXMLSchema
     {
         $name = is_string( $element ) ? $element : $element->nodeName;
         return isset( $this->Schema[$name] );
+    }
+
+    function getClassesList( $tagName )
+    {
+        return $this->Schema[$tagName]['classesList'];
     }
 
     // for custom tags

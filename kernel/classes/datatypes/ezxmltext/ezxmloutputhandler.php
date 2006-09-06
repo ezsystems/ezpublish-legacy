@@ -317,13 +317,6 @@ class eZXMLOutputHandler
 
     function outputTag( &$element, &$sibilingParams, $parentParams = array() )
     {
-        if ( $element->Type == EZ_XML_NODE_TEXT )
-        {
-            $text = $this->processText( $element->Content );
-            return array( true, $text );
-        }
-
-        $tagText = '';
         $tagName = $element->nodeName;
         if ( isset( $this->OutputTags[$tagName] ) )
         {
@@ -342,6 +335,17 @@ class eZXMLOutputHandler
             else
                 $attrName = $attrNode->nodeName;
 
+            // classes check
+            if ( $attrName == 'class' )
+            {
+                $classesList = $this->XMLSchema->getClassesList( $tagName );
+                if ( !in_array( $attrNode->value, $classesList ) )
+                {
+                    eZDebug::writeWarning( "Using tag '$tagName' with class '$attrNode->value' is not allowed.", 'XML output handler' );
+                    return array( true, '' );
+                }
+            }
+
             $attributes[$attrName] = $attrNode->value;
         }
 
@@ -354,10 +358,7 @@ class eZXMLOutputHandler
         }
 
         // Call tag handler
-        if ( $currentTag && isset( $currentTag['initHandler'] ) )
-        {
-            $result = $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
-        }
+        $result = $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
 
         // Process children
         $childrenOutput = array();
@@ -390,116 +391,112 @@ class eZXMLOutputHandler
             $childrenOutput = array( array( true, '' ) );
         }
 
-        if ( isset( $currentTag['noRender'] ) )
+        $templateUri = '';
+        if ( !isset( $currentTag['quickRender'] ) )
         {
-            foreach( $childrenOutput as $childOutput )
+            // Set tpl variables by attributes and rename rules
+            $vars = array();
+    
+            if ( isset( $currentTag['attrVariables'] ) )
+                $attrVariables =& $currentTag['attrVariables'];
+            else
+                $attrVariables = array();
+    
+            foreach( $attributes as $name=>$value )
             {
-                $tagText .= $childOutput[1];
+                if ( isset( $attrVariables[$name] ) )
+                {
+                    $vars[$attrVariables[$name]] = $value;
+                    continue;
+                }
+    
+                if ( substr( $name, 0, 6 ) == 'custom:' )
+                    $name = substr( $name, strpos( $name, ':' ) + 1 );
+    
+                $vars[$name] = $value;
             }
-            $inline = $this->XMLSchema->isInline( $tagName );
-
-            return array( $inline, $tagText );
-        }
-
-        // Set tpl variables by attributes and rename rules
-        $vars = array();
-
-        if ( isset( $currentTag['attrVariables'] ) )
-            $attrVariables =& $currentTag['attrVariables'];
-        else
-            $attrVariables = array();
-
-        foreach( $attributes as $name=>$value )
-        {
-            if ( isset( $attrVariables[$name] ) )
+    
+            // set missing variables that have defined rename rules
+            // but were not present in the element
+            foreach( $attrVariables as $attrName=>$varName )
             {
-                $vars[$attrVariables[$name]] = $value;
-                continue;
+                if ( !isset( $attributes[$attrName] ) )
+                    $vars[$varName] = '';
             }
-
-            if ( substr( $name, 0, 6 ) == 'custom:' )
-                $name = substr( $name, strpos( $name, ':' ) + 1 );
-
-            $vars[$name] = $value;
-        }
-
-        // set missing variables that have defined rename rules
-        // but were not present in the element
-        foreach( $attrVariables as $attrName=>$varName )
-        {
-            if ( !isset( $attributes[$attrName] ) )
-                $vars[$varName] = '';
-        }
-
-        // Set additional variables passed by tag handler
-        if ( isset( $result['tpl_vars'] ) )
-        {
-            $vars = array_merge( $vars, $result['tpl_vars'] );
-        }
-
-        foreach( $vars as $name=>$value )
-        {
-            $this->Tpl->setVariable( $name, $value, 'xmltagns' );
-        }
-
-        // Create design keys array
-        $designKeys = array();
-        if ( isset( $currentTag['attrDesignKeys'] ) )
-        {
-            foreach( $currentTag['attrDesignKeys'] as $attrName=>$keyName )
+    
+            // Set additional variables passed by tag handler
+            if ( isset( $result['tpl_vars'] ) )
             {
-                if ( isset( $attributes[$attrName] ) && $attributes[$attrName] )
-                    $designKeys[$keyName] = $attributes[$attrName];
+                $vars = array_merge( $vars, $result['tpl_vars'] );
             }
-        }
-        // Merge design keys set in control array and tag handler
-        if ( isset( $result['design_keys'] ) )
-        {
-            $designKeys = array_merge( $designKeys, $result['design_keys'] );
-        }
-
-        $existingKeys = $this->Res->keys();
-        $savedKeys = array();
-
-        // Save old keys values and set new design keys
-        foreach( $designKeys as $key=>$value )
-        {
-            if ( isset( $existingKeys[$key] ) )
+    
+            foreach( $vars as $name=>$value )
             {
-                $savedKeys[$key] = $existingKeys[$key];
+                $this->Tpl->setVariable( $name, $value, 'xmltagns' );
             }
-            $this->Res->setKeys( array( array( $key, $value ) ) );
+    
+            // Create design keys array
+            $designKeys = array();
+            if ( isset( $currentTag['attrDesignKeys'] ) )
+            {
+                foreach( $currentTag['attrDesignKeys'] as $attrName=>$keyName )
+                {
+                    if ( isset( $attributes[$attrName] ) && $attributes[$attrName] )
+                        $designKeys[$keyName] = $attributes[$attrName];
+                }
+            }
+            // Merge design keys set in control array and tag handler
+            if ( isset( $result['design_keys'] ) )
+            {
+                $designKeys = array_merge( $designKeys, $result['design_keys'] );
+            }
+    
+            $existingKeys = $this->Res->keys();
+            $savedKeys = array();
+    
+            // Save old keys values and set new design keys
+            foreach( $designKeys as $key=>$value )
+            {
+                if ( isset( $existingKeys[$key] ) )
+                {
+                    $savedKeys[$key] = $existingKeys[$key];
+                }
+                $this->Res->setKeys( array( array( $key, $value ) ) );
+            }
+    
+            // Template name
+            if ( isset( $result['template_name'] ) )
+            {
+                $templateName = $result['template_name'];
+            }
+            else
+            {
+                $templateName = $element->nodeName;
+            }
+            $templateUri = $this->TemplatesPath . $templateName . '.tpl';
         }
-
-        // Template name
-        if ( isset( $result['template_name'] ) )
-        {
-            $templateName = $result['template_name'];
-        }
-        else
-        {
-            $templateName = $element->nodeName;
-        }
-        $templateUri = $this->TemplatesPath . $templateName . '.tpl';
 
         $output = $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
         //$handlerName = $currentTag['renderHandler'];
         //$output = $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
         
-        // Restore saved template override keys and remove others
-        foreach( $designKeys as $key=>$value )
+        if ( !isset( $currentTag['quickRender'] ) )
         {
-            if ( isset( $savedKeys[$key] ) )
-                $this->Res->setKeys( array( array( $key, $savedKeys[$key] ) ) );
-            else
-                $this->Res->removeKey( $key );
-        }
-
-        // Unset variables
-        foreach( $vars as $name=>$value )
-        {
-            if ( $this->Tpl->hasVariable( $name, 'xmltagns' ) )
-                $this->Tpl->unsetVariable( $name, 'xmltagns' );
+            // Restore saved template override keys and remove others
+            foreach( $designKeys as $key=>$value )
+            {
+                if ( isset( $savedKeys[$key] ) )
+                    $this->Res->setKeys( array( array( $key, $savedKeys[$key] ) ) );
+                else
+                    $this->Res->removeKey( $key );
+            }
+        
+            // Unset variables
+            foreach( $vars as $name=>$value )
+            {
+                if ( $this->Tpl->hasVariable( $name, 'xmltagns' ) )
+                    $this->Tpl->unsetVariable( $name, 'xmltagns' );
+            }
         }
 
         return $output;
@@ -540,19 +537,6 @@ class eZXMLOutputHandler
         return $renderedTag;
     }
 
-    function processText( $text )
-    {
-        $text = htmlspecialchars( $text );
-        // Get rid of linebreak and spaces stored in xml file
-        $text = preg_replace( "#[\n]+#", "", $text );
-
-        if ( $this->AllowMultipleSpaces )
-            $text = preg_replace( "#  #", " &nbsp;", $text );
-        else
-            $text = preg_replace( "#[ ]+#", " ", $text );
-        return $text;
-    }
-
     // Handler returns an array that may have following items:
     //
     // 'skip_tag_render' (boolean) :
@@ -569,8 +553,8 @@ class eZXMLOutputHandler
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
                 eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $attributes, $sibilingParams, $parentParams );' );
-            else
-                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+            //else
+            //    eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
         }
         return $result;
     }

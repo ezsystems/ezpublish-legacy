@@ -130,7 +130,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // first empty paragraph
             $text = preg_replace('/^\n/', '<p></p>', $text );
 
-            $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
+            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
