@@ -1,6 +1,7 @@
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=$page_uri
+         page_uri_suffix=$page_uri_suffix
          item_count=$item_count
          view_parameters=$view_parameters
          item_limit=$item_limit}

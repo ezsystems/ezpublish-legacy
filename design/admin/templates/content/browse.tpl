@@ -1,10 +1,21 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.namefilter))
-     node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array, objectname_filter, $view_parameters.namefilter ) )
      select_name='SelectedObjectIDArray'
      select_type='checkbox'
-     select_attribute='contentobject_id'}
+     select_attribute='contentobject_id'
+     browse_list_count=0
+     node_array=array()}
+{section show=is_set( $node_list )}
+    {def $page_uri=$requested_uri }
+    {def $page_uri_suffix=concat( '?', $requested_uri_suffix)}
+    {set browse_list_count=$node_list_count
+         node_array=$node_list}
+    {section-else}
+    {def $page_uri=concat( '/content/browse/', $main_node.node_id )}
+
+    {set browse_list_count=fetch( content, list_count, hash( parent_node_id, $node_id, depth, 1, objectname_filter, $view_parameters.namefilter))
+         node_array=fetch( content, list, hash( parent_node_id, $node_id, depth, 1, offset, $view_parameters.offset, limit, $number_of_items, sort_by, $main_node.sort_array, objectname_filter, $view_parameters.namefilter ) )}
+{/section}
 
 {section show=eq( $browse.return_type, 'NodeID' )}
     {set select_name='SelectedNodeIDArray'}
@@ -125,7 +136,8 @@
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/alphabetical.tpl'
-         page_uri=concat( '/content/browse/', $main_node.node_id )
+         page_uri=$page_uri
+         page_uri_suffix=$page_uri_suffix
          item_count=$browse_list_count
          view_parameters=$view_parameters
          node_id=$node_id

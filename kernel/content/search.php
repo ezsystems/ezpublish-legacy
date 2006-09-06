@@ -156,6 +156,25 @@ $tpl->setVariable( 'search_page_limit', $searchPageLimit );
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( 'use_template_search', !$useSearchCode );
 
+if ( $http->hasVariable( 'Mode' ) && $http->variable( 'Mode' ) == 'browse' )
+{
+    if( !isset( $searchResult ) )
+        $searchResult = eZSearch::search( $searchText, array( "SearchType" => $searchType,
+                                                              "SearchSectionID" => $searchSectionID,
+                                                              "SearchSubTreeArray" => $subTreeArray,
+                                                              'SearchTimestamp' => $searchTimestamp,
+                                                              "SearchLimit" => $pageLimit,
+                                                              "SearchOffset" => $Offset ) );
+    $sys = eZSYS::instance();
+    $searchResult['RequestedURI'] = "content/search";
+//    $searchResult['RequestedURISuffix'] = $sys->serverVariable( "QUERY_STRING" );
+
+
+    $searchResult['RequestedURISuffix'] = 'SearchText=' . urlencode ( $searchText ) . ( ( $searchTimestamp > 0 ) ?  '&SearchTimestamp=' . $searchTimestamp : '' ) . '&Mode=browse';
+    return $Module->run( 'browse',array(),array( "NodeList" => $searchResult,
+                                                 "Offset" => $Offset ) );
+}
+
 // --- Compatability code start ---
 if ( $useSearchCode )
 {

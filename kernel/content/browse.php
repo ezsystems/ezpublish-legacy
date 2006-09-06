@@ -41,6 +41,15 @@ $http =& eZHTTPTool::instance();
 $browse = new eZContentBrowse();
 
 
+// We get node list when browse is execiuted from search engine ( "search in browse" functionality )
+if ( isset( $Params['NodeList'] ) )
+{
+     $nodeList = $Params['NodeList']['SearchResult'];
+     $nodeListCount = $Params['NodeList']['SearchCount'];
+     $requestedURI = $Params['NodeList']['RequestedURI'];
+     $requestedURISuffix = $Params['NodeList']['RequestedURISuffix'];
+}
+
 if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
 {
     $NodeID = $Params['NodeID'];
@@ -94,6 +103,14 @@ $tpl->setVariable( 'node_id', $NodeID );
 $tpl->setVariable( 'parents', $parents );
 $tpl->setVariable( 'csm_menu_item_click_action', '/content/browse' );
 $tpl->setVariable( 'cancel_action', $cancelAction );
+
+if ( isset( $nodeList ) )
+{
+    $tpl->setVariable( 'node_list', $nodeList );
+    $tpl->setVariable( 'node_list_count', $nodeListCount );
+    $tpl->setVariable( 'requested_uri', $requestedURI );
+    $tpl->setVariable( 'requested_uri_suffix', $requestedURISuffix );
+}
 
 if ( isset( $Params['UserParameters'] ) )
 {
