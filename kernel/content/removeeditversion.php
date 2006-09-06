@@ -54,61 +54,55 @@ if ( $isConfirmed )
     $object =& eZContentObject::fetch( $objectID );
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-    if ( !$object->attribute( 'can_edit' ) )
-    {
-        // Check if it is a first created version of an object.
-        // If so, then edit is allowed if we have an access to the 'create' function.
-        if ( $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
-        {
-            $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), 1 );
-            $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
-            $allowEdit = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ) );
-        }
-        else
-            $allowEdit = false;
-
-        if ( !$allowEdit )
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
-    }
 
     $versionObject =& $object->version( $version );
-    // If we try to remove versionObject with PUBLISHED status.
-    if ( $versionObject->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
+    if ( is_object( $versionObject ) and $versionObject->attribute('status') != EZ_VERSION_STATUS_PUBLISHED )
     {
-        $nodeID = $versionObject->attribute( 'main_parent_node_id' );
-        if ( !$nodeID )
-            $nodeID = 2;
-        return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
+        if ( !$object->attribute( 'can_edit' ) )
+        {
+            // Check if it is a first created version of an object.
+            // If so, then edit is allowed if we have an access to the 'create' function.
+            if ( $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
+            {
+                $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), 1 );
+                $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+                $allowEdit = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ) );
+            }
+            else
+                $allowEdit = false;
+
+            if ( !$allowEdit )
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
+        }
+
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
+        {
+            $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
+            $contentObjectAttribute->remove( $objectAttributeID, $version );
+        }
+        $versionCount= $object->getVersionCount();
+        if ( $versionCount == 1 )
+        {
+            $nodeID = $versionObject->attribute( 'main_parent_node_id' );
+            $object->purge();
+        }
+        else
+        {
+            $nodeID = $object->attribute( 'main_node_id' );
+            $versionObject->remove();
+        }
+
+        $db->query( "DELETE FROM ezcontentobject_link
+                     WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
+        $db->query( "DELETE FROM eznode_assignment
+                     WHERE contentobject_id=$objectID AND contentobject_version=$version" );
+
+        $db->commit();
     }
-
-    $db =& eZDB::instance();
-    $db->begin();
-
-    $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
-    foreach ( $contentObjectAttributes as $contentObjectAttribute )
-    {
-        $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttribute->remove( $objectAttributeID, $version );
-    }
-    $versionCount= $object->getVersionCount();
-    if ( $versionCount == 1 )
-    {
-        $nodeID = $versionObject->attribute( 'main_parent_node_id' );
-        $object->purge();
-    }
-    else
-    {
-        $nodeID = $object->attribute( 'main_node_id' );
-        $versionObject->remove();
-    }
-
-    $db->query( "DELETE FROM ezcontentobject_link
-                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
-    $db->query( "DELETE FROM eznode_assignment
-                 WHERE contentobject_id=$objectID AND contentobject_version=$version" );
-
-    $db->commit();
-
     $hasRedirected = false;
     if ( $http->hasSessionVariable( 'RedirectIfDiscarded' ) )
     {
