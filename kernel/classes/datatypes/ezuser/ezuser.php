@@ -1417,14 +1417,17 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return an array of limited assignments
     */
-    function &limitList()
+    function limitList()
     {
-        $user_id = $this->attribute( 'contentobject_id' );
+        $groups = $this->groups( false );
+        $groups[] = $this->attribute( 'contentobject_id' );
+        $groups = implode( ', ', $groups );
+
         $db =& eZDB::instance();
 
-        $limitationsArray =& $db->arrayQuery( "SELECT limit_identifier, limit_value
+        $limitationsArray =& $db->arrayQuery( "SELECT DISTINCT limit_identifier, limit_value
                                                FROM ezuser_role
-                                               WHERE contentobject_id = $user_id" );
+                                               WHERE contentobject_id IN ( $groups )" );
 
         return $limitationsArray;
     }
@@ -1456,7 +1459,7 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        $limitList =& $this->limitList();
+        $limitList = $this->limitList();
         foreach ( $limitList as $limit )
             $limitValueList[] = $limit['limit_value'];
 
@@ -1568,7 +1571,6 @@ WHERE user_id = '" . $userID . "' AND
 
                     if ( $userGroupTimestamp > $expiredTimeStamp )
                     {
-                        $userGroupsInfo = array();
                         if ( $http->hasSessionVariable( 'eZUserGroupsCache' ) )
                         {
                             $this->Groups =& $http->sessionVariable( 'eZUserGroupsCache' );
