@@ -729,3 +729,30 @@ Datatype branch:
 - Revision=16662
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.3
 - Date 17-Aug-2006
+
+3.6.11:
+- Release branch=release/3.6.11
+- Release branch start=16740
+- Release branch configured=16754
+- Release date 5-Sep-2006
+- Revision=16787
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.11
+- Date 31-Aug-2006
+
+3.7.9:
+- Release branch=release/3.7.9
+- Release branch start=16741
+- Release branch configured=16755
+- Release date 5-Sep-2006
+- Revision=16786
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.9
+- Date 31-Aug-2006
+
+3.8.4:
+- Release branch=release/3.8.4
+- Release branch start=16742
+- Release date 5-Sep-2006
+- Release branch configured=16756
+- Revision=16785
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.4
+- Date 31-Aug-2006
