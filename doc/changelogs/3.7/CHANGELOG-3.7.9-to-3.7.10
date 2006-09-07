@@ -10,3 +10,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.6 (3.6.12) rev.16798)
 - Fixed bug #8968: Class group removal on discarding in class/groupedit.
   (Merged from trunk (3.9.0alpha1) rev. 16806)
+- Fixed bug #8898: Passing view parameters through login.
+  (Merged from trunk (3.9.0alpha1) rev. 16813)
