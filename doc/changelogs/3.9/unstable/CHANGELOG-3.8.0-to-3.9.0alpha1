@@ -348,4 +348,4 @@ eZMail:
   can break the whole content.
 - Fixed bug #8952: Include used instead of include_once.
   (Merged from stable/3.6 (3.6.12) rev.16798)
-  
+- Fixed bug #8968: Class group removal on discarding in class/groupedit.
