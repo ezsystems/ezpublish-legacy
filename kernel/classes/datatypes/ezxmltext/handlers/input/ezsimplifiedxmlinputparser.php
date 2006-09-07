@@ -122,7 +122,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                               'publishHandler' => 'publishHandlerCustom',
                               'requiredInputAttributes' => array( 'name' ) ),
 
-        '#text'     => array( 'structHandler' => 'appendLineParagraph' )
+        '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
     function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS,
@@ -560,6 +560,64 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
+    // Strucutre handler for #text
+    function &structHandlerText( &$element, &$newParent )
+    {
+        $ret = null;
+        $parent =& $element->parentNode;
+        if ( !$parent )
+            return $ret;
+
+        // Remove empty text elements
+        if ( $element->content() == '' )
+        {
+            $parent->removeChild( $element );
+            return $ret;
+        }
+
+        $ret =& $this->appendLineParagraph( $element, $newParent );
+
+        // Left trim spaces:
+        if ( $this->trimSpaces )
+        {
+            $trim = false;
+            $currentElement =& $element;
+
+            // Check if it is the first element in line
+            do
+            {
+                $prev =& $currentElement->previousSibling();
+                if ( $prev )
+                    break;
+
+                $currentElement =& $currentElement->parentNode;
+                if ( $currentElement->nodeName == 'line' ||
+                     $currentElement->nodeName == 'paragraph' )
+                {
+                    $trim = true;
+                    break;
+                }
+
+            }while( $currentElement );
+
+            if ( $trim )
+            {
+                // Trim and remove if empty
+                $element->content = ltrim( $element->content );
+                if ( $element->content == '' )
+                {
+                    $parent =& $element->parentNode;
+                    $parent->removeChild( $element );
+                    // remove empty line if it appears after removing element
+                    if ( $parent->nodeName == 'line' && !count( $parent->Children ) )
+                        $parent->parentNode->removeChild( $parent );
+                }
+            }
+        }
+
+        return $ret;
+    }
+
     /*
         Publish handlers. (called at pass 2)
     */
@@ -567,29 +625,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &publishHandlerParagraph( &$element, &$params )
     {
         $ret = null;
-        if ( $this->trimSpaces )
-        {
-            // Left trim spaces
-            $lines =& $element->Children;
-            foreach( array_keys( $lines ) as $key )
-            {
-                $line =& $lines[$key];
-                if ( $line->nodeName != 'line' )
-                    continue;
-
-                $firstChild =& $line->firstChild();
-                while( $firstChild != false )
-                {
-                    if ( $firstChild->Type == EZ_XML_NODE_TEXT )
-                    {
-                        $firstChild->content = ltrim( $firstChild->content );
-                        break;
-                    }
-                    $firstChild =& $firstChild->firstChild();
-                }
-            }
-        }
-
         // Removes single line tag
         // php5 TODO: childNodes->length
         $line =& $element->lastChild();

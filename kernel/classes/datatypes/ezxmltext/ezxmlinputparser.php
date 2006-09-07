@@ -643,7 +643,7 @@ class eZXMLInputParser
         $textContent = $this->convertNumericEntities( $textContent );
 
         if ( !$this->allowMultipleSpaces )
-            $textContent = preg_replace( "/\s{2,}/", " ", $textContent );
+            $textContent = preg_replace( "/ {2,}/", " ", $textContent );
 
         return $textContent;
     }
@@ -794,23 +794,12 @@ class eZXMLInputParser
             }
         }
 
-        // Trim text nodes
-        /* Commented out. Now it is done in publish handler for 'paragraph' element
-        
-        if ( $element->Type == EZ_XML_NODE_TEXT )
-        {
-            $this->trimTextNode( $element );
-        }*/
-
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
 
         // Process by schema and fix tree
         if ( !$this->processElementBySchema( $element ) )
         {
-
-            //unset( $ret );
-            //$ret = null;
             return $ret;
         }
         $tmp = null;
@@ -834,25 +823,6 @@ class eZXMLInputParser
     /*
         Helper functions for pass 2
     */
-
-    /*function trimTextNode( &$element )
-    {
-        // Left trim first text node
-        if ( $this->trimSpaces )
-        {
-            //$prev =& $element->previousSibling();
-            $parent =& $element->parentNode;
-            unset( $element->parentNode );
-            $element->parentNode = null;
-            $first =& $parent->firstChild();
-            if ( !$first->parentNode )
-            //if ( !$prev )
-            {
-                $element->content = ltrim( $element->content );
-            }
-            $element->parentNode =& $parent;
-        }
-    }*/
 
     // Check element's schema and fix subtree if needed
     function processElementBySchema( &$element, $verbose = true )
@@ -900,10 +870,9 @@ class eZXMLInputParser
                 return false;
             }
         }
-        // Break processing text nodes that doesn't have parent
         // TODO: break processing of any node that doesn't have parent
         //       and is not a root node.
-        elseif ( $element->Type == EZ_XML_NODE_TEXT )
+        elseif ( $element->nodeName != 'section' )
         {
             return false;
         }
