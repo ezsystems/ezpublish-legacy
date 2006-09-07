@@ -18,3 +18,7 @@ Changes from 3.6.9 to 3.6.10
   (Merged from stable/3.8 (3.8.3) rev. 16499)
 - Fixed bug: content/download ignores node's visibility.
 - Fixed bug: 'classification' override does not work for 'embed' tags.
+- Fixed bug #8759: Users without "manage_locations" seem to be able to add new
+  locations.
+  (Merged from stable/3.8 (3.8.5) rev.16781)
+    
