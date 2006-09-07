@@ -87,7 +87,6 @@
 
 </div>
 
-{include uri='design:content/edit_sections.tpl'}
 
 {include uri='design:content/edit_relations.tpl'}
 

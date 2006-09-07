@@ -108,14 +108,12 @@
 
 </div>
 
-
-
 <!-- Translation box start-->
 <div class="translations">
 
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h4>{'Translate from'|i18n( 'design/admin/content/edit' )}</h4>
-</div></div></div></div>
+</div></div></div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
@@ -127,7 +125,7 @@
 {foreach $object.languages as $language}
 <label>
 <input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
-<img src="{$language.locale|flag_icon}" alt="{$language.locale}" style="vertical-align: middle;" /> 
+<img src="{$language.locale|flag_icon}" alt="{$language.locale}" style="vertical-align: middle;" />
 {$language.name|wash}
 </label>
 {/foreach}
@@ -141,3 +139,9 @@
 </div>
 
 <!-- Translation box end-->
+
+{* Edit section *}
+<div class="sections">
+{include uri='design:content/edit_sections.tpl'}
+</div>
+
