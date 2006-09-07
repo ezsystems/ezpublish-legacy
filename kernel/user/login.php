@@ -321,11 +321,11 @@ else
         $requestedView = $requestedURI->element( 1, false );
         if ( $requestedModule != 'user' or
              $requestedView != 'login' )
-            $userRedirectURI = $requestedURI->uriString( true );
+            $userRedirectURI = $requestedURI->originalURIString( false );
     }
 }
 
-if( $http->hasPostVariable( "RegisterButton" ) )
+if ( $http->hasPostVariable( "RegisterButton" ) )
 {
     $Module->redirectToView( 'register' );
 }
