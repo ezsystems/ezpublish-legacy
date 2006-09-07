@@ -1192,8 +1192,7 @@ class eZDOMNode
             return $ret;
 
         $parent =& $this->parentNode;
-        unset( $this->parentNode );
-        $this->parentNode = null;
+        $this->flag = true;
 
         $next = false;
         $children =& $parent->Children;
@@ -1205,12 +1204,12 @@ class eZDOMNode
                 $ret =& $children[$child_key];
                 break;
             }
-            elseif ( $children[$child_key]->parentNode === null )
+            elseif ( $children[$child_key]->flag === true )
             {
-                $this->parentNode =& $parent;
                 $next = true;
             }
         }
+        $this->flag = false;
 
         return $ret;
     }
@@ -1226,22 +1225,20 @@ class eZDOMNode
             return $ret;
 
         $parent =& $this->parentNode;
-        unset( $this->parentNode );
-        $this->parentNode = null;
+        $this->flag = true;
 
         $prev = false;
         $children =& $parent->Children;
         foreach( array_keys( $children ) as $child_key )
         {
-            if ( $prev !== false && $children[$child_key]->parentNode === null )
+            if ( $prev !== false && $children[$child_key]->flag === true )
             {
-                $this->parentNode =& $parent;
                 $ret =& $children[$prev];
                 break;
             }
             $prev = $child_key;
         }
-
+        $this->flag = false;
         return $ret;
     }
 
@@ -1354,6 +1351,9 @@ class eZDOMNode
 
     /// Parent node reference
     var $parentNode = null;
+
+    // temporary flag to mark node
+    var $flag = false;
 }
 
 ?>
