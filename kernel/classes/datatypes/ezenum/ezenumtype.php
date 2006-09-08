@@ -278,29 +278,22 @@ class eZEnumType extends eZDataType
         $enumValue = $base . '_data_enumvalue_' . $contentClassAttribute->attribute( 'id' );
         $enumRemove = $base . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
         $version = $contentClassAttribute->attribute( 'version' );
+
+        $ismultipleValue = $http->hasPostVariable( $ismultiple ) ? 1 : 0;
+        $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $ismultipleValue );
+
+        if ( $http->hasPostVariable( $isoption ) )
+        {
+             $optionValue = $http->postVariable( $isoption );
+             $optionValueSet = $optionValue == 1 ? '1' : '0';
+             $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, $optionValueSet );
+        }
+
         if ( $http->hasPostVariable( $enumID ) &&
              $http->hasPostVariable( $enumElement ) &&
              $http->hasPostVariable( $enumValue ) &&
              !($http->hasPostVariable( $enumRemove ) ) )
         {
-            if ( $http->hasPostVariable( $ismultiple ) )
-            {
-                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, '1' );
-            }else{
-                $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, '0' );
-            }
-            if ( $http->hasPostVariable( $isoption ) )
-            {
-                 $optionValue = $http->postVariable( $isoption );
-                 if( $optionValue == 1 )
-                 {
-                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, '1' );
-                 }
-                 else
-                 {
-                     $contentClassAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, '0' );
-                 }
-            }
             $array_enumID = $http->postVariable(  $enumID );
             $array_enumElement = $http->postVariable( $enumElement );
             $array_enumValue = $http->postVariable( $enumValue );
@@ -353,7 +346,7 @@ class eZEnumType extends eZDataType
             {
                 $version = $contentClassAttribute->attribute( 'version' );
                 $postvarname = 'ContentClass' . '_data_enumremove_' . $contentClassAttribute->attribute( 'id' );
-                $array_remove = $http->postVariable( $postvarname );
+                $array_remove = $http->hasPostVariable( $postvarname ) ? $http->postVariable( $postvarname ) : array();
                 foreach( $array_remove as $enumid )
                 {
                     eZEnum::removeEnumeration( $id, $enumid, $version );
