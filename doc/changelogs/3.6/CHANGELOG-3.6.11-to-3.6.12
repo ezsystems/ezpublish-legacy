@@ -8,3 +8,6 @@ Changes from 3.6.11 to 3.6.12
   (Merged from trunk (3.9.0alpha1) rev. 16806)
 - Fixed bug #8898: Passing view parameters through login.
   (Merged from trunk (3.9.0alpha1) rev. 16813)
+- Fixed bug #8941: Enumeration style value is changed 
+  when I edit the content class.
+  (Merged from trunk (3.9.0alpha1) rev. 16827)
