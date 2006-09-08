@@ -184,6 +184,19 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         else
             $versionID = $Module->actionParameter( 'VersionID' );
 
+        $languages = $Module->actionParameter( 'LanguageArray' );
+	if ( $languages && array_key_exists( $versionID, $languages ) )
+	{
+	    $language = $languages[$versionID];
+	}
+	else
+	{
+	    $language = false;
+	}
+										
+	if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
+	    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+												    
         $db =& eZDB::instance();
         $db->begin();
         foreach ( array_keys( $versions ) as $versionKey )
@@ -191,15 +204,6 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $version =& $versions[$versionKey];
             if ( $version->attribute( 'version' ) == $versionID )
             {
-                $languages = $Module->actionParameter( 'LanguageArray' );
-                if ( $languages )
-                {
-                    $language = $languages[$versionID];
-                }
-                else
-                {
-                    $language = false;
-                }
                 $newVersionID = $object->copyRevertTo( $versionID, $language );
 
                 if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
