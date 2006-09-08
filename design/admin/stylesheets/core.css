@@ -538,3 +538,11 @@ div.object-right
     float: right;
     clear: right;
 }
+
+div.object-center
+{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+            
