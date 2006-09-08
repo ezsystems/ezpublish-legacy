@@ -353,3 +353,5 @@ eZMail:
 - Fixed bug #8898: Passing view parameters through login.
 - Fixed bug #8941: Enumeration style value is changed 
   when I edit the content class.
+- Fixed bug #8985: Uploading of an object under the current object doesn't work properly.
+

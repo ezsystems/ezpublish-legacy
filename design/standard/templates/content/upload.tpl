@@ -41,7 +41,7 @@
                             'depth_operator', 'lt',
                             'limit', ezini( 'LocationSettings', 'MaxItems', 'upload.ini' ) ) )}
 
-    {section show=$content_object.current_version|gt(1)}
+    {section show=$content_object.published}
      <option value="{$content_object.main_node_id}">{$content_object.name}</option>
     {/section}
 
