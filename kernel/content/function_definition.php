@@ -77,6 +77,17 @@ $FunctionList['locale_list'] = array( 'name' => 'locale_list',
                                                                     'type' => 'boolean',
                                                                     'required' => false,
                                                                     'default' => true ) ) );
+$FunctionList['locale'] = array( 'name' => 'locale',
+                                      'operation_types' => array( 'read' ),
+                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                              'class' => 'eZContentFunctionCollection',
+                                                              'method' => 'fetchLocale' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array( array( 'name' => 'locale_code',
+                                                                    'type' => 'string',
+                                                                    'required' => false,
+                                                                    'default' => false ) ) );
+
 $FunctionList['prioritized_languages'] = array( 'name' => 'prioritized_languages',
                                                 'operation_types' => array( 'read' ),
                                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',

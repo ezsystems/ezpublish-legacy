@@ -191,6 +191,26 @@ class eZContentFunctionCollection
         return $result;
     }
 
+    function fetchLocale( $localeCode )
+    {
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        // Fetch locale list
+        $localeList = eZLocale::localeList( false, true );
+        $localeObj =& eZLocale::instance( $localeCode );
+        // Check if $localeName exists
+        if ( $localeObj === null or ( is_object( $localeObj ) and !in_array( $localeObj->localeFullCode(), $localeList ) ) )
+        {
+            $result = array( 'error' => array( 'error_type' => 'kernel',
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $result = array( 'result' => &$localeObj );
+        }
+
+        return $result;
+    }
+
     function fetchObject( $objectID )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
