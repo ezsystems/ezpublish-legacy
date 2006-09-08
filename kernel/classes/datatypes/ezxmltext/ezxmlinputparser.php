@@ -311,7 +311,7 @@ class eZXMLInputParser
             $textContent = $this->washText( $textContent );
 
             $pos = $tagBeginPos;
-            if ( !$textContent )
+            if ( $textContent === '' )
                 return false;
         }
         // Process closing tag.
