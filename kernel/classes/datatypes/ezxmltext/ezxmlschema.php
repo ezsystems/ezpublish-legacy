@@ -41,24 +41,27 @@ class eZXMLSchema
     
         'embed'     => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
-                                                     'align', 'view', 'xhtml:id', 'class', 'target' ) ),
+                                                     'align', 'view', 'xhtml:id', 'class', 'target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium', 'class' => '' ) ),
 
         'embed-inline' => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
-                                                     'align', 'view', 'xhtml:id', 'class', 'target' ) ),
+                                                     'align', 'view', 'xhtml:id', 'class', 'target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'size' => 'medium', 'class' => '' ) ),
     
         'object'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
-                              'childrenRequired' => false,
+                              'childrenRequired' => null,
                               'isInline' => true,
                               'attributes' => array( 'class', 'id', 'size', 'align',
-                                                     'view', 'image:ezurl_id', 'image:ezurl_target' ) ),
+                                                     'view', 'image:ezurl_id', 'image:ezurl_target' ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium' ) ),
     
         'table'     => array( 'blockChildrenAllowed' => array( 'tr' ),
                               'inlineChildrenAllowed' => false,
@@ -108,7 +111,7 @@ class eZXMLSchema
                               'isInline' => false,
                               'attributes' => array( 'class', 'anchor_name' ) ),
     
-        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom' ),
+        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom', 'literal' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
@@ -123,7 +126,7 @@ class eZXMLSchema
         'literal'   => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => array( '#text' ),
                               'childrenRequired' => true,
-                              'isInline' => true,
+                              'isInline' => false,
                               'attributes' => array( 'class' ) ),
     
         'strong'    => array( 'blockChildrenAllowed' => false,
@@ -138,13 +141,14 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'class' ) ),
     
-        'link'      => array( 'blockChildrenAllowed' => false, //array( 'embed', 'object' ),
+        'link'      => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => true,
                               'attributes' => array( 'class', 'xhtml:id', 'target', 'xhtml:title',
                                                      'object_id', 'node_id', 'show_path', 'anchor_name',
-                                                     'url_id', 'id' ) ),
+                                                     'url_id', 'id', 'view' ),
+                              'attributesDefaults' => array( 'target' => '_self' ) ),
     
         'anchor'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
@@ -165,6 +169,73 @@ class eZXMLSchema
                               'attributes' => false )
     );
 
+    function eZXMLSchema()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance( 'content.ini' );
+                
+        // Get inline custom tags list
+        $this->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+        
+        include_once( 'lib/version.php' );
+        $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
+
+        // Get all tags available classes list
+        $ini =& eZINI::instance( 'content.ini' );
+        foreach( array_keys( $this->Schema ) as $tagName )
+        {
+            if ( $ini->hasVariable( $tagName, 'AvailableClasses' ) )
+            {
+                $avail = $ini->variable( $tagName, 'AvailableClasses' );
+                if ( is_array( $avail ) && count( $avail ) )
+                    $this->Schema[$tagName]['classesList'] = $avail;
+                else
+                    $this->Schema[$tagName]['classesList'] = array();
+            }
+            else
+                $this->Schema[$tagName]['classesList'] = array();
+        }
+
+        if ( $eZPublishVersion >= 3.8 )
+        {
+            // Fix for empty paragraphs setting
+            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
+            $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
+        }
+        else
+        {
+            // Fix for headers content
+            $this->Schema['header']['inlineChildrenAllowed'] = array( '#text' );
+        }
+
+        if ( $eZPublishVersion >= 3.9 )
+        {
+            // Get all tags custom attributes list
+            $ini =& eZINI::instance( 'content.ini' );
+            foreach( array_keys( $this->Schema ) as $tagName )
+            {
+                if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
+                {
+                    $avail = $ini->variable( $tagName, 'CustomAttributes' );
+                    if ( is_array( $avail ) && count( $avail ) )
+                        $this->Schema[$tagName]['customAttributes'] = $avail;
+                    else
+                        $this->Schema[$tagName]['customAttributes'] = array();
+                }
+                else
+                    $this->Schema[$tagName]['customAttributes'] = array();
+            }
+        }
+        else
+        {
+            // Literal was inline before 3.9
+            $this->Schema['literal']['isInline'] = true;
+            $this->Schema['link']['attributes'] = array( 'class', 'xhtml:id', 'target', 'xhtml:title',
+                                                         'object_id', 'node_id', 'show_path', 'anchor_name',
+                                                         'url_id', 'id' );
+        }
+    }
+
     function &instance()
     {
         $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
@@ -174,15 +245,6 @@ class eZXMLSchema
         {
             unset( $impl );
             $impl = new eZXMLSchema();
-
-            // Correct schema by settings
-            include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'content.ini' );
-                
-            $impl->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-
-            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
-            $impl->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
 
             // Set global instance
             $GLOBALS["eZXMLSchemaGlobalInstance"] =& $impl;
@@ -299,10 +361,39 @@ class eZXMLSchema
         return $this->Schema[$element->nodeName]['attributes'];
     }
 
+    function customAttributes( $element )
+    {
+        if ( isset( $this->Schema[$element->nodeName]['customAttributes'] ) )
+            return $this->Schema[$element->nodeName]['customAttributes'];
+        else
+            return array();
+    }
+
+    function attrDefaultValue( $tagName, $attrName )
+    {
+        if ( isset( $this->Schema[$tagName]['attributesDefaults'][$attrName] ) )
+            return $this->Schema[$tagName]['attributesDefaults'][$attrName];
+        else
+            return array();
+    }
+
+    function attrDefaultValues( $tagName )
+    {
+        if ( isset( $this->Schema[$tagName]['attributesDefaults'] ) )
+            return $this->Schema[$tagName]['attributesDefaults'];
+        else
+            return array();
+    }
+
     function exists( $element )
     {
         $name = is_string( $element ) ? $element : $element->nodeName;
         return isset( $this->Schema[$name] );
+    }
+
+    function getClassesList( $tagName )
+    {
+        return $this->Schema[$tagName]['classesList'];
     }
 
     // for custom tags

@@ -122,13 +122,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                               'publishHandler' => 'publishHandlerCustom',
                               'requiredInputAttributes' => array( 'name' ) ),
 
-        '#text'     => array( 'structHandler' => 'appendLineParagraph' )
+        '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = 2 )
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS,
+                                         $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->eZXMLInputParser( $validate, $errorLevel );
+        $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );
     }
 
     /*
@@ -559,6 +560,64 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
+    // Strucutre handler for #text
+    function &structHandlerText( &$element, &$newParent )
+    {
+        $ret = null;
+        $parent =& $element->parentNode;
+        if ( !$parent )
+            return $ret;
+
+        // Remove empty text elements
+        if ( $element->content() == '' )
+        {
+            $parent->removeChild( $element );
+            return $ret;
+        }
+
+        $ret =& $this->appendLineParagraph( $element, $newParent );
+
+        // Left trim spaces:
+        if ( $this->trimSpaces )
+        {
+            $trim = false;
+            $currentElement =& $element;
+
+            // Check if it is the first element in line
+            do
+            {
+                $prev =& $currentElement->previousSibling();
+                if ( $prev )
+                    break;
+
+                $currentElement =& $currentElement->parentNode;
+                if ( $currentElement->nodeName == 'line' ||
+                     $currentElement->nodeName == 'paragraph' )
+                {
+                    $trim = true;
+                    break;
+                }
+
+            }while( $currentElement );
+
+            if ( $trim )
+            {
+                // Trim and remove if empty
+                $element->content = ltrim( $element->content );
+                if ( $element->content == '' )
+                {
+                    $parent =& $element->parentNode;
+                    $parent->removeChild( $element );
+                    // remove empty line if it appears after removing element
+                    if ( $parent->nodeName == 'line' && !count( $parent->Children ) )
+                        $parent->parentNode->removeChild( $parent );
+                }
+            }
+        }
+
+        return $ret;
+    }
+
     /*
         Publish handlers. (called at pass 2)
     */
@@ -566,29 +625,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &publishHandlerParagraph( &$element, &$params )
     {
         $ret = null;
-        if ( $this->trimSpaces )
-        {
-            // Left trim spaces
-            $lines =& $element->Children;
-            foreach( array_keys( $lines ) as $key )
-            {
-                $line =& $lines[$key];
-                if ( $line->nodeName != 'line' )
-                    continue;
-
-                $firstChild =& $line->firstChild();
-                while( $firstChild != false )
-                {
-                    if ( $firstChild->Type == EZ_XML_NODE_TEXT )
-                    {
-                        $firstChild->content = ltrim( $firstChild->content );
-                        break;
-                    }
-                    $firstChild =& $firstChild->firstChild();
-                }
-            }
-        }
-
         // Removes single line tag
         // php5 TODO: childNodes->length
         $line =& $element->lastChild();
@@ -640,6 +676,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !$node && $this->errorLevel >= 1 )
                     {
+                        $this->isInputValid = false;
                         $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Node %1 does not exist.',
                                                     false, array( $nodeID ) );
                     }
@@ -653,6 +690,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                     if ( !$node && $this->errorLevel >= 1 )
                     {
+                        $this->isInputValid = false;
                         $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Node \'%1\' does not exist.',
                                                     false, array( $nodePath ) );
                     }
@@ -688,22 +726,40 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( $url )
                 {
                     // Protection from XSS attack
-                    if ( preg_match( "/^(java|vb)script:.*/i" , $url ) && $this->errorLevel >= 1 )
+                    if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes', "Using scripts in links is not allowed, link '%1' has been removed",
-                                                    false, array( $url ) );
+                        $this->isInputValid = false;
+                        if ( $this->errorLevel >= 1 )
+                            $this->Messages[] = ezi18n( 'kernel/classes/datatypes', "Using scripts in links is not allowed, link '%1' has been removed",
+                                                        false, array( $url ) );
+                        $element->removeAttribute( 'href' );
+                        return $ret;
+
                     }
-                    else
+                    // Check mail address validity
+                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
-                        $urlID = $this->convertHrefToID( $url );
-                        if ( $urlID )
+                        include_once( 'lib/ezutils/classes/ezmail.php' );
+                        if ( !eZMail::validate( $mailAddr[1] ) )
                         {
-                            if ( $this->eZPublishVersion >= 3.6 )
-                                $urlIDAttributeName = 'url_id';
-                            else
-                                $urlIDAttributeName = 'id';
-                            $element->setAttribute( $urlIDAttributeName, $urlID );
+                            $this->isInputValid = false;
+                            if ( $this->errorLevel >= 1 )
+                                $this->Messages[] = ezi18n( 'kernel/classes/datatypes', "Invalid e-mail address: '%1'",
+                                                            false, array( $mailAddr[1] ) );
+                            $element->removeAttribute( 'href' );
+                            return $ret;
                         }
+                        
+                    }
+                    // Store urlID instead of href
+                    $urlID = $this->convertHrefToID( $url );
+                    if ( $urlID )
+                    {
+                        if ( $this->eZPublishVersion >= 3.6 )
+                            $urlIDAttributeName = 'url_id';
+                        else
+                            $urlIDAttributeName = 'id';
+                        $element->setAttribute( $urlIDAttributeName, $urlID );
                     }
                 }
             }
@@ -751,6 +807,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     if ( $this->errorLevel >= 1 )
                         $this->Messages[] = ezi18n( 'kernel/classes/datatypes',
                                                     'Object %1 can not be embeded to itself.', false, array( $objectID ) );
+                    $element->removeAttribute( 'href' );
                     return $ret;
                 }
 
@@ -774,6 +831,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         if ( $this->errorLevel >= 1 )
                             $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Node %1 does not exist.',
                                                         false, array( $nodeID ) );
+                        $element->removeAttribute( 'href' );
                         return $ret;
                     }
                 }
@@ -787,6 +845,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         if ( $this->errorLevel >= 1 )
                             $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Node \'%1\' does not exist.',
                                                         false, array( $nodePath ) );
+                        $element->removeAttribute( 'href' );
                         return $ret;
                     }
                     $nodeID = $node->attribute('node_id');
@@ -804,6 +863,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     if ( $this->errorLevel >= 1 )
                         $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Object %1 can not be embeded to itself.',
                                                     false, array( $objectID ) );
+                    $element->removeAttribute( 'href' );
                     return $ret;
                 }
 
@@ -813,7 +873,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             else
             {
                 $this->isInputValid = false;
-                $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Invalid reference in <embed> tag. Note that <embed> tag supports only \'eznode\' and \'ezobject\' protocols.' );
+                $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Invalid reference in &lt;embed&gt; tag. Note that <embed> tag supports only \'eznode\' and \'ezobject\' protocols.' );
+                $element->removeAttribute( 'href' );
                 return $ret;
             }
         }
