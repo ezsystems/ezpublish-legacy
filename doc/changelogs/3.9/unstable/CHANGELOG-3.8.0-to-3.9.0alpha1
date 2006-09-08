@@ -351,3 +351,5 @@ eZMail:
 - Fixed bug #8968: Class group removal on discarding in class/groupedit.
 - Fixed bug #8926: Js error: languageSelector.options has no properties.
 - Fixed bug #8898: Passing view parameters through login.
+- Fixed bug #8941: Enumeration style value is changed 
+  when I edit the content class.
