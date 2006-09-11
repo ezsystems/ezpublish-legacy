@@ -271,7 +271,7 @@ class eZWorkflowEvent extends eZPersistentObject
     var $DataInt1;
     var $DataInt2;
     var $DataInt3;
-    var $DataInt3;
+    var $DataInt4;
     var $DataText1;
     var $DataText2;
     var $DataText3;

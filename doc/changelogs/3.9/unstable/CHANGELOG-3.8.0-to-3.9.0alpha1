@@ -357,5 +357,6 @@ eZMail:
 - Fixed bug #8795: Bug Users with permissions on one language can create drafts
   in other languages
   (Merged from stable/3.8 (3.8.5) rev.16841)
-  
-  
+- Fixed bug #8953: Double member variable declarations
+  (Merged from stable/3.8 (3.8.5) rev.16843)
+    
