@@ -753,9 +753,6 @@ class eZDOMDocument
     /// Contains an array of references to the named nodes with namespace
     var $NamedNodesNS = array();
 
-    /// Contains an array of reference to the named nodes with namespace
-    var $NamedNodes = array();
-
     /// Contains an array of the registered namespaces and their aliases
     var $Namespaces = array();
 
