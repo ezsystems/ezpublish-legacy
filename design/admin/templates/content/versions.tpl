@@ -160,7 +160,14 @@
 
     {* Copy button. *}
     <td align="right" class="right">
-        {section show=$can_edit}
+	{def $can_edit_lang = 0}
+	{section loop=$object.can_edit_languages}
+	    {if eq( $:item.id, $initial_language.id )}
+		{def $can_edit_lang = 1}
+	    {/if}
+	{/section}
+    
+        {section show=and( $can_edit, $can_edit_lang )}
         <select name="CopyVersionLanguage[{$Versions.item.version}]">
     	    {section var=Languages loop=$Versions.item.language_list}
 	            <option value="{$Languages.item.language_code}"{if $Languages.item.language_code|eq($Versions.item.initial_language.locale)} selected="selected"{/if}>{$Languages.item.locale.intl_language_name|wash}</option>
@@ -169,6 +176,7 @@
         {section-else}
         <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
+	{undef $can_edit_lang}
     </td>
 
     {* Edit button. *}
