@@ -157,8 +157,35 @@ $versions =& $object->versions();
 if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-
+    {
+	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+    
+    if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
+    {
+	$versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+	$versionID = $versionID[0];
+    }
+    else
+    {
+	$versionID = $Module->actionParameter( 'VersionID' );
+    }
+    
+    $languages = $Module->actionParameter( 'LanguageArray' );
+    if ( $languages && array_key_exists( $versionID, $languages ) )
+    {
+	$language = $languages[$versionID];
+    }
+    else
+    {
+	$language = false;
+    }
+    
+    if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
+    {
+	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+    
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
@@ -176,27 +203,6 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     $versionCount = $object->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
-        {
-            $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
-            $versionID = $versionID[0];
-        }
-        else
-            $versionID = $Module->actionParameter( 'VersionID' );
-
-        $languages = $Module->actionParameter( 'LanguageArray' );
-	if ( $languages && array_key_exists( $versionID, $languages ) )
-	{
-	    $language = $languages[$versionID];
-	}
-	else
-	{
-	    $language = false;
-	}
-										
-	if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
-	    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-												    
         $db =& eZDB::instance();
         $db->begin();
         foreach ( array_keys( $versions ) as $versionKey )
@@ -210,7 +216,6 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 {
                     break;
                 }
-
             }
         }
         $db->commit();
@@ -242,14 +247,6 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $db =& eZDB::instance();
             $db->begin();
             $removeVersion->remove();
-
-            if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
-            {
-                $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
-                $versionID = $versionID[0];
-            }
-            else
-                $versionID = $Module->actionParameter( 'VersionID' );
 
             $versions =& $object->versions();
             foreach ( array_keys( $versions ) as $versionKey )
