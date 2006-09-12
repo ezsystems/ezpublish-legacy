@@ -72,7 +72,14 @@
 <tr class="{$Orders.sequence}">
     <td><input type="checkbox" name="OrderIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/orderlist' )}" /></td>
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td><a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a></td>
+	<td>
+	{if is_null($Orders.item.account_name)}
+	    <s><i>{'( removed )'|i18n( 'design/admin/shop/orderlist' )}</i></s>
+	{else}
+	    <a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a>
+	{/if}
+	</td>
+	
 
     {* NOTE: These two attribute calls are slow, they cause the system to generate lots of SQLs.
              The reason is that their values are not cached in the order tables *}

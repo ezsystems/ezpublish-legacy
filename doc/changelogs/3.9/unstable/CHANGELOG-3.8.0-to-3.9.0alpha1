@@ -361,3 +361,5 @@ eZMail:
   (Merged from stable/3.8 (3.8.5) rev.16843)
 - Fixed bug #8992: Undefined class "eZContentObjectTreeNode" in ezhttpheader.php  
   ( Merged from stable/3.8 rev. 16844 )    
+- Fixed bug #8872: WebShop fatal error (view orders of removed users).
+  ( Merged from stable/3.8 (3.8.5) rev. 16850 )
