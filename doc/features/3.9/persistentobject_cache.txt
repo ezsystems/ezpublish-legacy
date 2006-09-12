@@ -1,0 +1,15 @@
+*Title: Caching of eZPersistentObject.
+
+*Documentation:
+
+Caches eZPersistentObjects fetched from database in memory.
+
+* New settings:
+
+New INI settings in site.ini[PersistentObjectSettings] have been added:
+
+- CachePersistentObject
+  Set to true to enable caching of eZPersistentObject.
+
+- PersistentObjectCount
+  Number of eZPersistentObject to keep in memory.

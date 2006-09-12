@@ -473,6 +473,42 @@ class eZMySQLDB extends eZDBInterface
             eZDebug::accumulatorStop( 'mysql_query' );
             if ( $result )
             {
+                if ( $isWriteQuery )
+                {
+                    if ( stristr( $sql, "update" ) )
+                    {
+                        $matches = array();
+                        $queryParts = preg_match( "/(update[\s]*)(low_priority[\s*])?(ignore[\s*])?([\s\w,]*)([\s]set[\s].*)/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        foreach( explode( ",", $matches[4] ) as $tableName )
+                        {
+                            eZPersistentObject::clearObjectCache( $tableName );
+                        }
+                    }
+                    else if ( stristr( $sql, "insert" ) )
+                    {
+                        $matches = array();
+                        $queryParts = preg_match( "/(insert[\s*])(low_priority[\s*])?(delayed[\s*])?(high_priority[\s*])?(ignore[\s*])?(into[\s*])?([\s\w]*)(\(.*\))?([\s](set|values|select).*)?/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        foreach( explode( ",", $matches[7] ) as $tableName )
+                        {
+                            eZPersistentObject::clearObjectCache( $tableName );
+                        }
+                    }
+                    else if ( stristr( $sql, "delete" ) )
+                    {
+                        $matches = array();
+                        $queryParts = preg_match( "/(delete[\s]*)(low_priority[\s*])?(quick[\s*])?(ignore[\s*])?(from[\s*])?([\s\w,]*)([\s]where[\s].*)/",
+                                                  strtolower( $sql ),
+                                                  $matches );
+                        foreach( explode( ",", $matches[6] ) as $tableName )
+                        {
+                            eZPersistentObject::clearObjectCache( $tableName );
+                        }
+                    }
+                }
                 return $result;
             }
             else
@@ -605,6 +641,14 @@ class eZMySQLDB extends eZDBInterface
     function md5( $str )
     {
         return " MD5( $str ) ";
+    }
+
+    /*!
+     \reimp
+    */
+    function supportQueryCache()
+    {
+        return true;
     }
 
     /*!

@@ -603,6 +603,15 @@ class eZDBInterface
     }
 
     /*!
+     \pure
+     If implementation supports release of eZPersistentObject cache.
+    */
+    function supportQueryCache()
+    {
+        return false;
+    }
+
+    /*!
       Begin a new transaction. If we are already in transaction then we omit
       this new transaction and its matching commit or rollback.
     */
