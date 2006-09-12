@@ -461,7 +461,7 @@ if ( !is_numeric( $EditVersion ) )
 elseif ( is_numeric( $EditVersion ) )
 {
     // Fetch version
-    $version =& eZContentObjectVersion::fetchVersion( $EditVersion, $obj->attribute( 'id' ) );
+    $version = eZContentObjectVersion::fetchVersion( $EditVersion, $obj->attribute( 'id' ) );
     if ( !is_object( $version ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
