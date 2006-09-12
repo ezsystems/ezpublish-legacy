@@ -21,4 +21,6 @@ Changes from 3.6.9 to 3.6.10
 - Fixed bug #8759: Users without "manage_locations" seem to be able to add new
   locations.
   (Merged from stable/3.8 (3.8.5) rev.16781)
+- Fixed bug #8872: WebShop fatal error (view orders of removed users).
+  ( Merged from stable/3.8 (3.8.5) rev. 16850 )
     
