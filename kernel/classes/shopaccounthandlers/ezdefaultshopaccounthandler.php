@@ -62,10 +62,22 @@ class eZDefaultShopAccountHandler
     function email( $order = false )
     {
         if ( $order === false )
+	{
             $user =& eZUser::currentUser();
+	}
         else
+	{
             $user =& $order->attribute( 'user' );
-        return $user->attribute( 'email' );
+	}
+	
+	if ( null === $user )
+	{
+	    return null;
+	}
+	else
+	{
+	    return $user->attribute( 'email' );
+	}
     }
 
     /*!
@@ -74,11 +86,23 @@ class eZDefaultShopAccountHandler
     function accountName( $order = false )
     {
         if ( $order === false )
+	{
             $user =& eZUser::currentUser();
+	}
         else
+	{
             $user =& $order->attribute( 'user' );
-        $userObject = $user->attribute( 'contentobject' );
-        $accountName = $userObject->attribute( 'name' );
+	}
+	
+	if ( null === $user )
+	{
+	    $accountName = null;
+	}
+	else
+	{
+            $userObject = $user->attribute( 'contentobject' );
+	    $accountName = $userObject->attribute( 'name' );
+	}
         return $accountName;
     }
 
