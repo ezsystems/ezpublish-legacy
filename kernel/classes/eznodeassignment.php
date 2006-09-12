@@ -127,7 +127,7 @@ class eZNodeAssignment extends eZPersistentObject
         return $this->Name;
     }
 
-    function &create( $parameters = array() )
+    function create( $parameters = array() )
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
@@ -168,8 +168,7 @@ class eZNodeAssignment extends eZPersistentObject
             $parameters['parent_remote_id'] = '';
         }
 
-        $newNodeAssignment = new eZNodeAssignment( $parameters );
-        return $newNodeAssignment;
+        return new eZNodeAssignment( $parameters );
     }
 
     /*!
