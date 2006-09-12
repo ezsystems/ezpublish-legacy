@@ -203,7 +203,7 @@ class eZNodeAssignment extends eZPersistentObject
         return $isSetOperation;
     }
 
-    function &create( $parameters = array() )
+    function create( $parameters = array() )
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
@@ -249,8 +249,7 @@ class eZNodeAssignment extends eZPersistentObject
             $parameters['op_code'] = EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
         }
 
-        $newNodeAssignment = new eZNodeAssignment( $parameters );
-        return $newNodeAssignment;
+        return new eZNodeAssignment( $parameters );
     }
 
     /*!
