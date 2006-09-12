@@ -359,4 +359,5 @@ eZMail:
   (Merged from stable/3.8 (3.8.5) rev.16841)
 - Fixed bug #8953: Double member variable declarations
   (Merged from stable/3.8 (3.8.5) rev.16843)
-    
+- Fixed bug #8992: Undefined class "eZContentObjectTreeNode" in ezhttpheader.php  
+  ( Merged from stable/3.8 rev. 16844 )    

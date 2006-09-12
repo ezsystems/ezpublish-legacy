@@ -92,6 +92,7 @@ class eZHTTPHeader
                 return $headerArray;
             }
 
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $resultSet = eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
                                                           array( 'path_identification_string' ),
                                                           array( 'node_id' => $nodeID ),
