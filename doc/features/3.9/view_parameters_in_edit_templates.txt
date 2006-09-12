@@ -1,0 +1,4 @@
+*Title: "view_parameters" in edit.tpl's templates.
+
+*Documentation:
+Now it's possible to use "user parameters" in edit.tpl's templates.

@@ -470,6 +470,19 @@ $templateName = 'design:content/edit.tpl';
 if ( isset( $Params['TemplateName'] ) )
     $templateName = $Params['TemplateName'];
 
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+// $viewParameters contains $UserParameters only
+$viewParameters = $UserParameters;
+// "view_parameters" is available also in edit.tpl's templates
+$tpl->setVariable( 'view_parameters', $viewParameters );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
 // $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),

@@ -66,7 +66,7 @@
 {/section}
 
 <div class="context-attributes">
-    {include uri='design:content/edit_attribute.tpl'}
+    {include uri='design:content/edit_attribute.tpl' view_parameters=$view_parameters}
 </div>
 
 {section show=$is_translating_content}
