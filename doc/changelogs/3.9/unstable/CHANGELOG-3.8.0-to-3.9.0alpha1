@@ -1,11 +1,14 @@
 Changes from 3.8.0 to 3.9.0alpha1
 
 *Kernel:
-- Improved 'eZURLAlias' updating process(see features/3.9/improved_urlalias_updating_process.txt)
+- Improved 'eZURLAlias' updating process
+  (see features/3.9/improved_urlalias_updating_process.txt)
   (patch by Bard Farstad)
 - Added "Name" input field to file uploading dialog to name newly created objects.
   (module content/upload)
   (Merged from stable/3.8 (3.8.1) rev. 16420)
+- Improved files uploading to automatically choosen location.
+  (see features/3.9/upload_to_automatic_location_improved.txt)
 - Added the possibility to assign a section to an object 
   when creating/editing it.
 - Implemented enhancement #4809: Proxy support needed for "outside data" 

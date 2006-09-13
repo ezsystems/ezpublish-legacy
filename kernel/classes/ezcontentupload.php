@@ -304,7 +304,7 @@ class eZContentUpload
         // out the locations from $location and $classIdentifier
         if ( !is_object( $existingNode ) )
         {
-            $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+            $locationOK = $this->detectLocations( $classIdentifier, $class, $location, $parentNodes, $parentMainNode );
             if ( !$locationOK )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -529,7 +529,7 @@ class eZContentUpload
         // out the locations from $location and $classIdentifier
         if ( !is_object( $existingNode ) )
         {
-            $locationOK = $this->detectLocations( $classIdentifier, $location, $parentNodes, $parentMainNode );
+            $locationOK = $this->detectLocations( $classIdentifier, $class, $location, $parentNodes, $parentMainNode );
             if ( !$locationOK )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -978,13 +978,18 @@ class eZContentUpload
      \param[out] $parentNodes Will contain an array with node IDs or identifiers if a location could be detected.
      \param[out] $parentMainNode Will contain the ID of the main node if a location could be detected.
     */
-    function detectLocations( $classIdentifier, $location,
+    function detectLocations( $classIdentifier, $class, $location,
                               &$parentNodes, &$parentMainNode )
     {
+        $parentMainNode = false;
         if ( $this->hasAttribute( 'parent_nodes' ) &&
              $this->attribute( 'parent_nodes' ) )
         {
             $parentNodes = $this->attribute( 'parent_nodes' );
+            foreach( $parentNodes as $key => $parentNode )
+            {
+                $parentNodes[$key] = eZContentUpload::nodeAliasID( $parentNode );
+            }
         }
         else
         {
@@ -994,48 +999,71 @@ class eZContentUpload
 
                 $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
                 $defaultPlacement = $contentINI->variable( 'RelationAssignmentSettings', 'DefaultAssignment' );
+
+                // Find location that matches the class and where user is allowed to create objects
                 foreach ( $classPlacementMap as $classData )
                 {
                     $classElements = explode( ';', $classData );
                     $classList = explode( ',', $classElements[0] );
-                    $nodeList = explode( ',', $classElements[1] );
-                    $mainNode = false;
-                    if ( isset( $classElements[2] ) )
-                        $mainNode = $classElements[2];
+
                     if ( in_array( $classIdentifier, $classList ) )
                     {
-                        $parentNodes = $nodeList;
-                        $parentMainNode = $mainNode;
-                        break;
+                        $parentNodes = explode( ',', $classElements[1] );
+                        if ( count( $parentNodes ) == 0 )
+                            continue;
+
+                        if ( isset( $classElements[2] ) )
+                            $parentMainNode = eZContentUpload::nodeAliasID( $classElements[2] );
+
+                        // check access rights and convert to IDs
+                        foreach ( $parentNodes as $key => $parentNode )
+                        {
+                            $parentNodeID = eZContentUpload::nodeAliasID( $parentNode );
+                            if ( !$parentNodeID ) 
+                            {
+                                $parentNodes = false;
+                                break;
+                            }    
+                        
+                            $parentNodes[$key] = $parentNodeID;
+
+                            $parentNodeObj = eZContentObjectTreeNode::fetch( $parentNodeID );
+                            $parentObject =  $parentNodeObj->attribute( 'object' );
+                        
+                            if ( $parentNodeObj->checkAccess( 'create',
+                                                              $class->attribute( 'id' ),
+                                                              $parentObject->attribute( 'contentclass_id' ) ) != '1' )
+                            {
+                                eZDebug::writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
+                                $parentNodes = false;
+                                break;
+                            }
+                        }
+
+                        if ( $parentNodes )
+                        {
+                            eZDebug::writeNotice( "Matched assignment for upload :'$classData'", 'eZContentUpload::detectLocations' );
+                            break;
+                        }
                     }
+                }
+
+                if ( !$parentNodes && isset( $defaultPlacement ) && $defaultPlacement )
+                {
+                    $defaultNodeID = eZContentUpload::nodeAliasID( $defaultPlacement );
+                    if ( $defaultNodeID ) 
+                        $parentNodes = array( $defaultNodeID );
                 }
             }
             else
             {
-                $parentNodes = array( $location );
+                $locationID = eZContentUpload::nodeAliasID( $location );
+                if ( $locationID ) 
+                    $parentNodes = array( $locationID );
             }
         }
 
-        if ( !$parentNodes && isset( $defaultPlacement ) && $defaultPlacement )
-        {
-            $parentNodes = array( $defaultPlacement );
-        }
-        if ( !$parentNodes or
-             count( $parentNodes ) == 0 )
-        {
-            return false;
-        }
-
-        foreach ( $parentNodes as $key => $parentNode )
-        {
-            $parentNode = eZContentUpload::nodeAliasID( $parentNode );
-            if ( $parentNode === false )
-                unset( $parentNodes[$key] );
-            else
-                $parentNodes[$key] = $parentNode;
-
-        }
-        if ( count( $parentNodes ) == 0 )
+        if ( !$parentNodes || count( $parentNodes ) == 0 )
         {
             return false;
         }
@@ -1044,10 +1072,7 @@ class eZContentUpload
         {
             $parentMainNode = $parentNodes[0];
         }
-        else
-        {
-            $parentMainNode = eZContentUpload::nodeAliasID( $parentMainNode );
-        }
+
         return true;
     }
 
@@ -1126,7 +1151,13 @@ class eZContentUpload
         {
             $node = eZContentObjectTreeNode::fetch( $nodeName );
             if ( is_object( $node ) )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
+
                 return $nodeName;
+            }
         }
 
         $uploadINI =& eZINI::instance( 'upload.ini' );
