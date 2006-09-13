@@ -238,7 +238,8 @@ class eZXML
 
 
                     // strip out the namespace prefix
-                    $colonPos = strpos( $justName, ":" );
+                    // If $justname contains ![CDATA[ we should not set namespace prefix
+                    $colonPos = strpos( $justName, "![CDATA[" ) === false ? strpos( $justName, ":" ) : false;
 
                     $prefix = "";
                     if ( $colonPos > 0 )
@@ -304,7 +305,7 @@ class eZXML
                     {
                         $isCDATASection = true;
                         $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
-                        if ( $endTagPos == false ) 
+                        if ( $endTagPos == false )
                         {
                             eZDebug::writeError( "XML parser error: Closing tag \']]>\' for <![CDATA[ not found" , "eZ xml" );
                             $endTagPos = strlen($xmlDoc);
