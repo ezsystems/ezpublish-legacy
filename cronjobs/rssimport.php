@@ -225,8 +225,8 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     }
 
     $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
-
-    $title = $item->elementTextContentByName( 'title' );
+    $titleElement = $item->elementByName( 'title' );
+    $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
     $link = $item->elementByName( 'link' );
     $md5Sum = md5( $link->textContent() );
 
@@ -399,6 +399,23 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
 
     return 1;
 }
+/*
+ * Returns CDATA content of all $xmlDomNode children
+*/
+function getCDATA( $xmlDomNode )
+{
+    $textCDATA = '';
+    if ( is_object( $xmlDomNode ) and $xmlDomNode->hasChildren() )
+    {
+        $elementChildren = $xmlDomNode->children();
+        foreach ( $elementChildren as $children )
+        {
+            if ( $children->type() == EZ_NODE_TYPE_CDATASECTION )
+                $textCDATA .= $children->content() ;
+        }
+    }
+    return $textCDATA;
+}
 
 function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
 {
@@ -415,7 +432,10 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
         {
             if ( count( $importDescriptionArray ) == 1 )
             {
-                return $xmlDomNode->elementTextContentByName( $importDescriptionArray[0] );
+                $element = $xmlDomNode->elementByName( $importDescriptionArray[0] );
+                // We should check if text contains CDATA content
+                $resultText = is_object( $element ) ? $element->textContent() . getCDATA( $element ) : false;
+                return $resultText;
             }
             else
             {
