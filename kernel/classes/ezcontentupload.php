@@ -305,10 +305,17 @@ class eZContentUpload
         if ( !is_object( $existingNode ) )
         {
             $locationOK = $this->detectLocations( $classIdentifier, $class, $location, $parentNodes, $parentMainNode );
-            if ( !$locationOK )
+            if ( $locationOK === false )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                             'Was not able to figure out placement of object.' ) );
+                return false;
+            }
+            elseif ( $locationOK === null )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
                 return false;
             }
         }
@@ -375,21 +382,6 @@ class eZContentUpload
         }
         else
         {
-            foreach ( $parentNodes as $parentNode )
-            {
-                $parentMainNodeObj = eZContentObjectTreeNode::fetch( $parentNode );
-                $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
-
-                if ( $parentMainNodeObj->checkAccess( 'create',
-                                                      $class->attribute( 'id' ),
-                                                      $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
-                {
-                    $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
-                    $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                                'Permission denied' ) );
-                    return false;
-                }
-            }
             $object = $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();
@@ -530,10 +522,17 @@ class eZContentUpload
         if ( !is_object( $existingNode ) )
         {
             $locationOK = $this->detectLocations( $classIdentifier, $class, $location, $parentNodes, $parentMainNode );
-            if ( !$locationOK )
+            if ( $locationOK === false )
             {
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                             'Was not able to figure out placement of object.' ) );
+                return false;
+            }
+            elseif ( $locationOK === null )
+            {
+                $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'Permission denied' ) );
                 return false;
             }
         }
@@ -619,22 +618,6 @@ class eZContentUpload
         }
         else
         {
-            foreach ( $parentNodes as $parentNode )
-            {
-                $parentMainNodeObj = eZContentObjectTreeNode::fetch( $parentNode );
-                $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
-
-                if ( $parentMainNodeObj->checkAccess( 'create',
-                                                      $class->attribute( 'id' ),
-                                                      $mainParentObject->attribute( 'contentclass_id' ) ) != '1' )
-                {
-                    $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
-                    $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
-                                                                'Permission denied' ) );
-                    $db->commit();
-                    return false;
-                }
-            }
             $object = $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();
@@ -977,10 +960,11 @@ class eZContentUpload
                       or number to determine to parent node ID.
      \param[out] $parentNodes Will contain an array with node IDs or identifiers if a location could be detected.
      \param[out] $parentMainNode Will contain the ID of the main node if a location could be detected.
-    */
+     */
     function detectLocations( $classIdentifier, $class, $location,
                               &$parentNodes, &$parentMainNode )
     {
+        $isAccessChecked = false;
         $parentMainNode = false;
         if ( $this->hasAttribute( 'parent_nodes' ) &&
              $this->attribute( 'parent_nodes' ) )
@@ -989,6 +973,11 @@ class eZContentUpload
             foreach( $parentNodes as $key => $parentNode )
             {
                 $parentNodes[$key] = eZContentUpload::nodeAliasID( $parentNode );
+                if ( !eZContentUpload::checkAccess( $parentNodes[$key], $class ) )
+                {
+                    $parentNodes = false;
+                    return null;
+                }
             }
         }
         else
@@ -1027,12 +1016,7 @@ class eZContentUpload
                         
                             $parentNodes[$key] = $parentNodeID;
 
-                            $parentNodeObj = eZContentObjectTreeNode::fetch( $parentNodeID );
-                            $parentObject =  $parentNodeObj->attribute( 'object' );
-                        
-                            if ( $parentNodeObj->checkAccess( 'create',
-                                                              $class->attribute( 'id' ),
-                                                              $parentObject->attribute( 'contentclass_id' ) ) != '1' )
+                            if ( !eZContentUpload::checkAccess( $parentNodeID, $class ) )
                             {
                                 eZDebug::writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
                                 $parentNodes = false;
@@ -1051,15 +1035,36 @@ class eZContentUpload
                 if ( !$parentNodes && isset( $defaultPlacement ) && $defaultPlacement )
                 {
                     $defaultNodeID = eZContentUpload::nodeAliasID( $defaultPlacement );
-                    if ( $defaultNodeID ) 
-                        $parentNodes = array( $defaultNodeID );
+                    if ( $defaultNodeID )
+                    {
+                        if ( eZContentUpload::checkAccess( $defaultNodeID, $class ) )
+                        {
+                            $parentNodes = array( $defaultNodeID );
+                        }
+                        else
+                        {
+                            eZDebug::writeWarning( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
+                            return null;
+                        }
+                       
+                    }
                 }
             }
             else
             {
                 $locationID = eZContentUpload::nodeAliasID( $location );
-                if ( $locationID ) 
-                    $parentNodes = array( $locationID );
+                if ( $locationID )
+                {
+                    if ( eZContentUpload::checkAccess( $locationID, $class ) )
+                    {
+                        $parentNodes = array( $locationID );
+                    }
+                    else
+                    {
+                        eZDebug::writeWarning( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
+                        return null;
+                    }
+                }
             }
         }
 
@@ -1073,6 +1078,25 @@ class eZContentUpload
             $parentMainNode = $parentNodes[0];
         }
 
+        return true;
+    }
+
+    /*!
+     \private
+     \static
+    */
+
+    function checkAccess( $nodeID, $class )
+    {
+        $parentNodeObj = eZContentObjectTreeNode::fetch( $nodeID );
+        $parentObject =  $parentNodeObj->attribute( 'object' );
+                        
+        if ( $parentNodeObj->checkAccess( 'create',
+                                          $class->attribute( 'id' ),
+                                          $parentObject->attribute( 'contentclass_id' ) ) != '1' )
+        {
+            return false;
+        }
         return true;
     }
 
