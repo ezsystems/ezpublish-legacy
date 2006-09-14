@@ -1043,7 +1043,7 @@ class eZContentUpload
                         }
                         else
                         {
-                            eZDebug::writeWarning( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
+                            eZDebug::writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
                             return null;
                         }
                        
@@ -1061,7 +1061,7 @@ class eZContentUpload
                     }
                     else
                     {
-                        eZDebug::writeWarning( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
+                        eZDebug::writeNotice( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
                         return null;
                     }
                 }
