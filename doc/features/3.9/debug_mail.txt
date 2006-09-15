@@ -1,0 +1,9 @@
+*Title: The ability to output mail to a log file
+
+*Documentation:
+The ability to output mail to a log file (var/log/mail.log).
+
+for example(site.ini):
+
+[MailSettings]
+Transport=file

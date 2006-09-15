@@ -98,6 +98,7 @@ eZTemplate:
 
 eZMail:
 - Minor improvement in debug output when sending with SMTP.
+- Added new mail transport "file" for debugging.
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
