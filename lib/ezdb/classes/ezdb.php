@@ -343,8 +343,14 @@ class eZDB
     */
     function checkTransactionCounter()
     {
-        $db =& eZDB::instance();
         $result = true;
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
+        if ( $checkValidity )
+            return $result;
+
+        $db =& eZDB::instance();
 
         if ( $db->transactionCounter() > 0 )
         {
