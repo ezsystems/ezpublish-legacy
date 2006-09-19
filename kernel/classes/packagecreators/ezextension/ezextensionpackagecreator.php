@@ -82,12 +82,12 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         
         $doc = new eZDOMDocument;
 
-        $packageRoot = $doc->createElement( 'extension' );
+        $packageRoot =& $doc->createElement( 'extension' );
         $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );
 
         foreach( $fileList as $file )
         {
-            $fileNode = $doc->createElement( 'file' );
+            $fileNode =& $doc->createElement( 'file' );
             $fileNode->setAttribute( 'name', $file['name'] );
 
             if ( $file['path'] )

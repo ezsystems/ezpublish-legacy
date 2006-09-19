@@ -200,7 +200,7 @@ class eZXMLInputParser
         {
             // Creating root section with namespaces definitions
             $this->Document = new $this->DOMDocumentClass();
-            $mainSection = $this->Document->createElement( 'section' );
+            $mainSection =& $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
             foreach( $this->Namespaces as $prefix => $value )
             {
@@ -479,7 +479,7 @@ class eZXMLInputParser
         if ( $newTagName == '#text' )
             $element = $this->Document->createTextNode( $textContent );
         else
-            $element = $this->Document->createElement( $newTagName );
+            $element =& $this->Document->createElement( $newTagName );
 
         if ( $attributes )
         {
@@ -1015,7 +1015,7 @@ class eZXMLInputParser
     // Use this function if "Publish handler" should be called for a newly created element.
     function &createAndPublishElement( $elementName )
     {
-        $element = $this->Document->createElement( $elementName );
+        $element =& $this->Document->createElement( $elementName );
         $this->createdElements[] =& $element;
         return $element;
     }

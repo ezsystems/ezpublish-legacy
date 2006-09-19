@@ -432,7 +432,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $newParent =& $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
-                   $newSection = $this->Document->createElement( 'section' );
+                   $newSection =& $this->Document->createElement( 'section' );
                    if ( $i == $sectionLevel )
                        $newParent->insertBefore( $newSection, $element );
                    else
@@ -521,7 +521,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $prev =& $element->previousSibling();
             if ( !$prev )
             {
-                $li = $this->Document->createElement( 'li' );
+                $li =& $this->Document->createElement( 'li' );
                 $parent->insertBefore( $li, $element );
                 $parent->removeChild( $element );
                 $li->appendChild( $element );
@@ -531,7 +531,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $lastChild =& $prev->lastChild();
                 if ( $lastChild->nodeName != 'paragraph' )
                 {
-                    $para = $this->Document->createElement( 'paragraph' );
+                    $para =& $this->Document->createElement( 'paragraph' );
                     $parent->removeChild( $element );
                     $prev->appendChild( $element );
                     $ret =& $para;

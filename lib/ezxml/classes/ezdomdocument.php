@@ -703,7 +703,7 @@ class eZDOMDocument
 
     */
 
-    function createElement( $name )
+    function &createElement( $name )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
