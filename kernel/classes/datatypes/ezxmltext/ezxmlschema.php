@@ -393,7 +393,10 @@ class eZXMLSchema
 
     function getClassesList( $tagName )
     {
-        return $this->Schema[$tagName]['classesList'];
+        if ( isset( $this->Schema[$tagName]['classesList'] ) )
+            return $this->Schema[$tagName]['classesList'];
+        else
+            return array();
     }
 
     // for custom tags
