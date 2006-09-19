@@ -424,13 +424,15 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     function parseIntoTree( &$tpl, &$textElements, &$treeRoot,
                             $rootNamespace, $relatedResource, $relatedTemplateName )
     {
+        $outerElseTags = array( 'else' => array( 'if', 'elseif' ), 'section-else' => array( 'section' ) );
+
         $currentRoot =& $treeRoot;
         if ( $tpl->ShowDetails )
             eZDebug::addTimingPoint( "Parse pass 3 (build tree)" );
 
         $tagStack = array();
 
-        foreach( $textElements as $element )
+        foreach( $textElements as $elementKey => $element )
         {
             $elementPlacement = $element['placement'];
             $startLine = $elementPlacement['start']['line'];
@@ -609,35 +611,141 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $args = array();
                         }
                     }
-
+		    
                     if ( $type == EZ_ELEMENT_NORMAL_TAG )
                     {
-                        unset( $node );
-                        $node = array( EZ_TEMPLATE_NODE_FUNCTION,
-                                       false,
-                                       $tag,
-                                       $args,
-                                       $placement );
-                        $this->appendChild( $currentRoot, $node );
-                        $has_children = true;
-                        if ( isset( $tpl->FunctionAttributes[$tag] ) )
+                        $ignoreCurrentTag = false;
+                        if( in_array( $tag, array_keys($outerElseTags) ) )  // 'esle'-kind operators
                         {
-                            if ( is_array( $tpl->FunctionAttributes[$tag] ) )
-                                $tpl->loadAndRegisterFunctions( $tpl->FunctionAttributes[$tag] );
-                            $has_children = $tpl->FunctionAttributes[$tag];
+                            unset( $oldTag );
+                            unset( $oldTagName );
+                            $oldTag = end( $tagStack );
+                            $oldTagName = $oldTag["Tag"];
+
+                            $ignoreCurrentTag = true;
+                            if ( in_array( $oldTagName, $outerElseTags[$tag] ) )
+                            {
+                                $ignoreCurrentTag = false;
+                            }
+                            else // if there is incorrect 'else' using
+                            {
+                                // checking for 'if' in stack
+                                $tagBackStack = $tagStack;
+                                $lastIfKey = false;
+                                foreach ( $tagBackStack as $prevTagKey => $prevTag )
+                                {
+                                    if ( in_array( $prevTag['Tag'], $outerElseTags[$tag] ) )
+                                    {
+                                        $lastIfKey = $prevTagKey;
+                                    }
+                                }
+
+                                if( $lastIfKey !== false )
+                                {
+                                    // checking for later tags (search for closing tag)
+                                    $laterElements = array_slice( $textElements, $elementKey + 1 );
+                                    $laterStack = array();
+                                    foreach( $laterElements as $laterElement )
+                                    {
+                                        if ( $laterElement['type'] == EZ_ELEMENT_NORMAL_TAG)
+                                        {
+                                            if( !in_array( $laterElement['name'], array_keys($outerElseTags) ) )
+                                            {
+                                                $laterStack[] = $laterElement['name'];
+                                            }
+                                            else
+                                            {
+                                                if ( $laterStack === array() )
+                                                {
+                                                    break; // double else (current else will be ignored)
+                                                }
+                                            }
+                                        }
+                                        elseif ( $laterElement['type'] == EZ_ELEMENT_END_TAG )
+                                        {
+                                            if ( $laterStack !== array() )
+                                            {
+                                                if ( array_pop( $laterStack ) !== $laterElement['name'] )
+                                                {
+                                                    break;  // later tags mismatch (current else will be ignored)
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if ( $laterElement['name'] == $oldTagName)
+                                                {
+                                                    break;  // previous tag correctly closed (current else will be ignored)
+                                                }
+                                                elseif ( in_array( $laterElement['name'], $outerElseTags[$tag] ) )
+                                                {
+                                                    $ignoreCurrentTag = false;
+                                                    break;  // 'if' tag correctly closed (inner tags must be closed too)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                $place = $element['placement'];
+                                $startLine = $place['start']['line'];
+                                $startColumn = $place['start']['column'];
+                                if ( $ignoreCurrentTag )
+                                {
+                                    $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                                 "Unterminated tag \"$oldTagName\" does not match tag \"$tag\". \"$tag\" will be ignored.",
+                                                 $element['placement'] );
+                                }
+                                else
+                                {
+                                    unset( $currentRoot );
+                                    $lastIfKey++;
+                                    $currentRoot =& $tagStack[$lastIfKey]["Root"];
+
+                                    $autoTerminatedTags = array_slice( $tagStack, $lastIfKey);
+                                    $autoTerminatedTagNames = array();
+                                    foreach( $autoTerminatedTags as $autoTerminatedTag)
+                                        $autoTerminatedTagNames[] = $autoTerminatedTag["Tag"];
+                                    $tagStack = array_slice( $tagStack, 0, $lastIfKey);
+
+                                    $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                                 "Unterminated tag \"".implode( "\", \"", $autoTerminatedTagNames)."\" does not match tag \"$tag\" and will be autoterminated.",
+                                                 $element['placement'] );
+                                    unset( $autoTerminatedTags );
+                                    unset( $autoTerminatedTagNames );
+                                }
+                                unset( $lastIfKey );
+                            }
                         }
-                        else if ( isset( $tpl->Functions[$tag] ) )
+
+                        if ( !$ignoreCurrentTag )
                         {
-                            if ( is_array( $tpl->Functions[$tag] ) )
-                                $tpl->loadAndRegisterFunctions( $tpl->Functions[$tag] );
-                            $has_children = $tpl->hasChildren( $tpl->Functions[$tag], $tag );
-                        }
-                        if ( $has_children )
-                        {
-                            $tagStack[] = array( "Root" => &$currentRoot,
-                                                 "Tag" => $tag );
-                            unset( $currentRoot );
-                            $currentRoot =& $node;
+                            unset( $node );
+                            $node = array( EZ_TEMPLATE_NODE_FUNCTION,
+                                           false,
+                                           $tag,
+                                           $args,
+                                           $placement );
+                            $this->appendChild( $currentRoot, $node );
+                            $has_children = true;
+                            if ( isset( $tpl->FunctionAttributes[$tag] ) )
+                            {
+                                if ( is_array( $tpl->FunctionAttributes[$tag] ) )
+                                    $tpl->loadAndRegisterFunctions( $tpl->FunctionAttributes[$tag] );
+                                $has_children = $tpl->FunctionAttributes[$tag];
+                            }
+                            else if ( isset( $tpl->Functions[$tag] ) )
+                            {
+                                if ( is_array( $tpl->Functions[$tag] ) )
+                                    $tpl->loadAndRegisterFunctions( $tpl->Functions[$tag] );
+                                $has_children = $tpl->hasChildren( $tpl->Functions[$tag], $tag );
+                            }
+                            if ( $has_children )
+                            {
+                                $tagStack[] = array( "Root" => &$currentRoot,
+                                                     "Tag" => $tag );
+                                unset( $currentRoot );
+                                $currentRoot =& $node;
+                            }
                         }
                     }
                     else if ( $type == EZ_ELEMENT_END_TAG )
