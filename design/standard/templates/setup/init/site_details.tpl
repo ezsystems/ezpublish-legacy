@@ -169,7 +169,7 @@ The setup can continue with the initialization but may damage the present data."
     </table>
 </p>
 
-{include uri="design:setup/persistence.tpl" refresh=1}
-{include uri='design:setup/init/navigation.tpl'}
+{include uri="design:setup/persistence.tpl"}
+{include uri='design:setup/init/navigation.tpl' refresh=1}
 
 </form>
