@@ -95,6 +95,26 @@ class eZDOMNode
     }
 
     /*!
+      Subtree destructor. Needed to clean memory properly.
+    */
+    function cleanup( &$node )
+    {
+        if ( $node->hasChildren() )
+        {
+            foreach( array_keys( $node->Children ) as $key )
+            {
+                $child =& $node->Children[$key];
+                if ( $child->hasChildren() )
+                {
+                    $child->cleanup( $child );
+                }
+
+            }
+            $node->removeChildren();
+        }
+    }
+
+    /*!
       \return The name of the node.
 
       For element and attributes nodes this will the name supplied when creating the node,

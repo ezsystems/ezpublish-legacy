@@ -200,7 +200,7 @@ class eZXMLInputParser
         {
             // Creating root section with namespaces definitions
             $this->Document = new $this->DOMDocumentClass();
-            $mainSection = $this->Document->createElement( 'section' );
+            $mainSection =& $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
             foreach( $this->Namespaces as $prefix => $value )
             {
@@ -479,7 +479,7 @@ class eZXMLInputParser
         if ( $newTagName == '#text' )
             $element = $this->Document->createTextNode( $textContent );
         else
-            $element = $this->Document->createElement( $newTagName );
+            $element =& $this->Document->createElement( $newTagName );
 
         if ( $attributes )
         {
@@ -907,7 +907,8 @@ class eZXMLInputParser
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
-        $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
+        if ( $this->eZPublishVersion >= 3.9 )
+            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
 
         $attributes = $element->attributes();
         foreach( $attributes as $attr )
@@ -921,21 +922,34 @@ class eZXMLInputParser
             else
                 $fullName = $attr->LocalName;
 
-            if ( $attr->Prefix == 'custom' && in_array( $attr->LocalName, $schemaCustomAttributes ) )
+            if ( $this->eZPublishVersion >= 3.9 )
             {
-                $allowed = true;
+                // check for allowed custom attributes (3.9)
+                if ( $attr->Prefix == 'custom' && in_array( $attr->LocalName, $schemaCustomAttributes ) )
+                {
+                    $allowed = true;
+                }
+                else
+                {
+                    if ( in_array( $fullName, $schemaAttributes ) )
+                    {
+                       $allowed = true;
+                    }
+                    elseif ( in_array( $fullName, $schemaCustomAttributes ) )
+                    {
+                        // add 'custom' prefix if it is not given
+                        $allowed = true;
+                        $removeAttr = true;
+                        $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $fullName, $attr->content() );
+                    }
+                }
             }
             else
             {
-                if ( in_array( $fullName, $schemaAttributes ) )
-                {
-                   $allowed = true;
-                }
-                elseif ( in_array( $fullName, $schemaCustomAttributes ) )
+                if ( $attr->Prefix == 'custom' ||
+                     in_array( $fullName, $schemaAttributes ) )
                 {
                     $allowed = true;
-                    $removeAttr = true;
-                    $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $fullName, $attr->content() );
                 }
             }
 
@@ -1001,7 +1015,7 @@ class eZXMLInputParser
     // Use this function if "Publish handler" should be called for a newly created element.
     function &createAndPublishElement( $elementName )
     {
-        $element = $this->Document->createElement( $elementName );
+        $element =& $this->Document->createElement( $elementName );
         $this->createdElements[] =& $element;
         return $element;
     }

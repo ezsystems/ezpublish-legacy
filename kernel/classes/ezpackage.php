@@ -2587,10 +2587,10 @@ class eZPackage
             // May be used for back-compatiblity.
             //$rootSimpleFiles = $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] );
 
-            $rootSimpleFiles = $dom->createElement( 'simple-files' );
+            $rootSimpleFiles =& $dom->createElement( 'simple-files' );
             foreach( $this->Parameters['simple-file-list'] as $key => $value )
             {
-                $simpleFileNode = $dom->createElement( 'simple-file' );
+                $simpleFileNode =& $dom->createElement( 'simple-file' );
                 $simpleFileNode->setAttribute( 'key', $key );
                 $simpleFileNode->setAttribute( 'original-path', $value['original-path'] );
                 $simpleFileNode->setAttribute( 'package-path', $value['package-path'] );
