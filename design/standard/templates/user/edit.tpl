@@ -21,6 +21,7 @@
 </div>
 
 <div class="buttonblock">
+<input class="text" type="hidden" name="ContentObjectLanguageCode" value="{$userAccount.contentobject.initial_language_code}" />
 <input class="button" type="submit" name="EditButton" value="{'Edit profile'|i18n('design/standard/user')}" />
 <input class="button" type="submit" name="ChangePasswordButton" value="{'Change password'|i18n('design/standard/user')}" />
 <input class="button" type="submit" name="ChangeSettingButton" value="{'Change setting'|i18n('design/standard/user')}" />

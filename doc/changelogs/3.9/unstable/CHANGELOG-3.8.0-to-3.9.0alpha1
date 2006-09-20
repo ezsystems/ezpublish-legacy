@@ -370,8 +370,11 @@ eZMail:
 - Fixed bug #8643: RSS import shows error, if description contains <![CDATA[.
   (Merged from stable/3.8 (3.8.5) rev. 16857)
 - Fixed bug #6790: Unterminated let inside a section will cause the section-else
-  ( Merged from stable/3.8 (3.8.5) rev. 16871 )
+   Merged from stable/3.8 (3.8.5) rev. 16871)
 - Fixed bug #8890: Passing extra parameters to template functions clears params
   with the same name in current template
-  ( Merged from stable/3.8 (3.8.5) rev. 16882 )
+  (Merged from stable/3.8 (3.8.5) rev. 16882)
+- Fixed bug #9032: Impossible to disable language choice 
+  for /user/edit module.
+  (Merged from stable/3.8 (3.8.5) rev. 16886)  
       

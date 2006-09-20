@@ -62,7 +62,9 @@ if ( $Module->isCurrentAction( "Cancel" ) )
 
 if ( $Module->isCurrentAction( "Edit" ) )
 {
-    $Module->redirectTo( '/content/edit/' . $UserID );
+    $selectedVersion = $http->hasPostVariable( 'SelectedVersion' ) ? $http->postVariable( 'SelectedVersion' ) : 'f';
+    $editLanguage = $http->hasPostVariable( 'ContentObjectLanguageCode' ) ? $http->postVariable( 'ContentObjectLanguageCode' ) : '';
+    $Module->redirectTo( '/content/edit/' . $UserID . '/' . $selectedVersion . '/' . $editLanguage );
     return;
 }
 
