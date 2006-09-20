@@ -377,4 +377,6 @@ eZMail:
 - Fixed bug #9032: Impossible to disable language choice 
   for /user/edit module.
   (Merged from stable/3.8 (3.8.5) rev. 16886)  
-      
+- Fixed bug #7021: Offset greater than arraylength in foreach
+  ( Merged from stable/3.8 (3.8.5) rev. 16888 )
+        
