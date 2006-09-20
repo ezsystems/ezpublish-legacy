@@ -27,7 +27,7 @@
 {/section}
 
 {section show=$browse.description_template}
-    {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
+    {include name=Description uri=$browse.description_template browse=$browse }
 {section-else}
 
 <div class="context-block">
@@ -60,17 +60,20 @@
 <form name="browse" method="post" action={$browse.from_page|ezurl}>
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-{let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
-{section show=$browse.start_node|gt( 1 )}
-    <h2 class="context-title">
-    <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
-    {$current_node.object.content_class.identifier|class_icon( original, $current_node.object.content_class.name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
-{section-else}
+{section show=is_set( $node_list )|not()}
+    {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
+    {section show=$browse.start_node|gt( 1 )}
+        <h2 class="context-title">
+        <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
+        {$current_node.object.content_class.identifier|class_icon( original, $current_node.object.content_class.name|wash )}&nbsp;{$current_node.name|wash}&nbsp;[{$browse_list_count}]</h2>
+    {section-else}
     <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name|wash )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h2>
+    {/section}
+    {/let}
+{section-else}
+ <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small)}&nbsp;{'Search result'|i18n( 'design/admin/content/browse' )}&nbsp;[{$node_list|count()}]</h2>
+   
 {/section}
-{/let}
-
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>

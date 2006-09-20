@@ -1,4 +1,4 @@
-{default page_uri_suffix=false}
+{default page_uri_suffix=false()}
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=$page_uri

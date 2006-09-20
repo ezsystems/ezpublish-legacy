@@ -114,7 +114,8 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
          nd=1
          left_checked=true()
          current_loc=true()}
-    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}
+{*    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}*}
+    {section show=or( eq( $ui_context, 'edit' ) )}
         {set disabled=true()}
     {section-else}
         {section show=is_set($module_result.node_id)}

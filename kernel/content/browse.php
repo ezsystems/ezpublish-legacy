@@ -40,6 +40,12 @@ $http =& eZHTTPTool::instance();
 
 $browse = new eZContentBrowse();
 
+$Offset = $Params['Offset'];
+
+if ( !is_numeric( $Offset ) )
+    $Offset = 0;
+
+$parents = array();
 
 // We get node list when browse is execiuted from search engine ( "search in browse" functionality )
 if ( isset( $Params['NodeList'] ) )
@@ -49,29 +55,30 @@ if ( isset( $Params['NodeList'] ) )
      $requestedURI = $Params['NodeList']['RequestedURI'];
      $requestedURISuffix = $Params['NodeList']['RequestedURISuffix'];
 }
-
-if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
+else
 {
-    $NodeID = $Params['NodeID'];
-    $browse->setStartNode( $NodeID );
+
+    if ( isset( $Params['NodeID'] ) && is_numeric( $Params['NodeID'] ) )
+    {
+        $NodeID = $Params['NodeID'];
+        $browse->setStartNode( $NodeID );
+    }
+
+    $NodeID = $browse->attribute( 'start_node' );
+
+    $node = eZContentObjectTreeNode::fetch( $NodeID );
+    if ( !$node )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+    $object =& $node->attribute( 'object' );
+    if ( !$object )
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+    if ( !$object->attribute( 'can_read' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    $parents = $node->attribute( 'path' );
 }
-
-$NodeID = $browse->attribute( 'start_node' );
-$Offset = $Params['Offset'];
-
-if ( !is_numeric( $Offset ) )
-    $Offset = 0;
-
-$node = eZContentObjectTreeNode::fetch( $NodeID );
-if ( !$node )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-$contentObject =& $node->attribute( 'object' );
-if ( !$contentObject )
-    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-if ( !$contentObject->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $cancelAction = trim( $browse->attribute( 'cancel_page' ) );
 if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
@@ -95,12 +102,8 @@ if ( $browse->hasAttribute( 'keys' ) )
     $res->setKeys( $keyArray );
 }
 
-$parents =& $node->attribute( 'path' );
 
 $tpl->setVariable( 'browse', $browse );
-$tpl->setVariable( 'main_node', $node );
-$tpl->setVariable( 'node_id', $NodeID );
-$tpl->setVariable( 'parents', $parents );
 $tpl->setVariable( 'csm_menu_item_click_action', '/content/browse' );
 $tpl->setVariable( 'cancel_action', $cancelAction );
 
@@ -110,6 +113,12 @@ if ( isset( $nodeList ) )
     $tpl->setVariable( 'node_list_count', $nodeListCount );
     $tpl->setVariable( 'requested_uri', $requestedURI );
     $tpl->setVariable( 'requested_uri_suffix', $requestedURISuffix );
+}
+else
+{
+    $tpl->setVariable( 'main_node', $node );
+    $tpl->setVariable( 'node_id', $NodeID );
+    $tpl->setVariable( 'parents', $parents );
 }
 
 if ( isset( $Params['UserParameters'] ) )
@@ -127,42 +136,47 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $tpl->setVariable( 'path', false );
 
-
-$Result = array();
-
-// Fetch the navigation part from the section information
-include_once( 'kernel/classes/ezsection.php' );
-$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
-$Result['navigation_part'] = false;
-if ( $section )
-{
-    $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
-}
-
-//setting keys for override
-$res =& eZTemplateDesignResource::instance();
-
-$object = $node->attribute( 'object' );
-
 if (isset( $GLOBALS['eZDesignKeys']['section'] ))
 {
     $globalSectionID = $GLOBALS['eZDesignKeys']['section'];
     unset($GLOBALS['eZDesignKeys']['section']);
 }
 
-$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                      array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
-                      array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
-                      array( 'view_offset', $Offset ),
-                      array( 'navigation_part_identifier', $Result['navigation_part'] ),
-                      array( 'depth', $node->attribute( 'depth' ) ),
-                      array( 'url_alias', $node->attribute( 'url_alias' ) ),
-                      array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
-                      array( 'section', $object->attribute('section_id') )
+
+//setting keys for override
+$res =& eZTemplateDesignResource::instance();
+
+$Result = array();
+
+// Fetch the navigation part from the section information
+$Result['navigation_part'] = 'ezcontentnavigationpart';
+if ( !isset( $nodeList ) )
+{
+    include_once( 'kernel/classes/ezsection.php' );
+    $section = eZSection::fetch( $object->attribute( 'section_id' ) );
+    if ( $section )
+    {
+        $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+    }
+    $Result['node_id'] = $node->attribute( 'node_id' );
+
+    $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
+                          array( 'node', $node->attribute( 'node_id' ) ), // Node ID
+                          array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
+                          array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+                          array( 'depth', $node->attribute( 'depth' ) ),
+                          array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                          array( 'class_identifier', $node->attribute( 'class_identifier' ) ),
+                          array( 'section', $object->attribute('section_id') )
+                          ) );
+
+}
+
+$res->setKeys( array( array( 'view_offset', $Offset ),
+                      array( 'navigation_part_identifier', $Result['navigation_part'] )
                       ) );
 
-$Result['path'] =& $path;
+//$Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
 
 if (isset( $globalSectionID ))
@@ -175,6 +189,11 @@ if ( $templatePath )
 {
     $Result['path'] = $templatePath;
 }
+elseif ( isset( $nodeList ) )
+{
+    $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
+                                    'url' => false ) );
+}
 else
 {
     $path = array();
@@ -184,7 +203,7 @@ else
                          'url' => '/content/browse/' . $parent->attribute( 'node_id' ) . '/'
                          );
     }
-    $path[] = array( 'text' => $contentObject->attribute( 'name' ),
+    $path[] = array( 'text' => $object->attribute( 'name' ),
                      'url' => false );
     $Result['path'] = $path;
 }
