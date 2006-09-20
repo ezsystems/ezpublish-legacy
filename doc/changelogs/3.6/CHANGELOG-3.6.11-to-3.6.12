@@ -13,4 +13,7 @@ Changes from 3.6.11 to 3.6.12
   (Merged from trunk (3.9.0alpha1) rev. 16827)
 - Fixed bug #6790: Unterminated let inside a section will cause the section-else
   ( Merged from stable/3.8 (3.8.5) rev. 16871 )
-  
+- Fixed bug #8890: Passing extra parameters to template functions clears params
+  with the same name in current template
+  ( Merged from stable/3.8 (3.8.5) rev. 16882 )
+      

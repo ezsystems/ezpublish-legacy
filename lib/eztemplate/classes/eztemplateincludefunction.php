@@ -138,7 +138,7 @@ class eZTemplateIncludeFunction
         // Restore previous variables, before including
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "foreach ( \$restoreIncludeArray as \$element )\n".
                                                                "{\n".
-                                                               "    if ( \$element[2] == 'unset' )\n".
+                                                               "    if ( \$element[2] === 'unset' )\n".
                                                                "    {\n".
                                                                "        unset( \$vars[\$element[0]][\$element[1]] );\n".
                                                                "        continue;\n".

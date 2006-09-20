@@ -147,6 +147,9 @@ class eZTemplateToolbarFunction
                 if ( $includeNodes === false )
                     return false;
 
+                $uniqID = md5( uniqid('inc') );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$oldRestoreIncludeArray" . "_$uniqID = isset( \$restoreIncludeArray ) ? \$restoreIncludeArray : array();\n".
+                                                                       "\$restoreIncludeArray = array();\n");
                 $variableList = array();
                 foreach ( array_keys( $parameters ) as $parameterName )
                 {
@@ -154,6 +157,11 @@ class eZTemplateToolbarFunction
                          $parameterName == 'view' )
                         continue;
                     $parameterData =& $parameters[$parameterName];
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( isset( \$vars['']['$parameterName'] ) )\n".
+                                                                           "    \$restoreIncludeArray[] = array( '', '$parameterName', \$vars['']['$parameterName'] );\n".
+                                                                           "elseif ( !isset( \$vars['']['$parameterName'] ) ) \n".
+                                                                           "    \$restoreIncludeArray[] = array( '', '$parameterName', 'unset' );\n" );
+
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                           array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
                     $variableList[] = $parameterName;
@@ -202,10 +210,17 @@ class eZTemplateToolbarFunction
 
                 $newNodes = array_merge( $newNodes, $includeNodes );
 
-                foreach ( $variableList as $variableName )
-                {
-                    $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $variableName ) );
-                }
+                // Restore previous variables, before including
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "foreach ( \$restoreIncludeArray as \$element )\n".
+                                                                       "{\n".
+                                                                       "    if ( \$element[2] === 'unset' )\n".
+                                                                       "    {\n".
+                                                                       "        unset( \$vars[\$element[0]][\$element[1]] );\n".
+                                                                       "        continue;\n".
+                                                                       "    }\n".
+                                                                       "    \$vars[\$element[0]][\$element[1]] = \$element[2];\n".
+                                                                       "}\n".
+                                                                       "\$restoreIncludeArray = \$oldRestoreIncludeArray" . "_$uniqID;\n" );
             }
         }
         return $newNodes;
@@ -234,6 +249,8 @@ class eZTemplateToolbarFunction
                 if ( isset( $functionParameters["name"] ) )
                 {
                     reset( $params );
+                    $whatParamsShouldBeUnset = array();
+                    $whatParamsShouldBeReplaced = array();
                     while ( ( $key = key( $params ) ) !== null )
                     {
                         $item =& $params[$key];
@@ -245,6 +262,15 @@ class eZTemplateToolbarFunction
 
                             default:
                             {
+                                if ( !$tpl->hasVariable( $key, $name ) )
+                                {
+                                    $whatParamsShouldBeUnset[] = $key; // Tpl vars should be removed after including
+                                }
+                                else
+                                {
+                                    $whatParamsShouldBeReplaced[$key] = $tpl->variable( $key, $name ); // Tpl vars should be replaced after including
+                                }
+
                                 $item_value = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                                 $tpl->setVariable( $key, $item_value, $name );
                             } break;
@@ -325,9 +351,15 @@ class eZTemplateToolbarFunction
                             $definedVariables[] = "placement";
                         }
                         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
-                        foreach ( $definedVariables as $variable )
+                        // unset var
+                        foreach ( $whatParamsShouldBeUnset as $key )
                         {
-                            $tpl->unsetVariable( $variable, $currentNamespace );
+                            $tpl->unsetVariable( $key, $name );
+                        }
+                        // replace var
+                        foreach ( $whatParamsShouldBeReplaced as $key => $item_value )
+                        {
+                            $tpl->setVariable( $key, $item_value, $name );
                         }
                     }
                 }
