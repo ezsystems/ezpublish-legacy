@@ -529,7 +529,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $this->AllowMultipleSpaces )
                 $text = preg_replace( "#  #", " &nbsp;", $text );
             else
-                $text = preg_replace( "#[ ]+#", " ", $text );
+                $text = preg_replace( "# +#", " ", $text );
         }
         else
         {

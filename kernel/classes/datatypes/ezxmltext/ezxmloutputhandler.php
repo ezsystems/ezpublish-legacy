@@ -201,6 +201,8 @@ class eZXMLOutputHandler
         $output = $this->outputTag( $this->Document->Root, $params );
         $this->Output = $output[1];
 
+        $this->Document->cleanup();
+
         unset( $this->Document );
         unset( $this->XMLData );
 

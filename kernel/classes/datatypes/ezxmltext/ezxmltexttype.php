@@ -354,6 +354,7 @@ class eZXMLTextType extends eZDataType
                     $metaData .= " " . $node->content();
                 }
             }
+            $dom->cleanup();
         }
         return $metaData;
     }
@@ -388,6 +389,9 @@ class eZXMLTextType extends eZDataType
         {
             $text = $textDom->content();
         }
+
+        $document->cleanup();
+
         return $text;
     }
 
@@ -478,9 +482,10 @@ class eZXMLTextType extends eZDataType
 
                 $links =& $doc->elementsByName( 'link' );
                 $embeds =& $doc->elementsByName( 'embed' );
+                $objects =& $doc->elementsByName( 'object' );
                 $embedsInline =& $doc->elementsByName( 'embed-inline' );
 
-                $allTags = array_merge( $links, $embeds, $embedsInline );
+                $allTags = array_merge( $links, $embeds, $embedsInline, $objects );
 
                 if ( is_array( $allTags ) )
                 {
@@ -488,7 +493,10 @@ class eZXMLTextType extends eZDataType
                     {
                         $tag =& $allTags[$index];
                         $linkID = $tag->getAttribute( 'url_id' );
-                        $objectID = $tag->getAttribute( 'object_id' );
+                        if ( $tag->nodeName == 'object' )
+                            $objectID = $tag->getAttribute( 'id' );
+                        else
+                            $objectID = $tag->getAttribute( 'object_id' );
                         $nodeID = $tag->getAttribute( 'node_id' );
                         if ( $linkID )
                         {
@@ -505,8 +513,11 @@ class eZXMLTextType extends eZDataType
                             $object = eZContentObject::fetch( $objectID, false );
                             if ( is_array( $object ) )
                                 $tag->setAttribute( 'object_remote_id', $object['remote_id'] );
-
-                            $tag->removeAttribute( 'object_id' );
+                            
+                            if ( $tag->nodeName == 'object' )
+                                $tag->removeAttribute( 'id' );
+                            else
+                                $tag->removeAttribute( 'object_id' );
                         }
                         elseif ( $nodeID )
                         {
@@ -520,6 +531,8 @@ class eZXMLTextType extends eZDataType
             }
 
             $DOMNode->appendChild( $doc->root() );
+
+            $doc->cleanup();
         }
 
         return $DOMNode;
@@ -578,6 +591,7 @@ class eZXMLTextType extends eZDataType
 
                 }
                 $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $domDocument ) );
+                $domDocument->cleanup();
             }
         }
     }
@@ -592,12 +606,14 @@ class eZXMLTextType extends eZDataType
             return false;
 
         $links =& $doc->elementsByName( 'link' );
+        $objects =& $doc->elementsByName( 'object' );
         $embeds =& $doc->elementsByName( 'embed' );
         $embedsInline =& $doc->elementsByName( 'embed-inline' );
 
-        $allTags = array_merge( $links, $embeds, $embedsInline );
+        $allTags = array_merge( $links, $embeds, $embedsInline, $objects );
         $modified = false;
 
+        $contentObject =& $objectAttribute->attribute( 'object' );
         foreach( array_keys( $allTags ) as $key )
         {
             $tag =& $allTags[$key];
@@ -614,9 +630,18 @@ class eZXMLTextType extends eZDataType
                 }
 
                 $objectID = $objectArray['id'];
-                $tag->setAttribute( 'object_id', $objectID );
+                if ( $tag->nodeName == 'object' )
+                    $tag->setAttribute( 'id', $objectID );
+                else
+                    $tag->setAttribute( 'object_id', $objectID );
                 $tag->removeAttribute( 'object_remote_id' );
                 $modified = true;
+
+                // add as related object
+                if ( $contentObject && $tag->nodeName != 'link' )
+                {
+                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ) );
+                }
             }
             elseif ( $nodeRemoteID )
             {
@@ -631,8 +656,18 @@ class eZXMLTextType extends eZDataType
                 $tag->setAttribute( 'node_id', $nodeID );
                 $tag->removeAttribute( 'node_remote_id' );
                 $modified = true;
+
+                // add as related object
+                if ( $contentObject && $tag->nodeName != 'link' )
+                {
+                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    if ( $node )
+                        $contentObject->addContentObjectRelation( $node->attribute( 'contentobject_id' ), $objectAttribute->attribute( 'version' ) );
+                }
             }
         }
+
+        $doc->cleanup();
 
         if ( $modified )
         {
