@@ -16,4 +16,6 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #8890: Passing extra parameters to template functions clears params
   with the same name in current template
   ( Merged from stable/3.8 (3.8.5) rev. 16882 )
-      
+- Fixed bug #7021: Offset greater than arraylength in foreach
+  ( Merged from stable/3.8 (3.8.5) rev. 16888 )
+        

@@ -157,7 +157,7 @@ class eZTemplateForeachFunction
         if ( isset( $parameters['max'] ) )
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['max'], $nodePlacement, array( 'text-result' => false ), $max );
         else
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$max = -1;" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$max = \$$nItems - \$$offset;" );
 
         if ( isset( $parameters['reverse'] ) )
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['reverse'], $nodePlacement, array( 'text-result' => false ), $reverse );
@@ -166,9 +166,13 @@ class eZTemplateForeachFunction
 
 
         // fix definitely incorrect offset
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$offset < 0 || \$$offset >= \$$nItems )\n    \$$offset = 0;" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$offset < 0 || \$$offset >= \$$nItems )\n{\n".
+                                                               "    \$$offset = ( \$$offset < 0 ) ? 0 : \$$nItems;\n".
+                                                               "    eZDebug::writeWarning(\"Invalid 'offset' parameter specified.\");\n}" );
         // fix definitely incorrect max
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$max < 0 || \$$offset + \$$max > \$$nItems )\n    \$$max = \$$nItems - \$$offset;" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$max < 0 || \$$offset + \$$max > \$$nItems )\n{\n".
+                                                               "    if ( \$$max < 0 )\n eZDebug::writeWarning(\"Invalid 'max' parameter specified.\");\n".
+                                                               "    \$$max = \$$nItems - \$$offset;\n}" );
 
         // initialize first and last indexes to iterate between them
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$$reverse )\n" .
@@ -306,7 +310,7 @@ class eZTemplateForeachFunction
         elseif ( $offset < 0 || $offset >= $nItems )
         {
             $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'offset' parameter specified." );
-            $offset = 0;
+            $offset = ( $offset < 0 ) ? 0 : $nItems;
         }
 
         // fix definitely incorrect max
@@ -314,7 +318,8 @@ class eZTemplateForeachFunction
             $max = $nItems - $offset;
         elseif ( $max < 0 || $offset+$max > $nItems )
         {
-            $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'max' parameter specified." );
+            if ( $max <0 )
+                $tpl->warning( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Invalid 'max' parameter specified." );
             $max = $nItems - $offset;
         }
 
@@ -332,9 +337,12 @@ class eZTemplateForeachFunction
             $lastVal  = $nItems - 1;
         }
 
-        if ( $keyVarName )
-            $loop->initLoopVariable( $keyVarName );
-        $loop->initLoopVariable( $itemVarName );
+        if ( $firstVal < $lastVal )
+        {
+            if ( $keyVarName )
+                $loop->initLoopVariable( $keyVarName );
+            $loop->initLoopVariable( $itemVarName );
+        }
 
         for ( $i = $firstVal; $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal ); )
         {
