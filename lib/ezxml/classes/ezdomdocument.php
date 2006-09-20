@@ -115,6 +115,15 @@ class eZDOMDocument
         $this->Name = $name;
     }
 
+    /*
+       Clean up memory. (destructor)
+    */
+    function cleanup()
+    {
+        if ( $this->Root )
+            eZDOMNode::cleanup( $this->Root );
+    }
+
     /*!
       Sets the document name to \a $name.
     */

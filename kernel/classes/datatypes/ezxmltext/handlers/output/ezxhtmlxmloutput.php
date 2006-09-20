@@ -210,6 +210,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 0 );
             }
+
+            $dom->cleanup();
         }
         $res->removeKey( 'attribute_identifier' );
         return $output;

@@ -176,6 +176,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             {
                 $output =& $this->renderPDFSection( $tpl, $sectionNode, 0 );
             }
+            $dom->cleanup();
         }
         $res->removeKey( 'attribute_identifier' );
         return $output;
