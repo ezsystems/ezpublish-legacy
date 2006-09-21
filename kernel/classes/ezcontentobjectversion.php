@@ -1601,34 +1601,33 @@ class eZContentObjectVersion extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
 
-        $mask = eZContentLanguage::maskForRealLanguages();
-
         $objectID = $this->attribute( 'contentobject_id' );
         $version = $this->attribute( 'version' );
 
+        // reset 'always available' flag
         $sql = "UPDATE ezcontentobject_attribute SET language_id=";
         if ( $db->databaseName() == 'oracle' )
-    	{
-    		$sql .= "bitand( language_id, $mask )";
-    	}
-    	else
-    	{
-    		$sql .= "language_id & $mask";
-    	}
-    	$sql .= " WHERE contentobject_id = '$objectID' AND version = '$version'";
+        {
+            $sql .= "bitand( language_id, ~1 )";
+        }
+        else
+        {
+            $sql .= "language_id & ~1";
+        }
+        $sql .= " WHERE contentobject_id = '$objectID' AND version = '$version'";
         $db->query( $sql );
-    	
-    	if ( $languageID != false )
-    	{
+
+        if ( $languageID != false )
+        {
             $newLanguageID = $languageID | 1;
 
-    	    $sql = "UPDATE ezcontentobject_attribute
-    	            SET language_id='$newLanguageID'
-    	            WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND version = '$version'";
-    	    $db->query( $sql );
-    	}
-    	
-    	$db->commit();
+            $sql = "UPDATE ezcontentobject_attribute
+                    SET language_id='$newLanguageID'
+                WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND version = '$version'";
+            $db->query( $sql );
+        }
+
+        $db->commit();
     }
 
     function clearAlwaysAvailableLanguageID()
