@@ -1,0 +1,7 @@
+*Title: Added a checkbox which allows user to stay in the edit window after publishing.
+
+*Documentation:
+The one can enable this checkbox under 'My account' inside 'Edit mode settings' menu.
+If you will enable this functionality together with Locations ( one item up in the same menu), 
+you will have a possibility to publish object as hidden and continue edit object. 
+You ususally need this functionality if you want to place realtted objects under the current object.
