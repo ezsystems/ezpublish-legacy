@@ -1,6 +1,6 @@
 *Title: Improved files uploading to automatically choosen location.
 
-*Documentation:
+*Incentive:
 
 There is a setting that allows to set rules for automatic location selection
 when uploading files (for example in the "Insert object" dialog of Online Editor).
@@ -10,15 +10,24 @@ content.ini:[RelationAssignmentSettings].ClassSpecificAssignment
 Each line of this array contain class identifier and locations list.
 (see content.ini comments for details)
 
+But if current user has no access to any of locations in the matched list,
+file will not be uploaded. This is not handy in case when different users
+have their own folders for uploading files and want to use "Automatic"
+feature when uploading.
+
+*Documentation:
+
 From version 3.9 it is possible to specify the same class name in more than one line.
-In this case that match will be selected where user has 'create' access rights in
-all the locations.
+In this case the system will go through all matched lines and choose a line that
+contain locations where user has 'create' access rights.
+
+If there is more then one such line, the first one will be used.
 
 *Example:
 
 Let's say some user has no access to the folder 'media/images' but has access to
 the folder 'media/myfolder'. In this case if he/she will upload an image, and
-select "Automatic" value in the "Location" dropbox of the file upload dialog,
+select "Automatic" option in the "Location" dropbox of the file upload dialog,
 then a folder 'media/myfolder' will be automatically choosen.
 
 ClassSpecificAssignment[]
