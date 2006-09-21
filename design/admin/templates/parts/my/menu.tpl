@@ -36,6 +36,13 @@
         <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
     {/section}
     </li>
+    <li class="nobullet">{'Re-edit'|i18n( 'design/admin/parts/my/menu')}:
+    {section show=ezpreference( 'admin_edit_show_re_edit' )}
+        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_re_edit/0'|ezurl} title="{'Disable Back to edit checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
+    {section-else}
+        <a href={'/user/preferences/set/admin_edit_show_re_edit/1'|ezurl} title="{'Enable Back to edit checkbox when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
+    {/section}
+    </li>
 </ul>
 </div>
 

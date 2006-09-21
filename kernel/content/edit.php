@@ -567,7 +567,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         // helper function which computes the redirect after
         // publishing and final store of a draft.
-        function computeRedirect( &$module, &$object, &$version )
+        function computeRedirect( &$module, &$object, &$version, $EditLanguage = false )
         {
             $http =& eZHTTPTool::instance();
 
@@ -601,6 +601,14 @@ if ( !function_exists( 'checkContentActions' ) )
                 $module->redirectTo( $uri );
                 $hasRedirected = true;
             }
+            if ( $http->hasPostVariable( "BackToEdit") && $http->postVariable( "BackToEdit") )
+            {
+                $uri = $module->redirectionURI( 'content', 'edit', array( $object->attribute( 'id'), 'f', $EditLanguage ) );
+                $module->redirectTo( $uri );
+                eZDebug::writeDebug( $uri, "uri  " .  $object->attribute( 'id')  );
+                $hasRedirected = true;
+            }
+
             if ( !$hasRedirected )
             {
                 if ( $http->hasPostVariable( 'RedirectURI' ) )
@@ -627,7 +635,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if( $module->isCurrentAction( 'StoreExit' ) )
         {
-            computeRedirect( $module, $object, $version );
+            computeRedirect( $module, $object, $version, $EditLanguage );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
@@ -777,7 +785,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $http =& eZHttpTool::instance();
 
-            computeRedirect( $module, $object, $version );
+            computeRedirect( $module, $object, $version, $EditLanguage );
             // we have set redirection URI for module so we don't need to continue module execution
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
