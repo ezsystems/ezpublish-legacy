@@ -1,7 +1,9 @@
-*Title: The ability to output mail to a log file
+*Title: The ability to output mail server disk for debugging
 
 *Documentation:
-The ability to output mail to a log file (var/log/mail.log).
+The ability to output mail to the harddisk. There will be 
+one file created per mail in the folder (var/log/mail/).
+No mail is leaving the the system to a remote mailserver.
 
 for example(site.ini):
 
