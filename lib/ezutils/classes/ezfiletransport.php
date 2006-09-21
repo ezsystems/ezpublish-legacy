@@ -38,7 +38,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-include_once( 'lib/ezfile/classes/ezlog.php' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
 
 class eZFileTransport extends eZMailTransport
 {
