@@ -3785,7 +3785,7 @@ class eZContentObject extends eZPersistentObject
         $p = ( $this->Permissions["can_read"] == 1 );
         return $p;
     }
-    
+
     /*!
      \return \c true if the current user can create a pdf of this content object.
      \note The reference for the return value is required to workaround
@@ -3800,7 +3800,7 @@ class eZContentObject extends eZPersistentObject
         $p = ( $this->Permissions["can_pdf"] == 1 );
         return $p;
     }
-    
+
     /*!
      \return \c true if the node can be viewed as embeded object by the current user.
      \sa checkAccess().
@@ -3816,7 +3816,7 @@ class eZContentObject extends eZPersistentObject
         $p = ( $this->Permissions["can_view_embed"] == 1 );
         return $p;
     }
-    
+
     /*!
      \return \c true if the current user can diff this content object.
      \note The reference for the return value is required to workaround
@@ -5011,29 +5011,28 @@ class eZContentObject extends eZPersistentObject
         $objectID = $this->attribute( 'id' );
         $versionID = $version->attribute( 'version' );
 
-        $mask = eZContentLanguage::maskForRealLanguages();
-
+        // reset 'always available' flag
         $sql = "UPDATE ezcontentobject_name SET language_id=";
         if ( $db->databaseName() == 'oracle' )
-    	{
-    		$sql .= "bitand( language_id, $mask )";
-    	}
-    	else
-    	{
-    		$sql .= "language_id & $mask";
-    	}
-    	$sql .= " WHERE contentobject_id = '$objectID' AND content_version = '$versionID'";
-    	$db->query( $sql );
+        {
+            $sql .= "bitand( language_id, ~1 )";
+        }
+        else
+        {
+            $sql .= "language_id & ~1";
+        }
+        $sql .= " WHERE contentobject_id = '$objectID' AND content_version = '$versionID'";
+        $db->query( $sql );
 
-    	if ( $languageID != false )
-    	{
+        if ( $languageID != false )
+        {
             $newLanguageID = $languageID | 1;
 
-    	    $sql = "UPDATE ezcontentobject_name
-    	            SET language_id='$newLanguageID'
-    	            WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND content_version = '$versionID'";
-    	    $db->query( $sql );
-    	}
+            $sql = "UPDATE ezcontentobject_name
+                    SET language_id='$newLanguageID'
+                WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND content_version = '$versionID'";
+            $db->query( $sql );
+        }
 
         $version->setAlwaysAvailableLanguageID( $languageID );
 
