@@ -13,6 +13,14 @@
 <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
 
+{set-block variable=$admin_right}
+{tool_bar name='admin_right' view=full}
+{/set-block}
+
+{set-block variable=$admin_developer}
+{tool_bar name='admin_developer' view=full}
+{/set-block}
+
 <style type="text/css">
     @import url({'stylesheets/core.css'|ezdesign});
     @import url({'stylesheets/site.css'|ezdesign});
@@ -20,6 +28,12 @@
 {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
     @import url({concat( 'stylesheets/',$css_file )|ezdesign});
 {/section}
+
+
+{if and($admin_right|eq(''), $admin_developer|eq(''))}
+    div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
+{/if}
+
 </style>
 
 {literal}
@@ -247,8 +261,8 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 
 <h3 class="hide">Right</h3>
 
-{tool_bar name='admin_right' view=full}
-{tool_bar name='admin_developer' view=full}
+{$admin_right}
+{$admin_developer}
 
 </div>
 </div>
