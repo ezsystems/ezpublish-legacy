@@ -344,7 +344,7 @@ class eZMySQLDB extends eZDBInterface
             $sql = trim( $sql );
 
             $isWriteQuery = true;
-            if ( stristr( $sql, "select" ) )
+            if ( strncasecmp( $sql, 'select', 6 ) === 0 )
             {
                 $isWriteQuery = false;
             }
@@ -475,7 +475,7 @@ class eZMySQLDB extends eZDBInterface
             {
                 if ( $isWriteQuery )
                 {
-                    if ( stristr( $sql, "update" ) )
+                    if ( strncasecmp( $sql, 'update', 6 ) === 0 )
                     {
                         $matches = array();
                         $queryParts = preg_match( "/(update[\s]*)(low_priority[\s*])?(ignore[\s*])?([\s\w,]*)([\s]set[\s].*)/",
@@ -486,7 +486,7 @@ class eZMySQLDB extends eZDBInterface
                             eZPersistentObject::clearObjectCache( $tableName );
                         }
                     }
-                    else if ( stristr( $sql, "insert" ) )
+                    else if ( strncasecmp( $sql, 'insert', 6 ) === 0 )
                     {
                         $matches = array();
                         $queryParts = preg_match( "/(insert[\s*])(low_priority[\s*])?(delayed[\s*])?(high_priority[\s*])?(ignore[\s*])?(into[\s*])?([\s\w]*)(\(.*\))?([\s](set|values|select).*)?/",
@@ -497,7 +497,7 @@ class eZMySQLDB extends eZDBInterface
                             eZPersistentObject::clearObjectCache( $tableName );
                         }
                     }
-                    else if ( stristr( $sql, "delete" ) )
+                    else if ( strncasecmp( $sql, 'delete', 6 ) === 0 )
                     {
                         $matches = array();
                         $queryParts = preg_match( "/(delete[\s]*)(low_priority[\s*])?(quick[\s*])?(ignore[\s*])?(from[\s*])?([\s\w,]*)([\s]where[\s].*)/",
