@@ -382,3 +382,6 @@ eZMail:
 - Fixed bug: 'always available' bit is not cleared in language mask while 
   changing 'main' language.
 - Fixed bug #9035: static cache creates extra directory
+- Fixed bug #6545: Setup fails with MySql 4.1
+  (The database charset check uses unquoted db names)
+  ( Merged from stable/3.8 (3.8.5) rev. 16907 )
