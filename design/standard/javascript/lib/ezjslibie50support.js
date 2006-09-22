@@ -39,7 +39,7 @@
         Array.splice(REMOVE elements only).
 */
 
-if ( ![].push )
+if ( !Array.push )
 {
     Array.prototype.push=function(i)
     {
@@ -47,7 +47,7 @@ if ( ![].push )
     }
 }
 
-if ( ![].pop )
+if ( !Array.pop )
 {
     Array.prototype.pop=function()
     {
@@ -57,7 +57,7 @@ if ( ![].pop )
     }
 }
 
-if ( ![].splice )
+if ( !Array.splice )
 {
     // ONLY REMOVES 
     Array.prototype.splice=function(startIdx, count)
