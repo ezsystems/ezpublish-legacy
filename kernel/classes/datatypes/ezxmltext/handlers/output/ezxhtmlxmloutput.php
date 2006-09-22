@@ -282,7 +282,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
-        $ret = array();
+	// default return value in case of errors
+        $ret = array( 'no_render' => true );
+
         $objectID = $element->getAttribute( 'object_id' );
         if ( $objectID )
         {

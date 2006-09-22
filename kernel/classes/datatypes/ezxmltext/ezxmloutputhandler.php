@@ -393,6 +393,11 @@ class eZXMLOutputHandler
             $childrenOutput = array( array( true, '' ) );
         }
 
+	if ( isset( $result['no_render'] ) && $result['no_render'] )
+        {
+            return $childrenOutput;
+        }
+
         $templateUri = '';
         if ( !isset( $currentTag['quickRender'] ) )
         {
