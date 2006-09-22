@@ -270,7 +270,7 @@ class eZMySQLDB extends eZDBInterface
     */
     function checkCharsetPriv( $charset, &$currentCharset )
     {
-        $query = "SHOW CREATE DATABASE " . $this->DB;
+        $query = "SHOW CREATE DATABASE `{$this->DB}`";
         $status = @mysql_query( $query, $this->DBConnection );
         $this->reportQuery( 'eZMySQLDB', $query, false, false );
         if ( !$status )
