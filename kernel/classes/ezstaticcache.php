@@ -281,8 +281,8 @@ class eZStaticCache
         {
             $cacheFiles = array();
             if ( !is_dir( $dir ) )
-         	{
-                eZDir::mkdir( $dir, 0777, true );
+            {
+                eZDir::mkdir( $staticStorageDir . $dir, 0777, true );
             }
 
             $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $url );
