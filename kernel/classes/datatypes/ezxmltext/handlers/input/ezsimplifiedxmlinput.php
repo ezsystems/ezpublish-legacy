@@ -203,7 +203,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $editOutput = new eZSimplifiedXMLEditOutput();
             $output = $editOutput->performOutput( $dom );
 
-            $dom->cleanup();
+            if ( $dom )
+                $dom->cleanup();
             //eZDebug::writeDebug( $output, '$output' );
         }
         return $output;
