@@ -381,3 +381,4 @@ eZMail:
   ( Merged from stable/3.8 (3.8.5) rev. 16888 )
 - Fixed bug: 'always available' bit is not cleared in language mask while 
   changing 'main' language.
+- Fixed bug #9035: static cache creates extra directory
