@@ -183,6 +183,13 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
     {include uri='design:page_topmenuitem.tpl' menu_item=$Menu navigationpart_identifier=$navigation_part.identifier}
 
 {/section}
+
+{if and($admin_right|eq(''), $admin_developer|eq(''))}
+<li class="last"><div>
+<a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a>
+</div></li>
+{/if}
+
 </ul>
 <div class="break"></div>
 </div>
