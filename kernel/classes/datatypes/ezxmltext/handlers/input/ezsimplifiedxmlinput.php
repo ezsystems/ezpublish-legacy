@@ -130,9 +130,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // first empty paragraph
             $text = preg_replace('/^\n/', '<p></p>', $text );
 
-            $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
-            $parser->setParseLineBreaks( true );
-
+            $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
@@ -205,7 +203,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $editOutput = new eZSimplifiedXMLEditOutput();
             $output = $editOutput->performOutput( $dom );
 
-            $dom->cleanup();
+            if ( $dom )
+                $dom->cleanup();
             //eZDebug::writeDebug( $output, '$output' );
         }
         return $output;

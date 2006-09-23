@@ -667,15 +667,17 @@ class eZXMLTextType extends eZDataType
             }
         }
 
-        $doc->cleanup();
-
         if ( $modified )
         {
             $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $doc ) );
+            $doc->cleanup();
             return true;
         }
         else
+        {
+            $doc->cleanup();
             return false;
+        }
     }
     /*!
      Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
