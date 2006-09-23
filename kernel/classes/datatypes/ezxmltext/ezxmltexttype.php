@@ -531,8 +531,6 @@ class eZXMLTextType extends eZDataType
             }
 
             $DOMNode->appendChild( $doc->root() );
-
-            $doc->cleanup();
         }
 
         return $DOMNode;
