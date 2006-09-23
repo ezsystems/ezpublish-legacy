@@ -428,13 +428,15 @@ class eZSimplifiedXMLEditOutput
     function &outputObject( &$element, &$attributes, &$sectionLevel )
     {
         $ret = null;
-        $linkID = $attributes['image:ezurl_id'];
-        if ( $linkID != null )
+        if ( isset( $attributes['image:ezurl_id'] ) )
         {
-            $href = eZURL::url( $linkID );
-            $attributes['href'] = $href;
+            $linkID = $attributes['image:ezurl_id'];
+            if ( $linkID != null )
+            {
+                $href = eZURL::url( $linkID );
+                $attributes['href'] = $href;
+            }
         }
-
         return $ret;
     }
 
