@@ -168,12 +168,6 @@ $ini =& eZINI::instance();
 
 $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
 
-$classID = $contentObject->attribute( 'contentclass_id' );
-
-$class = eZContentClass::fetch( $classID );
-
-$classes = eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
-                                       array( 'name' => 'name' ), $fields = null );
 
 if ( $assignment )
 {
