@@ -21,4 +21,7 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #6545: Setup fails with MySql 4.1
   (The database charset check uses unquoted db names)
   ( Merged from stable/3.8 (3.8.5) rev. 16907 )
-        
+- Fixed bug #8750: "My drafts" not accessible for users with only editing
+  permissions
+  ( Merged from stable/3.8 (3.8.5) rev.16923 )
+            
