@@ -329,7 +329,7 @@ $ViewList['versions'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['draft'] = array(
-    'functions' => array( 'create' ),
+    'functions' => array( 'versionread' ),
     'script' => 'draft.php',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( ),
