@@ -56,6 +56,7 @@ if ( $lobHandle )
     header( "Connection: close" );
     header( "X-Powered-By: eZ publish" );
     header( "Accept-Ranges: bytes" );
+    header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
     while ( $chunk = pg_lo_read( $lobHandle, STORAGE_CHUNK_SIZE ) )
         echo $chunk;

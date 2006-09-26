@@ -61,6 +61,7 @@ if ( $res = mysql_query( $sql, $db ) )
     header( "Connection: close" );
     header( "X-Powered-By: eZ publish" );
     header( "Accept-Ranges: bytes" );
+    header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
     // Output image data.
     while ( $row = mysql_fetch_row( $res ) )

@@ -423,6 +423,7 @@ $headerList = array( 'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
                      'Pragma' => 'no-cache',
                      'X-Powered-By' => 'eZ publish',
                      'Content-Type' => 'text/html; charset=' . $httpCharset,
+                     'Served-by: ' . $_SERVER["SERVER_NAME"],
                      'Content-language' => $languageCode );
 
 $site = array( 'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
