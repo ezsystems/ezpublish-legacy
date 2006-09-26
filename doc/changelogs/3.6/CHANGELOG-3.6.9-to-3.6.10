@@ -22,6 +22,6 @@ Changes from 3.6.9 to 3.6.10
   locations.
   (Merged from stable/3.8 (3.8.5) rev.16781)
 - Fixed bug #8872: WebShop fatal error (view orders of removed users).
-  ( Merged from stable/3.8 (3.8.5) rev. 16850 )
+  (Merged from stable/3.8 (3.8.5) rev. 16850)
 - Fixed bug #9035: static cache creates extra directory
-  ( Merged from trunk(3.9.0alpha1) rev. 16903 )
+  (Merged from trunk(3.9.0alpha1) rev. 16903)
