@@ -177,7 +177,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'class_identifier' => 'classIdentifier',
                                                       'class_name' => 'className',
                                                       'hidden_invisible_string' => 'hiddenInvisibleString',
-                                                      'hidden_status_string' => 'hiddenStatusString' ),
+                                                      'hidden_status_string' => 'hiddenStatusString',
+                                                      'classes_js_array' => 'availableClassesJsArray' ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
@@ -5113,7 +5114,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $classList = array();
             $db =& eZDb::instance();
-            $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*" : "cc.id, cc.name";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
@@ -5971,6 +5971,128 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $depthArray;
     }
+
+    /*
+      Returns available classes as Js array.
+      Checks if the node is container, if yes emptyStr will be returned.
+    */
+    function availableClassesJsArray()
+    {
+        $obj =& $this->object();
+        $contentClass = $obj->attribute( 'content_class' );
+        if ( !$contentClass->attribute( 'is_container' ) )
+            return "''";
+
+        $classList = eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
+        return $classList;
+    }
+
+    /*
+      Returns available classes as Js array.
+      Checks for ini settings.
+    */
+    function availableClassListJsArray( $parameters = false )
+    {
+        $iniMenu =& eZINI::instance( 'contentstructuremenu.ini' );
+        $falseValue = "''";
+        $createHereMenu = $iniMenu->variable( 'TreeMenu', 'CreateHereMenu' );
+        if ( $createHereMenu != 'simplified' and $createHereMenu != 'full' )
+            return $falseValue;
+
+        $ini =& eZINI::instance( 'content.ini' );
+        list( $usersClassGroupID, $setupClassGroupID ) = $ini->variableMulti( 'ClassGroupIDs', array( 'Users', 'Setup' ) );
+        $userRootNode = $ini->variable( 'NodeSettings', 'UserRootNode' );
+        $groupIDs = false;
+        $filterType = 'include';
+
+        if ( !is_array( $parameters ) )
+            return $falseValue;
+
+        $node = isset( $parameters['node'] ) ? $parameters['node'] : false;
+        if ( is_object( $node ) )
+        {
+            $pathArray = $node->pathArray();
+        }
+        else
+        {
+            $pathString = isset( $parameters['path_string'] ) ? $parameters['path_string'] : false;
+            if ( !$pathString )
+                return false;
+
+            $pathItems = explode( '/', $pathString );
+            $pathArray = array();
+            foreach ( $pathItems as $pathItem )
+            {
+                if ( $pathItem != '' )
+                    $pathArray[] = (int) $pathItem;
+            }
+        }
+
+        if ( in_array( $userRootNode, $pathArray ) )
+        {
+            $groupIDs = array( $usersClassGroupID );
+        }
+        else
+        {
+            $groupIDs = array( $usersClassGroupID, $setupClassGroupID );
+            $filterType = 'exclude';
+        }
+
+        if ( $createHereMenu == 'simplified' )
+        {
+            include_once( "kernel/classes/ezcontentclass.php" );
+            $classes =& eZContentClass::fetchAllClasses( false, $filterType == 'include', $groupIDs );
+            $classList = eZContentObjectTreeNode::getClassesJsArray( false, $filterType == 'include', $groupIDs, false, $classes );
+            return $classList;
+        }
+
+        $classList = eZContentObjectTreeNode::getClassesJsArray( $node, $filterType == 'include', $groupIDs );
+        return $classList;
+    }
+
+    /*
+      Returns available classes as Js array.
+      \note building js array.
+    */
+    function getClassesJsArray( $node = false, $includeFilter = true, $groupList = false, $fetchID = false, $classes = false )
+    {
+        include_once( 'kernel/classes/ezcontentclass.php' );
+        $falseValue = "''";
+        // If $classes is false we should check $node and fetch class list
+        if ( $classes === false )
+        {
+            // If $node is object we should fetch available classes from node, from ezcontentclass otherwise
+            $classes = ( is_object( $node ) and get_class( $node ) == 'eZContentObjectTreeNode' )
+                        ? $node->canCreateClassList( false, $includeFilter, $groupList, $fetchID )
+                        : eZContentClass::canInstantiateClassList( false, $includeFilter, $groupList, $fetchID );
+        }
+        if ( !is_array( $classes ) )
+            return $falseValue;
+
+        // Create javascript array
+        $jsArray = array();
+        foreach ( $classes as $class )
+        {
+            if ( is_object( $class ) )
+            {
+                $classID = $class->attribute( 'id' );
+                $className = $class->attribute( 'name' );
+            }
+            elseif ( is_array( $class ) )
+            {
+                $classID = $class['id'];
+                $className = $class['name'];
+            }
+            $jsArray[] = "{ classID: '" . $classID .
+                          "', name: '" . $className . "' }";
+        }
+
+        if ( $jsArray )
+            return '[ '.implode( ', ', $jsArray ).' ]';
+
+        return $falseValue;
+    }
+
 
     /// The current language for the node
     var $CurrentLanguage = false;

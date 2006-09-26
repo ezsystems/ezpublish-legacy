@@ -1707,6 +1707,11 @@ div.popupmenu a.more
     background-position: right center;
 }
 
+div.popupmenu a.menu-item-disabled
+{
+     display:none;
+}
+
 div.popupmenu a:hover
 {
     color: #ffffff;

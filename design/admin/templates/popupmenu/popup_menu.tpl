@@ -16,6 +16,11 @@ menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%obje
 menuArray['ContextMenu']['elements']['menu-copy-subtree']= new Array();
 menuArray['ContextMenu']['elements']['menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
 
+menuArray['ContextMenu']['elements']['child-menu-create-here'] = new Array();
+menuArray['ContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';
+menuArray['ContextMenu']['elements']['menu-create-here'] = new Array();
+menuArray['ContextMenu']['elements']['menu-create-here']['disabled_class'] = 'menu-item-disabled';
+
 {* Edit menu *}
 menuArray['EditSubmenu'] = new Array();
 menuArray['EditSubmenu']['depth'] = 1;
@@ -25,6 +30,14 @@ menuArray['EditSubmenu']['elements']['edit-languages']['variable'] = '%languages
 menuArray['EditSubmenu']['elements']['edit-languages']['content'] = '<a href={"/content/edit/%objectID%/f/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditSubmenu\' )">%name%</a>';
 menuArray['EditSubmenu']['elements']['edit-languages-another'] = new Array();
 menuArray['EditSubmenu']['elements']['edit-languages-another']['url'] = {"/content/edit/%objectID%/a"|ezurl};
+
+{* CreateHere menu *}
+menuArray['CreateHereMenu'] = new Array();
+menuArray['CreateHereMenu']['depth'] = 1; // this is a first level submenu of ContextMenu
+menuArray['CreateHereMenu']['elements'] = new Array();
+menuArray['CreateHereMenu']['elements']['menu-classes'] = new Array();
+menuArray['CreateHereMenu']['elements']['menu-classes']['variable'] = '%classList%';
+menuArray['CreateHereMenu']['elements']['menu-classes']['content'] = '<a id="menu-item-create-here" href="#" onclick="ezpopmenu_submitForm( \'menu-form-create-here\', new Array( \'classID\', \'%classID%\' ) ); return false;">%name%</a>';
 
 {* Advanced menu *}
 menuArray['Advanced'] = new Array();
@@ -51,6 +64,11 @@ menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
+
+menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';
+menuArray['SubitemsContextMenu']['elements']['menu-create-here'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['menu-create-here']['disabled_class'] = 'menu-item-disabled';
 
 menuArray['ClassMenu'] = new Array();
 menuArray['ClassMenu']['depth'] = 0;
@@ -122,6 +140,8 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/admin/popupmenu")}</a>
 
+    <a id="menu-create-here" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'CreateHereMenu', 'menu-create-here' ); return false;">{'Create here'|i18n( 'design/admin/popupmenu' )}</a>
+
     {* Include additional context menu items  based on .ini settings *}
     {section var=template loop=ezini( 'AdditionalMenuSettings', 'ContextMenuTemplateArray', 'admininterface.ini' )}
         {include uri=concat('design:', $template )}
@@ -154,6 +174,8 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="child-menu-notify" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-notify' ); return false;">{"Add to my notifications"|i18n("design/admin/popupmenu")}</a>
 
+    <a id="child-menu-create-here" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'CreateHereMenu', 'child-menu-create-here' ); return false;">{'Create here'|i18n( 'design/admin/popupmenu' )}</a>
+
     {* Include additional subitems menu items  based on .ini settings *}
     {section var=template loop=ezini( 'AdditionalMenuSettings', 'SubitemsContextMenuTemplateArray', 'admininterface.ini' )}
         {include uri=concat('design:', $template )}
@@ -164,6 +186,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {section var=template loop=ezini( 'AdditionalMenuSettings', 'SubMenuTemplateArray', 'admininterface.ini' )}
    {include uri=concat('design:', $template )}
 {/section}
+
+<!-- Create here menu -->
+<div class="popupmenu" id="CreateHereMenu">
+    <div id="menu-classes"></div>
+</div>
 
 <!-- Edit menu -->
 <div class="popupmenu" id="EditSubmenu">
@@ -205,8 +232,6 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <hr />
     <a id="class-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Compare versions'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
-
-
 
 <!-- Bookmark popup menu -->
 <div class="popupmenu" id="BookmarkMenu">
@@ -270,6 +295,17 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {/let}
 
 {* Forms used by the various elements *}
+
+{* Create here. *}
+<form id="menu-form-create-here" name="children" method="post" action={"/content/action"|ezurl}>
+  <input type="hidden" name="NewButton" value="x" />
+  <input type="hidden" name="ContentNodeID" value="%nodeID%" />
+  <input type="hidden" name="NodeID" value="%nodeID%" />
+  <input type="hidden" name="ContentObjectID" value="%objectID%" />
+  <input type="hidden" name="ClassID" value="%classID%" />
+  <input type="hidden" name="ViewMode" value="full" />
+  {*<input type="hidden" name="ContentLanguageCode" value="eng-GB" />*}
+</form>
 
 {* Add bookmark. *}
 <form id="menu-form-addbookmark" method="post" action={"/content/action"|ezurl}>

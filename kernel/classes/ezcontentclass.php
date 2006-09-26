@@ -640,6 +640,41 @@ class eZContentClass extends eZPersistentObject
     }
 
     /*!
+     Finds all Classes in the system and returns them.
+     \return An array with eZContentClass objects.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
+    {
+        if ( is_array( $groupList ) )
+        {
+            $filterTableSQL = ', ezcontentclass_classgroup ccg';
+            $filterSQL = ( " AND\n" .
+                           "      cc.id = ccg.contentclass_id AND\n" .
+                           "      ccg.group_id " );
+            $groupText = implode( ', ', $groupList );
+            if ( $includeFilter )
+                $filterSQL .= "IN ( $groupText )";
+            else
+                $filterSQL .= "NOT IN ( $groupText )";
+        }
+
+        $classList = array();
+        $db =& eZDb::instance();
+        // If $asObject is true we fetch all fields in class
+        $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+        $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
+                                 "FROM ezcontentclass cc$filterTableSQL\n" .
+                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                 "ORDER BY cc.name ASC" );
+
+        $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+
+        return $classList;
+    }
+
+    /*!
      Finds all Class groups in the system and returns them.
      \return An array with eZContentClassGroup objects.
      \sa fetchGroupList(), fetchGroupIDList()

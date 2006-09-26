@@ -383,6 +383,7 @@ class eZContentStructureTreeOperator
                                         'depth' => $treeNode['depth'],
                                         'is_hidden' => $treeNode['is_hidden'],
                                         'is_invisible' => $treeNode['is_invisible'] ),
+                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'path_string' => $treeNode['path_string'] ) ),
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
@@ -404,7 +405,7 @@ class eZContentStructureTreeOperator
         // create initial subtree with root node and empty children.
         $nodes = false;
         $rootTreeNode = eZContentObjectTreeNode::fetch( $rootNodeID );
-        if( $rootTreeNode && $rootTreeNode->canRead() )
+        if ( $rootTreeNode && $rootTreeNode->canRead() )
         {
             if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
             {
@@ -433,6 +434,7 @@ class eZContentStructureTreeOperator
                                                         'depth' => $rootTreeNode->attribute( 'depth' ),
                                                         'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
                                                         'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
+                                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$rootTreeNode ) ),
                                        'object' => array( 'id' => $contentObject->attribute( 'id' ),
                                                           'name' => $contentObject->attribute( 'name' ),
                                                           'class_identifier' => $contentObject->attribute( 'class_identifier' ),

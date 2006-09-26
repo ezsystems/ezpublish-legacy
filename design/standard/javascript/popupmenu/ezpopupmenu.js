@@ -147,6 +147,10 @@ var EZPOPMENU_SUBTOPOFFSET = 4;
 // CurrentNodeID holds id of current node to edit for submenu's
 var CurrentSubstituteValues = -1;
 var CurrentDisableID = -1;
+// Which Menu should be disabled
+var CurrentDisableMenuID = -1;
+// Store ClassName
+var DefaultClassName = 'more';
 // VisibleMenus is an array that holds the names of the currently visible menus
 var VisibleMenus = new Array();
 
@@ -181,7 +185,7 @@ function ezpopupmenu_setSubstituteValue( key, value )
    'menuHeader' If the menu has a header it is replaced with this value.
    'disableID' If this id is found in the list of known disabled for this menu the item is disabled.
  */
-function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, disableID )
+function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, disableID, disableMenuID )
 {
     if( !document.getElementById( menuID ) ) return;
     ezjslib_mouseHandler( event ); // register new mouse position
@@ -195,6 +199,11 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
     if( disableID != -1 )
     {
         CurrentDisableID = disableID;
+    }
+
+    if( disableMenuID != -1 )
+    {
+        CurrentDisableMenuID = disableMenuID;
     }
 
     ezpopmenu_doItemSubstitution( menuID, menuHeader );
@@ -266,7 +275,7 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
             {
                 if ( typeof CurrentSubstituteValues[substItem] != 'object' )
                 {
-                    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );  
+                    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
                 }
             }
 
@@ -279,7 +288,7 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
         if ( loopingVariable )
         {
             var content = '';
-          
+
             for ( var localVariableIndex in CurrentSubstituteValues[loopingVariable] )
             {
                 var localVariable = CurrentSubstituteValues[loopingVariable][localVariableIndex];
@@ -297,15 +306,23 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
                 }
                 content += partialContent;
             }
-            
+
             hrefElement.innerHTML = content;
         }
 
         // enabled/disabled
-        if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
-            menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' )
+        if( ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
+              ( ( typeof( menuArray[menuID]['elements'][i]['disabled_for'] ) != 'undefined' &&
+                  menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' ) ) ||
+              ( CurrentDisableMenuID && hrefElement.id == CurrentDisableMenuID ) ) )
         {
             hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
+        }
+        else if ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
+                  hrefElement.className == menuArray[menuID]['elements'][i]['disabled_class'] )
+        {
+            // Restore className
+            hrefElement.className = DefaultClassName;
         }
     }
 
@@ -372,7 +389,7 @@ function ezpopmenu_moveSubLevelOnScreen( menuID, alignItem )
     if( alignElement && parentElement )
     {
         newX = parseInt( parentElement.style.left ) + menuElement.offsetWidth - EZPOPMENU_OFFSET;
-        newY = parseInt( parentElement.style.top ) + alignElement.offsetTop + EZPOPMENU_SUBTOPOFFSET;;
+        newY = parseInt( parentElement.style.top ) + alignElement.offsetTop + EZPOPMENU_SUBTOPOFFSET;
     }
     // compensate if we are below the screen
     if( ( screenData.ScrollY + screenData.Height ) < ( newY + menuElement.offsetHeight ) )
@@ -397,7 +414,7 @@ function ezpopmenu_moveSubLevelOnScreen( menuID, alignItem )
   Submit the form with id formID. All fields of type hidden will have the texts %nodeID%
   and %objectID% replaced with the corresponding real values.
 */
-function ezpopmenu_submitForm( formID )
+function ezpopmenu_submitForm( formID, customSubstitute )
 {
     var formElement = document.getElementById( formID );
     if( formElement )
@@ -409,9 +426,19 @@ function ezpopmenu_submitForm( formID )
             if( children[i].type == 'hidden' )
             {
                 for ( var substItem in CurrentSubstituteValues )
+                {
                     children[i].value = children[i].value.replace( substItem, CurrentSubstituteValues[substItem] );
+                    if ( customSubstitute )
+                    {
+                        for( var j = 0; j < customSubstitute.length; j += 2 )
+                        {
+                            children[i].value = children[i].value.replace( '%'+customSubstitute[j]+'%', customSubstitute[j+1] );
+                        }
+                    }
+                }
             }
         }
+
         formElement.submit();
     }
 }
