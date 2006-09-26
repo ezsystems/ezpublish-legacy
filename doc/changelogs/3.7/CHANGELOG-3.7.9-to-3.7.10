@@ -1,5 +1,9 @@
 Changes from 3.7.9 to 3.7.10
 
+*Kernel:
+- Implemented suggestion #8081: receivers name in tipafriend.php.
+  (Merged from trunk (3.9.0alpha1) rev. 16939)
+
 *Bugfixes:
 - Fixed bug #8759: Users without "manage_locations" seem to be able to add new
   locations.
@@ -16,20 +20,20 @@ Changes from 3.7.9 to 3.7.10
   when I edit the content class.
   (Merged from trunk (3.9.0alpha1) rev. 16827)
 - Fixed bug #8872: WebShop fatal error (view orders of removed users).
-  ( Merged from stable/3.8 (3.8.5) rev. 16850 )
+  (Merged from stable/3.8 (3.8.5) rev. 16850)
 - Fixed bug #6790: Unterminated let inside a section will cause the section-else
-  ( Merged from stable/3.8 (3.8.5) rev. 16871 )
+  (Merged from stable/3.8 (3.8.5) rev. 16871)
 - Fixed bug #8890: Passing extra parameters to template functions clears params
   with the same name in current template
-  ( Merged from stable/3.8 (3.8.5) rev. 16882 )
+  (Merged from stable/3.8 (3.8.5) rev. 16882)
 - Fixed bug #7021: Offset greater than arraylength in foreach
-  ( Merged from stable/3.8 (3.8.5) rev. 16888 )
+  (Merged from stable/3.8 (3.8.5) rev. 16888)
 - Fixed bug #9035: static cache creates extra directory
-  ( Merged from trunk(3.9.0alpha1) rev. 16903 )
+  (Merged from trunk(3.9.0alpha1) rev. 16903)
 - Fixed bug #6545: Setup fails with MySql 4.1
   (The database charset check uses unquoted db names)
-  ( Merged from stable/3.8 (3.8.5) rev. 16907 )
+  (Merged from stable/3.8 (3.8.5) rev. 16907)
 - Fixed bug #8750: "My drafts" not accessible for users with only editing
   permissions
-  ( Merged from stable/3.8 (3.8.5) rev. 16923 )
+  (Merged from stable/3.8 (3.8.5) rev. 16923)
   
