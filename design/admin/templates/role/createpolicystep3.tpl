@@ -14,53 +14,21 @@
 
 <div class="context-attributes">
 
-<p>
-{'Welcome to the policy wizard. This three step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep3' )}
-</p>
-
-<hr />
-
-<h2>{'Step one: select module [completed]'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
+<h2>{'Step three: set function limitations'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
 
 <div class="block">
-<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
+<label>{'Selected module'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
 {section show=$current_module|eq( '*' )}
-{'All modules'|i18n( 'design/admin/role/createpolicystep3' )}
+{'All modules'|i18n( 'design/admin/role/createpolicystep2' )}
 {section-else}
 {$current_module|upfirst()}
 {/section}
 </div>
 
 <div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
-{'Limited'|i18n( 'design/admin/role/createpolicystep3' )}
-</div>
-
-<hr />
-
-<h2>{'Step two: select function [completed]'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
-
-<div class="block">
 <label>{'Selected function'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
 {$current_function|upfirst()}
 </div>
-
-<div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep3' )}:</label>
-{'Limited'|i18n( 'design/admin/role/createpolicystep3' )}
-</div>
-
-<hr />
-
-<h2>{'Step three: set function limitations'|i18n( 'design/admin/role/createpolicystep3' )}</h2>
-
-<p>
-{'Instructions'|i18n( 'design/admin/role/createpolicystep3' )}:
-</p>
-<ol>
-<li>{'Set the desired function limitations using the controls below.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
-<li>{'Click the "OK" button to finish the wizard. The policy will be added to the role that is currently being edited.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
-</ol>
 
 <div class="block">
 {section name=Limitations loop=$function_limitations}
@@ -70,7 +38,7 @@
 <div class="element">
 {/section}
 <label>{$Limitations:item.name|wash}:</label>
-<select name="{$Limitations:item.name}[]" size="8" {if or( not( is_set( $Limitations:item.single_select ) ), not($Limitations:item.single_select) ) }multiple="multiple"{/if} >
+<select name="{$Limitations:item.name}[]" size="8" multiple="multiple" >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}

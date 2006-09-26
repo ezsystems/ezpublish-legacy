@@ -1,0 +1,1 @@
+<input type="checkbox" name="ContentAttribute_id_checked[]" value="{$attribute.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" />

@@ -1,4 +1,4 @@
-{section show=eq($:contentStructureTree, false())|not()}
+{section show=and(eq($:contentStructureTree, false())|not(),$nodesList|contains($lastNodeID))}
     {let parentNode     = $contentStructureTree.parent_node
          children       = $contentStructureTree.children
          numChildren    = count($contentStructureTree.children)
@@ -7,6 +7,7 @@
          toolTip        = ""
          visibility     = 'Visible'
          isRootNode     = false()
+         thisNodeID     = $contentStructureTree.parent_node.node.node_id
          children_removed = 0 }
 
 {section loop=$children}
@@ -34,8 +35,8 @@
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/standard/contentstructuremenu')}"
-                      onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
+                      onclick="ezodcst_onFoldClicked( this.parentNode, '{'/ajax/call/'|ezurl(no)}', '{$ui_context}' ); return false;"></a>
                 {section-else}
                     <span class="openclose"></span>
                 {/section}
@@ -91,7 +92,7 @@
                 {section show=$:haveChildren}
                     <ul>
                         {section var=child loop=$:children}
-                            {include name=SubMenu uri="design:contentstructuremenu/show_content_structure.tpl" contentStructureTree=$:child csm_menu_item_click_action=$:csm_menu_item_click_action last_item=eq( $child.number, $:numChildren ) ui_context=$ui_context}
+                            {include name=SubMenu uri="design:contentstructuremenu/show_dynamic_content_structure.tpl" contentStructureTree=$:child csm_menu_item_click_action=$:csm_menu_item_click_action last_item=eq( $child.number, $:numChildren ) ui_context=$ui_context nodesList=$nodesList lastNodeID=$:thisNodeID}
                         {/section}
                     </ul>
                 {/section}

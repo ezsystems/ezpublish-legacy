@@ -79,8 +79,13 @@ Clustering:
 - Fixed suggestion #8262: No need displaying language 
   when only one is installed.
 - Added ability to hide admin toolbars on right side in admin if empty
+- Added on demand loading tree menu using AJAX
+- Improved role edit using AJAX
+- Improved class attributes edit using AJAX.
 
 *Library:
+
+- Added XAJAX library for implementing AJAX features.
 
 eZTemplate:
 - Implemented enhancement #8584: 'content_structure_tree' operator should support 

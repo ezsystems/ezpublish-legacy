@@ -194,6 +194,7 @@
         {literal}
         function updateLanguageSelector( classSelector )
         {
+      
             languageSelector = classSelector.form.ContentLanguageCode;
             if ( !languageSelector )
             {

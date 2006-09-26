@@ -14,13 +14,7 @@
 
 <div class="context-attributes">
 
-<p>
-{'Welcome to the policy wizard. This three step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep2' )}
-</p>
-
-<hr />
-
-<h2>{'Step one: select module [completed]'|i18n( 'design/admin/role/createpolicystep2' )}</h2>
+<h2>{'Step two: select function'|i18n( 'design/admin/role/createpolicystep2' )}</h2>
 
 <div class="block">
 <label>{'Selected module'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
@@ -31,27 +25,7 @@
 {/section}
 </div>
 
-<div class="block">
-<label>{'Selected access method'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
-{'Limited'|i18n( 'design/admin/role/createpolicystep2' )}
-</div>
-
-<hr />
-
-<h2>{'Step two: select function'|i18n( 'design/admin/role/createpolicystep2' )}</h2>
-
 {section show=$no_functions|not}
-
-<p>
-{'Instructions'|i18n( 'design/admin/role/createpolicystep2' )}:
-</p>
-<ul>
-<li>{'Use the drop-down menu to select the function that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
-<li>{'Click on one of the "Grant.." buttons (explained below) in order to go to the next step.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
-</ul>
-<p>
-{'The "Grant full access" button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you wish to limit the access method in some way, click the "Grant limited access" button. Function limitation is only supported by some functions. If unsupported, eZ publish will simply set up a policy with unlimited access to the selected function.'|i18n( 'design/admin/role/createpolicystep2' )}
-</p>
 
 <div class="block">
 <label>{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
