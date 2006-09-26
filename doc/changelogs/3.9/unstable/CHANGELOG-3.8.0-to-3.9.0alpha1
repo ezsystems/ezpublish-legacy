@@ -13,6 +13,7 @@ Changes from 3.8.0 to 3.9.0alpha1
   when creating/editing it.
 - Implemented enhancement #4809: Proxy support needed for "outside data" 
   (RSS, link checking).
+- Implemented suggestion #8081: receivers name in tipafriend.php.
 
 Clustering:
 - Changed the way clustering settings are stored.
@@ -384,14 +385,14 @@ eZMail:
   for /user/edit module.
   (Merged from stable/3.8 (3.8.5) rev. 16886)  
 - Fixed bug #7021: Offset greater than arraylength in foreach
-  ( Merged from stable/3.8 (3.8.5) rev. 16888 )
+  (Merged from stable/3.8 (3.8.5) rev. 16888)
 - Fixed bug: 'always available' bit is not cleared in language mask while 
   changing 'main' language.
 - Fixed bug #9035: static cache creates extra directory
 - Fixed bug #6545: Setup fails with MySql 4.1
   (The database charset check uses unquoted db names)
-  ( Merged from stable/3.8 (3.8.5) rev. 16907 )
+  (Merged from stable/3.8 (3.8.5) rev. 16907)
 - Fixed bug #8750: "My drafts" not accessible for users with only editing
   permissions
-  ( Merged from stable/3.8 (3.8.5) rev.16923 )
+  (Merged from stable/3.8 (3.8.5) rev.16923)
     
