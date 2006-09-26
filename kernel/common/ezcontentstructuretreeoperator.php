@@ -154,7 +154,7 @@ class eZContentStructureTreeOperator
             return $nodeListArray;
         }
 
-        $permissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $permissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
         // version
         $useVersionName = true;
@@ -173,6 +173,7 @@ class eZContentStructureTreeOperator
                                ezcontentobject_tree,
                                ezcontentobject,ezcontentclass
                                $versionNameTables
+                               $permissionChecking[from]
                           WHERE $pathStringCond
                                 $classCondition
                                 ezcontentclass.version=0 AND
@@ -180,7 +181,7 @@ class eZContentStructureTreeOperator
                                 ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                                 ezcontentclass.id = ezcontentobject.contentclass_id
                                 $versionNameJoins
-                                $permissionChecking ";
+                                $permissionChecking[where] ";
         }
         else
         {
@@ -195,6 +196,7 @@ class eZContentStructureTreeOperator
                              ezcontentobject,ezcontentclass
                              $versionNameTables
                              $sortingInfo[attributeFromSQL]
+                             $permissionChecking[from]
                       WHERE
                              $pathStringCond
                              $sortingInfo[attributeWhereSQL]
@@ -206,7 +208,7 @@ class eZContentStructureTreeOperator
                              ezcontentobject_tree.contentobject_is_published = 1
                              $versionNameJoins
                              $showInvisibleNodesCond
-                             $permissionChecking
+                             $permissionChecking[where]
                       ORDER BY $sortingInfo[sortingFields]";
 
         }

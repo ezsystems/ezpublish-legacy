@@ -535,6 +535,13 @@ $AssignedEdit = array(
         array( 'Name' => 'Self or anonymous users per HTTP session',
                'value' => '2' ) ) );
 
+$AssignedGroup = array(
+    'name'=> 'Group',
+    'single_select' => true,
+    'values'=> array(
+        array( 'Name' => 'Self',
+               'value' => '1') ) );
+
 $ParentDepth = array(
     'name' => 'ParentDepth',
     'values' => array(),
@@ -562,6 +569,7 @@ $FunctionList['move'] = array();
 $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $Assigned,
+                               'Group' => $AssignedGroup,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
 $FunctionList['diff'] = array( 'Class' => $ClassID,
@@ -585,6 +593,7 @@ $FunctionList['create'] = array( 'Class' => $ClassID,
 $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $AssignedEdit,
+                               'Group' => $AssignedGroup,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
                                'Language' => $Language);

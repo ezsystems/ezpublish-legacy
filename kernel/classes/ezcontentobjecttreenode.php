@@ -1264,7 +1264,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $notEqParentString  = '';
         if( !$depth || !$depthOperator || $depthOperator != 'eq' )
         {
-            $notEqParentString  = "node_id != $nodeID AND";
+            $notEqParentString  = "ezcontentobject_tree.node_id != $nodeID AND";
         }
 
         return $notEqParentString;
@@ -1280,7 +1280,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $depth )
         {
-
             $sqlDepthOperator = '<=';
             if ( $depthOperator )
             {
@@ -1307,10 +1306,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $nodeDepth += $depth;
-            $depthCondition = ' depth '. $sqlDepthOperator . ' ' . $nodeDepth . '  and ';
+            $depthCondition = ' ezcontentobject_tree.depth '. $sqlDepthOperator . ' ' . $nodeDepth . '  and ';
         }
 
-        $pathCondition = " path_string like '$nodePath%' and $depthCondition ";
+        $pathCondition = " ezcontentobject_tree.path_string like '$nodePath%' and $depthCondition ";
         return $pathCondition;
     }
 
@@ -1360,11 +1359,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         }
                     }
                     $nodeDepth += $depth;
-                    $depthCond = ' and depth '. $sqlDepthOperator . ' ' . $nodeDepth . ' ';
+                    $depthCond = ' and ezcontentobject_tree.depth '. $sqlDepthOperator . ' ' . $nodeDepth . ' ';
                 }
 
-                $outNotEqParentStr          = " and node_id != $nodeID ";
-                $sqlPartForOneNodeList[]    = " ( path_string like '$nodePath%'   $depthCond $outNotEqParentStr ) ";
+                $outNotEqParentStr          = " and ezcontentobject_tree.node_id != $nodeID ";
+                $sqlPartForOneNodeList[]    = " ( ezcontentobject_tree.path_string like '$nodePath%'   $depthCond $outNotEqParentStr ) ";
                 $outNotEqParentStr          = '';
             }
             $outPathConditionStr = implode( ' or ', $sqlPartForOneNodeList );
@@ -1481,12 +1480,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
         \a static
+        Deprecated. Use 'createPermissionCheckingSQL' instead.
     */
     function createPermissionCheckingSQLString( &$limitationList )
     {
-        $sqlPermissionCheckingString = '';
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
+        return $sqlPermissionChecking['where'];
+    }
 
+    /*!
+        \a static
+    */
+    function createPermissionCheckingSQL( &$limitationList )
+    {
         $db =& eZDB::instance();
+
+        $sqlPermissionCheckingFrom = '';
+        $sqlPermissionCheckingWhere = '';
+        $contentTreeAliasCount = 0;
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1517,6 +1528,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $user   =& eZUser::currentUser();
                             $userID = $user->attribute( 'contentobject_id' );
                             $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
+                        } break;
+
+                        case 'Group':
+                        {
+                            $user   =& eZUser::currentUser();
+                            $userContentObject =& $user->attribute( 'contentobject' );
+
+                            $parentList =& $userContentObject->attribute( 'parent_nodes' );
+
+                            ++$contentTreeAliasCount;
+                            $contentTreeTableAlias = "content_tree_$contentTreeAliasCount";
+                            $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
+                                              $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
 
                         case 'Node':
@@ -1558,10 +1583,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
-            $sqlPermissionCheckingString = ' AND ((' . implode( ') OR (', $sqlParts ) . ')) ';
+            $sqlPermissionCheckingWhere = ' AND ((' . implode( ') OR (', $sqlParts ) . ')) ';
         }
 
-        return $sqlPermissionCheckingString;
+        $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
+                                        'where' => $sqlPermissionCheckingWhere );
+
+        return $sqlPermissionChecking;
     }
 
 
@@ -1764,8 +1792,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $objectNameFilterSQL = eZContentObjectTreeNode::createObjectNameFilterConditionSQLString( $objectNameFilter );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
-        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
@@ -1783,6 +1811,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
+                      $sqlPermissionChecking[from]
                    WHERE
                       $pathStringCond
                       $extendedAttributeFilter[joins]
@@ -1796,7 +1825,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $classCondition
                       $versionNameJoins
                       $showInvisibleNodesCond
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                       $objectNameFilterSQL
                       $languageFilter
                 $groupByText";
@@ -1960,8 +1989,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
-            $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
-            $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+            $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+            $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
             // Determine whether we should show invisible nodes.
             $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
@@ -1979,7 +2008,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $classCondition
                           $versionNameJoins
                           $showInvisibleNodesCond
-                          $sqlPermissionCheckingString
+                          $sqlPermissionChecking[where]
                           $languageFilter
                       )
                       OR";
@@ -2003,6 +2032,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $sortingInfo[attributeFromSQL]
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
+                      $sqlPermissionChecking[from]
                    WHERE
                       ".substr($queryNodes, 0, -2)."
                 $groupByText";
@@ -2141,20 +2171,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodePath =  $node->attribute( 'path_string' );
                 $nodeDepth = $node->attribute( 'depth' );
                 $childrensPath = $nodePath ;
-                $pathString = " path_string like '$childrensPath%' ";
+                $pathString = " ezcontentobject_tree.path_string like '$childrensPath%' ";
                 if ( isset( $params[ 'Depth' ] ) and $params[ 'Depth' ] > 0 )
                 {
                     $nodeDepth += $params[ 'Depth' ];
-                    $depthCond = ' and depth = ' . $nodeDepth . ' ';
+                    $depthCond = ' and ezcontentobject_tree.depth = ' . $nodeDepth . ' ';
                 }
                 else
                 {
                     $depthCond = '';
                 }
 
-                $notEqParentString = " and node_id != $nodeID ";
+                $notEqParentString = " and ezcontentobject_tree.node_id != $nodeID ";
 
-                $sqlPartForOneNodeList[] = " ( path_string like '$childrensPath%'   $depthCond $notEqParentString ) ";
+                $sqlPartForOneNodeList[] = " ( ezcontentobject_tree.path_string like '$childrensPath%'   $depthCond $notEqParentString ) ";
                 $notEqParentString = '';
             }
             $pathStringCond = implode( ' or ', $sqlPartForOneNodeList );
@@ -2177,9 +2207,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $db =& eZDB::instance();
             $subStringString = $db->subString( 'path_string', 1, $pathLength );
-            $pathString = " path_string like '$childrensPath%' and ";
+            $pathString = " ezcontentobject_tree.path_string like '$childrensPath%' and ";
 
-            $notEqParentString = "node_id != $fromNode AND";
+            $notEqParentString = "ezcontentobject_tree.node_id != $fromNode AND";
             $depthCond = '';
             if ( $depth )
             {
@@ -2187,11 +2217,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeDepth += $params[ 'Depth' ];
                 if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
                 {
-                    $depthCond = ' depth = ' . $nodeDepth . ' and ';
+                    $depthCond = ' ezcontentobject_tree.depth = ' . $nodeDepth . ' and ';
                     $notEqParentString = '';
                 }
                 else
-                    $depthCond = ' depth <= ' . $nodeDepth . ' and ';
+                    $depthCond = ' ezcontentobject_tree.depth <= ' . $nodeDepth . ' and ';
             }
 
             $pathStringCond = $pathString . $depthCond;
@@ -2617,6 +2647,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
+        $sqlPermissionCheckingFrom = '';
+        $sqlPermissionCheckingWhere = '';
+        $contentTreeAliasCount = 0;
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -2646,6 +2679,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $user =& eZUser::currentUser();
                             $userID = $user->attribute( 'contentobject_id' );
                             $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
+                        } break;
+
+                        case 'Group':
+                        {
+                            $user   =& eZUser::currentUser();
+                            $userContentObject =& $user->attribute( 'contentobject' );
+
+                            $parentList =& $userContentObject->attribute( 'parent_nodes' );
+
+                            ++$contentTreeAliasCount;
+                            $contentTreeTableAlias = "content_tree_$contentTreeAliasCount";
+                            $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
+                                              $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
 
                         case 'Node':
@@ -2681,7 +2728,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
 
-            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+            $sqlPermissionCheckingWhere = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+            $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
+                                            'where' => $sqlPermissionCheckingWhere );
 
             $query = "SELECT count(*) as count
                       FROM
@@ -2690,6 +2739,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            $versionNameTables
                            $attributeFilterFromSQL
                            $extendedAttributeFilter[tables]
+                           $sqlPermissionChecking[from]
                       WHERE $pathString
                             $extendedAttributeFilter[joins]
                             $depthCond
@@ -2702,7 +2752,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
                             $versionNameJoins
                             $showInvisibleNodesCond
-                            $sqlPermissionCheckingString
+                            $sqlPermissionChecking[where]
                             $objectNameFilterSQL
                             $languageFilter ";
 
@@ -2785,20 +2835,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
-        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         $query = "SELECT ezcontentobject.published as published
-                              $groupBySelectText
-
+                         $groupBySelectText
                    FROM
                       ezcontentobject_tree,
                       ezcontentobject,ezcontentclass
                       $attributeFilter[from]
                       $extendedAttributeFilter[tables]
+                      $sqlPermissionChecking[from]
                    WHERE
                       $pathStringCond
                       $extendedAttributeFilter[joins]
@@ -2811,7 +2861,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                       ezcontentclass.id = ezcontentobject.contentclass_id
                       $showInvisibleNodesCond
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                 $groupByText ";
 
 
@@ -4750,6 +4800,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key );
+                            }
+                        } break;
+
+                        case 'Group':
+                        {
+                            $access = $contentObject->checkGroupLimitationAccess( $limitationArray[$key], $userID );
+
+                            if ( $access != 'allowed' )
+                            {
+                                $access = 'denied';
+                                $limitationList = array ( 'Limitation' => $key,
+                                                          'Required' => $limitationArray[$key] );
                             }
                         } break;
 

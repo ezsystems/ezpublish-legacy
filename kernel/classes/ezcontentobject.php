@@ -2943,6 +2943,63 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+    */
+    function checkGroupLimitationAccess( $limitationValueList, $userID, $contentObjectID = false )
+    {
+        $access = 'denied';
+
+        if ( is_array( $limitationValueList ) && is_numeric( $userID ) )
+        {
+            if ( $contentObjectID !== false )
+            {
+                $contentObject =& eZContentObject::fetch( $contentObjectID );
+            }
+            else
+            {
+                $contentObject =& $this;
+            }
+
+            if ( is_object( $contentObject ) )
+            {
+                // limitation value == 1, means "self group"
+                if ( in_array( 1, $limitationValueList ) )
+                {
+                    // no need to check groups if user ownes this object
+                    $ownerID = $contentObject->attribute( 'owner_id' );
+                    if ( $ownerID == $userID || $contentObject->attribute( 'id' ) == $userID )
+                    {
+                        $access = 'allowed';
+                    }
+                    else
+                    {
+                        // get contentobjects for 'user' and 'owner'
+                        $userList =& eZContentObject::fetchIDArray( array( $userID, $ownerID ) );
+
+                        // get parents for each location for 'user' and 'owner'.
+                        $groupList = array();
+                        foreach ( array_keys( $userList ) as $key )
+                        {
+                            $groupList[] =& $userList[$key]->attribute( 'parent_nodes' );
+                        }
+
+                        // find group(s) which is common for 'user' and 'owner'
+                        // note: $groupList should contain 2 items only: parents for 'user' and parents for 'owner'.
+                        $commonGroup = array_intersect( $groupList[0], $groupList[1] );
+
+                        if ( count( $commonGroup ) > 0 )
+                        {
+                            // ok, we have at least 1 common group
+                            $access = 'allowed';
+                        }
+                    }
+                }
+            }
+        }
+
+        return $access;
+    }
+
+    /*!
      Check access for the current object
 
      \param function name ( edit, read, remove, etc. )
@@ -3255,6 +3312,18 @@ class eZContentObject extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key );
+                            }
+                        } break;
+
+                        case 'Group':
+                        {
+                            $access = $this->checkGroupLimitationAccess( $limitationArray[$key], $userID );
+
+                            if ( $access != 'allowed' )
+                            {
+                                $access = 'denied';
+                                $limitationList = array ( 'Limitation' => $key,
+                                                          'Required' => $limitationArray[$key] );
                             }
                         } break;
 

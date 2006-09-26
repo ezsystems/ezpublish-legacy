@@ -757,7 +757,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $false = false;
-        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $false ) );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( eZContentObjectTreeNode::getLimitationList( $false ) );
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
@@ -773,8 +773,9 @@ class eZContentFunctionCollection
             $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
             $query = "SELECT count(*) AS count
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                           $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
                       AND ezcontentclass.version=0
@@ -791,8 +792,9 @@ class eZContentFunctionCollection
         {
             $query = "SELECT count(*) AS count
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                           $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                       $sqlOwnerString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
@@ -823,7 +825,8 @@ class eZContentFunctionCollection
         }
 
         $limitationList = array();
-        $sqlPermissionCheckingString = "";
+        $sqlPermissionChecking = array( 'from' => '',
+                                        'where' => '' );
         $currentUser =& eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
 
@@ -853,6 +856,9 @@ class eZContentFunctionCollection
                     case 'Owner':
                         eZDebug::writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
                         break;
+                    case 'Group':
+                        eZDebug::writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
+                        break;
                     case 'Node':
                         $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $limitationArray['Node'] ) . ')';
                         $hasNodeLimitation = true;
@@ -875,7 +881,7 @@ class eZContentFunctionCollection
                     $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
 
-            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+            $sqlPermissionChecking['where'] = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
         }
 
         $db_params = array();
@@ -904,8 +910,9 @@ class eZContentFunctionCollection
             $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
             $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                           $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
                       AND ezcontentclass.version=0
@@ -922,8 +929,9 @@ class eZContentFunctionCollection
         {
             $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+                           $sqlPermissionChecking[from]
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
-                      $sqlPermissionCheckingString
+                      $sqlPermissionChecking[where]
                       $sqlOwnerString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."

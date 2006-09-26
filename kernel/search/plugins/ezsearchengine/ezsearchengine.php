@@ -52,7 +52,8 @@ class eZSearchEngine
                                 'classAttributeQuery' => '',
                                 'searchPartText' => '',
                                 'subTreeSQL' => '',
-                                'sqlPermissionCheckingString' => '' );
+                                'sqlPermissionChecking' => array( 'from' => '',
+                                                                  'where' => '' ) );
         $this->GeneralFilter = $generalFilter;
     }
 
@@ -766,8 +767,8 @@ class eZSearchEngine
                 $limitationList = $params['Limitation'];
             }
 
-            $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
-            $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
+            $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
+            $this->GeneralFilter['sqlPermissionChecking'] = $sqlPermissionChecking;
 
             $useVersionName = true;
             if ( $useVersionName )
@@ -855,6 +856,7 @@ class eZSearchEngine
                                               $subTreeTable,
                                               ezcontentclass,
                                               ezcontentobject_tree
+                                              $sqlPermissionChecking[from]
                                          WHERE
                                                $searchDateQuery
                                                $sectionQuery
@@ -868,7 +870,7 @@ class eZSearchEngine
                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                          $showInvisibleNodesCond
-                                         $sqlPermissionCheckingString" );
+                                         $sqlPermissionChecking[where]" );
                     }
                     else
                     {
@@ -885,6 +887,7 @@ class eZSearchEngine
                                              ezcontentclass,
                                              ezcontentobject_tree,
                                              $tmpTable0
+                                             $sqlPermissionChecking[from]
                                           WHERE
                                           $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                                           $searchDateQuery
@@ -899,7 +902,7 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionCheckingString" );
+                                          $sqlPermissionChecking[where]" );
                     }
                     $i++;
                 }
@@ -920,6 +923,7 @@ class eZSearchEngine
                                           $subTreeTable,
                                           ezcontentclass,
                                           ezcontentobject_tree
+                                          $sqlPermissionChecking[from]
                                      WHERE
                                           $searchDateQuery
                                           $sectionQuery
@@ -932,7 +936,7 @@ class eZSearchEngine
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                                           $showInvisibleNodesCond
-                                          $sqlPermissionCheckingString" );
+                                          $sqlPermissionChecking[where]" );
                  $this->TempTablesCount = 1;
                  $i = $this->TempTablesCount;
             }
@@ -1642,7 +1646,7 @@ class eZSearchEngine
         $classAttributeQuery = $this->GeneralFilter['classAttributeQuery'];
 //        $searchPartText = $this->GeneralFilter['searchPartText'];
         $subTreeSQL = $this->GeneralFilter['subTreeSQL'];
-        $sqlPermissionCheckingString = $this->GeneralFilter['sqlPermissionCheckingString'];
+        $sqlPermissionChecking = $this->GeneralFilter['sqlPermissionChecking'];
         $db =& eZDB::instance();
         $i = $this->TempTablesCount;
         if ( $i == 0 )
@@ -1657,6 +1661,7 @@ class eZSearchEngine
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree
+                       $sqlPermissionChecking[from]
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1669,7 +1674,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                    $sqlPermissionChecking[where]" );
         }
         else
         {
@@ -1685,6 +1690,7 @@ class eZSearchEngine
                        ezcontentclass,
                        ezcontentobject_tree,
                        $tmpTable0
+                       $sqlPermissionChecking[from]
                     WHERE
                     $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                     $searchDateQuery
@@ -1698,7 +1704,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                    $sqlPermissionChecking[where]" );
         }
 
         $tmpTableI = $this->getSavedTempTableName( $i );
@@ -1744,10 +1750,11 @@ class eZSearchEngine
         else
             $classAttributeQuery = '';
 
-        if ( isset( $generalFilterList['sqlPermissionCheckingString'] ) )
-            $sqlPermissionCheckingString = $generalFilterList['sqlPermissionCheckingString'];
+        if ( isset( $generalFilterList['sqlPermissionChecking'] ) )
+            $sqlPermissionChecking = $generalFilterList['sqlPermissionChecking'];
         else
-            $sqlPermissionCheckingString = '';
+            $sqlPermissionChecking = array( 'from' => '',
+                                            'where' => '' );
 
         if ( isset( $generalFilterList['subTreeSQL'] ) )
         {
@@ -1798,6 +1805,7 @@ class eZSearchEngine
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree
+                       $sqlPermissionChecking[from]
                     WHERE
                     $searchDateQuery
                     $sectionQuery
@@ -1810,7 +1818,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                    $sqlPermissionChecking[where]" );
                 }
                 else
                 {
@@ -1826,6 +1834,7 @@ class eZSearchEngine
                        ezcontentclass,
                        ezcontentobject_tree,
                        $tmpTable0
+                       $sqlPermissionChecking[from]
                     WHERE
                     $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                     $searchDateQuery
@@ -1839,7 +1848,7 @@ class eZSearchEngine
                     ezcontentclass.version = '0' and
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                    $sqlPermissionChecking[where]" );
                 }
                 $i++;
             }

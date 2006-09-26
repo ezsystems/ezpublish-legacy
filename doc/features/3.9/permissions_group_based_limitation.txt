@@ -1,0 +1,7 @@
+*Title: Group-based limitation for content/read, content/edit policies.
+
+*Documentation:
+
+Adds ability to limit content/read, content/edit policies to the group the user
+belongs to. It also possible to read/edit objects by users which are in the 
+same group as creator(owner).
