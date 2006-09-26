@@ -355,7 +355,7 @@ class eZSimplePrice
         $exVATPrice = $priceValue;
         if ( $this->VATIncluded() )
         {
-            $VATPercent =& $this->VATPercent();
+            $VATPercent = $this->VATPercent();
             // If VAT is unknown yet then we use zero VAT percentage for price calculation.
             if ( $VATPercent == -1 )
                 $VATPercent = 0;
