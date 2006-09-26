@@ -173,7 +173,7 @@ function ezpopupmenu_setSubstituteValue( key, value )
 {
   if( CurrentSubstituteValues != -1 )
   {
-    CurrentSubstituteValues[key] = value;
+      CurrentSubstituteValues[key] = value;
   }
 }
 
@@ -292,6 +292,9 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
             for ( var localVariableIndex in CurrentSubstituteValues[loopingVariable] )
             {
                 var localVariable = CurrentSubstituteValues[loopingVariable][localVariableIndex];
+                if ( typeof localVariable != 'object' )
+                    continue;
+
                 var partialContent = menuArray[menuID]['elements'][i]['content'];
                 for ( var substItem in CurrentSubstituteValues )
                 {
