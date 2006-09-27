@@ -1,0 +1,8 @@
+*Title: The ability to input placement of attribute in class.
+
+*Documentation:
+The ability to input placement of attribute in class into the input fields 
+instead of moving attributes up and down inside a class.
+The system checks on input if there is no attributes with the same placement 
+and stores new values if ok. When storing defined version of a class it sortes 
+attribute by given placements and assignes new placements from 1 and up (1,2..n).
