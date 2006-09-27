@@ -1497,7 +1497,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
-        $contentTreeAliasCount = 0;
+        $contentTreeTableAlias = "content_tree_1";
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1537,9 +1537,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            ++$contentTreeAliasCount;
-                            $contentTreeTableAlias = "content_tree_$contentTreeAliasCount";
-                            $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom = ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+
                             $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
                                               $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
@@ -2649,7 +2649,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
-        $contentTreeAliasCount = 0;
+        $contentTreeTableAlias = "content_tree_1";
+
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -2688,9 +2689,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            ++$contentTreeAliasCount;
-                            $contentTreeTableAlias = "content_tree_$contentTreeAliasCount";
-                            $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                                
                             $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
                                               $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
