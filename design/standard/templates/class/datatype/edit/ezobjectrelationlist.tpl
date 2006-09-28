@@ -6,16 +6,29 @@
      all_class_list=fetch( class, list )}
 
 <div class="block">
+<label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
+<select name="ContentClass_ezobjectrelationlist_selection_type_{$class_attribute.id}">
+    <option value="0" {eq( $content.selection_type, 0 )|choose( '', 'selected="selected"' )}>{'Browse'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Dropdown list'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="2" {eq( $content.selection_type, 2 )|choose( '', 'selected="selected"' )}>{'List with radio buttons'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="3" {eq( $content.selection_type, 3 )|choose( '', 'selected="selected"' )}>{'List with Check boxes'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="4" {eq( $content.selection_type, 4 )|choose( '', 'selected="selected"' )}>{'Multiple selection list'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="5" {eq( $content.selection_type, 5 )|choose( '', 'selected="selected"' )}>{'Template based, multi'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="6" {eq( $content.selection_type, 6 )|choose( '', 'selected="selected"' )}>{'Template based, single'|i18n( 'design/standard/class/datatype' )}</option>
+</select>
+</div>
+
+<div class="block">
     <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
     {section show=eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
-    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
-    <option value="0" {section show=eq( $type, 0 )}selected="selected"{/section}>{'New and existing objects'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="1" {section show=eq( $type, 1 )}selected="selected"{/section}>{'Only new objects'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
-    </select>
+        <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
+        <option value="0" {section show=eq( $type, 0 )}selected="selected"{/section}>{'New and existing objects'|i18n( 'design/standard/class/datatype' )}</option>
+        <option value="1" {section show=eq( $type, 1 )}selected="selected"{/section}>{'Only new objects'|i18n( 'design/standard/class/datatype' )}</option>
+        <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
+        </select>
     {section-else}
-    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
-    <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
+        <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
+        <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
     {/section}
 </div>
@@ -32,7 +45,43 @@
 
 <div class="block">
 <fieldset>
-<legend>{'Default location for objects'|i18n( 'design/standard/class/datatype' )}</legend>
+<legend>{'New Objects'|i18n( 'design/standard/class/datatype' )}</legend>
+<table>
+  <tr>
+     <td>
+         <p>{'Object class'|i18n( 'design/standard/class/datatype' )}:</p>
+     </td>
+     <td>
+         <select name="ContentClass_ezobjectrelation_object_class_{$class_attribute.id}">
+         {let classes=fetch( 'class', 'list' )}
+         <option value="" {eq( $content.object_class, "" )|choose( '', 'selected="selected"' )}>{'(none)'|i18n('design/standard/class/datatype')}</option>
+         {section loop=$:classes}
+               <option value="{$:item.id}" {eq( $content.object_class, $:item.id )|choose( '', 'selected="selected"' )}>{$:item.name}</option>
+         {/section}
+         {/let}
+         </select>
+     </td>
+  </tr>
+  <tr>
+     <td>
+         <p>{'Placing new objects under'|i18n( 'design/standard/class/datatype' )}:</p>
+     </td>
+     <td>
+         {section show=$default_placement}
+             {let default_location=fetch( content, node, hash( node_id, $default_placement.node_id ) )}
+               {$default_location.class_identifier|class_icon( small, $default_location.class_name )}&nbsp;{$default_location.name|wash}
+             {/let}
+         {/section}
+	 <i>({'See'|i18n( 'design/standard/class/datatype' )} '{'Default location'|i18n( 'design/standard/class/datatype' )}')</i>
+     </td>
+  </tr>
+</table>
+</fieldset>
+</div>
+
+<div class="block">
+<fieldset>
+<legend>{'Default location'|i18n( 'design/standard/class/datatype' )}</legend>
 {section show=$default_placement}
 {let default_location=fetch( content, node, hash( node_id, $default_placement.node_id ) )}
 <table class="list" cellspacing="0">

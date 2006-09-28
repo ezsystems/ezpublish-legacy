@@ -75,8 +75,25 @@ class eZObjectRelationListType extends eZDataType
             $parameters['prefix-name'][] = $contentClassAttribute->attribute( 'name' );
         else
             $parameters['prefix-name'] = array( $contentClassAttribute->attribute( 'name' ) );
-        $content =& $contentObjectAttribute->content();
+
         $status = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classContent = $contentClassAttribute->content();
+        // Check if selection type is not browse
+        if ( $classContent['selection_type'] != 0 )
+        {
+            $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
+            if ( $contentObjectAttribute->validateIsRequired() and $selectedObjectIDArray === false )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Missing objectrelation list input.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+            return $status;
+        }
+
+        $content =& $contentObjectAttribute->content();
         if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -157,6 +174,56 @@ class eZObjectRelationListType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $content =& $contentObjectAttribute->content();
+        // new object creation
+        $newObjectPostVariableName = "attribute_" . $contentObjectAttribute->attribute( "id" ) . "_new_object_name";
+        if ( $http->hasPostVariable( $newObjectPostVariableName ) )
+        {
+            $name = $http->postVariable( $newObjectPostVariableName );
+            if ( !empty( $name ) )
+            {
+                $content['new_object'] = $name;
+            }
+        }
+        $singleSelectPostVariableName = "single_select_" . $contentObjectAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $singleSelectPostVariableName ) )
+            $content['singleselect'] = true;
+
+        $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
+        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classContent = $contentClassAttribute->content();
+        // Check if selection type is not browse
+        if ( $classContent['selection_type'] != 0 )
+        {
+            $selectedObjectIDArray = $http->hasPostVariable( $postVariableName ) ? $http->postVariable( $postVariableName ) : false;
+            $priority = 0;
+            // We should clear content
+            $content['relation_list'] = array();
+            // If we got an empty object id list
+            if ( $selectedObjectIDArray === false or ( isset( $selectedObjectIDArray[0] ) and $selectedObjectIDArray[0] == 'no_relation' ) )
+            {
+                $contentObjectAttribute->setContent( $content );
+                $contentObjectAttribute->store();
+                return true;
+            }
+
+            foreach ( $selectedObjectIDArray as $objectID )
+            {
+                // Check if the given object ID has a numeric value, if not go to the next object.
+                if ( !is_numeric( $objectID ) )
+                {
+                    eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
+                                         "eZObjectRelationListType::fetchObjectAttributeHTTPInput" );
+
+                    continue;
+                }
+                ++$priority;
+                $content['relation_list'][] = $this->appendObject( $objectID, $priority, $contentObjectAttribute );
+                $contentObjectAttribute->setContent( $content );
+                $contentObjectAttribute->store();
+            }
+            return true;
+        }
+
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $priorityBase = $base . '_priority';
         $priorities = array();
@@ -224,11 +291,84 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
+    function createNewObject( &$contentObjectAttribute, $name )
+    {
+        $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $classContent = $classAttribute->content();
+        $classID = $classContent['object_class'];
+        if ( !isset( $classID ) or !is_numeric( $classID ) )
+            return false;
+
+        $defaultPlacementNode = ( is_array( $classContent['default_placement'] ) and isset( $classContent['default_placement']['node_id'] ) ) ? $classContent['default_placement']['node_id'] : false;
+        if ( !$defaultPlacementNode )
+        {
+            eZDebug::writeError( 'Default placement is missing', 'eZObjectRelationListType::createNewObject' );
+            return false;
+        }
+
+        $node =& eZContentObjectTreeNode::fetch( $defaultPlacementNode );
+        // Check if current user can create a new node as child of this node.
+        if ( !$node or !$node->canCreate() )
+        {
+            eZDebug::writeError( 'Default placement is wrong or the current user can\'t create a new node as child of this node.', 'eZObjectRelationListType::createNewObject' );
+            return false;
+        }
+
+        $classList =& $node->canCreateClassList( false );
+        $canCreate = false;
+        // Check if current user can create object of class (with $classID)
+        foreach ( $classList as $class )
+        {
+            if ( $class['id'] == $classID )
+            {
+                $canCreate = true;
+                break;
+            }
+        }
+        if ( !$canCreate )
+        {
+            eZDebug::writeError( 'The current user is not allowed to create objects of class (ID=' . $classID . ')', 'eZObjectRelationListType::createNewObject' );
+            return false;
+        }
+
+        $class =& eZContentClass::fetch( $classID );
+        if ( !$class )
+            return false;
+
+        $currentObject =& $contentObjectAttribute->attribute( 'object' );
+        $sectionID = $currentObject->attribute( 'section_id' );
+        //instantiate object, same section, currentuser as owner (i.e. provide false as param)
+        $newObjectInstance =& $class->instantiate( false, $sectionID );
+        $nodeassignment = $newObjectInstance->createNodeAssignment( $defaultPlacementNode, true );
+        $nodeassignment->store();
+        $newObjectInstance->sync();
+        include_once( "lib/ezutils/classes/ezoperationhandler.php" );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObjectInstance->attribute( 'id' ), 'version' => 1 ) );
+        // so it updates the attributes
+		$newObjectInstance->rename( $name );
+
+		return $newObjectInstance->attribute( 'id' );
+    }
+
     /*!
     */
     function storeObjectAttribute( &$attribute )
     {
         $content = $attribute->content();
+        if ( isset( $content['new_object'] ) )
+        {
+            $newID = $this->createNewObject( $attribute, $content['new_object'] );
+            // if this is a single element selection mode (radio or dropdown), then the newly created item is the only one selected
+            if ( $newID )
+            {
+                if ( isset( $content['singleselect'] ) )
+                    $content['relation_list'] = array();
+                $content['relation_list'][] = $this->appendObject( $newID, 0, $attribute );
+            }
+            unset( $content['new_object'] );
+            $attribute->setContent( $content );
+            $attribute->store();
+        }
 
         $contentClassAttributeID = $attribute->ContentClassAttributeID;
         $contentObjectID = $attribute->ContentObjectID;
@@ -443,6 +583,18 @@ class eZObjectRelationListType extends eZDataType
             $type = $http->postVariable( $typeVariable );
             $content['type'] = $type;
         }
+        $selectionTypeVariable = 'ContentClass_ezobjectrelationlist_selection_type_' . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $selectionTypeVariable ) )
+        {
+            $selectionType = $http->postVariable( $selectionTypeVariable );
+            $content['selection_type'] = $selectionType;
+        }
+        $objectClassVariable = 'ContentClass_ezobjectrelation_object_class_' . $classAttribute->attribute( 'id' );
+        if ( $http->hasPostVariable( $objectClassVariable ) )
+        {
+            $content['object_class'] = $http->postVariable( $objectClassVariable );
+        }
+
         $classAttribute->setContent( $content );
         $classAttribute->store();
         return true;
@@ -547,6 +699,11 @@ class eZObjectRelationListType extends eZDataType
         $root->appendChild( $constraints );
         $constraintType = $doc->createElementNode( 'type', array( 'value' => $content['type'] ) );
         $root->appendChild( $constraintType );
+        $selectionType = $doc->createElementNode( 'selection_type', array( 'value' => $content['selection_type'] ) );
+        $root->appendChild( $selectionType );
+        $objectClass = $doc->createElementNode( 'object_class', array( 'value' => $content['object_class'] ) );
+        $root->appendChild( $objectClass );
+
         $placementAttributes = array();
         if ( $content['default_placement'] )
             $placementAttributes['node-id'] = $content['default_placement']['node_id'];
@@ -1045,7 +1202,9 @@ class eZObjectRelationListType extends eZDataType
 
     function defaultClassAttributeContent()
     {
-        return array( 'type' => 0,
+        return array( 'object_class' => '',
+                      'selection_type' => 0,
+                      'type' => 0,
                       'class_constraint_list' => array(),
                       'default_placement' => false );
     }
@@ -1080,6 +1239,17 @@ class eZObjectRelationListType extends eZDataType
         {
             $content['type'] = $type->attributeValue( 'value' );
         }
+        $selectionType =& $root->elementByName( 'selection_type' );
+        if ( $selectionType )
+        {
+            $content['selection_type'] = $selectionType->attributeValue( 'value' );
+        }
+        $objectClass =& $root->elementByName( 'object_class' );
+        if ( $objectClass )
+        {
+            $content['object_class'] = $objectClass->attributeValue( 'value' );
+        }
+
         return $content;
     }
 
@@ -1127,7 +1297,7 @@ class eZObjectRelationListType extends eZDataType
             {
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $nodeSelection = eZContentBrowse::result( 'SelectObjectRelationListNode' );
-                if ( count( $nodeSelection ) > 0 )
+                if ( $nodeSelection and count( $nodeSelection ) > 0 )
                 {
                     $nodeID = $nodeSelection[0];
                     $content = $classAttribute->content();
