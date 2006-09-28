@@ -42,21 +42,21 @@ class eZOdcsmFunctionCollection
     function &dynamicContentStrukturMenuOpenNodes( $nodeID = 0 )
     {
         $ezcst_unfolded_node_array = array();
-        
+
         if ( isset($_COOKIE['ezcst_unfolded_node_list']) )
         {
             $ezcst_unfolded_node_list = $_COOKIE['ezcst_unfolded_node_list'];
             $ezcst_unfolded_node_array = split(',n',$ezcst_unfolded_node_list);
-            
+
             if ( $ezcst_unfolded_node_array[0] == "" or $ezcst_unfolded_node_array[0] == null )
             {
                 $ezcst_unfolded_node_array = array_slice($ezcst_unfolded_node_array, 1);
             }
         }
-        
+
         if ( $nodeID > 0 )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( is_object($node) )
             {
                 $parentNodeIDs = $node->attribute('path_array');
@@ -67,8 +67,9 @@ class eZOdcsmFunctionCollection
                 $ezcst_unfolded_node_array = array_unique($ezcst_unfolded_node_array);
             }
         }
-        
-        return array( 'result' => array_unique($ezcst_unfolded_node_array) );
+
+        $retValue = array( 'result' => array_unique($ezcst_unfolded_node_array) );
+        return $retValue;
    }
 }
 
