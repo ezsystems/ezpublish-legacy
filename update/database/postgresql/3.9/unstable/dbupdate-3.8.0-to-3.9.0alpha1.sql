@@ -13,3 +13,5 @@ CREATE INDEX eznode_assignment_parent_node ON eznode_assignment USING btree ( pa
 ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int;
 ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET DEFAULT 0;
 ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET NOT NULL;
+
+ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int NOT NULL DEFAULT 1;

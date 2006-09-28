@@ -11,3 +11,5 @@ CREATE INDEX eznode_assignment_is_main ON eznode_assignment( is_main );
 CREATE INDEX eznode_assignment_parent_node ON eznode_assignment( parent_node );
 
 ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int NOT NULL DEFAULT 0;
+
+ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int NOT NULL DEFAULT 1;
