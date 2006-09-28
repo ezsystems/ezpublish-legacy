@@ -14,7 +14,6 @@
 {xajax_app_javascript('/design/standard/javascript/xajax_app/xajax_classattributes.js')}
 {/run-once}{/if}
 
-
 <script language="JavaScript" type="text/javascript" src={"javascript/contentstructuremenu/odcontentstructuremenu.js"|ezdesign}></script>
 {let rootNodeID             = ezini( 'TreeMenu', 'RootNodeID'       , 'contentstructuremenu.ini' )
      classFilter            = ezini( 'TreeMenu', 'ShowClasses'      , 'contentstructuremenu.ini' )
@@ -30,7 +29,7 @@
      menuID                 = "content_tree_menu"
      isDepthUnlimited       = eq($:maxDepth, 0)
      rootNode               = false
-     nodesList              = fetch(ajax,fetch_open_nodes,hash(node_id,$module_result.node_id))}
+     nodesList              = fetch(ajax,fetch_open_nodes,hash(node_id,first_set( $module_result.node_id, array() ))) }
 
     {* check size of icons *}
     {section show=is_set($:class_icons_size)}
