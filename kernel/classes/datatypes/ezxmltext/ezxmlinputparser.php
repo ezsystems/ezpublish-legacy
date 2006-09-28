@@ -199,7 +199,7 @@ class eZXMLInputParser
         if ( $createRootNode )
         {
             // Creating root section with namespaces definitions
-            $this->Document = new $this->DOMDocumentClass();
+            $this->Document = new $this->DOMDocumentClass( '', true );
             $mainSection =& $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
             foreach( $this->Namespaces as $prefix => $value )

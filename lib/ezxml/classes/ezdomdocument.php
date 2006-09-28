@@ -110,9 +110,10 @@ class eZDOMDocument
     /*!
       Initializes the DOM document object with the name \a $name.
     */
-    function eZDOMDocument( $name = "" )
+    function eZDOMDocument( $name = "", $setParentNode = false )
     {
         $this->Name = $name;
+        $this->setParentNode = $setParentNode;
     }
 
     /*
@@ -248,6 +249,9 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 3 );
 
+        if ( $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
@@ -287,6 +291,9 @@ class eZDOMDocument
         $node = new eZDOMNode();
         $node->setName( $name );
         $node->setType( 1 );
+
+        if ( $this->setParentNode )
+            $node->parentNode = null;
 
         foreach ( $array as $arrayKey => $value )
         {
@@ -385,6 +392,9 @@ class eZDOMDocument
             $node->appendAttribute( eZDomDocument::createAttributeNode( $attributeKey, $attributeValue ) );
         }
 
+        if ( $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
@@ -425,6 +435,9 @@ class eZDOMDocument
         $textNode = eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
 
+        if ( $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
@@ -457,6 +470,9 @@ class eZDOMDocument
         $cdataNode = eZDOMDocument::createCDATANode( $text );
         $node->appendChild( $cdataNode );
 
+        if ( $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
@@ -484,6 +500,9 @@ class eZDOMDocument
         $node->setNamespaceURI( $uri );
         $node->setName( $name );
         $node->setType( 1 );
+
+        if ( $this->setParentNode )
+            $node->parentNode = null;
 
         return $node;
     }
@@ -721,6 +740,9 @@ class eZDOMDocument
         if ( isset( $this ) && is_object( $this ) )
             $this->registerElement( $node );
 
+        if ( $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
@@ -767,6 +789,10 @@ class eZDOMDocument
 
     /// Reference to the first child of the DOM document
     var $Root;
+
+    /// If false eZDOMNode::parentNode will be not set.
+    // This can is used to prevent memory cleanup problems when using mutual references in php.
+    var $setParentNode = false;
 }
 
 ?>
