@@ -629,7 +629,9 @@ class eZDOMNode
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
-            $node->parentNode =& $this;
+            if ( $node->parentNode !== false )
+                $node->parentNode =& $this;
+
             $this->Children[] =& $node;
             return $node;
         }
@@ -779,11 +781,15 @@ class eZDOMNode
     */
     function removeChildren()
     {
-        foreach( array_keys( $this->Children ) as $key )
+        if ( $this->parentNode !== false )
         {
-           unset( $this->Children[$key]->parentNode );
-           $this->Children[$key]->parentNode = null;
+            foreach( array_keys( $this->Children ) as $key )
+            {
+               unset( $this->Children[$key]->parentNode );
+               $this->Children[$key]->parentNode = null;
+            }
         }
+
         $this->Children = array();
     }
 
@@ -792,10 +798,16 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function removeLastChild( )
+    function removeLastChild()
     {
         end( $this->Children );
         $key = key( $this->Children );
+        if ( $this->parentNode !== false )
+        {
+            unset( $this->Children[$key]->parentNode );
+            $this->Children[$key]->parentNode = null;
+        }
+
         unset( $this->Children[$key] );
     }
 
@@ -806,17 +818,22 @@ class eZDOMNode
     */
     function removeChild( &$childToRemove )
     {
-        unset( $childToRemove->parentNode );
-        $childToRemove->parentNode = null;
-        $child = $childToRemove;
+        if ( $childToRemove->parentNode !== false )
+        {
+            unset( $childToRemove->parentNode );
+            $childToRemove->parentNode = null;
+        }
+        $childToRemove->flag = true;
 
         foreach ( array_keys( $this->Children ) as $key )
         {
-            if ( $this->Children[$key]->parentNode === null )
+            if ( $this->Children[$key]->flag === true )
             {
                 unset( $this->Children[$key] );
+                break;
             }
         }
+        $childToRemove->flag = false;
     }
 
     /*!
@@ -1147,23 +1164,29 @@ class eZDOMNode
         return $child;
     }
 
-        /*!
+    /*!
       Replaces child by the new one given.
 
       \note W3C DOM function
     */
     function replaceChild( &$newChild, &$oldChild )
     {
-        unset( $oldChild->parentNode );
-        $oldChild->parentNode = null;
+        if ( $this->parentNode !== false )
+        {
+            unset( $oldChild->parentNode );
+            $oldChild->parentNode = null;
+        }
+        $oldChild->flag = true;
 
         $newChildren = array();
 
-        foreach ( array_keys( $this->Children ) as $key )
+        foreach( array_keys( $this->Children ) as $key )
         {
-            if ( $this->Children[$key]->parentNode === null )
+            if ( $this->Children[$key]->flag === true )
             {
-                $newChild->parentNode =& $this;
+                if ( $this->parentNode !== false )
+                    $newChild->parentNode =& $this;
+
                 $newChildren[$key] =& $newChild;
             }
             else
@@ -1172,6 +1195,8 @@ class eZDOMNode
             }
         }
         $this->Children =& $newChildren;
+        $oldChild->flag = false;
+
         return $oldChild;
     }
 
@@ -1182,22 +1207,24 @@ class eZDOMNode
     */
     function insertBefore( &$newNode, &$refNode )
     {
-        unset( $refNode->parentNode );
-        $refNode->parentNode = null;
+        $refNode->flag = true;
 
         $newChildren = array();
 
         foreach ( array_keys( $this->Children ) as $key )
         {
-            if ( $this->Children[$key]->parentNode === null )
+            if ( $this->Children[$key]->flag === true )
             {
                 $newChildren[] =& $newNode;
-                $newNode->parentNode =& $this;
-                $refNode->parentNode =& $this;
+                if ( $this->parentNode !== false )
+                {
+                    $newNode->parentNode =& $this;
+                }
             }
             $newChildren[] =& $this->Children[$key];
         }
         $this->Children =& $newChildren;
+        $refNode->flag = false;
         return $newNode;
     }
 
@@ -1369,8 +1396,10 @@ class eZDOMNode
     /// contains the namespace prefix. E.g: book:title, book is the prefix
     var $Prefix = false;
 
-    /// Parent node reference
-    var $parentNode = null;
+    /// Reference to the parent node.
+    ///  Available only if Document has been created with parameter $setParentNode = true
+    ///  or parsed with eZXML::domTree function with $params["SetParentNode"] = true
+    var $parentNode = false;
 
     // temporary flag to mark node
     var $flag = false;

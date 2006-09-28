@@ -361,14 +361,14 @@ class eZXMLSchema
         return $this->Schema[$element->nodeName]['attributes'];
     }
 
-    function customAttributes( $element )
+    function customAttributes( $tagName )
     {
-        if ( isset( $this->Schema[$element->nodeName]['customAttributes'] ) )
-            return $this->Schema[$element->nodeName]['customAttributes'];
+        if ( isset( $this->Schema[$tagName]['customAttributes'] ) )
+            return $this->Schema[$tagName]['customAttributes'];
         else
             return array();
     }
-
+                                                
     function attrDefaultValue( $tagName, $attrName )
     {
         if ( isset( $this->Schema[$tagName]['attributesDefaults'][$attrName] ) )
@@ -397,6 +397,22 @@ class eZXMLSchema
             return $this->Schema[$tagName]['classesList'];
         else
             return array();
+    }
+
+    function addAvailableClass( $tagName, $class )
+    {
+        if ( !isset( $this->Schema[$tagName]['classesList'] ) )
+            $this->Schema[$tagName]['classesList'] = array();
+
+        $this->Schema[$tagName]['classesList'][] = $class;
+    }
+
+    function addCustomAttribute( $tagName, $attrName )
+    {
+        if ( !isset( $this->Schema[$tagName]['customAttributes'] ) )
+            $this->Schema[$tagName]['customAttributes'] = array();
+
+        $this->Schema[$tagName]['customAttributes'][] = $attrName;
     }
 
     // for custom tags

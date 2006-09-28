@@ -354,7 +354,6 @@ class eZXMLTextType extends eZDataType
                     $metaData .= " " . $node->content();
                 }
             }
-            $dom->cleanup();
         }
         return $metaData;
     }
@@ -389,8 +388,6 @@ class eZXMLTextType extends eZDataType
         {
             $text = $textDom->content();
         }
-
-        $document->cleanup();
 
         return $text;
     }
@@ -668,12 +665,10 @@ class eZXMLTextType extends eZDataType
         if ( $modified )
         {
             $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $doc ) );
-            $doc->cleanup();
             return true;
         }
         else
         {
-            $doc->cleanup();
             return false;
         }
     }

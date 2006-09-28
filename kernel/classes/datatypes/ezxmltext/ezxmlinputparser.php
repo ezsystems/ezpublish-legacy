@@ -199,7 +199,7 @@ class eZXMLInputParser
         if ( $createRootNode )
         {
             // Creating root section with namespaces definitions
-            $this->Document = new $this->DOMDocumentClass();
+            $this->Document = new $this->DOMDocumentClass( '', true );
             $mainSection =& $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
             foreach( $this->Namespaces as $prefix => $value )
@@ -908,7 +908,7 @@ class eZXMLInputParser
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
         if ( $this->eZPublishVersion >= 3.9 )
-            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
+            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element->nodeName );
 
         $attributes = $element->attributes();
         foreach( $attributes as $attr )

@@ -185,7 +185,7 @@ class eZXMLOutputHandler
         }
 
         $xml = new eZXML();
-        $this->Document =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false ) );
+        $this->Document =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
         if ( !$this->Document )
         {
             $this->Output = '';

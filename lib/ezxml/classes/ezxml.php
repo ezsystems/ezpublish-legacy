@@ -68,7 +68,8 @@ class eZXML
     /*!
       Will return a DOM object tree from the well formed XML.
 
-      $params["TrimWhiteSpace"] = false/true : if the XML parser should ignore whitespace between tags.
+      $params["SetParentNode"] = false/true : create eZDOMDocument with setParentNode parameter set to true or false.
+      $params["TrimWhiteSpace"] = false/true : should the XML parser ignore whitespaces between tags.
       $params["CharsetConversion"] = false/true : Whether charset conversion is done or not, default is true.
       $params["ConvertSpecialChars"] = false/true: whether to convert &lt; &gt; &amp; etc into < > &; default is true.
     */
@@ -90,6 +91,9 @@ class eZXML
 
         if ( !isset( $params["TrimWhiteSpace"] ) )
             $params["TrimWhiteSpace"] = true;
+
+        if ( !isset( $params["SetParentNode"] ) )
+            $params["SetParentNode"] = false;
 
         $schema = false;
         if ( isset( $params["Schema"] ) && get_class( $params["Schema"]  ) == "ezschema" )
@@ -151,7 +155,7 @@ class eZXML
         $xmlDoc = $this->stripComments( $xmlDoc );
 
         // libxml compatible object creation
-        $domDocument = new eZDOMDocument();
+        $domDocument = new eZDOMDocument( '', $params["SetParentNode"] );
 
         $this->DOMDocument =& $domDocument;
         $currentNode =& $domDocument;
@@ -258,7 +262,7 @@ class eZXML
 
                     // create the new XML element node
                     unset( $subNode );
-                    $subNode = new eZDOMNode();
+                    $subNode = $domDocument->createElementNode( $justName );
 
                     // find attributes
                     if ( $tagNameEnd > 0 )
@@ -313,7 +317,7 @@ class eZXML
                         $cdataSection = substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
 
                         // new CDATA node
-                        $subNode->Name = "#cdata-section";
+                        $subNode->Name = $subNode->LocalName = "#cdata-section";
                         $subNode->Content = $cdataSection;
                         $subNode->Type = EZ_NODE_TYPE_CDATASECTION;
 
@@ -323,9 +327,9 @@ class eZXML
                     else
                     {
                         // element start tag
-                        $subNode->Name = $justName;
-                        $subNode->LocalName = $justName;
-                        $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                        //$subNode->Name = $justName;
+                        //$subNode->LocalName = $justName;
+                        //$subNode->Type = EZ_NODE_TYPE_ELEMENT;
 
                         $domDocument->registerElement( $subNode );
                     }
@@ -363,12 +367,6 @@ class eZXML
 
                 if ( ( $params["TrimWhiteSpace"] == true and trim( $tagContent ) != "" ) or ( $params["TrimWhiteSpace"] == false and $tagContent != "" ) )
                 {
-                    unset( $subNode );
-                    $subNode = new eZDOMNode();
-                    $subNode->Name = "#text";
-                    $subNode->Type = EZ_NODE_TYPE_TEXT;
-//                    $subNode->NamespaceURI = $this->NamespaceStack[0];
-
                     // convert special chars
                     if ( $params["ConvertSpecialChars"] == true )
                     {
@@ -379,11 +377,10 @@ class eZXML
                         $tagContent = str_replace("&amp;", "&", $tagContent );
                     }
 
-                    $subNode->Content = $tagContent;
-//                    $subNode->Content = trim( $tagContent );
+                    unset( $subNode );
+                    $subNode = $domDocument->createTextNode( $tagContent );
 
                     $domDocument->registerElement( $subNode );
-
                     $currentNode->appendChild( $subNode );
                 }
             }
