@@ -118,6 +118,18 @@ class eZSearchEngine
                                                    'integer_value' => $integerValue );
                             $indexArrayOnlyWords[] = $word;
                             $wordCount++;
+                            //if we have "www." before word than                              
+                            //treat it as url and add additional entry to the index
+                            if ( substr( strtolower($word), 0, 4 ) == 'www.' )
+                            {                                      
+                                $additionalUrlWord = substr( $word, 4 );
+                                $indexArray[] = array( 'Word' => $additionalUrlWord,
+                                                       'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
+                                                       'identifier' => $metaDataPart['id'],
+                                                       'integer_value' => $integerValue );
+                                $indexArrayOnlyWords[] = $additionalUrlWord;
+                                $wordCount++;
+                            }
                         }
                     }
                 }
@@ -2067,6 +2079,17 @@ class eZSearchEngine
         }
 
         $db =& eZDB::instance();
+
+        //extend search words for urls, by extracting parts without www. and add to the end of search text
+        $matches = array(); 
+        if ( preg_match_all("/www\.([^\.]+\.[^\s]+)\s?/i", $searchText, $matches ) );
+        {
+            if (isset($matches[1]) ) 
+            {
+                $searchText.= ' '.join(' ', $matches[1] );
+            }
+        }
+        
         $searchWordArray = $this->splitString( $searchText );
 
         $wildCardWordArray = array();
