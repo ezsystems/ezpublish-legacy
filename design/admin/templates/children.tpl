@@ -194,7 +194,6 @@
         {literal}
         function updateLanguageSelector( classSelector )
         {
-      
             languageSelector = classSelector.form.ContentLanguageCode;
             if ( !languageSelector )
             {
@@ -260,7 +259,7 @@
             window.languageSelectorIndex = languageSelector.selectedIndex;
         }
 
-        window.onload = function() { updateLanguageSelector( document.forms['children'].ClassID ); }
+        window.onload = function() { updateLanguageSelector( document.getElementById( 'ClassID' ) ); }
         {/literal}
 
         languagesByClassID = new Array();
@@ -272,9 +271,9 @@
     {/if}
 
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
-        <select name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
     {else}
-        <select name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
     {/if}
         {section var=CanCreateClasses loop=$can_create_classes}
         {if $CanCreateClasses.item.can_instantiate_languages}
@@ -306,7 +305,7 @@
     </div>
     {section-else}
     <div class="left">
-    <select name="ClassID" disabled="disabled">
+    <select id="ClassID" name="ClassID" disabled="disabled">
     <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
     </select>
     <input class="button-disabled" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
