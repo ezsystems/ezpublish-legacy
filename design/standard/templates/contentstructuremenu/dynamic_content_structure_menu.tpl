@@ -29,7 +29,7 @@
      menuID                 = "content_tree_menu"
      isDepthUnlimited       = eq($:maxDepth, 0)
      rootNode               = false
-     nodesList              = fetch(ajax,fetch_open_nodes,hash(node_id,first_set( $module_result.node_id, array() ))) }
+     nodesList              = false}
 
     {* check size of icons *}
     {section show=is_set($:class_icons_size)}
@@ -74,6 +74,7 @@
     {/section}
 
     {set rootNode=fetch( 'content', 'node', hash( node_id, $:rootNodeID ) )}
+    {set nodesList= fetch(ajax,fetch_open_nodes,hash(node_id,first_set( $:rootNodeID, array() )))}
 
     {* check custom action when clicking on menu item *}
     {section show=and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}
