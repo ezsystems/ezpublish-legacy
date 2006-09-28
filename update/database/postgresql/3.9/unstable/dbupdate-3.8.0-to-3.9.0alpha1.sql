@@ -14,4 +14,6 @@ ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int;
 ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET DEFAULT 0;
 ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET NOT NULL;
 
-ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int NOT NULL DEFAULT 1;
+ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int;
+ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET DEFAULT 1;
+ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET NOT NULL;
