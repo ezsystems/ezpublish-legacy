@@ -578,7 +578,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $ret =& $this->appendLineParagraph( $element, $newParent );
 
         // Left trim spaces:
-        if ( $this->trimSpaces )
+        if ( $this->TrimSpaces )
         {
             $trim = false;
             $currentElement =& $element;

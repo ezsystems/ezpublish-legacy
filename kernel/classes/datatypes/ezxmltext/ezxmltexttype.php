@@ -321,6 +321,16 @@ class eZXMLTextType extends eZDataType
             $charset = eZCharsetInfo::realCharsetCode( $charset );
         }
         $domString = $domDocument->toString( $charset );
+
+        $eZXMLini =& eZINI::instance( 'ezxml.ini' );
+        if ( $eZXMLini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
+        {
+            if ( $eZXMLini->variable( 'InputSettings', 'AllowNumericEntities' ) == 'true' )
+            {
+                $domString = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $domString );
+            }
+        }
+
         return $domString;
     }
 

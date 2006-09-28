@@ -532,6 +532,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $text = preg_replace( "#  #", " &nbsp;", $text );
             else
                 $text = preg_replace( "# +#", " ", $text );
+
+            if ( $this->AllowNumericEntities )
+                $text = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $text );
         }
         else
         {

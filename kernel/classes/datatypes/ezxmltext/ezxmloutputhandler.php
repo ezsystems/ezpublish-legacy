@@ -71,6 +71,11 @@ class eZXMLOutputHandler
             $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
             $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
         }
+        if ( $ini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
+        {
+            $allowNumericEntities = $ini->variable( 'InputSettings', 'AllowNumericEntities' );
+            $this->AllowNumericEntities = $allowNumericEntities == 'true' ? true : false;
+        }
     }
 
     /*!
@@ -393,7 +398,7 @@ class eZXMLOutputHandler
             $childrenOutput = array( array( true, '' ) );
         }
 
-	if ( isset( $result['no_render'] ) && $result['no_render'] )
+        if ( isset( $result['no_render'] ) && $result['no_render'] )
         {
             return $childrenOutput;
         }
@@ -601,6 +606,8 @@ class eZXMLOutputHandler
     var $Res;
 
     var $AllowMultipleSpaces = false;
+    var $AllowNumericEntities = false;
+
     var $ContentObjectAttribute;
     var $ObjectAttributeID;
 

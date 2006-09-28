@@ -102,7 +102,7 @@ class eZXMLInputParser
                        
     Example:
     
-    var $InputTags = array(
+    var $OutputTags = array(
     
         'custom'    => array( 'parsingHandler' => 'parsingHandlerCustom',
                               'initHandler' => 'initHandlerCustom',
@@ -147,26 +147,40 @@ class eZXMLInputParser
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
+        $ini =& eZINI::instance( 'ezxml.ini' );
         if ( $this->eZPublishVersion >= 3.8 )
         {
-            $ini =& eZINI::instance( 'ezxml.ini' );
             if ( $ini->hasVariable( 'InputSettings', 'TrimSpaces' ) )
             {
                 $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
-                $this->trimSpaces = $trimSpaces == 'true' ? true : false;
+                $this->TrimSpaces = $trimSpaces == 'true' ? true : false;
             }
     
             if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
             {
                 $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
-                $this->allowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
+                $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
             }
         }
         else
         {
-            $this->trimSpaces = true;
-            $this->allowMultipleSpaces = false;
+            $this->TrimSpaces = true;
+            $this->AllowMultipleSpaces = false;
         }
+
+        if ( $this->eZPublishVersion >= 3.9 )
+        {
+            if ( $ini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
+            {
+                $allowNumericEntities = $ini->variable( 'InputSettings', 'AllowNumericEntities' );
+                $this->AllowNumericEntities = $allowNumericEntities == 'true' ? true : false;
+            }
+        }
+        else
+        {
+            $this->AllowNumericEntities = false;
+        }
+
     }
 
     function setDOMDocumentClass( $DOMDocumentClass )
@@ -640,9 +654,11 @@ class eZXMLInputParser
     function washText( $textContent )
     {
         $textContent = $this->entitiesDecode( $textContent );
-        $textContent = $this->convertNumericEntities( $textContent );
 
-        if ( !$this->allowMultipleSpaces )
+        if ( !$this->AllowNumericEntities )
+            $textContent = $this->convertNumericEntities( $textContent );
+
+        if ( !$this->AllowMultipleSpaces )
             $textContent = preg_replace( "/ {2,}/", " ", $textContent );
 
         return $textContent;
@@ -1060,9 +1076,12 @@ class eZXMLInputParser
     var $isInputValid = true;
     var $quitIfInvalid = false;
 
-    var $trimSpaces = true;
-    var $allowMultipleSpaces = false;
+    // options that depend on settings
+    var $TrimSpaces = true;
+    var $AllowMultipleSpaces = false;
+    var $AllowNumericEntities = false;
 
+    // options that depend on parameters passed
     var $parseLineBreaks = false;
     var $removeDefaultAttrs = false;
 
