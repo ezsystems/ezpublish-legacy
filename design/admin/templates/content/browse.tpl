@@ -4,6 +4,7 @@
      select_type='checkbox'
      select_attribute='contentobject_id'
      browse_list_count=0
+     page_uri_suffix=false()
      node_array=array()}
 {section show=is_set( $node_list )}
     {def $page_uri=$requested_uri }
@@ -72,7 +73,7 @@
     {/let}
 {section-else}
  <h2 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small)}&nbsp;{'Search result'|i18n( 'design/admin/content/browse' )}&nbsp;[{$node_list|count()}]</h2>
-   
+
 {/section}
 {* DESIGN: Subline *}<div class="header-subline"></div>
 

@@ -28,6 +28,7 @@
         {case match=1} {* Dropdown list *}
 	    <div class="buttonblock">
             <input type="hidden" name="single_select_{$attribute.id}" value="1" />
+            {if ne( count( $nodesList ), 0)}
             <select name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]">
                 {section show=$attribute.contentclass_attribute.is_required|not}
                     <option value="no_relation" {section show=eq( $attribute.content.relation_list|count, 0 )} selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
@@ -44,6 +45,7 @@
                     {$node.name|wash}</option>
                 {/section}
             </select>
+            {/if}
             </div>
         {/case}
 
@@ -81,6 +83,7 @@
 
         {case match=4} {* Multiple List *}
             <div class="buttonblock">
+            {if ne( count( $nodesList ), 0)}
             <select name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" size="10" multiple>
                 {section var=node loop=$nodesList}
                     <option value="{$node.contentobject_id}"
@@ -94,6 +97,7 @@
                     {$node.name|wash}</option>
                 {/section}
             </select>
+            {/if}
             </div>
         {/case}
 
