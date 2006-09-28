@@ -1,0 +1,53 @@
+*Title: Audit trailing
+
+*Incentive:
+At big sites with many admins / users / editors you need a better logging.
+
+*Documentation:
+The possibility to audit some things like user name, time or IP address etc 
+when removing content, assigning sections etc.
+
+The new settings have been added:
+
+- audit.ini[AuditSettings].LogDir
+  Where the log files should be placed.
+- audit.ini[AuditSettings].Audit
+  If 'enabled' the possibility will be enabled.
+- audit.ini[AuditSettings].AuditFileNames[]
+  Audit file names setting.
+  The key of AuditFileNames[] is the name of audit and value is file name.
+     For example:
+     AuditFileNames[<name of audit>]=<file name>
+
+***********
+For example:
+
+# Failed login attempts will be logged
+AuditFileNames[user-failed-login]=failed_login.log
+(If audit of failed login is not needed just comment or remove this line.)
+
+************
+Always clients IP address, time and user name will be logged.
+Things which can be logged:
+- failed login attempts 
+- user IP address
+- who deletes which content (node id / object id / content name)
+- who moves content (node id / old parent / new parent / object name)
+- who changes which role(s) (role id / role name)
+- who assigns which role to whom (role id / role name)
+- who assigns which section at which node (section id / section name)
+- who deleted which order in shop (user / order id)
+
+***********
+*Usage
+
+If you want use another audit you should:
+1. Add audit name as KEY and log file name as VALUE to audit.ini[AuditSettings].AuditFileNames[].
+   (e.g. AuditFileNames[user-login]=login.log)
+2. Set audit.ini[AuditSettings].Audit to 'enabled'
+3. Use php code like:
+
+       include_once( "kernel/classes/ezaudit.php" );
+       eZAudit::writeAudit( 'user-login', array( 'User id' => <userID>, 
+                                                 'User login' => <userLogin>, 
+                                                 'Name of something' => <valueOfSomething> ) );

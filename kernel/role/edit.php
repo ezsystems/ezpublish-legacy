@@ -52,7 +52,7 @@ $role = eZRole::fetch( 0, $roleID );
 if ( is_null( $role ) )
 {
     $role = eZRole::fetch( $roleID );
-    if( $role )
+    if ( $role )
     {
         if ( $role->attribute( 'version' ) == '0' )
         {
@@ -80,6 +80,8 @@ if ( $http->hasPostVariable( 'NewName' ) && $role->attribute( 'name' ) != $http-
 {
     $role->setAttribute( 'name' , $http->postVariable( 'NewName' ) );
     $role->store();
+    // Set flag for audit. If true audit will be processed
+    $http->setSessionVariable( 'RoleWasChanged', true );
 }
 
 $showModules = true;
@@ -91,11 +93,24 @@ $noLimitations = false;
 if ( $http->hasPostVariable( 'Apply' ) )
 {
     $originalRole = eZRole::fetch( $role->attribute( 'version' ) );
+    $originalRoleName = $originalRole->attribute( 'name' );
+    $originalRoleID = $originalRole->attribute( 'id' );
+
+    // Who changes which role(s) should be logged.
+    if ( $http->hasSessionVariable( 'RoleWasChanged' ) and
+         $http->sessionVariable( 'RoleWasChanged' ) === true )
+    {
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'role-change', array( 'Role ID' => $originalRoleID, 'Role name' => $originalRoleName,
+                                                   'Comment' => 'Changed the current role: kernel/role/edit.php' ) );
+        $http->removeSessionVariable( 'RoleWasChanged' );
+    }
+
     $originalRole->revertFromTemporaryVersion();
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 
-    $Module->redirectTo( $Module->functionURI( 'view' ) . '/' . $originalRole->attribute( 'id' ) . '/');
+    $Module->redirectTo( $Module->functionURI( 'view' ) . '/' . $originalRoleID . '/');
 
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -104,6 +119,8 @@ if ( $http->hasPostVariable( 'Apply' ) )
 
 if ( $http->hasPostVariable( 'Discard' ) )
 {
+    $http->removeSessionVariable( 'RoleWasChanged' );
+
     $role = eZRole::fetch( $roleID ) ;
     $originalRole = eZRole::fetch( $role->attribute( 'version') );
     $role->remove();
@@ -112,12 +129,13 @@ if ( $http->hasPostVariable( 'Discard' ) )
         $originalRole->remove();
     }
     $Module->redirectTo( $Module->functionURI( 'list' ) . '/' );
-
 }
 
 if ( $http->hasPostVariable( 'ChangeRoleName' ) )
 {
     $role->setAttribute( 'name', $http->postVariable( 'NewName' ) );
+    // Set flag for audit. If true audit will be processed
+    $http->setSessionVariable( 'RoleWasChanged', true );
 }
 if ( $http->hasPostVariable( 'AddModule' ) )
 {
@@ -132,7 +150,6 @@ if ( $http->hasPostVariable( 'AddFunction' ) )
     eZDebugSetting::writeDebug( 'kernel-role-edit', $currentModule, 'currentModule');
     $policy = eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
                                                    'FunctionName' => $currentFunction ) );
-
 }
 
 if ( $http->hasPostVariable( 'AddLimitation' ) )
@@ -240,7 +257,8 @@ if ( $http->hasPostVariable( 'RemovePolicy' ) )
     $policyID = $http->postVariable( 'RolePolicy' ) ;
     eZDebugSetting::writeDebug( 'kernel-role-edit', $policyID, 'trying to remove policy' );
     eZPolicy::remove( $policyID );
-
+    // Set flag for audit. If true audit will be processed
+    $http->setSessionVariable( 'RoleWasChanged', true );
 }
 if ( $http->hasPostVariable( 'RemovePolicies' ) and
      $http->hasPostVariable( 'DeleteIDArray' ) )
@@ -253,6 +271,8 @@ if ( $http->hasPostVariable( 'RemovePolicies' ) and
         eZPolicy::remove( $deleteID );
     }
     $db->commit();
+    // Set flag for audit. If true audit will be processed
+    $http->setSessionVariable( 'RoleWasChanged', true );
 }
 
 
@@ -294,15 +314,12 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
-
-
 }
 
 if ( $http->hasPostVariable( 'DiscardFunction' ) )
 {
     $showModules = true;
     $showFunctions = false;
-
 }
 
 if ( $http->hasPostVariable( 'SelectButton' ) or
@@ -316,7 +333,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 {
     $db =& eZDB::instance();
     $db->begin();
-    if ( $http->hasPostVariable( 'DeleteNodeButton' )  and $http->hasSessionVariable( 'BrowsePolicyID' ) )
+    if ( $http->hasPostVariable( 'DeleteNodeButton' ) and $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         if ( $http->hasPostVariable( 'DeleteNodeIDArray' ) )
         {
@@ -344,7 +361,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         }
     }
 
-    if (  $http->hasPostVariable( 'Limitation' ) and $http->hasSessionVariable( 'BrowsePolicyID' ) )
+    if ( $http->hasPostVariable( 'Limitation' ) and $http->hasSessionVariable( 'BrowsePolicyID' ) )
         $http->removeSessionVariable( 'BrowsePolicyID' );
 
     if ( $http->hasSessionVariable( 'BrowseCurrentModule' ) )
@@ -630,7 +647,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $currentFunction = $http->postVariable( 'ModuleFunction' );
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentModule, 'currentModule' );
         $policy = eZPolicy::createNew( $roleID, array( 'ModuleName'=> $currentModule,
-                                                        'FunctionName' => $currentFunction ) );
+                                                       'FunctionName' => $currentFunction ) );
     }
     else
     {
@@ -702,11 +719,12 @@ if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( '
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
-
 }
 
-if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1') )
+if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1' ) )
 {
+    // Set flag for audit. If true audit will be processed
+    $http->setSessionVariable( 'RoleWasChanged', true );
     $Module->setTitle( 'Edit ' . $role->attribute( 'name' ) );
     $tpl->setVariable( 'modules', $modules );
     $tpl->setVariable( 'role', $role );
@@ -719,9 +737,12 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
 
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
     return;
-
 }
 
+// Set flag for audit. If true audit will be processed
+// Cancel button was pressed
+if ( $http->hasPostVariable( 'CancelPolicyButton' ) )
+    $http->setSessionVariable( 'RoleWasChanged', false );
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( 'no_functions', $noFunctions );

@@ -704,6 +704,17 @@ class eZRole extends eZPersistentObject
         $limitIdent = $db->escapeString( $limitIdent );
         $limitValue = $db->escapeString( $limitValue );
         $userID =(int) $userID;
+
+        // Who assign which role to whom should be logged.
+        $object = eZContentObject::fetch( $userID );
+        $objectName = $object ? $object->attribute( 'name' ) : 'null';
+
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'role-assign', array( 'Role ID' => $this->ID, 'Role name' => $this->attribute( 'name' ),
+                                                   'Assign to content object ID' => $userID,
+                                                   'Content object name' => $objectName,
+                                                   'Comment' => 'Assigned the current role to user or user group identified by the id: eZRole::assignToUser()' ) );
+
         switch( $limitIdent )
         {
             case 'subtree':

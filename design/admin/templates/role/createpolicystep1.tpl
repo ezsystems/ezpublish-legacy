@@ -71,9 +71,11 @@ function addOption( selectid, value, text )
     <div class="element">
     <label>{'Function'|i18n( 'design/admin/role/createpolicystep2' )}:</label>
     <select name="ModuleFunction" id="ModuleFunction">
-    {section name=Functions loop=$functions}
-    <option value="{$Functions:item}">{$Functions:item}</option>
-    {/section}
+    {if is_set( $functions )}
+      {section name=Functions loop=$functions}
+         <option value="{$Functions:item}">{$Functions:item}</option>
+      {/section}
+    {/if}
     </select>
     </div>
 </div>
@@ -92,7 +94,7 @@ function addOption( selectid, value, text )
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button-disabled" type="submit" name="" value="{'OK'|i18n( 'design/admin/role/createpolicystep1' )}" disabled="disabled" />
-<input class="button" type="submit" value="{'Cancel'|i18n( 'design/admin/role/createpolicystep1' )}" />
+<input class="button" type="submit" name="CancelPolicyButton" value="{'Cancel'|i18n( 'design/admin/role/createpolicystep1' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

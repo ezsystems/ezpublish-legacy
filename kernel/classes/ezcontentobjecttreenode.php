@@ -3086,6 +3086,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( count( $objectIDArray ) == 0 )
             return;
 
+        // Who assigns which section at which node should be logged.
+        $section = eZSection::fetch( $sectionID );
+        $object = $node->object();
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'section-assign', array( 'Section ID' => $sectionID, 'Section name' => $section->attribute( 'name' ),
+                                                      'Node ID' => $nodeID,
+                                                      'Content object ID' => $object->attribute( 'id' ),
+                                                      'Content object name' => $object->attribute( 'name' ),
+                                                      'Comment' => 'Assigned a section to the current node and all child objects: eZContentObjectTreeNode::assignSectionToSubTree()' ) );
+
         $inSQL = "";
         $i = 0;
         foreach ( $objectIDArray as $objectID )
@@ -3965,6 +3975,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
         }
 
+        include_once( "kernel/classes/ezaudit.php" );
+        if ( eZAudit::isAuditEnabled() )
+        {
+            // Set audit params.
+            $nodeIDAudit = $node->attribute( 'node_id' );
+            $object = $node->object();
+            $objectID = $object->attribute( 'id' );
+            $objectName = $object->attribute( 'name' );
+
+            eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeIDAudit, 'Object ID' => $objectID, 'Content Name' => $objectName,
+                                                          'Comment' => 'Removed the current node: eZContentObjectTreeNode::remove()' ) );
+        }
+
         $db =& eZDB::instance();
         $db->begin();
 
@@ -4445,10 +4468,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $newParentNodeID =(int) $newParentNodeID;
         if ( $oldParentNodeID != $newParentNodeID )
         {
+            // Who moves which content should be logged.
+            include_once( "kernel/classes/ezaudit.php" );
+            $object = $node->object();
+            eZAudit::writeAudit( 'content-move', array( 'Node ID' => $node->attribute( 'node_id' ),
+                                                        'Old parent node ID' => $oldParentNodeID, 'New parent node ID' => $newParentNodeID,
+                                                        'Object ID' => $object->attribute( 'id' ), 'Content Name' => $object->attribute( 'name' ),
+                                                        'Comment' => 'Moved the node to the given node: eZContentObjectTreeNode::move()' ) );
+
             $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             $newParentPath = $newParentNode->attribute( 'path_string' );
             $newParentDepth = $newParentNode->attribute( 'depth' );
-            $newPath =  $newParentPath;// . $newParentNodeID . '/' ;
+            $newPath = $newParentPath;// . $newParentNodeID . '/' ;
             $oldDepth = $node->attribute( 'depth' );
             $childrensPath = $oldPath;// . $nodeID . '/';
 

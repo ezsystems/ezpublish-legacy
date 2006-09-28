@@ -1496,6 +1496,11 @@ class eZContentObject extends eZPersistentObject
             $delID = $this->ID;
             $contentobject =& $this;
         }
+        // Who deletes which content should be logged.
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $contentobject->attribute( 'name' ),
+                                                      'Comment' => 'Purged the current object: eZContentObject::purge()' ) );
+
         $db =& eZDB::instance();
 
         $db->begin();
@@ -1623,11 +1628,15 @@ class eZContentObject extends eZPersistentObject
         {
             $contentobject =& $this;
         }
+        // Who deletes which content should be logged.
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $contentobject->attribute( 'name' ),
+                                                      'Comment' => 'Setted archived status for the current object: eZContentObject::remove()' ) );
 
         $nodes = $contentobject->attribute( 'assigned_nodes' );
 
         include_once( "kernel/classes/ezsearch.php" );
-        if ( $nodeID === null  or count( $nodes ) <= 1 )
+        if ( $nodeID === null or count( $nodes ) <= 1 )
         {
             $db =& eZDB::instance();
             $db->begin();

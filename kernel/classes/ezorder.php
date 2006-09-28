@@ -1364,6 +1364,11 @@ class eZOrder extends eZPersistentObject
         $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
         if ( count( $rows ) > 0 )
         {
+            // Who deletes which order in shop should be logged.
+            include_once( "kernel/classes/ezaudit.php" );
+            eZAudit::writeAudit( 'order-delete', array( 'Order ID' => $orderID,
+                                                        'Comment' => 'Removed the order and its related data from the database: eZOrder::cleanupOrder()' ) );
+
             $productCollectionID = $rows[0]['productcollection_id'];
             $orderNr = (int)$rows[0]['order_nr'];
             $db =& eZDB::instance();
@@ -1424,6 +1429,10 @@ class eZOrder extends eZPersistentObject
             }
             eZProductCollection::cleanupList( $productCollectionIDList );
         }
+        // Who deletes which order in shop should be logged.
+        include_once( "kernel/classes/ezaudit.php" );
+        eZAudit::writeAudit( 'order-delete', array( 'Comment' => 'Removed all orders from the database: eZOrder::cleanup()' ) );
+
         include_once( 'kernel/classes/ezorderitem.php' );
         eZOrderItem::cleanup();
         $db->query( "DELETE FROM ezorder_status_history" );

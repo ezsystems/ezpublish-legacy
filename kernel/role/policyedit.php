@@ -184,6 +184,9 @@ if ( $http->hasPostVariable( "DiscardChange" ) )
 }
 if ( $http->hasPostVariable( "UpdatePolicy" ) )
 {
+    // Set flag for audit role-change. If true audit will be processed after applying
+    $http->setSessionVariable( 'RoleWasChanged', true );
+
     $hasNodeLimitation = false;
     $hasLimitation = false;
     $db =& eZDB::instance();

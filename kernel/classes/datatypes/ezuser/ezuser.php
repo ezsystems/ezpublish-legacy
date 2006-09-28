@@ -775,6 +775,7 @@ WHERE user_id = '" . $userID . "' AND
                 }
             }
         }
+        include_once( "kernel/classes/ezaudit.php" );
         if ( $exists and $isEnabled and $canLogin )
         {
             $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
@@ -782,6 +783,9 @@ WHERE user_id = '" . $userID . "' AND
             $user = new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
+
+            // if audit is enabled logins should be looged
+            eZAudit::writeAudit( 'user-login', array( 'User id' => $userID, 'User login' => $user->attribute( 'login' ) ) );
 
             eZUser::updateLastVisit( $userID );
             eZUser::setCurrentlyLoggedInUser( $user, $userID );
@@ -793,6 +797,11 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
+            // Failed login attempts should be looged
+            $userIDAudit = isset( $userID ) ? $userID : 'null';
+            eZAudit::writeAudit( 'user-failed-login', array( 'User id' => $userIDAudit, 'User login' => $loginEscaped,
+                                                             'Comment' => 'Failed login attempt: eZUser::loginUser()' ) );
+
             // Increase number of failed login attempts.
             if ( isset( $userID ) )
                 eZUser::setFailedLoginAttempts( $userID );
