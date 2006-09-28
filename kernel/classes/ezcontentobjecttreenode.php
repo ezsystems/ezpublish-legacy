@@ -1464,18 +1464,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
     {
-		$versionNameJoins = '';
-		if ( $useVersionName )
-		{
-			if ( $includeAnd )
-			{
-				$versionNameJoins .= ' AND ';
-			}
-			$versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+        $versionNameJoins = '';
+        if ( $useVersionName )
+        {
+            if ( $includeAnd )
+            {
+                $versionNameJoins .= ' AND ';
+            }
+            $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
-			$versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-		}
-    	return $versionNameJoins;   	
+            $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
+        }
+        return $versionNameJoins;
     }
 
     /*!
@@ -1782,7 +1782,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
-		
+
         $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
         if ( $language )
@@ -1830,7 +1830,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                 $groupByText";
 
-	if ( $sortingInfo['sortingFields'] )
+    if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db =& eZDB::instance();
@@ -2691,7 +2691,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             if ( $sqlPermissionCheckingFrom == '' )
                                 $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
-                                
+
                             $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
                                               $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
@@ -3397,7 +3397,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
         $contentObjectID =(int) $contentObjectID;
         $parentNodeID =(int) $parentNodeID;
-		$query = "SELECT ezcontentobject_tree.*
+        $query = "SELECT ezcontentobject_tree.*
                   FROM ezcontentobject_tree, ezcontentobject
                   WHERE ezcontentobject_tree.contentobject_id = '$contentObjectID' AND
                         ezcontentobject.id = '$contentObjectID' AND
@@ -6039,12 +6039,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
       Returns available classes as Js array.
       Checks if the node is container, if yes emptyStr will be returned.
     */
-    function availableClassesJsArray()
+    function &availableClassesJsArray()
     {
         $obj =& $this->object();
-        $contentClass = $obj->attribute( 'content_class' );
+        $contentClass =& $obj->attribute( 'content_class' );
         if ( !$contentClass->attribute( 'is_container' ) )
-            return "''";
+        {
+            $retValue = "''";
+            return $retValue;
+        }
 
         $classList = eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
         return $classList;
