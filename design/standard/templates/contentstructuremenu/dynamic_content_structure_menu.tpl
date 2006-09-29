@@ -74,7 +74,7 @@
     {/section}
 
     {set rootNode=fetch( 'content', 'node', hash( node_id, $:rootNodeID ) )}
-    {set nodesList= fetch(ajax,fetch_open_nodes,hash(node_id, $:rootNodeID ) )}
+    {set nodesList= fetch(ajax,fetch_open_nodes,hash(node_id, first_set( $module_result.node_id, $:rootNodeID ) ) )}
 
     {* check custom action when clicking on menu item *}
     {section show=and( is_set( $csm_menu_item_click_action ), eq( $itemClickAction, '' ) )}

@@ -46,7 +46,7 @@ class eZOdcsmFunctionCollection
         if ( isset($_COOKIE['ezcst_unfolded_node_list']) )
         {
             $ezcst_unfolded_node_list = $_COOKIE['ezcst_unfolded_node_list'];
-            $ezcst_unfolded_node_array = split(',n',$ezcst_unfolded_node_list);
+            $ezcst_unfolded_node_array = split(',n', substr( $ezcst_unfolded_node_list, 1 ));
 
             if ( $ezcst_unfolded_node_array[0] == "" or $ezcst_unfolded_node_array[0] == null )
             {
