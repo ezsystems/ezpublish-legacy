@@ -27,7 +27,7 @@ menuArray['EditSubmenu']['depth'] = 1;
 menuArray['EditSubmenu']['elements'] = new Array();
 menuArray['EditSubmenu']['elements']['edit-languages'] = new Array();
 menuArray['EditSubmenu']['elements']['edit-languages']['variable'] = '%languages%';
-menuArray['EditSubmenu']['elements']['edit-languages']['content'] = '<a href={"/content/edit/%objectID%/f/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditSubmenu\' )">%name%</a>';
+menuArray['EditSubmenu']['elements']['edit-languages']['content'] = '<a href={"/content/edit/%objectID%/f/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditSubmenu\' )">%name%<\/a>';
 menuArray['EditSubmenu']['elements']['edit-languages-another'] = new Array();
 menuArray['EditSubmenu']['elements']['edit-languages-another']['url'] = {"/content/edit/%objectID%/a"|ezurl};
 
@@ -37,7 +37,7 @@ menuArray['CreateHereMenu']['depth'] = 1; // this is a first level submenu of Co
 menuArray['CreateHereMenu']['elements'] = new Array();
 menuArray['CreateHereMenu']['elements']['menu-classes'] = new Array();
 menuArray['CreateHereMenu']['elements']['menu-classes']['variable'] = '%classList%';
-menuArray['CreateHereMenu']['elements']['menu-classes']['content'] = '<a id="menu-item-create-here" href="#" onclick="ezpopmenu_submitForm( \'menu-form-create-here\', new Array( \'classID\', \'%classID%\' ) ); return false;">%name%</a>';
+menuArray['CreateHereMenu']['elements']['menu-classes']['content'] = '<a id="menu-item-create-here" href="#" onclick="ezpopmenu_submitForm( \'menu-form-create-here\', new Array( \'classID\', \'%classID%\' ) ); return false;">%name%<\/a>';
 
 {* Advanced menu *}
 menuArray['Advanced'] = new Array();

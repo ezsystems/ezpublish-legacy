@@ -39,7 +39,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-document.write("<style type='text/css'>div#contentstructure ul#content_tree_menu ul li { padding-left: 0; }div#contentstructure ul#content_tree_menu ul ul { margin-left: 20px; }</style>");
+document.write("<style type='text/css'>div#contentstructure ul#content_tree_menu ul li { padding-left: 0; }div#contentstructure ul#content_tree_menu ul ul { margin-left: 20px; }<\/style>");
 -->
 </script>
 {/literal}
