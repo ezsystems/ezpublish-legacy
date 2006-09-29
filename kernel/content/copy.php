@@ -90,6 +90,10 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     $db =& eZDB::instance();
     $db->begin();
     $newObject =& $object->copy( $allVersions );
+    // We should reset section that will be updated in updateSectionID().
+    // If sectionID is 0 than the object has been newly created
+    $newObject->setAttribute( 'section_id', 0 );
+    $newObject->store();
 
     $curVersion        =& $newObject->attribute( 'current_version' );
     $curVersionObject  =& $newObject->attribute( 'current' );

@@ -114,6 +114,10 @@ function copyPublishContentObject( &$sourceObject,
 
     // make copy of source object
     $newObject             = $sourceObject->copy( $allVersions ); // insert source and new object's ids in $syncObjectIDList
+    // We should reset section that will be updated in updateSectionID().
+    // If sectionID is 0 than the object has been newly created
+    $newObject->setAttribute( 'section_id', 0 );
+    $newObject->store();
 
     $syncObjectIDListSrc[] = $sourceObjectID;
     $syncObjectIDListNew[] = $newObject->attribute( 'id' );
