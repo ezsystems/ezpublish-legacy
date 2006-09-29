@@ -1330,6 +1330,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionKeys as $versionNumber )
         {
             $currentContentObjectVersion =& $versionList[$versionNumber];
+            $currentVersionNumber = $currentContentObjectVersion->attribute( 'version' );
 
             $contentObject->setName( $currentContentObjectVersion->name(), $versionNumber );
             foreach( $contentObject->translationStringList() as $languageCode )
@@ -1341,7 +1342,7 @@ class eZContentObject extends eZPersistentObject
                                                         $versionNumber, $contentObject->attribute( 'id' ),
                                                         false );
 
-            if ( $versionNumber == $this->attribute( 'current_version' ) )
+            if ( $currentVersionNumber == $this->attribute( 'current_version' ) )
             {
                 $parentMap = array();
                 $copiedNodeAssignmentList =& $contentObjectVersion->attribute( 'node_assignments' );
