@@ -89,48 +89,52 @@ class XajaxOperator
                     if ( $ini->variable( 'AjaxSettings', 'ProgressIndicator' ) == 'enabled' ) 
                     {
                         //js stuff that add progress indicator
-                       $operatorValue.='<script>
-                        //ProgressIndicator stuff
-                        var b=document.getElementsByTagName("body")[0];
-                        var pImg=new Image();
-                        pImg.src = "/design/standard/images/ajax-activity_indicator.gif";
-                        b.appendChild( pImg );
-                        pImg.setAttribute("id", "spinner");
-                        pImg.style.display="none";
-                        pImg.style.position="absolute";
-                        pImg.style.top="50%";
-                        pImg.style.left="50%";
-                        pImg.style.backgroundColor="#CCC";
-                        
-                        // keep around the old call function
-                        xajax.realCall = xajax.call;
-                        //override the call function to bend to our wicked ways
-                        xajax.call = function(sFunction, aArgs, sRequestType)
-                        {
-                            //show the spinner
-                            screenProp = ezjslib_getScreenProperties();
-                            screenCenterY = screenProp.ScrollY + screenProp.Height/2;
-                            screenCenterX = screenProp.ScrollX + screenProp.Width/2;
-                            pImg = this.$("spinner");
-                            pImg.style.top = (screenCenterY - pImg.height/2 ) + "px";
-                            pImg.style.left = ( screenCenterX - pImg.width/2 ) + "px";
-                            pImg.style.display = "inline";
-                            //call the old call function
-                            return this.realCall(sFunction, aArgs, sRequestType);
-                        }
-                        
-                        //save the old processResponse function for later
-                        xajax.realProcessResponse = xajax.processResponse;
-                        //override the processResponse function
-                        xajax.processResponse = function(xml)
-                        {
-                            //hide the spinner
-                            this.$("spinner").style.display = "none";
-                            //call the real processResponse function
-                            return this.realProcessResponse(xml);
-                        }
-
-                           </script>';
+                       $operatorValue.='
+<script>
+        //ProgressIndicator stuff
+function loadXajaxProgressIndicator()
+    {
+        var b=document.getElementsByTagName("body")[0];
+        var pImg=new Image();
+        pImg.src = "/design/standard/images/ajax-activity_indicator.gif";
+        b.appendChild( pImg );
+        pImg.setAttribute("id", "spinner");
+        pImg.style.display="none";
+        pImg.style.position="absolute";
+        pImg.style.top="50%";
+        pImg.style.left="50%";
+        pImg.style.backgroundColor="#CCC";
+        
+        // keep around the old call function
+        xajax.realCall = xajax.call;
+        //override the call function to bend to our wicked ways
+        xajax.call = function(sFunction, aArgs, sRequestType)
+        {
+            //show the spinner
+            screenProp = ezjslib_getScreenProperties();
+            screenCenterY = screenProp.ScrollY + screenProp.Height/2;
+            screenCenterX = screenProp.ScrollX + screenProp.Width/2;
+            pImg = this.$("spinner");
+            pImg.style.top = (screenCenterY - pImg.height/2 ) + "px";
+            pImg.style.left = ( screenCenterX - pImg.width/2 ) + "px";
+            pImg.style.display = "inline";
+            //call the old call function
+            return this.realCall(sFunction, aArgs, sRequestType);
+        }
+        
+        //save the old processResponse function for later
+        xajax.realProcessResponse = xajax.processResponse;
+        //override the processResponse function
+        xajax.processResponse = function(xml)
+        {
+            //hide the spinner
+            this.$("spinner").style.display = "none";
+            //call the real processResponse function
+            return this.realProcessResponse(xml);
+        }
+    }
+    window.setTimeout( loadXajaxProgressIndicator, 1000 );
+</script>';
                     }
 
                 }break;
