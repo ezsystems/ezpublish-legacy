@@ -1380,6 +1380,7 @@ CREATE TABLE ezcontentobject_link (
     from_contentobject_version integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
     op_code integer DEFAULT 0 NOT NULL,
+    relation_type integer DEFAULT 1 NOT NULL,
     to_contentobject_id integer DEFAULT 0 NOT NULL
 );
 
@@ -2385,9 +2386,9 @@ CREATE TABLE ezuser_setting (
 
 CREATE TABLE ezuservisit (
     current_visit_timestamp integer DEFAULT 0 NOT NULL,
+    failed_login_attempts integer DEFAULT 0 NOT NULL,
     last_visit_timestamp integer DEFAULT 0 NOT NULL,
-    user_id integer DEFAULT 0 NOT NULL,
-    failed_login_attempts integer DEFAULT 0 NOT NULL    
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 

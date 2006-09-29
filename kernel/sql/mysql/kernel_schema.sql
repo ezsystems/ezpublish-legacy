@@ -359,6 +359,7 @@ CREATE TABLE ezcontentobject_link (
   from_contentobject_version int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   op_code int(11) NOT NULL default '0',
+  relation_type int(11) NOT NULL default '1',
   to_contentobject_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezco_link_from (from_contentobject_id,from_contentobject_version,contentclassattribute_id),
@@ -1357,9 +1358,9 @@ CREATE TABLE ezuser_setting (
 
 CREATE TABLE ezuservisit (
   current_visit_timestamp int(11) NOT NULL default '0',
+  failed_login_attempts int(11) NOT NULL default '0',
   last_visit_timestamp int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
-  failed_login_attempts int(11) NOT NULL default '0',  
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 
