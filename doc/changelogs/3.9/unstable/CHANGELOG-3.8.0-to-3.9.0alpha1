@@ -396,4 +396,4 @@ eZMail:
 - Fixed bug #8750: "My drafts" not accessible for users with only editing
   permissions
   (Merged from stable/3.8 (3.8.5) rev.16923)
-    
+- Fixed bug #8883: ezsubtreecopy: current version other than 1 does not work.
