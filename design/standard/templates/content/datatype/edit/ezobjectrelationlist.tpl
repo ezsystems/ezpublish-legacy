@@ -35,12 +35,14 @@
                 {/section}
                 {section var=node loop=$nodesList}
                     <option value="{$node.contentobject_id}"
+                    {if ne( count( $attribute.content.relation_list ), 0)}
                     {foreach $attribute.content.relation_list as $item}
                          {if eq( $item.contentobject_id, $node.contentobject_id )}
                             selected="selected"
                             {break}
                          {/if}
                     {/foreach}
+                    {/if}
                     >
                     {$node.name|wash}</option>
                 {/section}
@@ -56,12 +58,14 @@
                 {section show=eq( $attribute.content.relation_list|count, 0 )} checked="checked"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}<br />{/section}
             {section var=node loop=$nodesList}
                 <input type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" value="{$node.contentobject_id}"
+                {if ne( count( $attribute.content.relation_list ), 0)}
                 {foreach $attribute.content.relation_list as $item}
                      {if eq( $item.contentobject_id, $node.contentobject_id )}
                             checked="checked"
                             {break}
                      {/if}
                 {/foreach}
+                {/if}
                 >
                 {$node.name|wash} <br/>
             {/section}
@@ -70,12 +74,14 @@
         {case match=3} {* check boxes list *}
             {section var=node loop=$nodesList}
                 <input type="checkbox" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[{$node.node_id}]" value="{$node.contentobject_id}"
+                {if ne( count( $attribute.content.relation_list ), 0)}
                 {foreach $attribute.content.relation_list as $item}
                      {if eq( $item.contentobject_id, $node.contentobject_id )}
                             checked="checked"
                             {break}
                      {/if}
                 {/foreach}
+                {/if}
                 />
                 {$node.name|wash} <br/>
             {/section}
@@ -87,12 +93,14 @@
             <select name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" size="10" multiple>
                 {section var=node loop=$nodesList}
                     <option value="{$node.contentobject_id}"
+                    {if ne( count( $attribute.content.relation_list ), 0)}
                     {foreach $attribute.content.relation_list as $item}
                          {if eq( $item.contentobject_id, $node.contentobject_id )}
                             selected="selected"
                             {break}
                          {/if}
                     {/foreach}
+                    {/if}
                     >
                     {$node.name|wash}</option>
                 {/section}
@@ -108,12 +116,14 @@
                 {section var=node loop=$nodesList}
                    <li>
                         <input type="checkbox" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[{$node.node_id}]" value="{$node.contentobject_id}"
+                        {if ne( count( $attribute.content.relation_list ), 0)}
                         {foreach $attribute.content.relation_list as $item}
                            {if eq( $item.contentobject_id, $node.contentobject_id )}
                                checked="checked"
                                {break}
                            {/if}
                         {/foreach}
+                        {/if}
                         >
                         {node_view_gui content_node=$node view=objectrelationlist}
                    </li>
@@ -135,12 +145,14 @@
                 {section var=node loop=$nodesList}
                     <li>
                         <input type="radio" name="{$attribute_base}_data_object_relation_list_{$attribute.id}[]" value="{$node.contentobject_id}"
+                        {if ne( count( $attribute.content.relation_list ), 0)}
                         {foreach $attribute.content.relation_list as $item}
                            {if eq( $item.contentobject_id, $node.contentobject_id )}
                                checked="checked"
                                {break}
                            {/if}
                         {/foreach}
+                        {/if}
                         >
                         {node_view_gui content_node=$node view=objectrelationlist}
                     </li>
