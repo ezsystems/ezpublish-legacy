@@ -135,7 +135,7 @@ function moveAttributeRows( attribid, direction )
                         // last attribute, move to top
                         attribute.parentNode.insertBefore( attribute, rows[0] );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        recalculatePriority();
+                        recalculatePlacement();
                         break;
                     }
                     else
@@ -144,7 +144,7 @@ function moveAttributeRows( attribid, direction )
                         var nextAttribute = rows[i+3];
                         attribute.parentNode.insertBefore( nextAttribute, attributeHeader );
                         attribute.parentNode.insertBefore( nextAttributeHeader, nextAttribute );
-                        recalculatePriority();
+                        recalculatePlacement();
                         break;
                     }
                 }
@@ -156,7 +156,7 @@ function moveAttributeRows( attribid, direction )
                         // first attribute, move to bottom
                         attribute.parentNode.appendChild( attribute );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        recalculatePriority();
+                        recalculatePlacement();
                         break;
                     }
                     else
@@ -164,7 +164,7 @@ function moveAttributeRows( attribid, direction )
                         var previousAttributeHeader = rows[i-2];
                         attribute.parentNode.insertBefore( attribute, previousAttributeHeader );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        recalculatePriority();
+                        recalculatePlacement();
                         break;
                     }
                 }
@@ -173,7 +173,7 @@ function moveAttributeRows( attribid, direction )
     }
 }
 
-function recalculatePriority()
+function recalculatePlacement()
 {
     var attributesForm=document.getElementById( 'ClassEditForm' );
     var priortyBox = attributesForm.elements;
@@ -183,6 +183,27 @@ function recalculatePriority()
         if( (priortyBox[i].id).substring(0, 12 ) =='attrPriority' )
         {
             priortyBox[i].value = j++;
+        }
+    }
+}
+
+function switchPlacementMode( tableid )
+{
+    var table=document.getElementById(tableid);
+    for ( i=0; i<table.rows.length;i+=2 )
+    {
+        var cell = table.rows[i].cells[2].getElementsByTagName('input');
+        if ( cell[0].style.display == 'none' )
+        {
+            cell[0].style.display = '';
+            cell[1].style.display = '';
+            cell[2].style.display = 'none';
+        }
+        else
+        {
+            cell[0].style.display = 'none';
+            cell[1].style.display = 'none';
+            cell[2].style.display = '';
         }
     }
 }

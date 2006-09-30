@@ -98,7 +98,9 @@
 
     <div class="block">
     {section show=$attributes}
-        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> 
+	<input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+	<input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
     {section-else}
         <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" /> <input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
     {/section}
@@ -113,9 +115,9 @@
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
     <th class="tight">
       <div class="listbutton">
-          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return !result;"{/if} />&nbsp;
-          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return !result;"{/if} />
-          <input id="attrPriority_{$Attributes.item.id}" type="box" size="2" type="text" name="ContentAttribute_priority[]" value="{$Attributes.placement}" />
+          <input id="moveDown_{$Attributes.item.id}" type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return !result;"{/if} />&nbsp;
+          <input id="moveUp_{$Attributes.item.id}" type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return !result;"{/if} />
+          <input style="display:none;" id="attrPriority_{$Attributes.item.id}" type="box" size="2" type="text" name="ContentAttribute_priority[]" value="{$Attributes.placement}" />
       </div>
     </th>
 </tr>
