@@ -32,7 +32,7 @@
 */
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
-include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
+//include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
@@ -41,7 +41,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     'section'      => array( 'quickRender' => array(),
                              'initHandler' => 'initHandlerSection',
-                             'renderHandler' => 'renderSection' ),
+                             'renderHandler' => 'renderChildrenOnly' ),
 
     'embed'        => array( 'initHandler' => 'initHandlerEmbed',
                              'renderHandler' => 'renderAll',
@@ -61,14 +61,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                                                        'show_path' => false ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'object'       => array( //'handler' => 'outputObject',
+    /*'object'       => array( //'handler' => 'outputObject',
                              'renderHandler' => 'renderAll',
                              'attrVariables' => array( 'class' => 'classification',
                                                        'xhtml:id' => 'id',
                                                        'image:ezurl_target' => 'target',
                                                        'image:ezurl_href' => 'href',
                                                        'image:ezurl_id' => false ),
-                             'attrDesignKeys' => array( 'class' => 'classification' ) ),
+                             'attrDesignKeys' => array( 'class' => 'classification' ) ),*/
 
     'table'        => array( 'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
@@ -77,7 +77,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     'tr'           => array( //'quickRender' => array( 'tr', "\n" ),
                              'initHandler' => 'initHandlerTr',
-                             'renderHandler' => 'renderAll' ),
+                             'renderHandler' => 'renderAll',
+                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'td'           => array( 'initHandler' => 'initHandlerTd',
                              'renderHandler' => 'renderAll',
@@ -509,7 +511,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function renderSection( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderChildrenOnly( &$element, $templateUri, $childrenOutput, $attributes )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )

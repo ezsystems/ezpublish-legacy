@@ -73,7 +73,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => false,
-                              'attributes' => false ),
+                              'attributes' => array( 'class' ) ),
     
         'td'        => array( 'blockChildrenAllowed' => array( 'header', 'paragraph', 'section', 'table' ),
                               'inlineChildrenAllowed' => false,
