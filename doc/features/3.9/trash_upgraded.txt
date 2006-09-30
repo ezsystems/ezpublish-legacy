@@ -1,0 +1,10 @@
+*Title: Trash
+
+*Incentive:
+Deleted objects are available for all users (without checking of rights).
+
+*Documentation:
+New table 'ezcontentobject_trash' was added to store main nodes of removed
+content objects. Also added new class 'eZContentObjectTrashNode' to maintain
+entries in new trash table. Appropriate rights checking for fetching list of
+accessible trash entries implemented for currently logged in user for now.
