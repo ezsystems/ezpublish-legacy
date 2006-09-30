@@ -386,7 +386,6 @@ CREATE TABLE ezcontentobject_name (
 
 CREATE TABLE ezcontentobject_trash (
   contentobject_id int(11) default NULL,
-  contentobject_is_published int(11) default NULL,
   contentobject_version int(11) default NULL,
   depth int(11) NOT NULL default '0',
   is_hidden int(11) NOT NULL default '0',
@@ -402,11 +401,11 @@ CREATE TABLE ezcontentobject_trash (
   sort_field int(11) default '1',
   sort_order int(11) default '1',
   PRIMARY KEY  (node_id),
-  KEY ezcontentobject_tree_co_id (contentobject_id),
-  KEY ezcontentobject_tree_depth (depth),
-  KEY ezcontentobject_tree_p_node_id (parent_node_id),
-  KEY ezcontentobject_tree_path (path_string),
-  KEY ezcontentobject_tree_path_ident (path_identification_string(50)),
+  KEY ezcontentobject_trash_co_id (contentobject_id),
+  KEY ezcontentobject_trash_depth (depth),
+  KEY ezcontentobject_trash_p_node_id (parent_node_id),
+  KEY ezcontentobject_trash_path (path_string),
+  KEY ezcontentobject_trash_path_ident (path_identification_string(50)),
   KEY modified_subnode (modified_subnode)
 ) TYPE=MyISAM;
 
