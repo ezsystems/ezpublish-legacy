@@ -217,8 +217,12 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
             }
         }
     }
-    $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+    $objectID = $object->attribute( 'id' );
+    $object = eZContentObject::fetch( $objectID );
     $mainNodeID = $object->attribute( 'main_node_id' );
+
+    include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
+    eZContentObjectTrashNode::purgeForObject( $objectID  );
 
     if ( $locationAdded )
     {

@@ -1,8 +1,8 @@
 {let item_type=ezpreference( 'admin_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )
-     object_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
-                                                          offset, $view_parameters.offset,
-                                                          objectname_filter, $view_parameters.namefilter ) )
+     trash_list=fetch( content, trash_object_list, hash( limit,  $number_of_items,
+                                                         offset, $view_parameters.offset,
+                                                         objectname_filter, $view_parameters.namefilter ) )
      list_count=fetch( content, trash_count, hash( objectname_filter, $view_parameters.namefilter ) ) }
 
 <form name="trashform" action={'content/trash/'|ezurl} method="post" >
@@ -19,8 +19,7 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$object_list}
-
+{section show=$trash_list}
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="block">
@@ -59,26 +58,35 @@
     <th>{'Name'|i18n( 'design/admin/content/trash')}</th>
     <th>{'Type'|i18n( 'design/admin/content/trash')}</th>
     <th>{'Section'|i18n( 'design/admin/content/trash')}</th>
+    <th>{'Original Placement'|i18n( 'design/admin/content/trash')}</th>
     <th class="tight">&nbsp;</th>
 </tr>
-{section var=Objects loop=$object_list sequence=array( bglight, bgdark )}
-<tr class="{$Objects.sequence}">
+
+{section var=tObjects loop=$trash_list sequence=array( bglight, bgdark )}
+{let cur_c_object=$tObjects.item.object}
+
+<tr class="{$tObjects.sequence}">
     <td>
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Objects.item.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/content/trash' )|wash()}" />
+    <input type="checkbox" name="DeleteIDArray[]" value="{$cur_c_object.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/content/trash' )|wash()}" />
     </td>
     <td>
-    {$Objects.item.content_class.identifier|class_icon( small, $Objects.item.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.id, '/', $Objects.item.current_version, '/' )|ezurl}>{$Objects.item.name|wash}</a>
+    {$tObjects.item.class_identifier|class_icon( small, $tObjects.item.class_name|wash )}&nbsp;<a href={concat( '/content/versionview/', $cur_c_object.id, '/', $cur_c_object.current_version, '/' )|ezurl}>{$tObjects.item.name|wash}</a>
     </td>
     <td>
-    {$Objects.item.content_class.name|wash}
+    {$tObjects.item.class_name|wash}
     </td>
     <td>
-    {let section_object=fetch( section, object, hash( section_id, $Objects.item.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/trash' )}</i>{/section}{/let}
+    {let section_object=fetch( section, object, hash( section_id, $cur_c_object.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/trash' )}</i>{/section}{/let}
     </td>
     <td>
-    <a href={concat( '/content/restore/', $Objects.item.id, '/' )|ezurl}><img src={'edit.gif'|ezimage} border="0" alt="{'Restore'|i18n( 'design/admin/content/trash' )}" /></a>
+    {if $tObjects.item.original_parent}<a href={concat( '/', $tObjects.item.original_parent.path_identification_string )|ezurl}>{/if}/{$tObjects.item.original_parent_path_id_string|wash}{if $tObjects.item.original_parent}</a>{/if}
+    </td>
+    <td>
+    <a href={concat( '/content/restore/', $cur_c_object.id, '/' )|ezurl}><img src={'edit.gif'|ezimage} border="0" alt="{'Restore'|i18n( 'design/admin/content/trash' )}" /></a>
     </td>
 </tr>
+
+{/let}
 {/section}
 </table>
 
@@ -105,7 +113,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-{section show=$object_list}
+{section show=$trash_list}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/trash' )}"  title="{'Permanently remove the selected items.'|i18n( 'design/admin/content/trash' )}" />
     <input class="button" type="submit" name="EmptyButton"  value="{'Empty trash'|i18n( 'design/admin/content/trash' )}" title="{'Permanently remove all items from the trash.'|i18n( 'design/admin/content/trash' )}" />
 {section-else}
@@ -115,9 +123,7 @@
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-
 </div>
-
 </form>
-
 {/let}
+

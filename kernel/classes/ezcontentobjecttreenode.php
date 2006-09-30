@@ -635,7 +635,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createSortingSQLStrings( $sortList )
+    function createSortingSQLStrings( $sortList, $treeTableName = 'ezcontentobject_tree' )
     {
         $sortingInfo = array( 'sortCount'           => 0,
                               'sortingFields'       => " path_string ASC",
@@ -706,7 +706,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'priority':
                         {
-                            $sortingFields .= 'ezcontentobject_tree.priority';
+                            $sortingFields .= $treeTableName . '.priority';
                         } break;
                         case 'name':
                         {
@@ -1462,7 +1462,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
+    function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false, $treeTableName = 'ezcontentobject_tree' )
     {
         $versionNameJoins = '';
         if ( $useVersionName )
@@ -1471,8 +1471,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $versionNameJoins .= ' AND ';
             }
-            $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
+            $versionNameJoins .= " $treeTableName.contentobject_id = ezcontentobject_name.contentobject_id and
+                                   $treeTableName.contentobject_version = ezcontentobject_name.content_version and ";
             $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
         }
         return $versionNameJoins;
@@ -1491,7 +1491,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createPermissionCheckingSQL( &$limitationList )
+    function createPermissionCheckingSQL( &$limitationList, $treeTableName = 'ezcontentobject_tree', $tableAliasName = 'ezcontentobject_tree' )
     {
         $db =& eZDB::instance();
 
@@ -1538,7 +1538,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
                             if ( $sqlPermissionCheckingFrom == '' )
-                                $sqlPermissionCheckingFrom = ', ezcontentobject_tree as ' . $contentTreeTableAlias;
+                                $sqlPermissionCheckingFrom = ', ' . $treeTableName . ' as ' . $contentTreeTableAlias;
 
                             $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
                                               $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
@@ -1546,7 +1546,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Node':
                         {
-                            $sqlPlacementPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $sqlPlacementPart[] = $tableAliasName . '.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
 
                         case 'Subtree':
@@ -1556,7 +1556,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlSubtreePart = array();
                             foreach ( $pathArray as $limitationPathString )
                             {
-                                $sqlSubtreePart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                                $sqlSubtreePart[] = "$tableAliasName.path_string like '$limitationPathString%'";
                             }
                             $sqlPlacementPart[] = implode( ' OR ', $sqlSubtreePart );
                         } break;
@@ -1567,7 +1567,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlPartUserSubtree = array();
                             foreach ( $pathArray as $limitationPathString )
                             {
-                                $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                                $sqlPartUserSubtree[] = "$tableAliasName.path_string like '$limitationPathString%'";
                             }
                             $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
                         }
@@ -4357,6 +4357,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 if ( $moveToTrash )
                 {
+                    // saving information about this node in ..trash_node table
+                    include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
+                    $trashNode = eZContentObjectTrashNode::createFromNode( $this );
+                    $db =& eZDB::instance();
+                    $db->begin();
+                    $trashNode->storeToTrash();
+                    $db->commit();
+
                     $object->remove();
                 }
                 else
@@ -5505,7 +5513,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                                    $nodeInfo );
                 if( is_object( $nodeAssignment ) )
                 {
-                    //eZDebug::writeDebug( $nodeAssignment, '$nodeAssignment' );
                     $nodeAssignment->setAttribute( 'parent_remote_id', $newRemoteID );
                     $nodeAssignment->store();
                 }
@@ -5536,15 +5543,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
             {
                 $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'];
-//                 eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
-//                                       'eZContentObjectTreeNode::unserialize()' );
             }
             else if ( isset( $options['top_nodes_map']['*'] ) )
             {
                 $parentNodeID = $options['top_nodes_map']['*'];
-//                 eZDebug::writeNotice( 'Using user specified top node: ' . $parentNodeID,
-//                                       'eZContentObjectTreeNode::unserialize()' );
-
             }
             else
             {

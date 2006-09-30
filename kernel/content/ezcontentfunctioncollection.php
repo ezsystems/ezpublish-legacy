@@ -457,29 +457,32 @@ class eZContentFunctionCollection
 
     function fetchTrashObjectCount( $objectNameFilter )
     {
-        $cond = array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+        include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
         if ( $objectNameFilter !== false )
-             $cond['name'] = array( 'like', $objectNameFilter . '%' );
+        {
+            $params = array();
+            $params['ObjectNameFilter'] = $objectNameFilter;
+        }
+        else
+            $params = false;
 
-        $trashObjectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                  array(), $cond,
-                                                                  array(), null,
-                                                                  false,false,
-                                                                  array( array( 'operation' => 'count( * )',
-                                                                                'name' => 'count' ) ) );
-        return array( 'result' => $trashObjectList[0]['count'] );
+        $trashCount = eZContentObjectTrashNode::trashListCount( $params );
+        return array( 'result' => $trashCount );
     }
 
     function fetchTrashObjectList( $offset, $limit, $objectNameFilter )
     {
-        $cond = array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+        include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
+        $params = array();
         if ( $objectNameFilter !== false )
-             $cond['name'] = array( 'like', $objectNameFilter . '%' );
-        $trashObjectList =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                  null, $cond,
-                                                                  null, array( 'length' => $limit, 'offset' => $offset ),
-                                                                  true );
-        return array( 'result' => &$trashObjectList );
+        {
+            $params['ObjectNameFilter'] = $objectNameFilter;
+        }
+        $params[ 'Limit' ] = $limit;
+        $params[ 'Offset' ] = $offset;
+
+        $trashNodesList =& eZContentObjectTrashNode::trashList( $params, false );
+        return array( 'result' => &$trashNodesList );
     }
 
     function fetchDraftVersionList( $offset, $limit )
@@ -574,12 +577,10 @@ class eZContentFunctionCollection
 
         if ( is_object( $parentNode ) )
         {
-            //eZDebug::writeDebug( "can_create_class_list from node " . $parentNode->attribute( 'node_id' ) );
             $classList =& $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
         else
         {
-            //eZDebug::writeDebug( "can_create_class_list for all " );
             include_once( 'kernel/classes/ezcontentclass.php' );
             $classList =& eZContentClass::canInstantiateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }

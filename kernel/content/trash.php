@@ -79,14 +79,11 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                     $object =& $objectList[$key];
                     $object->purge();
                 }
-//                $object =& eZContentObject::fetch( $deleteID );
-//                $object->purge();
             }
             $db->commit();
         }
         else
         {
-
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
     }
@@ -120,7 +117,7 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
 }
 
 $tpl =& templateInit();
-$tpl->setVariable('view_parameters', $viewParameters );
+$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/trash.tpl' );

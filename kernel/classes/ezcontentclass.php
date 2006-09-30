@@ -1433,8 +1433,10 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function &canInstantiateLanguages()
     {
-        $languageCodes = array_intersect( eZContentLanguage::prioritizedLanguageCodes(), $this->CanInstantiateLanguages );
-
+        if ( is_array( $this->CanInstantiateLanguages ) )
+            $languageCodes = array_intersect( eZContentLanguage::prioritizedLanguageCodes(), $this->CanInstantiateLanguages );
+        else
+            $languageCodes = array();
         return $languageCodes;
     }
 
