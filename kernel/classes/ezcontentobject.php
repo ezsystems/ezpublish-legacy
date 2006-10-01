@@ -2565,8 +2565,8 @@ class eZContentObject extends eZPersistentObject
                 $ignoreVisibility = $params['IgnoreVisibility'];
                 if ( !$ignoreVisibility )
                 {
-                    $showInvisibleNodesCond = 'ezcontentobject_tree.contentobject_id = ezcontentobject.id
-                                               AND ezcontentobject_tree.is_invisible = 0 AND';
+                    $showInvisibleNodesCond = ' AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                               AND ezcontentobject_tree.is_invisible = 0 ';
                     $showInvisibleNodesTable = ', ezcontentobject_tree';
                 }
             }
@@ -2580,29 +2580,29 @@ class eZContentObject extends eZPersistentObject
             {
                 $relationTypeMask = eZContentFunctionCollection::contentobjectRelationTypeMask();
             }
-            $relationTypeMasking .= " ( relation_type & $relationTypeMask ) <> 0 AND ";
+            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
         }
 
         if ( !isset( $params['AllRelations'] ) ||  EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE === (int) $params['AllRelations'] )
         {
             $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " contentclassattribute_id=$attributeID AND ";
+            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
         }
 
         // Create SQL
         $versionNameTables = ', ezcontentobject_name ';
         $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-        $versionNameJoins = "ezcontentobject.id = ezcontentobject_name.contentobject_id AND
+        $versionNameJoins = " AND ezcontentobject.id = ezcontentobject_name.contentobject_id AND
                                  ezcontentobject.current_version = ezcontentobject_name.content_version AND ";
         $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
-        $fromOrToContentObjectID = $reverseRelatedObjects == false ? "ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+        $fromOrToContentObjectID = $reverseRelatedObjects == false ? " AND ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
                                                                       ezcontentobject_link.from_contentobject_id='$objectID' AND
-                                                                      ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND"
-                                                                   : "ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                                                                      ezcontentobject_link.from_contentobject_version='$fromObjectVersion' "
+                                                                   : " AND ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
                                                                       ezcontentobject_link.to_contentobject_id=$objectID AND
-                                                                      ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version AND";
+                                                                      ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version ";
             $query = "SELECT ";
 
             if ( $groupByAttribute )
@@ -2622,7 +2622,7 @@ class eZContentObject extends eZPersistentObject
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                         ezcontentclass.version=0 AND
                         ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                        ezcontentobject_link.op_code='0' AND
+                        ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID
                         $showInvisibleNodesCond
@@ -2828,13 +2828,13 @@ class eZContentObject extends eZPersistentObject
         $relationTypeMasking = '';
         if ( isset( $params['AllRelations'] ) )
         {
-            $relationTypeMasking .= " ( relation_type & {$params['AllRelations']} ) <> 0 AND ";
+            $relationTypeMasking .= " AND ( relation_type & {$params['AllRelations']} ) <> 0 ";
         }
 
         if ( !isset( $params['AllRelations'] ) ||  EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE === (int) $params['AllRelations'] )
         {
             $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " contentclassattribute_id=$attributeID AND ";
+            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
         }
 
 
@@ -2842,13 +2842,13 @@ class eZContentObject extends eZPersistentObject
         {
             if ( is_array( $objectID ) )
             {
-                $objectIDSQL = 'ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
+                $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
                                 ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
             }
             else
             {
                 $objectID = (int) $objectID;
-                $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' .  $objectID . ' AND
+                $objectIDSQL = ' AND ezcontentobject_link.to_contentobject_id = ' .  $objectID . ' AND
                                 ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
             }
             $select = " count( DISTINCT ezcontentobject.id ) AS count";
@@ -2856,7 +2856,7 @@ class eZContentObject extends eZPersistentObject
         else
         {
             $select = " count( ezcontentobject_link.from_contentobject_id ) as count ";
-            $objectIDSQL = "ezcontentobject_link.from_contentobject_id='$objectID'
+            $objectIDSQL = " AND ezcontentobject_link.from_contentobject_id='$objectID'
                                 AND ezcontentobject_link.from_contentobject_version='$version'";
         }
         $query = "SELECT $select
@@ -2865,7 +2865,7 @@ class eZContentObject extends eZPersistentObject
                   WHERE
                     ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
                     ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                    ezcontentobject_link.op_code='0' AND
+                    ezcontentobject_link.op_code='0'
                     $objectIDSQL
                     $relationTypeMasking
                     $showInvisibleNodesCond";
