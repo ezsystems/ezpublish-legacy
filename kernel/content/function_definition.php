@@ -1099,4 +1099,18 @@ $FunctionList['available_sort_fields'] = array( 'name' => 'available_sort_fields
                                                 'parameter_type' => 'standard',
                                                 'parameters' => array() );
 
+$FunctionList['country_list'] = array( 'name' => 'country',
+                                       'operation_types' => array( 'read' ),
+                                       'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                               'class' => 'eZContentFunctionCollection',
+                                                               'method' => 'fetchCountryList' ),
+                                       'parameter_type' => 'standard',
+                                       'parameters' => array( array( 'name' => 'filter',
+                                                                     'type' => 'string',
+                                                                     'required' => false ),
+                                                              array( 'name' => 'value',
+                                                                     'type' => 'string',
+                                                                     'required' => false ) ) );
+
+
 ?>

@@ -42,6 +42,8 @@ include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 include_once( 'kernel/common/i18n.php' );
 
 define( 'EZ_DATATYPESTRING_COUNTRY', 'ezcountry' );
+define( 'EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD', 'data_text5' );
+define( 'EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD', 'data_int1' );
 
 class eZCountryType extends eZDataType
 {
@@ -50,6 +52,128 @@ class eZCountryType extends eZDataType
         $this->eZDataType( EZ_DATATYPESTRING_COUNTRY, ezi18n( 'kernel/classes/datatypes', 'Country', 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
+    }
+
+    /*
+      Returns all country list with using translation.ts
+    */
+    function fetchCountriesForCurrentLanguage()
+    {
+        if ( isset( $GLOBALS['eZCountryList'] ) )
+        {
+            return $GLOBALS['eZCountryList'];
+        }
+
+        $countryList = array();
+        $countryINI =& eZINI::instance( 'content.ini' );
+        foreach ( $countryINI->variable( 'CountrySettings', 'Countries' ) as $key => $value )
+        {
+            $countryList[$key] = ezi18n( 'kernel/content/datatypes/ezcountry', $value );
+        }
+        natcasesort($countryList);
+        $GLOBALS['eZCountryList'] = $countryList;
+        return $countryList;
+    }
+
+    /*
+      Returns Country by name
+    */
+    function fetchCountryByName( $name )
+    {
+        if ( !$name )
+            return false ;
+
+        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+        $result = false;
+        foreach ( array_keys( $countries ) as $countryKey )
+        {
+            if ( $countries[$countryKey] == $name )
+            {
+                $result = array( $countryKey => $name );
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /*
+      Returns country by code
+    */
+    function fetchCountryByCode( $code )
+    {
+        if ( !$code )
+            return false;
+
+        $code = strtoupper( $code );
+        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+        $country = isset( $countries[$code] ) ? $countries[$code] : null;
+        if ( !$country )
+            return false;
+
+        $result = array( $code => $name );
+
+        return $result;
+    }
+
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $classAttributeID = $classAttribute->attribute( 'id' );
+        $content = $classAttribute->content();
+
+        if ( $http->hasPostVariable( $base . '_ezcountry_multiple_choice_value_' . $classAttribute->attribute( 'id' ) . '_exists' ) )
+        {
+             $content['multiple_choice'] = $http->hasPostVariable( $base . "_ezcountry_ismultiple_value_" . $classAttributeID ) ? 1 : 0;
+        }
+
+        if ( $http->hasPostVariable( $base . '_ezcountry_default_selection_value_' . $classAttribute->attribute( 'id' ) . '_exists' ) )
+        {
+            if ( $http->hasPostVariable( $base . "_ezcountry_default_country_list_". $classAttributeID ) )
+            {
+                $defaultValues = $http->postVariable( $base . "_ezcountry_default_country_list_". $classAttributeID );
+                $defaultList = array();
+                $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+                foreach ( $defaultValues as $defaultCountry )
+                {
+                    if ( trim( $defaultCountry ) != '' )
+                        $defaultList[$defaultCountry] = isset( $countries[$defaultCountry] ) ? $countries[$defaultCountry] : '';
+                }
+                $content['default_countries'] = $defaultList;
+            }
+            else
+            {
+                $content['default_countries'] = array();
+            }
+        }
+        $classAttribute->setContent( $content );
+        $classAttribute->store();
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function preStoreClassAttribute( &$classAttribute, $version )
+    {
+        $content = $classAttribute->content();
+        return eZCountryType::storeClassAttributeContent( $classAttribute, $content );
+    }
+
+    function storeClassAttributeContent( &$classAttribute, $content )
+    {
+        if ( is_array( $content ) )
+        {
+            $multipleChoice = $content['multiple_choice'];
+            $defaultCountryList = $content['default_countries'];
+            $defaultCountry = implode( ',', array_keys( $defaultCountryList ) );
+
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD, $defaultCountry );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD, $multipleChoice );
+        }
+        return false;
     }
 
     /*!
@@ -64,7 +188,7 @@ class eZCountryType extends eZDataType
         }
         else
         {
-            $default = array( 'value' => '' );
+            $default = array( 'value' => array() );
             $contentObjectAttribute->setContent( $default );
         }
     }
@@ -81,7 +205,7 @@ class eZCountryType extends eZDataType
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            if ( $data )
+            if ( count( $data ) > 0 and $data[0] != '' )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
 
@@ -102,7 +226,7 @@ class eZCountryType extends eZDataType
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
 
-            if ( $data )
+            if ( count( $data ) > 0 and $data[0] != '' )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
 
@@ -119,11 +243,37 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
-            $content = array( 'value' => $data );
+            $defaultList = array();
+            $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+            if ( is_array( $data ) )
+            {
+                foreach ( $data as $defaultCountry )
+                {
+                    if ( trim( $defaultCountry ) != '' )
+                        $defaultList[$defaultCountry] = isset( $countries[$defaultCountry] ) ? $countries[$defaultCountry] : '';
+                }
+            }
+            else
+            {
+                foreach ( array_keys( $countries ) as $key )
+                {
+                    $country = $countries[$key];
+                    if ( $country == $data )
+                    {
+                        $defaultList[$key] = $country;
+                    }
+                }
+            }
+            $content = array( 'value' => $defaultList );
+
             $contentObjectAttribute->setContent( $content );
-            return true;
         }
-        return false;
+        else
+        {
+            $content = array( 'value' => array() );
+            $contentObjectAttribute->setContent( $content );
+        }
+        return true;
     }
 
     /*!
@@ -134,7 +284,9 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $dataText = $http->postVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) );
-            $collectionAttribute->setAttribute( 'data_text', $dataText );
+
+            $value = implode( ',', $dataText );
+            $collectionAttribute->setAttribute( 'data_text', $value );
             return true;
         }
         return false;
@@ -146,7 +298,11 @@ class eZCountryType extends eZDataType
     function storeObjectAttribute( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        $contentObjectAttribute->setAttribute( "data_text", $content['value'] );
+
+        $valueArray = $content['value'];
+        $value = is_array( $valueArray ) ? implode( ',', array_keys( $valueArray ) ) : $valueArray;
+
+        $contentObjectAttribute->setAttribute( "data_text", $value );
     }
 
     /*!
@@ -177,7 +333,44 @@ class eZCountryType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $content = array( 'value' => $contentObjectAttribute->attribute( 'data_text' ) );
+        $value = $contentObjectAttribute->attribute( 'data_text' );
+
+        $countryList = explode( ',', $value );
+        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+        $resultList = array();
+        foreach ( array_keys( $countryList ) as $defaultKey )
+        {
+            $dCountry = $countryList[$defaultKey];
+            $resultList[$dCountry] = isset( $countries[$dCountry] ) ? $countries[$dCountry] : '';
+        }
+        // Supporting of previous version format.
+        // For backwards compatability.
+        if ( count( $resultList ) == 1 and $resultList[$value] == '' )
+            $resultList = $value;
+
+        $content = array( 'value' => $resultList );
+        return $content;
+    }
+
+    /*!
+     \reimp
+    */
+    function &classAttributeContent( &$classAttribute )
+    {
+        $defaultCountry = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
+        $multipleChoice = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
+        $defaultCountryList = explode( ',', $defaultCountry );
+        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
+        $resultList = array();
+        foreach ( array_keys( $defaultCountryList ) as $defaultKey )
+        {
+            $dCountry = $defaultCountryList[$defaultKey];
+            $resultList[$dCountry] = isset( $countries[$dCountry] ) ? $countries[$dCountry] : '';
+        }
+
+        $content = array( 'default_countries' => $resultList,
+                          'multiple_choice' => $multipleChoice );
+
         return $content;
     }
 
@@ -187,6 +380,7 @@ class eZCountryType extends eZDataType
     function metaData( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
+        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
         return $content['value'];
     }
 
@@ -196,13 +390,15 @@ class eZCountryType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
+        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
         return $content['value'];
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        return trim( $content['value'] ) != '';
+        $result = ( ( !is_array( $content['value'] ) and trim( $content['value'] ) != '' ) or ( is_array( $content['value'] ) and count( $content['value'] ) > 0 ) );
+        return $result;
     }
 
     /*!
@@ -229,6 +425,8 @@ class eZCountryType extends eZDataType
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
         $content = $contentObjectAttribute->content();
+        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
+
         return $trans->transformByGroup( $content['value'], 'lowercase' );
     }
 

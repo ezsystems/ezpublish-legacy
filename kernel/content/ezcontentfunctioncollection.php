@@ -1253,6 +1253,29 @@ class eZContentFunctionCollection
                                          '2' => 'Published',
                                          '4' => 'Section' ) );
     }
+
+    function fetchCountryList( $filter, $value )
+    {
+        include_once( 'kernel/classes/datatypes/ezcountry/ezcountrytype.php' );
+
+        switch ( $filter )
+        {
+            case 'name':
+            {
+                $country = eZCountryType::fetchCountryByName( $value );
+            } break;
+            case 'code':
+            {
+                $country = eZCountryType::fetchCountryByCode( $value );
+            } break;
+            default:
+            {
+                $country = eZCountryType::fetchCountriesForCurrentLanguage();
+            } break;
+        }
+
+        return array( 'result' => $country );
+    }
 }
 
 ?>
