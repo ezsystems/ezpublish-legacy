@@ -1,0 +1,26 @@
+*Title: Match[parent_class] - new matching way to override templates.
+
+*Documentation:
+New match condition is implemented to override templates by content class
+of the parent node for the current viewed node for 'view' function of 'content'
+You can set it using any of two new matching keys:
+- 'parent_class' used to match by ID of the content class of the parent node;
+- 'parent_class_identifier' used to match by class identifier of the content class of the parent node.
+
+*Example:
+
+# these two override sections are identical:
+# matching by parent_class
+[article_override_1]
+Source=node/view/full.tpl
+MatchFile=your_template_1.tpl
+Subdir=templates
+Match[parent_class]=1
+Match[parent_class_identifier]=folder
+
+# or matching by parent_class_identifier
+[article_override_2]
+Source=node/view/full.tpl
+MatchFile=your_template_2.tpl
+Subdir=templates
+Match[parent_class_identifier]=folder

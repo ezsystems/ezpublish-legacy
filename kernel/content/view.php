@@ -213,8 +213,6 @@ else
 
             if ( !$cacheExpired )
             {
-                $res =& eZTemplateDesignResource::instance();
-
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
                                    array( 'node', $Result['content_info']['node_id'] ),
                                    array( 'parent_node', $Result['content_info']['parent_node_id'] ),
@@ -225,34 +223,19 @@ else
                                    array( 'depth', $Result['content_info']['node_depth'] ),
                                    array( 'url_alias', $Result['content_info']['url_alias'] ),
                                    array( 'persistent_variable', $Result['content_info']['persistent_variable'] ),
-                                   array( 'class_group', $Result['content_info']['class_group'] ) );
+                                   array( 'class_group', $Result['content_info']['class_group'] ),
+                                   array( 'parent_class_id', $Result['content_info']['parent_class_id'] ),
+                                   array( 'parent_class_identifier', $Result['content_info']['parent_class_identifier'] ) );
 
-                $res->setKeys( $keyArray  );
                 if ( isset( $Result['content_info']['class_identifier'] ) )
-                    $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
+                    $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( $keyArray );
 
                 // set section id
                 include_once( 'kernel/classes/ezsection.php' );
                 eZSection::setGlobalID( $Result['section_id'] );
-
-                if ( $Result )
-                {
-                    $res =& eZTemplateDesignResource::instance();
-                    $res->setKeys( array( array( 'object', $Result['content_info']['object_id'] ),
-                                          array( 'node', $Result['content_info']['node_id'] ),
-                                          array( 'parent_node', $Result['content_info']['parent_node_id'] ),
-                                          array( 'class', $Result['content_info']['class_id'] ),
-                                          array( 'view_offset', $Result['content_info']['offset'] ),
-                                          array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
-                                          array( 'viewmode', $Result['content_info']['viewmode'] ),
-                                          array( 'depth', $Result['content_info']['node_depth'] ),
-                                          array( 'url_alias', $Result['content_info']['url_alias'] )
-                                          ) );
-                    if ( isset( $Result['content_info']['class_identifier'] ) )
-                        $res->setKeys( array( array( 'class_identifier', $Result['content_info']['class_identifier'] ) ) );
-
-                    return $Result;
-                }
 
                 return $Result;
             }

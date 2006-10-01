@@ -62,6 +62,26 @@ class eZNodeviewfunctions
                            array( 'url_alias', $node->attribute( 'url_alias' ) ),
                            array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ) );
 
+        $parentClassID = false;
+        $parentClassIdentifier = false;
+        $parentNode = $node->attribute( 'parent' );
+        if ( is_object( $parentNode ) )
+        {
+            $parentObject = $parentNode->attribute( 'object' );
+            if ( is_object( $parentObject ) )
+            {
+                $parentClass = $parentObject->contentClass();
+                if ( is_object( $parentClass ) )
+                {
+                    $parentClassID = $parentClass->attribute( 'id' );
+                    $parentClassIdentifier = $parentClass->attribute( 'identifier' );
+
+                    $keyArray[] = array( 'parent_class', $parentClassID );
+                    $keyArray[] = array( 'parent_class_identifier', $parentClassIdentifier );
+                }
+            }
+        }
+
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
 
@@ -130,6 +150,8 @@ class eZNodeviewfunctions
             $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
         }
         $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
+        $contentInfoArray['parent_class_id'] = $parentClassID;
+        $contentInfoArray['parent_class_identifier'] = $parentClassIdentifier;
 
         $Result['content_info'] = $contentInfoArray;
 
