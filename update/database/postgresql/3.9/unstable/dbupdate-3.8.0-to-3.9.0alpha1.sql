@@ -29,3 +29,32 @@ ALTER TABLE ezcontentclass ALTER COLUMN sort_order SET DEFAULT 1;
 ALTER TABLE ezcontentclass ALTER COLUMN sort_order SET NOT NULL;
 
 -- END: 'default sorting' attribute for ezcontentclass
+
+-- START: new table for trash
+CREATE TABLE ezcontentobject_trash (
+    contentobject_id integer,
+    contentobject_version integer,
+    depth integer DEFAULT 0 NOT NULL,
+    is_hidden integer DEFAULT 0 NOT NULL,
+    is_invisible integer DEFAULT 0 NOT NULL,
+    main_node_id integer,
+    modified_subnode integer DEFAULT 0,
+    node_id integer DEFAULT 0 NOT NULL,
+    parent_node_id integer DEFAULT 0 NOT NULL,
+    path_identification_string text,
+    path_string character varying(255) DEFAULT ''::character varying NOT NULL,
+    priority integer DEFAULT 0 NOT NULL,
+    remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1
+);
+
+
+CREATE INDEX ezcontentobject_trash_co_id ON ezcontentobject_trash USING btree (contentobject_id);
+CREATE INDEX ezcontentobject_trash_depth ON ezcontentobject_trash USING btree (depth);
+CREATE INDEX ezcontentobject_trash_p_node_id ON ezcontentobject_trash USING btree (parent_node_id);
+CREATE INDEX ezcontentobject_trash_path ON ezcontentobject_trash USING btree (path_string);
+CREATE INDEX ezcontentobject_trash_path_ident ON ezcontentobject_trash USING btree (path_identification_string);
+CREATE INDEX ezcontentobject_trash_modified_subnode ON ezcontentobject_trash USING btree (modified_subnode);
+ALTER TABLE ONLY ezcontentobject_trash ADD CONSTRAINT ezcontentobject_trash_pkey PRIMARY KEY (node_id);
+-- END: new table for trash
