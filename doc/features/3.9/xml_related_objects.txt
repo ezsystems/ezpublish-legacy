@@ -1,0 +1,13 @@
+*Title: Improvements to related objects added from XML block text field.
+
+*Documentation:
+
+Objects related on the object level (not by attribute) now have 3 types of relations:
+
+- common (added manually by user)
+- linked (added from <link> XML tag)
+- embedded (added from <embed> XML tag)
+
+Parameter 'relations_type' has been added to corresponding template fetch functions.
+
+   (will be documeted later!)
