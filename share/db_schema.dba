@@ -1082,6 +1082,20 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'sort_field' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
+      'sort_order' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
       'version' => 
       array (
         'length' => 11,

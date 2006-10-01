@@ -17,3 +17,15 @@ ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET NOT NULL;
 ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int;
 ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET DEFAULT 1;
 ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET NOT NULL;
+
+-- START: 'default sorting' attribute for ezcontentclass
+
+ALTER TABLE ezcontentclass ADD COLUMN sort_field int;
+ALTER TABLE ezcontentclass ALTER COLUMN sort_field SET DEFAULT 1;
+ALTER TABLE ezcontentclass ALTER COLUMN sort_field SET NOT NULL;
+
+ALTER TABLE ezcontentclass ADD COLUMN sort_order int;
+ALTER TABLE ezcontentclass ALTER COLUMN sort_order SET DEFAULT 1;
+ALTER TABLE ezcontentclass ALTER COLUMN sort_order SET NOT NULL;
+
+-- END: 'default sorting' attribute for ezcontentclass
