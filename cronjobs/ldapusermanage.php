@@ -41,28 +41,53 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
+
+// fetching ldap users already stored in the database
 $db =& eZDB::instance();
 $query = "SELECT contentobject_id, login
           FROM ezcontentobject, ezuser
           WHERE remote_id like 'LDAP%'
           AND ezcontentobject.id=contentobject_id";
-
 $LDAPUsers = $db->arrayQuery( $query );
+
+// get LDAP ini settings
 $ini =& eZINI::instance();
 $LDAPIni =& eZINI::instance( 'ldap.ini' );
-$LDAPVersion = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
-$LDAPHost = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
-$LDAPPort = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
-$LDAPBaseDN = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
-$LDAPBindUser = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindUser' );
-$LDAPBindPassword = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindPassword' );
-$LDAPLogin = $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' );
-$LDAPSearchScope = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchScope' );
+
+$LDAPVersion    = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
+$LDAPServer     = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
+$LDAPHost       = $LDAPServer;
+
+$LDAPPort       = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
+$LDAPBaseDN     = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
+$LDAPBindUser   = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindUser' );
+$LDAPBindPassword       = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindPassword' );
+
+$LDAPSearchScope        = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchScope' );
+$LDAPLoginAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' );
+$LDAPLogin              = $LDAPLoginAttribute;
 $LDAPFirstNameAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPFirstNameAttribute' );
-$LDAPLastNameAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPLastNameAttribute' );
-$LDAPEmailAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPEmailAttribute' );
+$LDAPLastNameAttribute  = $LDAPIni->variable( 'LDAPSettings', 'LDAPLastNameAttribute' );
+$LDAPEmailAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPEmailAttribute' );
+
+$defaultUserPlacement   = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+
 $LDAPUserGroupAttributeType = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttributeType' );
-$LDAPUserGroupAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttribute' );
+$LDAPUserGroupAttribute     = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroupAttribute' );
+
+if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
+{
+    $Utf8Encoding = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
+    if ( $Utf8Encoding == "true" )
+        $isUtf8Encoding = true;
+    else
+        $isUtf8Encoding = false;
+}
+else
+{
+    $isUtf8Encoding = false;
+}
+
 if ( $LDAPIni->hasVariable( 'LDAPSettings', 'LDAPSearchFilters' ) )
 {
     $LDAPFilters = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchFilters' );
@@ -73,37 +98,17 @@ if ( $LDAPIni->hasVariable( 'LDAPSettings', 'LDAPUserGroupType' ) and  $LDAPIni-
     $LDAPUserGroup = $LDAPIni->variable( 'LDAPSettings', 'LDAPUserGroup' );
 }
 
-if ( $LDAPIni->hasVariable( 'LDAPSettings', 'Utf8Encoding' ) )
-{
-    $Utf8EncodingSetting = $LDAPIni->variable( 'LDAPSettings', 'Utf8Encoding' );
-    if ( $Utf8EncodingSetting == "true" )
-        $isUtf8Encoding = true;
-    else
-        $isUtf8Encoding = false;
-}
-else
-{
-    $isUtf8Encoding = false;
-}
-
 $LDAPEqualSign = trim($LDAPIni->variable( 'LDAPSettings', "LDAPEqualSign" ) );
 $LDAPBaseDN = str_replace( $LDAPEqualSign, "=", $LDAPBaseDN );
 
-if ( $LDAPUserGroupAttributeType != null )
-{
-    $attributeArray = array( $LDAPFirstNameAttribute,
-                             $LDAPLastNameAttribute,
-                             $LDAPEmailAttribute,
-                             $LDAPUserGroupAttribute );
-}
-else
-{
-    $attributeArray = array( $LDAPFirstNameAttribute,
+$retrieveAttributes = array( $LDAPLoginAttribute,
+                             $LDAPFirstNameAttribute,
                              $LDAPLastNameAttribute,
                              $LDAPEmailAttribute );
-}
+if ( $LDAPUserGroupAttributeType )
+    $retrieveAttributes[] = $LDAPUserGroupAttribute;
 
-$defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+
 $extraNodeAssignments = array();
 if ( $LDAPUserGroupType != null )
 {
@@ -204,6 +209,7 @@ if ( $ds )
     }
     if ( !$r )
     {
+        eZDebug::writeError( 'Cannot bind in to LDAP server', 'ldapusermanage.php' );
         return false;
     }
     ldap_set_option( $ds, LDAP_OPT_SIZELIMIT, 0 );
@@ -211,6 +217,7 @@ if ( $ds )
 }
 else
 {
+    eZDebug::writeError( 'Cannot initialize connection for LDAP server', 'ldapusermanage.php' );
     return false;
 }
 
@@ -232,12 +239,14 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
     $LDAPFilter .= "($LDAPLogin=$login)";
     $LDAPFilter .= ")";
     $LDAPFilter = str_replace( $LDAPEqualSign, "=", $LDAPFilter );
+
     if ( $LDAPSearchScope == "one" )
-        $sr = ldap_list( $ds, $LDAPBaseDN, $LDAPFilter, $attributeArray );
+        $sr = ldap_list( $ds, $LDAPBaseDN, $LDAPFilter, $retrieveAttributes );
     else if ( $LDAPSearchScope == "base" )
-        $sr = ldap_read( $ds, $LDAPBaseDN, $LDAPFilter, $attributeArray );
+        $sr = ldap_read( $ds, $LDAPBaseDN, $LDAPFilter, $retrieveAttributes );
     else
-        $sr = ldap_search( $ds, $LDAPBaseDN, $LDAPFilter, $attributeArray );
+        $sr = ldap_search( $ds, $LDAPBaseDN, $LDAPFilter, $retrieveAttributes );
+
     $info = ldap_get_entries( $ds, $sr );
     if ( $info["count"] != 1 )
     {

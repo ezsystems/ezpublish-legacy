@@ -1765,6 +1765,9 @@ class eZContentObject extends eZPersistentObject
 
     /*!
       Fetches the attributes for the current published version of the object.
+      TODO: fix using of $asObject parameter,
+            fix condition for getting attribute from cache,
+            probably need to move method to eZContentObjectVersion class
     */
     function &contentObjectAttributes( $asObject = true, $version = false, $language = false, $contentObjectAttributeID = false, $distinctItemsOnly = false )
     {
@@ -5292,10 +5295,9 @@ class eZContentObject extends eZPersistentObject
         if ( $languageID != false )
         {
             $newLanguageID = $languageID | 1;
-
             $sql = "UPDATE ezcontentobject_name
                     SET language_id='$newLanguageID'
-                WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND content_version = '$versionID'";
+                    WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND content_version = '$versionID'";
             $db->query( $sql );
         }
 

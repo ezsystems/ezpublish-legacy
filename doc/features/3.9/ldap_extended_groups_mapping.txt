@@ -1,0 +1,7 @@
+*Title: Extended LDAP user group mapping.
+
+*Documentation:
+Two new methods of LDAP mapping of an user to a group added:
+- using LDAPUserGroupMap[] array (see ldap.ini)
+- using group hierarchical tree stored on LDAP server (using member-attribute
+  of LDAP group to get members of each group).
