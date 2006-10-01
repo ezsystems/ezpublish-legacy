@@ -1,0 +1,12 @@
+*Title: XML numeric entities handling.
+
+*Documentation:
+
+Its possible to store foreign characters in XML documents now.
+The following setting should be set to true:
+
+ezxml [InputSettings].AllowNumericEntities
+
+Now you can use numeric entities in your documents, like: &#1234;
+This is useful to enter single special characters like greek letters even if
+they are not supported by the current charset.

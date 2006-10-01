@@ -1,0 +1,18 @@
+*Title: XML block new features.
+
+*Documentation:
+
+<link> tag now has 'view' attribute, so you can make links to different views
+of an object. The default value is 'full'.
+
+<tr> tag now has 'class' attrbute.
+
+
+*Example:
+
+<link href='eznode://1234' view='line'>
+....
+
+<table>
+<tr class='trBlue'>
+...

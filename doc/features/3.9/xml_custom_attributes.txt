@@ -1,0 +1,43 @@
+*Title: Improved custom attributes.
+
+*Documentation:
+
+In the past only some tags, like 'embed' could have custom attributes.
+Now every ezxmltext tag can have custom attributes, and the list of available
+custom attributes is set with content.ini setting:
+
+content.ini [tagname].CustomAttributes
+
+This is an array that contains attributes names.
+
+To access custom attribute's values in tag's template, use variable that have
+the same name.
+
+*Important:
+
+You can get warning when you try to edit existing objects containing tags with
+custom attributes if they are not added to the list. To add all existing
+attributes to content.ini automatically run the following script:
+
+correctxmltext39.php
+
+
+*Example:
+
+If you want to add 'summary' attribute to the 'table' element,
+add the following setting to content.ini.append:
+
+[table]
+CustomAttributes[]
+CustomAttributes[]=summary
+
+
+Now you can enter in the XML text block input field:
+
+<table summary='123>
+...
+
+
+In the template table.tpl:
+
+summary:{$summary}
