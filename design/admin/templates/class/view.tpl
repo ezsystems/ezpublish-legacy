@@ -61,11 +61,32 @@
     {/section}
 </div>
 
+{*** Class Default Sorting ***}
+<div class="block">
+<label>{'Default sorting'|i18n( 'design/admin/class/view' )}:</label>
+{let sort_fields=fetch( content, available_sort_fields )
+     title='The default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/view' ) }
+<form action={concat( '/class/view/', $class.id )|ezurl} method="post">
+<input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
+<select name="ContentClass_default_sorting_field" title="{$title}">
+{section var=Sort loop=$sort_fields}
+    <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/view' )}</option>
+{/section}
+
+</select>
+<select name="ContentClass_default_sorting_order" title="{$title}">
+    <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
+    <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
+</select>
+    <input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/class/edit' )}" title="{$title}" />
+</form>
+{/let}
+</div>
+
 <div class="block">
     <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
     {$class.object_count}
 </div>
-
 
 <h2>{'Attributes'|i18n( 'design/admin/class/view' )}</h2>
 <table class="special" cellspacing="0">

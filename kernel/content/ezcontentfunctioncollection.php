@@ -1241,6 +1241,18 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezcontentobject.php' );
         return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID, $params ) );
     }
+
+    function fetchAvailableSortFieldList()
+    {
+        return array( 'result' => array( '6' => 'Class identifier',
+                                         '7' => 'Class name',
+                                         '5' => 'Depth',
+                                         '3' => 'Modified',
+                                         '9' => 'Name',
+                                         '8' => 'Priority',
+                                         '2' => 'Published',
+                                         '4' => 'Section' ) );
+    }
 }
 
 ?>

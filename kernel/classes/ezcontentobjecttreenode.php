@@ -3602,9 +3602,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $parentDepth + 1 ;
 
         $insertedNode = eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
-        // Fix correct sorting
-        $insertedNode->setAttribute( 'sort_field', 2 );
-        $insertedNode->setAttribute( 'sort_order', false );
+
+        // set default sorting from content class
+        $contentClass = $contentObject->attribute( 'content_class' );
+        $insertedNode->setAttribute( 'sort_field', $contentClass->attribute( 'sort_field' ) );
+        $insertedNode->setAttribute( 'sort_order', $contentClass->attribute( 'sort_order' ) );
+
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 

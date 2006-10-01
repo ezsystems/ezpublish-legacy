@@ -238,6 +238,8 @@ CREATE TABLE ezcontentclass (
   modifier_id int(11) NOT NULL default '0',
   name varchar(255) default NULL,
   remote_id varchar(100) NOT NULL default '',
+  sort_field int(11) NOT NULL default '1',
+  sort_order int(11) NOT NULL default '1',
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)

@@ -1260,6 +1260,8 @@ CREATE TABLE ezcontentclass (
     modifier_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    sort_field integer DEFAULT 1,
+    sort_order integer DEFAULT 1,
     "version" integer DEFAULT 0 NOT NULL
 );
 

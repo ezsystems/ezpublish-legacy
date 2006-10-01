@@ -112,7 +112,15 @@ class eZContentClass extends eZPersistentObject
                                          'always_available' => array( 'name' => "AlwaysAvailable",
                                                                       'datatype' => 'integer',
                                                                       'default' => 0,
-                                                                      'required' => true ) ),
+                                                                      'required' => true ),
+                                         'sort_field' => array( 'name' => 'SortField',
+                                                              'datatype' => 'integer',
+                                                              'default' => 1,
+                                                              'required' => true ),
+                                         'sort_order' => array( 'name' => 'SortOrder',
+                                                              'datatype' => 'integer',
+                                                              'default' => 1,
+                                                              'required' => true ) ),
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap",
                                                       'object_count' => 'objectCount',
@@ -145,7 +153,10 @@ class eZContentClass extends eZPersistentObject
             "created" => $this->attribute( 'created' ),
             "modified" => $this->attribute( 'modified' ),
             "is_container" => $this->attribute( 'is_container' ),
-            "always_available" => $this->attribute( 'always_available' ) );
+            "always_available" => $this->attribute( 'always_available' ),
+            "sort_field" => $this->attribute( 'sort_field' ),
+            "sort_order" => $this->attribute( 'sort_order' ) );
+
         $tmpClass = new eZContentClass( $row );
         return $tmpClass;
     }
@@ -168,7 +179,10 @@ class eZContentClass extends eZPersistentObject
             'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
             "modified" => $dateTime,
             "is_container" => $contentClassDefinition[ 'fields' ][ 'is_container' ][ 'default' ],
-            "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ] );
+            "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ],
+            "sort_field" => $contentClassDefinition[ 'fields' ][ 'sort_field' ][ 'default' ],
+            "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
+
         $row = array_merge( $row, $optionalValues );
         $contentClass = new eZContentClass( $row );
         return $contentClass;

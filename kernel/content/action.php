@@ -169,7 +169,9 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                     $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                        'parent_node' => $node->attribute( 'node_id' ),
-                                                                       'is_main' => 1 ) );
+                                                                       'is_main' => 1,
+                                                                       'sort_field' => $class->attribute( 'sort_field' ),
+                                                                       'sort_order' => $class->attribute( 'sort_order' ) ) );
                     if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
                     {
                         $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );
@@ -963,11 +965,11 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
             }
         }
 
-		if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
-		{
-			$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
-		}
-		
+        if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+        {
+            $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+        }
+
         $module->redirectToView( 'edit', $parameters );
         return;
     }

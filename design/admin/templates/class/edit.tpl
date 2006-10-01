@@ -98,13 +98,38 @@
 
     <div class="block">
     {section show=$attributes}
-        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> 
-	<input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
-	<input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
+        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" />
+    <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+    <input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
     {section-else}
         <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" /> <input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
     {/section}
     </div>
+
+{*** Class Default Sorting ***}
+<div class="block">
+<label>{'Default sorting'|i18n( 'design/admin/class/edit' )}:</label>
+
+{let sort_fields=fetch( content, available_sort_fields )
+     title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' ) }
+<input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
+<select name="ContentClass_default_sorting_field" title="{$title}">
+{section var=Sort loop=$sort_fields}
+    <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/edit' )}</option>
+{/section}
+</select>
+
+<select name="ContentClass_default_sorting_order" title="{$title}">
+    <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
+    <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
+</select>
+{*<input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/class/edit' )}" title="{$title}" />*}
+{/let}
+</div>
+
+<div class="block">
+<label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
+</div>
 
 <table class="list" cellspacing="0" id="AttributesTable">
 {section show=$attributes}

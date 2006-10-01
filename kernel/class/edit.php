@@ -327,6 +327,20 @@ if ( $contentClassHasInput )
         }
     }
 
+    if ( $http->hasVariable( 'ContentClass_default_sorting_exists' ) )
+    {
+        if ( $http->hasVariable( 'ContentClass_default_sorting_field' ) )
+        {
+            $sortingField = $http->variable( 'ContentClass_default_sorting_field' );
+            $class->setAttribute( 'sort_field', $sortingField );
+        }
+        if ( $http->hasVariable( 'ContentClass_default_sorting_order' ) )
+        {
+            $sortingOrder = $http->variable( 'ContentClass_default_sorting_order' );
+            $class->setAttribute( 'sort_order', $sortingOrder );
+        }
+    }
+
     if ( $http->hasPostVariable( 'DataTypeString' ) )
         $cur_datatype = $http->postVariable( 'DataTypeString' );
 }

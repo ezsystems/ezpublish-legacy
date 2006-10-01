@@ -1090,4 +1090,13 @@ $FunctionList['reverse_related_objects_count'] = array( 'name' => 'object',
                                                                'type' => 'boolean',
                                                                'required' => false,
                                                                'default' => null ) ) );
+
+$FunctionList['available_sort_fields'] = array( 'name' => 'available_sort_fields',
+                                                'operation_types' => array( 'read' ),
+                                                'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                        'class' => 'eZContentFunctionCollection',
+                                                                        'method' => 'fetchAvailableSortFieldList' ),
+                                                'parameter_type' => 'standard',
+                                                'parameters' => array() );
+
 ?>
