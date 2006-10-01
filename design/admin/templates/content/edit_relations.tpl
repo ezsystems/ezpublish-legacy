@@ -34,7 +34,13 @@
                     {$RelatedImageObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}
                 </p>
             {/section}
-           <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+           <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
+           <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedImageObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
+            ({foreach $related_contentobjects_id as $relationType => $relationIDArray}
+                {if $relationIDArray|contains($RelatedImageObjects.item.id)}
+                    {$relationType}
+                {/if}
+            {/foreach})
         </div>
         </td>
         {delimiter modulo=4}
@@ -61,6 +67,7 @@
                 <th class="class">{'File type'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="filesize">{'Size'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'XML code'|i18n( 'design/admin/content/edit' )}</th>
+                <th class="code">{'Relation type'|i18n( 'design/admin/content/edit' )}</th>
             </tr>
 
             {section var=RelatedFileObjects loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
@@ -70,11 +77,31 @@
                         <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                         <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
                         <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
-                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                        <td class="code">
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
+                            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+                        </td>
+                        <td class="code">
+                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
+                                {if $relationIDArray|contains($RelatedFileObjects.item.id)}
+                                    {$relationType}
+                                {/if}
+                            {/foreach}
+                        </td>
                     {section-else}
                         <td class="checkbox">&nbsp;</td>
                         <td colspan="3">{$RelatedFileObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
-                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                        <td class="code">
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
+                            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+                        </td>
+                        <td class="code">
+                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
+                                {if $relationIDArray|contains($RelatedFileObjects.item.id)}
+                                    {$relationType}
+                                {/if}
+                            {/foreach}
+                        </td>
                     {/section}
                 </tr>
 
@@ -96,6 +123,7 @@
                 <th class="name">{'Name'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="class">{'Type'|i18n( 'design/admin/content/edit' )}</th>
                 <th class="code">{'XML code'|i18n( 'design/admin/content/edit' )}</th>
+                <th class="code">{'Relation type'|i18n( 'design/admin/content/edit' )}</th>
             </tr>
 
             {section var=RelatedObjects loop=$grouped_related_contentobjects.objects sequence=array( bglight, bgdark )}
@@ -105,11 +133,31 @@
                         <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
                         <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                         <td class="class">{$RelatedObjects.item.class_name|wash}</td>
-                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                        <td class="code">
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /><br />
+                            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+                        </td>
+                        <td class="code">
+                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
+                                {if $relationIDArray|contains($RelatedObjects.item.id)}
+                                    {$relationType}
+                                {/if}
+                            {/foreach}
+                        </td>
                     {section-else}
                         <td class="checkbox">&nbsp;</td>
                         <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
-                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                        <td class="code">
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" />
+                            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
+                        </td>
+                        <td class="code">
+                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
+                                {if $relationIDArray|contains($RelatedObjects.item.id)}
+                                    {$relationType}
+                                {/if}
+                            {/foreach}
+                        </td>
                     {/section}
                 </tr>
 

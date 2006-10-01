@@ -47,7 +47,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     {
         $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
-        $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
+        $relatedObjects =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
         $relatedObjectIDArray = array();
         $objectID = $object->attribute( 'id' );
 
@@ -257,6 +257,24 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 
+    $relatedObjectsTyped = array();
+    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+    $relatedObjectsTyped['embed'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+    $relatedObjectsTyped['link'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+    $relatedObjectsTypedIDArray = array();
+    foreach ( $relatedObjectsTyped as $relationTypeName => $relatedObjectsByType )
+    {
+        $relatedObjectsTypedIDArray[$relationTypeName] = array();
+        foreach ( $relatedObjectsByType as $relatedObjectByType )
+        {
+            $relatedObjectsTypedIDArray[$relationTypeName][] = $relatedObjectByType->ID;
+        }
+    }
+    unset( $relatedObjectsTyped );
+
+eZDebug::writeDebug( $relatedObjectsTypedIDArray, "handleTemplate()");
+
+
     $ini =& eZINI::instance( 'content.ini' );
 
     $groups = $ini->variable( 'RelationGroupSettings', 'Groups' );
@@ -291,6 +309,7 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
         }
     }
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
+    $tpl->setVariable( 'related_contentobjects_id', $relatedObjectsTypedIDArray );
     $tpl->setVariable( 'grouped_related_contentobjects', $groupedRelatedObjects );
 }
 

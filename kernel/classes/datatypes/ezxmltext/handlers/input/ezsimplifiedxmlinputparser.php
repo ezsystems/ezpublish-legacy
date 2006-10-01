@@ -658,11 +658,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $objectID = substr( strrchr( $url, "/" ), 1 );
                 $element->setAttribute( 'object_id', $objectID );
 
-              /*  Adding to related objects: temporary disabled
-               
-                 if ( !in_array( $objectID, $this->relatedObjectIDArray ) )
-                    $this->relatedObjectIDArray[] = $objectID;
-               */
+                 if ( !in_array( $objectID, $this->linkedObjectIDArray ) )
+                    $this->linkedObjectIDArray[] = $objectID;
             }
             elseif ( ereg( "^eznode://.+(#.*)?$" , $href ) )
             {
@@ -703,11 +700,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
                 $element->setAttribute( 'node_id', $nodeID );
 
-                /*  Adding to related objects: temporary disabled
-
-                if ( $objectID && !in_array( $objectID, $this->relatedObjectIDArray ) )
-                    $this->relatedObjectIDArray[] = $objectID;
-                */
+                if ( $objectID && !in_array( $objectID, $this->linkedObjectIDArray ) )
+                    $this->linkedObjectIDArray[] = $objectID;
             }
             elseif ( ereg( "^#.*$" , $href ) )
             {
@@ -957,6 +951,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $this->relatedObjectIDArray;
     }
 
+    function getLinkedObjectIDArray()
+    {
+        return $this->linkedObjectIDArray;
+    }
+
     function getUrlIDArray()
     {
         return $this->urlIDArray;
@@ -964,6 +963,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
     var $urlIDArray = array();
     var $relatedObjectIDArray = array();
+    var $linkedObjectIDArray = array();
 
     // needed for self-embedding protection
     var $contentObjectID = 0;

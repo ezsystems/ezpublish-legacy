@@ -55,7 +55,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->ContentObjectAttribute = $contentObjectAttribute;
 
         $contentIni =& eZINI::instance( 'content.ini' );
-        
+
         /*
         if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) )
         {
@@ -63,21 +63,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $this->IsStrictHeader = true;
         }
         */
-    }
-
-    /*!
-      Updates related objects list.
-    */
-    function updateRelatedObjectsList( $contentObjectAttribute, $relatedObjectIDArray )
-    {
-        $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $editVersion = $contentObjectAttribute->attribute('version');
-        $editObject =& eZContentObject::fetch( $contentObjectID );
-
-        foreach ( $relatedObjectIDArray as $relatedObjectID )
-        {
-            $editObject->addContentObjectRelation( $relatedObjectID, $editVersion );
-        }
     }
 
     /*!
@@ -146,16 +131,25 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             //eZDebug::writeDebug( $xmlString, '$xmlString' );
 
             $relatedObjectIDArray = $parser->getRelatedObjectIDArray();
+            $linkedObjectIDArray = $parser->getLinkedObjectIDArray();
             $urlIDArray = $parser->getUrlIDArray();
-            
+
             if ( count( $urlIDArray ) > 0 )
             {
                 $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
 
-            if ( count( $relatedObjectIDArray ) > 0 )
+            if ( count( $relatedObjectIDArray ) > 0 && isset( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED] ) )
+             {
+                $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED] =
+                            array_merge( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED],
+                                         $relatedObjectIDArray );
+            }
+            if ( count( $linkedObjectIDArray ) > 0 && isset( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK] ) )
             {
-                $this->updateRelatedObjectsList( $contentObjectAttribute, $relatedObjectIDArray );
+                $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK] =
+                            array_merge( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK],
+                                         $linkedObjectIDArray );
             }
 
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();

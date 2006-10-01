@@ -1050,6 +1050,60 @@ class eZContentFunctionCollection
         return array( 'result' => eZNavigationPart::fetchPartByIdentifier( $identifier ) );
     }
 
+    function contentobjectRelationTypeMask( $contentObjectRelationTypes = false )
+    {
+        $typedRelations = false;
+        $siteIni =& eZINI::instance( 'site.ini' );
+        if ( $siteIni->hasVariable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
+        {
+            if ( 'enabled' == $siteIni->variable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
+            {
+                $typedRelations = true;
+            }
+        }
+
+        $relationTypeMask = 0;
+        if ( is_array( $contentObjectRelationTypes ) )
+        {
+            $relationTypeMap = array( 'common'    => EZ_CONTENT_OBJECT_RELATION_COMMON,
+                                      'xml_embed' => EZ_CONTENT_OBJECT_RELATION_EMBED,
+                                      'xml_link'  => EZ_CONTENT_OBJECT_RELATION_LINK,
+                                      'attribute' => EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+            foreach ( $contentObjectRelationTypes as $relationType )
+            {
+                if ( isset( $relationTypeMap[$relationType] ) )
+                {
+                    $relationTypeMask |= $relationTypeMap[$relationType];
+                }
+                else
+                {
+                    eZDebug::writeWarning( "Unknown relation type: '$relationType'.", "eZContentFunctionCollection::contentobjectRelationTypeMask()" );
+                }
+            }
+        }
+        elseif ( !is_bool( $contentObjectRelationTypes ) )
+        {
+            $contentObjectRelationTypes = false;
+        }
+
+        if ( is_bool( $contentObjectRelationTypes ) )
+        {
+            $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_COMMON |
+                                EZ_CONTENT_OBJECT_RELATION_EMBED;
+            if ( $typedRelations )
+            {
+                $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_LINK;
+            }
+            if ( $contentObjectRelationTypes )
+            {
+                $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
+            }
+        }
+
+        return $relationTypeMask;
+    }
+
+
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
@@ -1063,12 +1117,13 @@ class eZContentFunctionCollection
         {
             $params['SortBy'] = $sortBy;
         }
+        if ( isset( $allRelations ) )
+        {
+            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+        }
 
         if ( !$attributeID )
             $attributeID = 0;
-
-        if ( $allRelations )
-            $attributeID = false;
 
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
@@ -1097,11 +1152,14 @@ class eZContentFunctionCollection
             return false;
         }
 
+        $params=array();
+        if ( isset( $allRelations ) )
+        {
+            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+        }
+
         if ( !$attributeID )
             $attributeID = 0;
-
-        if ( $allRelations )
-            $attributeID = false;
 
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
@@ -1118,7 +1176,7 @@ class eZContentFunctionCollection
         if ( $object === null )
             return false;
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID ) );
+        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID, $params ) );
     }
 
     function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility )
@@ -1132,12 +1190,13 @@ class eZContentFunctionCollection
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
+        if ( isset( $allRelations ) )
+        {
+            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+        }
 
         if ( !$attributeID )
             $attributeID = 0;
-
-        if ( $allRelations )
-            $attributeID = false;
 
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
@@ -1159,12 +1218,14 @@ class eZContentFunctionCollection
         if ( !$attributeID )
             $attributeID = 0;
 
-        if ( $allRelations )
-            $attributeID = false;
         $params = array();
         if ( isset( $ignoreVisibility ) )
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
+        }
+        if ( isset( $allRelations ) )
+        {
+            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) )
