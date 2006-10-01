@@ -50,11 +50,11 @@ CREATE TABLE ezcontentobject_trash (
 );
 
 
-CREATE INDEX ezcontentobject_trash_co_id ON ezcontentobject_trash USING btree (contentobject_id);
-CREATE INDEX ezcontentobject_trash_depth ON ezcontentobject_trash USING btree (depth);
-CREATE INDEX ezcontentobject_trash_p_node_id ON ezcontentobject_trash USING btree (parent_node_id);
-CREATE INDEX ezcontentobject_trash_path ON ezcontentobject_trash USING btree (path_string);
-CREATE INDEX ezcontentobject_trash_path_ident ON ezcontentobject_trash USING btree (path_identification_string);
-CREATE INDEX ezcontentobject_trash_modified_subnode ON ezcontentobject_trash USING btree (modified_subnode);
+CREATE INDEX ezcobj_trash_co_id ON ezcontentobject_trash USING btree (contentobject_id);
+CREATE INDEX ezcobj_trash_depth ON ezcontentobject_trash USING btree (depth);
+CREATE INDEX ezcobj_trash_p_node_id ON ezcontentobject_trash USING btree (parent_node_id);
+CREATE INDEX ezcobj_trash_path ON ezcontentobject_trash USING btree (path_string);
+CREATE INDEX ezcobj_trash_path_ident ON ezcontentobject_trash USING btree (path_identification_string);
+CREATE INDEX ezcobj_trash_modified_subnode ON ezcontentobject_trash USING btree (modified_subnode);
 ALTER TABLE ONLY ezcontentobject_trash ADD CONSTRAINT ezcontentobject_trash_pkey PRIMARY KEY (node_id);
 -- END: new table for trash

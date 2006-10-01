@@ -16,10 +16,8 @@ ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int NOT NULL DEFAULT 1
 
 
 -- START: 'default sorting' attribute for ezcontentclass
-
 ALTER TABLE ezcontentclass ADD COLUMN sort_field int NOT NULL DEFAULT 1;
 ALTER TABLE ezcontentclass ADD COLUMN sort_order int NOT NULL DEFAULT 1;
-
 -- END: 'default sorting' attribute for ezcontentclass
 
 -- START: new table for trash
@@ -41,11 +39,10 @@ CREATE TABLE ezcontentobject_trash (
   sort_order int(11) default '1',
   PRIMARY KEY  (node_id)
 );
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_co_id (contentobject_id),
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_depth (depth);
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_p_node_id (parent_node_id);
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_path (path_string);
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_path_ident (path_identification_string(50));
-ALTER TABLE ezcontentobject_trash ADD INDEX ezcontentobject_trash_modified_subnode (modified_subnode);
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_co_id (contentobject_id);
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_depth (depth);
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_p_node_id (parent_node_id);
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_path (path_string);
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_path_ident (path_identification_string(50));
+ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_modified_subnode (modified_subnode);
 -- END: new table for trash
-

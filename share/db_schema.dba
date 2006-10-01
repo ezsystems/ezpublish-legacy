@@ -1791,6 +1791,169 @@ $schema = array (
       ),
     ),
   ),
+  'ezcontentobject_trash' => 
+  array (
+    'name' => 'ezcontentobject_trash',
+    'fields' => 
+    array (
+      'contentobject_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'contentobject_version' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'depth' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'is_hidden' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'is_invisible' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'main_node_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => NULL,
+      ),
+      'modified_subnode' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'node_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'parent_node_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'path_identification_string' => 
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
+      'path_string' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'priority' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'remote_id' => 
+      array (
+        'length' => 100,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'sort_field' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 1,
+      ),
+      'sort_order' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 1,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'node_id',
+        ),
+      ),
+      'ezcobj_trash_co_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+        ),
+      ),
+      'ezcobj_trash_depth' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'depth',
+        ),
+      ),
+      'ezcobj_trash_modified_subnode' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'modified_subnode',
+        ),
+      ),
+      'ezcobj_trash_p_node_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'parent_node_id',
+        ),
+      ),
+      'ezcobj_trash_path' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'path_string',
+        ),
+      ),
+      'ezcobj_trash_path_ident' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'path_identification_string',
+        ),
+      ),
+    ),
+  ),
   'ezcontentobject_tree' => 
   array (
     'name' => 'ezcontentobject_tree',
