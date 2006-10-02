@@ -17,11 +17,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -30,11 +34,15 @@ INSERT INTO ezcontentclass (
   14,
   1,
   'folder',
+  2,
   1,
+  3,
   1082454875,
   14,
-  'Folder',
   'a3d405b81be900468eb153d774f4f0d2',
+  'a:2:{s:6:\"eng-GB\";s:6:\"Folder\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -44,11 +52,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   0,
@@ -57,11 +69,15 @@ INSERT INTO ezcontentclass (
   14,
   2,
   'article',
+  2,
   1,
+  3,
   1082454989,
   14,
-  'Article',
   'c15b600eb9198b1924063b5a68758232',
+  'a:2:{s:6:\"eng-GB\";s:7:\"Article\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -71,11 +87,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -84,11 +104,15 @@ INSERT INTO ezcontentclass (
   14,
   3,
   'user_group',
+  2,
   1,
+  3,
   1048494743,
   14,
-  'User group',
   '25b4268cdcd01921b808a0d854b877ef',
+  'a:2:{s:6:\"eng-GB\";s:10:\"User group\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -98,11 +122,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -111,11 +139,15 @@ INSERT INTO ezcontentclass (
   14,
   4,
   'user',
+  2,
   0,
+  3,
   1082018364,
   14,
-  'User',
   '40faa822edc579b02c25f6bb7beec3ad',
+  'a:2:{s:6:\"eng-GB\";s:4:\"User\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -125,11 +157,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -138,11 +174,15 @@ INSERT INTO ezcontentclass (
   8,
   5,
   'image',
+  2,
   0,
+  3,
   1048494784,
   14,
-  'Image',
   'f6df12aa74e36230eb675f364fccd25a',
+  'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -152,11 +192,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   0,
@@ -165,11 +209,15 @@ INSERT INTO ezcontentclass (
   14,
   11,
   'link',
+  2,
   0,
+  3,
   1082455072,
   14,
-  'Link',
   '74ec6507063150bc813549b22534ad48',
+  'a:2:{s:6:\"eng-GB\";s:4:\"Link\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -179,11 +227,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -192,11 +244,15 @@ INSERT INTO ezcontentclass (
   14,
   12,
   'file',
+  2,
   0,
+  3,
   1052385669,
   14,
-  'File',
   '637d58bfddf164627bdfd265733280a0',
+  'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -206,11 +262,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   0,
@@ -219,11 +279,15 @@ INSERT INTO ezcontentclass (
   14,
   13,
   'comment',
+  2,
   0,
+  3,
   1082455144,
   14,
-  'Comment',
   '000c14f4f475e9f2955dedab72799941',
+  'a:2:{s:6:\"eng-GB\";s:7:\"Comment\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -233,11 +297,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -246,11 +314,15 @@ INSERT INTO ezcontentclass (
   14,
   14,
   'common_ini_settings',
+  2,
   0,
+  3,
   1081858024,
   14,
-  'Common ini settings',
   'ffedf2e73b1ea0c3e630e42e2db9c900',
+  'a:2:{s:6:\"eng-GB\";s:19:\"Common ini settings\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 INSERT INTO ezcontentclass (
@@ -260,11 +332,15 @@ INSERT INTO ezcontentclass (
   creator_id,
   id,
   identifier,
+  initial_language_id,
   is_container,
+  language_mask,
   modified,
   modifier_id,
-  name,
   remote_id,
+  serialized_name_list,
+  sort_field,
+  sort_order,
   version
 ) VALUES (
   1,
@@ -273,11 +349,15 @@ INSERT INTO ezcontentclass (
   14,
   15,
   'template_look',
+  2,
   0,
+  3,
   1081858045,
   14,
-  'Template look',
   '59b43cd9feaaf0e45ac974fb4bbd3f92',
+  'a:2:{s:6:\"eng-GB\";s:13:\"Template look\";s:16:\"always-available\";s:6:\"eng-GB\";}',
+  1,
+  1,
   0
 );
 
@@ -303,8 +383,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -328,8 +408,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -354,8 +434,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -379,8 +459,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -405,8 +485,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -430,8 +510,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Description',
   2,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -456,8 +536,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -481,8 +561,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image',
   3,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -507,8 +587,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -532,8 +612,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Message',
   3,
+  'a:2:{s:6:\"eng-GB\";s:7:\"Message\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -558,8 +638,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -583,8 +663,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Subject',
   1,
+  'a:2:{s:6:\"eng-GB\";s:7:\"Subject\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -609,8 +689,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -634,8 +714,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Author',
   2,
+  'a:2:{s:6:\"eng-GB\";s:6:\"Author\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -660,8 +740,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -685,8 +765,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Caption',
   2,
+  'a:2:{s:6:\"eng-GB\";s:7:\"Caption\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -711,8 +791,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -736,8 +816,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image',
   5,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -762,8 +842,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -787,8 +867,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Location',
   3,
+  'a:2:{s:6:\"eng-GB\";s:8:\"Location\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -813,8 +893,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -838,8 +918,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -864,8 +944,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -889,8 +969,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -915,8 +995,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -940,8 +1020,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   0,
-  'File',
   3,
+  'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -966,8 +1046,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -991,8 +1071,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Description',
   2,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1017,8 +1097,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1042,8 +1122,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Intro',
   4,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Intro\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1068,8 +1148,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1093,8 +1173,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Body',
   5,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Body\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1119,8 +1199,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   0,
@@ -1144,8 +1224,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Show children',
   5,
+  'a:2:{s:6:\"eng-GB\";s:13:\"Show children\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1170,8 +1250,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1195,8 +1275,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Description',
   2,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1221,8 +1301,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1246,8 +1326,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Image',
   7,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1272,8 +1352,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1297,8 +1377,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1323,8 +1403,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1348,8 +1428,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Index Page',
   2,
+  'a:2:{s:6:\"eng-GB\";s:10:\"Index Page\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1374,8 +1454,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1399,8 +1479,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Default Page',
   3,
+  'a:2:{s:6:\"eng-GB\";s:12:\"Default Page\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1425,8 +1505,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1450,8 +1530,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Debug Output',
   4,
+  'a:2:{s:6:\"eng-GB\";s:12:\"Debug Output\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1476,8 +1556,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1501,8 +1581,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Debug By IP',
   5,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Debug By IP\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1527,8 +1607,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1552,8 +1632,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Debug IP List',
   6,
+  'a:2:{s:6:\"eng-GB\";s:13:\"Debug IP List\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1578,8 +1658,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1603,8 +1683,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Debug Redirection',
   7,
+  'a:2:{s:6:\"eng-GB\";s:17:\"Debug Redirection\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1629,8 +1709,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1654,8 +1734,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'View Caching',
   8,
+  'a:2:{s:6:\"eng-GB\";s:12:\"View Caching\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1680,8 +1760,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1705,8 +1785,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Template Cache',
   9,
+  'a:2:{s:6:\"eng-GB\";s:14:\"Template Cache\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1731,8 +1811,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1756,8 +1836,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Template Compile',
   10,
+  'a:2:{s:6:\"eng-GB\";s:16:\"Template Compile\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1782,8 +1862,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1807,8 +1887,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image Small Size',
   11,
+  'a:2:{s:6:\"eng-GB\";s:16:\"Image Small Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1833,8 +1913,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1858,8 +1938,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image Medium Size',
   12,
+  'a:2:{s:6:\"eng-GB\";s:17:\"Image Medium Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1884,8 +1964,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1909,8 +1989,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image Large Size',
   13,
+  'a:2:{s:6:\"eng-GB\";s:16:\"Image Large Size\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1935,8 +2015,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -1960,8 +2040,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Title',
   1,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -1986,8 +2066,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2011,8 +2091,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Meta data',
   2,
+  'a:2:{s:6:\"eng-GB\";s:9:\"Meta data\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2037,8 +2117,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2062,8 +2142,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Image',
   3,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2088,8 +2168,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2113,8 +2193,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Sitestyle',
   4,
+  'a:2:{s:6:\"eng-GB\";s:9:\"Sitestyle\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2139,8 +2219,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2164,8 +2244,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'id',
   5,
+  'a:2:{s:6:\"eng-GB\";s:2:\"id\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2190,8 +2270,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2215,8 +2295,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Email',
   6,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Email\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2241,8 +2321,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2266,8 +2346,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Site URL',
   7,
+  'a:2:{s:6:\"eng-GB\";s:8:\"Site URL\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2292,8 +2372,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2317,8 +2397,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Signature',
   4,
+  'a:2:{s:6:\"eng-GB\";s:9:\"Signature\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2343,8 +2423,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2368,8 +2448,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'User account',
   3,
+  'a:2:{s:6:\"eng-GB\";s:12:\"User account\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2394,8 +2474,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2419,8 +2499,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Last name',
   2,
+  'a:2:{s:6:\"eng-GB\";s:9:\"Last name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2445,8 +2525,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2470,8 +2550,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'First name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:10:\"First name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2496,8 +2576,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2521,8 +2601,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Description',
   4,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2547,8 +2627,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2572,8 +2652,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Short description',
   3,
+  'a:2:{s:6:\"eng-GB\";s:17:\"Short description\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2598,8 +2678,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2623,8 +2703,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Short name',
   2,
+  'a:2:{s:6:\"eng-GB\";s:10:\"Short name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2649,8 +2729,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2674,8 +2754,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Name',
   1,
+  'a:2:{s:6:\"eng-GB\";s:4:\"Name\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2700,8 +2780,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   0,
@@ -2725,8 +2805,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Enable comments',
   6,
+  'a:2:{s:6:\"eng-GB\";s:15:\"Enable comments\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2751,8 +2831,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2776,8 +2856,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   0,
-  'Author',
   3,
+  'a:2:{s:6:\"eng-GB\";s:6:\"Author\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2802,8 +2882,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2827,8 +2907,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   0,
   1,
-  'Short title',
   2,
+  'a:2:{s:6:\"eng-GB\";s:11:\"Short title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 INSERT INTO ezcontentclass_attribute (
@@ -2853,8 +2933,8 @@ INSERT INTO ezcontentclass_attribute (
   is_information_collector,
   is_required,
   is_searchable,
-  name,
   placement,
+  serialized_name_list,
   version
 ) VALUES (
   1,
@@ -2878,8 +2958,8 @@ INSERT INTO ezcontentclass_attribute (
   0,
   1,
   1,
-  'Title',
   1,
+  'a:2:{s:6:\"eng-GB\";s:5:\"Title\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   0
 );
 
@@ -3036,6 +3116,157 @@ INSERT INTO ezcontentclass_classgroup (
   0,
   4,
   'Setup'
+);
+
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  1,
+  0,
+  1,
+  3,
+  'eng-GB',
+  'Folder'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  2,
+  0,
+  2,
+  3,
+  'eng-GB',
+  'Article'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  3,
+  0,
+  3,
+  3,
+  'eng-GB',
+  'User group'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  4,
+  0,
+  4,
+  3,
+  'eng-GB',
+  'User'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  5,
+  0,
+  5,
+  3,
+  'eng-GB',
+  'Image'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  11,
+  0,
+  6,
+  3,
+  'eng-GB',
+  'Link'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  12,
+  0,
+  7,
+  3,
+  'eng-GB',
+  'File'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  13,
+  0,
+  8,
+  3,
+  'eng-GB',
+  'Comment'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  14,
+  0,
+  9,
+  3,
+  'eng-GB',
+  'Common ini settings'
+);
+INSERT INTO ezcontentclass_name (
+  contentclass_id,
+  contentclass_version,
+  id,
+  language_id,
+  language_locale,
+  name
+) VALUES (
+  15,
+  0,
+  10,
+  3,
+  'eng-GB',
+  'Template look'
 );
 
 INSERT INTO ezcontentclassgroup (
@@ -5614,7 +5845,7 @@ INSERT INTO ezcontentobject_attribute (
   1,
   0,
   1045487555,
-  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <section>\n    <header>Documentation and guidance</header>\n    <paragraph>The       \n      <link target=\"_blank\"\n            url_id=\"1\">eZ publish documentation</link> covers common topics related to the setup and daily use of the eZ publish content management system/framework. In addition, it also covers some advanced topics. People who are unfamiliar with eZ publish should at least read the &quot;eZ publish basics&quot; chapter.</paragraph>\n    <paragraph>If you&apos;re unable to find an answer/solution to a specific question/problem within the documentation pages, you should make use of the official       \n      <link target=\"_blank\"\n            url_id=\"4\">eZ publish forum</link>. People who need professional help should purchase       \n      <link target=\"_blank\"\n            url_id=\"5\">support</link> or       \n      <link target=\"_blank\"\n            url_id=\"6\">consulting</link> services. It is also possible to sign up for various       \n      <link target=\"_blank\"\n            url_id=\"7\">training sessions</link>.</paragraph>\n    <paragraph>\n      <line>For more information about eZ publish and other products/services from eZ systems, please visit         \n        <link target=\"_blank\"\n              url_id=\"8\">ez.no</link>.</line>\n    </paragraph>\n  </section>\n</section>',
+  '<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<section xmlns:image=\"http://ez.no/namespaces/ezpublish3/image/\"\n         xmlns:xhtml=\"http://ez.no/namespaces/ezpublish3/xhtml/\"\n         xmlns:custom=\"http://ez.no/namespaces/ezpublish3/custom/\">\n  <section>\n    <header>Documentation and guidance</header>\n    <paragraph>The\n      <link target=\"_blank\"\n            url_id=\"1\">eZ publish documentation</link> covers common topics related to the setup and daily use of the eZ publish content management system/framework. In addition, it also covers some advanced topics. People who are unfamiliar with eZ publish should at least read the &quot;eZ publish basics&quot; chapter.</paragraph>\n    <paragraph>If you&apos;re unable to find an answer/solution to a specific question/problem within the documentation pages, you should make use of the official\n      <link target=\"_blank\"\n            url_id=\"4\">eZ publish forum</link>. People who need professional help should purchase\n      <link target=\"_blank\"\n            url_id=\"5\">support</link> or\n      <link target=\"_blank\"\n            url_id=\"6\">consulting</link> services. It is also possible to sign up for various\n      <link target=\"_blank\"\n            url_id=\"7\">training sessions</link>.</paragraph>\n    <paragraph>\n      <line>For more information about eZ publish and other products/services from eZ systems, please visit\n        <link target=\"_blank\"\n              url_id=\"8\">ez.no</link>.</line>\n    </paragraph>\n  </section>\n</section>',
   'ezxmltext',
   104,
   'eng-GB',
