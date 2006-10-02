@@ -108,7 +108,7 @@
     <input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
     <select name="ContentClass_default_sorting_field" title="{$title}">
     {section var=Sort loop=$sort_fields}
-        <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/edit' )}</option>
+        <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item}</option>
     {/section}
     </select>
 
