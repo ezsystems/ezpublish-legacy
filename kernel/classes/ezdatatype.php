@@ -1002,6 +1002,16 @@ class eZDataType
     {
         return '';
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+     */
+    function toString( $objectAttribute )
+    {
+        return '';
+    }
+    function fromString( &$objectAttribute, $string )
+    {
+    }
 
     /*!
      Can be called to figure out if a datatype has certain special templates that it relies on.

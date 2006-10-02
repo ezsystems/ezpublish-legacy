@@ -124,6 +124,23 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        if ( ! is_numeric( $string ) )
+            return false;
+
+        $contentObjectAttribute->setAttribute( 'data_int', $string );
+        return true;
+    }
+
     /*!
      \reimp
     */

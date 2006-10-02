@@ -274,6 +274,28 @@ class eZKeywordType extends eZDataType
     }
 
     /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        $keyword = new eZKeyword();
+        $keyword->fetch( $contentObjectAttribute  );
+        return  $keyword->keywordString();
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string != '' )
+        {
+            $keyword = new eZKeyword();
+            $keyword->initializeKeyword( $string );
+            $contentObjectAttribute ->setContent( $keyword );
+        }
+        return true;
+    }
+
+    /*!
      \reimp
      \param package
      \param content attribute

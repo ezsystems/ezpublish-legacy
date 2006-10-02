@@ -41,6 +41,7 @@
 include_once( 'kernel/classes/ezdatatype.php' );
 include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrix.php' );
 include_once( 'kernel/classes/datatypes/ezmatrix/ezmatrixdefinition.php' );
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 define( 'EZ_MATRIX_DEFAULT_NAME_VARIABLE', '_ezmatrix_default_name_' );
 
@@ -415,6 +416,54 @@ class eZMatrixType extends eZDataType
     */
     function isIndexable()
     {
+        return true;
+    }
+
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        $matrix = $contentObjectAttribute->attribute( 'content' );
+        $matrixArray = array();
+        $rows = $matrix->attribute( 'rows' );
+
+        foreach( $rows['sequential'] as $row )
+        {
+            $matrixArray[] = eZStringUtils::implodeStr( $row['columns'], '|' );
+        }
+
+        return eZStringUtils::implodeStr( $matrixArray, '&' );
+
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string != '' )
+        {
+            $matrix =& $contentObjectAttribute->attribute( 'content' );
+            $matrixRowsList = eZStringUtils::explodeStr( $string, "&" );
+            $cells = array();
+            $matrix->Matrix['rows']['sequential'] = array();
+            $matrix->NumRows = 0;
+
+            foreach( $matrixRowsList as $key => $value )
+            {
+                $newCells = eZStringUtils::explodeStr( $value, '|' );
+                $matrixArray[] = $newCells;
+                $cells = array_merge( $cells, $newCells );
+
+                $newRow['columns'] = $newCells;
+                $newRow['identifier'] =  'row_' . ( $numRows + 1 );
+                $newRow['name'] = 'Row_' . ( $numRows + 1 );
+                $matrix->NumRows++;
+
+
+                $matrix->Matrix['rows']['sequential'][] = $newRow;
+            }
+            $matrix->Cells = $cells;
+        }
         return true;
     }
 

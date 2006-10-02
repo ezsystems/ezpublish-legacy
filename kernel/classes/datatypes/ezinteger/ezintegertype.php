@@ -408,6 +408,19 @@ class eZIntegerType extends eZDataType
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        return $contentObjectAttribute->setAttribute( 'data_int', $string );
+    }
 
     /*!
      Returns the integer value.

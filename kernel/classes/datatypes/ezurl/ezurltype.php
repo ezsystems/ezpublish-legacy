@@ -264,6 +264,30 @@ class eZURLType extends eZDataType
         return  $contentObjectAttribute->attribute( 'data_text' );
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        if ( !$contentObjectAttribute->attribute( 'data_int' ) )
+        {
+            $attrValue = false;
+            return $attrValue;
+        }
+
+        $url = eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $url;
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+
+        $urlID = eZURL::registerURL( $string );
+        $contentObjectAttribute->setAttribute( 'data_int', $urlID );
+        return $urlID;
+    }
+
     /*!
      \param package
      \param content attribute

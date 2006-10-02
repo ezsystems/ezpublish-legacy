@@ -51,6 +51,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezmultioption/ezmultioption.php" );
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 define( "EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE", "_ezmultioption_default_name_" );
 define( "EZ_DATATYPESTRING_MULTIOPTION", "ezmultioption" );
 
@@ -388,6 +389,71 @@ class eZMultiOptionType extends eZDataType
             return true;
         }
         return false;
+    }
+
+    function toString( $contentObjectAttribute )
+    {
+
+        $content = $contentObjectAttribute->attribute( 'content' );
+
+        $multioptionArray = array();
+
+        $setName = $content->attribute( 'name' );
+        $multioptionArray[] = $setName;
+
+        $multioptionList = $content->attribute( 'multioption_list' );
+
+        foreach ( $multioptionList as $key => $option )
+        {
+            $optionArray = array();
+            $optionArray[] = $option['name'];
+            $optionArray[] = $option['default_option_id'];
+            foreach ( $option['optionlist'] as $key => $value )
+            {
+                $optionArray[] = $value['value'];
+                $optionArray[] = $value['additional_price'];
+            }
+            $multioptionArray[] = eZStringUtils::implodeStr( $optionArray, '|' );
+        }
+        return eZStringUtils::implodeStr( $multioptionArray, "&" );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+        $multioptionArray = eZStringUtils::explodeStr( $string, '&' );
+
+        $multioption = new eZMultiOption( "" );
+
+        $multioption->OptionCounter = 0;
+        $multioption->Options = array();
+        $multioption->Name = array_shift( $multioptionArray );
+        $priority = 1;
+        foreach ( $multioptionArray as $multioptionStr )
+        {
+            $optionArray = eZStringUtils::explodeStr( $multioptionStr, '|' );
+
+
+            $newID = $multioption->addMultiOption( array_shift( $optionArray ),
+                                            $priority,
+                                            array_shift( $optionArray ) );
+            $optionID = 0;
+            $count = count( $optionArray );
+            for ( $i = 0; $i < $count; $i +=2 )
+            {
+                $multioption->addOption( $newID, $optionID, array_shift( $optionArray ), array_shift( $optionArray ) );
+                $optionID++;
+            }
+            $priority++;
+        }
+
+        $contentObjectAttribute->setAttribute( "data_text", $multioption->xmlString() );
+
+        return $multioption;
+
     }
 
     /*!

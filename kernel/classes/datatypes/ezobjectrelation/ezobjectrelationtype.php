@@ -484,6 +484,24 @@ class eZObjectRelationType extends eZDataType
         }
         return false;
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_int' );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( is_numeric( $string ) && ! eZContentObject::fetch( $string ) )
+            return false;
+
+        $contentObjectAttribute->setAttribute( 'data_int', $string );
+        return true;
+
+    }
 
     function isIndexable()
     {

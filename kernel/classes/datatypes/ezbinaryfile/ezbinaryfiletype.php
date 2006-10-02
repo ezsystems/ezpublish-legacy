@@ -606,6 +606,38 @@ class eZBinaryFileType extends eZDataType
     }
 
     /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $objectAttribute )
+    {
+        $binaryFile = $objectAttribute->content();
+
+        if ( is_object( $binaryFile ) )
+        {
+            return implode( '|', array( $binaryFile->attribute( 'filepath' ), $binaryFile->attribute( 'original_filename' ) ) );
+        }
+        else
+            return '';
+    }
+
+
+
+    function fromString( &$objectAttribute, $string )
+    {
+        if( !$string )
+            return true;
+
+        $result = array();
+        return $this->insertRegularFile( $objectAttribute->attribute( 'object' ),
+                                         $objectAttribute->attribute( 'version' ),
+                                         $objectAttribute->attribute( 'language_code' ),
+                                         $objectAttribute,
+                                         $string,
+                                         $result );
+    }
+
+    /*!
      \param package
      \param content attribute
 

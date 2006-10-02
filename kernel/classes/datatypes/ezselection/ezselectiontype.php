@@ -39,6 +39,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "lib/ezxml/classes/ezxml.php" );
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 define( "EZ_DATATYPESTRING_EZ_SELECTION", "ezselection" );
 
@@ -300,6 +301,55 @@ class eZSelectionType extends eZDataType
             }
         }
         return $return;
+    }
+
+    function toString( $contentObjectAttribute )
+    {
+
+        $selected = $this->objectAttributeContent( $contentObjectAttribute );
+
+        $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
+        $return = '';
+        if ( count( $selected ) == 0)
+        {
+            return '';
+        }
+
+
+        $optionArray = $classContent['options'];
+        foreach ( $selected as $id )
+        {
+            foreach ( $optionArray as $option )
+            {
+                $optionID = $option['id'];
+                if ( $optionID == $id )
+                    $returnData[] = $option['name'];
+            }
+        }
+        return eZStringUtils::implodeStr( $returnData, '|' );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        $selectedNames = eZStringUtils::explodeStr( $string, '|' );
+        $selectedIDList = array();
+        $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
+        $optionArray = $classContent['options'];
+        foreach ( $selectedNames as $name )
+        {
+            foreach ( $optionArray as $option )
+            {
+                $optionName = $option['name'];
+                if ( $optionName == $name )
+                    $selectedIDList[] = $option['id'];
+            }
+        }
+        $idString = ( is_array( $selectedIDList ) ? implode( '-', $selectedIDList ) : "" );
+        $contentObjectAttribute->setAttribute( 'data_text', $idString );
+        return true;
     }
 
     /*!

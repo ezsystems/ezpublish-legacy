@@ -367,6 +367,20 @@ class eZXMLTextType extends eZDataType
         }
         return $metaData;
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        return $contentObjectAttribute->setAttribute( 'data_text', $string );
+    }
+
 
     /*!
      Returns the text.
@@ -520,7 +534,7 @@ class eZXMLTextType extends eZDataType
                             $object = eZContentObject::fetch( $objectID, false );
                             if ( is_array( $object ) )
                                 $tag->setAttribute( 'object_remote_id', $object['remote_id'] );
-                            
+
                             if ( $tag->nodeName == 'object' )
                                 $tag->removeAttribute( 'id' );
                             else

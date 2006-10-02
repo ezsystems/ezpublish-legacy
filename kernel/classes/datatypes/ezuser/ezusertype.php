@@ -362,6 +362,46 @@ class eZUserType extends eZDataType
         return $metaString;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        $userID = $contentObjectAttribute->attribute( "contentobject_id" );
+        $user =& $GLOBALS['eZUserObject_' . $userID];
+        if ( !isset( $user ) or
+             get_class( $user ) != 'ezuser' )
+            $user = eZUser::fetch( $userID );
+
+        return implode( '|', array( $user->attribute( 'login' ),
+                                    $user->attribute( 'email' ),
+                                    $user->attribute( 'password_hash' ),
+                                    eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) )  ) );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        $userData = explode( '|', $string );
+        if( count( $userData ) < 2 )
+            return false;
+        $login = $userData[0];
+        $email = $userData[1];
+
+        if ( eZUser::fetchByName( $login ) || eZUser::fetchByEmail( $email ) )
+            return false;
+
+        $user = eZUser::create( $contentObjectAttribute->attribute( 'contentobject_id' ) );
+
+        $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
+        $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );
+        if ( isset( $userData[2] ) )
+            $user->setAttribute( 'password_hash', $userNode->attributeValue( 'password_hash' ) );
+
+        if ( isset( $userData[3] ) )
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->attributeValue( 'passsword_hash_type' ) ) );
+        $user->store();
+        return $user;
+    }
 
     /*!
      \param package

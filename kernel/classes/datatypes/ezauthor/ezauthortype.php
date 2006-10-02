@@ -38,6 +38,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezauthor/ezauthor.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 define( "EZ_DATATYPESTRING_AUTHOR", "ezauthor" );
 
@@ -187,6 +188,34 @@ class eZAuthorType extends eZDataType
             return false;
 
         return $author->metaData();
+    }
+
+    function toString( $contentObjectAttribute )
+    {
+        $authorList = array();
+        $content = $contentObjectAttribute->attribute( 'content' );
+        foreach ( $content->attribute( 'author_list') as $author )
+        {
+            $authorList[] = eZStringUtils::implodeStr( array( $author['name'], $author['email'],$author['id'] ), '|' );
+        }
+        return eZStringUtils::implodeStr( $authorList, "&" );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        $authorList = eZStringUtils::explodeStr( $string, '&' );
+
+        $author = new eZAuthor( );
+
+
+        foreach ( $authorList as $authorStr )
+        {
+            $authorData = eZStringUtils::explodeStr( $authorStr, '|' );
+            $author->addAuthor( $authorData[2], $authorData[0], $authorData[1] );
+
+        }
+        $contentObjectAttribute->setContent( $author );
+        return $author;
     }
 
     /*!

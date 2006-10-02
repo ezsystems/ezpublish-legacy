@@ -107,6 +107,19 @@ class eZIdentifierType extends eZDataType
         return $content;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        $contentObjectAttribute->setAttribute( 'data_text', $string );
+        return true;
+    }
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( "data_text" );

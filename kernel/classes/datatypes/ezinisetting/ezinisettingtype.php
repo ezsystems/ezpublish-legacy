@@ -607,6 +607,26 @@ class eZIniSettingType extends eZDataType
         $contentClassAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD, $siteAccessList );
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        $makeEmptyArray = $contentObjectAttribute->attribute( 'data_int' );
+        $value = $contentObjectAttribute->attribute( 'data_text' );
+        return implode( '|', array( $value, $makeEmptyArray ) );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        $iniData = explode( '|', $string );
+
+        $contentObjectAttribute->setAttribute( 'data_text', $value );
+        if ( isset ( $iniData[1] ) )
+            $contentObjectAttribute->setAttribute( 'data_int', $makeEmptyArray );
+        return true;
+    }
+
     /*!
      \reimp
     */

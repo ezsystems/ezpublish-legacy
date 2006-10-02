@@ -38,6 +38,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 
 include_once( "kernel/classes/datatypes/ezoption/ezoption.php" );
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 
 define( "EZ_OPTION_DEFAULT_NAME_VARIABLE", "_ezoption_default_name_" );
 
@@ -356,6 +357,50 @@ class eZOptionType extends eZDataType
         return false;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+
+        $option = $contentObjectAttribute->attribute( 'content' );
+        $optionArray = array();
+        $optionArray[] = $option->attribute( 'name' );
+
+        $optionList = $option->attribute( 'option_list' );
+
+        foreach ( $optionList as $key => $value )
+        {
+            $optionArray[] = $value['value'];
+            $optionArray[] = $value['additional_price'];
+        }
+        return eZStringUtils::implodeStr( $optionArray, "|" );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+        $optionArray = eZStringUtils::explodeStr( $string, '|' );
+
+        $option = new eZOption( );
+
+        $option->OptionCount = 0;
+        $option->Options = array();
+        $option->Name = array_shift( $optionArray );
+        $count = count( $optionArray );
+        for ( $i = 0; $i < $count; $i +=2 )
+        {
+
+            $option->addOption( array( 'value' => array_shift( $optionArray ),
+                                       'additional_price' => array_shift( $optionArray ) ) );
+        }
+
+
+        $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
+
+        return $option;
+
+    }
     /*!
      \reimp
     */

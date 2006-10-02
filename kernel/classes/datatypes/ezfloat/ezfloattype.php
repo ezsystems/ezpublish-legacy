@@ -355,6 +355,19 @@ class eZFloatType extends eZDataType
     {
         return true;
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_float' );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        return $contentObjectAttribute->setAttribute( 'data_float', $string );
+    }
 
     /*!
      \reimp

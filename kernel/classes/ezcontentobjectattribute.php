@@ -1148,7 +1148,32 @@ class eZContentObjectAttribute extends eZPersistentObject
         else
             return false;
     }
+    /*!
+     Returns the string representation of attribute. This is the pure content of the attribute in string
+     representation used for simplified import/export.
+     */
+    function toString()
+    {
+        $dataType = $this->dataType();
+        if ( $dataType )
+            return $dataType->toString( $this );
+        else
+            return false;
+    }
+    /*!
+     imports string to attribute content
+     used for simplified import/export.
+     */
+    function fromString( $string )
+    {
+        $dataType = $this->dataType();
+        if ( $dataType )
+            return $dataType->fromString( $this, $string );
+        else
+            return false;
+    }
 
+    
     /*!
      \static
      Goes trough all attributes and fetches metadata for the ones that is searchable.

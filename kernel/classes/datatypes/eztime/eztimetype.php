@@ -228,6 +228,36 @@ class eZTimeType extends eZDataType
     }
 
     /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        $time = $contentObjectAttribute->attribute( 'content' );
+        if ( is_object( $time ) )
+        {
+            return $time->attribute( 'hour' ) . ':' . $time->attribute( 'minute' );
+        }
+        else
+            return '';
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string != '' )
+        {
+            list( $hour, $minute ) = explode( ':', $string );
+            if ( $hour == '' || $minute == '' )
+                return false;
+            $time = new eZTime();
+            $time->setHMS( $hour, $minute );
+            $contentObjectAttribute->setAttribute( 'data_int', $time->timeOfDay() );
+        }
+
+        return true;
+    }
+
+    /*!
      \reimp
     */
     function isInformationCollector()

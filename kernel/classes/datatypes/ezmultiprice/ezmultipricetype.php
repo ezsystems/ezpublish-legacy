@@ -37,7 +37,7 @@
 
 include_once( 'kernel/classes/ezdatatype.php' );
 include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
-
+include_once( 'lib/ezutils/classes/ezstringutils.php' );
 define( 'EZ_DATATYPESTRING_MULTIPRICE', 'ezmultiprice' );
 define( 'EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD', 'data_text1' );
 define( 'EZ_DATATYPESTRING_CURRENCY_CODE_VARIABLE', '_ezmultiprice_currency_code_' );
@@ -303,6 +303,72 @@ class eZMultiPriceType extends eZDataType
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         return true;
+    }
+
+    function toString( $contentObjectAttribute )
+    {
+
+        $multiprice = $contentObjectAttribute->attribute( 'content' );
+
+        $priceList = $multiprice->attribute( 'price_list' );
+
+        $priceArray = explode( ',', $contentObjectAttribute->attribute( 'data_text' ) );
+        foreach ( $priceList as $priceData )
+        {
+            $type = $priceData->attribute( 'type' );
+            if ( $type == 1 )
+            {
+                $type = 'CUSTOM';
+            }
+            else if ( $type == 2 )
+            {
+                $type = 'AUTO';
+            }
+            else
+                $type = 'LIMIT';
+            $priceArray = array_merge(  $priceArray, array( $priceData->attribute( 'currency_code'), $priceData->attribute( 'value' ), $type ) );
+        }
+        return eZStringUtils::implodeStr( $priceArray, '|' );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+        $multiprice = $contentObjectAttribute->attribute( 'content' );
+
+        $multipriceData =  eZStringUtils::explodeSTR( $string, '|' );
+
+        $vatType = array_shift( $multipriceData );
+        $vatExInc = array_shift( $multipriceData );
+
+        $contentObjectAttribute->setAttribute( 'data_text', $vatType . ',' . $vatExInc );
+
+        while ( $multipriceData )
+        {
+            $currencyCode = array_shift( $multipriceData );
+            $value = array_shift( $multipriceData );
+
+            $type = array_shift( $multipriceData );
+            if ( $type == 'CUSTOM' )
+            {
+                $type = 1;
+            }
+            else if ( $type == 'AUTO' )
+            {
+                $type = 2;
+            }
+            else
+                $type = 5000;
+
+            $multiprice->setPriceByCurrency( $currencyCode, $value, $type );
+
+        }
+        $multiprice->store();
+        return $multiprice;
+
     }
 
     /*!

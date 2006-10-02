@@ -17,6 +17,7 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Implemented suggestion #8081: receivers name in tipafriend.php.
 - Added name's tranlsation support for ezcontentclass/ezcontentclass_attribute.
 - Added foreign key definitions.
+- Added toString() and fromString() functions to the contentobject_attribute and datatype interfases.
 
 Clustering:
 - Changed the way clustering settings are stored.
@@ -90,6 +91,7 @@ Clustering:
 *Library:
 
 - Added XAJAX library for implementing AJAX features.
+- Added eZStringUtils library to simplify storing structured data in strings.
 
 eZTemplate:
 - Implemented enhancement #8584: 'content_structure_tree' operator should support 

@@ -615,6 +615,38 @@ class eZMediaType extends eZDataType
     {
         return "";
     }
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $objectAttribute )
+    {
+        $mediaFile = $objectAttribute->content();
+
+        if ( is_object( $mediaFile ) )
+        {
+            return implode( '|', array( $mediaFile->attribute( 'filepath' ), $mediaFile->attribute( 'original_filename' ) ) );
+        }
+        else
+            return '';
+    }
+
+
+
+    function fromString( &$objectAttribute, $string )
+    {
+        if( !$string )
+            return true;
+
+        $result = array();
+        return $this->insertRegularFile( $objectAttribute->attribute( 'object' ),
+                                         $objectAttribute->attribute( 'version' ),
+                                         $objectAttribute->attribute( 'language_code' ),
+                                         $objectAttribute,
+                                         $string,
+                                         $result );
+
+    }
 
     /*!
      \reimp

@@ -136,6 +136,40 @@ class eZRangeOptionType extends eZDataType
         return $option;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+
+        $option = $contentObjectAttribute->attribute( 'content' );
+        $optionArray = array();
+        $optionArray[] = $option->attribute( 'name' );
+        $optionArray[] = $option->attribute( 'start_value' );
+        $optionArray[] = $option->attribute( 'stop_value' );
+        $optionArray[] = $option->attribute( 'step_value' );
+
+        return implode( '|', $optionArray );
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+        $optionArray = explode( '|', $string );
+
+        $option = new eZRangeOption( '' );
+
+        $option->Name = array_shift( $optionArray );
+        $option->StartValue = array_shift( $optionArray );
+        $option->StopValue = array_shift( $optionArray );
+        $option->StepValue = array_shift( $optionArray );
+
+
+        $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
+
+        return $option;
+
+    }
     /*!
      Finds the option which has the ID that matches \a $optionID, if found it returns
      an option structure.

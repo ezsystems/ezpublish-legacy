@@ -385,6 +385,20 @@ class eZCountryType extends eZDataType
     }
 
     /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( 'data_text' );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        return $contentObjectAttribute->setAttribute( 'data_text', $string );
+    }
+
+    /*!
      Returns the country for use as a title
     */
     function title( &$contentObjectAttribute )

@@ -184,6 +184,45 @@ class eZProductCategoryType extends eZDataType
         return is_object( $productCategory );
     }
 
+    function toString( $contentObjectAttribute )
+    {
+        $category =  $contentObjectAttribute->attribute( 'content' );
+        if ( $category )
+        {
+            return implode( '|', array( $category->attribute( 'name' ), $category->attribute( 'id' ) ) );
+        }
+        return '';
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+        $categoryData = explode( '|', $string );
+
+        if ( isset ( $categoryData[1]  ) )
+        {
+            $category = eZProductCategory::fetch( $categoryData[1] );
+            if ( $category )
+            {
+                $contentObjectAttribute->setAttribute( 'data_int', $category->attribute( 'id' ) );
+                return  true;
+            }
+        }
+
+        if ( isset ( $categoryData[1]  ) )
+        {
+            $category = eZProductCategory::fetchByName( $categoryData[0] );
+            if ( $category )
+            {
+                $contentObjectAttribute->setAttribute( 'data_int', $category->attribute( 'id' ) );
+                return  true;
+            }
+        }
+        return false;
+    }
+
     /*!
      Returns the integer value.
     */

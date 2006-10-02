@@ -1353,6 +1353,44 @@ class eZObjectRelationListType extends eZDataType
         return $metaDataArray;
     }
 
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $contentObjectAttribute )
+    {
+        $objectAttributeContent = $contentObjectAttribute->attribute( 'content' );
+        $objectIDList = array();
+        foreach( $objectAttributeContent['relation_list'] as $objectInfo )
+        {
+            $objectIDList[] = $objectInfo['contentobject_id'];
+        }
+        return implode( '-', $objectIDList );
+    }
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        $objectIDList = explode( '-', $string );
+
+        $content = eZObjectRelationListType::defaultObjectAttributeContent();
+        $priority = 0;
+        foreach( $objectIDList as $objectID )
+        {
+            $object = eZContentObject::fetch( $objectID );
+            if ( $object )
+            {
+                ++$priority;
+                $content['relation_list'][] = $this->appendObject( $objectID, $priority, $contentObjectAttribute );
+            }
+            else
+            {
+                eZDebug::writeWarning( $objectID, "Can not create relation because object is missing" );
+            }
+        }
+        $contentObjectAttribute->setContent( $content );
+        return true;
+    }
+
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         $content =& $contentObjectAttribute->content();

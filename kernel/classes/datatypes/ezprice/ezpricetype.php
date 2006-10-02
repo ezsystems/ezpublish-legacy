@@ -234,6 +234,35 @@ class eZPriceType extends eZDataType
         return true;
     }
 
+    function toString( $contentObjectAttribute )
+    {
+
+        $price = $contentObjectAttribute->attribute( 'content' );
+        $vatType =$price->attribute( 'selected_vat_type' );
+
+        $priceStr = implode( '|', array( $price->attribute( 'price' ), $vatType->attribute( 'id' ) , ($price->attribute( 'is_vat_included' ) )? 1:0 ) );
+        return $priceStr;
+    }
+
+
+    function fromString( &$contentObjectAttribute, $string )
+    {
+        if ( $string == '' )
+            return true;
+
+        $priceData = explode( '|', $string );
+        if ( count( $priceData ) != 3 )
+            return false;
+
+        $dataText = $priceData[1] . ',' . $priceData[1];
+        $price = $priceData[0];
+
+        $contentObjectAttribute->setAttribute( "data_float", $price );
+        $contentObjectAttribute->setAttribute( 'data_text', $dataText );
+
+        return true;
+    }
+
     /*!
      \reimp
     */

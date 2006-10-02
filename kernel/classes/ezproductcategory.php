@@ -67,6 +67,14 @@ class eZProductCategory extends eZPersistentObject
                                                 $asObject );
     }
 
+    function fetchByName( $name, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZProductCategory::definition(),
+                                                null,
+                                                array( "name" => $name ),
+                                                $asObject );
+    }
+
     function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZProductCategory::definition(),

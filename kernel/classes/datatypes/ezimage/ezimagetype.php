@@ -539,6 +539,26 @@ class eZImageType extends eZDataType
         $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativeText );
         $content->store( $objectAttribute );
     }
+
+    /*!
+     \return string representation of an contentobjectattribute data for simplified export
+
+    */
+    function toString( $objectAttribute )
+    {
+        $content = $objectAttribute->content();
+        $original = $content->attribute( 'original' );
+        return $original['url'];
+    }
+
+    function fromString( &$objectAttribute, $string )
+    {
+        $content =& $objectAttribute->attribute( 'content' );
+        $content->initializeFromFile(  $string, "" );
+        $content->store( $objectAttribute );
+        return true;
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_IMAGE, "ezimagetype" );
