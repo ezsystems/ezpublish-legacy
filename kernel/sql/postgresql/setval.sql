@@ -1,3 +1,4 @@
+SELECT setval('ezcontentclass_name_s',max(id)+1) FROM ezcontentclass_name;
 SELECT setval('ezapprove_items_s',max(id)+1) FROM ezapprove_items;
 SELECT setval('ezbasket_s',max(id)+1) FROM ezbasket;
 SELECT setval('ezcollab_group_s',max(id)+1) FROM ezcollab_group;

@@ -57,9 +57,11 @@ if ( $http->hasPostVariable( "NewButton" ) )
         $GroupID = $http->postVariable( "CurrentGroupID" );
     if ( $http->hasPostVariable( "CurrentGroupName" ) )
         $GroupName = $http->postVariable( "CurrentGroupName" );
-
-    $params = array( null, $GroupID, $GroupName );
-    $Module->run( "edit", $params );
+    if ( $http->hasPostVariable( "ClassLanguageCode" ) )
+        $LanguageCode = $http->postVariable( "ClassLanguageCode" );
+    $params = array( null, $GroupID, $GroupName, $LanguageCode );
+    $unorderedParams = array( 'Language' => $LanguageCode );
+    $Module->run( 'edit', $params, $unorderedParams );
     return;
 }
 

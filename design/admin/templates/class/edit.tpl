@@ -51,13 +51,13 @@
 {/section}
 
 {* Main window *}
-<form action={concat( $module.functions.edit.uri, '/', $class.id )|ezurl} method="post" id="ClassEditForm" name="ClassEdit">
+<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEditForm" name="ClassEdit">
 <input type="hidden" name="ContentClassHasInput" value="1" />
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.name ) )|wash}</h1>
+<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.nameList[$language_code] ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -66,7 +66,10 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p class="date">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
+<p class="modified">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
+{def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
+<p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+{undef $locale}
 </div>
 
 <div class="context-attributes">
@@ -74,7 +77,7 @@
     {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" id="className" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
+    <input class="box" type="text" id="className" name="ContentClass_name" size="30" value="{$class.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Identifier. *}
@@ -96,36 +99,35 @@
     <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
+    {*** Class Default Sorting ***}
+    <div class="block">
+    <label>{'Default sorting'|i18n( 'design/admin/class/edit' )}:</label>
+
+    {let sort_fields=fetch( content, available_sort_fields )
+         title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' ) }
+    <input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
+    <select name="ContentClass_default_sorting_field" title="{$title}">
+    {section var=Sort loop=$sort_fields}
+        <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/edit' )}</option>
+    {/section}
+    </select>
+
+    <select name="ContentClass_default_sorting_order" title="{$title}">
+        <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
+        <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
+    </select>
+    {/let}
+    </div>
+
     <div class="block">
     {section show=$attributes}
         <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" />
-    <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
-    <input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
+        <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+        <input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
     {section-else}
         <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" /> <input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
     {/section}
     </div>
-
-{*** Class Default Sorting ***}
-<div class="block">
-<label>{'Default sorting'|i18n( 'design/admin/class/edit' )}:</label>
-
-{let sort_fields=fetch( content, available_sort_fields )
-     title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' ) }
-<input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
-<select name="ContentClass_default_sorting_field" title="{$title}">
-{section var=Sort loop=$sort_fields}
-    <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/edit' )}</option>
-{/section}
-</select>
-
-<select name="ContentClass_default_sorting_order" title="{$title}">
-    <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
-    <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
-</select>
-{*<input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/class/edit' )}" title="{$title}" />*}
-{/let}
-</div>
 
 <div class="block">
 <label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
@@ -158,7 +160,7 @@
 {* Attribute name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
+<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 {* Attribute identifier. *}

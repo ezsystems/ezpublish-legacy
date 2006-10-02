@@ -30,7 +30,8 @@ include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module =& $Params["Module"];
+$Module =& $Params['Module'];
+$LanguageCode = $Params['Language'];
 $http =& eZHttpTool::instance();
 $ClassID = null;
 $validation = array( 'processed' => false,
@@ -48,6 +49,9 @@ $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED 
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+if ( !$LanguageCode)
+    $LanguageCode = $class->attribute( 'top_priority_language' );
+
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {
     include_once( "kernel/class/ezclassfunctions.php" );
@@ -62,6 +66,24 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
         $validation['groups'][] = array( 'text' => ezi18n( 'kernel/class', 'You have to have at least one group that the class belongs to!' ) );
         $validation['processed'] = true;
     }
+}
+else if ( $http->hasPostVariable( 'SetSorting' ) &&
+          $http->hasPostVariable( 'ContentClass_default_sorting_exists' ) )
+{
+    $db =& eZDB::instance();
+    $db->begin();
+    if ( $http->hasPostVariable( 'ContentClass_default_sorting_field' ) )
+    {
+        $sortingField = $http->postVariable( 'ContentClass_default_sorting_field' );
+        $class->setAttribute( 'sort_field', $sortingField );
+    }
+    if ( $http->hasPostVariable( 'ContentClass_default_sorting_order' ) )
+    {
+        $sortingOrder = $http->postVariable( 'ContentClass_default_sorting_order' );
+        $class->setAttribute( 'sort_order', $sortingOrder );
+    }
+    $class->store();
+    $db->commit();
 }
 
 $attributes =& $class->fetchAttributes();
@@ -87,6 +109,7 @@ $res->setKeys( array( array( 'class', $class->attribute( "id" ) ),
                       array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
 
 $tpl->setVariable( 'module', $Module );
+$tpl->setVariable( 'language_code', $LanguageCode );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );

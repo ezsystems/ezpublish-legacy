@@ -33,11 +33,14 @@ $ViewList["edit"] = array(
     "script" => "edit.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( "ClassID", "GroupID", "GroupName" ) );
+    "params" => array( "ClassID", "GroupID", "GroupName" ),
+    'unordered_params' => array( 'language' => 'Language' )
+    );
 $ViewList["view"] = array(
     "script" => "view.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
-    "params" => array( "ClassID" ) );
+    "params" => array( "ClassID" ),
+    'unordered_params' => array( 'language' => 'Language' ) );
 $ViewList["copy"] = array(
     "script" => "copy.php",
     'ui_context' => 'edit',
@@ -72,4 +75,22 @@ $ViewList["groupedit"] = array(
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "GroupID" ) );
+$ViewList['translation'] = array(
+    'script' => 'translation.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'ui_context' => 'edit',
+    'params' => array(  ),
+    'single_post_actions' => array( 'CancelButton' => 'Cancel',
+                                    'UpdateInitialLanguageButton' => 'UpdateInitialLanguage',
+                                    'RemoveTranslationButton' => 'RemoveTranslation' ),
+    'post_action_parameters' => array( 'Cancel' => array( 'ClassID' => 'ContentClassID',
+                                                          'LanguageCode' => 'ContentClassLanguageCode' ),
+                                       'UpdateInitialLanguage' => array( 'ClassID' => 'ContentClassID',
+                                                                         'LanguageCode' => 'ContentClassLanguageCode',
+                                                                         'InitialLanguageID' => 'InitialLanguageID' ),
+                                       'RemoveTranslation' => array( 'ClassID' => 'ContentClassID',
+                                                                     'LanguageCode' => 'ContentClassLanguageCode',
+                                                                     'LanguageID' => 'LanguageID',
+                                                                     'ConfirmRemoval' => 'ConfirmRemoval' ) ) );
+
 ?>

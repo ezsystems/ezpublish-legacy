@@ -27,7 +27,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file updatexmltext.php
+/*! \file updatetranslations.php
 */
 
 set_time_limit( 0 );

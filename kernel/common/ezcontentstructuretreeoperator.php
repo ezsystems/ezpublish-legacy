@@ -37,6 +37,7 @@
 */
 
 require_once( 'kernel/classes/ezcontentlanguage.php' );
+include_once( 'kernel/classes/ezcontentclassnamelist.php' );
 
 class eZContentStructureTreeOperator
 {
@@ -187,7 +188,7 @@ class eZContentStructureTreeOperator
         {
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
-                             ezcontentclass.name as class_name,
+                             ezcontentclass.serialized_name_list as class_serialized_name_list,
                              ezcontentclass.identifier as class_identifier,
                              ezcontentclass.is_container as is_container
                              $versionNameTargets
@@ -389,7 +390,7 @@ class eZContentStructureTreeOperator
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
-                                          'class_name' => $treeNode['class_name'],
+                                          'class_name' => eZContentClassNameList::nameFromSerializedString( $treeNode['class_serialized_name_list'] ),
                                           'published' => $treeNode['published'],
                                           'is_container' => ( $treeNode['is_container'] == '1' ),
                                           'language_js_array' => eZContentLanguage::jsArrayByMask( $treeNode['language_mask'] ) ) );

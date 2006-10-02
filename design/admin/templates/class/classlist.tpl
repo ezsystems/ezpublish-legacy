@@ -95,18 +95,37 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
-<input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
+    <div class="left">
+    <input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
+    <input type="hidden" name = "CurrentGroupName" value="{$group.name|wash}" />
 
-{section show=$class_count}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" title="{'Remove selected classes from the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
-{section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
-{/section}
+    {section show=$class_count}
+    <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" title="{'Remove selected classes from the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
+    {/section}
+    </div>
 
-<input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
-
+    <div class="break"></div>
 </div>
+
+<div class="block">
+    <div class="left">
+    {def $languages=fetch( 'content', 'prioritized_languages' )}
+    <select name="ClassLanguageCode" title="{'Use this menu to select the language you wish use for the creation and click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
+        {foreach $languages as $language}
+            <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+        {/foreach}
+    </select>
+    {undef $languages}
+
+    <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
+    </div>
+
+    <div class="break"></div>
+</div>
+
+
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 

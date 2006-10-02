@@ -1,3 +1,5 @@
+{include uri='design:class/window_controls.tpl'}
+
 {section show=$validation.processed}
 {section show=$validation.groups}
 <div class="message-warning">
@@ -14,7 +16,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'%class_name [Class]'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}</h1>
+<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.nameList[$language_code]|wash )}&nbsp;{'%class_name [Class]'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.nameList[$language_code] ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -23,14 +25,17 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-    <p>{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p>
+<p class="modified">{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )|wash}</p>
+{def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
+<p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+{undef $locale}
 </div>
 
 <div class="context-attributes">
 
 <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
-    {$class.name|wash}
+    {$class.nameList[$language_code]|wash}
 </div>
 
 <div class="block">
@@ -64,9 +69,23 @@
 {*** Class Default Sorting ***}
 <div class="block">
 <label>{'Default sorting'|i18n( 'design/admin/class/view' )}:</label>
-{def $sort_fields=fetch( content, available_sort_fields )}
-{if is_set( $sort_fields[$class.sort_field] )}{$sort_fields[$class.sort_field]|i18n( 'design/admin/class/view' )}{else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
-{undef}
+{let sort_fields=fetch( content, available_sort_fields )
+     title='The default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/view' ) }
+<form action={concat( '/class/view/', $class.id )|ezurl} method="post">
+<input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
+<select name="ContentClass_default_sorting_field" title="{$title}">
+{section var=Sort loop=$sort_fields}
+    <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item|i18n( 'design/admin/class/view' )}</option>
+{/section}
+
+</select>
+<select name="ContentClass_default_sorting_order" title="{$title}">
+    <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
+    <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
+</select>
+    <input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/class/edit' )}" title="{$title}" />
+</form>
+{/let}
 </div>
 
 <div class="block">
@@ -80,7 +99,7 @@
 {section var=Attributes loop=$attributes sequence=array( bglight, bgdark )}
 
 <tr>
-    <th colspan="3">{$Attributes.number}.&nbsp;{$Attributes.item.name|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</th>
+    <th colspan="3">{$Attributes.number}.&nbsp;{$Attributes.item.nameList[$language_code]|wash}&nbsp;[{$Attributes.item.data_type.information.name|wash}]&nbsp;(id:{$Attributes.item.id})</th>
 </tr>
 
 <tr class="{$Attributes.sequence}">
@@ -90,7 +109,7 @@
 
         <div class="block">
             <label>{'Name'|i18n( 'design/admin/class/view' )}:</label>
-            <p>{$Attributes.item.name|wash}</p>
+            <p>{$Attributes.item.nameList[$language_code]|wash}</p>
         </div>
     </td>
 
@@ -152,6 +171,16 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
         <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
+            {def $languages=$class.languages}
+            <select name="EditLanguage" title="{'Use this menu to select the language you wish use for the editing and click the "Edit" button.'|i18n( 'design/admin/class/view' )|wash()}">
+                {foreach $languages as $language}
+                    <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+                {/foreach}
+                {if gt( $class.can_create_languages|count, 0 )}
+                    <option value="">{'Another language'|i18n( 'design/admin/class/view')}</option>
+                {/if}
+            </select>
+            {undef $languages}
             <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit this class.'|i18n( 'design/admin/class/view' )}" />
             {* <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/view' )}" /> *}
         </form>
@@ -159,107 +188,7 @@
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
-</div>
-
-
-
-
-
-{*-- Class group Start --*}
-<form action={concat( $module.functions.view.uri, '/', $class.id )|ezurl} method="post">
-<div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Member of class groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
-
-{* DESIGN: Mainline *}<div class="header-subline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-
-<table class="list" cellspacing="0">
-<tr>
-    <th class="tight">&nbsp;</th>
-    <th class="wide">{'Class group'|i18n( 'design/admin/class/view' )}</th>
-</tr>
-{section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
-<tr class="{$Groups.sequence}">
-    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" title="{'Select class group for removal.'|i18n( 'design/admin/class/view' )}" /></td>
-    <td class="wide">{$Groups.item.group_name|classgroup_icon( small, $Groups.item.group_name )}&nbsp;<a href={concat( '/class/classlist/', $Groups.item.group_id )|ezurl}>{$Groups.item.group_name|wash}</a></td>
-</tr>
-{/section}
-</table>
-{* DESIGN: Content END *}</div></div></div>
-
-<div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-    <div class="block">
-    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove from selected'|i18n( 'design/admin/class/view' )}" title="{'Remove the <%class_name> class from the selected class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
-    </div>
-    <div class="block">
-    {section show=sub( count( $class.group_list ),count( $class.ingroup_list ) )}
-        <select name="ContentClass_group" title="{'Select a group which the <%class_name> class should be added to.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}">
-        {section name=AllGroup loop=$class.group_list}
-            {section show=$class.ingroup_id_list|contains( $AllGroup:item.id )|not}
-                <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>
-            {/section}
-        {/section}
-        </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" title="{'Add the <%class_name> class to the group specified in the menu on the left.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}" />
-    {section-else}
-        <select name="ContentClass_group" disabled="disabled" title="{'The <%class_name> class already exists within all class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class_name ) )|wash}">
-        <option value="-1">{'No group'|i18n( 'design/admin/class/view' )}</option>
-        </select>
-        <input class="button-disabled" type="submit" name="AddGroupButton" value="{'Add to class group'|i18n( 'design/admin/class/view' )}" disabled="disabled" title="{'The <%class_name> class already exists within all class groups.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class_name ) )|wash}" />
-    {/section}
-    </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
-</div>
-</div>
-</form>
-{*-- Class group End --*}
-
-{*-- Override templates start. --*}
-{let override_templates=fetch( class, override_template_list, hash( class_id, $class.id ) )}
-<div class="context-block">
-{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Override templates [%1]'|i18n( 'design/admin/class/view',, array( $override_templates|count ) )}</h2>
-
-{* DESIGN: Mainline *}<div class="header-subline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-{section show=$override_templates|count}
-<table class="list" cellspacing="0">
-<tr>
-    <th>{'Siteaccess'|i18n( 'design/admin/class/view' )}</th>
-    <th>{'Override'|i18n( 'design/admin/class/view' )}</th>
-    <th>{'Source template'|i18n( 'design/admin/class/view' )}</th>
-    <th>{'Override template'|i18n( 'design/admin/class/view' )}</th>
-    <th class="tight">&nbsp;</th>
-</tr>
-
-{section var=Overrides loop=$override_templates sequence=array( bglight, bgdark )}
-<tr class="{$Overrides.sequence}">
-    <td>{$Overrides.item.siteaccess}</td>
-    <td>{$Overrides.item.block}</td>
-    <td><a href={concat( '/visual/templateview', $Overrides.item.source )|ezurl} title="{'View template overrides for the <%source_template_name> template.'|i18n( 'design/admin/class/view',, hash( '%source_template_name', $Overrides.item.source ) )|wash}">{$Overrides.item.source}</a></td>
-    <td>{$Overrides.item.target}</td>
-    <td><a href={concat( '/visual/templateedit/', $Overrides.item.target)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/class/view' )}" title="{'Edit the override template for the <%override_name> override.'|i18n( 'design/admin/class/view',, hash( '%override_name', $Overrides.item.block ) )|wash}" /></a></td>
-</tr>
-{/section}
-</table>
-{section-else}
-<div class="block">
-<p>
-{'This class does not have any class-level override templates.'|i18n( 'design/admin/class/view' )}
-</p>
-</div>
-{/section}
-{*DESIGN: Content END *}</div></div></div></div></div></div>
+{include uri="design:class/windows.tpl"}
 
 </div>
-{/let}
-{*-- Override templates end. --*}
+

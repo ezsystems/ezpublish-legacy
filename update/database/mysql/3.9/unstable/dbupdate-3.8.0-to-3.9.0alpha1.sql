@@ -46,3 +46,22 @@ ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_path (path_string);
 ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_path_ident (path_identification_string(50));
 ALTER TABLE ezcontentobject_trash ADD INDEX ezcobj_trash_modified_subnode (modified_subnode);
 -- END: new table for trash
+
+-- START: ezcontentclass/ezcontentclass_attribute translations
+ALTER TABLE ezcontentclass CHANGE name serialized_name_list varchar(255) default NULL;
+ALTER TABLE ezcontentclass ADD COLUMN language_mask int NOT NULL DEFAULT 0;
+ALTER TABLE ezcontentclass ADD COLUMN initial_language_id int NOT NULL DEFAULT 0;
+ALTER TABLE ezcontentclass_attribute CHANGE name serialized_name_list varchar(255) NOT NULL default '';
+
+CREATE TABLE ezcontentclass_name
+(
+    id int NOT NULL auto_increment,
+    contentclass_id int NOT NULL default '0',
+    contentclass_version int NOT NULL default '0',
+    language_locale varchar(20) NOT NULL default '',
+    language_id int NOT NULL default '0',
+    name varchar(255) NOT NULL default '',
+    PRIMARY KEY (id)
+);
+-- END: ezcontentclass/ezcontentclass_attribute translations
+

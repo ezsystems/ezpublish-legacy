@@ -165,6 +165,19 @@ CREATE SEQUENCE ezcontentclass_attribute_s
 
 
 
+CREATE SEQUENCE ezcontentclass_name_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezcontentclassgroup_s
     START 1
     INCREMENT 1
@@ -1255,11 +1268,13 @@ CREATE TABLE ezcontentclass (
     creator_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentclass_s'::text) NOT NULL,
     identifier character varying(50) DEFAULT ''::character varying NOT NULL,
+    initial_language_id integer DEFAULT 0 NOT NULL,
     is_container integer DEFAULT 0 NOT NULL,
+    language_mask integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     modifier_id integer DEFAULT 0 NOT NULL,
-    name character varying(255),
     remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
+    serialized_name_list character varying(255),
     sort_field integer DEFAULT 1 NOT NULL,
     sort_order integer DEFAULT 1 NOT NULL,
     "version" integer DEFAULT 0 NOT NULL
@@ -1293,8 +1308,8 @@ CREATE TABLE ezcontentclass_attribute (
     is_information_collector integer DEFAULT 0 NOT NULL,
     is_required integer DEFAULT 0 NOT NULL,
     is_searchable integer DEFAULT 0 NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
     placement integer DEFAULT 0 NOT NULL,
+    serialized_name_list character varying(255) DEFAULT ''::character varying NOT NULL,
     "version" integer DEFAULT 0 NOT NULL
 );
 
@@ -1309,6 +1324,21 @@ CREATE TABLE ezcontentclass_classgroup (
     contentclass_version integer DEFAULT 0 NOT NULL,
     group_id integer DEFAULT 0 NOT NULL,
     group_name character varying(255)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezcontentclass_name (
+    contentclass_id integer DEFAULT 0 NOT NULL,
+    contentclass_version integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezcontentclass_name_s'::text) NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
+    language_locale character varying(20) DEFAULT ''::character varying NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -3428,6 +3458,15 @@ ALTER TABLE ONLY ezcontentclass_attribute
 
 ALTER TABLE ONLY ezcontentclass_classgroup
     ADD CONSTRAINT ezcontentclass_classgroup_pkey PRIMARY KEY (contentclass_id, contentclass_version, group_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezcontentclass_name
+    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (id);
 
 
 

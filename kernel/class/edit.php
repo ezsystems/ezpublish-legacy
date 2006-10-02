@@ -34,15 +34,11 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 
 $Module =& $Params['Module'];
-$ClassID = null;
-if ( isset( $Params['ClassID'] ) )
-    $ClassID = $Params['ClassID'];
-$GroupID = null;
-if ( isset( $Params['GroupID'] ) )
-    $GroupID = $Params['GroupID'];
-$GroupName = null;
-if ( isset( $Params['GroupName'] ) )
-    $GroupName = $Params['GroupName'];
+$ClassID = $Params['ClassID'];
+$GroupID = $Params['GroupID'];
+$GroupName = $Params['GroupName'];
+$EditLanguage = $Params['Language'];
+$FromLanguage = false;
 $ClassVersion = null;
 
 switch ( $Params['FunctionName'] )
@@ -62,6 +58,11 @@ $http =& eZHttpTool::instance();
 if ( $http->hasPostVariable( 'CancelConflictButton' ) )
 {
     $Module->redirectToView( 'grouplist' );
+}
+
+if ( $http->hasPostVariable( 'EditLanguage' ) )
+{
+    $EditLanguage = $http->postVariable( 'EditLanguage' );
 }
 
 if ( is_numeric( $ClassID ) )
@@ -114,16 +115,22 @@ if ( is_numeric( $ClassID ) )
 else
 {
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+
+    if ( !$EditLanguage )
+        $EditLanguage = eZContentClass::defaultLanguage();
+
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( 'contentobject_id' );
-    $class = eZContentClass::create( $user_id );
-    $class->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'New Class' ) );
+    $class = eZContentClass::create( $user_id, array(), $EditLanguage );
+    $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );
     $class->store();
+    $editLanguageID = eZContentLanguage::idByLocale( $EditLanguage );
+    $class->setAlwaysAvailableLanguageID( $editLanguageID );
     $ClassID = $class->attribute( 'id' );
     $ClassVersion = $class->attribute( 'version' );
     $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
     $ingroup->store();
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
     return;
 }
 
@@ -184,6 +191,75 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 
 // Fetch attributes and definitions
 $attributes =& $class->fetchAttributes();
+
+if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable( 'EditLanguage' ) )
+{
+    $EditLanguage = $http->postVariable( 'EditLanguage' );
+
+    $FromLanguage = 'None';
+    if ( $http->hasPostVariable( 'FromLanguage' ) )
+        $FromLanguage = $http->postVariable( 'FromLanguage' );
+
+    foreach ( array_keys( $attributes ) as $key )
+    {
+        $name = '';
+        if ( $FromLanguage != 'None' )
+        {
+            $name = $attributes[$key]->name( $FromLanguage );
+        }
+        $attributes[$key]->setName( $name, $EditLanguage );
+    }
+
+    $name = '';
+    if ( $FromLanguage != 'None' )
+    {
+        $name = $class->name( $FromLanguage );
+    }
+
+    $class->setName( $name, $EditLanguage );
+}
+
+// No language was specified in the URL, we need to figure out
+// the language to use.
+if ( !$EditLanguage )
+{
+    // Check number of languages
+    include_once( 'kernel/classes/ezcontentlanguage.php' );
+    $languages = eZContentLanguage::fetchList();
+    // If there is only one language we choose it for the user.
+    if ( count( $languages ) == 1 )
+    {
+        $EditLanguage = array_shift( $languages );
+    }
+    else
+    {
+        $canCreateLanguages = $class->attribute( 'can_create_languages' );
+        if ( count( $canCreateLanguages ) == 0)
+        {
+            $EditLanguage = $class->attribute( 'top_priority_language' );;
+        }
+        else
+        {
+            include_once( 'kernel/common/template.php' );
+
+            $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+
+            $tpl =& templateInit();
+
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
+
+            $tpl->setVariable( 'module', $Module );
+            $tpl->setVariable( 'class', $class );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:class/select_language.tpl' );
+            $Result['path'] = array( array( 'url' => '/class/edit/',
+                                            'text' => ezi18n( 'kernel/class', 'Class edit' ) ) );
+            return $Result;
+        }
+    }
+}
 
 include_once( 'kernel/classes/ezdatatype.php' );
 eZDataType::loadAndRegisterAllTypes();
@@ -299,10 +375,25 @@ $cur_datatype = 'ezstring';
 // Apply HTTP POST variables
 if ( $contentClassHasInput )
 {
-    eZHTTPPersistence::fetch( 'ContentAttribute', eZContentClassAttribute::definition(),
-                              $attributes, $http, true );
-    eZHttpPersistence::fetch( 'ContentClass', eZContentClass::definition(),
-                              $class, $http, false );
+    eZHTTPPersistence::fetch( 'ContentAttribute', eZContentClassAttribute::definition(), $attributes, $http, true );
+    if ( $http->hasPostVariable( 'ContentAttribute_name' ) )
+    {
+        $attributeNames = $http->postVariable( 'ContentAttribute_name' );
+        foreach( array_keys( $attributes ) as $key )
+        {
+            if ( isset( $attributeNames[$key] ) )
+            {
+                $attributes[$key]->setName( $attributeNames[$key], $EditLanguage );
+            }
+        }
+    }
+
+    eZHTTPPersistence::fetch( 'ContentClass', eZContentClass::definition(), $class, $http, false );
+    if ( $http->hasPostVariable( 'ContentClass_name' ) )
+    {
+        $class->setName( $http->postVariable( 'ContentClass_name' ), $EditLanguage );
+    }
+
     if ( $http->hasVariable( 'ContentClass_is_container_exists' ) )
     {
         if ( $http->hasVariable( 'ContentClass_is_container_checked' ) )
@@ -346,6 +437,7 @@ if ( $contentClassHasInput )
 }
 
 $class->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
+$class->NameList->setHasDirtyData();
 
 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
 $trans =& eZCharTransform::instance();
@@ -360,7 +452,6 @@ foreach( array_keys( $attributes ) as $key )
         $identifier = $attribute->attribute( 'name' );
 
     $identifier = $trans->transformByGroup( $identifier, 'identifier' );
-
     $attribute->setAttribute( 'identifier', $identifier );
     $dataType = $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
@@ -528,7 +619,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
         if ( !$firstStoreAttempt )
         {
-            return $Module->redirectToView( 'view', array( $ClassID ) );
+            return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
         }
         eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
@@ -606,7 +697,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         }
 
         $http->removeSessionVariable( 'CanStoreTicket' );
-        return $Module->redirectToView( 'view', array( $ClassID ) );
+        return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
     }
 }
 
@@ -618,7 +709,7 @@ if ( $http->hasPostVariable( 'NewButton' ) )
 {
     $new_attribute = eZContentClassAttribute::create( $ClassID, $cur_datatype );
     $attrcnt = count( $attributes ) + 1;
-    $new_attribute->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt );
+    $new_attribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
     $dataType = $new_attribute->dataType();
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
@@ -665,6 +756,7 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'attributes', $attributes );
 $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'datatype', $cur_datatype );
+$tpl->setVariable( 'language_code', $EditLanguage );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:class/edit.tpl' );

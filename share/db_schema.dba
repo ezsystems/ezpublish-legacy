@@ -1048,7 +1048,21 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'initial_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'is_container' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_mask' => 
       array (
         'length' => 11,
         'type' => 'int',
@@ -1069,18 +1083,18 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'name' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
-      ),
       'remote_id' => 
       array (
         'length' => 100,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
+      ),
+      'serialized_name_list' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
       ),
       'sort_field' => 
       array (
@@ -1256,19 +1270,19 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'name' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
       'placement' => 
       array (
         'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
+      ),
+      'serialized_name_list' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
       ),
       'version' => 
       array (
@@ -1334,6 +1348,64 @@ $schema = array (
           0 => 'contentclass_id',
           1 => 'contentclass_version',
           2 => 'group_id',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentclass_name' => 
+  array (
+    'name' => 'ezcontentclass_name',
+    'fields' => 
+    array (
+      'contentclass_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'contentclass_version' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_locale' => 
+      array (
+        'length' => 20,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'name' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
         ),
       ),
     ),

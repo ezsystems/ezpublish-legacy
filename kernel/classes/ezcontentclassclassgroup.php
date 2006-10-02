@@ -158,6 +158,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         $versionCond = '';
         $orderByClause = '';
         $group_id =(int) $group_id;
+        $classNameSqlFilter = eZContentClassName::sqlEmptyFilter();
 
         if ( $contentclass_version !== null )
         {
@@ -167,14 +168,25 @@ class eZContentClassClassGroup extends eZPersistentObject
         }
 
         if ( $orderByArray )
+        {
+            foreach( array_keys( $orderByArray ) as $key )
+            {
+                if ( strcasecmp( $orderByArray[$key], 'name' ) === 0 )
+                {
+                    $classNameSqlFilter = eZContentClassName::sqlAppendFilter( 'contentclass' );
+                    $orderByArray[$key] = $classNameSqlFilter['orderBy'];
+                }
+            }
+
             $orderByClause = 'ORDER BY ' . implode( ', ', $orderByArray );
+        }
 
         $db =& eZDB::instance();
-        $sql = "SELECT contentclass.*
-                FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group
+        $sql = "SELECT contentclass.* $classNameSqlFilter[nameField]
+                FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group $classNameSqlFilter[from]
                 WHERE contentclass.id=class_group.contentclass_id
                 $versionCond
-                AND class_group.group_id='$group_id'
+                AND class_group.group_id='$group_id' $classNameSqlFilter[where]
                 $orderByClause";
         $rows = $db->arrayQuery( $sql );
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );

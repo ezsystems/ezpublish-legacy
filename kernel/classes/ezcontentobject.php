@@ -824,7 +824,7 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
         // All elements from $uniqueIDArray should be casted to (int)
         $objectInSQL = $db->implodeWithTypeCast( ', ', $uniqueIDArray, 'int' );
-        $query = "SELECT ezcontentclass.name as class_name, ezcontentobject.* $versionNameTargets
+        $query = "SELECT ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject.* $versionNameTargets
                       FROM
                          ezcontentclass,
                          ezcontentobject
@@ -840,6 +840,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $resRowArray as $resRow )
         {
             $objectID = $resRow['id'];
+            $resRow['class_name'] = eZContentClassName::nameFromSerializedString( $resRow['class_name'] );
             if ( $asObject )
             {
                 $obj = new eZContentObject( $resRow );
@@ -1704,25 +1705,18 @@ class eZContentObject extends eZPersistentObject
      Only internal drafts older than 1 day will be considered.
      \param $userID The ID of the user to cleanup for, if \c false it will use the current user.
      */
-    function cleanupInternalDrafts( $userID = false, $timeDuration = 86400 ) // default time duration for internal drafts 60*60*24 seconds (1 day)
+    function cleanupInternalDrafts( $userID = false )
     {
-        if ( !is_numeric( $timeDuration ) ||
-             $timeDuration < 0 )
-        {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupInternalDrafts()' );
-            return;
-        }
-
         if ( $userID === false )
         {
             $userID = eZUser::currentUserID();
         }
         // Fetch all draft/temporary versions by specified user
-        $parameters = array( 'conditions' => array( 'status' => EZ_VERSION_STATUS_INTERNAL_DRAFT,
-                                                    'creator_id' => $userID ) );
+        $parameters = array( 'conditions' =>
+                             array( 'status' => EZ_VERSION_STATUS_INTERNAL_DRAFT,
+                                    'creator_id' => $userID ) );
         // Remove temporary drafts which are old.
-        $expiryTime = mktime() - $timeDuration; // only remove drafts older than time duration (default is 1 day)
+        $expiryTime = mktime() - 60*60*24; // only remove drafts older than 1 day
         foreach ( $this->versions( true, $parameters ) as $possibleVersion )
         {
             if ( $possibleVersion->attribute( 'modified' ) < $expiryTime )
@@ -1738,17 +1732,8 @@ class eZContentObject extends eZPersistentObject
      Only internal drafts older than 1 day will be considered.
      \param $userID The ID of the user to cleanup for, if \c false it will use the current user.
      */
-    function cleanupAllInternalDrafts( $userID = false, $timeDuration = 86400 ) // default time duration for internal drafts 60*60*24 seconds (1 day)
+    function cleanupAllInternalDrafts( $userID = false )
     {
-        if ( !is_numeric( $timeDuration ) ||
-             $timeDuration < 0 )
-        {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupAllInternalDrafts()' );
-            return;
-        }
-
-
         if ( $userID === false )
         {
             $userID = eZUser::currentUserID();
@@ -1756,8 +1741,7 @@ class eZContentObject extends eZPersistentObject
         // Remove all internal drafts
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $untouchedDrafts = eZContentObjectVersion::fetchForUser( $userID, EZ_VERSION_STATUS_INTERNAL_DRAFT );
-
-        $expiryTime = mktime() - $timeDuration; // only remove drafts older than time duration (default is 1 day)
+        $expiryTime = mktime() - 60*60*24; // only remove drafts older than 1 day
         foreach ( $untouchedDrafts as $untouchedDraft )
         {
             if ( $untouchedDraft->attribute( 'modified' ) < $expiryTime )
@@ -2630,7 +2614,7 @@ class eZContentObject extends eZPersistentObject
                 $query .= "ezcontentobject_link.contentclassattribute_id, ";
             }
             $query .= "
-                        ezcontentclass.name AS class_name,
+                        ezcontentclass.serialized_name_list AS class_serialized_name_list,
                         ezcontentobject.* $versionNameTargets
                      FROM
                         ezcontentclass,
@@ -2654,7 +2638,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $relatedObjects as $object )
         {
             $obj = new eZContentObject( $object );
-            $obj->ClassName       = $object['class_name'];
+            $obj->ClassName = eZContentClassNameList::nameFromSerializedString( $object['class_serialized_name_list'] );
 
             if ( !$groupByAttribute )
             {
@@ -3069,7 +3053,7 @@ class eZContentObject extends eZPersistentObject
         }
         $query = "SELECT ezcontentobject.*,
              ezcontentobject_tree.*,
-             ezcontentclass.name as class_name
+             ezcontentclass.serialized_name_list as class_serialized_name_list
           FROM   ezcontentobject_tree,
              ezcontentobject,
              ezcontentclass
@@ -4247,11 +4231,11 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
         $id = (int)$this->ClassID;
-        $sql = "SELECT name FROM ezcontentclass WHERE id=$id and version=0";
+        $sql = "SELECT serialized_name_list FROM ezcontentclass WHERE id=$id and version=0";
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $this->ClassName = $rows[0]['name'];
+            $this->ClassName = eZContentClassNameList::nameFromSerializedString( $rows[0]['serialized_name_list'] );
         }
         return $this->ClassName;
     }
@@ -5054,15 +5038,40 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-    \static
-     \deprecated This method is left here only for backward compatibility.
-                 Use eZContentObjectVersion::removeVersions() method instead.
+     \static
+     Will remove all version that match the status set in \a $versionStatus.
+     \param $versionStatus can either be a single value or an array with values,
+                           if \c false the function will remove all status except published.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeVersions( $versionStatus = false )
     {
-        eZContentObjectVersion::removeVersions( $versionStatus );
-    }
+        if ( $versionStatus === false )
+            $versionStatus = array( EZ_VERSION_STATUS_DRAFT,
+                                    EZ_VERSION_STATUS_PENDING,
+                                    EZ_VERSION_STATUS_ARCHIVED,
+                                    EZ_VERSION_STATUS_REJECTED );
+        $max = 20;
+        $offset = 0;
+        $hasVersions = true;
+        while ( $hasVersions )
+        {
+            $versions = eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
+                                                                $offset, $max );
+            $hasVersions = count( $versions ) > 0;
 
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[$versionKey];
+                $version->remove();
+            }
+            $db->commit();
+            $offset += count( $versions );
+        }
+    }
 
     /*!
      Sets the object's name to $newName: tries to find attributes that are in 'object pattern name'

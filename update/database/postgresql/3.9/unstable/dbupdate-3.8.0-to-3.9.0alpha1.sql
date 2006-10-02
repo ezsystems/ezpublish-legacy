@@ -58,3 +58,35 @@ CREATE INDEX ezcobj_trash_path_ident ON ezcontentobject_trash USING btree (path_
 CREATE INDEX ezcobj_trash_modified_subnode ON ezcontentobject_trash USING btree (modified_subnode);
 ALTER TABLE ONLY ezcontentobject_trash ADD CONSTRAINT ezcontentobject_trash_pkey PRIMARY KEY (node_id);
 -- END: new table for trash
+
+-- START: ezcontentclass/ezcontentclass_attribute translations
+ALTER TABLE ezcontentclass RENAME COLUMN name TO serialized_name_list;
+ALTER TABLE ezcontentclass ADD COLUMN language_mask integer;
+ALTER TABLE ezcontentclass ALTER language_mask SET NOT NULL;
+ALTER TABLE ezcontentclass ALTER language_mask SET DEFAULT 0;
+ALTER TABLE ezcontentclass ADD COLUMN initial_language_id integer;
+ALTER TABLE ezcontentclass ALTER initial_language_id SET NOT NULL;
+ALTER TABLE ezcontentclass ALTER initial_language_id SET DEFAULT 0;
+ALTER TABLE ezcontentclass_attribute RENAME COLUMN name TO serialized_name_list;
+
+CREATE SEQUENCE ezcontentclass_name_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+CREATE TABLE ezcontentclass_name
+(
+    id integer NOT NULL DEFAULT nextval('ezcontentclass_name_s'::text),
+    contentclass_id integer NOT NULL default 0,
+    contentclass_version integer NOT NULL default 0,
+    language_locale varchar(20) NOT NULL default '',
+    language_id integer NOT NULL default 0,
+    name varchar(255) NOT NULL default ''
+);
+
+ALTER TABLE ONLY ezcontentclass_name
+    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (id);
+-- END: ezcontentclass/ezcontentclass_attribute translations

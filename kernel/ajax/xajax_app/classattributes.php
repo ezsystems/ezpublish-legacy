@@ -42,6 +42,8 @@ function addClassAttribute( $classID, $datatypeString )
         }
     }
 
+    $languageList = $class->attribute( 'languages' );
+
     $existingAttributes =& eZContentClass::fetchAttributes( $classID, false, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     $number = count( $existingAttributes ) + 1;
@@ -50,7 +52,9 @@ function addClassAttribute( $classID, $datatypeString )
     eZDataType::loadAndRegisterAllTypes();
 
     $new_attribute = eZContentClassAttribute::create( $classID, $datatypeString );
-    $new_attribute->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'new attribute' ) . $number );
+    foreach ( array_keys( $languageList ) as $languageCode )
+        $new_attribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $number, $languageCode );
+    $new_attribute->setAlwaysAvailableLanguageID( $class->attribute( 'initial_language_id' ) );
     $dataType = $new_attribute->dataType();
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();

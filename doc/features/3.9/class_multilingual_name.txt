@@ -1,0 +1,5 @@
+*Title: Class/classattribute name translation
+
+*Documentation:
+It's possible to translate names of classes/class_attributes in similar way as
+for content objects.

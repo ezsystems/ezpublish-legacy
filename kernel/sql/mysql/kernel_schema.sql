@@ -233,11 +233,13 @@ CREATE TABLE ezcontentclass (
   creator_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   identifier varchar(50) NOT NULL default '',
+  initial_language_id int(11) NOT NULL default '0',
   is_container int(11) NOT NULL default '0',
+  language_mask int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   modifier_id int(11) NOT NULL default '0',
-  name varchar(255) default NULL,
   remote_id varchar(100) NOT NULL default '',
+  serialized_name_list varchar(255) default NULL,
   sort_field int(11) NOT NULL default '1',
   sort_order int(11) NOT NULL default '1',
   version int(11) NOT NULL default '0',
@@ -271,8 +273,8 @@ CREATE TABLE ezcontentclass_attribute (
   is_information_collector int(11) NOT NULL default '0',
   is_required int(11) NOT NULL default '0',
   is_searchable int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
   placement int(11) NOT NULL default '0',
+  serialized_name_list varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
 ) TYPE=MyISAM;
@@ -287,6 +289,20 @@ CREATE TABLE ezcontentclass_classgroup (
   group_id int(11) NOT NULL default '0',
   group_name varchar(255) default NULL,
   PRIMARY KEY  (contentclass_id,contentclass_version,group_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezcontentclass_name (
+  contentclass_id int(11) NOT NULL default '0',
+  contentclass_version int(11) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  language_id int(11) NOT NULL default '0',
+  language_locale varchar(20) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 

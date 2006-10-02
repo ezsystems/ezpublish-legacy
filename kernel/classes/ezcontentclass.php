@@ -41,6 +41,7 @@ include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
+include_once( "kernel/classes/ezcontentclassnamelist.php" );
 include_once( "kernel/common/i18n.php" );
 
 define( "EZ_CLASS_VERSION_STATUS_DEFINED", 0 );
@@ -59,6 +60,8 @@ class eZContentClass extends eZPersistentObject
             $this->AllGroups = null;
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
+
+            $this->NameList = new eZContentClassNameList( $row['serialized_name_list'] );
         }
         $this->DataMap = false;
     }
@@ -73,10 +76,10 @@ class eZContentClass extends eZPersistentObject
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
-                                         "name" => array( 'name' => "Name",
-                                                          'datatype' => 'string',
-                                                          'default' => '',
-                                                          'required' => true ),
+                                         "serialized_name_list" => array( 'name' => 'SerializedNameList',
+                                                                          'datatype' => 'string',
+                                                                          'default' => '',
+                                                                          'required' => true ),
                                          "identifier" => array( 'name' => "Identifier",
                                                                 'datatype' => 'string',
                                                                 'default' => '',
@@ -113,14 +116,22 @@ class eZContentClass extends eZPersistentObject
                                                                       'datatype' => 'integer',
                                                                       'default' => 0,
                                                                       'required' => true ),
+                                         'language_mask' => array( 'name' => "LanguageMask",
+                                                                   'datatype' => 'integer',
+                                                                   'default' => 0,
+                                                                   'required' => true ),
+                                         'initial_language_id' => array( 'name' => "InitialLanguageID",
+                                                                         'datatype' => 'integer',
+                                                                         'default' => 0,
+                                                                         'required' => true ),
                                          'sort_field' => array( 'name' => 'SortField',
-                                                              'datatype' => 'integer',
-                                                              'default' => 1,
-                                                              'required' => true ),
+                                                                'datatype' => 'integer',
+                                                                'default' => 1,
+                                                                'required' => true ),
                                          'sort_order' => array( 'name' => 'SortOrder',
-                                                              'datatype' => 'integer',
-                                                              'default' => 1,
-                                                              'required' => true ) ),
+                                                                'datatype' => 'integer',
+                                                                'default' => 1,
+                                                                'required' => true ) ),
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap",
                                                       'object_count' => 'objectCount',
@@ -133,7 +144,13 @@ class eZContentClass extends eZPersistentObject
                                                       'group_list' => 'fetchAllGroups',
                                                       'creator' => 'creator',
                                                       'modifier' => 'modifier',
-                                                      'can_instantiate_languages' => 'canInstantiateLanguages' ),
+                                                      'can_instantiate_languages' => 'canInstantiateLanguages',
+                                                      'name' => 'name',
+                                                      'nameList' => 'nameList',
+                                                      'languages' => 'languages',
+                                                      'can_create_languages' => 'canCreateLanguages',
+                                                      'top_priority_language' => 'topPriorityLanguage',
+                                                      'default_language' => 'defaultLanguage' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -145,7 +162,7 @@ class eZContentClass extends eZPersistentObject
         $row = array(
             "id" => null,
             "version" => $this->attribute( 'version' ),
-            "name" => $this->attribute( 'name' ),
+            "serialized_name_list" => $this->attribute( 'serialized_name_list' ),
             "identifier" => $this->attribute( 'identifier' ),
             "contentobject_name" => $this->attribute( 'contentobject_name' ),
             "creator_id" => $this->attribute( 'creator_id' ),
@@ -154,6 +171,8 @@ class eZContentClass extends eZPersistentObject
             "modified" => $this->attribute( 'modified' ),
             "is_container" => $this->attribute( 'is_container' ),
             "always_available" => $this->attribute( 'always_available' ),
+            'language_mask' => $this->attribute( 'language_mask' ),
+            'initital_language_id' => $this->attribute( 'initial_language_id' ),
             "sort_field" => $this->attribute( 'sort_field' ),
             "sort_order" => $this->attribute( 'sort_order' ) );
 
@@ -161,16 +180,24 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function create( $userID = false, $optionalValues = array() )
+    function create( $userID = false, $optionalValues = array(), $languageCode = false )
     {
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
+
+        if ( $languageCode == false )
+        {
+            $languageCode = eZContentObject::defaultLanguage();
+        }
+
+        $languageID = eZContentLanguage::idByLocale( $languageCode );
+
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
             "id" => null,
             "version" => 1,
-            "name" => "",
+            "serialized_name_list" => "",
             "identifier" => "",
             "contentobject_name" => "",
             "creator_id" => $userID,
@@ -180,6 +207,8 @@ class eZContentClass extends eZPersistentObject
             "modified" => $dateTime,
             "is_container" => $contentClassDefinition[ 'fields' ][ 'is_container' ][ 'default' ],
             "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ],
+            'language_mask' => $languageID,
+            'initial_language_id' => $languageID,
             "sort_field" => $contentClassDefinition[ 'fields' ][ 'sort_field' ][ 'default' ],
             "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
 
@@ -217,7 +246,7 @@ class eZContentClass extends eZPersistentObject
             $languageCode = eZContentObject::defaultLanguage();
         }
 
-        $object = eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
+        $object = eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ),
                                            $this->attribute( "id" ),
                                            $userID,
                                            $sectionID,
@@ -233,8 +262,7 @@ class eZContentClass extends eZPersistentObject
         $db->begin();
 
         $object->store();
-        //  $object->setName( "New " . $this->attribute( "name" ) );
-        $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ), false, $languageCode );
+        $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->name( $languageCode ) ) ), false, $languageCode );
 
         if ( !$versionNumber )
         {
@@ -308,7 +336,6 @@ class eZContentClass extends eZPersistentObject
             {
                 // store cache
                 $http->setSessionVariable( 'CanInstantiateClassesCachedForUser', $userID );
-//                $http->setSessionVariable( 'classesCachedTimestamp', mktime() );
             }
         }
         $user =& eZUser::currentUser();
@@ -361,30 +388,23 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http =& eZHTTPTool::instance();
-            //$permissionExpired = $http->sessionVariable( 'roleExpired' );
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
-//             print( "expired time stamp = '$expiredTimeStamp'<br/>" );
 
             $classesCachedForUser = $http->sessionVariable( 'ClassesCachedForUser' );
             $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
-
-//             print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
-//             print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
 
             $cacheVar = 'CanInstantiateClassList';
             if ( is_array( $groupList ) and $fetchID !== false )
             {
                 $cacheVar = 'CanInstantiateClassListGroup';
             }
-//             print( "\$cacheVar='$cacheVar'<br/>" );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
-//             print( "\$userID='$userID'<br/>" );
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( $cacheVar ) )
@@ -395,13 +415,11 @@ class eZContentClass extends eZPersistentObject
                         $groupArray = $http->sessionVariable( $cacheVar );
                         if ( isset( $groupArray[$fetchID] ) )
                         {
-//                             print( "returning cached class list in group<br/>" );
                             return $groupArray[$fetchID];
                         }
                     }
                     else
                     {
-//                         print( "returning cached class list<br/>" );
                         return $http->sessionVariable( $cacheVar );
                     }
                 }
@@ -488,17 +506,19 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
+        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
+
         if ( $fetchAll )
         {
             $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                     "ORDER BY cc.name ASC" );
+                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -514,12 +534,12 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                     "ORDER BY cc.name ASC" );
+                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
@@ -674,17 +694,18 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
+        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
+
         $classList = array();
         $db =& eZDb::instance();
         // If $asObject is true we fetch all fields in class
-        $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+        $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
         $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                 "FROM ezcontentclass cc$filterTableSQL\n" .
-                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                 "ORDER BY cc.name ASC" );
+                                 "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
+                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameSqlFilter[where]\n" .
+                                 "ORDER BY $classNameSqlFilter[nameField] ASC" );
 
         $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
-
         return $classList;
     }
 
@@ -807,6 +828,7 @@ class eZContentClass extends eZPersistentObject
                 }
             }
         }
+        $this->NameList->remove( $this );
         eZPersistentObject::remove();
     }
 
@@ -835,7 +857,7 @@ class eZContentClass extends eZPersistentObject
     function removableInformation( $includeAll = true )
     {
         $result  = array( 'text' => ezi18n( 'kernel/contentclass', "Cannot remove class '%class_name':",
-                                         null, array( '%class_name' => $this->Name ) ),
+                                         null, array( '%class_name' => $this->attribute( 'name' ) ) ),
                        'list' => array() );
         $reasons =& $result['list'];
         $db      =& eZDB::instance();
@@ -942,7 +964,12 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
 
+        $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
+
         eZPersistentObject::store( $fieldFilters );
+
+        $this->NameList->store( $this );
+
         $db->commit();
     }
 
@@ -963,11 +990,13 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function initializeCopy( &$originalClass )
     {
+        $classNameSqlFilter = eZContentClassName::sqlFilter( 'ezcontentclass' );
+
         $name = ezi18n( 'kernel/class', 'Copy of %class_name', null,
                         array( '%class_name' => $originalClass->attribute( 'name' ) ) );
         $identifier = 'copy_of_' . $originalClass->attribute( 'identifier' );
         $db =& eZDB::instance();
-        $sql = "SELECT count( name ) AS count FROM ezcontentclass WHERE name like '" . $db->escapeString( $name ) . "%'";
+        $sql = "SELECT count( ezcontentclass_name.name ) AS count FROM ezcontentclass, ezcontentclass_name WHERE ezcontentclass.id = ezcontentclass_name.contentclass_id AND ezcontentclass_name.name like '" . $db->escapeString( $name ) . "%'";
         $rows = $db->arrayQuery( $sql );
         $count = $rows[0]['count'];
         if ( $count > 0 )
@@ -976,7 +1005,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $name .= $count;
             $identifier .= $count;
         }
-        $this->setAttribute( 'name', $name );
+        $this->setName( $name );
         $this->setAttribute( 'identifier', $identifier );
         $this->setAttribute( 'created', time() );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
@@ -1042,7 +1071,10 @@ You will need to change the class of the node by using the swap functionality.' 
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
+        $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
         eZPersistentObject::store();
+        $this->NameList->store( $this );
+
         $db->commit();
     }
 
@@ -1060,6 +1092,10 @@ You will need to change the class of the node by using the swap functionality.' 
                 $attribute->setAttribute( "version", $version );
             }
         }
+
+        if ( $this->Version != $version )
+            $this->NameList->setHasDirtyData();
+
         eZPersistentObject::setAttribute( "version", $version );
     }
 
@@ -1089,7 +1125,6 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
-
         $conds = array( "id" => $id,
                         "version" => $version );
 
@@ -1454,9 +1489,201 @@ You will need to change the class of the node by using the swap functionality.' 
         return $languageCodes;
     }
 
+    function &name( $languageLocale = false )
+    {
+        return $this->NameList->name( $languageLocale );
+    }
+
+    function setName( $name, $languageLocale = false )
+    {
+        if ( !$languageLocale )
+            $languageLocale = $this->topPriorityLanguage();
+        $this->NameList->setNameByLanguageLocale( $name, $languageLocale );
+
+        $languageID = eZContentLanguage::idByLocale( $languageLocale );
+        $languageMask = $this->attribute( 'language_mask' );
+        $this->setAttribute( 'language_mask', $languageMask | $languageID );
+    }
+
+    function setAlwaysAvailableLanguageID( $languageID, $updateChilds = true )
+    {
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $classID = $this->attribute( 'id' );
+        $version = $this->attribute( 'version' );
+
+        $languageLocale = false;
+        if ( $languageID )
+        {
+            $language = eZContentLanguage::fetch( $languageID );
+            $languageLocale = $language->attribute( 'locale' );
+        }
+
+        if ( $languageID )
+        {
+            $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) | 1 );
+            $this->NameList->setAlwaysAvailableLanguage( $languageLocale );
+        }
+        else
+        {
+            $this->setAttribute( 'language_mask', (int)$this->attribute( 'language_mask' ) & ~1 );
+            $this->NameList->setAlwaysAvailableLanguage( false );
+        }
+        $this->store();
+
+        $attributes =& $this->fetchAttributes();
+        foreach( array_keys( $attributes ) as $attrKey )
+        {
+            $attribute =& $attributes[$attrKey];
+            $attribute->setAlwaysAvailableLanguage( $languageLocale );
+            $attribute->store();
+        }
+
+        // reset 'always available' flag
+        $sql = "UPDATE ezcontentclass_name SET language_id=";
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $sql .= "bitand( language_id, ~1 )";
+        }
+        else
+        {
+            $sql .= "language_id & ~1";
+        }
+        $sql .= " WHERE contentclass_id = '$classID' AND contentclass_version = '$version'";
+        $db->query( $sql );
+
+        if ( $languageID != false )
+        {
+            $newLanguageID = $languageID | 1;
+
+            $sql = "UPDATE ezcontentclass_name
+                    SET language_id='$newLanguageID'
+                WHERE language_id='$languageID' AND contentclass_id = '$classID' AND contentclass_version = '$version'";
+            $db->query( $sql );
+        }
+
+        $db->commit();
+    }
+
+    function clearAlwaysAvailableLanguageID()
+    {
+        $this->setAlwaysAvailableLanguageID( false );
+    }
+
+    function &languages()
+    {
+    	$languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
+
+    	return $languages;
+    }
+
+    function &canCreateLanguages()
+    {
+        $availableLanguages = $this->languages();
+        $availableLanguagesCodes = array_keys( $availableLanguages );
+
+        $languages = array();
+        foreach ( eZContentLanguage::prioritizedLanguages() as $language )
+        {
+            $languageCode = $language->attribute( 'locale' );
+            if ( !in_array( $languageCode, $availableLanguagesCodes ) )
+            {
+                $languages[$languageCode] = $language;
+            }
+        }
+
+        return $languages;
+    }
+
+    function &topPriorityLanguage()
+    {
+        $language = eZContentLanguage::topPriorityLanguageByMask( $this->attribute( 'language_mask' ) );
+        if ( !$language )
+            $language = eZContentLanguage::fetch( $this->attribute( 'initial_language_id' ) );
+
+        $languageLocale = $language ? $language->attribute( 'locale' ) : false;
+
+        return $languageLocale;
+    }
+
+    function &defaultLanguage()
+    {
+        $defaultLanguage = false;
+
+        $language = eZContentLanguage::topPriorityLanguage();
+        if ( $language )
+        {
+            $defaultLanguage = $language->attribute( 'locale' );
+        }
+
+        return $defaultLanguage;
+    }
+
+    function &nameList()
+    {
+        return $this->NameList->nameList();
+    }
+
+    function removeTranslation( $languageID )
+    {
+        $language = eZContentLanguage::fetch( $languageID );
+
+        if ( !$language )
+        {
+            return false;
+        }
+
+        // check if it is not the initial language
+        $classInitialLanguageID = $this->attribute( 'initial_language_id' );
+        if ( $classInitialLanguageID == $languageID )
+        {
+            return false;
+        }
+
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $classID = $this->attribute( 'id' );
+        $languageID = $language->attribute( 'id' );
+        $altLanguageID = $languageID++;
+
+        // change language_mask of the object
+        $languageMask = (int) $this->attribute( 'language_mask' );
+        $languageMask = (int) $languageMask & ~ (int) $languageID;
+        $this->setAttribute( 'language_mask', $languageMask );
+
+        // Remove all names in the language
+        $db->query( "DELETE FROM ezcontentclass_name
+                     WHERE contentclass_id='$classID'
+                       AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+
+        $languageLocale = $language->attribute( 'locale' );
+        $this->NameList->removeName( $languageLocale );
+
+        $this->store();
+
+        // Remove names for attributes in the language
+        $attributes = $this->fetchAttributes();
+        foreach ( array_keys( $attributes ) as $attr_key )
+        {
+            $attribute =& $attributes[$attr_key];
+            $attribute->removeTranslation( $languageLocale );
+            $attribute->store();
+            unset( $attribute );
+        }
+
+        $db->commit();
+
+        return true;
+    }
+
     /// \privatesection
     var $ID;
-    var $Name;
+    // serialized array of translated class names
+    var $SerializedNameList;
+    // unserialized class names
+    var $NameList;
     var $Identifier;
     var $ContentObjectName;
     var $Version;
@@ -1469,6 +1696,7 @@ You will need to change the class of the node by using the swap functionality.' 
     var $AllGroups;
     var $IsContainer;
     var $CanInstantiateLanguages;
+    var $LanguageMask;
 }
 
 ?>

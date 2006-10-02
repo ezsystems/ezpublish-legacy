@@ -37,6 +37,7 @@
 
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezpersistentobject.php" );
+include_once( 'kernel/classes/ezcontentclassattributenamelist.php' );
 
 class eZContentClassAttribute extends eZPersistentObject
 {
@@ -47,6 +48,8 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->Content = null;
         $this->DisplayInfo = null;
         $this->Module = null;
+
+        $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
     }
 
     function definition()
@@ -55,10 +58,10 @@ class eZContentClassAttribute extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-                                         'name' => array( 'name' => 'Name',
-                                                          'datatype' => 'string',
-                                                          'default' => '',
-                                                          'required' => true ),
+                                         'serialized_name_list' => array( 'name' => 'SerializedNameList',
+                                                                          'datatype' => 'string',
+                                                                          'default' => '',
+                                                                          'required' => true ),
                                          'version' => array( 'name' => 'Version',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
@@ -151,7 +154,9 @@ class eZContentClassAttribute extends eZPersistentObject
                       "function_attributes" => array( "content" => "content",
                                                       'temporary_object_attribute' => 'instantiateTemporary',
                                                       'data_type' => 'dataType',
-                                                      'display_info' => 'displayInfo' ),
+                                                      'display_info' => 'displayInfo',
+                                                      'name' => 'name',
+                                                      'nameList' => 'nameList' ),
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',
@@ -165,7 +170,7 @@ class eZContentClassAttribute extends eZPersistentObject
             'version' => $this->attribute( 'version' ),
             'contentclass_id' => $this->attribute( 'contentclass_id' ),
             'identifier' => $this->attribute( 'identifier' ),
-            'name' => $this->attribute( 'name' ),
+            'serialized_name_list' => $this->attribute( 'serialized_name_list' ),
             'is_searchable' => $this->attribute( 'is_searchable' ),
             'is_required' => $this->attribute( 'is_required' ),
             'can_translate' => $this->attribute( 'can_translate' ),
@@ -195,7 +200,7 @@ class eZContentClassAttribute extends eZPersistentObject
             'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
             'contentclass_id' => $class_id,
             'identifier' => '',
-            'name' => '',
+            'serialized_name_list' => '',
             'is_searchable' => 1,
             'is_required' => 0,
             'can_translate' => 1,
@@ -231,6 +236,9 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         $dataType = $this->dataType();
         $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
+
+        $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
+
         $stored = eZPersistentObject::store();
 
         // store the content data for this attribute
@@ -251,6 +259,9 @@ class eZContentClassAttribute extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
         $dataType->preStoreDefinedClassAttribute( $this );
+
+        $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
+
         $stored = eZPersistentObject::store();
 
         // store the content data for this attribute
@@ -279,7 +290,7 @@ class eZContentClassAttribute extends eZPersistentObject
         }
         else
         {
-            eZDebug::writeError( 'Datatype [' . $dataType->Name . '] can not be deleted to avoid system crash' );
+            eZDebug::writeError( 'Datatype [' . $dataType->attribute( 'name' ) . '] can not be deleted to avoid system crash' );
         }
     }
 
@@ -585,6 +596,51 @@ class eZContentClassAttribute extends eZPersistentObject
         return $result;
     }
 
+    function &name( $languageLocale = false )
+    {
+        return $this->NameList->name( $languageLocale );
+    }
+
+    function setName( $name, $languageLocale )
+    {
+        $this->NameList->setNameByLanguageLocale( $name, $languageLocale );
+    }
+
+    function &nameList()
+    {
+        return $this->NameList->nameList();
+    }
+
+    function setAlwaysAvailableLanguageID( $languageID )
+    {
+        $languageLocale = false;
+        if ( $languageID )
+        {
+            $language = eZContentLanguage::fetch( $languageID );
+            $languageLocale = $language->attribute( 'locale' );
+        }
+
+        $this->setAlwaysAvailableLanguage( $languageLocale );
+    }
+
+    function setAlwaysAvailableLanguage( $languageLocale )
+    {
+        if ( $languageLocale )
+        {
+            $this->NameList->setAlwaysAvailableLanguage( $languageLocale );
+        }
+        else
+        {
+            $this->NameList->setAlwaysAvailableLanguage( false );
+        }
+    }
+
+    function removeTranslation( $languageLocale )
+    {
+        $this->NameList->removeName( $languageLocale );
+    }
+
+
     /// \privatesection
     /// Contains the content for this attribute
     var $Content;
@@ -594,7 +650,10 @@ class eZContentClassAttribute extends eZPersistentObject
     var $Version;
     var $ContentClassID;
     var $Identifier;
-    var $Name;
+    // serialized array of translated names
+    var $SerializedNameList;
+    // unserialized attribute names
+    var $NameList;
     var $DataTypeString;
     var $Position;
     var $IsSearchable;
