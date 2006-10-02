@@ -93,7 +93,6 @@ class eZSerializedObjectNameList
             $languageID = eZContentLanguage::idByLocale( $languageLocale );
         }
 
-        eZDebug::writeDebug( $languageID, 'lazy: alwaysAvailableLanguageID::$languageID' );
         return $languageID;
     }
 
@@ -102,7 +101,6 @@ class eZSerializedObjectNameList
         $mask = 0;
         foreach ( $this->NameList as $languageLocale => $name )
         {
-            eZDebug::writeDebug( "$languageLocale => $name", 'lazy: languageMask' );
             if ( $languageLocale == 'always-available' )
             {
                 $mask += 1;
