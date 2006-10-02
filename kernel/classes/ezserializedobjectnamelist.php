@@ -46,7 +46,7 @@ class eZSerializedObjectNameList
         $this->NameList = array();
         if ( $serializedNamesString )
         {
-            $this->NameList = unserialize( $serializedNamesString );
+            $this->NameList = @unserialize( $serializedNamesString );
             if ( $this->NameList === false || !is_array( $this->NameList ) )
                 $this->NameList = array();
         }
