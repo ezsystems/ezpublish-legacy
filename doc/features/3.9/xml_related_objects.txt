@@ -2,12 +2,32 @@
 
 *Documentation:
 
-Objects related on the object level (not by attribute) now have 3 types of relations:
+There are 4 types of relations between objects in the system:
 
-- common (added manually by user)
-- linked (added from <link> XML tag)
-- embedded (added from <embed> XML tag)
+- 'Common'. Relations of common type are created when user adds related
+objects manually.
 
-Parameter 'relations_type' has been added to corresponding template fetch functions.
+- 'XML linked'. Relations of this type are added automatically when you
+save object containing XML fields with <link> tags referencing objects or nodes
+(ex: <link href='ezobject://123>... ). Note that when you remove <link> tag
+and store object, the corresponding relation will be automatically removed.
 
-   (will be documeted later!)
+- 'XML embedded'. Relations of this type are added automatically when you save
+object containing XML fields with <embed> tags embedding objects or nodes.
+Note that when you remove <embed> tag and store object, the corresponding
+relation will be automatically removed.
+
+- 'by Attribute'. Relations made by attributes of "Object relation" and
+"Object relation list" datatypes.
+
+
+*Template fetch functions:
+
+The following fetch functions have been modified: related_objects,
+related_objects_count, reverse_related_objects, reverse_related_objects_count.
+
+Parameter 'all_relations' now has mixed type. It could be boolean true/false
+like it was in 3.8, but it can be also an array. Array may consists of the
+following strings: 'common', 'xml_link', 'xml_embed', 'attribute'. Each of
+them mean corresponding relation type. Types can be mixed and placed in any
+order. Also this new parameter is fully compatible with other options.
