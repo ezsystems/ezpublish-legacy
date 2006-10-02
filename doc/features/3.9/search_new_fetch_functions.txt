@@ -1,0 +1,6 @@
+*Title: New fetch function in the 'search' module.
+
+*Documentation:
+Added two new fetch functions in 'search' module:
+- 'search_list_count' fetches count of most frequented phrases
+- 'search_list' fetches list of most frequented phrases
