@@ -1704,18 +1704,25 @@ class eZContentObject extends eZPersistentObject
      Only internal drafts older than 1 day will be considered.
      \param $userID The ID of the user to cleanup for, if \c false it will use the current user.
      */
-    function cleanupInternalDrafts( $userID = false )
+    function cleanupInternalDrafts( $userID = false, $timeDuration = 86400 ) // default time duration for internal drafts 60*60*24 seconds (1 day)
     {
+        if ( !is_numeric( $timeDuration ) ||
+             $timeDuration < 0 )
+        {
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                 'eZContentObject::cleanupInternalDrafts()' );
+            return;
+        }
+
         if ( $userID === false )
         {
             $userID = eZUser::currentUserID();
         }
         // Fetch all draft/temporary versions by specified user
-        $parameters = array( 'conditions' =>
-                             array( 'status' => EZ_VERSION_STATUS_INTERNAL_DRAFT,
-                                    'creator_id' => $userID ) );
+        $parameters = array( 'conditions' => array( 'status' => EZ_VERSION_STATUS_INTERNAL_DRAFT,
+                                                    'creator_id' => $userID ) );
         // Remove temporary drafts which are old.
-        $expiryTime = mktime() - 60*60*24; // only remove drafts older than 1 day
+        $expiryTime = mktime() - $timeDuration; // only remove drafts older than time duration (default is 1 day)
         foreach ( $this->versions( true, $parameters ) as $possibleVersion )
         {
             if ( $possibleVersion->attribute( 'modified' ) < $expiryTime )
@@ -1731,8 +1738,17 @@ class eZContentObject extends eZPersistentObject
      Only internal drafts older than 1 day will be considered.
      \param $userID The ID of the user to cleanup for, if \c false it will use the current user.
      */
-    function cleanupAllInternalDrafts( $userID = false )
+    function cleanupAllInternalDrafts( $userID = false, $timeDuration = 86400 ) // default time duration for internal drafts 60*60*24 seconds (1 day)
     {
+        if ( !is_numeric( $timeDuration ) ||
+             $timeDuration < 0 )
+        {
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                 'eZContentObject::cleanupAllInternalDrafts()' );
+            return;
+        }
+
+
         if ( $userID === false )
         {
             $userID = eZUser::currentUserID();
@@ -1740,7 +1756,8 @@ class eZContentObject extends eZPersistentObject
         // Remove all internal drafts
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $untouchedDrafts = eZContentObjectVersion::fetchForUser( $userID, EZ_VERSION_STATUS_INTERNAL_DRAFT );
-        $expiryTime = mktime() - 60*60*24; // only remove drafts older than 1 day
+
+        $expiryTime = mktime() - $timeDuration; // only remove drafts older than time duration (default is 1 day)
         foreach ( $untouchedDrafts as $untouchedDraft )
         {
             if ( $untouchedDraft->attribute( 'modified' ) < $expiryTime )
@@ -5037,40 +5054,15 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \static
-     Will remove all version that match the status set in \a $versionStatus.
-     \param $versionStatus can either be a single value or an array with values,
-                           if \c false the function will remove all status except published.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    \static
+     \deprecated This method is left here only for backward compatibility.
+                 Use eZContentObjectVersion::removeVersions() method instead.
     */
     function removeVersions( $versionStatus = false )
     {
-        if ( $versionStatus === false )
-            $versionStatus = array( EZ_VERSION_STATUS_DRAFT,
-                                    EZ_VERSION_STATUS_PENDING,
-                                    EZ_VERSION_STATUS_ARCHIVED,
-                                    EZ_VERSION_STATUS_REJECTED );
-        $max = 20;
-        $offset = 0;
-        $hasVersions = true;
-        while ( $hasVersions )
-        {
-            $versions = eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
-                                                                $offset, $max );
-            $hasVersions = count( $versions ) > 0;
-
-            $db =& eZDB::instance();
-            $db->begin();
-            foreach ( array_keys( $versions ) as $versionKey )
-            {
-                $version =& $versions[$versionKey];
-                $version->remove();
-            }
-            $db->commit();
-            $offset += count( $versions );
-        }
+        eZContentObjectVersion::removeVersions( $versionStatus );
     }
+
 
     /*!
      Sets the object's name to $newName: tries to find attributes that are in 'object pattern name'

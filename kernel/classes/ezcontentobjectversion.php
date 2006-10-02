@@ -978,6 +978,76 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
+     \static
+     Will remove all version that match the status set in \a $versionStatus.
+     \param $versionStatus can either be a single value or an array with values,
+                           if \c false the function will remove all status except published.
+     \param $limit limits count of versions which should be removed.
+     \param $expiryTime if not false then method will remove only versions which have modified time less than specified expiry time.
+     \param $fetchPortionSize portion size for single fetch() call to avoid memory overflow erros (default 50).
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function removeVersions( $versionStatus = false, $limit = false, $expiryTime = false, $fetchPortionSize = 50 )
+    {
+        $statuses = array( EZ_VERSION_STATUS_DRAFT,
+                           EZ_VERSION_STATUS_PENDING,
+                           // EZ_VERSION_STATUS_ARCHIVED
+                           EZ_VERSION_STATUS_REJECTED,
+                           EZ_VERSION_STATUS_INTERNAL_DRAFT );
+        if ( $versionStatus === false )
+        {
+            $versionStatus = $statuses;
+        }
+        else if ( !is_array( $versionStatus ) )
+        {
+            if ( !in_array( $versionStatus, $statuses ) )
+            {
+                eZDebug::writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
+                return false;
+            }
+            else
+                $versionStatus = array( $versionStatus );
+        }
+
+        if ( !is_numeric( $limit ) or $limit < 0 )
+        {
+            eZDebug::writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
+            return false;
+        }
+
+        if ( !is_numeric( $fetchPortionSize ) or $fetchPortionSize < 1 )
+            $fetchPortionSize = 50;
+
+        $filters = array();
+        $filters['status'] = $versionStatus;
+        if ( $expirtyTime !== false )
+            $filters['modified'] = array( '<', $expiryTime );
+
+        $processedCount = 0;
+        while ( $processedCount < $limit or !$limit )
+        {
+            // fetch by versions by preset portion at a time to avoid memory overflow
+            $tmpLimit = ( !$limit or ( $limit - $processedCount ) > $fetchPortionSize ) ?
+                            $fetchPortionSize : $limit - $processedCount;
+            $versions = eZContentObjectVersion::fetchFiltered( $filters, 0, $tmpLimit );
+            if ( count( $versions ) < 1 )
+                break;
+
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[ $versionKey ];
+                $version->remove();
+            }
+            $db->commit();
+            $processedCount += count( $versions );
+        }
+        return $processedCount;
+    }
+
+    /*!
      Clones the version with new version \a $newVersionNumber and creator \a $userID
      \note The cloned version is not stored.
     */
