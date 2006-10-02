@@ -2295,7 +2295,8 @@ CREATE TABLE ezsubtree_notification_rule (
 
 CREATE TABLE eztipafriend_counter (
     count integer DEFAULT 0 NOT NULL,
-    node_id integer DEFAULT 0 NOT NULL
+    node_id integer DEFAULT 0 NOT NULL,
+    requested integer DEFAULT 0 NOT NULL
 );
 
 
@@ -4006,7 +4007,7 @@ ALTER TABLE ONLY ezsubtree_notification_rule
 
 
 ALTER TABLE ONLY eztipafriend_counter
-    ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY (node_id);
+    ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY (node_id, requested);
 
 
 

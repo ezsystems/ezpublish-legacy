@@ -5601,6 +5601,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'requested' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -5610,6 +5617,7 @@ $schema = array (
         'fields' => 
         array (
           0 => 'node_id',
+          1 => 'requested',
         ),
       ),
     ),

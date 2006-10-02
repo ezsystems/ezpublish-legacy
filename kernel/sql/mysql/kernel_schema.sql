@@ -1259,7 +1259,8 @@ CREATE TABLE ezsubtree_notification_rule (
 CREATE TABLE eztipafriend_counter (
   count int(11) NOT NULL default '0',
   node_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (node_id)
+  requested int(11) NOT NULL default '0',
+  PRIMARY KEY  (node_id,requested)
 ) TYPE=MyISAM;
 
 
