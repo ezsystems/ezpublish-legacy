@@ -87,7 +87,7 @@ function addNewAttributeRows(attribid)
         window.alert( 'Unable to find attributes table.' );
     }
 
-    var buttonArray=new Array('RemoveButton','CollapseButton','ExpandButton');
+    var buttonArray=new Array('RemoveButton','CollapseButton','ExpandButton', 'TogglePlacementButton');
     var button;
     var j;
     for(j=0;j<buttonArray.length;j++)

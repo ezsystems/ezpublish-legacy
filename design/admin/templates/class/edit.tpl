@@ -125,7 +125,9 @@
         <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
         <input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
     {section-else}
-        <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" /> <input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
+        <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" />
+	<input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
+        <input type="button" class="button-disabled" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
     {/section}
     </div>
 
