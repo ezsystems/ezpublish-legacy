@@ -154,14 +154,18 @@ class eZContentClassPackageHandler extends eZPackageHandler
                       &$content, &$installParameters,
                       &$installData )
     {
-        $className = $content->elementTextContentByName( 'name' );
+        $classNameList = new eZContentClassNameList();
+        $classNameList->initFromSerializedList( $content->elementTextContentByName( 'serialized-name-list' ) );
+        if ( $classNameList->isEmpty() )
+            $classNameList->initFromString( $content->elementTextContentByName( 'name' ) );
+
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classRemoteID = $content->elementTextContentByName( 'remote-id' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
         $classIsContainer = $content->attributeValue( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
-    
+
         $classRemoteNode = $content->elementByName( 'remote' );
         $classID = $classRemoteNode->elementTextContentByName( 'id' );
         $classGroupsNode = $classRemoteNode->elementByName( 'groups' );
@@ -169,23 +173,23 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classModified = $classRemoteNode->elementTextContentByName( 'modified' );
         $classCreatorNode = $classRemoteNode->elementByName( 'creator' );
         $classModifierNode = $classRemoteNode->elementByName( 'modifier' );
-    
+
         $classAttributesNode = $content->elementByName( 'attributes' );
-    
+
         $dateTime = time();
         $classCreated = $dateTime;
         $classModified = $dateTime;
-    
+
         $userID = false;
         if ( isset( $installParameters['user_id'] ) )
             $userID = $installParameters['user_id'];
-    
+
         $class = eZContentClass::fetchByRemoteID( $classRemoteID );
-    
+
         if ( $class )
         {
             $description = ezi18n( 'kernel/package', "Class '%classname' already exists.", false,
-                                   array( '%classname' => $className ) );
+                                   array( '%classname' => $classNameList->name() ) );
 
             $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTCLASS_ERROR_EXISTS,
                                                         $installParameters, $description );
@@ -204,7 +208,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_CONTENTCLASS_NEW:
                 $class->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
                 $class->store();
-                $className .= " (imported)";
+                $classNameList->setName( $classNameList->name() . " (imported)" );
                 break;
 
             default:
@@ -224,14 +228,14 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $installParameters['error']['actions'][EZ_PACKAGE_CONTENTCLASS_NEW] = ezi18n( 'kernel/package', 'Keep existing and create a new one' );
                 return false;
             }
-        }    
-    
+        }
+
         unset( $class );
-    
+
         // Try to create a unique class identifier
         $currentClassIdentifier = $classIdentifier;
         $unique = false;
-    
+
         while( !$unique )
         {
             $classList = eZContentClass::fetchByIdentifier( $currentClassIdentifier );
@@ -245,25 +249,35 @@ class eZContentClassPackageHandler extends eZPackageHandler
             }
             else
                 $unique = true;
-    
+
             unset( $classList );
         }
-    
+
         $classIdentifier = $currentClassIdentifier;
-    
+
+        $initialLanguageID = $classNameList->alwaysAvailableLanguageID();
+        $languageMask = $classNameList->languageMask();
+
         // create class
         $class = eZContentClass::create( $userID,
                                          array( 'version' => 0,
-                                                'name' => $className,
+                                                'serialized_name_list' => $classNameList->serializeNames(),
                                                 'identifier' => $classIdentifier,
                                                 'remote_id' => $classRemoteID,
                                                 'contentobject_name' => $classObjectNamePattern,
                                                 'is_container' => $classIsContainer,
                                                 'created' => $classCreated,
-                                                'modified' => $classModified ) );
-        $class->store();
+                                                'modified' => $classModified,
+                                                'initial_language_id' => $initialLanguageID,
+                                                'language_mask' => $languageMask ) );
+
+        //$classNameList->setHasDataDirty();
+        $class->setAlwaysAvailableLanguageID( $initialLanguageID );
+        // setAlwaysAvailableLanguageID will do 'store'
+        //$class->store();
+
         $classID = $class->attribute( 'id' );
-    
+
         if ( !isset( $installData['classid_list'] ) )
             $installData['classid_list'] = array();
         if ( !isset( $installData['classid_map'] ) )
@@ -284,7 +298,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeIsSearchable = strtolower( $classAttributeNode->attributeValue( 'searchable' ) ) == 'true';
             $attributeIsInformationCollector = strtolower( $classAttributeNode->attributeValue( 'information-collector' ) ) == 'true';
             $attributeIsTranslatable = strtolower( $classAttributeNode->attributeValue( 'translatable' ) ) == 'true';
-            $attributeName = $classAttributeNode->elementTextContentByName( 'name' );
+            $attributeSerializedNameList = new eZContentClassAttributeNameList();
+            $attributeSerializedNameList->initFromSerializedList( $classAttributeNode->elementTextContentByName( 'serialized-name-list' ) );
+            if ( $attributeSerializedNameList->isEmpty() )
+                $attributeSerializedNameList->initFromString( $classAttributeNode->elementTextContentByName( 'name' ) );
             $attributeIdentifier = $classAttributeNode->elementTextContentByName( 'identifier' );
             $attributePlacement = $classAttributeNode->elementTextContentByName( 'placement' );
             $attributeDatatypeParameterNode = $classAttributeNode->elementByName( 'datatype-parameters' );
@@ -296,7 +313,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                    $attributeDatatype,
                                                                    array( 'version' => 0,
                                                                           'identifier' => $attributeIdentifier,
-                                                                          'name' => $attributeName,
+                                                                          'serialized_name_list' => $attributeSerializedNameList->serializeNames(),
                                                                           'is_required' => $attributeIsRequired,
                                                                           'is_searchable' => $attributeIsSearchable,
                                                                           'is_information_collector' => $attributeIsInformationCollector,

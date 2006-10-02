@@ -61,7 +61,20 @@ class eZContentClass extends eZPersistentObject
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
 
-            $this->NameList = new eZContentClassNameList( $row['serialized_name_list'] );
+            $this->NameList = new eZContentClassNameList();
+            if ( isset( $row['serialized_name_list'] ) )
+            {
+                $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
+            }
+            else if ( isset( $row['name'] ) ) // depricated
+            {
+                $this->NameList->initFromString( $row['name'] );
+            }
+            else
+            {
+                $this->NameList->initDefault();
+            }
+
         }
         $this->DataMap = false;
     }
@@ -837,7 +850,9 @@ class eZContentClass extends eZPersistentObject
                 }
             }
         }
+
         $this->NameList->remove( $this );
+
         eZPersistentObject::remove();
     }
 
@@ -1520,9 +1535,6 @@ You will need to change the class of the node by using the swap functionality.' 
         $db =& eZDB::instance();
         $db->begin();
 
-        $classID = $this->attribute( 'id' );
-        $version = $this->attribute( 'version' );
-
         $languageLocale = false;
         if ( $languageID )
         {
@@ -1541,6 +1553,9 @@ You will need to change the class of the node by using the swap functionality.' 
             $this->NameList->setAlwaysAvailableLanguage( false );
         }
         $this->store();
+
+        $classID = $this->attribute( 'id' );
+        $version = $this->attribute( 'version' );
 
         $attributes =& $this->fetchAttributes();
         foreach( array_keys( $attributes ) as $attrKey )

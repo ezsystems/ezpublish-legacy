@@ -30,7 +30,7 @@ include_once( 'kernel/classes/ezserializedobjectnamelist.php' );
 
 class eZContentClassAttributeNameList extends eZSerializedObjectNameList
 {
-    function eZContentClassAttributeNameList( $serializedNameList )
+    function eZContentClassAttributeNameList( $serializedNameList = false )
     {
         eZSerializedObjectNameList::eZSerializedObjectNameList( $serializedNameList );
     }

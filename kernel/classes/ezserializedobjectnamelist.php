@@ -30,15 +30,45 @@ include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZSerializedObjectNameList
 {
-    function eZSerializedObjectNameList( $serializedNamesString )
+    function eZSerializedObjectNameList( $serializedNamesString = false )
+    {
+        if ( $serializedNamesString )
+            $this->initFromSerializedList( $serializedNamesString );
+        else
+            $this->initDefault();
+    }
+
+    /*!
+     \static
+    */
+    function initFromSerializedList( $serializedNamesString )
     {
         $this->HasDirtyData = false;
         $this->unserializeNames( $serializedNamesString );
     }
 
+    function initFromString( $nameString )
+    {
+        $language = eZContentLanguage::topPriorityLanguage();
+        $languageLocale = $language->attribute( 'locale' );
+        $serializedNameList = serialize( array( $languageLocale => $nameString,
+                                                'always-available' => $languageLocale ) );
+        $this->initFromSerializedList( $serializedNameList );
+    }
+
+    function initDefault()
+    {
+        $this->initFromString( '' );
+    }
+
     function serializeNames()
     {
         return serialize( $this->NameList );
+    }
+
+    function isEmpty()
+    {
+        return ( count( $this->NameList ) == 0 );
     }
 
     function unserializeNames( $serializedNamesString )
@@ -52,6 +82,39 @@ class eZSerializedObjectNameList
         }
 
         $this->setHasDirtyData( false );
+    }
+
+    function alwaysAvailableLanguageID()
+    {
+        $languageID = false;
+        $languageLocale = isset( $this->NameList['always-available'] ) ? $this->NameList['always-available'] : false;
+        if ( $languageLocale )
+        {
+            $languageID = eZContentLanguage::idByLocale( $languageLocale );
+        }
+
+        eZDebug::writeDebug( $languageID, 'lazy: alwaysAvailableLanguageID::$languageID' );
+        return $languageID;
+    }
+
+    function languageMask()
+    {
+        $mask = 0;
+        foreach ( $this->NameList as $languageLocale => $name )
+        {
+            eZDebug::writeDebug( "$languageLocale => $name", 'lazy: languageMask' );
+            if ( $languageLocale == 'always-available' )
+            {
+                $mask += 1;
+            }
+            else
+            {
+                $languageID = eZContentLanguage::idByLocale( $languageLocale );
+                $mask += $languageID;
+            }
+        }
+
+        return $mask;
     }
 
     function name( $languageLocale = false )
