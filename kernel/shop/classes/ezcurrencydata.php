@@ -89,8 +89,6 @@ class eZCurrencyData extends eZPersistentObject
                                                                  'required' => false ) ),
                       'keys' => array( 'id' ),
                       'increment_key' => 'id',
-                      //'sort' => array( 'id' => 'asc' ),
-                      //'keys' => array( 'code' ),
                       'function_attributes' => array( 'rate_value' => 'rateValue' ),
                       'class_name' => "eZCurrencyData",
                       'sort' => array( 'code' => 'asc' ),

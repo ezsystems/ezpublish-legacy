@@ -44,7 +44,6 @@ class eZWorkflowEvent extends eZPersistentObject
     {
         $this->eZPersistentObject( $row );
         $this->Content = null;
-
     }
 
     function definition()
@@ -60,7 +59,10 @@ class eZWorkflowEvent extends eZPersistentObject
                                          "workflow_id" => array( 'name' => "WorkflowID",
                                                                  'datatype' => 'integer',
                                                                  'default' => 0,
-                                                                 'required' => true ),
+                                                                 'required' => true,
+                                                                 'foreign_class' => 'eZWorkflow',
+                                                                 'foreign_attribute' => 'id',
+                                                                 'multiplicity' => '1..*' ),
                                          "workflow_type_string" => array( 'name' => "TypeString",
                                                                           'datatype' => 'string',
                                                                           'default' => '',

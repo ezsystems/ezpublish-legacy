@@ -1,0 +1,24 @@
+*Title: Foreign key definitions
+
+*Incentive: 
+
+Make it possible to create automated data integrity checks,
+and automatic data migration. By knowing the foreign key relations,
+automatic key translation will be possible across installations.
+
+
+*Documentation:
+
+For PHP classes extending eZPersistentObject, they must add to the definition()
+function, a few lines describing which fields are foreign keys.
+- foreign_class, foreign class name
+- foreign_attribute, foreign class key/field name
+- multiplicity, describes the number of relations with the foreign class/key
+
+*Example:
+
+In function definition():
+...
+'foreign_class' => 'eZOrder',
+'foreign_attribute' => 'id',
+'multiplicity' => '1..*'

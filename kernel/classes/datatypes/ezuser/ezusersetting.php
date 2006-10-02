@@ -47,7 +47,10 @@ class eZUserSetting extends eZPersistentObject
         return array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
-                                                             'required' => true ),
+                                                             'required' => true,
+                                                             'foreign_class' => 'eZUser',
+                                                             'foreign_attribute' => 'contentobject_id',
+                                                             'multiplicity' => '0..1' ),
                                          'is_enabled' => array( 'name' => 'IsEnabled',
                                                                 'datatype' => 'integer',
                                                                 'default' => 0,
@@ -58,7 +61,7 @@ class eZUserSetting extends eZPersistentObject
                                                                'required' => true ) ),
                       'keys' => array( 'user_id' ),
                       'relations' => array( 'user_id' => array( 'class' => 'ezuser',
-                                                                 'field' => 'contentobject_id' ) ),
+                                                                'field' => 'contentobject_id' ) ),
                       'class_name' => 'eZUserSetting',
                       'name' => 'ezuser_setting' );
     }
