@@ -113,12 +113,12 @@ foreach ( $classList as $class )
     foreach ( $attributeList as $attribute )
     {
         $oldAttributeName = $attribute->attribute( 'serialized_name_list' );
-        $attribute->setName( $languageLocale, $oldAttributeName );
+        $attribute->setName( $oldAttributeName, $languageLocale );
         $attribute->store();
     }
 
     $class->setAttribute( 'language_mask', $language->attribute( 'id' ) );
-    $class->setName( $languageLocale, $oldClassName );
+    $class->setName( $oldClassName, $languageLocale );
     $class->setAttribute( 'initial_language_id', $language->attribute( 'id' ) );
     $class->setAlwaysAvailableLanguageID( $language->attribute( 'id' ) );
     // setAlwaysAvailableLanguageID will do 'store'
