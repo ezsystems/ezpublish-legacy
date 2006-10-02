@@ -1249,6 +1249,7 @@ class eZContentFunctionCollection
                                          '5' => 'Depth',
                                          '3' => 'Modified',
                                          '9' => 'Name',
+                                         '1' => 'Path String',
                                          '8' => 'Priority',
                                          '2' => 'Published',
                                          '4' => 'Section' ) );
