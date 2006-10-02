@@ -1491,7 +1491,8 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function &name( $languageLocale = false )
     {
-        return $this->NameList->name( $languageLocale );
+        $name = $this->NameList->name( $languageLocale );
+        return $name;
     }
 
     function setName( $name, $languageLocale = false )
@@ -1573,9 +1574,9 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function &languages()
     {
-    	$languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
+        $languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
 
-    	return $languages;
+        return $languages;
     }
 
     function &canCreateLanguages()
@@ -1622,7 +1623,8 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function &nameList()
     {
-        return $this->NameList->nameList();
+        $nameList = $this->NameList->nameList();
+        return $nameList;
     }
 
     function removeTranslation( $languageID )

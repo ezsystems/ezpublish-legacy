@@ -56,8 +56,7 @@ class eZSerializedObjectNameList
 
     function name( $languageLocale = false )
     {
-        $name = ( $languageLocale === false ) ? $this->nameByPrioritizedLanguages() : $this->nameByLanguageLocale( $languageLocale );
-        return $name;
+        return ( ( $languageLocale === false ) ? $this->nameByPrioritizedLanguages() : $this->nameByLanguageLocale( $languageLocale ) );
     }
 
     function nameByPrioritizedLanguages()

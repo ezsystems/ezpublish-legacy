@@ -216,8 +216,8 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function instantiate( $contentobjectID, $languageCode = false, $version = 1 )
     {
-    	$attribute = eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID, $version, $languageCode );
-    	$attribute->initialize();
+        $attribute = eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID, $version, $languageCode );
+        $attribute->initialize();
         $attribute->store();
         $attribute->postInitialize();
     }
@@ -608,7 +608,8 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &nameList()
     {
-        return $this->NameList->nameList();
+        $nameList = $this->NameList->nameList();
+        return $nameList;
     }
 
     function setAlwaysAvailableLanguageID( $languageID )
