@@ -150,7 +150,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     'anchor'       => array( 'renderHandler' => 'renderInline' ),
 
-    'custom'       => array( 'renderHandler' => 'renderCustom',
+    'custom'       => array( 'initHandler' => 'initHandlerCustom',
+                             'renderHandler' => 'renderCustom',
                              'attrVariables' => array( 'name' => false ) ),
 
     '#text'        => array( 'quickRender' => array(),
@@ -380,6 +381,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $ret = array( 'tpl_vars' => array( 'col_count' => $sibilingParams['table_col_count'],
                                            'row_count' => $parentParams['table_row_count'] ) );
+        return $ret;
+    }
+
+    function initHandlerCustom( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    {
+        $ret = array( 'template_name' => $attributes['name'] );
         return $ret;
     }
 

@@ -849,6 +849,12 @@ class eZXMLInputParser
             // If this is a foreign element, remove it
             if ( !$this->XMLSchema->exists( $element ) )
             {
+                if ( $element->nodeName == 'custom' )
+                {
+                    $this->isInputValid = false;
+                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Custom tag '%1' is not allowed.",
+                                                false, array( $element->getAttribute( 'name' ) ) );
+                }
                 $parent->removeChild( $element );
                 return false;
             }
@@ -924,7 +930,9 @@ class eZXMLInputParser
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
         if ( $this->eZPublishVersion >= 3.9 )
-            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element->nodeName );
+        {
+            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
+        }
 
         $attributes = $element->attributes();
         foreach( $attributes as $attr )

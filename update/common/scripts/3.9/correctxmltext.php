@@ -178,7 +178,7 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
     if ( !$element->hasAttributes() )
         return;
 
-    $customAttrs = $XMLSchema->customAttributes( $element->nodeName );
+    $customAttrs = $XMLSchema->customAttributes( $element );
     $attrs =& $element->attributes();
     $newAttrFound = false;
     foreach( $attrs as $attr )
@@ -187,7 +187,7 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
              !in_array( $attr->LocalName, $customAttrs ) )
         {
             $newAttrFound = true;
-            $XMLSchema->addCustomAttribute( $element->nodeName, $attr->LocalName );
+            $XMLSchema->addCustomAttribute( $element, $attr->LocalName );
             $customAttrs[] = $attr->LocalName;
             if ( !$isQuiet )
             {
@@ -204,7 +204,12 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
 
     if ( $newAttrFound && !$dumpOnly )
     {
-        $contentIniDirect->setVariable( $element->nodeName, 'CustomAttributes', $customAttrs );
+        if ( $element->nodeName == 'custom' )
+        {
+            $contentIniDirect->setVariable( $element->getAttribute( 'name' ), 'CustomAttributes', $customAttrs );
+        }
+        else
+            $contentIniDirect->setVariable( $element->nodeName, 'CustomAttributes', $customAttrs );
         $isIniModified = true;
     }
 }

@@ -175,7 +175,13 @@ class eZXMLSchema
         $ini =& eZINI::instance( 'content.ini' );
                 
         // Get inline custom tags list
-        $this->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+        $this->Schema['custom']['isInline'] = $ini->variable( 'CustomTagSettings', 'IsInline' );
+        if ( !is_array( $this->Schema['custom']['isInline'] ) )
+            $this->Schema['custom']['isInline'] = array();
+
+        $this->Schema['custom']['tagList'] = $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
+        if ( !is_array( $this->Schema['custom']['tagList'] ) )
+            $this->Schema['custom']['tagList'] = array();
         
         include_once( 'lib/version.php' );
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
@@ -214,16 +220,38 @@ class eZXMLSchema
             $ini =& eZINI::instance( 'content.ini' );
             foreach( array_keys( $this->Schema ) as $tagName )
             {
-                if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
+                if ( $tagName == 'custom' ) 
                 {
-                    $avail = $ini->variable( $tagName, 'CustomAttributes' );
-                    if ( is_array( $avail ) && count( $avail ) )
-                        $this->Schema[$tagName]['customAttributes'] = $avail;
+                    // Custom attributes of custom tags
+                    foreach( $this->Schema['custom']['tagList'] as $customTagName )
+                    {
+                        if ( $ini->hasVariable( $customTagName, 'CustomAttributes' ) )
+                        {
+                            $avail = $ini->variable( $customTagName, 'CustomAttributes' );
+                            if ( is_array( $avail ) && count( $avail ) )
+                                $this->Schema['custom']['customAttributes'][$customTagName] = $avail;
+                            else
+                                $this->Schema['custom']['customAttributes'][$customTagName] = array();
+                        }
+                        else
+                            $this->Schema['custom']['customAttributes'][$customTagName] = array();
+
+                    }
+                }
+                else
+                {
+                    // Custom attributes of regular tags
+                    if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
+                    {
+                        $avail = $ini->variable( $tagName, 'CustomAttributes' );
+                        if ( is_array( $avail ) && count( $avail ) )
+                            $this->Schema[$tagName]['customAttributes'] = $avail;
+                        else
+                            $this->Schema[$tagName]['customAttributes'] = array();
+                    }
                     else
                         $this->Schema[$tagName]['customAttributes'] = array();
                 }
-                else
-                    $this->Schema[$tagName]['customAttributes'] = array();
             }
         }
         else
@@ -264,18 +292,15 @@ class eZXMLSchema
         $isInline = $this->Schema[$elementName]['isInline'];
 
         // Special workaround for custom tags.
-        if ( $isInline === null )
+        if ( is_array( $isInline ) && !is_string( $element ) )
         {
-            if ( !is_string( $element ) )
-            {
-                $isInline = false;
-                $name = $element->getAttribute( 'name' );
+            $isInline = false;
+            $name = $element->getAttribute( 'name' );
 
-                if ( isset( $this->isInlineTagList[$name] ) )
-                {
-                    if ( $this->isInlineTagList[$name] == 'true' )
-                        $isInline = true;
-                }
+            if ( isset( $this->Schema['custom']['isInline'][$name] ) )
+            {
+                if ( $this->Schema['custom']['isInline'][$name] == 'true' )
+                    $isInline = true;
             }
         }
         return $isInline;
@@ -361,12 +386,26 @@ class eZXMLSchema
         return $this->Schema[$element->nodeName]['attributes'];
     }
 
-    function customAttributes( $tagName )
+    function customAttributes( $element )
     {
-        if ( isset( $this->Schema[$tagName]['customAttributes'] ) )
-            return $this->Schema[$tagName]['customAttributes'];
+        if ( is_string( $element ) )
+        {
+            return $this->Schema[$element]['customAttributes'];
+        }
         else
-            return array();
+        {
+            if ( $element->nodeName == 'custom' )
+            {
+                $name = $element->getAttribute( 'name' );
+                if ( $name )
+                    return $this->Schema['custom']['customAttributes'][$name];
+            }
+            else
+            {
+                return $this->Schema[$element->nodeName]['customAttributes'];
+            }
+        }
+        return array();
     }
                                                 
     function attrDefaultValue( $tagName, $attrName )
@@ -387,8 +426,24 @@ class eZXMLSchema
 
     function exists( $element )
     {
-        $name = is_string( $element ) ? $element : $element->nodeName;
-        return isset( $this->Schema[$name] );
+        if ( is_string( $element ) )
+        {
+            return isset( $this->Schema[$element] );
+        }
+        else
+        {
+            if ( $element->nodeName == 'custom' )
+            {
+                $name = $element->getAttribute( 'name' );
+                if ( $name )
+                    return in_array( $name, $this->Schema['custom']['tagList'] );
+            }
+            else
+            {
+                return isset( $this->Schema[$element->nodeName] );
+            }
+        }
+        return false;
     }
 
     function getClassesList( $tagName )
@@ -407,15 +462,25 @@ class eZXMLSchema
         $this->Schema[$tagName]['classesList'][] = $class;
     }
 
-    function addCustomAttribute( $tagName, $attrName )
+    function addCustomAttribute( $element, $attrName )
     {
-        if ( !isset( $this->Schema[$tagName]['customAttributes'] ) )
-            $this->Schema[$tagName]['customAttributes'] = array();
-
-        $this->Schema[$tagName]['customAttributes'][] = $attrName;
+        if ( is_string( $element ) )
+        {
+            $this->Schema[$element]['customAttributes'][] = $attrName;
+        }
+        else
+        {
+            if ( $element->nodeName == 'custom' )
+            {
+                $name = $element->getAttribute( 'name' );
+                if ( $name )
+                    $this->Schema['custom']['customAttributes'][$name][] = $attrName;
+            }
+            else
+            {
+                $this->Schema[$element->nodeName]['customAttributes'][] = $attrName;
+            }
+        }
     }
-
-    // for custom tags
-    var $isInlineTagList = array();
 }
 ?>

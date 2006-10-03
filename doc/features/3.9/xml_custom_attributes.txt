@@ -8,7 +8,8 @@ custom attributes is set with content.ini setting:
 
 content.ini [tagname].CustomAttributes
 
-This is an array that contains attributes names.
+This is an array that contains attributes names. For custom tags 'tagname' is
+a name of the tag, for example 'factbox'.
 
 To access custom attribute's values in tag's template, use variable that have
 the same name.
@@ -19,7 +20,7 @@ You can get warning when you try to edit existing objects containing tags with
 custom attributes if they are not added to the list. To add all existing
 attributes to content.ini automatically run the following script:
 
-correctxmltext39.php
+update/common/scripts/3.9/correctxmltext.php
 
 
 *Example:
@@ -41,3 +42,10 @@ Now you can enter in the XML text block input field:
 In the template table.tpl:
 
 summary:{$summary}
+
+
+*Example for a custom tag:
+
+[factbox]
+CustomAttributes[]
+CustomAttributes[]=summary
