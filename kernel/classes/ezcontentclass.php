@@ -1257,6 +1257,10 @@ You will need to change the class of the node by using the swap functionality.' 
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
+        $custom_fields = null;
+        $custom_tables = null;
+        $custom_conds = null;
+
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -1292,12 +1296,27 @@ You will need to change the class of the node by using the swap functionality.' 
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
 
+        if ( $sorts && isset( $sorts['name'] ) )
+        {
+            $nameFiler = eZContentClassName::sqlFilter( 'ezcontentclass' );
+            $custom_tables = array( $nameFiler['from'] );
+            $custom_conds = "AND " . $nameFiler['where'];
+            $custom_fields = array( $nameFiler['nameField'] );
+
+            $sorts[$nameFiler['orderBy']] = $sorts['name'];
+            unset( $sorts['name'] );
+        }
+
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                             $fields,
                                                             $conds,
                                                             $sorts,
                                                             $limit,
-                                                            $asObject );
+                                                            $asObject,
+                                                            false,
+                                                            $custom_fields,
+                                                            $custom_tables,
+                                                            $custom_conds );
     }
 
     /*!

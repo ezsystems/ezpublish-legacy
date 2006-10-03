@@ -646,6 +646,8 @@ class eZPersistentObject
                            \c FIELD is an associative array containing:
                            - operation - A text field which is included in the field list
                            - name - If present it adds 'AS name' to the operation.
+     \param $custom_conds Array of ready sql conditions for 'WHERE' clause.
+     \param $custom_tables Array of additional tables.
 
      A full example:
      \code
@@ -682,7 +684,9 @@ class eZPersistentObject
                               $limit = null,
                               $asObject = true,
                               $grouping = false,
-                              $custom_fields = null )
+                              $custom_fields = null,
+                              $custom_tables = null,
+                              $custom_conds = null )
     {
         $db =& eZDB::instance();
         $ini = eZINI::instance();
@@ -696,7 +700,9 @@ class eZPersistentObject
                                                $limit,
                                                $asObject,
                                                $grouping,
-                                               $custom_fields ) ) );
+                                               $custom_fields,
+                                               $custom_tables,
+                                               $custom_conds ) ) );
             if ( isset( $GLOBALS['eZPersistentObject_Cache'][$def['name']][$cacheKey] ) )
             {
                 $GLOBALS['eZPersistentObject_CacheHitCount']++;
@@ -705,8 +711,13 @@ class eZPersistentObject
         }
 
         $fields =& $def["fields"];
-        $table =& $def["name"];
+        $tables =& $def["name"];
         $class_name =& $def["class_name"];
+        if ( is_array( $custom_tables ) )
+        {
+            foreach( $custom_tables as $custom_table )
+                $tables .= ', ' . $db->escapeString( $custom_table );
+        }
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conds );
         if ( is_array( $field_filters ) )
             $field_array = array_unique( array_intersect(
@@ -717,11 +728,18 @@ class eZPersistentObject
         {
             foreach( $custom_fields as $custom_field )
             {
-                $custom_text = $custom_field["operation"];
-                if ( isset( $custom_field["name"] ) )
+                if ( is_array( $custom_field ) )
                 {
-                    $field_name =& $custom_field["name"];
-                    $custom_text .= " AS $field_name";
+                    $custom_text = $custom_field["operation"];
+                    if ( isset( $custom_field["name"] ) )
+                    {
+                        $field_name =& $custom_field["name"];
+                        $custom_text .= " AS $field_name";
+                    }
+                }
+                else
+                {
+                    $custom_text = $custom_field;
                 }
                 $field_array[] = $custom_text;
             }
@@ -741,6 +759,9 @@ class eZPersistentObject
         }
 
         $where_text = eZPersistentObject::conditionText( $conds );
+        if ( $custom_conds )
+            $where_text .= $custom_conds;
+
         $sort_text = "";
         if ( $sorts !== false and ( isset( $def["sort"] ) or is_array( $sorts ) ) )
         {
@@ -801,7 +822,11 @@ class eZPersistentObject
             }
         }
 
-        $sqlText = "SELECT $field_text\nFROM   $table" . $where_text . $grouping_text . $sort_text;
+        $sqlText = "SELECT $field_text
+                    FROM   $tables" .
+                    $where_text .
+                    $grouping_text .
+                    $sort_text;
         $rows = $db->arrayQuery( $sqlText,
                                  $db_params );
 
