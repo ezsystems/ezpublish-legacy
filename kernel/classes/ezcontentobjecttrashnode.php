@@ -239,7 +239,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
             $query = "SELECT
                         ezcontentobject.*,
                         ezcot.*,
-                        ezcontentclass.name as class_name,
+                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                         ezcontentclass.identifier as class_identifier
                         $versionNameTargets \n";
         }
