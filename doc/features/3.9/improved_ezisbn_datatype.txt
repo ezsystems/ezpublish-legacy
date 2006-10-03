@@ -1,0 +1,7 @@
+*Title: Improved ISBN datatype
+
+*Documentation:
+Supporting of the new ISBN-13 standard has been added.
+
+All necessary information should be available in the ISBN-10 users manual and ISBN-13 users-manual at: 
+http://www.isbn-international.org/en/manual.html
