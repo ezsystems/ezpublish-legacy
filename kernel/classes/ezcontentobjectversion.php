@@ -1160,7 +1160,7 @@ class eZContentObjectVersion extends eZPersistentObject
             else
                 $attr->setContentClassAttributeCanTranslate( 0 );
 
-            $attr->setContentClassAttributeName( eZContentClassAttributeNameList::nameFromSerializedString( $attribute['class_attribute_serialized_name_list'] ) );
+            $attr->setContentClassAttributeName( eZContentClassAttribute::nameFromSerializedString( $attribute['class_attribute_serialized_name_list'] ) );
 
             $returnAttributeArray[] = $attr;
         }

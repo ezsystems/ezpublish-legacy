@@ -390,7 +390,7 @@ class eZContentStructureTreeOperator
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
-                                          'class_name' => eZContentClassNameList::nameFromSerializedString( $treeNode['class_serialized_name_list'] ),
+                                          'class_name' => eZContentClass::nameFromSerializedString( $treeNode['class_serialized_name_list'] ),
                                           'published' => $treeNode['published'],
                                           'is_container' => ( $treeNode['is_container'] == '1' ),
                                           'language_js_array' => eZContentLanguage::jsArrayByMask( $treeNode['language_mask'] ) ) );

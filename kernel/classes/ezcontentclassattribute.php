@@ -599,6 +599,14 @@ class eZContentClassAttribute extends eZPersistentObject
         return $result;
     }
 
+    /*!
+     \static
+    */
+    function nameFromSerializedString( $serailizedNameList, $languageLocale = false )
+    {
+        return eZContentClassAttributeNameList::nameFromSerializedString( $serailizedNameList, $languageLocale );
+    }
+
     function &name( $languageLocale = false )
     {
         $name = $this->NameList->name( $languageLocale );

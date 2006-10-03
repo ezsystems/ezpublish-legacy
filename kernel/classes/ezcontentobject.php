@@ -852,7 +852,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $resRowArray as $resRow )
         {
             $objectID = $resRow['id'];
-            $resRow['class_name'] = eZContentClassName::nameFromSerializedString( $resRow['class_name'] );
+            $resRow['class_name'] = eZContentClass::nameFromSerializedString( $resRow['class_name'] );
             if ( $asObject )
             {
                 $obj = new eZContentObject( $resRow );
@@ -2655,7 +2655,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $relatedObjects as $object )
         {
             $obj = new eZContentObject( $object );
-            $obj->ClassName = eZContentClassNameList::nameFromSerializedString( $object['class_serialized_name_list'] );
+            $obj->ClassName = eZContentClass::nameFromSerializedString( $object['class_serialized_name_list'] );
 
             if ( !$groupByAttribute )
             {
@@ -4252,7 +4252,7 @@ class eZContentObject extends eZPersistentObject
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $this->ClassName = eZContentClassNameList::nameFromSerializedString( $rows[0]['serialized_name_list'] );
+            $this->ClassName = eZContentClass::nameFromSerializedString( $rows[0]['serialized_name_list'] );
         }
         return $this->ClassName;
     }

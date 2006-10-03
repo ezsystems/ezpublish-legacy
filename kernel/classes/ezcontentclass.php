@@ -1513,6 +1513,14 @@ You will need to change the class of the node by using the swap functionality.' 
         return $languageCodes;
     }
 
+    /*!
+     \static
+    */
+    function nameFromSerializedString( $serailizedNameList )
+    {
+        return eZContentClassNameList::nameFromSerializedString( $serailizedNameList );
+    }
+
     function &name( $languageLocale = false )
     {
         $name = $this->NameList->name( $languageLocale );

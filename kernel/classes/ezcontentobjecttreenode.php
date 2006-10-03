@@ -5316,7 +5316,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( isset( $node['class_serialized_name_list'] ) )
             {
-                $node['class_name'] = eZContentClassNameList::nameFromSerializedString( $node['class_serialized_name_list'] );
+                $node['class_name'] = eZContentClass::nameFromSerializedString( $node['class_serialized_name_list'] );
                 $object->ClassName = $node['class_name'];
             }
             if ( isset( $node['class_identifier'] ) )

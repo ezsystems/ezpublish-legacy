@@ -38,9 +38,6 @@ class eZSerializedObjectNameList
             $this->initDefault();
     }
 
-    /*!
-     \static
-    */
     function initFromSerializedList( $serializedNamesString )
     {
         $this->HasDirtyData = false;
