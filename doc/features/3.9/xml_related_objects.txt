@@ -31,3 +31,22 @@ like it was in 3.8, but it can be also an array. Array may consists of the
 following strings: 'common', 'xml_link', 'xml_embed', 'attribute'. Each of
 them mean corresponding relation type. Types can be mixed and placed in any
 order. Also this new parameter is fully compatible with other options.
+
+Also the following functional attributes has been added to ezcontentobject
+class:
+
+linked_contentobject_array
+embedded_contentobject_array
+reverse_embedded_contentobject_array
+reverse_linked_contentobject_array
+
+They act like corresponding fetch functions return all related or reverse-related
+objects of a specific type.
+
+*Examples:
+
+Both examples return array of objects "linked" to the object $my_object.
+
+{def $linked = fetch( 'content', 'related_objects', hash( 'object_id', $my_object.id, 'all_relations', array( 'xml_link' ) ) )}
+                                                        
+{def $linked = $my_object.linked_contentobject_array}
