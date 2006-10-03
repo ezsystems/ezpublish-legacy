@@ -125,6 +125,13 @@ class eZStepSiteTypes extends eZStepInstaller
         }
         else
         {
+            $parsedUrl = parse_url( $url );
+            $checkIP = isset( $parsedUrl[ 'host' ] ) ? ip2long( gethostbyname( $parsedUrl[ 'host' ] ) ) : false;
+            if ( $checkIP === false )
+            {
+                return false;
+            }
+
             // If we don't have CURL installed we used standard fopen urlwrappers
             // Note: Could be blocked by not allowing remote calls.
             if ( !copy( $url, $fileName ) )
