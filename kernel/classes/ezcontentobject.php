@@ -2564,6 +2564,9 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
         $sortingString = '';
+        $sortingInfo = array( 'attributeFromSQL' => '',
+                              'attributeWhereSQL' => '' );
+
         $showInvisibleNodesCond = '';
         $showInvisibleNodesTable = '';
         // process params (only SortBy and IgnoreVisibility currently supported):
