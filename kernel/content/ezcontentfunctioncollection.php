@@ -632,29 +632,65 @@ class eZContentFunctionCollection
         return array( 'result' => eZSection::fetchList() );
     }
 
-    function fetchTipafriendTopList( $offset, $limit )
+    function fetchTipafriendTopList( $offset, $limit, $start_time, $end_time, $duration, $ascending, $fetch_nodes )
     {
         include_once( 'kernel/classes/eztipafriendcounter.php' );
-        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-        $topList =  eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
-                                                       null,
-                                                       null,
-                                                       null,
-                                                       array( 'length' => $limit, 'offset' => $offset ),
-                                                       true );
+        $currentTime = time();
+        $conds = array();
 
-        $contentNodeList = array();
-        foreach ( array_keys ( $topList ) as $key )
+        if ( is_numeric( $start_time ) and is_numeric( $end_time ) )
         {
-            $nodeID = $topList[$key]->attribute( 'node_id' );
-            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
-            if ( $contentNode === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentNodeList[] = $contentNode;
+            $conds = array( 'requested' => array( false, array( $start_time, $end_time ) ) );
         }
-        return array( 'result' => $contentNodeList );
+        else if ( is_numeric( $start_time ) and is_numeric( $duration ) )
+        {
+            $conds = array( 'requested' => array( false, array( $start_time, $start_time + $duration ) ) );
+        }
+        else if ( is_numeric( $end_time ) and is_numeric( $duration ) )
+        {
+            $conds = array( 'requested' => array( false, array( $end_time - $duration, $end_time ) ) );
+        }
+        else if ( is_numeric( $start_time ) )
+        {
+            $conds = array( 'requested' => array( '>', $start_time ) );
+        }
+        else if ( is_numeric( $end_time ) )
+        {
+            $conds = array( 'requested' => array( '<', $end_time ) );
+        }
+        else if ( is_numeric( $duration ) )
+        {
+            // substract passed duration from current time timestamp to get start_time stamp
+            // end_timestamp is equal to current time in this case
+            $conds = array( 'requested' => array( '>', $currentTime - $duration ) );
+        }
+
+        $topList = eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
+                                                        array( 'node_id' ),
+                                                        $conds,
+                                                        array( 'count' => ( $ascending ? 'asc' : 'desc' ) ),
+                                                        array( 'length' => $limit, 'offset' => $offset ),
+                                                        false,
+                                                        array( 'node_id' ),
+                                                        array( array( 'operation' => 'count( * )',
+                                                                      'name' => 'count' ) ) );
+        if ( $fetch_nodes )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            foreach ( array_keys( $topList ) as $key )
+            {
+                $entry =& $topList[ $key ];
+                $contentNode = eZContentObjectTreeNode::fetch( $entry[ 'node_id' ] );
+                if ( !is_object( $contentNode ) )
+                {
+                    return array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                }
+                $entry[ 'node' ] =& $contentNode;
+            }
+        }
+        return array( 'result' => $topList );
     }
 
     function fetchMostViewedTopList( $classID, $sectionID, $offset, $limit )

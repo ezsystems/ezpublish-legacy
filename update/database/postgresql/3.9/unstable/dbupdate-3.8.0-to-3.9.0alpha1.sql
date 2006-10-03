@@ -90,3 +90,14 @@ CREATE TABLE ezcontentclass_name
 ALTER TABLE ONLY ezcontentclass_name
     ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (id);
 -- END: ezcontentclass/ezcontentclass_attribute translations
+
+-- START: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
+ALTER TABLE eztipafriend_counter ADD COLUMN requested integer;
+ALTER TABLE eztipafriend_counter ALTER requested SET NOT NULL;
+ALTER TABLE eztipafriend_counter ALTER requested SET DEFAULT 0;
+
+ALTER TABLE eztipafriend_counter DROP CONSTRAINT eztipafriend_counter_pkey;
+ALTER TABLE ONLY eztipafriend_counter ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY( "node_id", "requested" );
+-- END: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
+
+

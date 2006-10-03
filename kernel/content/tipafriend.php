@@ -64,8 +64,15 @@ if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = (int)$http->variable( 'NodeID' );
 
 $node = eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
-if ( $node )
+if ( is_object( $node ) )
+{
     $nodename = $node->Name;
+}
+else
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
 $hostname = eZSys::hostname();
 $subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostname, $nodename ) );
 $comment = '';
@@ -148,13 +155,8 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
             // Increase tipafriend count for this node
             include_once( "kernel/classes/eztipafriendcounter.php" );
-            $counter = eZTipafriendCounter::fetch( $NodeID );
-            if ( $counter == null )
-            {
-                $counter = eZTipafriendCounter::create( $NodeID );
-            }
-            $counter->increase();
-            $counter->store(); // Not important to embrace in a transaction.
+            $counter = eZTipafriendCounter::create( $NodeID );
+            $counter->store();
         }
         else // some error occured
         {

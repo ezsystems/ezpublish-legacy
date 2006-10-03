@@ -65,3 +65,10 @@ CREATE TABLE ezcontentclass_name
 );
 -- END: ezcontentclass/ezcontentclass_attribute translations
 
+-- START: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
+ALTER TABLE eztipafriend_counter ADD COLUMN requested int NOT NULL DEFAULT 0;
+ALTER TABLE eztipafriend_counter DROP PRIMARY KEY;
+ALTER TABLE eztipafriend_counter ADD PRIMARY KEY (node_id, requested);
+-- END: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
+
+

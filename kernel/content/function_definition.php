@@ -1,4 +1,4 @@
-<?php
+F<?php
 //
 // Created on: <06-Oct-2002 16:01:10 amos>
 //
@@ -751,6 +751,26 @@ $FunctionList['tipafriend_top_list'] = array( 'name' => 'tipafriend_top_list',
                                                                             'default' => false ),
                                                                      array( 'name' => 'limit',
                                                                             'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'start_time',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'end_time',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'duration',
+                                                                            'type' => 'integer',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'ascending',
+                                                                            'type' => 'boolean',
+                                                                            'required' => false,
+                                                                            'default' => false ),
+                                                                     array( 'name' => 'fetch_nodes',
+                                                                            'type' => 'boolean',
                                                                             'required' => false,
                                                                             'default' => false ) ) );
 

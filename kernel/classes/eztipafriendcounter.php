@@ -46,26 +46,31 @@ class eZTipafriendCounter extends eZPersistentObject
 
     function definition()
     {
-        return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
+        return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
                                                              'required' => true ),
-                                         "count" => array( 'name' => "Count",
+                                         'count' => array( 'name' => 'Count', // deprecated column, must not be used
                                                            'datatype' => 'integer',
                                                            'default' => 0,
-                                                           'required' => true ) ),
-                      "keys" => array( "node_id" ),
+                                                           'required' => true ),
+                                         'requested' => array( 'name' => 'Requested',
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => true ) ),
+                      'keys' => array( 'node_id', 'requested' ),
                       'relations' => array( 'node_id' => array( 'class' => 'ezcontentobjecttreenode',
                                                                 'field' => 'node_id' ) ),
-                      "class_name" => "eZTipafriendCounter",
-                      "sort" => array( "count" => "desc" ),
-                      "name" => "eztipafriend_counter" );
+                      'class_name' => 'eZTipafriendCounter',
+                      'sort' => array( 'count' => 'desc' ),
+                      'name' => 'eztipafriend_counter' );
     }
 
     function create( $node_id )
     {
-        $row = array("node_id" => $node_id,
-                     "count" => 0 );
+        $row = array( 'node_id' => $node_id,
+                      'count' => 0,
+                      'requested' => time() );
         return new eZTipafriendCounter( $row );
     }
 
@@ -73,43 +78,37 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $node_id )
+    function removeForNode( $node_id )
     {
         eZPersistentObject::removeObject( eZTipafriendCounter::definition(),
-                                          array("node_id" => $node_id ) );
+                                          array( 'node_id' => $node_id ) );
     }
 
     /*!
+     \depricated
+     Use removeForNode instead
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
     function clear( $node_id )
     {
-        $counter = eZTipafriendCounter::fetch( $node_id );
-        if ( $counter != null )
-        {
-            $counter->setAttribute( 'count', 0 );
-            $counter->store();
-        }
+        eZTipafriendCounter::removeForNode( $node_id );
     }
 
     /*!
+     \depricated, will be removed in future versions of eZP
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
     function increase()
     {
-        $currentCount = $this->attribute( 'count' );
-        $newCount = $currentCount + 1;
-        $this->setAttribute( 'count', $newCount );
-        $this->store();
     }
 
     function fetch( $node_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTipafriendCounter::definition(),
                                                 null,
-                                                array("node_id" => $node_id ),
+                                                array( 'node_id' => $node_id ),
                                                 $asObject );
     }
 

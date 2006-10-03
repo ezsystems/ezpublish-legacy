@@ -1,0 +1,42 @@
+*Title: tipafriend_top_list extended fetch function
+
+*Documentation:
+New field 'requested' which contain time-stamp of added table entry was added to
+eztipafriend_counter table. This gives possibility to fetch top list of requested
+nodes for a certain time duration.
+Accordingly, content/tipafriend_top_list fetch function was extened with new parameters.
+
+*Usage:
+
+fetch( 'content', 'tipafriend_top_list',
+       hash( [ 'offset', offset, ]
+             [ 'limit',  limit, ]
+             [ 'start_time',  start_time, ]
+             [ 'end_time',  end_time, ]
+             [ 'duration',  duration, ]
+             [ 'ascending',  ascending, ]
+             [ 'fetch_nodes',  fetch_nodes, ]
+              ) )
+*Parameters:
+Name:          Type:        Required:
+ offset         integer      no
+ limit          integer      no
+ start_time     integer      no
+ end_time       integer      no
+ duration       integer      no
+ ascending      boolean      no
+ fetch_nodes    boolean      no
+
+
+*Example:
+
+{def $tip_top_list=fetch( content,
+                          tipafriend_top_list,
+                          hash( 'offset', 2,
+                                'limit', 4,
+                                'start_time', current_date() - 604800,
+                                'ascending', 0,
+                                'fetch_nodes', 1 ) )}
+{$tip_top_list|attribute(show)}
+{undef}
+

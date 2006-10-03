@@ -51,18 +51,18 @@ class eZTipafriendRequest extends eZPersistentObject
 
     function definition()
     {
-        return array( "fields" => array( "email_receiver" => array( 'name' => "EmailReceiver",
+        return array( "fields" => array( 'email_receiver' => array( 'name' => 'EmailReceiver',
                                                                     'datatype' => 'string',
                                                                     'default' => '',
                                                                     'required' => true ),
-                                         "created" => array( 'name' => "Created",
-                                                           'datatype' => 'integer',
-                                                           'default' => 0,
-                                                           'required' => true ) ),
-                      "keys" => array( "email_receiver" ),
-                      "class_name" => "eZTipafriendRequest",
-                      "sort" => array( "created" => "desc" ),
-                      "name" => "eztipafriend_request" );
+                                         'created' => array( 'name' => 'Created',
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ) ),
+                      'keys' => array( 'email_receiver' ),
+                      'class_name' => 'eZTipafriendRequest',
+                      'sort' => array( 'created' => 'desc' ),
+                      'name' => 'eztipafriend_request' );
     }
 
     function create( $receiver )
