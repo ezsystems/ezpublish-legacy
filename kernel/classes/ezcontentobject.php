@@ -2634,10 +2634,12 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject_link
                         $versionNameTables
                         $showInvisibleNodesTable
+                        $sortingInfo[attributeFromSQL]
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                         ezcontentclass.version=0 AND
                         ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                        $sortingInfo[attributeWhereSQL]
                         ezcontentobject_link.op_code='0'
                         $relationTypeMasking
                         $fromOrToContentObjectID

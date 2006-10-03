@@ -709,7 +709,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'class_name':
                         {
-                            $sortingFields .= 'ezcontentclass.name';
+                            $classNameFilter = eZContentClassName::sqlFilter();
+                            $sortingFields .= $classNameFilter['nameField'];
+                            $attributeFromSQL .= ", $classNameFilter[from]";
+                            $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
                         {
@@ -1026,7 +1029,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'class_name':
                         {
-                            $filterField = 'ezcontentclass.name';
+                            $classNameFilter = eZContentClassName::sqlFilter();
+                            $filterField = $classNameFilter['nameField'];
+                            $filterSQL['from'] .= ", $classNameFilter[from]";
+                            $filterSQL['where'] .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
                         {

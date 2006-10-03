@@ -98,14 +98,14 @@ class eZContentClassName extends eZPersistentObject
      \param languageTable Name of the table containing the attribute with bitmaps, e.g. ezcontentclass
      \param languageListTable Name of the table containing the attribute with language id.
     */
-    function sqlFilter( $languageTable )
+    function sqlFilter( $languageTable = 'ezcontentclass' )
     {
         $def = eZContentClassName::definition();
         $languageListTable = $def['name'];
         $sqlFilter = array( 'nameField' => "$languageListTable.name",
                             'from' => "$languageListTable",
                             'where' => "$languageTable.id = $languageListTable.contentclass_id AND
-                                        $languageTable.version = $languageListTable. contentclass_version AND " .
+                                        $languageTable.version = $languageListTable.contentclass_version AND " .
                                         eZContentLanguage::sqlFilter( $languageListTable, $languageTable ),
                             'orderBy' => "$languageListTable.name" );
 
@@ -115,14 +115,14 @@ class eZContentClassName extends eZPersistentObject
     /*!
      The same as 'sqlFilter' but adds symbol ',' to 'nameField' and 'from' parts
     */
-    function sqlAppendFilter( $languageTable )
+    function sqlAppendFilter( $languageTable = 'ezcontentclass' )
     {
         $def = eZContentClassName::definition();
         $languageListTable = $def['name'];
         $sqlFilter = array( 'nameField' => ", $languageListTable.name",
                             'from' => ", $languageListTable",
                             'where' => "AND $languageTable.id = $languageListTable.contentclass_id AND
-                                        $languageTable.version = $languageListTable. contentclass_version AND " .
+                                        $languageTable.version = $languageListTable.contentclass_version AND " .
                                         eZContentLanguage::sqlFilter( $languageListTable, $languageTable ),
                             'orderBy' => "$languageListTable.name" );
 
