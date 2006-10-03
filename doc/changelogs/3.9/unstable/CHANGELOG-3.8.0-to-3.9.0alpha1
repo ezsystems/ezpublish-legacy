@@ -18,6 +18,7 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Added name's tranlsation support for ezcontentclass/ezcontentclass_attribute.
 - Added foreign key definitions.
 - Added toString() and fromString() functions to the contentobject_attribute and datatype interfases.
+- Implemented enhancement #8309: Make ISBN datatype user-friendly.
 
 Clustering:
 - Changed the way clustering settings are stored.
