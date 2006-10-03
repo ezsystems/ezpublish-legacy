@@ -174,7 +174,7 @@ class eZURI
      \return the element at $index.
      If $relative is true the index is relative to the current index().
     */
-    function element( $index = 0, $relative = true )
+    function &element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
