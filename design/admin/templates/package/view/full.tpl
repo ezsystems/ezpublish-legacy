@@ -3,6 +3,8 @@
                     hash( package_name, $package_name,
                           repository_id, $repository_id ) )}
 
+<div class="context-block">
+
 <div id="package" class="viewfull">
     <div id="pn-{$package.name|wash}" class="pt-{$package.type|wash}">
 
@@ -146,6 +148,8 @@
 
 
     </div>
+</div>
+
 </div>
 
 {/let}
