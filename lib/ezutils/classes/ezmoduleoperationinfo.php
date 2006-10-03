@@ -446,7 +446,6 @@ class eZModuleOperationInfo
                     }
 
                     $triggerName = $body['name'];
-                    $triggerKeys = $body['keys'];
                     $triggerRestored = false;
                     $executeTrigger = true;
                     if ( $mementoData !== null )
