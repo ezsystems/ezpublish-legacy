@@ -35,11 +35,7 @@ class eZContentClassName extends eZPersistentObject
 
     function definition()
     {
-        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
-                                                        'datatype' => 'integer',
-                                                        'default' => 0,
-                                                        'required' => true ),
-                                         'contentclass_id' => array( 'name' => 'ContentClassID',
+        return array( 'fields' => array( 'contentclass_id' => array( 'name' => 'ContentClassID',
                                                                      'datatype' => 'integer',
                                                                      'default' => 0,
                                                                      'required' => true,
@@ -65,11 +61,12 @@ class eZContentClassName extends eZPersistentObject
                                                                     'datatype' => 'string',
                                                                     'default' => '',
                                                                     'required' => false ) ),
-                      'keys' => array( 'id' ),
+                      'keys' => array( 'contentclass_id',
+                                       'contentclass_version',
+                                       'language_locale' ),
                       'function_attributes' => array(),
-                      'increment_key' => 'id',
                       'class_name' => 'eZContentClassName',
-                      'sort' => array( 'id' => 'asc' ),
+                      'sort' => array( 'contentclass_id' => 'asc' ),
                       'name' => 'ezcontentclass_name' );
     }
 
