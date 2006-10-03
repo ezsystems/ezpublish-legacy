@@ -852,11 +852,11 @@ class eZContentObject extends eZPersistentObject
         foreach ( $resRowArray as $resRow )
         {
             $objectID = $resRow['id'];
-            $resRow['class_name'] = eZContentClass::nameFromSerializedString( $resRow['class_name'] );
+            $resRow['class_serialized_name_list'] = eZContentClass::nameFromSerializedString( $resRow['class_serialized_name_list'] );
             if ( $asObject )
             {
                 $obj = new eZContentObject( $resRow );
-                $obj->ClassName       = $resRow['class_name'];
+                $obj->ClassName = $resRow['class_serialized_name_list'];
                 $eZContentObjectContentObjectCache[$objectID] = $obj;
                 $objectRetArray[$objectID] = $obj;
             }
