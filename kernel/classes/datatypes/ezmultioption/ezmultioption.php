@@ -353,7 +353,6 @@ class eZMultiOption
             //The control come here while creaging new object for MultiOption
             $nodeID = $this->addMultiOption( "", 0, false );
             $this->addOption( $nodeID, "", "", "" );
-            $this->addOption( $nodeID, "", "", "" );
         }
     }
 
