@@ -2717,7 +2717,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the reverse xml-linked objects.
     */
-    function &reverseLinkedContentObjectList()
+    function &reverseLinkedObjectList()
     {
         $linkedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ), true );
         return $linkedList;
@@ -2726,7 +2726,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the reverse xml-embedded objects.
     */
-    function &reverseEmbeddedContentObjectList()
+    function &reverseEmbeddedObjectList()
     {
         $embeddedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ), true );
         return $embeddedList;
@@ -2788,14 +2788,14 @@ class eZContentObject extends eZPersistentObject
     */
     function &embeddedContentObjectCount()
     {
-        $result =& $this->relatedObjectsCount( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
     /*!
      Returns the reverse xml-linked objects count.
     */
-    function &reverseLinkedContentObjectCount()
+    function &reverseLinkedObjectCount()
     {
         $result =& $this->relatedObjectCount( false, false, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $result;
@@ -2804,9 +2804,9 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the reverse xml-embedded objects count.
     */
-    function &reverseEmbeddedContentObjectCount()
+    function &reverseEmbeddedObjectCount()
     {
-        $result =& $this->relatedObjectsCount( false, false, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( false, false, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
