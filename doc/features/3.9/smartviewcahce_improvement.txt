@@ -1,0 +1,5 @@
+*Title: 'AdditionalObjects' in SmartViewCache.
+
+*Documentation:
+With new 'AdditionalObjectIDs' option it is possible to clear cache for any 
+object(s).

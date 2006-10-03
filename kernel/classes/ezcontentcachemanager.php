@@ -223,6 +223,7 @@ class eZContentCacheManager
 
      \return An associative array with information on the class, containsL:
              - dependent_class_identifier - The class identifier of objects that depend on this class
+             - additional_objects - Array of additional arbitrary object ids to clear
              - max_parents - The maxium number of parent nodes to check, or \c 0 for no limit
              - clear_cache_type - Bitfield of clear types, see nodeListForObject() for more details
              - object_filter - Array with object IDs, if there are entries only these objects should be checked.
@@ -243,6 +244,9 @@ class eZContentCacheManager
                     $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
                 else
                     $info['max_parents'] = 0;
+
+                if ( $ini->hasVariable( $classID, 'AdditionalObjectIDs' ) )
+                    $info['additional_objects'] = $ini->variable( $classID, 'AdditionalObjectIDs' );
 
                 $info['clear_cache_type'] = 0;
                 if ( $ini->hasVariable( $classID, 'ClearCacheMethod' ) )
@@ -387,6 +391,16 @@ class eZContentCacheManager
             $dependentClassInfo['clear_cache_type'] &= ~EZ_VCSC_CLEAR_SIBLINGS_CACHE;
         }
 
+        if ( isset( $dependentClassInfo['additional_objects'] ) )
+        {
+            foreach( $dependentClassInfo['additional_objects'] as $objectID )
+            {
+                $object =& eZContentObject::fetch( $objectID );
+                if ( $object )
+                    eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE, $nodeList );
+            }
+        }
+
         if ( isset( $dependentClassInfo['dependent_class_identifier'] ) )
         {
             $maxParents = $dependentClassInfo['max_parents'];
@@ -509,6 +523,8 @@ class eZContentCacheManager
         {
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
         }
+
+        $nodeList = array_unique( $nodeList );
 
         eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList" );
 
