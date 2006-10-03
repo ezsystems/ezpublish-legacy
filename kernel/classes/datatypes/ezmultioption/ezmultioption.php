@@ -352,9 +352,6 @@ class eZMultiOption
             $nodeID = $this->addMultiOption( "", 0, false );
             $this->addOption( $nodeID, "", "", "" );
             $this->addOption( $nodeID, "", "", "" );
-            $nodeID = $this->addMultiOption( "", 0, false );
-            $this->addOption( $nodeID, "", "", "" );
-            $this->addOption( $nodeID, "", "", "" );
         }
     }
 
