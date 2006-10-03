@@ -220,7 +220,7 @@ class eZXMLOutputHandler
     {
         $relatedObjectIDArray = array();
         $nodeIDArray = array();
-        
+
         // Fetch all links and cache urls
         $links =& $this->Document->elementsByName( "link" );
 
@@ -233,33 +233,33 @@ class eZXMLOutputHandler
                 $linkID = $link->attributeValue( 'url_id' );
                 if ( $linkID && !in_array( $linkID, $linkIDArray ) )
                         $linkIDArray[] = $linkID;
-        
+
                 $objectID = $link->attributeValue( 'object_id' );
                 if ( $objectID && !in_array( $objectID, $relatedObjectIDArray ) )
                         $relatedObjectIDArray[] = $objectID;
-        
+
                 $nodeID = $link->attributeValue( 'node_id' );
                 if ( $nodeID && !in_array( $nodeID, $nodeIDArray ) )
                         $nodeIDArray[] = $nodeID;
             }
-        
+
             if ( count( $linkIDArray ) > 0 )
             {
                 $inIDSQL = implode( ', ', $linkIDArray );
-        
+
                 $db =& eZDB::instance();
                 $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-        
+
                 foreach ( $linkArray as $linkRow )
                 {
                     $this->LinkArray[$linkRow['id']] = $linkRow['url'];
                 }
             }
         }
-        
+
         // Fetch all embeded objects and cache by ID
         $objectArray =& $this->Document->elementsByName( "object" );
-        
+
         if ( count( $objectArray ) > 0 )
         {
             foreach ( $objectArray as $object )
@@ -269,10 +269,10 @@ class eZXMLOutputHandler
                         $relatedObjectIDArray[] = $objectID;
             }
         }
-        
+
         $embedTagArray =& $this->Document->elementsByName( "embed" );
         $embedInlineTagArray =& $this->Document->elementsByName( "embed-inline" );
-        
+
         $embedTags = array_merge( $embedTagArray, $embedInlineTagArray );
 
         if ( count( $embedTags ) > 0 )
@@ -282,16 +282,16 @@ class eZXMLOutputHandler
                 $objectID = $embedTag->attributeValue( 'object_id' );
                 if ( $objectID && !in_array( $objectID, $relatedObjectIDArray ) )
                         $relatedObjectIDArray[] = $objectID;
-        
+
                 $nodeID = $embedTag->attributeValue( 'node_id' );
                 if ( $nodeID && !in_array( $nodeID, $nodeIDArray ) )
                         $nodeIDArray[] = $nodeID;
             }
         }
-        
+
         if ( $relatedObjectIDArray != null )
             $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
-        
+
         if ( $nodeIDArray != null )
         {
             $nodes = eZContentObjectTreeNode::fetch( $nodeIDArray );
@@ -317,7 +317,7 @@ class eZXMLOutputHandler
     //  $element        - current element
     //  $sibilingParams - array of parameters that are passed by reference to all the children of the
     //                    current tag to provide a way to "communicate" between their handlers.
-    //                    This array is empty for the first child. 
+    //                    This array is empty for the first child.
     //  $parentParams   - parameter passed to this tag handler by the parent tag's handler.
     //                    This array is passed with no reference. Can by modified in tag's handler
     //                    for subordinate tags.
@@ -385,7 +385,7 @@ class eZXMLOutputHandler
             {
                 $child =& $element->Children[$key];
                 $childOutput = $this->outputTag( $child, $nextSibilingParams, $parentParams );
-                
+
                 if ( is_array( $childOutput[0] ) )
                     $childrenOutput = array_merge( $childrenOutput, $childOutput );
                 else
@@ -408,12 +408,12 @@ class eZXMLOutputHandler
         {
             // Set tpl variables by attributes and rename rules
             $vars = array();
-    
+
             if ( isset( $currentTag['attrVariables'] ) )
                 $attrVariables =& $currentTag['attrVariables'];
             else
                 $attrVariables = array();
-    
+
             foreach( $attributes as $name=>$value )
             {
                 if ( isset( $attrVariables[$name] ) )
@@ -421,13 +421,13 @@ class eZXMLOutputHandler
                     $vars[$attrVariables[$name]] = $value;
                     continue;
                 }
-    
+
                 if ( substr( $name, 0, 6 ) == 'custom:' )
                     $name = substr( $name, strpos( $name, ':' ) + 1 );
-    
+
                 $vars[$name] = $value;
             }
-    
+
             // set missing variables that have defined rename rules
             // but were not present in the element
             foreach( $attrVariables as $attrName=>$varName )
@@ -435,18 +435,18 @@ class eZXMLOutputHandler
                 if ( !isset( $attributes[$attrName] ) )
                     $vars[$varName] = '';
             }
-    
+
             // Set additional variables passed by tag handler
             if ( isset( $result['tpl_vars'] ) )
             {
                 $vars = array_merge( $vars, $result['tpl_vars'] );
             }
-    
+
             foreach( $vars as $name=>$value )
             {
                 $this->Tpl->setVariable( $name, $value, 'xmltagns' );
             }
-    
+
             // Create design keys array
             $designKeys = array();
             if ( isset( $currentTag['attrDesignKeys'] ) )
@@ -462,10 +462,10 @@ class eZXMLOutputHandler
             {
                 $designKeys = array_merge( $designKeys, $result['design_keys'] );
             }
-    
+
             $existingKeys = $this->Res->keys();
             $savedKeys = array();
-    
+
             // Save old keys values and set new design keys
             foreach( $designKeys as $key=>$value )
             {
@@ -475,7 +475,7 @@ class eZXMLOutputHandler
                 }
                 $this->Res->setKeys( array( array( $key, $value ) ) );
             }
-    
+
             // Template name
             if ( isset( $result['template_name'] ) )
             {
@@ -491,7 +491,7 @@ class eZXMLOutputHandler
         $output = $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
         //$handlerName = $currentTag['renderHandler'];
         //$output = $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
-        
+
         if ( !isset( $currentTag['quickRender'] ) )
         {
             // Restore saved template override keys and remove others
@@ -502,7 +502,7 @@ class eZXMLOutputHandler
                 else
                     $this->Res->removeKey( $key );
             }
-        
+
             // Unset variables
             foreach( $vars as $name=>$value )
             {
@@ -544,7 +544,7 @@ class eZXMLOutputHandler
 
             $this->Tpl->setVariable( $contentVarName, $content, 'xmltagns' );
             eZTemplateIncludeFunction::handleInclude( $textElements, $templateUri, $this->Tpl, 'foo', 'xmltagns' );
-            $renderedTag = implode( '', $textElements );
+            $renderedTag = is_array( $textElements ) ? implode( '', $textElements ) : '';
         }
         return $renderedTag;
     }
@@ -555,7 +555,7 @@ class eZXMLOutputHandler
     //                   if false tag will not be rendered, only it's children (if any).
     // 'design_keys'     array( 'design_key_name'=>'value' ) :
     //                   an array of additional design keys
-    // 
+    //
 
     function callTagInitHandler( $handlerName, &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
