@@ -181,8 +181,8 @@ class eZURI
             $pos += $this->Index;
         if ( isset( $this->URIArray[$pos] ) )
             return $this->URIArray[$pos];
-        else
-            return null;
+        $ret = null;
+        return $ret;
     }
 
     /*!
