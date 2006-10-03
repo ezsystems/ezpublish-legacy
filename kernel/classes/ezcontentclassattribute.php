@@ -601,7 +601,8 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &name( $languageLocale = false )
     {
-        return $this->NameList->name( $languageLocale );
+        $name = $this->NameList->name( $languageLocale );
+        return $name;
     }
 
     function setName( $name, $languageLocale )
