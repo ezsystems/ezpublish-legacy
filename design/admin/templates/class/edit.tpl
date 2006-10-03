@@ -1,9 +1,3 @@
-{def $hasXajaxAccess=fetch('user','has_access_to',hash('module','ajax','function','all'))}
-{if $hasXajaxAccess}{run-once}
-{xajax_javascript()}
-{xajax_app_javascript('/design/standard/javascript/xajax_app/xajax_classattributes.js')}
-{/run-once}{/if}
-
 {* Warnings *}
 
 {section show=$validation.processed}
@@ -40,24 +34,24 @@
 {* we're about to store the class, so let's handle basic class properties errors (name, identifier, presence of attributes) *}
     {section show=or( $validation.class_errors )}
     <div class="message-warning">
-    <h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
-    <ul>
-    {section var=ClassErrors loop=$validation.class_errors}
-        <li>{$ClassErrors.item.text}</li>
-    {/section}
-    </ul>
+	<h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
+	<ul>
+	{section var=ClassErrors loop=$validation.class_errors}
+	    <li>{$ClassErrors.item.text}</li>
+	{/section}
+	</ul>
     </div>
     {/section}
 {/section}
 
 {* Main window *}
-<form action={concat( $module.functions.edit.uri, '/', $class.id, '/(language)/', $language_code )|ezurl} method="post" id="ClassEditForm" name="ClassEdit">
+<form action={concat( $module.functions.edit.uri, '/', $class.id )|ezurl} method="post" name="ClassEdit">
 <input type="hidden" name="ContentClassHasInput" value="1" />
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.nameList[$language_code] ) )|wash}</h1>
+<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name|wash )}&nbsp;{'Edit <%class_name> [Class]'|i18n( 'design/admin/class/edit',, hash( '%class_name', $class.name ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -66,10 +60,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p class="modified">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
-{def $locale = fetch( 'content', 'locale', hash( 'locale_code', $language_code ) )}
-<p class="translation">{$locale.intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
-{undef $locale}
+<p class="date">{'Last modified'|i18n( 'design/admin/class/edit' )}:&nbsp;{$class.modified|l10n( shortdatetime )},&nbsp;{$class.modifier.contentobject.name|wash}</p>
 </div>
 
 <div class="context-attributes">
@@ -77,7 +68,7 @@
     {* Name. *}
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" id="className" name="ContentClass_name" size="30" value="{$class.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
+    <input class="box" type="text" id="className" name="ContentClass_name" size="30" value="{$class.name|wash}" title="{'Use this field to set the informal name of the class. The name field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Identifier. *}
@@ -99,54 +90,26 @@
     <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
-    {*** Class Default Sorting ***}
+    {* Object availablility. *}
     <div class="block">
-    <label>{'Default sorting'|i18n( 'design/admin/class/edit' )}:</label>
-
-    {let sort_fields=fetch( content, available_sort_fields )
-         title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' ) }
-    <input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
-    <select name="ContentClass_default_sorting_field" title="{$title}">
-    {section var=Sort loop=$sort_fields}
-        <option value="{$Sort.key}" {section show=eq( $Sort.key, $class.sort_field )}selected="selected"{/section}>{$Sort.item}</option>
-    {/section}
-    </select>
-
-    <select name="ContentClass_default_sorting_order" title="{$title}">
-        <option value="0"{section show=eq($class.sort_order, 0)} selected="selected"{/section}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
-        <option value="1"{section show=eq($class.sort_order, 1)} selected="selected"{/section}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
-    </select>
-    {/let}
+    <label>{'Default object availability'|i18n( 'design/standard/class/edit' )}:</label>
+    <input type="hidden" name="ContentClass_always_available_exists" value="1" />
+    <input type="checkbox" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} title="{'Use this checkbox to set the default availability for the objects of this class. The availablility controls wether an object should be shown even if it does not exist in one of the languages specified by the "SiteLanguageList" setting. If this is the case, the system will use the main language of the object.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
-    <div class="block">
-    {section show=$attributes}
-        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" />
-        <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
-        <input type="button" class="button" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
-    {section-else}
-        <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" />
-	<input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
-        <input type="button" class="button-disabled" id="TogglePlacementButton" value="{'Switch placement mode'|i18n( 'design/admin/class/edit' )}" onclick="javascript:switchPlacementMode('AttributesTable');" />
-    {/section}
-    </div>
-
-<div class="block">
-<label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
-</div>
-
-<table class="list" cellspacing="0" id="AttributesTable">
 {section show=$attributes}
+
+<table class="list" cellspacing="0">
 {section var=Attributes loop=$attributes}
 
-<tr id="AttributeHeaderRow_{$Attributes.item.id}">
+<tr>
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
     <th class="tight">
       <div class="listbutton">
-          <input id="moveDown_{$Attributes.item.id}" type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return !result;"{/if} />&nbsp;
-          <input id="moveUp_{$Attributes.item.id}" type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return !result;"{/if} />
-          <input style="display:none;" id="attrPriority_{$Attributes.item.id}" type="box" size="2" type="text" name="ContentAttribute_priority[]" value="{$Attributes.placement}" />
+          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
+          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />
+<input type="box" size="2" type="text" name="ContentAttribute_priority[]" value="{$Attributes.placement}" />
       </div>
     </th>
 </tr>
@@ -162,7 +125,7 @@
 {* Attribute name. *}
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/class/edit' )}:</label>
-<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.nameList[$language_code]|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
+<input class="box" type="text" name="ContentAttribute_name[]" value="{$Attributes.item.name|wash}" title="{'Use this field to set the informal name of the attribute. This field can contain whitespaces and special characters.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 {* Attribute identifier. *}
@@ -220,12 +183,12 @@
 </tr>
 
 {/section}
-{/section}
+
 </table>
 
-{section show=$attributes|count|eq(0)}
+{section-else}
 
-<div class="block" id="NoAttributesMessage">
+<div class="block">
 <p>{'This class does not have any attributes.'|i18n( 'design/admin/class/edit' )}</p>
 </div>
 {/section}
@@ -238,15 +201,15 @@
 {* Remove selected attributes button *}
 <div class="block">
 {section show=$attributes}
-<input class="button" type="submit" name="RemoveButton" id="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" id="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
 {/section}
 </div>
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=addAttribute('DataTypeString', 'AttributesTable',{$class.id}); return !result;"{/if} />
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" />
 </div>
 
 </div>
@@ -286,5 +249,3 @@
 -->
 </script>
 {/literal}
-
-{undef $hasXajaxAccess}

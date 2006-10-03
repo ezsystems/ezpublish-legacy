@@ -6,18 +6,7 @@
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
          toolTip        = ""
          visibility     = 'Visible'
-         isRootNode     = false()
-         children_removed = 0 }
-
-{section loop=$children}
- {section show=ezini('TreeMenu','HideClasses','contentstructuremenu.ini')|contains($:item.parent_node.object.class_identifier)}
-  {set children = $children|remove(sub($:index,$children_removed), 1)}
-  {set children_removed = sum($children_removed,1)}
- {/section}
-{/section}
-
-{set numChildren = count($children)}
-{set haveChildren = $numChildren|gt(0)}
+         isRootNode     = false() }
 
         {default classIconsSize = ezini( 'TreeMenu', 'ClassIconsSize', 'contentstructuremenu.ini' )
                  last_item      = false() }
