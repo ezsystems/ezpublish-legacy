@@ -37,8 +37,7 @@
                                  data_text3 - approve_users
                                  data_text4 - approve_groups
                                  data_int2  - language_list
-
-
+                                 data_int3  - content object version option
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
@@ -48,6 +47,10 @@ define( "EZ_WORKFLOW_TYPE_APPROVE_ID", "ezapprove" );
 
 define( "EZ_APPROVE_COLLABORATION_NOT_CREATED", 0 );
 define( "EZ_APPROVE_COLLABORATION_CREATED", 1 );
+
+define( 'EZ_APPROVE_VERSION_OPTION_FIRST_ONLY', 1 );
+define( 'EZ_APPROVE_VERSION_OPTION_EXCEPT_FIRST', 2 );
+define( 'EZ_APPROVE_VERSION_OPTION_ALL', EZ_APPROVE_VERSION_OPTION_FIRST_ONLY | EZ_APPROVE_VERSION_OPTION_EXCEPT_FIRST );
 
 class eZApproveType extends eZWorkflowEventType
 {
@@ -116,6 +119,12 @@ class eZApproveType extends eZWorkflowEventType
                 }
                 return $returnValue;
             } break;
+
+            case 'version_option':
+            {
+                $retValue = EZ_APPROVE_VERSION_OPTION_ALL & $event->attribute( 'data_int3' );
+                return $retValue;
+            } break;
         }
         $retValue = null;
         return $retValue;
@@ -127,7 +136,8 @@ class eZApproveType extends eZWorkflowEventType
                       'approve_users',
                       'approve_groups',
                       'selected_usergroups',
-                      'language_list' );
+                      'language_list',
+                      'version_option' );
     }
 
     function attributes()
@@ -184,6 +194,14 @@ class eZApproveType extends eZWorkflowEventType
         {
             eZDebugSetting::writeError( 'kernel-workflow-approve', $parameters['object_id'], 'eZApproveType::execute' );
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }
+
+        // version option checking
+        $version_option = $event->attribute( 'version_option' );
+        if ( ( $version_option == EZ_APPROVE_VERSION_OPTION_FIRST_ONLY and $parameters['version'] > 1 ) or
+             ( $version_option == EZ_APPROVE_VERSION_OPTION_EXCEPT_FIRST and $parameters['version'] == 1 ) )
+        {
+            return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
 
         /*
@@ -510,6 +528,22 @@ class eZApproveType extends eZWorkflowEventType
                 $languageMask |= $languageID;
             }
             $event->setAttribute( "data_int2", $languageMask );
+        }
+
+        $versionOptionVar = $base . "_event_ezapprove_version_option_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $versionOptionVar ) )
+        {
+            $versionOptionArray = $http->postVariable( $versionOptionVar );
+            $versionOption = 0;
+            if ( is_array( $versionOptionArray ) )
+            {
+                foreach ( $versionOptionArray as $vv )
+                {
+                    $versionOption = $versionOption | $vv;
+                }
+            }
+            $versionOption = $versionOption & EZ_APPROVE_VERSION_OPTION_ALL;
+            $event->setAttribute( 'data_int3', $versionOption );
         }
 
         if ( $http->hasSessionVariable( 'BrowseParameters' ) )

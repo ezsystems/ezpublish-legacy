@@ -1,0 +1,6 @@
+*Title: Workflows multiplexer and approve enhancement.
+
+*Documentaion:
+Implemented possibility of choosing between publishing new or updating existing content objects
+in ezapprove and ezmultiplexer workflow events.
+
