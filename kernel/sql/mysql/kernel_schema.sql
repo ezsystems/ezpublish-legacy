@@ -298,11 +298,10 @@ CREATE TABLE ezcontentclass_classgroup (
 CREATE TABLE ezcontentclass_name (
   contentclass_id int(11) NOT NULL default '0',
   contentclass_version int(11) NOT NULL default '0',
-  id int(11) NOT NULL auto_increment,
   language_id int(11) NOT NULL default '0',
   language_locale varchar(20) NOT NULL default '',
   name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (contentclass_id,contentclass_version,language_id)
 ) TYPE=MyISAM;
 
 

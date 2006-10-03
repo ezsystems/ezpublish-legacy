@@ -55,13 +55,12 @@ ALTER TABLE ezcontentclass_attribute CHANGE name serialized_name_list varchar(25
 
 CREATE TABLE ezcontentclass_name
 (
-    id int NOT NULL auto_increment,
     contentclass_id int NOT NULL default '0',
     contentclass_version int NOT NULL default '0',
     language_locale varchar(20) NOT NULL default '',
     language_id int NOT NULL default '0',
     name varchar(255) NOT NULL default '',
-    PRIMARY KEY (id)
+    PRIMARY KEY (contentclass_id, contentclass_version, language_id)
 );
 -- END: ezcontentclass/ezcontentclass_attribute translations
 

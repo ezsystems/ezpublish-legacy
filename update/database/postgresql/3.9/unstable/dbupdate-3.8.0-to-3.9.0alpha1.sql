@@ -69,17 +69,8 @@ ALTER TABLE ezcontentclass ALTER initial_language_id SET NOT NULL;
 ALTER TABLE ezcontentclass ALTER initial_language_id SET DEFAULT 0;
 ALTER TABLE ezcontentclass_attribute RENAME COLUMN name TO serialized_name_list;
 
-CREATE SEQUENCE ezcontentclass_name_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
 CREATE TABLE ezcontentclass_name
 (
-    id integer NOT NULL DEFAULT nextval('ezcontentclass_name_s'::text),
     contentclass_id integer NOT NULL default 0,
     contentclass_version integer NOT NULL default 0,
     language_locale varchar(20) NOT NULL default '',
@@ -88,7 +79,7 @@ CREATE TABLE ezcontentclass_name
 );
 
 ALTER TABLE ONLY ezcontentclass_name
-    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (contentclass_id, contentclass_version, language_id);
 -- END: ezcontentclass/ezcontentclass_attribute translations
 
 -- START: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
@@ -97,7 +88,5 @@ ALTER TABLE eztipafriend_counter ALTER requested SET NOT NULL;
 ALTER TABLE eztipafriend_counter ALTER requested SET DEFAULT 0;
 
 ALTER TABLE eztipafriend_counter DROP CONSTRAINT eztipafriend_counter_pkey;
-ALTER TABLE ONLY eztipafriend_counter ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY( "node_id", "requested" );
+ALTER TABLE ONLY eztipafriend_counter ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY( node_id, requested );
 -- END: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
-
-

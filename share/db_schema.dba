@@ -1371,11 +1371,6 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'id' => 
-      array (
-        'type' => 'auto_increment',
-        'default' => false,
-      ),
       'language_id' => 
       array (
         'length' => 11,
@@ -1405,7 +1400,9 @@ $schema = array (
         'type' => 'primary',
         'fields' => 
         array (
-          0 => 'id',
+          0 => 'contentclass_id',
+          1 => 'contentclass_version',
+          2 => 'language_id',
         ),
       ),
     ),

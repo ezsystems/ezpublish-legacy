@@ -165,19 +165,6 @@ CREATE SEQUENCE ezcontentclass_attribute_s
 
 
 
-CREATE SEQUENCE ezcontentclass_name_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
 CREATE SEQUENCE ezcontentclassgroup_s
     START 1
     INCREMENT 1
@@ -1335,7 +1322,6 @@ CREATE TABLE ezcontentclass_classgroup (
 CREATE TABLE ezcontentclass_name (
     contentclass_id integer DEFAULT 0 NOT NULL,
     contentclass_version integer DEFAULT 0 NOT NULL,
-    id integer DEFAULT nextval('ezcontentclass_name_s'::text) NOT NULL,
     language_id integer DEFAULT 0 NOT NULL,
     language_locale character varying(20) DEFAULT ''::character varying NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL
@@ -3467,7 +3453,7 @@ ALTER TABLE ONLY ezcontentclass_classgroup
 
 
 ALTER TABLE ONLY ezcontentclass_name
-    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT ezcontentclass_name_pkey PRIMARY KEY (contentclass_id, contentclass_version, language_id);
 
 
 

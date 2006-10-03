@@ -3121,14 +3121,12 @@ INSERT INTO ezcontentclass_classgroup (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   1,
   0,
-  1,
   3,
   'eng-GB',
   'Folder'
@@ -3136,14 +3134,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   2,
   0,
-  2,
   3,
   'eng-GB',
   'Article'
@@ -3151,14 +3147,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   3,
   0,
-  3,
   3,
   'eng-GB',
   'User group'
@@ -3166,14 +3160,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   4,
   0,
-  4,
   3,
   'eng-GB',
   'User'
@@ -3181,14 +3173,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   5,
   0,
-  5,
   3,
   'eng-GB',
   'Image'
@@ -3196,14 +3186,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   11,
   0,
-  6,
   3,
   'eng-GB',
   'Link'
@@ -3211,14 +3199,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   12,
   0,
-  7,
   3,
   'eng-GB',
   'File'
@@ -3226,14 +3212,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   13,
   0,
-  8,
   3,
   'eng-GB',
   'Comment'
@@ -3241,14 +3225,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   14,
   0,
-  9,
   3,
   'eng-GB',
   'Common ini settings'
@@ -3256,14 +3238,12 @@ INSERT INTO ezcontentclass_name (
 INSERT INTO ezcontentclass_name (
   contentclass_id,
   contentclass_version,
-  id,
   language_id,
   language_locale,
   name
 ) VALUES (
   15,
   0,
-  10,
   3,
   'eng-GB',
   'Template look'
