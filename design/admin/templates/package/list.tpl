@@ -11,10 +11,10 @@
                             |choose('',
                                     concat('/offset/',$view_parameters.offset)))|ezurl}>
 
+<div class="context-block">
+
 {* ## START messages ## *}
 {section show=$remove_list}
-
-<div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
@@ -57,8 +57,6 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
-
-</div>
 
 </div>
 
@@ -157,6 +155,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 
 {/section}
 
+</div>
 
 </form>
 
