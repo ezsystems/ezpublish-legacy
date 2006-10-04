@@ -103,13 +103,13 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         $oldSums = array();
         foreach( $oldArray as $paragraph )
         {
-            $oldSums[] = md5( $paragraph );
+            $oldSums[] = crc32( $paragraph );
         }
 
         $newSums = array();
         foreach( $newArray as $paragraph )
         {
-            $newSums[] = md5( $paragraph );
+            $newSums[] = crc32( $paragraph );
         }
 
         $textDiffer = new eZDiffTextEngine();

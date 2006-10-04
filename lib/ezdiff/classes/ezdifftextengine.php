@@ -76,13 +76,13 @@ class eZDiffTextEngine extends eZDiffEngine
         $oldSums = array();
         foreach( $oldArray as $paragraph )
         {
-            $oldSums[] = md5( $paragraph );
+            $oldSums[] = crc32( $paragraph );
         }
 
         $newSums = array();
         foreach( $newArray as $paragraph )
         {
-            $newSums[] = md5( $paragraph );
+            $newSums[] = crc32( $paragraph );
         }
 
         $changes = new eZTextDiff();
@@ -970,10 +970,10 @@ class eZDiffTextEngine extends eZDiffEngine
     */
     function substringMatrix( $old, $new )
     {
-        $matrix = new eZDiffMatrix();
         $maxLength = 0;
         $sizeOld = count( $old );
         $sizeNew =  count( $new );
+        $matrix = new eZDiffMatrix( $sizeOld, $sizeNew );
 
         $maxC = 0;
         $maxR = 0;

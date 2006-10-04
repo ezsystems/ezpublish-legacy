@@ -47,17 +47,23 @@ class eZDiffMatrix
     /*!
       Constructor
     */
-    function eZDiffMatrix()
+    function eZDiffMatrix( $rows = null, $cols = null)
     {
+        if ( isset( $rows ) && is_numeric( $rows ) )
+            $this->Rows = $rows;
+
+        if ( isset( $cols ) && is_numeric( $cols ) )
+            $this->Cols = $cols;
     }
 
     /*!
       \public
-      This method will return the value at position (\a $row, \a $col)
+      Sets the dimensions of the matrix
     */
-    function get( $row, $col )
+    function setSize( $nRows, $nCols )
     {
-        return isset( $this->Matrix[$row][$col] ) ? $this->Matrix[$row][$col] : 0;
+        $this->Rows = $nRows;
+        $this->Cols = $nCols;
     }
 
     /*!
@@ -69,13 +75,32 @@ class eZDiffMatrix
     {
         if ( $value !== 0 )
         {
-            $this->Matrix[$row][$col] = $value;
+            $pos = $row * $this->Cols + $col;
+            $pos = base_convert( $pos, 10, 36 );
+            $this->Matrix["*$pos"] = $value;
         }
+    }
+
+    /*!
+      \public
+      This method will return the value at position (\a $row, \a $col)
+    */
+    function get( $row, $col )
+    {
+        $pos = $row * $this->Cols + $col;
+        $pos = base_convert( $pos, 10, 36 );
+        return isset( $this->Matrix["*$pos"] ) ? $this->Matrix["*$pos"] : 0;
     }
 
     ///\privatesection
     /// Internal array, holding necessary values.
     var $Matrix = array();
+
+    /// Internal variable, width of the matrix.
+    var $Cols;
+
+    /// Internal variable, height of the matrix.
+    var $Rows;
 }
 
 ?>

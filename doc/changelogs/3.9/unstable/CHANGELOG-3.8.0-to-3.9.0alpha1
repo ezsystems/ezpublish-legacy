@@ -110,6 +110,10 @@ eZMail:
 - Minor improvement in debug output when sending with SMTP.
 - Added new mail transport "file" for debugging.
 
+eZDiff:
+- Optimized memory footprint of eZDiffMatrix, it will no longer use subarrays.
+- Changed hash format from md5 to crc32.
+
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
