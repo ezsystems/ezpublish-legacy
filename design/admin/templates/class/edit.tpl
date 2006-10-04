@@ -34,12 +34,12 @@
 {* we're about to store the class, so let's handle basic class properties errors (name, identifier, presence of attributes) *}
     {section show=or( $validation.class_errors )}
     <div class="message-warning">
-	<h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
-	<ul>
-	{section var=ClassErrors loop=$validation.class_errors}
-	    <li>{$ClassErrors.item.text}</li>
-	{/section}
-	</ul>
+    <h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
+    <ul>
+    {section var=ClassErrors loop=$validation.class_errors}
+        <li>{$ClassErrors.item.text}</li>
+    {/section}
+    </ul>
     </div>
     {/section}
 {/section}
@@ -90,6 +90,24 @@
     <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
+    {* Class Default Sorting *}
+    <div class="block">
+    <label>{'Default sorting of children'|i18n( 'design/admin/class/edit' )}:</label>
+    {def $sort_fields=fetch( content, available_sort_fields )
+         $title='Use these controls to set the default sorting method for the sub items of instances of the content class.'|i18n( 'design/admin/class/edit' ) }
+    <input type="hidden" name="ContentClass_default_sorting_exists" value="1" />
+    <select name="ContentClass_default_sorting_field" title="{$title}">
+    {foreach $sort_fields as $sf_key => $sf_item}
+        <option value="{$sf_key}" {if eq( $sf_key, $class.sort_field )}selected="selected"{/if}>{$sf_item}</option>
+    {/foreach}
+    </select>
+    <select name="ContentClass_default_sorting_order" title="{$title}">
+        <option value="0"{if eq($class.sort_order, 0)} selected="selected"{/if}>{'Descending'|i18n( 'design/admin/class/edit' )}</option>
+        <option value="1"{if eq($class.sort_order, 1)} selected="selected"{/if}>{'Ascending'|i18n( 'design/admin/class/edit' )}</option>
+    </select>
+    {undef}
+    </div>
+
     {* Object availablility. *}
     <div class="block">
     <label>{'Default object availability'|i18n( 'design/standard/class/edit' )}:</label>
@@ -97,6 +115,9 @@
     <input type="checkbox" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} title="{'Use this checkbox to set the default availability for the objects of this class. The availablility controls wether an object should be shown even if it does not exist in one of the languages specified by the "SiteLanguageList" setting. If this is the case, the system will use the main language of the object.'|i18n( 'design/admin/class/edit' )|wash}" />
     </div>
 
+<div class="block">
+<label>{'Class attributes'|i18n( 'design/admin/class/edit' )}:</label>
+</div>
 {section show=$attributes}
 
 <table class="list" cellspacing="0">
