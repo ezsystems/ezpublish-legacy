@@ -769,7 +769,7 @@ $FunctionList['tipafriend_top_list'] = array( 'name' => 'tipafriend_top_list',
                                                                             'type' => 'boolean',
                                                                             'required' => false,
                                                                             'default' => false ),
-                                                                     array( 'name' => 'fetch_nodes',
+                                                                     array( 'name' => 'extended',
                                                                             'type' => 'boolean',
                                                                             'required' => false,
                                                                             'default' => false ) ) );

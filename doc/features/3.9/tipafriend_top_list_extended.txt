@@ -10,12 +10,12 @@ Accordingly, content/tipafriend_top_list fetch function was extened with new par
 
 fetch( 'content', 'tipafriend_top_list',
        hash( [ 'offset', offset, ]
-             [ 'limit',  limit, ]
-             [ 'start_time',  start_time, ]
-             [ 'end_time',  end_time, ]
-             [ 'duration',  duration, ]
-             [ 'ascending',  ascending, ]
-             [ 'fetch_nodes',  fetch_nodes, ]
+             [ 'limit', limit, ]
+             [ 'start_time', start_time, ]
+             [ 'end_time', end_time, ]
+             [ 'duration', duration, ]
+             [ 'ascending', ascending, ]
+             [ 'extended', fetch_nodes, ]
               ) )
 *Parameters:
 Name:          Type:        Required:
@@ -25,18 +25,19 @@ Name:          Type:        Required:
  end_time       integer      no
  duration       integer      no
  ascending      boolean      no
- fetch_nodes    boolean      no
+ extended       boolean      no
 
 
 *Example:
 
-{def $tip_top_list=fetch( content,
-                          tipafriend_top_list,
+{def $tip_top_list=fetch( 'content',
+                          'tipafriend_top_list',
                           hash( 'offset', 2,
                                 'limit', 4,
-                                'start_time', current_date() - 604800,
+                                'start_time', maketime( 0, 0, 0 ),
+                                'duration', mul( 60, 60, 24 ),
                                 'ascending', 0,
-                                'fetch_nodes', 1 ) )}
-{$tip_top_list|attribute(show)}
+                                'extended', true() ) ) }
+{ $tip_top_list | attribute( show, 1 ) }
 {undef}
 

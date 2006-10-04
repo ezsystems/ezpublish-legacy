@@ -632,7 +632,7 @@ class eZContentFunctionCollection
         return array( 'result' => eZSection::fetchList() );
     }
 
-    function fetchTipafriendTopList( $offset, $limit, $start_time, $end_time, $duration, $ascending, $fetch_nodes )
+    function fetchTipafriendTopList( $offset, $limit, $start_time, $end_time, $duration, $ascending, $extended )
     {
         include_once( 'kernel/classes/eztipafriendcounter.php' );
 
@@ -675,22 +675,33 @@ class eZContentFunctionCollection
                                                         array( 'node_id' ),
                                                         array( array( 'operation' => 'count( * )',
                                                                       'name' => 'count' ) ) );
-        if ( $fetch_nodes )
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        if ( $extended )
         {
-            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( array_keys( $topList ) as $key )
             {
-                $entry =& $topList[ $key ];
-                $contentNode = eZContentObjectTreeNode::fetch( $entry[ 'node_id' ] );
+                $contentNode = eZContentObjectTreeNode::fetch( $topList[ $key ][ 'node_id' ] );
                 if ( !is_object( $contentNode ) )
-                {
                     return array( 'error' => array( 'error_type' => 'kernel',
                                                     'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-                }
-                $entry[ 'node' ] =& $contentNode;
+                $topList[ $key ][ 'node' ] =& $contentNode;
             }
+            return array( 'result' => $topList );
         }
-        return array( 'result' => $topList );
+        else
+        {
+            $retList = array();
+            foreach ( $topList as $entry )
+            {
+                $contentNode = eZContentObjectTreeNode::fetch( $entry[ 'node_id' ] );
+                if ( !is_object( $contentNode ) )
+                    return array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                $retList[] =& $contentNode;
+            }
+            return array( 'result' => $retList );
+        }
+
     }
 
     function fetchMostViewedTopList( $classID, $sectionID, $offset, $limit )
