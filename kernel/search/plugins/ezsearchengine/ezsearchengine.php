@@ -118,10 +118,10 @@ class eZSearchEngine
                                                    'integer_value' => $integerValue );
                             $indexArrayOnlyWords[] = $word;
                             $wordCount++;
-                            //if we have "www." before word than                              
+                            //if we have "www." before word than
                             //treat it as url and add additional entry to the index
                             if ( substr( strtolower($word), 0, 4 ) == 'www.' )
-                            {                                      
+                            {
                                 $additionalUrlWord = substr( $word, 4 );
                                 $indexArray[] = array( 'Word' => $additionalUrlWord,
                                                        'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
@@ -1009,7 +1009,7 @@ class eZSearchEngine
             $dbName = $db->databaseName();
             if ( $dbName == 'mysql' )
             {
-                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject_tree.*
                             $versionNameTargets
                     FROM
                        $tmpTablesFrom $tmpTablesSeparator
@@ -1050,7 +1050,7 @@ class eZSearchEngine
             }
             else
             {
-                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.name as class_name, ezcontentobject_tree.*
+                $searchQuery = "SELECT DISTINCT ezcontentobject.*, ezcontentclass.serialized_name_list as class_serialized_name_list, ezcontentobject_tree.*
                             $versionNameTargets
                     FROM
                        $tmpTablesFrom $tmpTablesSeparator
@@ -1185,7 +1185,11 @@ class eZSearchEngine
                         } break;
                         case 'class_name':
                         {
-                            $sortingFields .= 'ezcontentclass.name';
+                            include_once( 'kernel/classes/ezcontentobjectname.php' );
+                            $classNameFilter = eZContentClassName::sqlFilter();
+                            $sortingFields .= $classNameFilter['nameField'];
+                            $attributeFromSQL .= ", $classNameFilter[from]";
+                            $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
                         {
@@ -2081,15 +2085,15 @@ class eZSearchEngine
         $db =& eZDB::instance();
 
         //extend search words for urls, by extracting parts without www. and add to the end of search text
-        $matches = array(); 
+        $matches = array();
         if ( preg_match_all("/www\.([^\.]+\.[^\s]+)\s?/i", $searchText, $matches ) );
         {
-            if (isset($matches[1]) ) 
+            if (isset($matches[1]) )
             {
                 $searchText.= ' '.join(' ', $matches[1] );
             }
         }
-        
+
         $searchWordArray = $this->splitString( $searchText );
 
         $wildCardWordArray = array();

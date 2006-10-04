@@ -2398,7 +2398,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'class_name':
                         {
-                            $filterField = 'ezcontentclass.name';
+                            $classNameFilter = eZContentClassName::sqlFilter();
+                            $filterField .= $classNameFilter['nameField'];
+                            $attributeFromSQL .= ", $classNameFilter[from]";
+                            $attributeWhereSQL .= "$classNameFilter[where] AND ";
                         } break;
                         case 'priority':
                         {
