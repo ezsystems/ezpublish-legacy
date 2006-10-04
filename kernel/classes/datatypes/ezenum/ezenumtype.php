@@ -440,7 +440,7 @@ class eZEnumType extends eZDataType
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
 
-        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $node = $this->createContentObjectAttributeDOMNode( $contentObjectAttribute );
 
         $enumElements = eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
 
@@ -543,7 +543,7 @@ class eZEnumType extends eZDataType
 
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
         $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
-        $elementList =& $elementListNode->children();
+        $elementList = $elementListNode->children();
         foreach ( array_keys( $elementList ) as $elementKey )
         {
             $element =& $elementList[$elementKey];
