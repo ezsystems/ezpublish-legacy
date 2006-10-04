@@ -272,9 +272,6 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     }
     unset( $relatedObjectsTyped );
 
-eZDebug::writeDebug( $relatedObjectsTypedIDArray, "handleTemplate()");
-
-
     $ini =& eZINI::instance( 'content.ini' );
 
     $groups = $ini->variable( 'RelationGroupSettings', 'Groups' );

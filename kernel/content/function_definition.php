@@ -1016,6 +1016,7 @@ $FunctionList['navigation_part'] = array( 'name' => 'navigation_part',
                                           'parameters' => array( array( 'name' => 'identifier',
                                                                         'type' => 'string',
                                                                         'required' => true ) ) );
+
 // Fetches related objects array
 $FunctionList['related_objects'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
@@ -1131,6 +1132,42 @@ $FunctionList['country_list'] = array( 'name' => 'country',
                                                               array( 'name' => 'value',
                                                                      'type' => 'string',
                                                                      'required' => false ) ) );
+
+$FunctionList['related_objects_ids'] = array( 'name' => 'object',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchRelatedObjectsID' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( array( 'name' => 'object_id',
+                                                               'type' => 'integer',
+                                                               'required' => true ),
+                                                        array( 'name' => 'attribute_identifier',
+                                                               'type' => 'string',
+                                                               'required' => false,
+                                                               'default' => '0' ),
+                                                        array( 'name' => 'all_relations',
+                                                               'type' => 'array',
+                                                               'required' => false,
+                                                               'default' => false ) ) );
+
+$FunctionList['reverse_related_objects_ids'] = array( 'name' => 'object',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchReverseRelatedObjectsID' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( array( 'name' => 'object_id',
+                                                               'type' => 'integer',
+                                                               'required' => true ),
+                                                        array( 'name' => 'attribute_identifier',
+                                                               'type' => 'string',
+                                                               'required' => false,
+                                                               'default' => '0' ),
+                                                        array( 'name' => 'all_relations',
+                                                               'type' => 'array',
+                                                               'required' => false,
+                                                               'default' => false ) ) );
 
 
 ?>

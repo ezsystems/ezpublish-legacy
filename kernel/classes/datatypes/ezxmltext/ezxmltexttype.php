@@ -657,9 +657,10 @@ class eZXMLTextType extends eZDataType
                 $modified = true;
 
                 // add as related object
-                if ( $contentObject && $tag->nodeName != 'link' )
+                if ( $contentObject )
                 {
-                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ) );
+                    $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
             elseif ( $nodeRemoteID )
@@ -677,11 +678,14 @@ class eZXMLTextType extends eZDataType
                 $modified = true;
 
                 // add as related object
-                if ( $contentObject && $tag->nodeName != 'link' )
+                if ( $contentObject )
                 {
                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( $node )
-                        $contentObject->addContentObjectRelation( $node->attribute( 'contentobject_id' ), $objectAttribute->attribute( 'version' ) );
+                    {
+                        $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                        $contentObject->addContentObjectRelation( $node->attribute( 'contentobject_id' ), $objectAttribute->attribute( 'version' ), 0, $relationType );
+                    }
                 }
             }
         }

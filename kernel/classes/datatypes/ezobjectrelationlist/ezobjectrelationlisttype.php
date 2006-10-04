@@ -345,9 +345,9 @@ class eZObjectRelationListType extends eZDataType
         include_once( "lib/ezutils/classes/ezoperationhandler.php" );
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObjectInstance->attribute( 'id' ), 'version' => 1 ) );
         // so it updates the attributes
-		$newObjectInstance->rename( $name );
+        $newObjectInstance->rename( $name );
 
-		return $newObjectInstance->attribute( 'id' );
+        return $newObjectInstance->attribute( 'id' );
     }
 
     /*!
@@ -391,7 +391,7 @@ class eZObjectRelationListType extends eZDataType
 
         if ( ( $countTsl == 1 ) or ( $countTsl > 1 and $translationList[0] == $langCode ) )
         {
-             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
         }
 
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -406,7 +406,7 @@ class eZObjectRelationListType extends eZDataType
             $subObjectID = $relationItem['contentobject_id'];
             $subObjectVersion = $relationItem['contentobject_version'];
 
-            eZContentObject::addContentObjectRelation( $subObjectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+            eZContentObject::addContentObjectRelation( $subObjectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
 
             if ( $relationItem['is_modified'] )
             {
@@ -452,7 +452,7 @@ class eZObjectRelationListType extends eZDataType
                 if ( $object )
                 {
                     $class =& $object->contentClass();
-					$time = time();
+                    $time = time();
 
                     // Make the previous version archived
                     $currentVersion =& $object->currentVersion();

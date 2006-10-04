@@ -1135,6 +1135,71 @@ class eZContentFunctionCollection
         return $relationTypeMask;
     }
 
+    // Fetches related objects id grouped by relation types
+    function fetchRelatedObjectsID( $objectID, $attributeID, $allRelations)
+    {
+        $relationMap = array( 'common'    => 'common',
+                              'xml_embed' => 'embed',
+                              'xml_link'  => 'link',
+                              'attribute' => 'attribute' );
+        if ( !is_array( $allRelations ) || $allRelations === array() )
+        {
+            $allRelations = array_keys( $relationMap );
+        }
+
+        $relatedObjectsTyped = array();
+        foreach ( $allRelations as $relationType )
+        {
+            $relationTypeName = $relationMap[$relationType];
+            $relatedObjectsTyped[$relationTypeName] =&
+                eZContentFunctionCollection::fetchRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array() );
+        }
+
+        $relatedObjectsTypedIDArray = array();
+        foreach ( $relatedObjectsTyped as $relationTypeName => $relatedObjectsByType )
+        {
+            $relatedObjectsTypedIDArray[$relationTypeName] = array();
+            foreach ( $relatedObjectsByType['result'] as $relatedObjectByType )
+            {
+                $relatedObjectsTypedIDArray[$relationTypeName][] = $relatedObjectByType->ID;
+            }
+        }
+
+        return array( 'result' => $relatedObjectsTypedIDArray );
+    }
+
+    // Fetches reverse related objects id grouped by relation types
+    function fetchReverseRelatedObjectsID( $objectID, $attributeID, $allRelations )
+    {
+        $reverseRelationMap = array( 'common'    => 'common',
+                                     'xml_embed' => 'embed',
+                                     'xml_link'  => 'link',
+                                     'attribute' => 'attribute' );
+        if ( !is_array( $allRelations ) || $allRelations === array() )
+        {
+            $allRelations = array_keys( $reverseRelationMap );
+        }
+
+        $relatedObjectsTyped = array();
+        foreach ( $allRelations as $relationType )
+        {
+            $relationTypeName = $reverseRelationMap[$relationType];
+            $relatedObjectsTyped[$relationTypeName] =&
+                eZContentFunctionCollection::fetchReverseRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array(), null );
+        }
+
+        $relatedObjectsTypedIDArray = array();
+        foreach ( $relatedObjectsTyped as $relationTypeName => $relatedObjectsByType )
+        {
+            $relatedObjectsTypedIDArray[$relationTypeName] = array();
+            foreach ( $relatedObjectsByType['result'] as $relatedObjectByType )
+            {
+                $relatedObjectsTypedIDArray[$relationTypeName][] = $relatedObjectByType->ID;
+            }
+        }
+
+        return array( 'result' =>$relatedObjectsTypedIDArray );
+    }
 
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
@@ -1154,10 +1219,12 @@ class eZContentFunctionCollection
             $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
         }
 
-        if ( !$attributeID )
-            $attributeID = 0;
+        if ( !$attributeID && 0 !== $attributeID )
+        {
+            $attributeID = false;
+        }
 
-        if ( $attributeID && !is_numeric( $attributeID ) )
+        if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1190,10 +1257,12 @@ class eZContentFunctionCollection
             $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
         }
 
-        if ( !$attributeID )
-            $attributeID = 0;
+        if ( !$attributeID && 0 !== $attributeID )
+        {
+            $attributeID = false;
+        }
 
-        if ( $attributeID && !is_numeric( $attributeID ) )
+        if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1227,10 +1296,12 @@ class eZContentFunctionCollection
             $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
         }
 
-        if ( !$attributeID )
-            $attributeID = 0;
+        if ( !$attributeID && 0 !== $attributeID )
+        {
+            $attributeID = false;
+        }
 
-        if ( $attributeID && !is_numeric( $attributeID ) )
+        if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1247,9 +1318,6 @@ class eZContentFunctionCollection
     // Fetches count of reverse related objects
     function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility  )
     {
-        if ( !$attributeID )
-            $attributeID = 0;
-
         $params = array();
         if ( isset( $ignoreVisibility ) )
         {
@@ -1260,7 +1328,12 @@ class eZContentFunctionCollection
             $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
         }
 
-        if ( $attributeID && !is_numeric( $attributeID ) )
+        if ( !$attributeID && 0 !== $attributeID )
+        {
+            $attributeID = false;
+        }
+
+        if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );

@@ -23,10 +23,10 @@
         {section var=RelatedImageObjects loop=$grouped_related_contentobjects.images}
         <td>
         <div class="image-thumbnail-item">
-            {section show=$RelatedImageObjects.item.can_read}
+            {section show=$RelatedImageObjects.item.can_read }
                 {attribute_view_gui attribute=$RelatedImageObjects.item.data_map.image image_class=small}
                 <p>
-                    <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" />
+                    <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedImageObjects.item.id )|not}disabled="disabled"{/if} />
                     {$RelatedImageObjects.item.name|wash}
                 </p>
             {section-else}
@@ -37,7 +37,7 @@
            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedImageObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
             ({foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                {if $relationIDArray|contains($RelatedImageObjects.item.id)}
+                {if $relationIDArray|contains( $RelatedImageObjects.item.id )}
                     {$relationType}
                 {/if}
             {/foreach})
@@ -73,7 +73,7 @@
             {section var=RelatedFileObjects loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
                 <tr class="{$RelatedFileObjects.sequence|wash}">
                     {section show=$RelatedFileObjects.item.can_read}
-                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" /></td>
+                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedFileObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                         <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
                         <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
@@ -130,7 +130,7 @@
 
                 <tr class="{$RelatedObjects.sequence|wash}">
                     {section show=$RelatedObjects.item.can_read}
-                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
+                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" {if $related_contentobjects_id.common|contains( $RelatedObjects.item.id )|not}disabled="disabled"{/if} /></td>
                         <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                         <td class="class">{$RelatedObjects.item.class_name|wash}</td>
                         <td class="code">
@@ -140,7 +140,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relationType}
+                                    {$relationType|i18n( 'design/admin/content/edit' )}
                                 {/if}
                             {/foreach}
                         </td>
@@ -154,7 +154,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relationType}
+                                    {$relationType|i18n( 'design/admin/content/edit' )}
                                 {/if}
                             {/foreach}
                         </td>

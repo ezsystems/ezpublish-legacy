@@ -186,12 +186,12 @@ class eZObjectRelationType extends eZDataType
         $countTsl = count( $transList );
 
         if ( ( $countTsl == 1 ) )
-             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
 
         if ( $objectID )
-            eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+            eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
     }
 
     /*!
@@ -290,7 +290,7 @@ class eZObjectRelationType extends eZDataType
             $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
             $contentObjectID = $contentObjectAttribute->ContentObjectID;
             $contentObjectVersion = $contentObjectAttribute->Version;
-            eZContentObject::removeContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+            eZContentObject::removeContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
         }
     }
 
