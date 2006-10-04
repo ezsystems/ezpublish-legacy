@@ -155,6 +155,9 @@ class eZNodeviewfunctions
 
         $Result['content_info'] = $contentInfoArray;
 
+        // Store which templates were used to make this cache.
+        $Result['template_list'] = $tpl->templateFetchList();
+
         // Check if time to live is set in template
         if ( $tpl->hasVariable( 'cache_ttl' ) )
         {

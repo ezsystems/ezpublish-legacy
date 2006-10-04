@@ -211,6 +211,25 @@ else
                 }
             }
 
+            // Check if template source files are newer, but only if the cache is not expired
+            if ( !$cacheExpired )
+            {
+                $developmentModeEnabled = $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) == 'enabled';
+                // Only do filemtime checking when development mode is enabled.
+                if ( $developmentModeEnabled &&
+                     isset( $Result['template_list'] ) ) // And only if there is a list stored in the cache
+                {
+                    foreach ( $Result['template_list'] as $templateFile )
+                    {
+                        if ( @filemtime( $templateFile ) > $stat['mtime'] )
+                        {
+                            $cacheExpired = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
             if ( !$cacheExpired )
             {
                 $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),

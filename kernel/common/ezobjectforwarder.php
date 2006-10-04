@@ -158,6 +158,9 @@ class eZObjectForwarder
                                                                        $outputName, $namespaceValue,
                                                                        $templateRoot, $viewDir, $viewValue,
                                                                        $matchFileArray, 0, $resourceData );
+            // If the transformation failed we return false to invoke interpreted mode
+            if ( $resourceNodes === false )
+                return false;
             $newNodes = array_merge( $newNodes, $resourceNodes );
         }
         else
@@ -193,6 +196,9 @@ class eZObjectForwarder
                                                                                $outputName, $namespaceValue,
                                                                                $templateRoot, $viewDir, $viewValue,
                                                                                $matchFileArray, 4, $resourceData );
+                    // If the transformation failed we return false to invoke interpreted mode
+                    if ( $resourceNodes === false )
+                        return false;
                     $newNodes = array_merge( $newNodes, $resourceNodes );
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
                     ++$rootMatchCounter;
@@ -368,6 +374,9 @@ class eZObjectForwarder
                             $matchFile = $customMatch['match_file'];
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $customSpacing ) );
                             $hasAcquisitionNodes = true;
+                            // If $matchFile is an array we cannot create a transformation for this entry
+                            if ( is_array( $matchFile ) )
+                                return false;
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                      $matchFile, $matchFile,
                                                                                                      EZ_RESOURCE_FETCH, false,
@@ -399,6 +408,9 @@ class eZObjectForwarder
                         if ( $addFileResource )
                         {
                             $matchFile = $matchItem['base_dir'] . $matchItem['template'];
+                            // If $matchFile is an array we cannot create a transformation for this entry
+                            if ( is_array( $matchFile ) )
+                                return false;
                             $tmpAcquisitionNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                                         $matchFile, $matchFile,
                                                                                                         EZ_RESOURCE_FETCH, false,
@@ -418,6 +430,9 @@ class eZObjectForwarder
                 {
                     $newNodes = array_merge( $newNodes, $accessNodes );
                     $accessNodes = array();
+                    // If $matchFile is an array we cannot create a transformation for this entry
+                    if ( is_array( $matchLookupArray ) )
+                        return false;
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchLookupArray, false,
                                                                                      EZ_RESOURCE_FETCH, false,
@@ -518,6 +533,9 @@ class eZObjectForwarder
                     }
                     $matchFile = $customMatch['match_file'];
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $acquisitionSpacing ) );
+                    // If $matchFile is an array we cannot create a transformation for this entry
+                    if ( is_array( $matchFile ) )
+                        return false;
                     $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                      $matchFile, $matchFile,
                                                                                      EZ_RESOURCE_FETCH, false,
@@ -540,6 +558,9 @@ class eZObjectForwarder
             }
             if ( $addFileResource )
             {
+                // If $matchFile is an array we cannot create a transformation for this entry
+                if ( is_array( $file ) )
+                    return false;
                 $newNodes[] = eZTemplateNodeTool::createResourceAcquisitionNode( '',
                                                                                  $file, $file,
                                                                                  EZ_RESOURCE_FETCH, false,

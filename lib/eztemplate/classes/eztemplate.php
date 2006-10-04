@@ -377,6 +377,8 @@ class eZTemplate
         eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
 
         $this->TemplatesUsageStatistics = array();
+        // Array of templates which are used in a single fetch()
+        $this->TemplateFetchList = array();
 
         $this->ForeachCounter = 0;
         $this->ForCounter     = 0;
@@ -533,6 +535,8 @@ class eZTemplate
     function &fetch( $template = false, $extraParameters = false, $returnResourceData = false )
     {
         $this->resetErrorLog();
+        // Reset fetch list when a new fetch is started
+        $this->TemplateFetchList = array();
 
         eZDebug::accumulatorStart( 'template_total' );
         eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
@@ -803,6 +807,7 @@ class eZTemplate
         {
             $root = null;
             eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
+            $this->appendTemplateFetch( $resourceData['template-filename'] );
 
             if ( !$resourceData['compiled-template'] and
                  $resourceData['root-node'] === null )
@@ -2404,6 +2409,7 @@ class eZTemplate
         $this->resetErrorLog();
 
         $this->TemplatesUsageStatistics = array();
+        $this->TemplateFetchList = array();
     }
 
     /*!
@@ -2633,6 +2639,15 @@ class eZTemplate
     }
 
     /*!
+     Appends template info for current fetch.
+    */
+    function appendTemplateFetch( $actualTemplateName )
+    {
+        $this->TemplateFetchList[] = $actualTemplateName;
+        $this->TemplateFetchList = array_unique( $this->TemplateFetchList );
+    }
+
+    /*!
      Reset error and warning logs
     */
     function resetErrorLog()
@@ -2649,6 +2664,14 @@ class eZTemplate
     {
         $tpl =& eZTemplate::instance();
         return $tpl->TemplatesUsageStatistics;
+    }
+
+    /*!
+     Returns template list for the last fetch.
+    */
+    function templateFetchList()
+    {
+        return $this->TemplateFetchList;
     }
 
     /*!

@@ -90,6 +90,8 @@ Clustering:
 *Library:
 
 - Added eZStringUtils library to simplify storing structured data in strings.
+- Added viewcaches expiration for template 'DevelopmentMode' when templates files 
+  are modified.
 
 eZTemplate:
 - Implemented enhancement #8584: 'content_structure_tree' operator should support 

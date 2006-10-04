@@ -2307,6 +2307,18 @@ $rbracket
                             $hasResourceData = true;
                             $hasCompiledCode = true;
                         }
+                        else if ( $useFallbackCode )
+                        {
+                            // If we can use fallback code we don't need to compile the templates in advance
+                            // Simply fake that it has been compiled by setting some variables
+                            // Note: Yes this is a hack, but rewriting this code is not an easy task
+                            if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
+                            {
+                                $tmpResourceData['compiled-template'] = true;
+                                $hasResourceData = true;
+                                $hasCompiledCode = true;
+                            }
+                        }
                         else
                         {
                             if ( $resourceObject->handleResource( $tpl, $tmpResourceData, $node[4], $node[5] ) )
@@ -2446,6 +2458,7 @@ $rbracket
 
                         $code .=
                             "\$tpl->createLocalVariablesList();\n" .
+                            "\$tpl->appendTemplateFetch( $uriText );\n" . // Make sure the template file is recorded, like in loadURIRoot
                             "include( '" . eZTemplateCompiler::TemplatePrefix() . "' . $phpScriptText );\n" .
                             "\$tpl->unsetLocalVariables();\n" .
                             "\$tpl->destroyLocalVariablesList();\n" .
