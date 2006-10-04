@@ -407,7 +407,7 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
 
-        // VS-DBFILE : TODO
+
         $filePath = $binary->attribute( 'filename' );
 
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
@@ -417,6 +417,15 @@ class eZBinaryFileType extends eZDataType
         $binary->setAttribute( "mime_type", $mimeData['name'] );
 
         $binary->store();
+
+        // SP-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $filePath = $httpFile->attribute( 'filename' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileStore( $filePath, 'binaryfile', true, $mimeData['name'] );
+        $objectAttribute->setContent( $binary );
+
         $db->commit();
 
         $objectAttribute->setContent( $binary );
