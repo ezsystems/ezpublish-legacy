@@ -408,3 +408,5 @@ eZDiff:
 - Fixed bug #9081: Bug in multi-option datatype.
 - Fixed bug: almost all i18n calls were not compiled but ran the interpreted
   mode.
+- Fixed bug: fatal error in packaging with ezenum datatype.
+  (Merged from stable/3.8 (3.8.5) rev. 17077 )

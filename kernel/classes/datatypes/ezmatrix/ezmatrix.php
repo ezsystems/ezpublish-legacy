@@ -711,7 +711,7 @@ class eZMatrix
     function decodeXML( $xmlString )
     {
         $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
         if ( $xmlString != "" )
         {
             // set the name of the node
