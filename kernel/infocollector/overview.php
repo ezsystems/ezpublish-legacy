@@ -99,7 +99,7 @@ $db =& eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentobject.name,
                                     ezcontentobject_tree.main_node_id,
-                                    ezcontentclass.name AS class_name,
+                                    ezcontentclass.*,
                                     ezcontentclass.identifier AS class_identifier
                              FROM   ezinfocollection,
                                     ezcontentobject,
@@ -129,6 +129,7 @@ for( $i=0; $i<count( $objects ); $i++ )
                                                                   false  /* asObject */
                                                                  );
 
+    $objects[$i]['class_name'] = eZContentClassNameList::nameFromSerializedString( $objects[$i]['serialized_name_list'] );
     $first = $collections[0]['created'];
     $last  = $first;
 

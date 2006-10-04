@@ -725,46 +725,31 @@ class eZContentFunctionCollection
 
     function fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID = false, $userIdentifier = false )
     {
-        include_once( 'kernel/classes/ezinformationcollection.php' );
-        if ( $objectAttributeID )
-            $count = eZInformationCollection::fetchCountForAttribute( $objectAttributeID, $value );
-        else
-            $count = eZInformationCollection::fetchCollectionsCount( $objectID, $creatorID, $userIdentifier );
-        return array( 'result' => $count );
+        include_once( 'kernel/infocollector/ezinfocollectorfunctioncollection.php' );
+        return eZInfocollectorFunctionCollection::fetchCollectedInfoCount( $objectAttributeID, $objectID, $value, $creatorID, $userIdentifier );
     }
 
     function fetchCollectedInfoCountList( $objectAttributeID )
     {
-        include_once( 'kernel/classes/ezinformationcollection.php' );
-        $count = eZInformationCollection::fetchCountList( $objectAttributeID );
-        return array( 'result' => $count );
+        include_once( 'kernel/infocollector/ezinfocollectorfunctioncollection.php' );
+        return eZInfocollectorFunctionCollection::fetchCollectedInfoCountList( $objectAttributeID );
     }
 
     function fetchCollectedInfoCollection( $collectionID, $contentObjectID )
     {
-        include_once( 'kernel/classes/ezinformationcollection.php' );
-        $collection = false;
-        if ( $collectionID )
-            $collection = eZInformationCollection::fetch( $collectionID );
-        else if ( $contentObjectID )
-        {
-            $userIdentifier = eZInformationCollection::currentUserIdentifier();
-            $collection = eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
-        }
-        return array( 'result' => &$collection );
+        include_once( 'kernel/infocollector/ezinfocollectorfunctioncollection.php' );
+        return eZInfocollectorFunctionCollection::fetchCollectedInfoCollection( $collectionID, $contentObjectID );
     }
 
     function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
     {
-        include_once( 'kernel/classes/ezinformationcollection.php' );
-
-        $collection = eZInformationCollection::fetchCollectionsList( $objectID,
-                                                                     $creatorID,
-                                                                     $userIdentifier,
-                                                                     array( 'limit' => $limit, 'offset' => $offset ),
-                                                                     $sortBy
-                                                                   );
-        return array( 'result' => &$collection );
+        include_once( 'kernel/infocollector/ezinfocollectorfunctioncollection.php' );
+        return eZInfocollectorFunctionCollection::fetchCollectionsList( $objectID = false,
+                                                                        $creatorID = false,
+                                                                        $userIdentifier = false,
+                                                                        $limit = false,
+                                                                        $offset = false,
+                                                                        $sortBy = false );
      }
 
     function fetchObjectByAttribute( $identifier )

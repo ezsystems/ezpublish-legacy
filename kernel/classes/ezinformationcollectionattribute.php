@@ -206,9 +206,9 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &contentClassAttributeName()
     {
         $db =& eZDB::instance();
-        $nameArray = $db->arrayQuery( "SELECT name FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
+        $nameArray = $db->arrayQuery( "SELECT serialized_name_list FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
-        return $nameArray[0]['name'];
+        return eZContentClassAttributeNameList::nameFromSerializedString( $nameArray[0]['serialized_name_list'] );
     }
 
     /*!
