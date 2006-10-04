@@ -108,9 +108,12 @@ class eZi18nOperator
     function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
-        foreach ( $parameters as $parameter )
+        // i18n( $input, $context, $comment, $arguments )
+        // Check if if the three first parameters are constants, if not we cannot compile it
+        foreach ( array_slice( $parameters, 0, 3 ) as $parameter )
         {
-            if ( eZTemplateNodeTool::isConstantElement( $parameter ) )
+            if ( $parameter !== null &&
+                 !eZTemplateNodeTool::isConstantElement( $parameter ) )
             {
                 return false;
             }
