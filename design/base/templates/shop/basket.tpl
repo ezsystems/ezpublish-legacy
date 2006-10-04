@@ -49,6 +49,8 @@
              symbol = $currency.symbol}
     {/if}
 
+    <h2>{"Product items"|i18n("design/base/shop")}</h2>
+
     <div class="content-basket">
     <table cellspacing="0">
     <tr>
@@ -122,37 +124,66 @@
      {/section}
      {/section}
      <tr>
-         <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
-         <strong>{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
-         </td>
-         <td class="product-subtotal">
-         &nbsp;
-         </td>
-
+         <td class="product-subtotal" colspan="4"><b>{"Subtotal Inc. VAT"|i18n("design/base/shop")}:</b></td> 
+         <td class="product-subtotal"><b>{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}</b></td>
+         <td class="product-subtotal">&nbsp;</td>
      </tr>
-
     {if is_set( $shipping_info )}
     {* Show shipping type/cost. *}
     <tr>
-    <td class="product-subtotal" colspan="5"><a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:
-    {$shipping_info.cost|l10n( 'currency', $locale, $symbol )}
-    </td>
+    <td class="product-subtotal" colspan="4">{if is_set($shipping_info.management_link)}<a href={$shipping_info.management_link|ezurl}>{/if}{if $shipping_info.description}{$shipping_info.description}{else}{'Shipping'|i18n( 'design/admin/shop/basket' )}{/if}{if is_set($shipping_info.management_link)}</a>{/if}:</td>
+    <td class="product-subtotal">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
     <td class="product-subtotal">
     &nbsp;
     </td>
     </tr>
     {* Show order total *}
     <tr>
-    <td class="product-subtotal" colspan="5"><b>{'Order total'|i18n( 'design/admin/shop/basket' )}</b>:
-    {$total_inc_shipping_inc_vat|l10n( 'currency', $locale, $symbol )}
+    <td class="product-subtotal" colspan="4"><b>{'Order total'|i18n( 'design/admin/shop/basket' )}:</b></td>
+    <td class="product-subtotal"><b>{$total_inc_shipping_inc_vat|l10n( 'currency', $locale, $symbol )}</b></td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
+    {/if}
+    </table>
+
+    <h2>{"Basket summary"|i18n("design/base/shop")}:</h2>
+    <table cellspacing="0">
+    <td class="product-subtotal" colspan="4">{'Sub total Ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal">{$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    </td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
+    <tr>
+    <td class="product-subtotal" colspan="4">{'Shipping total Ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal">{$basket.items_info.additional_info.shipping_total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+    </td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
+    {foreach $basket.items_info.price_info as $vat_value => $sub_shipping}
+    {if $sub_shipping.total_price_vat|gt(0)}
+    <tr>
+    <td class="product-subtotal" colspan="4">{'Total VAT'|i18n( 'design/admin/shop/basket' )} ({$vat_value}%):
+    <td class="product-subtotal">{$sub_shipping.total_price_vat|l10n( 'currency', $locale, $symbol )}</td>
     </td>
     <td class="product-subtotal">
     &nbsp;
     </td>
     </tr>
     {/if}
-
+    {/foreach}
+    <tr>
+    <td class="product-subtotal" colspan="4"><b>{'Order total'|i18n( 'design/admin/shop/basket' )}:</b></td>
+    <td class="product-subtotal"><b>{$basket.items_info.total_price_info.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}</b></td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
      </table>
       </div>
 
@@ -166,7 +197,6 @@
      </div>
 
     {undef $currency $locale $symbol}
-
     {section-else}
 
     <div class="feedback">

@@ -74,46 +74,83 @@
      </tr>
      {/section}
      {/section}
+     {if $order.order_info.additional_info|count|gt(0)}
      <tr>
-         <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
-         <strong>{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
+         <td class="product-subtotal" colspan="4">
+         <strong>{"Subtotal Inc. VAT"|i18n("design/base/shop")}:</strong>
          </td>
          <td class="product-subtotal">
-         &nbsp;
+         <strong>{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
          </td>
-
+     </tr>
+     {foreach $order.order_info.additional_info as $order_item_type => $additional_info}
+     <tr>
+         <td class="product-subtotal" colspan="4">
+         {if $order_item_type|eq('ezcustomshipping')}
+         {"Shipping total Inc. VAT"|i18n("design/base/shop")}:
+         {else}
+         {"Item total Inc. VAT"|i18n("design/base/shop")}:
+         {/if}
+         </td>
+         <td class="product-subtotal">
+         {$additional_info.total.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
+         </td>
+     </tr>
+     {/foreach}
+     {/if}
+     <tr>
+         <td class="product-subtotal" colspan="4">
+         <strong>{"Total Inc. VAT"|i18n("design/base/shop")}:</strong>
+         </td>
+         <td class="product-subtotal">
+         <strong>{$order.total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
+         </td>
      </tr>
      </table>
      </div>
 
-
     <h2>{"Order summary"|i18n("design/base/shop")}:</h2>
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td class="bgdark">
-    {"Subtotal of items"|i18n("design/base/shop")}:
+    <td class="bgdark product-subtotal">
+    {"Subtotal of items Ex VAT"|i18n("design/base/shop")}:
     </td>
-    <td class="bgdark">
-    {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
+    <td class="bgdark product-subtotal">
+    {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
     </td>
 </tr>
-
-{section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
+{foreach $order.order_info.additional_info as $order_item_type => $additional_info}
 <tr>
-	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.description}:
+    <td class="bgdark product-subtotal">
+    {if $order_item_type|eq('ezcustomshipping')}
+    {"Shipping total Ex VAT"|i18n("design/base/shop")}:
+    {else}
+    {"Item total Ex. VAT"|i18n("design/base/shop")}:
+    {/if}
+    </td>
+    <td class="bgdark product-subtotal">
+    {$additional_info.total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
+    </td>
+</tr>
+{/foreach}
+{foreach $order.order_info.price_info.items as $vat_value => $order_info
+           sequence array(bglight, bgdark) as $sequence}
+{if $order_info.total_price_vat|gt(0)}
+<tr>
+	<td class="{$sequence} product-subtotal">
+{"Total VAT"|i18n("design/base/shop")} ({$vat_value}%)
 	</td>
-	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
+	<td class="{$sequence} product-subtotal">
+	{$order_info.total_price_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 </tr>
-{/section}
+{/if}
+{/foreach}
 <tr>
-    <td class="bgdark">
+    <td class="bgdark product-subtotal">
     <b>{"Order total"|i18n("design/base/shop")}:</b>
     </td>
-    <td class="bgdark">
+    <td class="bgdark product-subtotal">
     <b>{$order.total_inc_vat|l10n( 'currency', $locale, $symbol )}</b>
     </td>
 </tr>

@@ -167,7 +167,8 @@ if ( $module->isCurrentAction( 'Store' ) )
 
         $order->store();
         $db->commit();
-
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        eZShopFunctions::setPreferredUserCountry( $country );
         eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 
         $module->redirectTo( '/shop/confirmorder/' );

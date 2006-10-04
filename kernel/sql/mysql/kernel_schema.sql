@@ -861,6 +861,7 @@ CREATE TABLE ezorder (
 CREATE TABLE ezorder_item (
   description varchar(255) default NULL,
   id int(11) NOT NULL auto_increment,
+  is_vat_inc int(11) NOT NULL default '0',
   order_id int(11) NOT NULL default '0',
   price float default NULL,
   type varchar(30) default NULL,

@@ -147,7 +147,8 @@ class eZOrder extends eZPersistentObject
                                                       'account_information' => 'accountInformation',
                                                       'account_name' => 'accountName',
                                                       'account_email' => 'accountEmail',
-                                                      'productcollection' => 'productCollection' ),
+                                                      'productcollection' => 'productCollection',
+                                                      'order_info' => 'orderInfo' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZOrder",
@@ -680,8 +681,8 @@ class eZOrder extends eZPersistentObject
                                         'email' => urlencode( $currentUserEmail ) );
 
                 $ordersInfo = array();
-                $accountName = $order->attribute( 'account_name' );
-                $accountEmail = $order->attribute( 'account_email' );
+                $accountName =& $order->attribute( 'account_name' );
+                $accountEmail =& $order->attribute( 'account_email' );
             }
 
             $currentUserID = $userID;
@@ -689,10 +690,10 @@ class eZOrder extends eZPersistentObject
             // If the custom is anoymous user
             if ( $currentUserID == $anonymousUserID )
             {
-                $accountEmail = $order->attribute( 'email' );
+                $accountEmail =& $order->attribute( 'email' );
                 if ( $currentUserEmail == "" )
                 {
-                    $accountName = $order->attribute( 'account_name' );
+                    $accountName =& $order->attribute( 'account_name' );
                     $currentUserEmail = $accountEmail;
                 }
 
@@ -704,8 +705,8 @@ class eZOrder extends eZPersistentObject
                                             'email' => urlencode( $currentUserEmail ) );
 
                     $ordersInfo = array();
-                    $accountName = $order->attribute( 'account_name' );
-                    $accountEmail = $order->attribute( 'account_email' );
+                    $accountName =& $order->attribute( 'account_name' );
+                    $accountEmail =& $order->attribute( 'account_email' );
                     $currentUserEmail = $accountEmail;
                 }
                 $currentUserEmail = $accountEmail;
@@ -803,8 +804,8 @@ class eZOrder extends eZPersistentObject
         {
             $discountPercent = 0.0;
             $isVATIncluded = true;
-            $id = $productItem->attribute( 'id' );
-            $contentObject = $productItem->attribute( 'contentobject' );
+            $id =& $productItem->attribute( 'id' );
+            $contentObject =& $productItem->attribute( 'contentobject' );
 
             if ( $this->IgnoreVAT == true )
             {
@@ -812,23 +813,23 @@ class eZOrder extends eZPersistentObject
             }
             else
             {
-                $vatValue = $productItem->attribute( 'vat_value' );
+                $vatValue =& $productItem->attribute( 'vat_value' );
             }
-            $count = $productItem->attribute( 'item_count' );
-            $discountPercent = $productItem->attribute( 'discount' );
+            $count =& $productItem->attribute( 'item_count' );
+            $discountPercent =& $productItem->attribute( 'discount' );
             if ( $contentObject )
             {
-                $nodeID = $contentObject->attribute( 'main_node_id' );
-                $objectName = $contentObject->attribute( 'name' );
+                $nodeID =& $contentObject->attribute( 'main_node_id' );
+                $objectName =& $contentObject->attribute( 'name' );
             }
             else
             {
                 $nodeID = false;
-                $objectName = $productItem->attribute( 'name' );
+                $objectName =& $productItem->attribute( 'name' );
             }
 
-            $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
-            $price = $productItem->attribute( 'price' );
+            $isVATIncluded =& $productItem->attribute( 'is_vat_inc' );
+            $price =& $productItem->attribute( 'price' );
 
             if ( $isVATIncluded )
             {
@@ -896,9 +897,12 @@ class eZOrder extends eZPersistentObject
         $items =& $this->orderItems();
 
         $total = 0.0;
-        foreach ( $items as $item )
+        if ( count( $items ) > 0 )
         {
-            $total += $item->attribute( 'price_inc_vat' );
+            foreach ( $items as $item )
+            {
+                $total += $item->attribute( 'price_inc_vat' );
+            }
         }
         $total = round( $total, 2 );
         return $total;
@@ -909,9 +913,12 @@ class eZOrder extends eZPersistentObject
         $items =& $this->orderItems();
 
         $total = 0.0;
-        foreach ( $items as $item )
+        if ( count( $items ) > 0 )
         {
-            $total += $item->attribute( 'price_ex_vat' );
+            foreach ( $items as $item )
+            {
+                $total += $item->attribute( 'price_ex_vat' );
+            }
         }
         $total = round( $total, 2 );
         return $total;
@@ -1003,7 +1010,8 @@ class eZOrder extends eZPersistentObject
 
     function &orderItems()
     {
-        $items = eZOrderItem::fetchList( $this->ID );
+        $id =& $this->attribute( 'id' );
+        $items = eZOrderItem::fetchList( $id );
         return $items;
     }
 
@@ -1098,7 +1106,7 @@ class eZOrder extends eZPersistentObject
         $accessWord = $accessResult['accessWord'];
         $access = false;
 
-        $currentStatusID = $this->attribute( "status_id" );
+        $currentStatusID =& $this->attribute( "status_id" );
 
         if ( $accessWord == 'yes' )
             $access = true;
@@ -1155,7 +1163,7 @@ class eZOrder extends eZPersistentObject
         $accessWord = $accessResult['accessWord'];
         $access = false;
 
-        $currentStatusID = $this->attribute( "status_id" );
+        $currentStatusID =& $this->attribute( "status_id" );
 
         $statusList = array();
         if ( $accessWord == 'yes' )
@@ -1271,7 +1279,7 @@ class eZOrder extends eZPersistentObject
     function setStatus( $status )
     {
         if ( get_class( $status ) == "ezorderstatus" )
-            $this->StatusID = $status->attribute( 'id' );
+            $this->StatusID =& $status->attribute( 'id' );
         else
             $this->StatusID = $status;
         $this->setStatusModified( mktime() );
@@ -1297,7 +1305,7 @@ class eZOrder extends eZPersistentObject
             include_once( 'kernel/classes/ezorderstatus.php' );
             $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
         }
-        $name = $this->Status->attribute( 'name' );;
+        $name =& $this->Status->attribute( 'name' );;
         return $name;
     }
 
@@ -1450,6 +1458,120 @@ class eZOrder extends eZPersistentObject
         $db->query( "DELETE FROM ezorder_status_history" );
         $db->query( "DELETE FROM ezorder" );
         $db->commit();
+    }
+
+    function &orderInfo()
+    {
+        $returnArray = array();
+
+        $items =& $this->productItems();
+        foreach ( $items as $item )
+        {
+            $totalPriceExVat = $item['total_price_ex_vat'];
+            $totalPriceIncVat = $item['total_price_inc_vat'];
+            $totalPriceVat = $totalPriceIncVat - $totalPriceExVat;
+            $vatValue = $item['vat_value'];
+            if ( !isset( $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] ) )
+            {
+                $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] = $totalPriceExVat;
+                $returnArray['price_info']['items'][$vatValue]['total_price_inc_vat'] = $totalPriceIncVat;
+                $returnArray['price_info']['items'][$vatValue]['total_price_vat'] = $totalPriceVat;
+            }
+            else
+            {
+                $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] += $totalPriceExVat;
+                $returnArray['price_info']['items'][$vatValue]['total_price_inc_vat'] += $totalPriceIncVat;
+                $returnArray['price_info']['items'][$vatValue]['total_price_vat'] += $totalPriceVat;
+            }
+
+            if ( !isset( $returnArray['total_price_info']['total_price_ex_vat']  ) )
+            {
+                $returnArray['total_price_info']['total_price_ex_vat'] = $totalPriceExVat;
+                $returnArray['total_price_info']['total_price_inc_vat'] = $totalPriceIncVat;
+                $returnArray['total_price_info']['total_price_vat'] = $totalPriceVat;
+            }
+            else
+            {
+                $returnArray['total_price_info']['total_price_ex_vat'] += $totalPriceExVat;
+                $returnArray['total_price_info']['total_price_inc_vat'] += $totalPriceIncVat;
+                $returnArray['total_price_info']['total_price_vat'] += $totalPriceVat;
+            }
+        }
+
+        $orderItems =& $this->orderItems();
+        if ( count( $orderItems ) > 0 )
+        {
+            foreach ( $orderItems as $orderItem )
+            {
+                $totalPriceExVat =& $orderItem->attribute( 'price_ex_vat' );
+                $totalPriceIncVat =& $orderItem->attribute( 'price_inc_vat' );
+                $totalPriceVat = $totalPriceIncVat - $totalPriceExVat;
+                $vatValue =& $orderItem->attribute( 'vat_value' );
+                $type =& $orderItem->attribute( 'type' );
+
+                if ( !isset( $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] ) )
+                {
+                    $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] = $totalPriceExVat;
+                    $returnArray['price_info']['items'][$vatValue]['total_price_inc_vat'] = $totalPriceIncVat;
+                    $returnArray['price_info']['items'][$vatValue]['total_price_vat'] = $totalPriceVat;
+                }
+                else
+                {
+                    $returnArray['price_info']['items'][$vatValue]['total_price_ex_vat'] += $totalPriceExVat;
+                    $returnArray['price_info']['items'][$vatValue]['total_price_inc_vat'] += $totalPriceIncVat;
+                    $returnArray['price_info']['items'][$vatValue]['total_price_vat'] += $totalPriceVat;
+                }
+
+                if ( !isset( $returnArray['total_price_info']['total_price_ex_vat']  ) )
+                {
+                    $returnArray['total_price_info']['total_price_ex_vat'] = $totalPriceExVat;
+                    $returnArray['total_price_info']['total_price_inc_vat'] = $totalPriceIncVat;
+                    $returnArray['total_price_info']['total_price_vat'] = $totalPriceVat;
+                }
+                else
+                {
+                    $returnArray['total_price_info']['total_price_ex_vat'] += $totalPriceExVat;
+                    $returnArray['total_price_info']['total_price_inc_vat'] += $totalPriceIncVat;
+                    $returnArray['total_price_info']['total_price_vat'] += $totalPriceVat;
+                }
+
+                if ( !isset( $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_ex_vat'] ) )
+                {
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_ex_vat'] = $totalPriceExVat;
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_inc_vat'] = $totalPriceIncVat;
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_vat'] = $totalPriceVat;
+                }
+                else
+                {
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_ex_vat'] += $totalPriceExVat;
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_inc_vat'] += $totalPriceIncVat;
+                    $returnArray['additional_info'][$type]['items'][$vatValue]['total_price_vat'] += $totalPriceVat;
+                }
+
+                if ( !isset( $returnArray['additional_info'][$type]['total']['total_price_ex_vat'] ) )
+                {
+                    $returnArray['additional_info'][$type]['total']['total_price_ex_vat'] = $totalPriceExVat;
+                    $returnArray['additional_info'][$type]['total']['total_price_inc_vat'] = $totalPriceIncVat;
+                    $returnArray['additional_info'][$type]['total']['total_price_vat'] = $totalPriceVat;
+                }
+                else
+                {
+                    $returnArray['additional_info'][$type]['total']['total_price_ex_vat'] += $totalPriceExVat;
+                    $returnArray['additional_info'][$type]['total']['total_price_inc_vat'] += $totalPriceIncVat;
+                    $returnArray['additional_info'][$type]['total']['total_price_vat'] += $totalPriceVat;
+                }
+
+            }
+
+            // sort the array based on VAT.
+            foreach ( array_keys( $returnArray['additional_info'] ) as $type )
+            {
+                ksort( $returnArray['additional_info'][$type]['items'] );
+            }
+        }
+        ksort( $returnArray['price_info']['items'] );
+
+        return $returnArray;
     }
 
     /// \privatesection

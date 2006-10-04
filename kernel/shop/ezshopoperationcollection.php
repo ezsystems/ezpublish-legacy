@@ -171,7 +171,48 @@ class eZShopOperationCollection
 
     /*!
      Operation entry: Adds order item: shipping.
-     */
+     \params $orderID contains the order id for the shipping handler.
+
+     The function handleShipping() are runned in the process of confirmorder and
+     is the final function for creating an order_item in the order confirmation.
+
+     An example for an array that should be returned by the function
+     eZShippingManager::getShippingInfo( $productCollectionID ):
+     \code
+     array( 'shipping_items' => array( array( 'description' => 'Shipping vat: 12%',
+                                              'cost'        => 50.25,
+                                              'vat_value'   => 12,
+                                              'is_vat_inc'  => 0 ),
+                                       array( 'description' => 'Shipping vat: 25%',
+                                              'cost'        => 100.75,
+                                              'vat_value'   => 25,
+                                              'is_vat_inc'  => 0 ) ),
+            'description' => 'Total Shipping',
+            'cost'        => 182.22,
+            'vat_value'   => false,
+            'is_vat_inc'  => 1 );
+     \endcode
+
+     An example for the shippingvalues with only one shippingitem, old standard.
+     \code
+     array( 'description' => 'Total Shipping vat: 16%',
+            'cost'        => 10.25,
+            'vat_value'   => 16,
+            'is_vat_inc'  => 1 );
+     \endcode
+
+     The returned array for each shipping item should consist of these keys:
+     - order_id - The order id for the current order.
+     - description - An own description of the shipping item.
+     - cost - A float value of the cost for the shipping.
+     - vat_value - The vat value that should be added to the shipping item.
+     - is_vat_inc - Either 0, 1 or false. 0: The cost is excluded VAT.
+                                          1: the cost is included VAT.
+                                      false: The cost is combined by several other VAT prices.
+
+     This function may also send additional parameters to be used in other templates, like
+     in the basket.
+    */
     function handleShipping( $orderID )
     {
         do // we prevent high nesting levels by using breaks
@@ -179,30 +220,52 @@ class eZShopOperationCollection
             $order = eZOrder::fetch( $orderID );
             if ( !$order )
                 break;
+            $productCollectionID =& $order->attribute( 'productcollection_id' );
 
             require_once( 'kernel/classes/ezshippingmanager.php' );
-            $shippingInfo = eZShippingManager::getShippingInfo( $order->attribute( 'productcollection_id' ) );
+            $shippingInfo = eZShippingManager::getShippingInfo( $productCollectionID );
             if ( !isset( $shippingInfo ) )
                 break;
 
             // check if the order item has been added before.
             $orderItems = $order->orderItemsByType( 'ezcustomshipping' );
 
-            // if it has then do nothing.
+            // If orderitems allready exists, remove them first.
             if ( $orderItems )
-                break;
+            {
+                foreach ( $orderItems as $orderItem )
+                {
+                    $orderItem->remove();
+                }
+                $purgeStatus = eZShippingManager::purgeShippingInfo( $productCollectionID );
+            }
 
-            $shippingDescription = ezi18n( 'kernel/shop', 'Shipping' );
-            if ( $shippingInfo['description'] )
-                $shippingDescription .= ' (' . $shippingInfo['description'] . ')';
-
-            // create order item: shipping
-
-            $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                                 'description' => $shippingDescription,
-                                                 'price' => $shippingInfo['cost'],
-                                                 'type' => 'ezcustomshipping' ) );
-            $orderItem->store();
+            if ( isset( $shippingInfo['shipping_items'] ) and
+                 is_array( $shippingInfo['shipping_items'] ) )
+            {
+                // Add a new order item for each shipping.
+                foreach ( $shippingInfo['shipping_items'] as $orderItemShippingInfo )
+                {
+                    $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                                         'description' => $orderItemShippingInfo['description'],
+                                                         'price' => $orderItemShippingInfo['cost'],
+                                                         'vat_value' => $orderItemShippingInfo['vat_value'],
+                                                         'is_vat_inc' => $orderItemShippingInfo['is_vat_inc'],
+                                                         'type' => 'ezcustomshipping' ) );
+                    $orderItem->store();
+                }
+            }
+            else
+            {
+                // Made for backwards compability, if the array order_items are not supplied.
+                $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                                     'description' => $shippingInfo['description'],
+                                                     'price' => $shippingInfo['cost'],
+                                                     'vat' => $shippingInfo['vat_value'],
+                                                     'is_vat_inc' => $shippingInfo['is_vat_inc'],
+                                                     'type' => 'ezcustomshipping' ) );
+                $orderItem->store();
+            }
 
         } while ( false );
 
@@ -461,56 +524,21 @@ class eZShopOperationCollection
 
     function sendOrderEmails( $orderID )
     {
-        include_once( "kernel/classes/ezbasket.php" );
         include_once( 'kernel/classes/ezorder.php' );
         $order = eZOrder::fetch( $orderID );
 
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
+
         $accountHandler =& eZShopAccountHandler::instance();
         $email = $accountHandler->email( $order );
 
-        include_once( "kernel/common/template.php" );
-        $tpl =& templateInit();
-        $tpl->setVariable( 'order', $order );
-        $templateResult =& $tpl->fetch( 'design:shop/orderemail.tpl' );
-
-        $subject = $tpl->variable( 'subject' );
-
-        $receiver = $email;
-
-        include_once( 'lib/ezutils/classes/ezmail.php' );
-        include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-        $ini =& eZINI::instance();
-        $mail = new eZMail();
-
-        if ( !$mail->validate( $receiver ) )
-        {
-        }
-        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-        if ( !$emailSender )
-            $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
-
-        $mail->setReceiver( $email );
-        $mail->setSender( $emailSender );
-        $mail->setSubject( $subject );
-        $mail->setBody( $templateResult );
-        $mailResult = eZMailTransport::send( $mail );
-
-
-        $email = $ini->variable( 'MailSettings', 'AdminEmail' );
-
-        $mail = new eZMail();
-
-        if ( !$mail->validate( $receiver ) )
-        {
-        }
-
-        $mail->setReceiver( $email );
-        $mail->setSender( $emailSender );
-        $mail->setSubject( $subject );
-        $mail->setBody( $templateResult );
-        $mailResult = eZMailTransport::send( $mail );
+        // Fetch the confirm order handler
+        include_once( 'kernel/classes/ezconfirmorderhandler.php' );
+        $confirmOrderHandler =& eZConfirmOrderHandler::instance();
+        $params = array( 'email' => $email,
+                         'order' => $order );
+        $confirmOrderStatus = $confirmOrderHandler->execute( $params );
 
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }

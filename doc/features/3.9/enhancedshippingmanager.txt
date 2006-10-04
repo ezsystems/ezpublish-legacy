@@ -1,0 +1,58 @@
+*Title: Enhanced shippingmanager.
+
+*Incentive:
+Added support for VAT and having more than one shipping item.
+
+*Documentation:
+Added info about what should be returned by the function getShippingInfo.
+
+     The function are fetching the shipping info and need to be reimplemented in a new shippinghandler.
+     It's also possible to return additional parameters to use in the templates.
+
+     \return an array with shipping info.
+     An example for an array that should be returned.
+
+     \code
+     array( 'shipping_items' => array( array( 'description'     => 'Shipping vat: 12%',
+                                              'cost'            => 50.25,
+                                              'vat_value'       => 12,
+                                              'is_vat_inc'      => 0,
+                                              'management_link' => '/myshippingmodule/options/12' ),
+                                       array( 'description'     => 'Shipping vat: 25%',
+                                              'cost'            => 100.75,
+                                              'vat_value'       => 25,
+                                              'is_vat_inc'      => 1,
+                                              'management_link' => '/myshippingmodule/options/25' ) ),
+            'description'     => 'Total Shipping',
+            'cost'            => 10.25,
+            'vat_value'       => false,
+            'is_vat_inc'      => 1,
+            'management_link' => '/myshippingmodule/options' );
+     \endcode
+
+     An example for the shippingvalues with only one shippingitem.
+     \code
+     array( 'description'     => 'Total Shipping vat: 16%',
+            'cost'            => 10.25,
+            'vat_value'       => 16,
+            'is_vat_inc'      => 1,
+            'management_link' => '/myshippingmodule/options/1234' );
+     \endcode
+
+     The returned array for each shipping item should consist of these keys:
+     - order_id - The order id for the current order.
+     - description - An own description of the shipping item.
+     - cost - A float value of the cost for the shipping. The value should be a float value.
+     - vat_value - The vat value that should be added to the shipping item. The value should be an integer or
+                   false if the cost is combined by several VAT prices.
+     - is_vat_inc - Integer, either 0, 1. 0: The cost is excluded VAT.
+                                          1: the cost is included VAT.
+
+     - management_link - Example of an additional parameter that can be used
+       in a template. Ex: basket.tpl
+
+
+You are also able to receive more information from the shippingmanager by the function updatePriceInfo and vatPriceInfo,
+which will calculate VAT prices based on the original values.
+
+The new functionality in the shippingmanager should be backwardscompatible.

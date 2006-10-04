@@ -56,6 +56,7 @@ class eZBasket extends eZPersistentObject
     function eZBasket( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->Items = array();
     }
 
     /*!
@@ -89,7 +90,8 @@ class eZBasket extends eZPersistentObject
                                                       'total_ex_vat' => 'totalExVAT',
                                                       'total_inc_vat' => 'totalIncVAT',
                                                       'is_empty' => 'isEmpty',
-                                                      'productcollection' => 'productCollection' ),
+                                                      'productcollection' => 'productCollection',
+                                                      'items_info' => 'itemsInfo' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZBasket",
@@ -98,122 +100,192 @@ class eZBasket extends eZPersistentObject
 
     function &items( $asObject = true )
     {
-        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                             null,
-                                                             array( 'productcollection_id' => $this->ProductCollectionID ),
-                                                             array( 'contentobject_id' => 'desc' ),
-                                                             null,
-                                                             $asObject );
-        $addedProducts = array();
-        foreach ( $productItems as  $productItem )
+        $key = 1;
+        if ( $asObject == false )
         {
-            $discountPercent = 0.0;
-            $isVATIncluded = true;
-            $id = $productItem->attribute( 'id' );
-            $contentObject = $productItem->attribute( 'contentobject' );
+            $key = 0;
+        }
 
-            if ( $contentObject !== null )
+        if ( !isset( $this->Items[$key] ) )
+        {
+            $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                                 null,
+                                                                 array( 'productcollection_id' => $this->ProductCollectionID ),
+                                                                 array( 'contentobject_id' => 'desc' ),
+                                                                 null,
+                                                                 $asObject );
+            $addedProducts = array();
+            foreach ( $productItems as  $productItem )
             {
-                $vatValue = $productItem->attribute( 'vat_value' );
+                $discountPercent = 0.0;
+                $isVATIncluded = true;
+                $id = $productItem->attribute( 'id' );
+                $contentObject = $productItem->attribute( 'contentobject' );
 
-                // If VAT is unknown yet then we use zero VAT percentage for price calculation.
-                $realVatValue = $vatValue;
-                if ( $vatValue == -1 )
-                    $vatValue = 0;
-
-                $count = $productItem->attribute( 'item_count' );
-                $discountPercent = $productItem->attribute( 'discount' );
-                $nodeID = $contentObject->attribute( 'main_node_id' );
-                $objectName = $contentObject->attribute( 'name' );
-
-                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
-                $price = $productItem->attribute( 'price' );
-
-                if ( $isVATIncluded )
+                if ( $contentObject !== null )
                 {
-                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
-                    $priceIncVAT = $price;
-                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
-                else
-                {
-                    $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
+                    $vatValue = $productItem->attribute( 'vat_value' );
 
-/*
-                $attributes = $contentObject->contentObjectAttributes();
-                foreach ( $attributes as $attribute )
-                {
-                    $dataType = $attribute->dataType();
-                    if ( $dataType->isA() == "ezprice" )
+                    // If VAT is unknown yet then we use zero VAT percentage for price calculation.
+                    $realVatValue = $vatValue;
+                    if ( $vatValue == -1 )
+                        $vatValue = 0;
+
+                    $count = $productItem->attribute( 'item_count' );
+                    $discountPercent = $productItem->attribute( 'discount' );
+                    $nodeID = $contentObject->attribute( 'main_node_id' );
+                    $objectName = $contentObject->attribute( 'name' );
+
+                    $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
+                    $price = $productItem->attribute( 'price' );
+
+                    if ( $isVATIncluded )
                     {
-                        $priceObj =& $attribute->content();
-                        $discountPercent = $priceObj->discount();
-                        $vatValue = $priceObj->attribute( 'vat_percent' );
-                        $isVATIncluded = $priceObj->attribute( 'is_vat_included' );
-                        eZDebug::writeDebug( $vatValue, 'VAT Value' . $contentObject->attribute( 'name' ) );
-
-                        $classAttribute =& $attribute->attribute( 'contentclass_attribute' );
-                        $VATID =  $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
-                        $VATIncludeValue = $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD );
-                        if ( $VATIncludeValue==0 or $VATIncludeValue==1 )
-                            $isVATIncluded = true;
-                        else
-                            $isVATIncluded = false;
-                        $vatType = eZVatType::fetch( $VATID );
-                        if ( get_class( $vatType ) == 'ezvattype' )
-                        {
-                            $vatValue = $vatType->attribute( 'percentage' );
-                        }
-                        else
-                        {
-                            $vatValue = 0.0;
-                        }
-
-                        break;
-
+                        $priceExVAT = $price / ( 100 + $vatValue ) * 100;
+                        $priceIncVAT = $price;
+                        $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                        $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                     }
-                }
-                $nodeID = $contentObject->attribute( 'main_node_id' );
-                $objectName = $contentObject->attribute( 'name' );
-                $count = $productItem->attribute( 'item_count' );
-                $price = $productItem->attribute( 'price' );
+                    else
+                    {
+                        $priceExVAT = $price;
+                        $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
+                        $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                        $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                    }
 
-                if ( $isVATIncluded )
-                {
-                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
-                    $priceIncVAT = $price;
-                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                    $addedProduct = array( "id" => $id,
+                                           "vat_value" => $realVatValue,
+                                           "item_count" => $count,
+                                           "node_id" => $nodeID,
+                                           "object_name" => $objectName,
+                                           "price_ex_vat" => $priceExVAT,
+                                           "price_inc_vat" => $priceIncVAT,
+                                           "discount_percent" => $discountPercent,
+                                           "total_price_ex_vat" => $totalPriceExVAT,
+                                           "total_price_inc_vat" => $totalPriceIncVAT,
+                                           'item_object' => $productItem );
+                    $addedProducts[] = $addedProduct;
                 }
-                else
-                {
-                    $priceExVAT = $price;
-                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                }
-
-*/
-                $addedProduct = array( "id" => $id,
-                                       "vat_value" => $realVatValue,
-                                       "item_count" => $count,
-                                       "node_id" => $nodeID,
-                                       "object_name" => $objectName,
-                                       "price_ex_vat" => $priceExVAT,
-                                       "price_inc_vat" => $priceIncVAT,
-                                       "discount_percent" => $discountPercent,
-                                       "total_price_ex_vat" => $totalPriceExVAT,
-                                       "total_price_inc_vat" => $totalPriceIncVAT,
-                                       'item_object' =>$productItem );
-                $addedProducts[] = $addedProduct;
             }
+            $this->Items[$key] = $addedProducts;
+        }
+        else
+        {
+            $addedProducts = $this->Items[$key];
         }
         return $addedProducts;
+    }
+
+    function refreshItems( $asObject = null )
+    {
+        if ( $asObject == null )
+        {
+            $this->Items = array();
+        }
+        else if ( $asObject == true )
+        {
+            unset( $this->Items[1] );
+        }
+        else
+        {
+            unset( $this->Items[0] );
+        }
+    }
+
+    function &itemsInfo()
+    {
+        $basketInfo = array();
+        // Build a price summary for the items based on VAT.
+        $items =& $this->items();
+        foreach ( $items as $item )
+        {
+            $vatValue = $item['vat_value'];
+            $itemCount = abs( $item['item_count'] );
+            $priceExVAT = $item['price_ex_vat'];
+            $priceIncVAT = $item['price_inc_vat'];
+            $totalPriceExVAT = $item['total_price_ex_vat'];
+            $totalPriceIncVAT = $item['total_price_inc_vat'];
+
+            if ( !isset( $basketInfo['price_info'][$vatValue]['price_ex_vat'] ) )
+            {
+                $basketInfo['price_info'][$vatValue]['price_ex_vat'] = ( $priceExVAT * $itemCount );
+                $basketInfo['price_info'][$vatValue]['price_inc_vat'] = ( $priceIncVAT * $itemCount );
+                $basketInfo['price_info'][$vatValue]['price_vat'] = ( $priceIncVAT - $priceExVAT ) * $itemCount;
+
+                $basketInfo['price_info'][$vatValue]['total_price_ex_vat'] = $totalPriceExVAT;
+                $basketInfo['price_info'][$vatValue]['total_price_inc_vat'] = $totalPriceIncVAT;
+                $basketInfo['price_info'][$vatValue]['total_price_vat'] = $totalPriceIncVAT - $totalPriceExVAT;
+            }
+            else
+            {
+                $basketInfo['price_info'][$vatValue]['price_ex_vat'] += ( $priceExVAT * $itemCount );
+                $basketInfo['price_info'][$vatValue]['price_inc_vat'] += ( $priceIncVAT * $itemCount );
+                $basketInfo['price_info'][$vatValue]['price_vat'] += ( $priceIncVAT - $priceExVAT ) * $itemCount;
+
+                $basketInfo['price_info'][$vatValue]['total_price_ex_vat'] += $totalPriceExVAT;
+                $basketInfo['price_info'][$vatValue]['total_price_inc_vat'] += $totalPriceIncVAT;
+                $basketInfo['price_info'][$vatValue]['total_price_vat'] += ( $totalPriceIncVAT - $totalPriceExVAT );
+            }
+
+            if ( !isset( $basketInfo['total_price_info']['total_price_ex_vat'] ) )
+            {
+                $basketInfo['total_price_info']['price_ex_vat'] = ( $priceExVAT * $itemCount );
+                $basketInfo['total_price_info']['price_inc_vat'] = ( $priceIncVAT * $itemCount );
+                $basketInfo['total_price_info']['price_vat'] = ( ( $priceIncVAT - $priceExVAT ) * $itemCount );
+
+                $basketInfo['total_price_info']['total_price_ex_vat'] = $totalPriceExVAT;
+                $basketInfo['total_price_info']['total_price_inc_vat'] = $totalPriceIncVAT;
+                $basketInfo['total_price_info']['total_price_vat'] = ( $totalPriceIncVAT - $totalPriceExVAT );
+            }
+            else
+            {
+                $basketInfo['total_price_info']['price_ex_vat'] += ( $priceExVAT * $itemCount );
+                $basketInfo['total_price_info']['price_inc_vat'] += ( $priceIncVAT * $itemCount );
+                $basketInfo['total_price_info']['price_vat'] += ( ( $priceIncVAT - $priceExVAT ) * $itemCount );
+
+                $basketInfo['total_price_info']['total_price_ex_vat'] += $totalPriceExVAT;
+                $basketInfo['total_price_info']['total_price_inc_vat'] += $totalPriceIncVAT;
+                $basketInfo['total_price_info']['total_price_vat'] += ( $totalPriceIncVAT - $totalPriceExVAT );
+            }
+        }
+
+        // Add shipping cost to the total items price and add / update additional price information.
+        $productCollectionID = $this->attribute( 'productcollection_id' );
+
+        $ini =& eZINI::instance( 'shop.ini' );
+
+        $requiredFiles = $ini->variable( 'BasketSettings', 'ItemsInfoRequiredFiles' );
+        foreach ( $requiredFiles as $requiredFile )
+        {
+            require_once( $requiredFile );
+        }
+
+        $additionalFunctionArray = $ini->variable( 'BasketSettings', 'ItemsInfoAdditionalFunctions' );
+        $additionalFunctions = array();
+        foreach ( $additionalFunctionArray as $additionalFunction )
+        {
+            $functionArray = explode( "::", $additionalFunction );
+            if ( count( $functionArray ) == 2 )
+            {
+                $className = $functionArray[0];
+                $functionName = $functionArray[1];
+                $additionalFunctions[] = array( $className, $functionName );
+            }
+            else
+            {
+                $functionName = $functionArray[0];
+                $additionalFunctions[] = $functionName;
+            }
+        }
+
+        foreach ( $additionalFunctions as $additionalFunctionInfo )
+        {
+            call_user_func_array( $additionalFunctionInfo, array( $productCollectionID, &$basketInfo ) );
+        }
+
+        ksort( $basketInfo['price_info'] );
+        return $basketInfo;
     }
 
     /*!
@@ -272,12 +344,7 @@ class eZBasket extends eZPersistentObject
 
     function &isEmpty()
     {
-        $items = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null,
-                                                       array( "productcollection_id" => $this->ProductCollectionID ),
-                                                       null,
-                                                       null,
-                                                       false );
+        $items = $this->items();
         if ( count( $items ) > 0 )
         {
             $result = false;
@@ -340,7 +407,7 @@ class eZBasket extends eZPersistentObject
             $collection->store();
 
             $currentBasket = new eZBasket( array( "session_id" => $sessionID,
-                                              "productcollection_id" => $collection->attribute( "id" ) ) );
+                                                  "productcollection_id" => $collection->attribute( "id" ) ) );
             $currentBasket->store();
             $db->commit();
         }
@@ -384,6 +451,7 @@ class eZBasket extends eZPersistentObject
         $this->setAttribute( 'order_id', $orderID );
         $this->store();
         $db->commit();
+        $this->refreshItems();
 
         return $order;
     }
@@ -448,6 +516,8 @@ class eZBasket extends eZPersistentObject
             $productCollection->setAttribute( 'currency_code', $currencyCode );
             $productCollection->store();
             $db->commit();
+
+            $this->refreshItems();
         }
     }
 
@@ -630,8 +700,11 @@ WHERE ezbasket.session_id = ezsession.session_key AND
             $basket->remove();
             $db->commit();
         }
+
         return true;
     }
+
+    var $Items;
 }
 
 ?>

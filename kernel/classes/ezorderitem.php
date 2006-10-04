@@ -76,6 +76,10 @@ class eZOrderItem extends eZPersistentObject
                                                                'datatype' => 'integer',
                                                                'default' => 0,
                                                                'required' => true ),
+                                         'is_vat_inc' => array( 'name' => 'IsVATIncluded',
+                                                                'datatype' => 'integer',
+                                                                'default' => 0,
+                                                                'required' => true ),
                                          'type' => array( 'name' => 'Type',
                                                           'datatype' => 'string',
                                                           'required' => false ) ),
@@ -90,12 +94,13 @@ class eZOrderItem extends eZPersistentObject
 
     function fetchList( $orderID, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+        $returnValue = eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,
                                                     array( "order_id" => $orderID ),
                                                     null,
                                                     null,
                                                     $asObject );
+        return $returnValue;
     }
 
     function fetchListByType( $orderID, $itemType, $asObject = true )
@@ -106,22 +111,17 @@ class eZOrderItem extends eZPersistentObject
                                                     null,
                                                     null,
                                                     $asObject );
+
     }
 
     function &vatValue()
     {
-        if ( $this->VATValue === false )
-        {
-            $vatType = eZVATType::fetch( $this->VATTypeID );
-            $this->VATValue =& $vatType->attribute( 'percentage' );
-        }
-
         return $this->VATValue;
     }
 
     function &priceIncVAT()
     {
-        if ( $this->IsVATIncluded )
+        if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
             return $this->Price;
         }
@@ -135,7 +135,7 @@ class eZOrderItem extends eZPersistentObject
 
     function &priceExVAT()
     {
-        if ( $this->IsVATIncluded )
+        if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
             $exVATPrice = $this->Price / ( $this->vatValue() + 100 ) * 100;
             return $exVATPrice;
@@ -156,10 +156,6 @@ class eZOrderItem extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezorder_item" );
     }
-
-    /// Cached value of the vat percentage
-    var $VATValue = false;
-    var $IsVATIncluded = false;
 }
 
 ?>

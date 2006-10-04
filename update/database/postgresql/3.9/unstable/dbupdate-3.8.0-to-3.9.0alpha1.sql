@@ -90,3 +90,9 @@ ALTER TABLE eztipafriend_counter ALTER requested SET DEFAULT 0;
 ALTER TABLE eztipafriend_counter DROP CONSTRAINT eztipafriend_counter_pkey;
 ALTER TABLE ONLY eztipafriend_counter ADD CONSTRAINT eztipafriend_counter_pkey PRIMARY KEY( node_id, requested );
 -- END: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
+
+-- START: improvements in shop(better vat handling of order items, like shipping)
+ALTER TABLE ezorder_item ADD COLUMN is_vat_inc integer;
+ALTER TABLE ezorder_item ALTER is_vat_inc SET NOT NULL;
+ALTER TABLE ezorder_item ALTER is_vat_inc SET default 0;
+-- END: improvements in shop(better vat handling of order items, like shipping)

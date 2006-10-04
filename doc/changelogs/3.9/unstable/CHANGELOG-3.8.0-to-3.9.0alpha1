@@ -20,6 +20,10 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Added toString() and fromString() functions to the contentobject_attribute and datatype interfases.
 - Implemented enhancement #8309: Make ISBN datatype user-friendly.
 - Added 'AdditionalObjectIDs' option to the SmartViewCache.
+- Added a confirmorderhandler to be able to make you own handlers to send a confirmation email.
+- Caching for items in ezbasket.php.
+- Added isVATIncluded to orderitem.
+
 
 Clustering:
 - Changed the way clustering settings are stored.
@@ -86,6 +90,8 @@ Clustering:
 - Fixed suggestion #8262: No need displaying language 
   when only one is installed.
 - Added ability to hide admin toolbars on right side in admin if empty
+- Added new template variables to be able to list more information about VAT / prices.
+- Updated the design in basket and confirmorder to list a summary.
 
 *Library:
 

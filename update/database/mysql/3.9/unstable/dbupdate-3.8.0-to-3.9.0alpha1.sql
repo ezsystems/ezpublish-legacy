@@ -70,4 +70,6 @@ ALTER TABLE eztipafriend_counter DROP PRIMARY KEY;
 ALTER TABLE eztipafriend_counter ADD PRIMARY KEY (node_id, requested);
 -- END: eztipafriend_counter, new column and primary key (new fetch function for tipafriend_top_list)
 
-
+-- START: improvements in shop(better vat handling of order items, like shipping)
+ALTER TABLE ezorder_item ADD COLUMN is_vat_inc int default '0' NOT NULL;
+-- END: improvements in shop(better vat handling of order items, like shipping)

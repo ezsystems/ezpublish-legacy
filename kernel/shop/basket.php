@@ -258,7 +258,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
     else
     {
         // Creates an order and redirects
-        $basket =& eZBasket::currentBasket();
         $productCollectionID = $basket->attribute( 'productcollection_id' );
 
         $verifyResult =& eZProductCollection::verify( $productCollectionID  );
@@ -281,7 +280,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         }
         else
         {
-            $basket =& eZBasket::currentBasket();
             $itemList =& $verifyResult;
             $removedItems = array();
             foreach ( $itemList as $item )
@@ -293,7 +291,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         $db->commit();
     }
 }
-$basket =& eZBasket::currentBasket();
 
 $tpl =& templateInit();
 if ( isset( $Params['Error'] ) )
@@ -310,6 +307,14 @@ require_once( 'kernel/classes/ezshippingmanager.php' );
 $shippingInfo = eZShippingManager::getShippingInfo( $basket->attribute( 'productcollection_id' ) );
 if ( $shippingInfo !== null )
 {
+    // to make backwards compability with old version, allways set the cost inclusive vat.
+    if ( $shippingInfo['is_vat_inc'] == 0 )
+    {
+        $additionalShippingValues = eZShippingManager::vatPriceInfo( $shippingInfo );
+        $shippingInfo['cost'] = $additionalShippingValues['total_shipping_inc_vat'];
+        $shippingInfo['is_vat_inc'] = 1;
+    }
+
     $totalIncShippingExVat  = $basket->attribute( 'total_ex_vat'  ) + $shippingInfo['cost'];
     $totalIncShippingIncVat = $basket->attribute( 'total_inc_vat' ) + $shippingInfo['cost'];
 

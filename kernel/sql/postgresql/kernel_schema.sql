@@ -1881,6 +1881,7 @@ CREATE TABLE ezorder (
 CREATE TABLE ezorder_item (
     description character varying(255),
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
+    is_vat_inc integer DEFAULT 0 NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
     price double precision,
     "type" character varying(30),

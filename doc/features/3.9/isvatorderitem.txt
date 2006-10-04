@@ -1,0 +1,11 @@
+*Title: IsVATIncluded in a orderitem.
+
+*incentive:
+To support prices which can be exclusive or inclusive VAT.
+
+*Original author: Bjørn Reiten
+
+*Documentation:
+The new database field can be either 0 or 1. 
+  0 - The price is exclusive VAT.
+  1 - The price is inclusive VAT.

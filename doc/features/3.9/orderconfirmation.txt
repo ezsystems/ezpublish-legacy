@@ -1,0 +1,50 @@
+*Title: Order confirmation handler.
+
+*Incentive:
+Be able to control the handling of confirmation email that are sent to
+the administrator and customer when any product is confirmed in the shop.
+
+*Documentation:
+
+Modifications are done in ezshopoperationcollection.php where you have
+the function sendOrderEmails()
+
+Instead of sending the email directly in this function, it's made a eZConfirmOrderHandler 
+which can be customised in a extension.
+
+The handler need to implement a execute function which should receive a parameter.
+
+The parameter should be an array and will contain:
+
+array( 'email' => 'thecustomeremail@ez.no',
+       'order' => $order );
+
+- thecustomeremail@ez.no: A valid email address that is entered by the customer.
+- $order: The current eZOrder object.
+
+The confirmorder handler should be placed in:
+kernel/classes/confirmorderhandlers/ and should have the prefix confirmorderhandler.php
+
+The default handler is:
+kernel/classes/confirmorderhandlers/ezdefaultconfirmorderhandler.php
+
+example of a custom handler:
+extension/myextension/confirmorderhandlers/mycustomconfirmorderhandler.php
+
+You do also need to add a setting in shopaccount.ini:
+
+[HandlerSettings]
+# A list of directories to search for shopaccount handlers
+Repositories[]=kernel/classes
+# A list of extensions which have shop account handlers
+# It's common to create a settings/shopaccount.ini.append file
+# in your extension and add the extension name to automatically
+# get handlers from the extension when it's turned on.
+ExtensionRepositories[]
+
+# Settings for how order emails should be handled in the shop/checkout
+# default is to send confirmation emails to both customer and admin.
+[ConfirmOrderSettings]
+Handler=ezdefault
+# Allows for overriding a handler with another
+Alias[]

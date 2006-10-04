@@ -3946,6 +3946,13 @@ $schema = array (
         'type' => 'auto_increment',
         'default' => false,
       ),
+      'is_vat_inc' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'order_id' => 
       array (
         'length' => 11,
