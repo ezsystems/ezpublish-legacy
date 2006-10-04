@@ -550,7 +550,7 @@ class eZEnumType extends eZDataType
 
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
         $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
-        $elementList =& $elementListNode->children();
+        $elementList = $elementListNode->children();
         foreach ( array_keys( $elementList ) as $elementKey )
         {
             $element =& $elementList[$elementKey];
