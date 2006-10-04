@@ -223,6 +223,7 @@ if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable(
 // the language to use.
 if ( !$EditLanguage )
 {
+    eZDebug::writeDebug( '!$EditLanguage', 'lazy: !$EditLanguage' );
     // Check number of languages
     include_once( 'kernel/classes/ezcontentlanguage.php' );
     $languages = eZContentLanguage::fetchList();
@@ -236,13 +237,11 @@ if ( !$EditLanguage )
         $canCreateLanguages = $class->attribute( 'can_create_languages' );
         if ( count( $canCreateLanguages ) == 0)
         {
-            $EditLanguage = $class->attribute( 'top_priority_language' );;
+            $EditLanguage = $class->attribute( 'top_priority_language' );
         }
         else
         {
             include_once( 'kernel/common/template.php' );
-
-            $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
 
             $tpl =& templateInit();
 
