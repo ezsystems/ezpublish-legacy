@@ -41,3 +41,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug: almost all i18n calls were not compiled but ran the interpreted
   mode.
   (Merged from trunk (3.9.0alpha1) rev. 17070)
+- Fixed bug: reference problems in ezenum and ezmatrix datatype.
+  (Merged from stable/3.8 (3.8.5) rev. 17077 )
