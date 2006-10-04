@@ -87,39 +87,93 @@ class eZShopFunctionCollection
         return $result;
     }
 
-    function fetchBestSellList( $topParentNodeID, $limit )
+    function fetchBestSellList( $topParentNodeID, $limit, $offset, $start_time, $end_time, $duration, $ascending, $extended )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetch( $topParentNodeID );
-        if ( !isset( $node ) ) return array( 'result' => null );
-        $nodePath = $node->attribute( 'path_string' );
+        if ( !isset( $node ) )
+            return array( 'result' => null );
 
-        $query="SELECT sum(ezproductcollection_item.item_count) as count, ezproductcollection_item.contentobject_id
+        $nodePath = $node->attribute( 'path_string' );
+        $currentTime = time();
+        $sqlCreatedCondition = '';
+
+        if ( is_numeric( $start_time ) and is_numeric( $end_time ) )
+        {
+            $sqlCreatedCondition = "AND ezorder.created BETWEEN '$start_time' AND '$end_time'";
+        }
+        else if ( is_numeric( $start_time ) and is_numeric( $duration ) )
+        {
+            $end_time = $start_time + $duration;
+            $sqlCreatedCondition = "AND ezorder.created BETWEEN '$start_time' AND '$end_time'";
+        }
+        else if ( is_numeric( $end_time ) and is_numeric( $duration ) )
+        {
+            $start_time = $end_time - $duration;
+            $sqlCreatedCondition = "AND ezorder.created BETWEEN '$start_time' AND '$end_time'";
+        }
+        else if ( is_numeric( $start_time ) )
+        {
+            $sqlCreatedCondition = "AND ezorder.created > '$start_time'";
+        }
+        else if ( is_numeric( $end_time ) )
+        {
+            $sqlCreatedCondition = "AND ezorder.created < '$end_time'";
+        }
+        else if ( is_numeric( $duration ) )
+        {
+            // substract passed duration from current time timestamp to get start_time stamp
+            // end_timestamp is equal to current time in this case
+            $start_time = $currentTime - $duration;
+            $sqlCreatedCondition = "AND ezorder.created > '$start_time'";
+        }
+
+        $sqlOrderString = ( $ascending ? 'ORDER BY count asc' : 'ORDER BY count desc' );
+        $query="SELECT sum(ezproductcollection_item.item_count) as count,
+                       ezproductcollection_item.contentobject_id
                   FROM ezcontentobject_tree,
                        ezproductcollection_item,
                        ezorder
                  WHERE ezcontentobject_tree.contentobject_id=ezproductcollection_item.contentobject_id AND
                        ezorder.productcollection_id=ezproductcollection_item.productcollection_id AND
                        ezcontentobject_tree.path_string like '$nodePath%'
+                       $sqlCreatedCondition
                  GROUP BY ezproductcollection_item.contentobject_id
-                 ORDER BY count desc";
+                 $sqlOrderString";
+
 
         $db =& eZDB::instance();
-        $topList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
+        $topList = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
 
-        $contentObjectList = array();
-        foreach ( array_keys ( $topList ) as $key )
+        include_once( 'kernel/classes/ezcontentobject.php' );
+
+        if ( $extended )
         {
-            $objectID = $topList[$key]['contentobject_id'];
-            $contentObject =& eZContentObject::fetch( $objectID );
-            if ( $contentObject === null )
-                return array( 'error' => array( 'error_type' => 'kernel',
-                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            $contentObjectList[] = $contentObject;
+            foreach ( array_keys ( $topList ) as $key )
+            {
+                $contentObject =& eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
+                if ( $contentObject === null )
+                    return array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                $topList[$key]['object'] = $contentObject;
+            }
+            return array( 'result' => $topList );
         }
-        return array( 'result' => $contentObjectList );
+        else
+        {
+            $contentObjectList = array();
+            foreach ( array_keys ( $topList ) as $key )
+            {
+                $objectID = $topList[$key]['contentobject_id'];
+                $contentObject =& eZContentObject::fetch( $objectID );
+                if ( $contentObject === null )
+                    return array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                $contentObjectList[] = $contentObject;
+            }
+            return array( 'result' => $contentObjectList );
+        }
     }
 
     function fetchRelatedPurchaseList( $contentObjectID, $limit )
