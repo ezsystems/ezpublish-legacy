@@ -1,0 +1,14 @@
+*Title: New 'remove to trash' confirmation settings
+
+*Documentation:
+There were added three new ini-settings in 'RemoveSettings' section of
+'content.ini' file for better control of behavior of 'remove to trash'
+confirmation dialog.
+
+Name:                       Description:
+------------------------------------------------------------------------------
+ DefaultRemoveAction         Can be either 'delete' or 'trash' (defaul 'trash')
+ ShowRemoveToTrashCheck      Can be either 'true' or 'false' (default 'true')
+ HideRemoveConfirmation      Can be either 'true' or 'false' (default 'false')
+
+

@@ -72,37 +72,41 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
-$moveToTrash = true;
-if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
-{
-    if ( $http->hasPostVariable( 'MoveToTrash' ) )
-        $moveToTrash = true;
-    else
-        $moveToTrash = false;
-}
+$contentINI =& eZINI::instance( 'content.ini' );
 
-if ( $http->hasPostVariable( "ConfirmButton" ) )
+$RemoveAction = $contentINI->hasVariable( 'RemoveSettings', 'DefaultRemoveAction' ) ?
+                   $contentINI->variable( 'RemoveSettings', 'DefaultRemoveAction' ) : 'trash';
+if ( $RemoveAction != 'trash' and $RemoveAction != 'delete' )
+    $RemoveAction = 'trash';
+
+$moveToTrash = ( $RemoveAction == 'trash' ) ? true : false;
+if ( $http->hasPostVariable( 'MoveToTrash' ) )
+    $moveToTrash = $http->postVariable( 'MoveToTrash' ) ? true : false;
+
+$hideRemoveConfirm = $contentINI->hasVariable( 'RemoveSettings', 'HideRemoveConfirmation' ) ?
+                     (( $contentINI->variable( 'RemoveSettings', 'HideRemoveConfirmation' ) == 'true' ) ? true : false ) : false;
+if ( $http->hasPostVariable( 'HideRemoveConfirmation' ) )
+    $hideRemoveConfirm = $http->postVariable( 'HideRemoveConfirmation' ) ? true : false;
+
+if ( $http->hasPostVariable( "ConfirmButton" ) or
+     $hideRemoveConfirm )
 {
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
-$moveToTrashAllowed = true;
-$deleteResult = array();
-$childCount = 0;
-$info = eZContentObjectTreeNode::subtreeRemovalInformation( $deleteIDArray );
-$deleteResult = $info['delete_list'];
-if ( !$info['move_to_trash'] )
-{
-    $moveToTrashAllowed = false;
-}
-$totalChildCount = $info['total_child_count'];
-$canRemoveAll = $info['can_remove_all'];
-$exceededLimit = false;
+$showCheck = $contentINI->hasVariable( 'RemoveSettings', 'ShowRemoveToTrashCheck' ) ?
+             (( $contentINI->variable( 'RemoveSettings', 'ShowRemoveToTrashCheck' ) == 'false' ) ? false : true ) : true;
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$info               = eZContentObjectTreeNode::subtreeRemovalInformation( $deleteIDArray );
+$deleteResult       = $info['delete_list'];
+$moveToTrashAllowed = $info['move_to_trash'];
+$totalChildCount    = $info['total_child_count'];
+$exceededLimit      = false;
+
 // Check if number of nodes being removed not more then MaxNodesRemoveSubtree setting.
-$maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ? $contentINI->variable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) : 100;
+$maxNodesRemoveSubtree = $contentINI->hasVariable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) ?
+                            $contentINI->variable( 'RemoveSettings', 'MaxNodesRemoveSubtree' ) : 100;
 
 $deleteItemsExist = true; // If false, we should disable 'OK' button if count of each deletion items more then MaxNodesRemoveSubtree setting.
 
@@ -153,17 +157,18 @@ if ( $totalChildCount == 0 )
 
 $tpl =& templateInit();
 
-$tpl->setVariable( 'reverse_related', $info['reverse_related_count'] );
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed ); // Backwards compatability
-$tpl->setVariable( "ChildObjectsCount", $totalChildCount ); // Backwards compatability
-$tpl->setVariable( "DeleteResult",  $deleteResult ); // Backwards compatability
-$tpl->setVariable( 'move_to_trash_allowed', $moveToTrashAllowed );
-$tpl->setVariable( "remove_list",  $deleteResult );
-$tpl->setVariable( 'total_child_count', $totalChildCount );
-$tpl->setVariable( 'remove_info', $info );
-$tpl->setVariable( 'exceeded_limit', $exceededLimit );
-$tpl->setVariable( 'delete_items_exist', $deleteItemsExist );
+$tpl->setVariable( 'reverse_related'        , $info['reverse_related_count'] );
+$tpl->setVariable( 'module'                 , $Module );
+$tpl->setVariable( 'moveToTrashAllowed'     , $moveToTrashAllowed ); // Backwards compatability
+$tpl->setVariable( 'ChildObjectsCount'      , $totalChildCount ); // Backwards compatability
+$tpl->setVariable( 'DeleteResult'           , $deleteResult ); // Backwards compatability
+$tpl->setVariable( 'move_to_trash_allowed'  , ( $moveToTrashAllowed and $showCheck ) );
+$tpl->setVariable( 'remove_list'            , $deleteResult );
+$tpl->setVariable( 'total_child_count'      , $totalChildCount );
+$tpl->setVariable( 'remove_info'            , $info );
+$tpl->setVariable( 'exceeded_limit'         , $exceededLimit );
+$tpl->setVariable( 'delete_items_exist'     , $deleteItemsExist );
+$tpl->setVariable( 'move_to_trash'          , $moveToTrash );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
