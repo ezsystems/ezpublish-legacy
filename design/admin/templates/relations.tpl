@@ -16,6 +16,11 @@
 
 {* Related objects list. *}
 
+{def $relation_type_names = hash( 'common',   'common'|i18n( 'design/admin/content/edit' ),
+                                  'xml_embed', 'embedded'|i18n( 'design/admin/content/edit' ),
+                                  'xml_link',  'linked'|i18n( 'design/admin/content/edit' ),
+                                  'attribute', 'attribute'|i18n( 'design/admin/content/edit' ) )}
+
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Related objects [%related_objects_count]'|i18n( 'design/admin/node/view/full',, hash( '%related_objects_count', $related_objects_count ) )}</th>
@@ -42,9 +47,9 @@
                 {foreach $related_objects_id_typed as $relationType => $relationIDArray}
                     {if $relationIDArray|contains($object.id)}
                         {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relationType||i18n( 'design/admin/node/view/full' )}( {$attr.name} )
+                            {$relation_type_names.$relationType}( {$attr.name} )
                         {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
-                            {$relationType||i18n( 'design/admin/node/view/full' )}
+                            {$relation_type_names.$relationType}
                         {/if}
                     {/if}
                 {/foreach}
@@ -90,9 +95,9 @@
                 {foreach $reverse_related_objects_id_typed as $relationType => $relationIDArray}
                     {if $relationIDArray|contains($object.id)}
                         {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relationType||i18n( 'design/admin/node/view/full' )}( {$attr.name} )
+                            {$relation_type_names.$relationType}( {$attr.name} )
                         {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
-                            {$relationType||i18n( 'design/admin/node/view/full' )}
+                            {$relation_type_names.$relationType}
                         {/if}
                     {/if}
                 {/foreach}

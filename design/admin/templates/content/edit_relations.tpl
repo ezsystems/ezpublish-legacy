@@ -12,6 +12,11 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{def $relation_type_names = hash( 'common',   'common'|i18n( 'design/admin/content/edit' ),
+                                  'xml_embed', 'embedded'|i18n( 'design/admin/content/edit' ),
+                                  'xml_link',  'linked'|i18n( 'design/admin/content/edit' ),
+                                  'attribute', 'attribute'|i18n( 'design/admin/content/edit' ) )}
+
 {section show=$related_contentobjects|count|gt( 0 )}
 
     {* Related images *}
@@ -38,7 +43,7 @@
            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedImageObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /><br />
             ({foreach $related_contentobjects_id as $relationType => $relationIDArray}
                 {if $relationIDArray|contains( $RelatedImageObjects.item.id )}
-                    {$relationType}
+                    {$relation_type_names[$relationType]}
                 {/if}
             {/foreach})
         </div>
@@ -84,7 +89,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedFileObjects.item.id)}
-                                    {$relationType}
+                                    {$relation_type_names[$relationType]}
                                 {/if}
                             {/foreach}
                         </td>
@@ -98,7 +103,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedFileObjects.item.id)}
-                                    {$relationType}
+                                    {$relation_type_names[$relationType]}
                                 {/if}
                             {/foreach}
                         </td>
@@ -140,7 +145,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relationType|i18n( 'design/admin/content/edit' )}
+                                    {$relation_type_names[$relationType]}
                                 {/if}
                             {/foreach}
                         </td>
@@ -154,7 +159,7 @@
                         <td class="code">
                             {foreach $related_contentobjects_id as $relationType => $relationIDArray}
                                 {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relationType|i18n( 'design/admin/content/edit' )}
+                                    {$relation_type_names[$relationType]}
                                 {/if}
                             {/foreach}
                         </td>

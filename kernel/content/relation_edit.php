@@ -258,9 +258,9 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 
     $relatedObjectsTyped = array();
-    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
-    $relatedObjectsTyped['embed'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
-    $relatedObjectsTyped['link'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+    $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+    $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
     $relatedObjectsTypedIDArray = array();
     foreach ( $relatedObjectsTyped as $relationTypeName => $relatedObjectsByType )
     {

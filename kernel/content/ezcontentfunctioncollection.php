@@ -1138,20 +1138,15 @@ class eZContentFunctionCollection
     // Fetches related objects id grouped by relation types
     function fetchRelatedObjectsID( $objectID, $attributeID, $allRelations)
     {
-        $relationMap = array( 'common'    => 'common',
-                              'xml_embed' => 'embed',
-                              'xml_link'  => 'link',
-                              'attribute' => 'attribute' );
         if ( !is_array( $allRelations ) || $allRelations === array() )
         {
-            $allRelations = array_keys( $relationMap );
+            $allRelations = array( 'common', 'xml_embed', 'xml_link', 'attribute' );
         }
 
         $relatedObjectsTyped = array();
         foreach ( $allRelations as $relationType )
         {
-            $relationTypeName = $relationMap[$relationType];
-            $relatedObjectsTyped[$relationTypeName] =&
+            $relatedObjectsTyped[$relationType] =&
                 eZContentFunctionCollection::fetchRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array() );
         }
 
@@ -1171,20 +1166,15 @@ class eZContentFunctionCollection
     // Fetches reverse related objects id grouped by relation types
     function fetchReverseRelatedObjectsID( $objectID, $attributeID, $allRelations )
     {
-        $reverseRelationMap = array( 'common'    => 'common',
-                                     'xml_embed' => 'embed',
-                                     'xml_link'  => 'link',
-                                     'attribute' => 'attribute' );
         if ( !is_array( $allRelations ) || $allRelations === array() )
         {
-            $allRelations = array_keys( $reverseRelationMap );
+            $allRelations = array( 'common', 'xml_embed', 'xml_link', 'attribute' );
         }
 
         $relatedObjectsTyped = array();
         foreach ( $allRelations as $relationType )
         {
-            $relationTypeName = $reverseRelationMap[$relationType];
-            $relatedObjectsTyped[$relationTypeName] =&
+            $relatedObjectsTyped[$relationType] =&
                 eZContentFunctionCollection::fetchReverseRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array(), null );
         }
 
