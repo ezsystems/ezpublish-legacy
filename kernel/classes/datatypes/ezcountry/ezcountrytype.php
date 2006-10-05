@@ -111,7 +111,7 @@ class eZCountryType extends eZDataType
         if ( !$country )
             return false;
 
-        $result = array( $code => $name );
+        $result = array( $code => $country );
 
         return $result;
     }
