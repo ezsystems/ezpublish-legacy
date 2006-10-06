@@ -55,9 +55,7 @@
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
 {/section}
 
-{section show=$allow_versions_button}
 <input class="button" type="submit" name="VersionsButton" value="{'Versions'|i18n('design/standard/content/view')}" />
-{/section}
 </div>
 
 
