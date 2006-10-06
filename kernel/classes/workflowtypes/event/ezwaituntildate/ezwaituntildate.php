@@ -143,7 +143,7 @@ class eZWaitUntilDate
         for ( $i = 0; $i < count( $this->Entries ); $i++ )
         {
             $entry =& $this->Entries[$i];
-            $oldversion = $entry->attribute ( "workflow_event_version" );
+            $oldversion = $entry->attribute( "workflow_event_version" );
             $id = $entry->attribute( "id" );
             $workflowEventID = $entry->attribute( "workflow_event_id" );
             $contentClassID = $entry->attribute( "contentclass_id" );
@@ -153,11 +153,11 @@ class eZWaitUntilDate
                                                            0,
                                                            $contentClassID,
                                                            $contentClassAttributeID );
-            eZDebug::writeDebug( $entryCopy, "entryCopy" );
+
             $entryCopy->store();
             if ( $oldversion != $version )
             {
-                $entry->setAttribute("contentclass_attribute_version", $version );
+                $entry->setAttribute( 'workflow_event_version', $version );
                 $entry->store();
             }
         }
