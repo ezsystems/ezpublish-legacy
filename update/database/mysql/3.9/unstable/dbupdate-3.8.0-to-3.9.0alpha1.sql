@@ -13,7 +13,7 @@ CREATE INDEX eznode_assignment_parent_node ON eznode_assignment( parent_node );
 ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int NOT NULL DEFAULT 0;
 
 ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int NOT NULL DEFAULT 1;
-
+UPDATE ezcontentobject_link SET relation_type=8 WHERE contentclassattribute_id<>0;
 
 -- START: 'default sorting' attribute for ezcontentclass
 ALTER TABLE ezcontentclass ADD COLUMN sort_field int NOT NULL DEFAULT 1;

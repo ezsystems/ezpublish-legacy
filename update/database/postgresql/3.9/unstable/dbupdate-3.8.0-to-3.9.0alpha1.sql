@@ -17,6 +17,8 @@ ALTER TABLE ezuservisit ALTER COLUMN failed_login_attempts SET NOT NULL;
 ALTER TABLE ezcontentobject_link ADD COLUMN relation_type int;
 ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET DEFAULT 1;
 ALTER TABLE ezcontentobject_link ALTER COLUMN relation_type SET NOT NULL;
+UPDATE ezcontentobject_link SET relation_type=8 WHERE contentclassattribute_id<>0;
+
 
 -- START: 'default sorting' attribute for ezcontentclass
 
