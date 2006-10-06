@@ -223,7 +223,6 @@ if ( $http->hasPostVariable( 'SelectLanguageButton' ) && $http->hasPostVariable(
 // the language to use.
 if ( !$EditLanguage )
 {
-    eZDebug::writeDebug( '!$EditLanguage', 'lazy: !$EditLanguage' );
     // Check number of languages
     include_once( 'kernel/classes/ezcontentlanguage.php' );
     $languages = eZContentLanguage::fetchList();
