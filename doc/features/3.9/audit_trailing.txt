@@ -41,7 +41,7 @@ Things which can be logged:
 ***********
 *Usage
 
-If you want use another audit you should:
+If you want to use another audit you should:
 1. Add audit name as KEY and log file name as VALUE to audit.ini[AuditSettings].AuditFileNames[].
    (e.g. AuditFileNames[user-login]=login.log)
 2. Set audit.ini[AuditSettings].Audit to 'enabled'
