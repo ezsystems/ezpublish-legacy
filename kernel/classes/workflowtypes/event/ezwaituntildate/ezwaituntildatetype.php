@@ -124,7 +124,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         {
             case 'contentclass_list' :
             {
-                $classList = eZPersistentObject::fetchObjectList( eZContentClass::definition(), array( 'id', 'name' ), array( 'version' => 0 ),null,null,false );
+                $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true );
                 return $classList;
 
             }break;
@@ -139,20 +139,15 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 {
                     // if nothing was preselected, we will use the first one:
                     // POSSIBLE ENHANCEMENT: in the common case, the contentclass_list fetch will be called twice
-                    $classID = eZWaitUntilDateType::attribute( 'contentclass_list' );
-                    if ( isset( $classID[0] ) )
-                        $classID = $classID[0]['id'];
+                    $classList = eZWaitUntilDateType::attribute( 'contentclass_list' );
+                    if ( isset( $classList[0] ) )
+                        $classID = $classList[0]->attribute( 'id' );
                     else
                         $classID = false;
                 }
                 if ( $classID )
                 {
-                    $attributeList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                                           array( 'id', 'name', 'data_type_string' ),
-                                                                           array( 'contentclass_id'=> $classID,
-                                                                                  'version' => 0 ),null,null,false );
-
-                    eZDebug::writeDebug( $classID, 'class id in load attribute list' );
+                   $attributeList = eZContentClassAttribute::fetchListByClassID( $classID );
                 }
                 else
                     $attributeList = array();
