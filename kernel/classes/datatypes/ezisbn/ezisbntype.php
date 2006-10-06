@@ -66,7 +66,8 @@ class eZISBNType extends eZDataType
             }
             $number13 = str_replace( "-", "", $number13 );
             $number13 = str_replace( " ", "", $number13 );
-            $valid = $this->validateISBN13Checksum ( $number13 );
+            $error = '';
+            $valid = $this->validateISBN13Checksum ( $number13, $error );
 
             if ( $valid )
             {
@@ -75,7 +76,7 @@ class eZISBNType extends eZDataType
             else
             {
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                     'The ISBN number is not correct. Please check the input for mistakes.' ) );
+                                                                     'The ISBN number is not correct. ' ) . $error );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
 
@@ -148,14 +149,15 @@ class eZISBNType extends eZDataType
      \param $isbnNr A string containing the number without any dashes.
      \return \c true if it is valid.
     */
-    function validateISBN13Checksum ( $isbnNr )
+    function validateISBN13Checksum ( $isbnNr, &$error )
     {
         if ( !$isbnNr )
             return false;
 
         if ( substr( $isbnNr, 0, 3 ) != '978' && substr( $isbnNr, 0, 3 ) != '979' )
         {
-            eZDebug::writeError( '13 digit ISBN must start with 978 or 979', 'eZISBNType::validateISBN13Checksum()' );
+            $error = ezi18n( 'kernel/classes/datatypes',
+                             '13 digit ISBN must start with 978 or 979' );
             return false;
         }
         $isbnNr = strtoupper( $isbnNr );
@@ -163,7 +165,7 @@ class eZISBNType extends eZDataType
         $weight13 = 1;
         if ( strlen( $isbnNr ) != 13 )
         {
-            eZDebug::writeError( 'ISBN length is invalid', 'eZISBNType::validateISBN13Checksum()' );
+            $error = ezi18n( 'kernel/classes/datatypes', 'ISBN length is invalid' );
             return false;
         }
 
@@ -174,7 +176,7 @@ class eZISBNType extends eZDataType
             $val = $isbnNr{$i};
             if ( $isbnNr{$i} == 'X' )
             {
-                eZDebug::writeError( 'X not valid in ISBN 13', 'eZISBNType::validateISBN13Checksum()' );
+                $error = ezi18n( 'kernel/classes/datatypes', 'X not valid in ISBN 13' );
                 return false;
             }
             $checksum13 = $checksum13 + $weight13 * $val;
@@ -183,7 +185,7 @@ class eZISBNType extends eZDataType
         if ( ( $checksum13 % 10 ) != 0 )
         {
             //bad checksum
-            eZDebug::writeError( 'Bad checksum-13', 'eZISBNType::validateISBN13Checksum()' );
+            $error = ezi18n( 'kernel/classes/datatypes', 'Bad checksum' );
             return false;
         }
 
