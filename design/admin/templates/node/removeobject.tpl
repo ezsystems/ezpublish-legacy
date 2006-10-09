@@ -26,9 +26,9 @@
 
     {section show=eq( $exceeded_limit, true() )}
         <hr />
-	<h4>Warnings:</h4>
+    <h4>Warnings:</h4>
         <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removing and will not be deleted. You can remove this subtree using Subtree Remove script.'|i18n( 'design/admin/node/removeobject' )}</p>
-	<hr />
+    <hr />
     {/section}
 
     {section show=$remove_info.can_remove_all}
@@ -90,12 +90,11 @@
 </table>
 
 <div class="block">
-{section show=and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ) )}
-    {section show=$move_to_trash_allowed}
-        <input type="hidden" name="SupportsMoveToTrash" value="1" />
-        <p><input type="checkbox" name="MoveToTrash" value="1" checked="checked" title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
-    {/section}
-{/section}
+{if and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ) )}
+    {if $move_to_trash_allowed}
+    <p><input type="checkbox" name="MoveToTrash" value="1" {if $move_to_trash}checked="checked" {/if}title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
+    {/if}
+{/if}
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
