@@ -1013,13 +1013,15 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else if ( !is_array( $versionStatus ) )
         {
-            if ( !in_array( $versionStatus, $statuses ) )
-            {
-                eZDebug::writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
-                return false;
-            }
-            else
-                $versionStatus = array( $versionStatus );
+            $versionStatus = array( $versionStatus );
+        }
+
+        $versionStatus = array_unique( $versionStatus );
+        $checkIntersect = array_intersect( $versionStatus, $statuses );
+        if ( count( $checkIntersect ) != count( $versionStatus ) )
+        {
+            eZDebug::writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
+            return false;
         }
 
         if ( !is_numeric( $limit ) or $limit < 0 )
@@ -1032,8 +1034,8 @@ class eZContentObjectVersion extends eZPersistentObject
             $fetchPortionSize = 50;
 
         $filters = array();
-        $filters['status'] = $versionStatus;
-        if ( $expirtyTime !== false )
+        $filters['status'] = array( $versionStatus );
+        if ( $expiryTime !== false )
             $filters['modified'] = array( '<', $expiryTime );
 
         $processedCount = 0;
