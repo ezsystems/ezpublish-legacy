@@ -17,8 +17,8 @@ and added new parameters to ezini and ezhttp.
  *Usage:
 
      ezini( <BlockName>, <SettingName>, <FileName>, 
-            <IniPath>, <Should We Put implamantaion to cache file?: 'inCache' or true()>,
-            <Should We Check for existence: 'hasVariable' or true()> )
+            <IniPath>, <Should we put implementation to cache file?: 'inCache' or true()>,
+            <Should we check for existence: 'hasVariable' or true()> )
 
  *For example:
 
