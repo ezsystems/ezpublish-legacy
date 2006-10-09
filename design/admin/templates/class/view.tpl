@@ -70,7 +70,7 @@
 <div class="block">
 <label>{'Default sorting of children'|i18n( 'design/admin/class/view' )}:</label>
 {def $sort_fields=fetch( content, available_sort_fields )}
-{if is_set( $sort_fields[$class.sort_field] )}{$sort_fields[$class.sort_field]|i18n( 'design/admin/class/view' )}{else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
+{if is_set( $sort_fields[$class.sort_field] )} {$sort_fields[$class.sort_field]} {else}{$class.sort_field}{/if} / {if eq($class.sort_order, 0)}{'Descending'|i18n( 'design/admin/class/edit' )}{else}{'Ascending'|i18n( 'design/admin/class/edit' )}{/if}
 {undef}</div>
 
 <div class="block">
