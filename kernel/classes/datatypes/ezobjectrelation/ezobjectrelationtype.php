@@ -561,8 +561,15 @@ class eZObjectRelationType extends eZDataType
         {
             require_once( 'kernel/classes/ezcontentobject.php' );
             $relatedObject = eZContentObject::fetch( $relatedObjectID );
-            $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID ) );
+            if ( !$relatedObject )
+            {
+                eZDebug::writeNotice( 'Related object with ID: ' . $relatedObjectID . ' does not exist.' );
+            }
+            else
+            {
+                $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
+                $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID ) );
+            }
         }
 
         return $node;
