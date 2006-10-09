@@ -334,7 +334,7 @@ $ViewList['translate'] = array(
     'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );
 
 $ViewList['draft'] = array(
-    'functions' => array( 'versionread' ),
+    'functions' => array( 'edit' ),
     'script' => 'draft.php',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( ),
