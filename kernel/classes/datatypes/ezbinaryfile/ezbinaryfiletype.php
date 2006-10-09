@@ -692,6 +692,13 @@ class eZBinaryFileType extends eZDataType
 
         $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
 
+        if ( !file_exists( $sourcePath ) )
+        {
+            eZDebug::writeError( "The file '$sourcePath' does not exist, cannot initialize file attribute with it",
+                                 'eZBinaryFileType::unserializeContentObjectAttribute' );
+            return false;
+        }
+
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini =& eZINI::instance();
         $mimeType = $fileNode->attributeValue( 'mime-type' );
