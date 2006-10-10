@@ -56,7 +56,7 @@ class eZTreeMenuOperator
                                        'required' => true,
                                        'default' => false ),
                       'node_id' => array( 'type' => 'int',
-                                          'required' => true,
+                                          'required' => false,
                                           'default' => false ),
                       'class_filter' => array( 'type' => 'array',
                                                'required' => false,
