@@ -56,7 +56,7 @@ class eZTreeMenuOperator
                                        'required' => true,
                                        'default' => false ),
                       'node_id' => array( 'type' => 'int',
-                                          'required' => true,
+                                          'required' => false,
                                           'default' => false ),
                       'class_filter' => array( 'type' => 'array',
                                                'required' => false,
@@ -90,6 +90,9 @@ class eZTreeMenuOperator
         $tmpModulePath = $namedParameters['path'];
         $classFilter = $namedParameters['class_filter'];
         $language = $namedParameters['language'];
+        // node_id is not used anymore
+        if ( isset( $namedParameters['node_id'] ) )
+            eZDebug::writeNotice( 'Deprecated parameter "node_id" in treemenu template operator' );
 
         if ( $classFilter === false )
         {
