@@ -417,3 +417,6 @@ eZDiff:
 - Fixed bug: fatal error in packaging with ezenum datatype.
   (Merged from stable/3.8 (3.8.5) rev. 17077 )
 - Fixed bug #9127: "Manage versions"-button disabled in versionview.
+- Fixed bug: Left menu missed when page access denied
+  (Merged from stable/3.8 (3.8.5) rev. 17111)
+  

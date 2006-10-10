@@ -730,10 +730,22 @@ while ( $moduleRunRequired )
             }
             else if ( !$moduleAccessAllowed )
             {
+                $availableViewsInModule = $module->attribute( 'views' );
+                if ( isset( $availableViewsInModule[$function_name][ 'default_navigation_part' ] ) )
+                {
+                    $defaultNavigationPart = $availableViewsInModule[$function_name][ 'default_navigation_part' ];
+                }
+
                 if ( isset( $accessList ) )
                     $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
                 else
                     $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+                if ( isset( $defaultNavigationPart ) )
+                {
+                    $moduleResult['navigation_part'] = $defaultNavigationPart;
+                    unset( $defaultNavigationPart );
+                }
             }
             else
             {
