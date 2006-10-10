@@ -147,8 +147,8 @@ class eZURLOperator
 
             // If we should check for existence of variable.
             // You can use like:
-            //     ezini( <BlockName>, <SettingName>, <FileName>, <IniPath>,<Should We Put implamantaion to cache file?: 'inCache' or true()>,
-            //                                                                    <Should We Check for existence: 'hasVariable' or true()> )
+            //     ezini( <BlockName>, <SettingName>, <FileName>, <IniPath>, <Dynamic fetch: if 'true()' value of variable will be fetched dynamically>
+            //                                                               <Should We Check for existence only: 'hasVariable' or true()> )
             //     ezini_hasvariable( <BlockName>, <SettingName>, <FileName>, <IniPath>... )
             if ( $operatorName == $this->ININameHasVariable )
             {
@@ -165,8 +165,8 @@ class eZURLOperator
             if ( count( $parameters ) > 4 )
             {
                 $inCache = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
-                // Check if we should put implementaion of parsing ini variable to cache file
-                if ( $inCache == 'inCache' or $inCache === true )
+                // Check if we should put implementaion of parsing ini variable to compiled php file
+                if ( $inCache === true )
                 {
                     $values = array();
                     $values[] = $parameters[0];

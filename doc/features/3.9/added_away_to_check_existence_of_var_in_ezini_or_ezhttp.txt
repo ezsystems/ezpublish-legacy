@@ -17,13 +17,11 @@ and added new parameters to ezini and ezhttp.
  *Usage:
 
      ezini( <BlockName>, <SettingName>, <FileName>, 
-            <IniPath>, <Should we put implementation to cache file?: 'inCache' or true()>,
-            <Should we check for existence: 'hasVariable' or true()> )
+            <IniPath>, <Dynamic fetch: if 'true()' value of variable will be fetched dynamically>,
+            <Check for existence: if 'hasVariable' or true() and if the variable exists true will be returned, false otherwise> )
 
  *For example:
 
-     ezini( 'URL', 'URL', 'my.ini',, 'inCache')
-     = 
      ezini( 'URL', 'URL', 'my.ini',, true())
 
  Warnings will not be shown when Tpl compilation is enabled
