@@ -52,3 +52,11 @@
     {/section}
 {/if}
 </div>
+
+<div class="element">
+{'Affected Versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:
+{if or( lt($event.version_option, 1), gt($event.version_option, 2) )}&nbsp;{'All versions'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{elseif eq( $event.version_option, 1)}&nbsp;{'Publishing new object'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{elseif eq( $event.version_option, 2)}&nbsp;{'Updating existing object'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{else}&nbsp;-&nbsp;{/if}
+</div>

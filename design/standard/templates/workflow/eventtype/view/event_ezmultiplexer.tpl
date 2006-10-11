@@ -20,9 +20,8 @@
 
 {/section}
 
-{/let} 
+{/let}
 </div>
-
 
 
 <div class="element">
@@ -45,9 +44,8 @@
 
 {/section}
 
-{/let} 
+{/let}
 </div>
-
 
 
 <div class="element">
@@ -68,7 +66,6 @@
 </div>
 
 
-
 <div class="element">
 {let selectedWorkflow=$event.selected_workflow}
 {"Workflow to run"|i18n("design/standard/workflow/eventtype/view")}:
@@ -83,8 +80,6 @@
 </div>
 
 
-
-
 <div class="element">
 {"Language"|i18n("design/standard/workflow/eventtype/view")}:
 
@@ -96,4 +91,13 @@
     {$language|wash}
     {/section}
 {/if}
+</div>
+
+
+<div class="element">
+{'Affected Versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:
+{if or( lt($event.version_option, 1), gt($event.version_option, 2) )}&nbsp;{'All versions'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{elseif eq( $event.version_option, 1)}&nbsp;{'Publishing new object'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{elseif eq( $event.version_option, 2)}&nbsp;{'Updating existing object'|i18n( 'design/admin/workflow/eventtype/edit' )}
+{else}&nbsp;-&nbsp;{/if}
 </div>
