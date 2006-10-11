@@ -844,7 +844,11 @@ class eZPersistentObject
                  $GLOBALS['eZPersistentObject_CacheCount'] > $maxCount )
             {
                 $removeCacheKey = $GLOBALS['eZPersistentObject_CacheRegister'][$GLOBALS['eZPersistentObject_CacheCount']%$maxCount];
-                unset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]][$removeCacheKey[1]] );
+                if ( isset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]] ) &&
+                     isset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]][$removeCacheKey[1]] ) )
+                {
+                    unset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]][$removeCacheKey[1]] );
+                }
             }
             $GLOBALS['eZPersistentObject_Cache'][$def['name']][$cacheKey] = $objectList;
             $GLOBALS['eZPersistentObject_CacheRegister'][$GLOBALS['eZPersistentObject_CacheCount']%$maxCount] = array( $def['name'], $cacheKey );
