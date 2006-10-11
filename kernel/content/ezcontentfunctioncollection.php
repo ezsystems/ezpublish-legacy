@@ -1339,15 +1339,15 @@ class eZContentFunctionCollection
 
     function fetchAvailableSortFieldList()
     {
-        return array( 'result' => array( '6' => 'Class identifier',
-                                         '7' => 'Class name',
-                                         '5' => 'Depth',
-                                         '3' => 'Modified',
-                                         '9' => 'Name',
-                                         '1' => 'Path String',
-                                         '8' => 'Priority',
-                                         '2' => 'Published',
-                                         '4' => 'Section' ) );
+        return array( 'result' => array( '6' => ezi18n( 'kernel/content', 'Class identifier' ),
+                                         '7' => ezi18n( 'kernel/content', 'Class name' ),
+                                         '5' => ezi18n( 'kernel/content', 'Depth' ),
+                                         '3' => ezi18n( 'kernel/content', 'Modified' ),
+                                         '9' => ezi18n( 'kernel/content', 'Name' ),
+                                         '1' => ezi18n( 'kernel/content', 'Path String' ),
+                                         '8' => ezi18n( 'kernel/content', 'Priority' ),
+                                         '2' => ezi18n( 'kernel/content', 'Published' ),
+                                         '4' => ezi18n( 'kernel/content', 'Section' ) ) );
     }
 
     function fetchCountryList( $filter, $value )
