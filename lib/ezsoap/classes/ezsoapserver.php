@@ -96,7 +96,8 @@ class eZSOAPServer
         header( "Content-Type: text/xml; charset=\"UTF-8\"" );
         Header( "Content-Length: " . strlen( $payload ) );
 
-        ob_clean();
+        if ( ob_get_length() )
+            ob_end_clean();
 
         print( $payload );
     }
@@ -203,7 +204,7 @@ class eZSOAPServer
                     else
                     {
                         $this->showResponse( $functionName, $namespaceURI,
-                                     call_user_method_array( $objectFunctionName, $object, $params ) );
+                                     call_user_func_array( array( $object, $objectFunctionName ), $params ) );
                     }
                 }
             }

@@ -114,6 +114,9 @@ eZTemplate:
   (see content.ini[GoogleSettings].Alphabet).
 - Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
 
+eZSOAP:
+- Fixed some php warnings with SOAP server.
+
 eZMail:
 - Minor improvement in debug output when sending with SMTP.
 - Added new mail transport "file" for debugging.

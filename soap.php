@@ -101,11 +101,6 @@ eZUpdateTextCodecSettings();
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 $db =& eZDB::instance();
-if ( $sessionRequired and
-     $db->isConnected() )
-{
-    eZSessionStart();
-}
 
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
