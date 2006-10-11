@@ -864,7 +864,7 @@ class eZPersistentObject
     */
     function clearObjectCache( $tableName )
     {
-        eZDebug::writeNotice( 'Clearing persistent object cache for: '. $tableName, 'eZPersistentObject::clearObjectCache()' );
+        // eZDebug::writeNotice( 'Clearing persistent object cache for: '. $tableName, 'eZPersistentObject::clearObjectCache()' );
         unset( $GLOBALS['eZPersistentObject_Cache'][trim( $tableName )] );
     }
 
