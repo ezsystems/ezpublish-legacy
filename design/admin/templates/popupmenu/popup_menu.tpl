@@ -297,7 +297,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {* Forms used by the various elements *}
 
 {* Create here. *}
-<form id="menu-form-create-here" name="children" method="post" action={"/content/action"|ezurl}>
+<form id="menu-form-create-here" method="post" action={"/content/action"|ezurl}>
   <input type="hidden" name="NewButton" value="x" />
   <input type="hidden" name="ContentNodeID" value="%nodeID%" />
   <input type="hidden" name="NodeID" value="%nodeID%" />
