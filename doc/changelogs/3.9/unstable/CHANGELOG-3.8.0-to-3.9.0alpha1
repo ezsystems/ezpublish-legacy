@@ -426,3 +426,5 @@ eZDiff:
 - Fixed bug #9149: Missing </p> tag in ez.tpl
 - Fixed bug #9143: Error in HTML for peak memory usage
 - Fixed bug #9130: Bug closing </form> tag missing in standard/templates/content/upload.tpl
+- Fixed bug: 9064: Location is broken in the Edit mode
+  (Merged from stable/3.8 (3.8.5) rev. 17148)

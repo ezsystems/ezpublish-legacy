@@ -309,8 +309,10 @@ class eZNodeAssignment extends eZPersistentObject
         if ( is_array( $assignmentID ) )
         {
             if ( count( $assignmentID ) == 0 )
+            {
                 return false;
-            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . " WHERE id IN ( ";
+            }
+            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . ", is_main = 0 WHERE id IN ( ";
             $i = 0;
             foreach ( $assignmentID as $id )
             {
@@ -323,7 +325,7 @@ class eZNodeAssignment extends eZPersistentObject
         }
         else
         {
-            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . " WHERE id=" . (int)$assignmentID;
+            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . ", is_main = 0 WHERE id=" . (int)$assignmentID;
         }
         $db->query( $sql );
         return true;
@@ -373,7 +375,9 @@ class eZNodeAssignment extends eZPersistentObject
         if ( is_array( $assignmentID ) )
         {
             if ( count( $assignmentID ) == 0 )
+            {
                 return false;
+            }
             $sql = "DELETE FROM eznode_assignment WHERE id IN ( ";
             $i = 0;
             foreach ( $assignmentID as $id )
@@ -502,17 +506,33 @@ class eZNodeAssignment extends eZPersistentObject
             return true;
 
         // check: if there is already main assignment for the object then we should do nothing
+        // BTW choose first nonremoving assignment as new main assignment
+        $newMainAssignment = null;
         foreach ( $assignments as $key => $assignment )
         {
-            if ( $assignment->attribute( 'is_main' ) )
-                return false;
+            if ( $assignment->attribute( 'op_code' ) != EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+            {
+                if ( $newMainAssignment === null )
+                {
+                    $newMainAssignment =& $assignment;
+                }
+                if ( $assignment->attribute( 'is_main' ) )
+                {
+                    return false;
+                }
+            }
         }
 
-        // choose first assignment as new first assignment
-        $newMainAssignment =& $assignments[0];
+        $db =& eZDB::instance();
+
+        if ( $newMainAssignment === null )
+        {
+            $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version" );
+            return false;
+        }
+
         $parentMainNodeID = $newMainAssignment->attribute( 'parent_node' );
 
-        $db =& eZDB::instance();
         $db->begin();
         $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
         $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node<>$parentMainNodeID" );

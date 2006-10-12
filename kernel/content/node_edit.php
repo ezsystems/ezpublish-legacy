@@ -274,6 +274,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
          !$http->hasPostVariable( 'SortFieldMap' ) )
         return;
 
+    $mainNodeID = false;
     if ( $http->hasPostVariable( 'MainNodeID' ) )
     {
         $mainNodeID = trim( $http->postVariable( 'MainNodeID' ) );
