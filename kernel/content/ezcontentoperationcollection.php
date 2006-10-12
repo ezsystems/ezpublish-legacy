@@ -372,6 +372,12 @@ class eZContentOperationCollection
                 }
             }
         }
+        elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+        {
+            eZNodeAssignment::purgeByID( $nodeAssignment->attribute( 'id' ) );
+            $db->commit();
+            return;
+        }
 
         if ( $updateFields )
         {
