@@ -239,7 +239,8 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     $titleElement = $item->elementByName( 'title' );
     $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
     $link = $item->elementByName( 'link' );
-    $md5Sum = md5( $link->textContent() );
+    $linkURL = $link->textContent() . getCDATA( $link );
+    $md5Sum = md5( $linkURL );
 
     // Try to fetch RSSImport object with md5 sum matching link.
     $existingObject = eZPersistentObject::fetchObject( eZContentObject::definition(), null,
@@ -250,7 +251,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     {
         if ( !$isQuiet )
         {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with URL: '.$link->textContent().' already exists' );
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with URL: '.$linkURL.' already exists' );
         }
         unset( $existingObject ); // delete object to preserve memory
         return 0;
@@ -322,7 +323,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
         }
     }
 
-    $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'.md5( $link->textContent() ) );
+    $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'. $md5Sum );
     $contentObject->store();
     $db->commit();
 
