@@ -49,7 +49,8 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->DisplayInfo = null;
         $this->Module = null;
 
-        $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
+        $this->NameList = new eZContentClassNameList();
+        $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
     }
 
     function definition()
@@ -196,8 +197,13 @@ class eZContentClassAttribute extends eZPersistentObject
         return new eZContentClassAttribute( $row );
     }
 
-    function create( $class_id, $data_type_string, $optionalValues = array() )
+    function create( $class_id, $data_type_string, $optionalValues = array(), $languageLocale = false )
     {
+        if ( $languageLocale == false )
+        {
+            $languageLocale = eZContentObject::defaultLanguage();
+        }
+
         $row = array(
             'id' => null,
             'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
@@ -214,7 +220,12 @@ class eZContentClassAttribute extends eZPersistentObject
                                                                array( 'version' => 1,
                                                                       'contentclass_id' => $class_id ) ) );
         $row = array_merge( $row, $optionalValues );
-        return new eZContentClassAttribute( $row );
+        $attribute = new eZContentClassAttribute( $row );
+
+        $attribute->NameList->setNameByLanguageLocale( '', $languageLocale );
+        $attribute->NameList->setAlwaysAvailableLanguage( $languageLocale );
+
+        return $attribute;
     }
 
     function instantiate( $contentobjectID, $languageCode = false, $version = 1 )

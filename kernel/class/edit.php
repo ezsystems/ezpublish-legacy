@@ -705,7 +705,7 @@ if ( $canStore )
 
 if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $new_attribute = eZContentClassAttribute::create( $ClassID, $cur_datatype );
+    $new_attribute = eZContentClassAttribute::create( $ClassID, $cur_datatype, array(), $EditLanguage );
     $attrcnt = count( $attributes ) + 1;
     $new_attribute->setName( ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt, $EditLanguage );
     $dataType = $new_attribute->dataType();

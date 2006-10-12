@@ -202,18 +202,18 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function create( $userID = false, $optionalValues = array(), $languageCode = false )
+    function create( $userID = false, $optionalValues = array(), $languageLocale = false )
     {
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
 
-        if ( $languageCode == false )
+        if ( $languageLocale == false )
         {
-            $languageCode = eZContentObject::defaultLanguage();
+            $languageLocale = eZContentObject::defaultLanguage();
         }
 
-        $languageID = eZContentLanguage::idByLocale( $languageCode );
+        $languageID = eZContentLanguage::idByLocale( $languageLocale );
 
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
@@ -235,7 +235,9 @@ class eZContentClass extends eZPersistentObject
             "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
 
         $row = array_merge( $row, $optionalValues );
+
         $contentClass = new eZContentClass( $row );
+
         return $contentClass;
     }
 
