@@ -1499,7 +1499,7 @@ td.timingpoint2
                 $peakMemory = xdebug_peak_memory_usage();
                 if ( $as_html )
                     echo "<tr><td><b>Peak memory usage:</b></td><td><b>" .
-                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . "KB</b></tr></tr>";
+                        number_format( $peakMemory / 1024, $this->TimingAccuracy ) . "KB</b></td></tr>";
                 else
                     echo "Peak memory usage: " .
                         number_format( $peakMemory / 1024, $this->TimingAccuracy ) . "KB\n";
