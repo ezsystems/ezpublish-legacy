@@ -249,7 +249,7 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 3 );
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
@@ -292,7 +292,7 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         foreach ( $array as $arrayKey => $value )
@@ -392,7 +392,7 @@ class eZDOMDocument
             $node->appendAttribute( eZDomDocument::createAttributeNode( $attributeKey, $attributeValue ) );
         }
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
@@ -435,7 +435,7 @@ class eZDOMDocument
         $textNode = eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
@@ -470,7 +470,7 @@ class eZDOMDocument
         $cdataNode = eZDOMDocument::createCDATANode( $text );
         $node->appendChild( $cdataNode );
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
@@ -501,7 +501,7 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( $this->setParentNode )
+        if ( is_object( $this ) && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
