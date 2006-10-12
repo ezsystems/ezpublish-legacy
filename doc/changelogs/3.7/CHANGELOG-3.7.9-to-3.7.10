@@ -47,3 +47,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.5) rev. 17111)
 - Fixed bug #9149: Missing </p> tag in ez.tpl  
   (Merged from trunk (3.9.0alpha1) rev. 17134)
+- Fixed bug #9143: Error in HTML for peak memory usage
+  (Merged from trunk (3.9.0alpha1) rev. 17138)
