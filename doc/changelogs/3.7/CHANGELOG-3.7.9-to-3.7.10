@@ -49,3 +49,6 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0alpha1) rev. 17134)
 - Fixed bug #9143: Error in HTML for peak memory usage
   (Merged from trunk (3.9.0alpha1) rev. 17138)
+- Fixed bug #9130: Bug closing </form> tag missing 
+  in standard/templates/content/upload.tpl
+  (Merged from trunk (3.9.0alpha1) rev. 17142)
