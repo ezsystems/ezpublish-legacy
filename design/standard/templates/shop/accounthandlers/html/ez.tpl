@@ -15,6 +15,7 @@
 
 <p>
 <b>{"Address"|i18n("design/standard/shop")}</b>
+</p>
 <p>
 {'Company'|i18n('design/standard/shop')}: {$order.account_information.street1}<br />
 {'Street'|i18n('design/standard/shop')}: {$order.account_information.street2}<br />
