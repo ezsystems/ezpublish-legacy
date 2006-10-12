@@ -424,3 +424,4 @@ eZDiff:
   (Merged from stable/3.8 (3.8.5) rev. 17111)
 - Fixed bug #9151: RSS import does not support link elements with CDATA.
 - Fixed bug #9149: Missing </p> tag in ez.tpl
+- Fixed bug #9143: Error in HTML for peak memory usage
