@@ -425,3 +425,4 @@ eZDiff:
 - Fixed bug #9151: RSS import does not support link elements with CDATA.
 - Fixed bug #9149: Missing </p> tag in ez.tpl
 - Fixed bug #9143: Error in HTML for peak memory usage
+- Fixed bug #9130: Bug closing </form> tag missing in standard/templates/content/upload.tpl
