@@ -47,13 +47,14 @@ $script =& eZScript::instance( array( 'description' => "\nThis script adds exist
 
 $script->startup();
 
-$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][dump-only]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][global][dump-only]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
                                        'db-password' => "Database password",
                                        'db-database' => "Database name",
                                        'db-type' => "Database type, e.g. mysql or postgresql",
+                                       'global' => "Update global override content.ini.append instead of siteaccess",
                                        'dump-only' => "Check available classes lists, but do not update content.ini. Results will be displayed in the output."
                                        ) );
 $script->initialize();
@@ -64,6 +65,7 @@ $dbHost = $options['db-host'];
 $dbName = $options['db-database'];
 $dbImpl = $options['db-type'];
 
+$global = $options['global'];
 $classesDumpOnly = $options['dump-only'];
 
 $isQuiet = $script->isQuiet();
@@ -108,7 +110,13 @@ $siteaccess = $GLOBALS['eZCurrentAccess']['name'];
 $xml = new eZXML();
 
 $contentIni =& eZINI::instance( 'content.ini' );
-$contentIniDirect =& eZINI::instance( 'content.ini.append', "settings/siteaccess/$siteaccess", null, null, null, true, true );
+
+if ( $global )
+    $iniPath = "settings/override";
+else
+    $iniPath = "settings/siteaccess/$siteaccess";
+
+$contentIniDirect =& eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 $XMLSchema =& eZXMLSchema::instance();
@@ -133,8 +141,10 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
     $addedClassesList =& $GLOBALS['eZAddedClassesList'];
 
     $classesList = $XMLSchema->getClassesList( $element->nodeName );
-    if ( !in_array( $class, $classesList ) &&
-         !in_array( $class, $addedClassesList[$element->nodeName] ) )
+    if ( isset( $addedClassesList[$element->nodeName] ) )
+        $classesList = array_merge( $classesList, $addedClassesList[$element->nodeName] );
+
+    if ( !in_array( $class, $classesList ) )
     {
         if ( !$isQuiet )
         {
@@ -231,11 +241,11 @@ if ( $isIniModified )
 {
     $saved = $contentIniDirect->save();
     if ( !$saved && !$isQuiet )
-        $cli->error( "\nCan't save ini file: settings/siteaccess/$siteaccess/content.ini.append(.php) !" );
+        $cli->error( "\nCan't save ini file: $iniPath/content.ini.append(.php) !" );
     elseif ( !$isQuiet )
-        $cli->notice( "\nSettings file 'content.ini.append' for siteaccess '$siteaccess' has been updated." );
+        $cli->notice( "\nSettings file $iniPath/content.ini.append has been updated." );
 }
-else
+elseif ( !$classesDumpOnly )
 {
     $cli->notice( "\ncontent.ini settings: OK" );
 }
