@@ -461,7 +461,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 foreach ( array_keys( $limitationList ) as $key  )
                 {
                     $limitationArray =& $limitationList[ $key ];
-                    eZDebug::writeDebug($limitationArray,"goes here 3");
                     if ( $access == 'allowed' )
                     {
                         break;
