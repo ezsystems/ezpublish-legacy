@@ -16,10 +16,10 @@
 
 {* Related objects list. *}
 
-{def $relation_type_names = hash( 'common',   'common'|i18n( 'design/admin/content/edit' ),
-                                  'xml_embed', 'embedded'|i18n( 'design/admin/content/edit' ),
-                                  'xml_link',  'linked'|i18n( 'design/admin/content/edit' ),
-                                  'attribute', 'attribute'|i18n( 'design/admin/content/edit' ) )}
+{def $relation_type_names = hash( 'common',   'Common'|i18n( 'design/admin/content/edit' ),
+                                  'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
+                                  'xml_link',  'Linked'|i18n( 'design/admin/content/edit' ),
+                                  'attribute', 'Attribute'|i18n( 'design/admin/content/edit' ) )}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -47,7 +47,7 @@
                 {foreach $related_objects_id_typed as $relationType => $relationIDArray}
                     {if $relationIDArray|contains($object.id)}
                         {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType}( {$attr.name} )
+                            {$relation_type_names.$relationType} ( {$attr.name} )
                         {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
                             {$relation_type_names.$relationType}
                         {/if}
@@ -95,7 +95,7 @@
                 {foreach $reverse_related_objects_id_typed as $relationType => $relationIDArray}
                     {if $relationIDArray|contains($object.id)}
                         {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType}( {$attr.name} )
+                            {$relation_type_names.$relationType} ( {$attr.name} )
                         {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
                             {$relation_type_names.$relationType}
                         {/if}

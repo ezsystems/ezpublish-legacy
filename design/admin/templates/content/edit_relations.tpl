@@ -12,10 +12,10 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{def $relation_type_names = hash( 'common',   'common'|i18n( 'design/admin/content/edit' ),
-                                  'xml_embed', 'embedded'|i18n( 'design/admin/content/edit' ),
-                                  'xml_link',  'linked'|i18n( 'design/admin/content/edit' ),
-                                  'attribute', 'attribute'|i18n( 'design/admin/content/edit' ) )}
+{def $relation_type_names = hash( 'common',   'Common'|i18n( 'design/admin/content/edit' ),
+                                  'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
+                                  'xml_link',  'Linked'|i18n( 'design/admin/content/edit' ),
+                                  'attribute', 'Attribute'|i18n( 'design/admin/content/edit' ) )}
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
