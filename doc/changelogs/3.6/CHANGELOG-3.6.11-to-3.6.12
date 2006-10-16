@@ -42,3 +42,4 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #9130: Bug closing </form> tag missing 
   in standard/templates/content/upload.tpl
   (Merged from trunk (3.9.0alpha1) rev. 17142)
+- Fixed bug #9152: HTML should not be in i18n strings.  
