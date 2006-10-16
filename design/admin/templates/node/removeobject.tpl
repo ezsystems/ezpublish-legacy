@@ -21,7 +21,10 @@
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
     {section show=$reverse_related}
-        <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )} 
+           <strong>{'Advanced'|i18n( 'design/admin/node/removeobject' )}</strong>-&gt;
+           <strong>{'Reverse related for subtree'|i18n( 'design/admin/node/removeobject' )}</strong>
+        </p>
     {/section}
 
     {section show=eq( $exceeded_limit, true() )}
@@ -42,7 +45,10 @@
 {section-else}
    {section show=$reverse_related}
    <div class="block">
-        <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )} 
+           <strong>{'Advanced'|i18n( 'design/admin/node/removeobject' )}</strong>-&gt;
+           <strong>{'Reverse related for subtree'|i18n( 'design/admin/node/removeobject' )}</strong>
+        </p>
    </div>
    {/section}
 {/section}
