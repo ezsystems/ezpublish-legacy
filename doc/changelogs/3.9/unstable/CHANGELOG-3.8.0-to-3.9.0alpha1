@@ -429,3 +429,4 @@ eZDiff:
 - Fixed bug: 9064: Location is broken in the Edit mode
   (Merged from stable/3.8 (3.8.5) rev. 17148)
 - Fixed bug #9150: Bug in edit\ezimage.tpl
+- Fixed bug #9152: HTML should not be in i18n strings.
