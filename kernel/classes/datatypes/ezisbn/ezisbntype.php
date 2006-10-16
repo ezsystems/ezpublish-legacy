@@ -122,6 +122,10 @@ class eZISBNType extends eZDataType
         $field2 = $http->postVariable( $base . "_isbn_field2_" . $contentObjectAttribute->attribute( "id" ) );
         $field3 = $http->postVariable( $base . "_isbn_field3_" . $contentObjectAttribute->attribute( "id" ) );
         $field4 = $http->postVariable( $base . "_isbn_field4_" . $contentObjectAttribute->attribute( "id" ) );
+        // If $fields are empty if should not store empty content to db.
+        if ( !$field1 and !$field2 and !$field3 and !$field4 )
+            return true;
+
         $isbn = $field1 . '-' . $field2 . '-' . $field3 . '-' . $field4;
         $isbn = strtoupper( $isbn );
         $contentObjectAttribute->setAttribute( "data_text", $isbn );
