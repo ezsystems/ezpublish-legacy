@@ -71,5 +71,9 @@ $ViewList["event"] = array(
     "script" => "event.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( "WorkflowID", "EventID" ) );
+$ViewList["processlist"] = array(
+    "script" => "processlist.php",
+    "default_navigation_part" => 'ezmynavigationpart',
+    "params" => array( ) );
 
 ?>

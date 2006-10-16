@@ -60,34 +60,38 @@ class eZSimpleShippingType extends eZWorkflowEventType
         $description = $ini->variable( "SimpleShippingWorkflow", "ShippingDescription" );
 
         $parameters = $process->attribute( 'parameter_list' );
-        $orderID = $parameters['order_id'];
 
-        $order = eZOrder::fetch( $orderID );
-        $orderItems = $order->attribute( 'order_items' );
-        $addShipping = true;
-        foreach ( array_keys( $orderItems ) as $key )
+        if ( isset( $parameters['order_id'] ) )
         {
-            $orderItem =& $orderItems[$key];
-            if ( $orderItem->attribute( 'type' ) == 'ezsimpleshipping' )
+            $orderID = $parameters['order_id'];
+
+            $order = eZOrder::fetch( $orderID );
+            $orderItems = $order->attribute( 'order_items' );
+            $addShipping = true;
+            foreach ( array_keys( $orderItems ) as $key )
             {
-                $addShipping = false;
-                break;
+                $orderItem =& $orderItems[$key];
+                if ( $orderItem->attribute( 'type' ) == 'ezsimpleshipping' )
+                {
+                    $addShipping = false;
+                    break;
+                }
             }
-        }
-        if ( $addShipping )
-        {
-            $productCollection =& $order->attribute( 'productcollection' );
-            $orderCurrency =& $productCollection->attribute( 'currency_code' );
+            if ( $addShipping )
+            {
+                $productCollection =& $order->attribute( 'productcollection' );
+                $orderCurrency =& $productCollection->attribute( 'currency_code' );
 
-            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-            $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );
+                include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+                $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );
 
-            $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                                 'description' => $description,
-                                                 'price' => $cost,
-                                                 'type' => 'ezsimpleshipping' )
-                                          );
-            $orderItem->store();
+                $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                                     'description' => $description,
+                                                     'price' => $cost,
+                                                     'type' => 'ezsimpleshipping' )
+                                              );
+                $orderItem->store();
+            }
         }
         return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
     }

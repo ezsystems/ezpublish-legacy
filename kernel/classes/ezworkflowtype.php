@@ -64,8 +64,8 @@ class eZWorkflowType
     function eZWorkflowType( $group, $type,
                              $groupName, $name )
     {
-        $this->TypeGroup = $group;
-        $this->TypeString = $type;
+        $this->Group = $group;
+        $this->Type = $type;
         $this->TypeString = $group . "_" . $type;
         $this->GroupName = $groupName;
         $this->Name = $name;
@@ -83,18 +83,8 @@ class eZWorkflowType
 
     function statusName( $status )
     {
-        $statusNames =& $GLOBALS["eZWorkflowTypeStatusNames"];
-        if ( !is_array( $statusNames ) )
-        {
-            $statusNames = array( EZ_WORKFLOW_TYPE_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_ACCEPTED => ezi18n( 'kernel/classes', 'Accepted event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_REJECTED => ezi18n( 'kernel/classes', 'Rejected event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Event deferred to cron job' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT => ezi18n( 'kernel/classes', 'Event deferred to cron job, event will be rerun' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT => ezi18n( 'kernel/classes', 'Event runs a sub event' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED => ezi18n( 'kernel/classes', 'Cancelled whole workflow' ),
-                                  EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
-        }
+        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        $statusNames = eZWorkflowFunctionCollection::fetchWorkflowTypeStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
         return false;

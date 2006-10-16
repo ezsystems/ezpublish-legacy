@@ -9,6 +9,8 @@
 <ul>
     <li><div><a href={'/content/draft/'|ezurl}>{'My drafts'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>
     <li><div><a href={'/content/pendinglist/'|ezurl}>{'My pending items'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>
+    {* rush *}
+    <li><div><a href={'/workflow/processlist/'|ezurl}>{'My workflow processes'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>
     <li><div><a href={'/notification/settings/'|ezurl}>{'My notification settings'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>
     <li><div><a href={'/content/bookmark/'|ezurl}>{'My bookmarks'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>
     <li><div><a href={'/collaboration/view/summary'|ezurl}>{'Collaboration'|i18n( 'design/admin/parts/my/menu' )}</a></div></li>

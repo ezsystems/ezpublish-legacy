@@ -37,6 +37,7 @@
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezworkflowevent.php" );
+include_once( 'kernel/classes/ezworkflowgrouplink.php' );
 
 define( "EZ_WORKFLOW_STATUS_NONE", 0 );
 define( "EZ_WORKFLOW_STATUS_BUSY", 1 );
@@ -116,19 +117,8 @@ class eZWorkflow extends eZPersistentObject
 
     function statusName( $status )
     {
-        $statusNames =& $GLOBALS["eZWorkflowStatusNames"];
-        if ( !is_array( $statusNames ) )
-        {
-            $statusNames = array( EZ_WORKFLOW_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
-                                  EZ_WORKFLOW_STATUS_BUSY => ezi18n( 'kernel/classes', 'Workflow running' ),
-                                  EZ_WORKFLOW_STATUS_DONE => ezi18n( 'kernel/classes', 'Workflow done' ),
-                                  EZ_WORKFLOW_STATUS_FAILED => ezi18n( 'kernel/classes', 'Workflow failed an event' ),
-                                  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON => ezi18n( 'kernel/classes', 'Workflow event deferred to cron job' ),
-                                  EZ_WORKFLOW_STATUS_CANCELLED => ezi18n( 'kernel/classes', 'Workflow was cancelled' ),
-                                  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE => ezi18n( 'kernel/classes', 'Workflow fetches template' ),
-                                  EZ_WORKFLOW_STATUS_REDIRECT => ezi18n( 'kernel/classes', 'Workflow redirects user view' ),
-                                  EZ_WORKFLOW_STATUS_RESET => ezi18n( 'kernel/classes', 'Workflow was reset for reuse' ) );
-        }
+        include_once( 'kernel/workflow/ezworkflowfunctioncollection.php' );
+        $statusNames = eZWorkflowFunctionCollection::fetchWorkflowStatuses();
         if ( isset( $statusNames[$status] ) )
             return $statusNames[$status];
         return false;
@@ -487,16 +477,16 @@ class eZWorkflow extends eZPersistentObject
     function &ingroupList()
     {
         $this->InGroups = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
-                                                                $this->attribute("version"),
-                                                                true );
+                                                               $this->attribute("version"),
+                                                               true );
         return $this->InGroups;
     }
 
     function &ingroupIDList()
     {
         $list = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
-                                                      $this->attribute("version"),
-                                                      false );
+                                                     $this->attribute("version"),
+                                                     false );
 
         $this->InGroupIDs = array();
         foreach ( $list as $item )
