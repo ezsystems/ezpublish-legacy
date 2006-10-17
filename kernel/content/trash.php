@@ -68,11 +68,11 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
             {
 
                 $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                                    null,
-                                                                    array( 'id' => $deleteID ),
-                                                                    null,
-                                                                    null,
-                                                                    true );
+                                                                   null,
+                                                                   array( 'id' => $deleteID ),
+                                                                   null,
+                                                                   null,
+                                                                   true );
                 eZDebug::writeNotice( $deleteID, "deleteID" );
                 foreach ( array_keys( $objectList ) as $key )
                 {
@@ -88,18 +88,17 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         }
     }
 }
-
-if ( $http->hasPostVariable( 'EmptyButton' )  )
+else if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
     $access = $user->hasAccessTo( 'content', 'cleantrash' );
     if ( $access['accessWord'] == 'yes' )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                             null,
-                                             array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
-                                             null,
-                                             null,
-                                             true );
+                                                           null,
+                                                           array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                                           null,
+                                                           null,
+                                                           true );
 
         $db =& eZDB::instance();
         $db->begin();
