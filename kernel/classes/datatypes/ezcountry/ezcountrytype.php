@@ -54,64 +54,62 @@ class eZCountryType extends eZDataType
                                   'object_serialize_map' => array( 'data_text' => 'country' ) ) );
     }
 
-    /*
-      Returns all country list with using translation.ts
+    /*!
+     Fetches country list from ini.
     */
-    function fetchCountriesForCurrentLanguage()
+    function fetchCountryList()
     {
-        if ( isset( $GLOBALS['eZCountryList'] ) )
-        {
-            return $GLOBALS['eZCountryList'];
-        }
+        if ( isset( $GLOBALS['CountryList'] ) )
+            return $GLOBALS['CountryList'];
 
-        $countryList = array();
-        $countryINI =& eZINI::instance( 'content.ini' );
-        foreach ( $countryINI->variable( 'CountrySettings', 'Countries' ) as $key => $value )
-        {
-            $countryList[$key] = ezi18n( 'kernel/content/datatypes/ezcountry', $value );
-        }
-        natcasesort($countryList);
-        $GLOBALS['eZCountryList'] = $countryList;
-        return $countryList;
+        $ini =& eZINI::instance( 'country.ini' );
+        $countries = $ini->getNamedArray();
+        eZCountryType::fetchTranslatedNames( $countries );
+        $GLOBALS['CountryList'] = $countries;
+        return $countries;
     }
 
-    /*
-      Returns Country by name
+    /*!
+      Fetches translated country names from locale
+      \a $countries will be updated.
     */
-    function fetchCountryByName( $name )
+    function fetchTranslatedNames( &$countries )
     {
-        if ( !$name )
-            return false ;
-
-        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
-        $result = false;
+        include_once( "lib/ezlocale/classes/ezlocale.php" );
+        $locale =& eZLocale::instance();
+        $translatedCountryNames = $locale->translatedCountryNames();
         foreach ( array_keys( $countries ) as $countryKey )
         {
-            if ( $countries[$countryKey] == $name )
+            $translatedName = isset( $translatedCountryNames[$countryKey] ) ? $translatedCountryNames[$countryKey] : false;
+            if ( $translatedName )
+                $countries[$countryKey]['Name'] = $translatedName;
+        }
+    }
+
+    /*!
+      Fetches country by \a $fetchBy.
+      if \a $fetchBy is false country name will be used.
+    */
+    function fetchCountry( $value, $fetchBy = false )
+    {
+        $fetchBy = !$fetchBy ? 'Name' : $fetchBy;
+
+        $allCountries = eZCountryType::fetchCountryList();
+        $result = false;
+        if ( $fetchBy == 'Alpha2' and isset( $allCountries[strtoupper( $value )] ) )
+        {
+            $result = $allCountries[$value];
+            return $result;
+        }
+
+        foreach ( $allCountries as $country )
+        {
+            if ( isset( $country[$fetchBy] ) and $country[$fetchBy] == $value )
             {
-                $result = array( $countryKey => $name );
+                $result = $country;
                 break;
             }
         }
-
-        return $result;
-    }
-
-    /*
-      Returns country by code
-    */
-    function fetchCountryByCode( $code )
-    {
-        if ( !$code )
-            return false;
-
-        $code = strtoupper( $code );
-        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
-        $country = isset( $countries[$code] ) ? $countries[$code] : null;
-        if ( !$country )
-            return false;
-
-        $result = array( $code => $country );
 
         return $result;
     }
@@ -135,11 +133,14 @@ class eZCountryType extends eZDataType
             {
                 $defaultValues = $http->postVariable( $base . "_ezcountry_default_country_list_". $classAttributeID );
                 $defaultList = array();
-                $countries = eZCountryType::fetchCountriesForCurrentLanguage();
-                foreach ( $defaultValues as $defaultCountry )
+                foreach ( $defaultValues as $alpha2 )
                 {
-                    if ( trim( $defaultCountry ) != '' )
-                        $defaultList[$defaultCountry] = isset( $countries[$defaultCountry] ) ? $countries[$defaultCountry] : '';
+                    if ( trim( $alpha2 ) == '' )
+                        continue;
+                    // Fetch ezcountry by aplha2 code (as reserved in iso-3166 code list)
+                    $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );
+                    if ( $eZCountry )
+                        $defaultList[$alpha2] = $eZCountry;
                 }
                 $content['default_countries'] = $defaultList;
             }
@@ -244,23 +245,26 @@ class eZCountryType extends eZDataType
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
             $defaultList = array();
-            $countries = eZCountryType::fetchCountriesForCurrentLanguage();
             if ( is_array( $data ) )
             {
-                foreach ( $data as $defaultCountry )
+                foreach ( $data as $alpha2 )
                 {
-                    if ( trim( $defaultCountry ) != '' )
-                        $defaultList[$defaultCountry] = isset( $countries[$defaultCountry] ) ? $countries[$defaultCountry] : '';
+                    if ( trim( $alpha2 ) == '' )
+                        continue;
+
+                    $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );
+                    if ( $eZCountry )
+                        $defaultList[$alpha2] = $eZCountry;
                 }
             }
             else
             {
-                foreach ( array_keys( $countries ) as $key )
+                $countries = eZCountryType::fetchCountryList();
+                foreach ( $countries as $country )
                 {
-                    $country = $countries[$key];
-                    if ( $country == $data )
+                    if ( $country['Name'] == $data )
                     {
-                        $defaultList[$key] = $country;
+                        $defaultList[$country['Alpha2']] = $country['Name'];
                     }
                 }
             }
@@ -336,12 +340,11 @@ class eZCountryType extends eZDataType
         $value = $contentObjectAttribute->attribute( 'data_text' );
 
         $countryList = explode( ',', $value );
-        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
         $resultList = array();
-        foreach ( array_keys( $countryList ) as $defaultKey )
+        foreach ( $countryList as $alpha2 )
         {
-            $dCountry = $countryList[$defaultKey];
-            $resultList[$dCountry] = isset( $countries[$dCountry] ) ? $countries[$dCountry] : '';
+            $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );
+            $resultList[$alpha2] = $eZCountry ? $eZCountry : '';
         }
         // Supporting of previous version format.
         // For backwards compatability.
@@ -360,14 +363,13 @@ class eZCountryType extends eZDataType
         $defaultCountry = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
         $multipleChoice = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
         $defaultCountryList = explode( ',', $defaultCountry );
-        $countries = eZCountryType::fetchCountriesForCurrentLanguage();
         $resultList = array();
-        foreach ( array_keys( $defaultCountryList ) as $defaultKey )
+        foreach ( $defaultCountryList as $alpha2 )
         {
-            $dCountry = $defaultCountryList[$defaultKey];
-            $resultList[$dCountry] = isset( $countries[$dCountry] ) ? $countries[$dCountry] : '';
+            $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );
+            if ( $eZCountry )
+                $resultList[$alpha2] = $eZCountry;
         }
-
         $content = array( 'default_countries' => $resultList,
                           'multiple_choice' => $multipleChoice );
 
@@ -380,13 +382,24 @@ class eZCountryType extends eZDataType
     function metaData( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
+        if ( is_array( $content['value'] ) )
+        {
+            $imploded = '';
+            foreach ( $content['value'] as $country )
+            {
+                $countryName = $country['Name'];
+                if ( $imploded == '' )
+                    $imploded = $countryName;
+                else
+                    $imploded .= ',' . $countryName;
+            }
+            $content['value'] = $imploded;
+        }
         return $content['value'];
     }
 
     /*!
      \return string representation of an contentobjectattribute data for simplified export
-
     */
     function toString( $contentObjectAttribute )
     {
@@ -404,7 +417,19 @@ class eZCountryType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
+        if ( is_array( $content['value'] ) )
+        {
+            $imploded = '';
+            foreach ( $content['value'] as $country )
+            {
+                $countryName = $country['Name'];
+                if ( $imploded == '' )
+                    $imploded = $countryName;
+                else
+                    $imploded .= ',' . $countryName;
+            }
+            $content['value'] = $imploded;
+        }
         return $content['value'];
     }
 
@@ -439,8 +464,20 @@ class eZCountryType extends eZDataType
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
         $content = $contentObjectAttribute->content();
-        $content['value'] = is_array( $content['value'] ) ? implode( ',', $content['value'] ) : $content['value'];
+        if ( is_array( $content['value'] ) )
+        {
+            $imploded = '';
+            foreach ( $content['value'] as $country )
+            {
+                $countryName = $country['Name'];
 
+                if ( $imploded == '' )
+                    $imploded = $countryName;
+                else
+                    $imploded .= ',' . $countryName;
+            }
+            $content['value'] = $imploded;
+        }
         return $trans->transformByGroup( $content['value'], 'lowercase' );
     }
 

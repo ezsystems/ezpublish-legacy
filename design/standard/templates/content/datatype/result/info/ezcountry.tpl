@@ -3,7 +3,9 @@
 
 {if $attribute.has_content}
    {if is_array( $attribute.content.value )}
-      {$attribute.content.value|implode(', ')|wash}
+       {foreach $attribute.content.value as $country}
+           <p>{$country.Name|wash( xhtml )}</p>
+       {/foreach}
    {else}
       {$attribute.content.value|wash}
    {/if}

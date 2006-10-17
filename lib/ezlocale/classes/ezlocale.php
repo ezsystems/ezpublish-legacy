@@ -297,6 +297,7 @@ class eZLocale
         $this->CurrencySymbol = '';
         $this->CurrencyPositiveFormat = '';
         $this->CurrencyNegativeFormat = '';
+        $this->CountryNames = '';
 
         $this->LanguageName = '';
         $this->LanguageComment = '';
@@ -371,6 +372,9 @@ class eZLocale
         $countryINI->assign( 'Currency', 'Symbol', $this->CurrencySymbol );
         $countryINI->assign( 'Currency', 'PositiveFormat', $this->CurrencyPositiveFormat );
         $countryINI->assign( 'Currency', 'NegativeFormat', $this->CurrencyNegativeFormat );
+        if ( $countryINI->hasVariable( 'CountryNames', 'Countries' ) )
+            $this->CountryNames = $countryINI->variable( 'CountryNames', 'Countries' );
+
     }
 
     /*!
@@ -1202,6 +1206,11 @@ class eZLocale
                             $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
     }
 
+    function translatedCountryNames()
+    {
+        return $this->CountryNames;
+    }
+
     /*!
      Formats the currency according locale to the representation used internally in PHP
     */
@@ -1653,6 +1662,7 @@ class eZLocale
     var $LanguageName;
     /// Internationalized name of the language
     var $IntlLanguageName;
+    var $CountryNames;
     //@}
 };
 

@@ -1353,21 +1353,14 @@ class eZContentFunctionCollection
     function fetchCountryList( $filter, $value )
     {
         include_once( 'kernel/classes/datatypes/ezcountry/ezcountrytype.php' );
-
-        switch ( $filter )
+        // Fetch country list
+        if ( !$filter and !$value )
         {
-            case 'name':
-            {
-                $country = eZCountryType::fetchCountryByName( $value );
-            } break;
-            case 'code':
-            {
-                $country = eZCountryType::fetchCountryByCode( $value );
-            } break;
-            default:
-            {
-                $country = eZCountryType::fetchCountriesForCurrentLanguage();
-            } break;
+            $country = eZCountryType::fetchCountryList();
+        }
+        else
+        {
+            $country = eZCountryType::fetchCountry( $value, $filter );
         }
 
         return array( 'result' => $country );
