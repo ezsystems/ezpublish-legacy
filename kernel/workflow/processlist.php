@@ -33,9 +33,9 @@ $Module =& $Params["Module"];
 include_once( "kernel/classes/eztrigger.php" );
 
 //////////////////////
-$userID = eZUser::currentUserID();
+//$userID = eZUser::currentUserID();
 $conds = array();
-$conds['user_id'] =  $userID;
+//$conds['user_id'] =  $userID;
 $conds['status'] = array( array( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,
                                  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE,
                                  EZ_WORKFLOW_STATUS_REDIRECT ) );
@@ -82,6 +82,7 @@ foreach ( $plist as $p )
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
+$tpl->setVariable( "module", $Module );
 $tpl->setVariable( "trigger_list", $outList2 );
 $tpl->setVariable( "total_process_count", $totalProcessCount );
 

@@ -10,7 +10,7 @@
 <ul>
     <li><div><span class="disabled">{'Cache management'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Classes'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
-    <li><div><span class="disabled">{'Collected information'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>    
+    <li><div><span class="disabled">{'Collected information'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Extensions'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Global settings'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Ini settings'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
@@ -57,6 +57,7 @@
     <li><div><a href={'/url/list/'|ezurl}>{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/content/urltranslator/'|ezurl}>{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/workflow/grouplist/'|ezurl}>{'Workflows'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
+    <li><div><a href={'/workflow/processlist/'|ezurl}>{'Workflow processes'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
 </ul>
 
 {/section}
