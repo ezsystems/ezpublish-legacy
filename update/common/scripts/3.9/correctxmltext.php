@@ -51,7 +51,7 @@ $script =& eZScript::instance( array( 'description' => "\nThis script performs t
 
 $script->startup();
 
-$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][skip-objects][skip-classes][classes-dump-only][skip-custom][custom-dump-only]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:][skip-objects][skip-classes][classes-dump-only][skip-custom][custom-dump-only][global]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
@@ -62,7 +62,8 @@ $options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:
                                        'skip-classes' => "Skip checking and updating AvailableClasses settings of content.ini.",
                                        'classes-dump-only' => "Check available classes lists, but do not update content.ini. Results will be displayed in the output.",
                                        'skip-custom' => "Skip checking and updating CustomAttributes settings of content.ini.",
-                                       'custom-dump-only' => "Check available custom attributes lists, but do not update content.ini. Results will be displayed in the output."
+                                       'custom-dump-only' => "Check available custom attributes lists, but do not update content.ini. Results will be displayed in the output.",
+                                       'global' => "Update global override content.ini.append instead of siteaccess"
                                        ) );
 $script->initialize();
 
@@ -77,6 +78,8 @@ $classesDumpOnly = $options['classes-dump-only'];
 $skipCustom = $options['skip-custom'];
 $customDumpOnly = $options['custom-dump-only'];
 $skipObjects = $options['skip-objects'];
+
+$global = $options['global'];
 
 $isQuiet = $script->isQuiet();
 
@@ -122,7 +125,11 @@ $xml = new eZXML();
 if ( !$skipClasses || !$skipCustom )
 {
     $contentIni =& eZINI::instance( 'content.ini' );
-    $contentIniDirect =& eZINI::instance( 'content.ini.append', "settings/siteaccess/$siteaccess", null, null, null, true, true );
+    if ( $global )
+        $iniPath = "settings/override";
+    else
+        $iniPath = "settings/siteaccess/$siteaccess";
+    $contentIniDirect =& eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
 
     include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
     $XMLSchema =& eZXMLSchema::instance();
@@ -346,9 +353,9 @@ if ( $isIniModified )
 {
     $saved = $contentIniDirect->save();
     if ( !$saved && !$isQuiet )
-        $cli->error( "\nCan't save ini file: settings/siteaccess/$siteaccess/content.ini.append(.php) !" );
+        $cli->error( "\nCan't save ini file: '$iniPath/content.ini.append(.php)' !" );
     elseif ( !$isQuiet )
-        $cli->notice( "\nSettings file 'content.ini.append' for siteaccess '$siteaccess' has been updated." );
+        $cli->notice( "\nSettings file '$iniPath/content.ini.append' has been updated." );
 }
 elseif( ( !$skipClasses && !$classesDumpOnly ) || ( !$skipCustom && !$customDumpOnly ) )
 {
