@@ -279,7 +279,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function children()
+    function &children()
     {
         return $this->Children;
     }
@@ -332,7 +332,7 @@ class eZDOMNode
       \note If multiple elements with that name is found \c false is returned.
       \sa elementByName, children
     */
-    function elementChildrenByName( $name )
+    function &elementChildrenByName( $name )
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
@@ -449,7 +449,7 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementByName
     */
-    function elementsByName( $name )
+    function &elementsByName( $name )
     {
         $elements = array();
         foreach ( array_keys( $this->Children ) as $key )
@@ -484,6 +484,9 @@ class eZDOMNode
     }
 
     /*!
+      \deprecated This function is deprecated.
+                  Use getAttribute instead.
+    
       \return The value of the attribute named \a $attributeName.
       If no value is found \c false is returned.
 
@@ -594,6 +597,9 @@ class eZDOMNode
     }
 
     /*!
+      \deprecated This function is deprecated.
+                  Use getAttributeNS instead.
+    
       \return The value of the attribute named \a $attributeName and having namespace \a $namespaceURI.
       If no value is found \c false is returned.
 

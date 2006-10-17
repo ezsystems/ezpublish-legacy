@@ -218,7 +218,6 @@ class eZDOMDocument
     }
 
     /*!
-      \static
       Creates a DOM node of type text and returns it.
 
       Text nodes are used to store text strings,
@@ -249,14 +248,13 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 3 );
 
-        if ( is_object( $this ) && $this->setParentNode )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
     }
 
     /*!
-      \static
       Creates a DOM node of type CDATA and returns it.
 
       CDATA nodes are used to store text strings,
@@ -279,10 +277,14 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 4 );
 
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
+            $node->parentNode = null;
+
         return $node;
     }
 
     /*!
+      \deprecated
       \static
       Creates DOMNodeElement recursivly from recursive array
     */
@@ -291,9 +293,6 @@ class eZDOMDocument
         $node = new eZDOMNode();
         $node->setName( $name );
         $node->setType( 1 );
-
-        if ( is_object( $this ) && $this->setParentNode )
-            $node->parentNode = null;
 
         foreach ( $array as $arrayKey => $value )
         {
@@ -322,6 +321,7 @@ class eZDOMDocument
     }
 
     /*!
+      \deprecated
       \static
       Creates recursive array from DOMNodeElement
     */
@@ -360,7 +360,9 @@ class eZDOMDocument
     }
 
     /*!
-      \static
+      \deprecated This function is deprecated.
+                  Use createElement and setAttribute instead !
+      
       Creates a DOM node of type element and returns it.
 
       Element nodes are the basic node type in DOM tree,
@@ -392,7 +394,7 @@ class eZDOMDocument
             $node->appendAttribute( eZDomDocument::createAttributeNode( $attributeKey, $attributeValue ) );
         }
 
-        if ( is_object( $this ) && $this->setParentNode )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
@@ -407,7 +409,8 @@ class eZDOMDocument
     }
 
     /*!
-      \static
+      \deprecated This function is deprecated.
+      
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type text and add it as child of the element node.
 
@@ -435,14 +438,15 @@ class eZDOMDocument
         $textNode = eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
 
-        if ( is_object( $this ) && $this->setParentNode )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
     }
 
     /*!
-      \static
+      \deprecated This function is deprecated.
+    
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type CDATA and add it as child of the element node.
 
@@ -470,14 +474,13 @@ class eZDOMDocument
         $cdataNode = eZDOMDocument::createCDATANode( $text );
         $node->appendChild( $cdataNode );
 
-        if ( is_object( $this ) && $this->setParentNode )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
     }
 
     /*!
-      \static
       Creates a DOM node of type element with a namespace and returns it.
 
       \param $uri The namespace URI for the element
@@ -501,14 +504,13 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( is_object( $this ) && $this->setParentNode )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
             $node->parentNode = null;
 
         return $node;
     }
 
     /*!
-      \static
       Creates a DOM node of type attribute and returns it.
 
       \param $name The name of the attribute
@@ -565,6 +567,8 @@ class eZDOMDocument
     }
 
     /*!
+      \deprecated Use createAttributeNS instead.
+    
       \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 
@@ -737,11 +741,13 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( isset( $this ) && is_object( $this ) )
+        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' )
+        {
             $this->registerElement( $node );
 
-        if ( $this->setParentNode )
-            $node->parentNode = null;
+            if ( $this->setParentNode )
+                $node->parentNode = null;
+        }
 
         return $node;
     }
