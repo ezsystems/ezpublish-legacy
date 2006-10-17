@@ -26,7 +26,7 @@
    <p>{$error|wash}</p>
    <p>Remote repository URL: <a href={$index_url}>{$index_url|wash}</a></p>
  </blockquote>
-  
+
 </div>
 {/section}
 
@@ -99,7 +99,11 @@
      <td></td>
      <td></td>
      <td>
-	 Unknown.
+        {if not( $package_info.status )}
+            {'Unknown'|i18n('design/standard/setup/init')}.
+        {else}
+            {'No dependencies'|i18n('design/standard/setup/init')}.
+        {/if}
      </td>
      <td></td>
     </tr>
