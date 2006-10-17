@@ -156,10 +156,7 @@ class eZDOMDocument
     */
     function setRoot( &$node )
     {
-        if ( get_class( $node ) == "ezdomnode" )
-        {
-            $this->Root =& $node;
-        }
+        $this->appendChild( $node );
     }
 
     /*!
@@ -171,7 +168,25 @@ class eZDOMDocument
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
+            if ( $this->setParentNode !== false )
+                $this->updateParentNodeProperty( $node );
             $this->Root =& $node;
+        }
+    }
+
+    /*!
+      Updates parentNode of the tree according to setParentNode property of the document.
+      (set false, if setParentNode is false)
+    */
+
+    function updateParentNodeProperty( &$node )
+    {
+        if ( $node->parentNode === false )
+            $node->parentNode = null;
+
+        foreach( array_keys( $node->Children ) as $key )
+        {
+            $this->updateParentNodeProperty( $node->Children[$key] );
         }
     }
 
@@ -218,6 +233,7 @@ class eZDOMDocument
     }
 
     /*!
+      \static
       Creates a DOM node of type text and returns it.
 
       Text nodes are used to store text strings,
@@ -248,13 +264,11 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 3 );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
     /*!
+      \static
       Creates a DOM node of type CDATA and returns it.
 
       CDATA nodes are used to store text strings,
@@ -277,14 +291,12 @@ class eZDOMDocument
         $node->setContent( $text );
         $node->setType( 4 );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
     /*!
-      \deprecated
+      \deprecated not compatible with W3C DOM standard
+    
       \static
       Creates DOMNodeElement recursivly from recursive array
     */
@@ -321,7 +333,8 @@ class eZDOMDocument
     }
 
     /*!
-      \deprecated
+      \deprecated not compatible with W3C DOM standard
+    
       \static
       Creates recursive array from DOMNodeElement
     */
@@ -360,9 +373,9 @@ class eZDOMDocument
     }
 
     /*!
-      \deprecated This function is deprecated.
-                  Use createElement and setAttribute instead !
+      \deprecated  Use createElement and setAttribute instead.
       
+      \static
       Creates a DOM node of type element and returns it.
 
       Element nodes are the basic node type in DOM tree,
@@ -394,9 +407,6 @@ class eZDOMDocument
             $node->appendAttribute( eZDomDocument::createAttributeNode( $attributeKey, $attributeValue ) );
         }
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
@@ -409,8 +419,9 @@ class eZDOMDocument
     }
 
     /*!
-      \deprecated This function is deprecated.
-      
+      \deprecated Not compatible with W3C DOM standard
+    
+      \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type text and add it as child of the element node.
 
@@ -438,15 +449,13 @@ class eZDOMDocument
         $textNode = eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
     /*!
-      \deprecated This function is deprecated.
+      \deprecated not compatible with W3C DOM standard
     
+      \static
       Creates a DOM node of type element and returns it.
       It will also create a DOM node of type CDATA and add it as child of the element node.
 
@@ -474,13 +483,14 @@ class eZDOMDocument
         $cdataNode = eZDOMDocument::createCDATANode( $text );
         $node->appendChild( $cdataNode );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
     /*!
+      \deprecated Not compatible with W3C DOM standard.
+                  Use createElementNS instead.
+    
+      \static
       Creates a DOM node of type element with a namespace and returns it.
 
       \param $uri The namespace URI for the element
@@ -504,13 +514,14 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' && $this->setParentNode )
-            $node->parentNode = null;
-
         return $node;
     }
 
     /*!
+      \deprecated Not compatible with W3C DOM standard.
+                  Use createAttribute instead.
+    
+      \static
       Creates a DOM node of type attribute and returns it.
 
       \param $name The name of the attribute
@@ -540,6 +551,9 @@ class eZDOMDocument
     }
 
     /*!
+      \deprecated Not compatible with W3C DOM standard.
+                  Use createAttributeNS instead.
+    
       \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
 
@@ -567,7 +581,8 @@ class eZDOMDocument
     }
 
     /*!
-      \deprecated Use createAttributeNS instead.
+      \deprecated Not compatible with W3C DOM standard.
+                  Use createAttributeNS instead.
     
       \static
       Creates a DOM node of type attribute which is used for namespace definitions and returns it.
@@ -741,15 +756,23 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        if ( is_object( $this ) && get_class( $this ) == 'ezdomdocument' )
-        {
-            $this->registerElement( $node );
-
-            if ( $this->setParentNode )
-                $node->parentNode = null;
-        }
+        $this->registerElement( $node );
 
         return $node;
+    }
+
+    // \note W3C DOM function
+
+    function createElementNS(  $namespaceURI, $qualifiedName )
+    {
+        list( $prefix, $name ) = explode( ':', $qualifiedName );
+
+        $node = new eZDOMNode();
+        $node->setName( $name );
+        $node->setPrefix( $prefix );
+        $node->setNamespaceURI( $namespaceURI );
+        $node->setType( 1 );
+        return node;
     }
 
     // \note W3C DOM function

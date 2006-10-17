@@ -635,7 +635,7 @@ class eZDOMNode
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
-            if ( $node->parentNode !== false )
+            if ( $this->parentNode !== false )
                 $node->parentNode =& $this;
 
             $this->Children[] =& $node;
