@@ -21,7 +21,7 @@
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
     {section show=$reverse_related}
-        <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )} 
+        <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )}
            <strong>{'Advanced'|i18n( 'design/admin/node/removeobject' )}</strong>-&gt;
            <strong>{'Reverse related for subtree'|i18n( 'design/admin/node/removeobject' )}</strong>
         </p>
@@ -45,7 +45,7 @@
 {section-else}
    {section show=$reverse_related}
    <div class="block">
-        <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )} 
+        <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and'|i18n( 'design/admin/node/removeobject' )}
            <strong>{'Advanced'|i18n( 'design/admin/node/removeobject' )}</strong>-&gt;
            <strong>{'Reverse related for subtree'|i18n( 'design/admin/node/removeobject' )}</strong>
         </p>
@@ -98,6 +98,7 @@
 <div class="block">
 {if and( $remove_info.can_remove_all, eq( $delete_items_exist,true() ) )}
     {if $move_to_trash_allowed}
+    <input type="hidden" name="SupportsMoveToTrash" value="1" />
     <p><input type="checkbox" name="MoveToTrash" value="1" {if $move_to_trash}checked="checked" {/if}title="{'If "Move to trash" is checked, the items will be moved to the trash instead of being permanently deleted.'|i18n( 'design/admin/node/removeobject' )|wash}" />{'Move to trash'|i18n('design/admin/node/removeobject')}</p>
     {/if}
 {/if}

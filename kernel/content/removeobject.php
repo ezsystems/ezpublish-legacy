@@ -80,8 +80,13 @@ if ( $RemoveAction != 'trash' and $RemoveAction != 'delete' )
     $RemoveAction = 'trash';
 
 $moveToTrash = ( $RemoveAction == 'trash' ) ? true : false;
-if ( $http->hasPostVariable( 'MoveToTrash' ) )
-    $moveToTrash = $http->postVariable( 'MoveToTrash' ) ? true : false;
+if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
+{
+    if ( $http->hasPostVariable( 'MoveToTrash' ) )
+        $moveToTrash = $http->postVariable( 'MoveToTrash' ) ? true : false;
+    else
+        $moveToTrash = false;
+}
 
 $hideRemoveConfirm = $contentINI->hasVariable( 'RemoveSettings', 'HideRemoveConfirmation' ) ?
                      (( $contentINI->variable( 'RemoveSettings', 'HideRemoveConfirmation' ) == 'true' ) ? true : false ) : false;
