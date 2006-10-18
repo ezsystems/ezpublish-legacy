@@ -1,4 +1,4 @@
-{section show=and( $validation.processed, $collection_attributes )}
+{section show=and( is_set( $validation.processed ), and( $validation.processed, $collection_attributes ) )}
     <div class="message-warning">
         {section show=$validation.attributes}
             <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The information could not be collected.'|i18n( 'design/admin/node/view/full' )}</h2>
