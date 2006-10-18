@@ -54,3 +54,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0alpha1) rev. 17142)
 - Fixed bug #9152: HTML should not be in i18n strings.
   (Merged from trunk (3.9.0alpha1) rev. 17166)
+- Fixed bug #9073: Setup wizard must check for write access to /extension folder.
+  (Merged from trunk (3.9.0alpha1) rev. 17191)
