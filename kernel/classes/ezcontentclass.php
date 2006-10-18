@@ -530,7 +530,7 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
-        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
+        $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 
         if ( $fetchAll )
         {
@@ -538,11 +538,11 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
+                                     "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -558,12 +558,12 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
+                                     "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
@@ -718,16 +718,16 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
-        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
+        $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 
         $classList = array();
         $db =& eZDb::instance();
         // If $asObject is true we fetch all fields in class
-        $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
+        $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
         $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                 "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
-                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameSqlFilter[where]\n" .
-                                 "ORDER BY $classNameSqlFilter[nameField] ASC" );
+                                 "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
+                                 "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
+                                 "ORDER BY $classNameFilter[nameField] ASC" );
 
         $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         return $classList;
@@ -1016,8 +1016,6 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function initializeCopy( &$originalClass )
     {
-        $classNameSqlFilter = eZContentClassName::sqlFilter( 'ezcontentclass' );
-
         $name = ezi18n( 'kernel/class', 'Copy of %class_name', null,
                         array( '%class_name' => $originalClass->attribute( 'name' ) ) );
         $identifier = 'copy_of_' . $originalClass->attribute( 'identifier' );
