@@ -6,25 +6,25 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.8.x
+// SOFTWARE RELEASE: 3.9.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-//
+// 
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-//
+// 
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-//
-//
+// 
+// 
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -412,23 +412,30 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http =& eZHTTPTool::instance();
+            //$permissionExpired = $http->sessionVariable( 'roleExpired' );
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
+//             print( "expired time stamp = '$expiredTimeStamp'<br/>" );
 
             $classesCachedForUser = $http->sessionVariable( 'ClassesCachedForUser' );
             $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
+
+//             print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
+//             print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
 
             $cacheVar = 'CanInstantiateClassList';
             if ( is_array( $groupList ) and $fetchID !== false )
             {
                 $cacheVar = 'CanInstantiateClassListGroup';
             }
+//             print( "\$cacheVar='$cacheVar'<br/>" );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
+//             print( "\$userID='$userID'<br/>" );
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( $cacheVar ) )
@@ -439,11 +446,13 @@ class eZContentClass extends eZPersistentObject
                         $groupArray = $http->sessionVariable( $cacheVar );
                         if ( isset( $groupArray[$fetchID] ) )
                         {
+//                             print( "returning cached class list in group<br/>" );
                             return $groupArray[$fetchID];
                         }
                     }
                     else
                     {
+//                         print( "returning cached class list<br/>" );
                         return $http->sessionVariable( $cacheVar );
                     }
                 }
@@ -530,19 +539,17 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
-        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
-
         if ( $fetchAll )
         {
             $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
+                                     "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -558,12 +565,12 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
+                                     "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 

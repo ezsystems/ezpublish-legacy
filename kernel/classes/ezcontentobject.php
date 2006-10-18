@@ -6,25 +6,25 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.8.x
+// SOFTWARE RELEASE: 3.9.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-//
+// 
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-//
+// 
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-//
-//
+// 
+// 
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -3996,19 +3996,17 @@ class eZContentObject extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
-        $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
-
         if ( $fetchAll )
         {
             $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
-                                     "ORDER BY $classNameFilter[nameField] ASC" );
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -4024,12 +4022,12 @@ class eZContentObject extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n",
-                                     "ORDER BY $classNameFilter[nameField] ASC" );
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                     "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
