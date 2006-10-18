@@ -202,18 +202,18 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function create( $userID = false, $optionalValues = array(), $languageLocale = false )
+    function create( $userID = false, $optionalValues = array(), $languageCode = false )
     {
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
 
-        if ( $languageLocale == false )
+        if ( $languageCode == false )
         {
-            $languageLocale = eZContentObject::defaultLanguage();
+            $languageCode = eZContentObject::defaultLanguage();
         }
 
-        $languageID = eZContentLanguage::idByLocale( $languageLocale );
+        $languageID = eZContentLanguage::idByLocale( $languageCode );
 
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
@@ -235,9 +235,7 @@ class eZContentClass extends eZPersistentObject
             "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
 
         $row = array_merge( $row, $optionalValues );
-
         $contentClass = new eZContentClass( $row );
-
         return $contentClass;
     }
 
@@ -412,30 +410,23 @@ class eZContentClass extends eZPersistentObject
         if ( $enableCaching )
         {
             $http =& eZHTTPTool::instance();
-            //$permissionExpired = $http->sessionVariable( 'roleExpired' );
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
-//             print( "expired time stamp = '$expiredTimeStamp'<br/>" );
 
             $classesCachedForUser = $http->sessionVariable( 'ClassesCachedForUser' );
             $classesCachedTimestamp = $http->sessionVariable( 'ClassesCachedTimestamp' );
-
-//             print( "\$classesCachedForUser='$classesCachedForUser'<br/>" );
-//             print( "\$classesCachedTimestamp='$classesCachedTimestamp'<br/>" );
 
             $cacheVar = 'CanInstantiateClassList';
             if ( is_array( $groupList ) and $fetchID !== false )
             {
                 $cacheVar = 'CanInstantiateClassListGroup';
             }
-//             print( "\$cacheVar='$cacheVar'<br/>" );
 
             $user =& eZUser::currentUser();
             $userID = $user->id();
-//             print( "\$userID='$userID'<br/>" );
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
                 if ( $http->hasSessionVariable( $cacheVar ) )
@@ -446,13 +437,11 @@ class eZContentClass extends eZPersistentObject
                         $groupArray = $http->sessionVariable( $cacheVar );
                         if ( isset( $groupArray[$fetchID] ) )
                         {
-//                             print( "returning cached class list in group<br/>" );
                             return $groupArray[$fetchID];
                         }
                     }
                     else
                     {
-//                         print( "returning cached class list<br/>" );
                         return $http->sessionVariable( $cacheVar );
                     }
                 }
@@ -539,17 +528,19 @@ class eZContentClass extends eZPersistentObject
                 $filterSQL .= "NOT IN ( $groupText )";
         }
 
+        $classNameSqlFilter = eZContentClassName::sqlFilter( 'cc' );
+
         if ( $fetchAll )
         {
             $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                     "ORDER BY cc.name ASC" );
+                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -565,12 +556,12 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, cc.name";
+            $fields = $asObject ? "cc.*" : "cc.id, $classNameSqlFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL, $classNameSqlFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                     "ORDER BY cc.name ASC" );
+                                     "ORDER BY $classNameSqlFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
@@ -1266,10 +1257,6 @@ You will need to change the class of the node by using the swap functionality.' 
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
-        $custom_fields = null;
-        $custom_tables = null;
-        $custom_conds = null;
-
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -1305,27 +1292,12 @@ You will need to change the class of the node by using the swap functionality.' 
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
 
-        if ( $sorts && isset( $sorts['name'] ) )
-        {
-            $nameFiler = eZContentClassName::sqlFilter( 'ezcontentclass' );
-            $custom_tables = array( $nameFiler['from'] );
-            $custom_conds = "AND " . $nameFiler['where'];
-            $custom_fields = array( $nameFiler['nameField'] );
-
-            $sorts[$nameFiler['orderBy']] = $sorts['name'];
-            unset( $sorts['name'] );
-        }
-
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                             $fields,
                                                             $conds,
                                                             $sorts,
                                                             $limit,
-                                                            $asObject,
-                                                            false,
-                                                            $custom_fields,
-                                                            $custom_tables,
-                                                            $custom_conds );
+                                                            $asObject );
     }
 
     /*!
@@ -1539,14 +1511,6 @@ You will need to change the class of the node by using the swap functionality.' 
         else
             $languageCodes = array();
         return $languageCodes;
-    }
-
-    /*!
-     \static
-    */
-    function nameFromSerializedString( $serailizedNameList )
-    {
-        return eZContentClassNameList::nameFromSerializedString( $serailizedNameList );
     }
 
     function &name( $languageLocale = false )
