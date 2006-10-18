@@ -168,6 +168,61 @@ class eZDBFileHandlerPgsqlBackend
         return true;
     }
 
+    function _deleteByLike( $like )
+    {
+        $like = pg_escape_string( $like );
+        $sql = "SELECT name FROM " . TABLE_METADATA . " WHERE name like '$like'" ;
+        if ( !$res = pg_query( $this->db, $sql ) )
+        {
+            eZDebug::writeError( "Failed to delete files by like: '$like'" );
+            return false;
+        }
+
+        if ( !pg_num_rows( $res ) )
+        {
+            pg_free_result( $res );
+            return true;
+        }
+
+        while ( $row = pg_fetch_row( $res ) )
+        {
+            $deleteFilename = $row[0];
+            $this->_delete( $deleteFilename );
+        }
+
+        pg_free_result( $res );
+        return true;
+    }
+
+    function _deleteByDirList( $dirList, $commonPath, $commonSuffix )
+    {
+
+        foreach ( $dirList as $dirItem )
+        {
+            $sql = "SELECT name FROM " . TABLE_METADATA . " WHERE name like '$commonPath/$dirItem/$commonSuffix%'" ;
+            if ( !$res = pg_query( $this->db, $sql ) )
+            {
+                eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'" );
+                return false;
+            }
+
+            if ( !pg_num_rows( $res ) )
+            {
+                pg_free_result( $res );
+                continue;
+            }
+
+            while ( $row = pg_fetch_row( $res ) )
+            {
+                $deleteFilename = $row[0];
+                $this->_delete( $deleteFilename );
+            }
+
+            pg_free_result( $res );
+        }
+        return true;
+    }
+
     function _exists( $filePath )
     {
         $filePathHash = md5( $filePath );

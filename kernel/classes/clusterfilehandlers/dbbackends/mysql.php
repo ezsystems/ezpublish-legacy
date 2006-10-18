@@ -214,6 +214,32 @@ class eZDBFileHandlerMysqlBackend
         return $result;
     }
 
+    function _deleteByLike( $like )
+    {
+        $like = mysql_real_escape_string( $like );
+        $sql = "SELECT name FROM " . TABLE_METADATA . " WHERE name like '$like'" ;
+        if ( !$res = mysql_query( $sql, $this->db ) )
+        {
+            eZDebug::writeError( "Failed to delete files by like: '$like'" );
+            return false;
+        }
+
+        if ( !mysql_num_rows( $res ) )
+        {
+            mysql_free_result( $res );
+            return true;
+        }
+
+        while ( $row = mysql_fetch_row( $res ) )
+        {
+            $deleteFilename = $row[0];
+            $this->_delete( $deleteFilename );
+        }
+
+        mysql_free_result( $res );
+        return true;
+    }
+    
     function _deleteByRegex( $regex )
     {
         $regex = mysql_real_escape_string( $regex );
@@ -273,6 +299,35 @@ class eZDBFileHandlerMysqlBackend
         }
 
         mysql_free_result( $res );
+        return true;
+    }
+
+    function _deleteByDirList( $dirList, $commonPath, $commonSuffix )
+    {
+
+        foreach ( $dirList as $dirItem )
+        {
+            $sql = "SELECT name FROM " . TABLE_METADATA . " WHERE name like '$commonPath/$dirItem/$commonSuffix%'" ;
+            if ( !$res = mysql_query( $sql, $this->db ) )
+            {
+                eZDebug::writeError( "Failed to delete files in dir: '$commonPath/$dirItem/$commonSuffix%'" );
+                return false;
+            }
+
+            if ( !mysql_num_rows( $res ) )
+            {
+                mysql_free_result( $res );
+                continue;
+            }
+
+            while ( $row = mysql_fetch_row( $res ) )
+            {
+                $deleteFilename = $row[0];
+                $this->_delete( $deleteFilename );
+            }
+
+            mysql_free_result( $res );
+        }
         return true;
     }
 

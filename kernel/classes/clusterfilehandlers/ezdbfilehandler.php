@@ -276,6 +276,17 @@ class eZDBFileHandler
     }
 
     /**
+     * \public
+     * \static
+     */
+    function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+
+        $this->backend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
+    }
+
+    /**
      * Deletes specified file/directory.
      *
      * If a directory specified it is deleted recursively.
@@ -288,7 +299,7 @@ class eZDBFileHandler
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDelete( '$path' )" );
 
         $this->backend->_delete( $path );
-        $this->backend->_deleteByRegex( $path . '/.+$' );
+        $this->backend->_deleteByLike( $path . '/%' );
     }
 
     /**

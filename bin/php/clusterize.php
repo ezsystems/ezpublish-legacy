@@ -72,6 +72,24 @@ function copyBinaryfilesToDB( $remove )
     $cli->output();
 }
 
+function copyMediafilesToDB( $remove )
+{
+    global $cli, $dbFileHandler;
+
+    $db =& eZDB::instance();
+
+    $cli->output( "Importing media files to database:");
+    $rows = $db->arrayQuery('select filename, mime_type from ezmedia' );
+    foreach( $rows as $row )
+    {
+        $filePath = filePathForBinaryFile( $row['filename'] , $row['mime_type'] );
+        $cli->output( "- " . $filePath);
+        $dbFileHandler->fileStore( $filePath, 'mediafile', $remove );
+    }
+
+    $cli->output();
+}
+
 function copyImagesToDB( $remove )
 {
     global $cli, $dbFileHandler;
@@ -80,7 +98,6 @@ function copyImagesToDB( $remove )
 
     $cli->output( "Importing images and imagealiases files to database:");
     $rows = $db->arrayQuery('select filepath from ezimagefile' );
-
     include_once( 'lib/ezutils/classes/ezmimetype.php' );
 
     foreach( $rows as $row )
@@ -125,10 +142,11 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish (un)cluster
 
 $script->startup();
 
-$options = $script->getOptions( "[u][skip-binary-files][skip-images][r][n]",
+$options = $script->getOptions( "[u][skip-binary-files][skip-media-files][skip-images][r][n]",
                                 "",
                                 array( 'u'                 => 'Unclusterize',
                                        'skip-binary-files' => 'Skip copying binary files',
+                                       'skip-binary-files' => 'Skip copying media files',
                                        'skip-images'       => 'Skip copying images',
                                        'r'                 => 'Remove files after copying',
                                        'n'                 => 'Do not wait' ) );
@@ -138,6 +156,7 @@ $script->initialize();
 $clusterize = !isset( $options['u'] );
 $remove     =  isset( $options['r'] );
 $copyFiles  = !isset( $options['skip-binary-files'] );
+$copyMedia  = !isset( $options['skip-media-files'] );
 $copyImages = !isset( $options['skip-images'] );
 $wait       = !isset( $options['n'] );
 
@@ -165,6 +184,8 @@ if ( $clusterize )
 
     if ( $copyImages )
         copyImagesToDB( $remove );
+    if ( $copyMedia )
+        copyMediafilesToDB( $remove );
 }
 else
 {
