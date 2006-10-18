@@ -355,6 +355,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $partDOM = new eZDOMDocument();
                 $partDOM->setRoot( $objectNode );
                 $this->Package->storeDOM( $filePath, $partDOM );
+                $partDOM->cleanup();
                 unset( $partDOM );
                 unset( $objectFileNode );
             }
@@ -362,6 +363,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             {
                 $objectListNode->appendChild( $objectNode );
             }
+            eZDOMNode::cleanup( $objectNode );
             unset( $objectNode );
         }
 

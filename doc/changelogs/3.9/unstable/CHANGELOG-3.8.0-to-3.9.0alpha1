@@ -433,3 +433,5 @@ eZDiff:
 - Fixed bug #9076: Fatal error when publishing top nodes with PreViewCache.
   (Merged from stable/3.8 (3.8.5) rev. 17181)
 - Fixed bug #9073: Setup wizard must check for write access to /extension folder.
+- Fixed memory leak in package export & eZCodePage::convertString()
+  (Merged from stable/3.8 (3.8.5) rev. 17192)
