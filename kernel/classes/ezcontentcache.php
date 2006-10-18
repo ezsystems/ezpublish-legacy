@@ -338,12 +338,10 @@ class eZContentCache
             return;
         }
 
-        $siteAccessesDirs = implode( ',', $siteAccesses );
-        $commonPath = "$cacheBaseDir/\{$siteAccessesDirs}";
         foreach ( $nodeList as $nodeID )
         {
             $extraPath = eZDir::filenamePath( $nodeID );
-            $fileHandler->fileDeleteByWildcard( "$commonPath/$extraPath$nodeID-*.cache" );
+            $fileHandler->fileDeleteByDirList( $siteAccesses, $cacheBaseDir, "$extraPath$nodeID-" );
         }
     }
 }

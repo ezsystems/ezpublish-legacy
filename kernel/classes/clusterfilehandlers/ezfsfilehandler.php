@@ -305,6 +305,27 @@ class eZFSFileHandler
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
+
+    /**
+     * Delete files located in a directories from dirList, with common prefix specified by
+     * commonPath, and common suffix with added wildcard at the end
+     *
+     * \public
+     * \static
+     * \sa fileDeleteByRegex()
+     */
+    function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
+    {
+        $dirs = implode( ',', $dirList );
+        $wildcard = "$commonPath/\{$dirs}/$commonSuffix*";
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
     /**
      * \public
      * \static
