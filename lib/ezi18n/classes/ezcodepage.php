@@ -60,19 +60,19 @@ class eZCodePage
     function convertString( &$str )
     {
         $len = strlen( $str );
-        $chars = array();
+        $chars = '';
         $utf8_codec =& eZUTF8Codec::instance();
         for ( $i = 0; $i < $len; )
         {
             $charLen = 1;
             $char = $this->charToUTF8( $str, $i, $charLen );
             if ( $char !== null )
-                $chars[] = $char;
+                $chars .= $char;
             else
-                $chars[] = $utf8_codec->toUtf8( $this->SubstituteChar );
+                $chars .= $utf8_codec->toUtf8( $this->SubstituteChar );
             $i += $charLen;
         }
-        return implode( '', $chars );
+        return $chars;
     }
 
     function convertStringToUnicode( &$str )
