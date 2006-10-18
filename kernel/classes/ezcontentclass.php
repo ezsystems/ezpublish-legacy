@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -202,18 +202,18 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function create( $userID = false, $optionalValues = array(), $languageCode = false )
+    function create( $userID = false, $optionalValues = array(), $languageLocale = false )
     {
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
 
-        if ( $languageCode == false )
+        if ( $languageLocale == false )
         {
-            $languageCode = eZContentObject::defaultLanguage();
+            $languageLocale = eZContentObject::defaultLanguage();
         }
 
-        $languageID = eZContentLanguage::idByLocale( $languageCode );
+        $languageID = eZContentLanguage::idByLocale( $languageLocale );
 
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
@@ -235,7 +235,9 @@ class eZContentClass extends eZPersistentObject
             "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
 
         $row = array_merge( $row, $optionalValues );
+
         $contentClass = new eZContentClass( $row );
+
         return $contentClass;
     }
 
@@ -1257,6 +1259,10 @@ You will need to change the class of the node by using the swap functionality.' 
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
+        $custom_fields = null;
+        $custom_tables = null;
+        $custom_conds = null;
+
         if ( is_numeric( $version ) )
             $conds["version"] = $version;
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -1292,12 +1298,27 @@ You will need to change the class of the node by using the swap functionality.' 
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
 
+        if ( $sorts && isset( $sorts['name'] ) )
+        {
+            $nameFiler = eZContentClassName::sqlFilter( 'ezcontentclass' );
+            $custom_tables = array( $nameFiler['from'] );
+            $custom_conds = "AND " . $nameFiler['where'];
+            $custom_fields = array( $nameFiler['nameField'] );
+
+            $sorts[$nameFiler['orderBy']] = $sorts['name'];
+            unset( $sorts['name'] );
+        }
+
         return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                             $fields,
                                                             $conds,
                                                             $sorts,
                                                             $limit,
-                                                            $asObject );
+                                                            $asObject,
+                                                            false,
+                                                            $custom_fields,
+                                                            $custom_tables,
+                                                            $custom_conds );
     }
 
     /*!
@@ -1511,6 +1532,14 @@ You will need to change the class of the node by using the swap functionality.' 
         else
             $languageCodes = array();
         return $languageCodes;
+    }
+
+    /*!
+     \static
+    */
+    function nameFromSerializedString( $serailizedNameList )
+    {
+        return eZContentClassNameList::nameFromSerializedString( $serailizedNameList );
     }
 
     function &name( $languageLocale = false )
