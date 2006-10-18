@@ -538,7 +538,7 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
@@ -558,7 +558,7 @@ class eZContentClass extends eZPersistentObject
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
-            $fields = $asObject ? "cc.*" : "cc.id, $classNameFilter[nameField]";
+            $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
