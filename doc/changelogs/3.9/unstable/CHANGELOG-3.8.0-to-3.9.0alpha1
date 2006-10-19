@@ -23,7 +23,34 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Added a confirmorderhandler to be able to make you own handlers to send a confirmation email.
 - Caching for items in ezbasket.php.
 - Added isVATIncluded to orderitem.
+- Added audit trailing.
+  see doc/features/3.9/audit_trailing.txt
+- Added the ability to input placement of attribute in class.
+- Added default child sort per content class.
+- Added ezsubtreeremove.php script.
+- Added foreign key definitions.
+- Added extended LDAP user group mapping.
+- Added cronjob script for cleanuping old drafts.
+- Added Match[parent_class] - new matching way to override templates.
+- Added Group-based limitation for content/read, content/edit policies.
+- Added Caching of eZPersistentObject.
+- Added New 'remove to trash' confirmation settings.
+- Improved Trash.
+- Added Workflow process status.
+- Workflows multiplexer and approve enhancement.
 
+DataType:
+- Improved ezcountry datatype.
+- Improved ISBN datatype.
+- Improved eZObjectRelationList datatype.
+- Added toString and fromString datatype functionality.
+
+eZXMLText:
+- Improved custom attributes.
+- Modifications needed to fix bug #8553: wrong object embedding by "eznode".
+- Added XML numeric entities handling.
+- Added XML block new features.
+- Added Improvements to related objects added from XML block text field.
 
 Clustering:
 - Changed the way clustering settings are stored.
@@ -85,6 +112,7 @@ Clustering:
 - Added site.ini[ProxySettings].User 
 - Added site.ini[ProxySettings].Password
   For proxy authentification.
+- Added site.ini[Session].RememberMeTimeout - "Remember me" feature of the login.
 
 *Design:
 - Fixed suggestion #8262: No need displaying language 
@@ -92,6 +120,7 @@ Clustering:
 - Added ability to hide admin toolbars on right side in admin if empty
 - Added new template variables to be able to list more information about VAT / prices.
 - Updated the design in basket and confirmorder to list a summary.
+- Added a checkbox which allows user to stay in the edit window after publishing.
 
 *Library:
 
@@ -113,6 +142,14 @@ eZTemplate:
   alphabet() has one param "charset_code" - where alphabet will be fetched from
   (see content.ini[GoogleSettings].Alphabet).
 - Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
+- Added locale template fetch function.
+  see doc/features/3.9/added_locale_template_fetch_function.txt
+- Adde best_sell_list extended fetch function.
+  see doc/features/3.9/best_sell_list_extended.txt
+- No more $node variable in pagelayout.
+- Added New fetch function in the 'search' module.
+- Added tipafriend_top_list extended fetch function.
+- Added "view_parameters" in edit.tpl's templates.
 
 eZSOAP:
 - Fixed some php warnings with SOAP server.
@@ -124,6 +161,10 @@ eZMail:
 eZDiff:
 - Optimized memory footprint of eZDiffMatrix, it will no longer use subarrays.
 - Changed hash format from md5 to crc32.
+
+Shop:
+- Added Enhanced shippingmanager.
+- Added order confirmation handler.
 
 *Bugfixes:
 - Fixed bug #7741: safe_mode off evaluates to "true".
