@@ -155,6 +155,10 @@ function AddNewRelations( $objectID, $version, $relatedObjectIDArray, &$cli )
 function getRelatedObjectsID( &$domDocument, $tagName, &$objectIDArray )
 {
     $xmlNodeList = $domDocument->get_elements_by_tagname( $tagName );
+    if ( !is_array( $xmlNodeList ) )
+    {
+        return;
+    }
 
     foreach ( $xmlNodeList as $xmlNode )
     {
