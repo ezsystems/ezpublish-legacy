@@ -1965,6 +1965,71 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
+    function &inputRelationList()
+    {
+        static $inputRelationList = array();
+        return $inputRelationList;
+    }
+
+    function resetInputRelationList()
+    {
+        $relationList =& eZContentObject::inputRelationList();
+        $relationList = array( EZ_CONTENT_OBJECT_RELATION_EMBED => array(),
+                               EZ_CONTENT_OBJECT_RELATION_LINK =>  array() );
+    }
+
+    function appendInputRelationList( $addingIDList, $relationType )
+    {
+
+        if ( !is_array( $addingIDList ) )
+        {
+            $addingIDList = array( ( int ) $addingIDList );
+        }
+        elseif ( !count( $addingIDList ) )
+        {
+            return;
+        }
+        $relationType = ( int ) $relationType;
+        $relationList =& eZContentObject::inputRelationList();
+        if ( $relationList === array() )
+        {
+            eZContentObject::resetInputRelationList();
+        }
+
+        foreach ( array_keys( $relationList ) as $inputRelationType )
+        {
+            if ( $inputRelationType & $relationType )
+            {
+                $relationList[$inputRelationType] = array_merge( $relationList[$inputRelationType], $addingIDList );
+            }
+        }
+    }
+
+    function commitInputRelations( $editVersion)
+    {
+        $relationList =& eZContentObject::inputRelationList();
+        foreach ( $relationList as $relationType => $relatedObjectIDArray )
+        {
+            $oldRelatedObjectArray = $this->relatedObjects( $editVersion, false, 0, false, array( 'AllRelations' => $relationType ) );
+
+            foreach ( $oldRelatedObjectArray as $oldRelatedObject )
+            {
+                $oldRelatedObjectID = $oldRelatedObject->ID;
+                if ( !in_array( $oldRelatedObjectID, $relatedObjectIDArray ) )
+                {
+                    $this->removeContentObjectRelation( $oldRelatedObjectID, $editVersion, false, 0, $relationType );
+                }
+                $relatedObjectIDArray = array_diff( $relatedObjectIDArray, array( $oldRelatedObjectID ) );
+            }
+
+            foreach ( $relatedObjectIDArray as $relatedObjectID )
+            {
+                $this->addContentObjectRelation( $relatedObjectID, $editVersion, false, 0, $relationType );
+            }
+        }
+        return true;
+    }
+
     function validateInput( &$contentObjectAttributes, $attributeDataBaseName,
                             $inputParameters = false, $parameters = array() )
     {
@@ -1990,8 +2055,7 @@ class eZContentObject extends eZPersistentObject
         $inputValidated =& $result['input-validated'];
         $http =& eZHTTPTool::instance();
 
-        $GLOBALS['eZContentObjectRelatedObjectIDArrays'] = array( EZ_CONTENT_OBJECT_RELATION_EMBED => array(),
-                                                                  EZ_CONTENT_OBJECT_RELATION_LINK => array() );
+        $this->resetInputRelationList();
 
         $editVersion = null;
         $defaultLanguage = $this->initialLanguageCode();
@@ -2083,29 +2147,9 @@ class eZContentObject extends eZPersistentObject
 
         if ( $editVersion !== null )
         {
-            $relatedObjectIDArrays = $GLOBALS['eZContentObjectRelatedObjectIDArrays'];
-            foreach ( $relatedObjectIDArrays as $relationType => $relatedObjectIDArray )
-            {
-                $oldRelatedObjectArray = $this->relatedObjects( $editVersion, false, 0, false, array( 'AllRelations' => $relationType ) );
-
-                foreach ( $oldRelatedObjectArray as $oldRelatedObject )
-                {
-                    $oldRelatedObjectID = $oldRelatedObject->ID;
-                    if ( !in_array( $oldRelatedObjectID, $relatedObjectIDArray ) )
-                    {
-                        $this->removeContentObjectRelation( $oldRelatedObjectID, $editVersion, false, 0, $relationType );
-                    }
-                    $relatedObjectIDArray = array_diff( $relatedObjectIDArray, array( $oldRelatedObjectID ) );
-                }
-
-                foreach ( $relatedObjectIDArray as $relatedObjectID )
-                {
-                    $this->addContentObjectRelation( $relatedObjectID, $editVersion, false, 0, $relationType );
-                }
-            }
+            $this->commitInputRelations( $editVersion );
         }
-
-        unset( $GLOBALS['eZContentObjectRelatedObjectIDArrays'] );
+        $this->resetInputRelationList();
 
         return $result;
     }

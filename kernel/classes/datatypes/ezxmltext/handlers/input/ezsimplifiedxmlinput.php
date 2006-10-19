@@ -130,8 +130,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             //eZDebug::writeDebug( $xmlString, '$xmlString' );
 
-            $relatedObjectIDArray = $parser->getRelatedObjectIDArray();
-            $linkedObjectIDArray = $parser->getLinkedObjectIDArray();
             $urlIDArray = $parser->getUrlIDArray();
 
             if ( count( $urlIDArray ) > 0 )
@@ -139,18 +137,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
 
-            if ( count( $relatedObjectIDArray ) > 0 && isset( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED] ) )
-             {
-                $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED] =
-                            array_merge( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_EMBED],
-                                         $relatedObjectIDArray );
-            }
-            if ( count( $linkedObjectIDArray ) > 0 && isset( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK] ) )
-            {
-                $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK] =
-                            array_merge( $GLOBALS['eZContentObjectRelatedObjectIDArrays'][EZ_CONTENT_OBJECT_RELATION_LINK],
-                                         $linkedObjectIDArray );
-            }
+            eZContentObject::appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
+            eZContentObject::appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
 
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_required" ) == true )
