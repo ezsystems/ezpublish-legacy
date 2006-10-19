@@ -65,7 +65,7 @@
 {/foreach}
 {else}
 <div class="block">
-<p>{'There are no workflow process.'|i18n( 'design/admin/workflow/proccesslist' )}</p>
+<p>{'There are no workflow processes in progress.'|i18n( 'design/admin/workflow/proccesslist' )}</p>
 </div>
 {/if}
 
