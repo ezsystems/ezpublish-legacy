@@ -773,6 +773,11 @@ class eZDOMNode
         {
             if ( $this->Children[$key]->name() == $name )
             {
+                if ( $this->parentNode !== false )
+                {
+                    unset( $this->Children[$key]->parentNode );
+                    $this->Children[$key]->parentNode = null;
+                }
                 unset( $this->Children[$key] );
                 $removed = true;
             }
