@@ -41,7 +41,7 @@ $http =& eZHTTPTool::instance();
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
 {
     $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $pdfExport && $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
+    if ( $pdfExport && $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONFLY ) // only generate OnTheFly if status set correctly
     {
         include_once( 'lib/ezutils/classes/ezexecution.php' );
         generatePDF( $pdfExport );
@@ -107,6 +107,9 @@ if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) && !$http->hasPostVariable(
     $pdfExport->store();
 }
 
+$validation = array();
+$inputValidated = true;
+
 if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
      $Module->isCurrentAction( 'Export' ) )
 {
@@ -118,14 +121,26 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
     if ( $Module->actionParameter( 'ExportType' ) == 'tree' && $Module->hasActionParameter( 'ClassList' ) )
         $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
-    $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' )? 1: 2 );
+    $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' ) ?
+                              EZ_PDFEXPORT_CREATE_ONCE : EZ_PDFEXPORT_CREATE_ONFLY );
 
     if ( $Module->isCurrentAction( 'Export' ) )
     {
         $pdfExport->setAttribute( 'source_node_id', $Module->actionParameter( 'SourceNode' ) );
+
+        if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE
+             && $pdfExport->countGeneratingOnceExports() > 0 )
+        {
+            $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/pdf', 'An export with such filename already exists.' ) );
+            $validation[ 'processed' ] = true;
+            $inputValidated = false;
+        }
     }
 
-    $pdfExport->store();
+    if ( $inputValidated )
+    {
+        $pdfExport->store();
+    }
 }
 
 $setWarning = false; // used to set missing options during export
@@ -138,11 +153,11 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
                                     'from_page' => '/pdf/edit/'. $pdfExport->attribute( 'id' ) ),
                              $Module );
 }
-else if ( $Module->isCurrentAction( 'Export' ) )
+else if ( $Module->isCurrentAction( 'Export' ) && $inputValidated )
 {
     // remove the old file ( user may changed the filename )
     $originalPdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
-    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == 1 )
+    if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
     {
         $filename =& $originalPdfExport->attribute( 'filepath' );
         if ( file_exists( $filename ) )
@@ -151,7 +166,7 @@ else if ( $Module->isCurrentAction( 'Export' ) )
         }
     }
 
-    if ( $pdfExport->attribute( 'status' ) == 1 )
+    if ( $pdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
     {
         generatePDF( $pdfExport, $pdfExport->attribute( 'filepath' ) );
         $pdfExport->store( true );
@@ -185,6 +200,11 @@ $tpl->setVariable( 'export_type' , $pdfExport->attribute( 'status' ) );
 $tpl->setVariable( 'export_site_access', $siteAccess );
 $tpl->setVariable( 'export_class_array', $classArray );
 $tpl->setVariable( 'pdfexport_list', eZPDFExport::fetchList() );
+
+if ( !$inputValidated )
+{
+    $tpl->setVariable( 'validation', $validation );
+}
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:pdf/edit.tpl' );

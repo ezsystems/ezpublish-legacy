@@ -478,3 +478,5 @@ Shop:
   (Merged from stable/3.8 (3.8.5) rev. 17192)
 - Fixed bug #9142: updatetypedrelation.php throws a lot of PHP warnings.
 - Fixed bug #008497: Missing toggle-button-16x16.gif image in standard design.
+- Fixed bug #008616: PDF exports with the same filename overwrite each other.
+  (Merged from stable/3.8 (3.8.5) rev. 17221)
