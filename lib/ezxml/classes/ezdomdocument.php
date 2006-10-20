@@ -171,6 +171,11 @@ class eZDOMDocument
     */
     function &elementsByName( $name )
     {
+        if ( !in_array( $name, array_keys( $this->NamedNodes ) ) )
+        {
+            $emptyArray = array();
+            return $emptyArray;
+        }
         return $this->NamedNodes[$name];
     }
 

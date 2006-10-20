@@ -45,4 +45,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #9152: HTML should not be in i18n strings.  
 - Fixed bug #008616: PDF exports with the same filename overwrite each other.
   (Merged from stable/3.8 (3.8.5) rev. 17221)
-  
+- Fixed bug #008954: eZDOMDocument::elementsByName does not always return an array
+  (Merged from trunk (3.9.0alpha1) rev. 17206)
