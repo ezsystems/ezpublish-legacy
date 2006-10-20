@@ -1235,14 +1235,20 @@ if [ -z "$SKIP_EXTENSIONS" -a "$SVN_EXPORT" == "svn" ]; then
             exit 1
         fi
 
-        # Store paypal archive name
+        # Store extension's archive name
         EXTENSION_IDENTIFIER=""
         EXTENSION_TGZFILE=""
         [ -s .ez.extension-id ] && EXTENSION_IDENTIFIER=`cat .ez.extension-id`
         [ -s .ez.extension-name ] && EXTENSION_TGZFILE=`cat .ez.extension-name`
-        if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
-            EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
-        fi
+
+        #
+        # *****   Unpack current extension as part of standard dist   *****
+        #
+
+        EXTENSION_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
+        echo -n "Unpacking `ez_color_em $EXTENSION_IDENTIFIER` extension"
+        (cd "$DEST/extension" && tar xfz "$EXTENSION_ARCHIVE")
+        ez_result_output $? "Failed to unpack $EXTENSION_ARCHIVE" || exit 1
 
         [ -s .ez.extension-name ] && EXTENSION_FILES="$EXTENSION_FILES `cat .ez.extension-name`"
         rm -f .ez.extension-name .ez.extension-id
@@ -1251,16 +1257,6 @@ elif [ "$SVN_EXPORT" != "svn" ]; then
     echo
     echo -n "`ez_color_h1 'Building extension packages'`"
     ez_result_output_skipped
-fi
-
-#
-# *****   Unpack ezpaypal as part of standard dist   *****
-#
-
-if [ -f "$EXTENSION_PAYPAL_ARCHIVE" ]; then
-    echo -n "Unpacking `ez_color_em Paypal` extension"
-    (cd "$DEST/extension" && tar xfz "$EXTENSION_PAYPAL_ARCHIVE")
-    ez_result_output $? "Failed to unpack $EXTENSION_PAYPAL_ARCHIVE" || exit 1
 fi
 
 #
