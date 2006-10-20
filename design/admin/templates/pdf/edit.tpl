@@ -1,3 +1,5 @@
+{include uri="design:pdf/edit_validation.tpl"}
+
 <form action={concat( 'pdf/edit/', $pdf_export.id )|ezurl} method="post" name="ExportPDF">
 
 <div class="context-block">
