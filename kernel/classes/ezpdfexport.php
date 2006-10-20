@@ -43,6 +43,9 @@ include_once( 'kernel/classes/ezrssexportitem.php' );
 define( "EZ_PDFEXPORT_VERSION_VALID", 0 );
 define( "EZ_PDFEXPORT_VERSION_DRAFT", 1 );
 
+define( "EZ_PDFEXPORT_CREATE_ONCE",  1 );
+define( "EZ_PDFEXPORT_CREATE_ONFLY", 2 );
+
 class eZPDFExport extends eZPersistentObject
 {
     /*!
@@ -116,7 +119,7 @@ class eZPDFExport extends eZPersistentObject
                                                                    'required' => true ),
                                          'status' => array( 'name' => 'Status',
                                                             'datatype' => 'integer',
-                                                            'default' => 1,
+                                                            'default' => EZ_PDFEXPORT_CREATE_ONCE,
                                                             'required' => true ),
                                          'version' => array( 'name' => 'Version',
                                                              'datatype' => 'integer',
@@ -209,7 +212,8 @@ class eZPDFExport extends eZPersistentObject
     */
     function remove()
     {
-        if ( $this->attribute( 'version' ) == EZ_PDFEXPORT_VERSION_VALID && $this->attribute( 'status' ) != 2 ) // 2 means generation on fly
+        if ( $this->attribute( 'version' ) == EZ_PDFEXPORT_VERSION_VALID &&
+             $this->attribute( 'status' ) != EZ_PDFEXPORT_CREATE_ONFLY )
         {
             $sys =& eZSys::instance();
             $storage_dir = $sys->storageDirectory();
@@ -291,6 +295,36 @@ class eZPDFExport extends eZPersistentObject
                 return eZPersistentObject::attribute( $attr );
             } break;
         }
+    }
+
+    function countGeneratingOnceExports( $filename = '' )
+    {
+        $conditions = array( 'version' => EZ_PDFEXPORT_VERSION_VALID,
+                             'status' =>  EZ_PDFEXPORT_CREATE_ONCE,
+                             'pdf_filename' => $filename );
+
+        if ( $filename === '' && isset( $this ) )
+        {
+            $conditions['pdf_filename'] = $this->attribute( 'pdf_filename' );
+            $conditions['id'] = array( '<>', $this->attribute( 'id' ) );
+        }
+
+        $queryResult = eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
+                                                            array(),
+                                                            $conditions,
+                                                            null,
+                                                            null,
+                                                            false,
+                                                            null,
+                                                            array( array( 'operation' => 'count( * )',
+                                                                          'name' => 'count' ) ) );
+
+        if ( isset( $queryResult[0]['count'] ) )
+        {
+            return ( int ) $queryResult[0]['count'];
+        }
+        return 0;
+
     }
 
 }
