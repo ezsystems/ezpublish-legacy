@@ -47,3 +47,5 @@ Changes from 3.6.11 to 3.6.12
   (Merged from stable/3.8 (3.8.5) rev. 17221)
 - Fixed bug #008954: eZDOMDocument::elementsByName does not always return an array
   (Merged from trunk (3.9.0alpha1) rev. 17206)
+- Fixed bug #008497: Missing toggle-button-16x16.gif image in standard design.
+  (Merged from trunk (3.9.0alpha1) rev. 17211)
