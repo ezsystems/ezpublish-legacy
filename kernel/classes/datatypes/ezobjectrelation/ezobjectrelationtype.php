@@ -605,25 +605,36 @@ class eZObjectRelationType extends eZDataType
     */
     function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
     {
+        $attributeChanged = false;
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
 
         if ( !$relatedObjectID )
         {
             // Restore cross-relations using preserved remoteID
             $relatedObjectRemoteID = $objectAttribute->attribute( 'data_text' );
-            if ( !$relatedObjectRemoteID)
-                return false;
-
-            $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
-            $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
-
-            if ( $relatedObjectID )
+            if ( $relatedObjectRemoteID)
             {
-                $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
-                return true;
+                $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+                $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
+
+                if ( $relatedObjectID )
+                {
+                    $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
+                    $attributeChanged = true;
+                }
             }
         }
-        return false;
+
+        if ( $relatedObjectID )
+        {
+            $contentObject =& $objectAttribute->attribute( 'object' );
+            $contentObject->AddContentObjectRelation( $relatedObjectID,
+                                                      $objectAttribute->attribute( 'version' ),
+                                                      false,
+                                                      $objectAttribute->attribute( 'id' ) );
+        }
+
+        return $attributeChanged;
     }
 
     /*!
