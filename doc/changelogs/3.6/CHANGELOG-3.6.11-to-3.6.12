@@ -50,4 +50,4 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #008497: Missing toggle-button-16x16.gif image in standard design.
   (Merged from trunk (3.9.0alpha1) rev. 17211)
 - Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
-  (Merged from trunk (3.9.0beta1) rev. 17244)
+  (Merged from trunk (3.9.0beta1) rev. 17244, 17249)
