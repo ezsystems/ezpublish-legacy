@@ -625,15 +625,6 @@ class eZObjectRelationType extends eZDataType
             }
         }
 
-        if ( $relatedObjectID )
-        {
-            $contentObject =& $objectAttribute->attribute( 'object' );
-            $contentObject->AddContentObjectRelation( $relatedObjectID,
-                                                      $objectAttribute->attribute( 'version' ),
-                                                      false,
-                                                      $objectAttribute->attribute( 'id' ) );
-        }
-
         return $attributeChanged;
     }
 
