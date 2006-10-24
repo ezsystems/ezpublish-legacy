@@ -1275,6 +1275,14 @@ $schema = array (
           1 => 'version',
         ),
       ),
+      'ezcontentclass_attr_ccid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentclass_id',
+        ),
+      ),
     ),
   ),
   'ezcontentclass_classgroup' => 
@@ -1481,12 +1489,44 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezcontentobject_classid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentclass_id',
+        ),
+      ),
+      'ezcontentobject_currentversion' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'current_version',
+        ),
+      ),
       'ezcontentobject_lmask' => 
       array (
         'type' => 'non-unique',
         'fields' => 
         array (
           0 => 'language_mask',
+        ),
+      ),
+      'ezcontentobject_pub' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'published',
+        ),
+      ),
+      'ezcontentobject_status' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'status',
         ),
       ),
     ),
@@ -1588,6 +1628,14 @@ $schema = array (
         array (
           0 => 'id',
           1 => 'version',
+        ),
+      ),
+      'ezcontentobject_attr_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'id',
         ),
       ),
       'ezcontentobject_attribute_co_id_ver_lang_code' => 
@@ -1766,6 +1814,38 @@ $schema = array (
           0 => 'contentobject_id',
           1 => 'content_version',
           2 => 'content_translation',
+        ),
+      ),
+      'ezcontentobject_name_co_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+        ),
+      ),
+      'ezcontentobject_name_cov_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'content_version',
+        ),
+      ),
+      'ezcontentobject_name_lang_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'language_id',
+        ),
+      ),
+      'ezcontentobject_name_name' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'name',
         ),
       ),
     ),
@@ -2024,6 +2104,22 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezcobj_version_creator_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'creator_id',
+        ),
+      ),
+      'ezcobj_version_status' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'status',
         ),
       ),
       'idx_object_version_objver' => 
@@ -2779,6 +2875,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezinfocollection_attr_co_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+        ),
+      ),
     ),
   ),
   'ezkeyword' => 
@@ -2813,6 +2917,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezkeyword_keyword' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'keyword',
         ),
       ),
       'ezkeyword_keyword_id' => 
@@ -2859,6 +2971,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezkeyword_attr_link_keyword_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'keyword_id',
         ),
       ),
       'ezkeyword_attr_link_kid_oaid' => 
@@ -3263,6 +3383,22 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'eznode_assignment_co_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_id',
+        ),
+      ),
+      'eznode_assignment_co_version' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_version',
         ),
       ),
       'eznode_assignment_coid_cov' => 
@@ -4236,6 +4372,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezpolicy_limitation_value_val' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'value',
         ),
       ),
     ),
@@ -5536,6 +5680,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezurl_url' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'url',
+        ),
+      ),
     ),
   ),
   'ezurl_object_link' => 
@@ -5659,6 +5811,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'destination_url',
+        ),
+      ),
+      'ezurlalias_forward_to_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'forward_to_id',
         ),
       ),
       'ezurlalias_is_wildcard' => 
