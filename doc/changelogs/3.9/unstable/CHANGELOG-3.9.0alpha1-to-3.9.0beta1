@@ -11,3 +11,5 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
   (Merged from stable/3.8 (3.8.5) rev. 17237)
 - Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
   (Additional fix: rev. 17249)
+- Fixed bug #009091: Missing indexes in 3.8.
+  (Manually merged from stable/3.8 (3.8.5) rev. 17258)

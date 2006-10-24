@@ -2674,7 +2674,55 @@ CREATE INDEX ezcontentclass_version ON ezcontentclass USING btree ("version");
 
 
 
+CREATE INDEX ezcontentclass_attr_ccid ON ezcontentclass_attribute USING btree (contentclass_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_classid ON ezcontentobject USING btree (contentclass_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_currentversion ON ezcontentobject USING btree (current_version);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentobject_lmask ON ezcontentobject USING btree (language_mask);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_pub ON ezcontentobject USING btree (published);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_status ON ezcontentobject USING btree (status);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_attr_id ON ezcontentobject_attribute USING btree (id);
 
 
 
@@ -2731,6 +2779,38 @@ CREATE INDEX ezco_link_from ON ezcontentobject_link USING btree (from_contentobj
 
 
 CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link USING btree (to_contentobject_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_name_co_id ON ezcontentobject_name USING btree (contentobject_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_name_cov_id ON ezcontentobject_name USING btree (content_version);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_name_lang_id ON ezcontentobject_name USING btree (language_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcontentobject_name_name ON ezcontentobject_name USING btree (name);
 
 
 
@@ -2834,6 +2914,22 @@ CREATE INDEX modified_subnode ON ezcontentobject_tree USING btree (modified_subn
 
 
 
+CREATE INDEX ezcobj_version_creator_id ON ezcontentobject_version USING btree (creator_id);
+
+
+
+
+
+
+
+CREATE INDEX ezcobj_version_status ON ezcontentobject_version USING btree (status);
+
+
+
+
+
+
+
 CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (contentobject_id, "version");
 
 
@@ -2882,7 +2978,31 @@ CREATE INDEX ezimagefile_file ON ezimagefile USING btree (filepath);
 
 
 
+CREATE INDEX ezinfocollection_attr_co_id ON ezinfocollection_attribute USING btree (contentobject_id);
+
+
+
+
+
+
+
+CREATE INDEX ezkeyword_keyword ON ezkeyword USING btree (keyword);
+
+
+
+
+
+
+
 CREATE INDEX ezkeyword_keyword_id ON ezkeyword USING btree (keyword, id);
+
+
+
+
+
+
+
+CREATE INDEX ezkeyword_attr_link_keyword_id ON ezkeyword_attribute_link USING btree (keyword_id);
 
 
 
@@ -2923,6 +3043,22 @@ CREATE INDEX ezmultipricedata_coa_version ON ezmultipricedata USING btree (conte
 
 
 CREATE INDEX ezmultipricedata_currency_code ON ezmultipricedata USING btree (currency_code);
+
+
+
+
+
+
+
+CREATE INDEX eznode_assignment_co_id ON eznode_assignment USING btree (contentobject_id);
+
+
+
+
+
+
+
+CREATE INDEX eznode_assignment_co_version ON eznode_assignment USING btree (contentobject_version);
 
 
 
@@ -3043,6 +3179,14 @@ CREATE INDEX ezorder_status_history_sid ON ezorder_status_history USING btree (s
 
 
 CREATE INDEX ezpending_actions_action ON ezpending_actions USING btree ("action");
+
+
+
+
+
+
+
+CREATE INDEX ezpolicy_limitation_value_val ON ezpolicy_limitation_value USING btree (value);
 
 
 
@@ -3202,6 +3346,14 @@ CREATE INDEX eztrigger_fetch ON eztrigger USING btree (name, module_name, functi
 
 
 
+CREATE INDEX ezurl_url ON ezurl USING btree (url);
+
+
+
+
+
+
+
 CREATE INDEX ezurl_ol_coa_id ON ezurl_object_link USING btree (contentobject_attribute_id);
 
 
@@ -3227,6 +3379,14 @@ CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
 
 
 CREATE INDEX ezurlalias_desturl ON ezurlalias USING btree (destination_url);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_forward_to_id ON ezurlalias USING btree (forward_to_id);
 
 
 

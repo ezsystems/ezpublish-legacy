@@ -276,7 +276,8 @@ CREATE TABLE ezcontentclass_attribute (
   placement int(11) NOT NULL default '0',
   serialized_name_list varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
-  PRIMARY KEY  (id,version)
+  PRIMARY KEY  (id,version),
+  KEY ezcontentclass_attr_ccid (contentclass_id)
 ) TYPE=MyISAM;
 
 
@@ -337,7 +338,11 @@ CREATE TABLE ezcontentobject (
   section_id int(11) NOT NULL default '0',
   status int(11) default '0',
   PRIMARY KEY  (id),
-  KEY ezcontentobject_lmask (language_mask)
+  KEY ezcontentobject_classid (contentclass_id),
+  KEY ezcontentobject_currentversion (current_version),
+  KEY ezcontentobject_lmask (language_mask),
+  KEY ezcontentobject_pub (published),
+  KEY ezcontentobject_status (status)
 ) TYPE=MyISAM;
 
 
@@ -359,6 +364,7 @@ CREATE TABLE ezcontentobject_attribute (
   sort_key_string varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
+  KEY ezcontentobject_attr_id (id),
   KEY ezcontentobject_attribute_co_id_ver_lang_code (contentobject_id,version,language_code),
   KEY ezcontentobject_attribute_contentobject_id (contentobject_id),
   KEY ezcontentobject_attribute_language_code (language_code),
@@ -394,7 +400,11 @@ CREATE TABLE ezcontentobject_name (
   language_id int(11) NOT NULL default '0',
   name varchar(255) default NULL,
   real_translation varchar(20) default NULL,
-  PRIMARY KEY  (contentobject_id,content_version,content_translation)
+  PRIMARY KEY  (contentobject_id,content_version,content_translation),
+  KEY ezcontentobject_name_co_id (contentobject_id),
+  KEY ezcontentobject_name_cov_id (content_version),
+  KEY ezcontentobject_name_lang_id (language_id),
+  KEY ezcontentobject_name_name (name)
 ) TYPE=MyISAM;
 
 
@@ -473,6 +483,8 @@ CREATE TABLE ezcontentobject_version (
   version int(11) NOT NULL default '0',
   workflow_event_pos int(11) default '0',
   PRIMARY KEY  (id),
+  KEY ezcobj_version_creator_id (creator_id),
+  KEY ezcobj_version_status (status),
   KEY idx_object_version_objver (contentobject_id,version)
 ) TYPE=MyISAM;
 
@@ -652,7 +664,8 @@ CREATE TABLE ezinfocollection_attribute (
   data_text longtext,
   id int(11) NOT NULL auto_increment,
   informationcollection_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezinfocollection_attr_co_id (contentobject_id)
 ) TYPE=MyISAM;
 
 
@@ -664,6 +677,7 @@ CREATE TABLE ezkeyword (
   id int(11) NOT NULL auto_increment,
   keyword varchar(255) default NULL,
   PRIMARY KEY  (id),
+  KEY ezkeyword_keyword (keyword),
   KEY ezkeyword_keyword_id (keyword,id)
 ) TYPE=MyISAM;
 
@@ -676,6 +690,7 @@ CREATE TABLE ezkeyword_attribute_link (
   keyword_id int(11) NOT NULL default '0',
   objectattribute_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
+  KEY ezkeyword_attr_link_keyword_id (keyword_id),
   KEY ezkeyword_attr_link_kid_oaid (keyword_id,objectattribute_id)
 ) TYPE=MyISAM;
 
@@ -764,6 +779,8 @@ CREATE TABLE eznode_assignment (
   sort_field int(11) default '1',
   sort_order int(11) default '1',
   PRIMARY KEY  (id),
+  KEY eznode_assignment_co_id (contentobject_id),
+  KEY eznode_assignment_co_version (contentobject_version),
   KEY eznode_assignment_coid_cov (contentobject_id,contentobject_version),
   KEY eznode_assignment_is_main (is_main),
   KEY eznode_assignment_parent_node (parent_node)
@@ -992,7 +1009,8 @@ CREATE TABLE ezpolicy_limitation_value (
   id int(11) NOT NULL auto_increment,
   limitation_id int(11) default NULL,
   value varchar(255) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezpolicy_limitation_value_val (value)
 ) TYPE=MyISAM;
 
 
@@ -1302,7 +1320,8 @@ CREATE TABLE ezurl (
   modified int(11) NOT NULL default '0',
   original_url_md5 varchar(32) NOT NULL default '',
   url varchar(255) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezurl_url (url)
 ) TYPE=MyISAM;
 
 
@@ -1332,6 +1351,7 @@ CREATE TABLE ezurlalias (
   source_url longtext NOT NULL,
   PRIMARY KEY  (id),
   KEY ezurlalias_desturl (destination_url(200)),
+  KEY ezurlalias_forward_to_id (forward_to_id),
   KEY ezurlalias_is_wildcard (is_wildcard),
   KEY ezurlalias_source_md5 (source_md5),
   KEY ezurlalias_source_url (source_url(255))
