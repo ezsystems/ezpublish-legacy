@@ -10,3 +10,4 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 - Fixed bug #009028: Importing packages fail to set related objects.
   (Merged from stable/3.8 (3.8.5) rev. 17237)
 - Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
+  (Additional fix: rev. 17249)
