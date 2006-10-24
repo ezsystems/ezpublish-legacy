@@ -1132,7 +1132,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $blockArray = array();
             $blockName = $blockNode->attributeValue( 'name' );
             $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
-            $blockArray[$blockName] = $blockArray[$blockName][0]; 
+            //$blockArray[$blockName] = $blockArray[$blockName][0]; 
 
             if ( isset( $blockArray[$blockName][$this->OverrideObjectRemoteID] ) )
             {
@@ -1219,7 +1219,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $blockArray = array();
             $blockName = $blockNode->attributeValue( 'name' );
             $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
-            $blockArray[$blockName] = $blockArray[$blockName][0]; 
+
+            //$blockArray[$blockName] = $blockArray[$blockName][0]; 
 
             if ( isset( $blockArray[$blockName]['Constant'] ) )
             {
