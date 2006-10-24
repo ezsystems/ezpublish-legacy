@@ -63,4 +63,4 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #008954: eZDOMDocument::elementsByName does not always return an array
   (Merged from trunk (3.9.0alpha1) rev. 17206)
 - Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
-  (Merged from trunk (3.9.0beta1) rev. 17244)
+  (Merged from trunk (3.9.0beta1) rev. 17244, 17249)
