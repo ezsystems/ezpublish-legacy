@@ -489,6 +489,9 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         // Class cleanup, update existing class objects according to new changes
         include_once( 'kernel/classes/ezcontentobject.php' );
 
+        $db =& eZDB::instance();
+        $db->begin();
+
         $objects = null;
         $objectCount = eZContentObject::fetchSameClassListCount( $ClassID );
         if ( $objectCount > 0 )
@@ -558,6 +561,8 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         {
             $class->storeDefined( $attributes );
         }
+
+        $db->commit();
 
         $http->removeSessionVariable( 'CanStoreTicket' );
         return $Module->redirectToView( 'view', array( $ClassID ) );
