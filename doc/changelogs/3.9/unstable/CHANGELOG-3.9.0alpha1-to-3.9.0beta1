@@ -13,3 +13,5 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
   (Additional fix: rev. 17249)
 - Fixed bug #009091: Missing indexes in 3.8.
   (Manually merged from stable/3.8 (3.8.5) rev. 17258)
+- Fixed bug #009117: Content class editing is not inside DB transaction.
+  (Manually merged from stable/3.8 (3.8.5) rev. 17260)
