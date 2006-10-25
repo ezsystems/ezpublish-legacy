@@ -99,7 +99,7 @@ class eZSiteAccess
                 return $currentPath;
         }
 
-        return false;
+        return 'settings/siteaccess/' . $siteAccess;
     }
 
 }
