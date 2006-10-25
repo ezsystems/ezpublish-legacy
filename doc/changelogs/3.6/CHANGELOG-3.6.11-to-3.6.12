@@ -43,13 +43,16 @@ Changes from 3.6.11 to 3.6.12
   in standard/templates/content/upload.tpl
   (Merged from trunk (3.9.0alpha1) rev. 17142)
 - Fixed bug #9152: HTML should not be in i18n strings.  
-- Fixed bug #008616: PDF exports with the same filename overwrite each other.
+- Fixed bug #8616: PDF exports with the same filename overwrite each other.
   (Merged from stable/3.8 (3.8.5) rev. 17221)
-- Fixed bug #008954: eZDOMDocument::elementsByName does not always return an array
+- Fixed bug #8954: eZDOMDocument::elementsByName does not always return an array
   (Merged from trunk (3.9.0alpha1) rev. 17206)
-- Fixed bug #008497: Missing toggle-button-16x16.gif image in standard design.
+- Fixed bug #8497: Missing toggle-button-16x16.gif image in standard design.
   (Merged from trunk (3.9.0alpha1) rev. 17211)
-- Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
+- Fixed bug #7575: eZURLAlias | Using PathPrefix causes wrong index page.
   (Merged from trunk (3.9.0beta1) rev. 17244, 17249)
-- Fixed bug #009117: Content class editing is not inside DB transaction.
+- Fixed bug #9117: Content class editing is not inside DB transaction.
   (Merged from stable/3.8 (3.8.5) rev. 17260)
+- Fixed bug #8644: bug appears when writing INI files 
+  while the siteaccess resides in an extension.
+  (Merged from stable/3.8 (3.8.5) rev. 17267)

@@ -73,6 +73,35 @@ class eZSiteAccess
         }
         return $siteAccessList;
     }
+
+    /*!
+       Returns path to \a $siteAccess site access
+    */
+    function findPathToSiteAccess( $siteAccess )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        if ( !in_array( $siteAccess, $siteAccessList )  )
+            return false;
+
+        $currentPath = 'settings/siteaccess/' . $siteAccess;
+        if ( file_exists( $currentPath ) )
+            return $currentPath;
+
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $activeExtensions = eZExtension::activeExtensions();
+        $baseDir = eZExtension::baseDirectory();
+        foreach ( $activeExtensions as $extension )
+        {
+            $currentPath = $baseDir . '/' . $extension . '/settings/siteaccess/' . $siteAccess;
+            if ( file_exists( $currentPath ) )
+                return $currentPath;
+        }
+
+        return 'settings/siteaccess/' . $siteAccess;
+    }
+
 }
 
 ?>
