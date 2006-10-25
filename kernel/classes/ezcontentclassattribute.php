@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -49,7 +49,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->DisplayInfo = null;
         $this->Module = null;
 
-        $this->NameList = new eZContentClassNameList();
+        $this->NameList = new eZContentClassAttributeNameList();
         $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
     }
 
@@ -204,12 +204,21 @@ class eZContentClassAttribute extends eZPersistentObject
             $languageLocale = eZContentObject::defaultLanguage();
         }
 
+        $defaultSerializedNameList = '';
+        if ( !isset( $optionalValues['serialized_name_list'] ) )
+        {
+            $nameList = new eZContentClassAttributeNameList();
+            $nameList->setNameByLanguageLocale( '', $languageLocale );
+            $nameList->setAlwaysAvailableLanguage( $languageLocale );
+            $defaultSerializedNameList = $nameList->serializeNames();
+        }
+
         $row = array(
             'id' => null,
             'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
             'contentclass_id' => $class_id,
             'identifier' => '',
-            'serialized_name_list' => '',
+            'serialized_name_list' => $defaultSerializedNameList,
             'is_searchable' => 1,
             'is_required' => 0,
             'can_translate' => 1,
@@ -221,9 +230,6 @@ class eZContentClassAttribute extends eZPersistentObject
                                                                       'contentclass_id' => $class_id ) ) );
         $row = array_merge( $row, $optionalValues );
         $attribute = new eZContentClassAttribute( $row );
-
-        $attribute->NameList->setNameByLanguageLocale( '', $languageLocale );
-        $attribute->NameList->setAlwaysAvailableLanguage( $languageLocale );
 
         return $attribute;
     }

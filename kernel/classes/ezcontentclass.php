@@ -215,11 +215,20 @@ class eZContentClass extends eZPersistentObject
 
         $languageID = eZContentLanguage::idByLocale( $languageLocale );
 
+        $defaultSerializedNameList = '';
+        if ( !isset( $optionalValues['serialized_name_list'] ) )
+        {
+            $nameList = new eZContentClassNameList();
+            $nameList->setNameByLanguageLocale( '', $languageLocale );
+            $nameList->setAlwaysAvailableLanguage( $languageLocale );
+            $defaultSerializedNameList = $nameList->serializeNames();
+        }
+
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
             "id" => null,
             "version" => 1,
-            "serialized_name_list" => "",
+            "serialized_name_list" => $defaultSerializedNameList,
             "identifier" => "",
             "contentobject_name" => "",
             "creator_id" => $userID,
