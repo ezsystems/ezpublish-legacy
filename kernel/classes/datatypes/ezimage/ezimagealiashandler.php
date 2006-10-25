@@ -445,7 +445,7 @@ class eZImageAliasHandler
                 if ( $imageManager->createImageAlias( $aliasName, $aliasList,
                                                       array( 'basename' => $basename ) ) )
                 {
-                    // VS-DBFILE : TODO
+                    // VS-DBFILE : TODO checked..
 
                     $text = $this->displayText( $original['alternative_text'] );
                     $originalFilename = $original['original_filename'];
@@ -463,7 +463,7 @@ class eZImageAliasHandler
                         }
                         if ( $alias['is_new'] )
                         {
-                            // VS-DBFILE : TODO
+                            // VS-DBFILE : TODO checked
                             eZImageFile::appendFilepath( $this->ContentObjectAttributeData['id'], $alias['url'] );
                         }
                     }
@@ -1568,7 +1568,7 @@ class eZImageAliasHandler
     function generateXMLData()
     {
         // VS-DBFILE
-        // VS: I feel we don't need clustering support for the old image system.
+        // VS: I feel we don't need clustering support for the old image system. 
 
         include_once( "lib/ezdb/classes/ezdb.php" );
 
@@ -1615,7 +1615,7 @@ class eZImageAliasHandler
             $dirPath = eZSys::storageDirectory() . '/original/image';
             $filePath = $dirPath . '/' . $fileName;
 
-            // VS-DBFILE : TODO
+            // VS-DBFILE : TODO checked
 
             $baseName = $fileName;
             $dotPosition = strrpos( $fileName, '.' );
@@ -1633,7 +1633,7 @@ class eZImageAliasHandler
                 $suffixList = array( 'jpg', 'png', 'gif' );
                 foreach ( $suffixList as $suffix )
                 {
-                    // VS-DBFILE : TODO
+                    // VS-DBFILE : TODO checked
 
                     $referenceFilePath = $referenceDirPath . '/' . $baseName . '.' . $suffix;
                     if ( file_exists( $referenceFilePath ) )
@@ -1645,7 +1645,7 @@ class eZImageAliasHandler
                 }
             }
 
-            // VS-DBFILE : TODO
+            // VS-DBFILE : TODO checked
 
             if ( file_exists( $filePath ) )
             {
@@ -1675,7 +1675,7 @@ class eZImageAliasHandler
                     $newBaseName = $objectName;
                 }
 
-                // VS-DBFILE : TODO
+                // VS-DBFILE : TODO checked
 
                 if ( $newFilePath != $filePath )
                 {
@@ -1686,7 +1686,7 @@ class eZImageAliasHandler
                     }
                     eZFileHandler::copy( $filePath, $newFilePath );
 
-                    // VS-DBFILE : TODO
+                    // VS-DBFILE : TODO checked
 
                     //require_once( 'kernel/classes/ezclusterfilehandler.php' );
                     //$fileHandler = eZClusterFileHandler::instance();
