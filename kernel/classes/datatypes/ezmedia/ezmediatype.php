@@ -428,6 +428,14 @@ class eZMediaType extends eZDataType
         $media->setAttribute( "has_controller", $hasController );
         $media->setAttribute( "is_loop", $isLoop );
 
+        // SP-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $filePath = $httpFile->attribute( 'filename' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileStore( $filePath, 'mediafile', true, $mimeData['name'] );
+
+
         $media->store();
 
         $objectAttribute->setContent( $media );
@@ -465,8 +473,10 @@ class eZMediaType extends eZDataType
         umask( $oldumask );
         $destination = $destination . '/' . $fileName;
         copy( $filePath, $destination );
-
-        // VS-DBFILE : TODO
+        // SP-DBFILE
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileStore( $destination, 'mediafile', true, $mimeData['name'] );
 
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
@@ -681,7 +691,6 @@ class eZMediaType extends eZDataType
     */
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
-        // VS-DBFILE : TODO
 
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -719,8 +728,6 @@ class eZMediaType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        // VS-DBFILE : TODO
-
         $mediaNode = $attributeNode->elementByName( 'media-file' );
         $mediaFile = eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
@@ -766,6 +773,12 @@ class eZMediaType extends eZDataType
         $mediaFile->setAttribute( 'pluginspage', $mediaNode->attributeValue( 'plugins-page' ) );
         $mediaFile->setAttribute( 'quality', $mediaNode->attributeValue( 'quality' ) );
         $mediaFile->setAttribute( 'is_loop', $mediaNode->attributeValue( 'is-loop' ) );
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileStore( $destinationPath . $basename, 'mediafile', true );
 
         $mediaFile->store();
     }
