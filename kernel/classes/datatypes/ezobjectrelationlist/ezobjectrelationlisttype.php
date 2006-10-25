@@ -1555,12 +1555,6 @@ class eZObjectRelationListType extends eZDataType
             $relationItems[$i]->setAttribute( 'parent-node-id',          $object->attribute( 'main_parent_node_id' ) );
             $relationItems[$i]->setAttribute( 'contentclass-id',         $object->attribute( 'contentclass_id' ) );
             $relationItems[$i]->setAttribute( 'contentclass-identifier', $object->attribute( 'class_identifier' ) );
-
-            $contentObject =& $objectAttribute->attribute( 'object' );
-            $contentObject->AddContentObjectRelation( $object->attribute( 'id' ),
-                                                      $objectAttribute->attribute( 'version' ),
-                                                      false,
-                                                      $objectAttribute->attribute( 'id' ) );
         }
 
         $newXmlString = $rootNode->toString( 0 );
