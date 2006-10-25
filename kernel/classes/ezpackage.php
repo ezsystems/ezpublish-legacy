@@ -3025,6 +3025,12 @@ class eZPackage
         $packagePath = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
         $destinationPath = $this->path() . '/' . $packagePath;
         eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+
+       //SP DBfile
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileFetch( $filepath );
+
         eZFileHandler::copy( $filepath, $destinationPath );
 
         $this->Parameters['simple-file-list'][$key] = array( 'original-path' => $filepath,
