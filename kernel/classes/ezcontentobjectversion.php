@@ -1075,6 +1075,26 @@ class eZContentObjectVersion extends eZPersistentObject
             }
         }
 
+        $objectRelationList = $domNode->elementByName( 'object-relation-list' );
+        if ( $objectRelationList )
+        {
+            $objectRelationArray = $objectRelationList->elementsByName( 'related-object-remote-id' );
+            foreach( $objectRelationArray as $objectRelation )
+            {
+                $relatedObjectRemoteID = $objectRelation->textContent();
+                if ( $relatedObjectRemoteID )
+                {
+                    $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+                    $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
+
+                    if ( $relatedObjectID )
+                    {
+                        $contentObject->addContentObjectRelation( $relatedObjectID, $contentObjectVersion->attribute( 'version' ) );
+                    }
+                }
+            }
+        }
+
         $nodeAssignmentNodeList = $domNode->elementByName( 'node-assignment-list' );
         $nodeAssignmentNodeArray = $nodeAssignmentNodeList->elementsByName( 'node-assignment' );
         foreach( $nodeAssignmentNodeArray as $nodeAssignmentNode )
@@ -1088,6 +1108,7 @@ class eZContentObjectVersion extends eZPersistentObject
             if ( $result === false )
                 return false;
         }
+
         $contentObjectVersion->store();
         $db->commit();
 
@@ -1175,6 +1196,29 @@ class eZContentObjectVersion extends eZPersistentObject
                 $nodeAssignmentListNode->appendChild( $contentNodeDOMNode );
             }
         }
+
+        if ( $options['related_objects'] === 'selected' )
+        {
+            $relatedObjectArray = $this->relatedContentObjectArray();
+            if ( count( $relatedObjectArray ) )
+            {
+                $relationListNode = new eZDOMNode();
+                $relationListNode->setName( 'object-relation-list' );
+                $relationListNode->setPrefix( 'ezobject' );
+
+                foreach( array_keys( $relatedObjectArray ) as $Key )
+                {
+                    $relatedObject =& $relatedObjectArray[$Key];
+                    $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
+
+                    $relationNode = eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID );
+
+                    $relationListNode->appendChild( $relationNode );
+                }
+                $versionNode->appendChild( $relationListNode );
+            }
+        }
+
         $db->commit();
         return $versionNode;
     }
