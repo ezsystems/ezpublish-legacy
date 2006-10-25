@@ -4,14 +4,16 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 
 *Bugfixes:
 - Fixed bug #9142: updatetypedrelation.php throws a lot of PHP warnings.
-- Fixed bug #008497: Missing toggle-button-16x16.gif image in standard design.
-- Fixed bug #008616: PDF exports with the same filename overwrite each other.
+- Fixed bug #8497: Missing toggle-button-16x16.gif image in standard design.
+- Fixed bug #8616: PDF exports with the same filename overwrite each other.
   (Merged from stable/3.8 (3.8.5) rev. 17221)
-- Fixed bug #009028: Importing packages fail to set related objects.
+- Fixed bug #9028: Importing packages fail to set related objects.
   (Merged from stable/3.8 (3.8.5) rev. 17237)
-- Fixed bug #007575: eZURLAlias | Using PathPrefix causes wrong index page.
+- Fixed bug #7575: eZURLAlias | Using PathPrefix causes wrong index page.
   (Additional fix: rev. 17249)
-- Fixed bug #009091: Missing indexes in 3.8.
+- Fixed bug #9091: Missing indexes in 3.8.
   (Manually merged from stable/3.8 (3.8.5) rev. 17258)
-- Fixed bug #009117: Content class editing is not inside DB transaction.
+- Fixed bug #9117: Content class editing is not inside DB transaction.
   (Manually merged from stable/3.8 (3.8.5) rev. 17260)
+- Fixed #8644: bug appears when writing INI files 
+  while the siteaccess resides in an extension.

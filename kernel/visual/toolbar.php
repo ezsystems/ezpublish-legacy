@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -42,6 +42,7 @@ if ( $Params['Position'] )
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
+include_once( "kernel/classes/ezsiteaccess.php" );
 
 $http =& eZHTTPTool::instance();
 
@@ -49,7 +50,7 @@ $siteini =& eZINI::instance();
 if ( !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-$iniPath = "settings/siteaccess/$currentSiteAccess";
+$iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
 
 $iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
@@ -387,7 +388,7 @@ function removeRelatedCache( $siteAccess )
 {
     // Delete compiled template
     $ini =& eZINI::instance();
-    $iniPath = "settings/siteaccess/$siteAccess";
+    $iniPath = eZSiteAccess::findPathToSiteAccess( $siteAccess );
     $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
     if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
     {
