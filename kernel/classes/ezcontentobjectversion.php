@@ -975,7 +975,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
+    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, &$package )
     {
         $oldVersion =& $domNode->attributeValue( 'version' );
         $status =& $domNode->attributeValue( 'status' );
@@ -1091,6 +1091,17 @@ class eZContentObjectVersion extends eZPersistentObject
                     {
                         $contentObject->addContentObjectRelation( $relatedObjectID, $contentObjectVersion->attribute( 'version' ) );
                     }
+                    else
+                    {
+                        if ( !isset( $options['suspended-relations'] ) )
+                        {
+                            $options['suspended-relations'] = array();
+                        }
+
+                        $options['suspended-relations'][] = array( 'related-object-remote-id' => $relatedObjectRemoteID,
+                                                                   'contentobject-id'         => $contentObject->attribute( 'id' ),
+                                                                   'contentobject-version'    => $contentObjectVersion->attribute( 'version' ) );
+                    }
                 }
             }
         }
@@ -1106,7 +1117,9 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $nodeList,
                                                   $options );
             if ( $result === false )
+            {
                 return false;
+            }
         }
 
         $contentObjectVersion->store();
