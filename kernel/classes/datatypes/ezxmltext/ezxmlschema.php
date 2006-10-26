@@ -187,7 +187,6 @@ class eZXMLSchema
         $eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
         // Get all tags available classes list
-        $ini =& eZINI::instance( 'content.ini' );
         foreach( array_keys( $this->Schema ) as $tagName )
         {
             if ( $ini->hasVariable( $tagName, 'AvailableClasses' ) )

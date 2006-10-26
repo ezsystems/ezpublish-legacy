@@ -910,15 +910,13 @@ class eZXMLInputParser
         {
             foreach( array_keys( $element->Children ) as $child_key )
             {
-                $tmpResult = null;
                 $child =& $element->Children[$child_key];
 
                 $element->removeChild( $child );
                 // php5 TODO: use child returned by insertBefore (php dom manual)
                 $mainParent->insertBefore( $child, $mainChild );
-                $tmpResult =& $this->callOutputHandler( 'structHandler', $child, $tmpResult );
 
-                if ( !$tmpResult && !$this->XMLSchema->check( $mainParent, $child ) )
+                if ( !$this->XMLSchema->check( $mainParent, $child ) )
                     $this->fixSubtree( $child, $mainChild );
             }
         }
