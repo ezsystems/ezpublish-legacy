@@ -75,3 +75,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk rev. 17279, stable/3.8 rev. 17280)
 - Fixed bug #009082: Packages imports fails with objects in multiple locations.
   (Merged from stable/3.6 (3.6.12) rev. 17291)
+- Fixed bug #009264: Fatal translation error.
+  (Manually merged from stable/3.8 (3.8.6) rev. 17296)
