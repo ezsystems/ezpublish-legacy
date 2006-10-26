@@ -1321,6 +1321,17 @@ class eZContentObjectVersion extends eZPersistentObject
                     {
                         $contentObject->addContentObjectRelation( $relatedObjectID, $contentObjectVersion->attribute( 'version' ) );
                     }
+                    else
+                    {
+                        if ( !isset( $options['suspended-relations'] ) )
+                        {
+                            $options['suspended-relations'] = array();
+                        }
+
+                        $options['suspended-relations'][] = array( 'related-object-remote-id' => $relatedObjectRemoteID,
+                                                                   'contentobject-id'         => $contentObject->attribute( 'id' ),
+                                                                   'contentobject-version'    => $contentObjectVersion->attribute( 'version' ) );
+                    }
                 }
             }
         }

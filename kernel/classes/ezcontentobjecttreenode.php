@@ -5395,12 +5395,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $parentNodeRemoteID !== false )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
-            if ( !$parentNode )
+            if ( $parentNode !== null )
             {
-                eZDebug::writeError( "Can't fetch parent node with remote ID = $parentNodeRemoteID", 'eZContentObjectTreeNode::unserialize()' );
-                return false;
+                $parentNodeID = $parentNode->attribute( 'node_id' );
             }
-            $parentNodeID = $parentNode->attribute( 'node_id' );
         }
         else
         {
@@ -5424,6 +5422,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
+        $isMain = ( $isMain && $contentNodeDOMNode->attributeValue( 'is-main-node' ) );
+
         $nodeInfo = array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                            'contentobject_version' => $version,
                            'is_main' => $isMain,
@@ -5431,6 +5431,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            'parent_remote_id' => $remoteID,
                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
+
+        if ( $parentNodeID == -1 && $parentNodeRemoteID )
+        {
+            if ( !isset( $options['suspended-nodes'] ) )
+            {
+                $options['suspended-nodes'] = array();
+            }
+
+            $options['suspended-nodes'][$parentNodeRemoteID] = array( 'nodeinfo' => $nodeInfo,
+                                                                      'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) );
+            return true;
+        }
+
         $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                    null,
                                                    $nodeInfo );
@@ -5440,6 +5453,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
+            if ( $isMain )
+            {
+                eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
+                                                           $nodeInfo['contentobject_id'],
+                                                           $nodeInfo['contentobject_version'],
+                                                           $nodeInfo['parent_node'] );
+            }
         }
 
         return true;
