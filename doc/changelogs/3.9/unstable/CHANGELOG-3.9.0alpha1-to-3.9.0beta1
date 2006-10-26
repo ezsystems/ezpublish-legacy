@@ -18,3 +18,5 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 - Fixed #8644: bug appears when writing INI files 
   while the siteaccess resides in an extension.
 - Fixed bug #9260: Include file path contains two slashes in eznotificationeventfilter.php
+- Fixed bug #009082: Packages imports fails with objects in multiple locations.
+  (Merged from stable/3.8 (3.8.6) rev. 17294)
