@@ -713,8 +713,104 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $result = eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
             if ( !$result )
                 return false;
+            eZNodeAssignment::setNewMainAssignment( $result->attribute( 'id' ), $result->attribute( 'current_version' ) );
         }
+
+        $this->installSuspendedNodeAssignment( $installParameters );
+        $this->installSuspendedObjectRelations( $installParameters );
         return true;
+    }
+
+    /*!
+     \private
+
+     Installs suspended content object nodes (need for complex content structure)
+
+     \param install parameters
+    */
+    function installSuspendedNodeAssignment( &$installParameters )
+    {
+        if ( !isset( $installParameters['suspended-nodes'] ) )
+        {
+            return;
+        }
+        foreach ( $installParameters['suspended-nodes'] as $parentNodeRemoteID => $suspendedNodeInfo )
+        {
+            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
+            if ( $parentNode !== null )
+            {
+                $nodeInfo =& $suspendedNodeInfo['nodeinfo'];
+                $nodeInfo['parent_node'] = $parentNode->attribute( 'node_id' );
+
+                $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                           null,
+                                                           $nodeInfo );
+                $nodeInfo['priority'] = $suspendedNodeInfo['priority'];
+                if( !is_object( $existNodeAssignment ) )
+                {
+                    $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
+                    $nodeAssignment->store();
+                    if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
+                    {
+                        eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
+                                                                   $nodeInfo['contentobject_id'],
+                                                                   $nodeInfo['contentobject_version'],
+                                                                   $nodeInfo['parent_node'] );
+                    }
+                }
+
+                $contentObject = eZContentObject::fetch( $nodeInfo['contentobject_id'] );
+                if ( is_object( $contentObject ) && $contentObject->attribute( 'current_version' ) == $nodeInfo['contentobject_version'] )
+                {
+                    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                    eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $nodeInfo['contentobject_id'],
+                                                                              'version' =>  $nodeInfo['contentobject_version'] ) );
+                }
+            }
+            else
+            {
+                eZDebug::writeError( 'Can not find parent node by remote-id ' . $parentNodeRemoteID, 'eZContentObjectPackageHandler::installSuspendedNodeAssignment()' );
+            }
+            unset( $installParameters['suspended-nodes'][$parentNodeRemoteID] );
+        }
+    }
+
+    /*!
+     \private
+
+     Installs suspended content object relations (need for complex content-relations structure)
+
+     \param install parameters
+    */
+    function installSuspendedObjectRelations( &$installParameters )
+    {
+        if ( !isset( $installParameters['suspended-relations'] ) )
+        {
+            return;
+        }
+        foreach( $installParameters['suspended-relations'] as $suspendedObjectRelation )
+        {
+            $contentObjectID =        $suspendedObjectRelation['contentobject-id'];
+            $contentObjectVersionID = $suspendedObjectRelation['contentobject-version'];
+
+            $contentObjectVersion = eZContentObjectVersion::fetchVersion( $contentObjectVersionID, $contentObjectID );
+            if ( is_object( $contentObjectVersion ) )
+            {
+                $relatedObjectRemoteID = $suspendedObjectRelation['related-object-remote-id'];
+                $relatedObject = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+                $relatedObjectID = ( $relatedObject !== null ) ? $relatedObject->attribute( 'id' ) : null;
+
+                if ( $relatedObjectID )
+                {
+                    $relatedObject->addContentObjectRelation( $relatedObjectID, $contentObjectVersionID, $contentObjectID );
+                }
+                else
+                {
+                    eZDebug::writeError( 'Can not find related object by remote-id ' . $relatedObjectRemoteID, 'eZContentObjectPackageHandler::installSuspendedObjectRelations()' );
+                }
+            }
+        }
+        unset( $installParameters['suspended-relations'] );
     }
 
     /*!

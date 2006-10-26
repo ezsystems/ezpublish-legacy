@@ -4989,7 +4989,7 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
+    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, &$options )
     {
         $parentNodeID = -1;
 
@@ -5004,7 +5004,10 @@ WHERE
         if ( $parentNodeRemoteID !== false )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
-            $parentNodeID = $parentNode->attribute( 'node_id' );
+            if ( $parentNode !== null )
+            {
+                $parentNodeID = $parentNode->attribute( 'node_id' );
+            }
         }
         else
         {
@@ -5028,6 +5031,8 @@ WHERE
             }
         }
 
+        $isMain = ( $isMain && $contentNodeDOMNode->attributeValue( 'is-main-node' ) );
+
         $nodeInfo = array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                            'contentobject_version' => $version,
                            'is_main' => $isMain,
@@ -5035,6 +5040,19 @@ WHERE
                            'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
+
+        if ( $parentNodeID == -1 && $parentNodeRemoteID )
+        {
+            if ( !isset( $options['suspended-nodes'] ) )
+            {
+                $options['suspended-nodes'] = array();
+            }
+
+            $options['suspended-nodes'][$parentNodeRemoteID] = array( 'nodeinfo' => $nodeInfo,
+                                                                      'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) );
+            return true;
+        }
+
         $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                    null,
                                                    $nodeInfo );
@@ -5044,6 +5062,13 @@ WHERE
             $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
+            if ( $isMain )
+            {
+                eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
+                                                           $nodeInfo['contentobject_id'],
+                                                           $nodeInfo['contentobject_version'],
+                                                           $nodeInfo['parent_node'] );
+            }
         }
 
         return true;

@@ -73,3 +73,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.5) rev. 17256)
 - Fixed bug #9260: Include file path contains two slashes in eznotificationeventfilter.php
   (Merged from trunk rev. 17279, stable/3.8 rev. 17280)
+- Fixed bug #009082: Packages imports fails with objects in multiple locations.
+  (Merged from stable/3.6 (3.6.12) rev. 17291)
