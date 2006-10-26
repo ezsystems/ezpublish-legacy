@@ -20,3 +20,5 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 - Fixed bug #9260: Include file path contains two slashes in eznotificationeventfilter.php
 - Fixed bug #009082: Packages imports fails with objects in multiple locations.
   (Merged from stable/3.8 (3.8.6) rev. 17294)
+- Fixed bug #009264: Fatal translation error.
+  (Merged from stable/3.8 (3.8.6) rev. 17296)
