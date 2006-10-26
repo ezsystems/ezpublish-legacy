@@ -79,14 +79,17 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     {
         $useTextTranslation = true;
     }
+    
+    if ( $language != "eng-GB" ) // eng-GB does not need translation
+    {
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+        include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+    }
 }
 
 if ( $useTextTranslation )
 {
-    include_once( 'lib/ezutils/classes/ezextension.php' );
-    include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-    include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-
     function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
         $text = eZTranslateText( $context, $source, $comment, $arguments );
