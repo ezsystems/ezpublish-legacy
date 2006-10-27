@@ -73,54 +73,50 @@ class eZStepFinal extends eZStepInstaller
     function &display()
     {
         $siteType = $this->chosenSiteType();
-//         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
-        //$counter = 0;
-//             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
-//             eZDebug::writeDebug( $templates[$counter], '$templates[$counter]' );
-//             $url = $templates[$counter]['url'];
-            $url = $siteType['url'];
+
+        $url = $siteType['url'];
+        if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
+        {
+            $url = 'http://' . $url;
+        }
+        $currentURL = $url;
+        $adminURL = $url;
+
+        if ( $siteType['access_type'] == 'url' )
+        {
+	    $ini =& eZINI::instance();
+	    if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
+            {
+		$siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+    	    }
+		  
+            $url .= '/' . $siteType['access_type_value'];
+            $adminURL .= '/' . $siteType['admin_access_type_value'];
+        }
+        else if ( $siteType['access_type'] == 'hostname' )
+        {
+            $url = $siteType['access_type_value'];
+            $adminURL = $siteType['admin_access_type_value'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-            {
+	    {
                 $url = 'http://' . $url;
-            }
-            $currentURL = $url;
-            $adminURL = $url;
-//             if ( $templates[$counter]['access_type'] == 'url' )
-            if ( $siteType['access_type'] == 'url' )
-            {
-//                 $url .= '/' . $templates[$counter]['access_type_value'];
-//                 $adminURL .= '/' . $templates[$counter]['admin_access_type_value'];
-                $url .= '/' . $siteType['access_type_value'];
-                $adminURL .= '/' . $siteType['admin_access_type_value'];
-            }
-//             else if ( $templates[$counter]['access_type'] == 'hostname' )
-            else if ( $siteType['access_type'] == 'hostname' )
-            {
-//                 $url = $templates[$counter]['access_type_value'];
-//                 $adminURL = $templates[$counter]['admin_access_type_value'];
-                $url = $siteType['access_type_value'];
-                $adminURL = $siteType['admin_access_type_value'];
-                if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-                    $url = 'http://' . $url;
-                if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
-                    $adminURL = 'http://' . $adminURL;
-                $url .= eZSys::indexDir( false );
-                $adminURL .= eZSys::indexDir( false );
-            }
-//             else if ( $templates[$counter]['access_type'] == 'port' )
-            else if ( $siteType['access_type'] == 'port' )
-            {
-//                 $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['access_type_value'] ) );
-//                 $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $templates[$counter]['admin_access_type_value'] ) );
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
-            }
-//             $templates[$counter]['url'] = $url;
-//             $templates[$counter]['admin_url'] = $adminURL;
-            $siteType['url'] = $url;
-            $siteType['admin_url'] = $adminURL;
-          //  ++$counter;
-        //}
+	    }
+            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
+	    {
+                $adminURL = 'http://' . $adminURL;
+	    }
+
+            $url .= eZSys::indexDir( false );
+            $adminURL .= eZSys::indexDir( false );
+        }
+        else if ( $siteType['access_type'] == 'port' )
+        {
+            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
+            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
+        }
+
+        $siteType['url'] = $url;
+        $siteType['admin_url'] = $adminURL;
 
         $this->Tpl->setVariable( 'site_type', $siteType );
 
