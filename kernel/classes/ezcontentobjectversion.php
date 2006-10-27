@@ -1124,7 +1124,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $options );
             if ( $result === false )
             {
-                return false;
+	        $retValue = false;
+                return $retValue;
             }
         }
 
