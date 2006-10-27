@@ -12,18 +12,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -160,7 +160,8 @@ $versions38 = array( 'unstable' => array( array( '3.6.0', '3.8.0alpha1' )
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.6.0', '3.8.0') ) );
 
-$versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' )
+$versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' ),
+                                          array( '3.9.0alpha1', '3.9.0beta1' )
                                         ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );
