@@ -24,3 +24,4 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
   (Merged from stable/3.8 (3.8.6) rev. 17296)
 - Fixed bug #009003: change main location does not update section
   (Merged from stable/3.8 (3.8.6) rev. 17300)
+- Fixed bug #009255: workflow/processlist does not set path.

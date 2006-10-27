@@ -89,5 +89,9 @@ $tpl->setVariable( "total_process_count", $totalProcessCount );
 $Module->setTitle( "Workflow processes list" );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/processlist.tpl" );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
+                                'url' => false ),
+                         array( 'text' => ezi18n( 'kernel/workflow', 'Process list' ),
+                                'url' => false ) );
 
 ?>
