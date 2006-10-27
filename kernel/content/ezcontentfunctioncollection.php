@@ -1146,7 +1146,7 @@ class eZContentFunctionCollection
         $relatedObjectsTyped = array();
         foreach ( $allRelations as $relationType )
         {
-            $relatedObjectsTyped[$relationType] =&
+            $relatedObjectsTyped[$relationType] =
                 eZContentFunctionCollection::fetchRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array() );
         }
 
@@ -1174,7 +1174,7 @@ class eZContentFunctionCollection
         $relatedObjectsTyped = array();
         foreach ( $allRelations as $relationType )
         {
-            $relatedObjectsTyped[$relationType] =&
+            $relatedObjectsTyped[$relationType] =
                 eZContentFunctionCollection::fetchReverseRelatedObjects( $objectID, $attributeID, array( $relationType ), false, array(), null );
         }
 
