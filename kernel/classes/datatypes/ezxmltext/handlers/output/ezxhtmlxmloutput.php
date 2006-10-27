@@ -81,7 +81,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         }
-        $dom =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false ) );
+        $dom =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
         if ( $dom )
         {
             $domNode =& $dom->elementsByName( "section" );
@@ -212,6 +212,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
 
             $dom->cleanup();
+            unset( $dom );
         }
         $res->removeKey( 'attribute_identifier' );
         return $output;
