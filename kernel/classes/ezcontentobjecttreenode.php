@@ -2962,6 +2962,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $db->query( "UPDATE eznode_assignment SET is_main=1 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node=$parentMainNodeID" );
         $db->query( "UPDATE eznode_assignment SET is_main=0 WHERE contentobject_id=$objectID AND contentobject_version=$version AND parent_node!=$parentMainNodeID" );
+
+        $contentObject = eZContentObject::fetch( $objectID );
+        $parentContentObject = eZContentObject::fetchByNodeID( $parentMainNodeID );
+        if ( $contentObject->attribute( 'section_id' ) != $parentContentObject->attribute( 'section_id' ) )
+        {
+            $newSectionID = $parentContentObject->attribute( 'section_id' );
+            eZContentObjectTreeNode::assignSectionToSubTree( $mainNodeID, $newSectionID );
+        }
+
         $db->commit();
 
     }
