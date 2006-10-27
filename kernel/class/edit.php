@@ -723,7 +723,7 @@ else if ( $http->hasPostVariable( 'MoveUp' ) )
     $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveUp' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
     $attribute->move( false );
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
     return;
 }
 else if ( $http->hasPostVariable( 'MoveDown' ) )
@@ -731,7 +731,7 @@ else if ( $http->hasPostVariable( 'MoveDown' ) )
     $attribute =& eZContentClassAttribute::fetch( $http->postVariable( 'MoveDown' ), true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
     $attribute->move( true );
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
     return;
 }
 

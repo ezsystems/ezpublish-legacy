@@ -31,3 +31,4 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 - Fixed bug #009255: workflow/processlist does not set path.
 - Fixed bug #009201: Don't show language dropdown box on class/view when there's
   only one language.
+- Fixed bug #009253: Sorting class attributes will remove all attribute names.
