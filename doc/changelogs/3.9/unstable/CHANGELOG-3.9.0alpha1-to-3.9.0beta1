@@ -2,6 +2,10 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
 
 *Kernel:
 
+*Design:
+- Implemented enhancement #009270: modify setup wizard to read defaultaccess 
+  from site.ini (for url access-type)
+
 *Bugfixes:
 - Fixed bug #9142: updatetypedrelation.php throws a lot of PHP warnings.
 - Fixed bug #8497: Missing toggle-button-16x16.gif image in standard design.
