@@ -172,7 +172,8 @@ class eZContentClass extends eZPersistentObject
                                                       'languages' => 'languages',
                                                       'can_create_languages' => 'canCreateLanguages',
                                                       'top_priority_language' => 'topPriorityLanguage',
-                                                      'default_language' => 'defaultLanguage' ),
+                                                      'default_language' => 'defaultLanguage',
+                                                      'always_available_language' => 'alwaysAvailableLanguage' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -1635,6 +1636,15 @@ You will need to change the class of the node by using the swap functionality.' 
     function &languages()
     {
         $languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
+        $alwaysAvailableLanguage = $this->alwaysAvailableLanguage();
+        if ( $alwaysAvailableLanguage )
+        {
+            $alwaysAvailableLanguageLocale = $alwaysAvailableLanguage->attribute( 'locale' );
+            if ( !isset( $languages[$alwaysAvailableLanguageLocale] ) )
+            {
+                $languages[$alwaysAvailableLanguageLocale] = $alwaysAvailableLanguage;
+            }
+        }
 
         return $languages;
     }
@@ -1661,11 +1671,17 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         $language = eZContentLanguage::topPriorityLanguageByMask( $this->attribute( 'language_mask' ) );
         if ( !$language )
-            $language = eZContentLanguage::fetch( $this->attribute( 'initial_language_id' ) );
+            $language = $this->alwaysAvailableLanguage();
 
         $languageLocale = $language ? $language->attribute( 'locale' ) : false;
 
         return $languageLocale;
+    }
+
+    function &alwaysAvailableLanguage()
+    {
+        $language = eZContentLanguage::fetch( $this->attribute( 'initial_language_id' ) );
+        return $language;
     }
 
     function &defaultLanguage()

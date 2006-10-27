@@ -104,19 +104,17 @@
     {section-else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/class/classlist' )}" disabled="disabled" />
     {/section}
-    </div>
 
-    <div class="break"></div>
-</div>
-
-<div class="block">
-    <div class="left">
     {def $languages=fetch( 'content', 'prioritized_languages' )}
-    <select name="ClassLanguageCode" title="{'Use this menu to select the language you wish use for the creation and click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
-        {foreach $languages as $language}
-            <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
-        {/foreach}
-    </select>
+    {if gt( $languages|count, 1 )}
+        <select name="ClassLanguageCode" title="{'Use this menu to select the language you wish use for the creation and click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
+            {foreach $languages as $language}
+                <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+            {/foreach}
+        </select>
+    {else}
+        <input type="hidden" name="ClassLanguageCode" value="{$languages[0].locale|wash()}" />
+    {/if}
     {undef $languages}
 
     <input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" title="{'Create a new class within the <%class_group_name> class group.'|i18n( 'design/admin/class/classlist',, hash( '%class_group_name', $group.name ) )|wash}" />
