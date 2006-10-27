@@ -992,7 +992,8 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             eZDebug::writeError( 'Could not fetch object version : ' . $oldVersion,
                                  'eZContentObjectVersion::unserialize()' );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
 
         if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
@@ -1118,7 +1119,8 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $options );
             if ( $result === false )
             {
-                return false;
+                $retValue = false;
+                return $retValue;
             }
         }
 
