@@ -3609,13 +3609,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
+        $contentObject =& eZContentObject::fetch( $contentobjectID );
+        if ( !$contentObject )
+        {
+            return false;
+        }
+
         if ( !$contentObjectVersion )
         {
-            $contentObject =& eZContentObject::fetch( $contentobjectID );
-            if ( !$contentObject )
-            {
-                return false;
-            }
             $contentObjectVersion = $contentObject->attribute( 'current_version' );
         }
 
