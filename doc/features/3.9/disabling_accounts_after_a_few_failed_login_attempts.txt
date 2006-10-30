@@ -17,10 +17,10 @@ An array with IP addresses or networks which will be always
 allowed to login after a few failed login attempts.
 
 -[UserSettings].ShowMessageIfExceeded=false
-If true and failed login attempts of current user execeed MaxNumberOfFailedLogin
+If true and failed login attempts of current user exceed MaxNumberOfFailedLogin
 the user will get a message about this.
 
-If MaxNumberOfFailedLogin > 0 and user's number of failed login attempts execeed MaxNumberOfFailedLogin
+If MaxNumberOfFailedLogin > 0 and user's number of failed login attempts exceed MaxNumberOfFailedLogin
 the user will not be allowed to login (the user account will be locked).
 
 If you want to unlock the user you should go to [admin_siteaccess]/user/setting/[userID] and push the 'reset' button. 
