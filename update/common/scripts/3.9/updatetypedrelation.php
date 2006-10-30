@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 //
-// Created on: <22-Sep-2006 12:05:27 vp>
+// Created on: <06-Oct-2006 17:06:01 vp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
