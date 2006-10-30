@@ -1,5 +1,13 @@
 *Title: Improvements to related objects added from XML block text field.
 
+* Back-compatibility and upgrading
+
+This feature is enabled only if the next setting is 'enabled':
+ site.ini:[BackwardCompatibilitySettings].ObjectRelationTyped
+
+If you plan to use this feature on the existing database, please run upgrade
+script: update/common/scripts/3.9/updatetypedrelation.php
+
 *Documentation:
 
 There are 4 types of relations between objects in the system:
