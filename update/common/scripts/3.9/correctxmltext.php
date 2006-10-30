@@ -136,7 +136,7 @@ if ( !$skipClasses || !$skipCustom )
 }
 
 // update AvailableClasses setting
-function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly )
+function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
 {
     $children =& $element->Children;
     foreach( array_keys( $children ) as $key )
@@ -173,7 +173,7 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
 }
 
 // update CustomAttributes setting
-function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly )
+function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
 {
     $children =& $element->Children;
     foreach( array_keys( $children ) as $key )
@@ -319,10 +319,10 @@ while( count( $xmlFieldsArray ) )
                 convertObjects( $doc, $doc->Root, $isTextModified );
 
             if ( !$skipClasses )
-                updateAvailableClasses( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $classesDumpOnly );
+                updateAvailableClasses( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $classesDumpOnly, $isQuiet );
 
             if ( !$skipCustom && $eZPublishVersion >= 3.9 )
-                updateCustomAttributes( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $customDumpOnly );
+                updateCustomAttributes( $doc, $doc->Root, $isIniModified, $contentIniDirect, $XMLSchema, $customDumpOnly, $isQuiet );
 
             if ( $isTextModified )
             {
