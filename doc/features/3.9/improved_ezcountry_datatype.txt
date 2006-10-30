@@ -6,4 +6,70 @@ The datatype provides support for:
 - multiple selection of countries
 - utility functions.
 
+"country.ini" file has been added.
+This file should contain groups of countries only.
+Name of group is Alpha-2 code as reserved in ISO 3166-1
+(see http://en.wikipedia.org/wiki/ISO_3166-1)
 
+*For example:
+  [<Alpha2>]
+  Name=<Name of country>
+  Alpha2=<Aplha2 code>
+  Alpha3=<Alpha3 code>
+  IDC=<Internation Dialling Code>
+  <Other info>=<value>
+
+Translations of the english countries name can be done using locale files:
+
+*For example:
+  [CountryNames]
+  Countries[]
+  Countries[<Code of country is Alpha-2 code as reserved in ISO 3166-1]=<Translated name>
+  Countries[AF]=Translated_Afghanistan
+  ...
+  Add this group and vars to local files (e.g. rus-RU.ini)
+  
+Function
+=========
+The function country_list provides a mechanism for templates to fetch information about countries.
+
+*Usage:
+
+fetch( 'content', 'country_list',
+       hash( [ 'filter', filter, ]
+             [ 'value', value ]
+              ) )
+*Parameters:
+ Name:              Type:        Required:
+ filter             string       no
+ value              string       no
+
+ NOTE: 'filter' is a variable of groups in country.ini 
+        e.g. 
+	--------
+	[NO]
+        Name=Norway
+        Alpha2=NO
+        Alpha3=NOR
+        IDC=47
+        --------
+	The 'filter' can be 'Name' or 'Alpha2' or 'Alpha3' or 'IDC'
+	
+*Example:
+1.
+  {def $all_country_list=fetch( 'content', 'country_list' )}
+      {$all_country_list|attribute(show)}
+
+  will show all countries
+
+2.
+{def $country=fetch( 'content', 'country_list', hash( 'filter', 'Name', 'value', 'Norway' ) )}
+    {$country|attribute(show)}
+
+  will show:
+
+  Attribute Type    Value
+  Name	    string 'Norway'
+  Alpha2    string 'NO'
+  Alpha3    string 'NOR'
+  IDC       string  47
