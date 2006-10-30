@@ -1,6 +1,7 @@
 UPDATE ezsite_data SET value='3.9.0beta1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='2' WHERE name='ezpublish-release';
 
+-- START: from 3.8.5
 -- ezcontentobject
 CREATE INDEX ezcontentobject_pub ON ezcontentobject( published );
 CREATE INDEX ezcontentobject_status ON ezcontentobject( status );
@@ -44,3 +45,4 @@ CREATE INDEX eznode_assignment_co_version ON eznode_assignment( contentobject_ve
 
 -- ezkeyword_attribute_link
 CREATE INDEX ezkeyword_attr_link_keyword_id ON ezkeyword_attribute_link( keyword_id );
+-- END: from 3.8.5

@@ -1,6 +1,7 @@
 UPDATE ezsite_data SET value='3.9.0alpha1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
+-- START: from 3.8.1
 CREATE INDEX ezkeyword_keyword_id ON ezkeyword ( keyword, id );
 CREATE INDEX ezkeyword_attr_link_kid_oaid ON ezkeyword_attribute_link ( keyword_id, objectattribute_id );
 
@@ -9,6 +10,7 @@ CREATE INDEX ezurlalias_is_wildcard ON ezurlalias( is_wildcard );
 CREATE INDEX eznode_assignment_coid_cov ON eznode_assignment( contentobject_id,contentobject_version );
 CREATE INDEX eznode_assignment_is_main ON eznode_assignment( is_main );
 CREATE INDEX eznode_assignment_parent_node ON eznode_assignment( parent_node );
+-- END: from 3.8.1
 
 ALTER TABLE ezuservisit ADD COLUMN failed_login_attempts int NOT NULL DEFAULT 0;
 
