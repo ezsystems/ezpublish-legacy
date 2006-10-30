@@ -3,10 +3,10 @@
 * Back-compatibility and upgrading
 
 This feature is enabled only if the next setting is 'enabled':
- site.ini:[BackwardCompatibilitySettings].ObjectRelationTyped
+site.ini:[BackwardCompatibilitySettings].ObjectRelationTyped
 
-If you plan to use this feature on the existing database, please run upgrade
-script: update/common/scripts/3.9/updatetypedrelation.php
+Before using this feature please run upgrade script:
+update/common/scripts/3.9/updatetypedrelation.php
 
 *Documentation:
 
