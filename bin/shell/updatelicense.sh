@@ -130,7 +130,7 @@ echo "REV: '$REV'"
 echo "VERSION: '$VERSION'"
 
 sed -e '/# NOTE/!s/^/\/\/ /;s/# NOTE.*/\/\/\n/;s/\$Version\$/'$VERSION'/;s/\$Rev\$/'$REV'/' "$LICENSE_NOTICE_FILE" > "$LICENSE_NOTICE_TMP_FILE"
-find "$DEST_DIR" -name "*.php" -exec sed -i -e '/'"$BEGIN_LICENSE_BLOCK"'/,/'"$END_LICENSE_BLOCK"'/{
+find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \) -exec sed -i -e '/'"$BEGIN_LICENSE_BLOCK"'/,/'"$END_LICENSE_BLOCK"'/{
 /'"$END_LICENSE_BLOCK"'/r '$LICENSE_NOTICE_TMP_FILE'
 d
 }' '{}' \;
