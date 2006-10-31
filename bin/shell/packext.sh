@@ -20,7 +20,7 @@ function show_help
             echo "Make sure that the SVN-property ez:distribution is set to 'full'"
             echo "for the files that are supposed to be included in the distribution,"
             echo "if you use --svn"
-            echo 
+            echo
             echo "Examples:"
             echo " $0 ezforum"
             echo " $0 --svn http://svn.server.com/projects/ezforum/"
@@ -82,8 +82,10 @@ function create_destination_dirs
     mkdir -p "$TMP_DIR"
 
     # Create directory to store packaged extension in (output directory).
-    [ -d "$OUTPUT_DIR" ] && rm -rf "$OUTPUT_DIR"
-    mkdir -p "$OUTPUT_DIR"
+    #[ -d "$OUTPUT_DIR" ] && rm -rf "$OUTPUT_DIR"
+    if [ ! -f "$OUTPUT_DIR" ]; then
+        mkdir -p "$OUTPUT_DIR"
+    fi
 }
 
 function export_extension
