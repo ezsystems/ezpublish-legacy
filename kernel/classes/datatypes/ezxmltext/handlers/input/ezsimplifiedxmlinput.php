@@ -126,19 +126,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
 
-            $xmlString = eZXMLTextType::domString( $document );
-
-            $urlIDArray = $parser->getUrlIDArray();
-
-            if ( count( $urlIDArray ) > 0 )
-            {
-                $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
-            }
-
-            $contentObject =& $contentObjectAttribute->attribute( 'object' );
-            $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
-            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
-
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_required" ) == true )
             {
@@ -151,6 +138,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
             }
             $contentObjectAttribute->setValidationLog( $parser->getMessages() );
+
+            $xmlString = eZXMLTextType::domString( $document );
+            //eZDebug::writeDebug( $xmlString, '$xmlString' );
+
+            $urlIDArray = $parser->getUrlIDArray();
+
+            if ( count( $urlIDArray ) > 0 )
+            {
+                $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
+            }
+
+            $contentObject =& $contentObjectAttribute->attribute( 'object' );
+            $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
+            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
 
             $contentObjectAttribute->setAttribute( "data_text", $xmlString );
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
