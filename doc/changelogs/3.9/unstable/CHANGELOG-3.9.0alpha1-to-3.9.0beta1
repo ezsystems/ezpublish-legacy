@@ -33,3 +33,4 @@ Changes from 3.9.0alpha1 to 3.9.0beta1
   only one language.
 - Fixed bug #009253: Sorting class attributes will remove all attribute names.
 - Fixed bug #009259: Add Publish button in preview mode.
+- Fixed bug #009222: Missing memento keys for workflow processes.
