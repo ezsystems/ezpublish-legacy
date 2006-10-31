@@ -1084,16 +1084,6 @@ class eZContentFunctionCollection
 
     function contentobjectRelationTypeMask( $contentObjectRelationTypes = false )
     {
-        $typedRelations = false;
-        $siteIni =& eZINI::instance( 'site.ini' );
-        if ( $siteIni->hasVariable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
-        {
-            if ( 'enabled' == $siteIni->variable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
-            {
-                $typedRelations = true;
-            }
-        }
-
         $relationTypeMask = 0;
         if ( is_array( $contentObjectRelationTypes ) )
         {
@@ -1120,16 +1110,7 @@ class eZContentFunctionCollection
 
         if ( is_bool( $contentObjectRelationTypes ) )
         {
-            $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_COMMON |
-                                EZ_CONTENT_OBJECT_RELATION_EMBED;
-            if ( $typedRelations )
-            {
-                $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_LINK;
-            }
-            if ( $contentObjectRelationTypes )
-            {
-                $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            }
+            $relationTypeMask = eZContentObject::relationTypeMask( $contentObjectRelationTypes );
         }
 
         return $relationTypeMask;
@@ -1140,7 +1121,11 @@ class eZContentFunctionCollection
     {
         if ( !is_array( $allRelations ) || $allRelations === array() )
         {
-            $allRelations = array( 'common', 'xml_embed', 'xml_link', 'attribute' );
+            $allRelations = array( 'common', 'xml_embed', 'attribute' );
+            if ( eZContentObject::isObjectRelationTyped() )
+            {
+                $allRelations[] = 'xml_link';
+            }
         }
 
         $relatedObjectsTyped = array();
@@ -1168,7 +1153,11 @@ class eZContentFunctionCollection
     {
         if ( !is_array( $allRelations ) || $allRelations === array() )
         {
-            $allRelations = array( 'common', 'xml_embed', 'xml_link', 'attribute' );
+            $allRelations = array( 'common', 'xml_embed', 'attribute' );
+            if ( eZContentObject::isObjectRelationTyped() )
+            {
+                $allRelations[] = 'xml_link';
+            }
         }
 
         $relatedObjectsTyped = array();

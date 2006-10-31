@@ -1965,22 +1965,14 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    function &inputRelationList()
-    {
-        static $inputRelationList = array();
-        return $inputRelationList;
-    }
-
     function resetInputRelationList()
     {
-        $relationList =& eZContentObject::inputRelationList();
-        $relationList = array( EZ_CONTENT_OBJECT_RELATION_EMBED => array(),
-                               EZ_CONTENT_OBJECT_RELATION_LINK =>  array() );
+        $this->InputRelationList = array( EZ_CONTENT_OBJECT_RELATION_EMBED => array(),
+                                          EZ_CONTENT_OBJECT_RELATION_LINK =>  array() );
     }
 
     function appendInputRelationList( $addingIDList, $relationType )
     {
-
         if ( !is_array( $addingIDList ) )
         {
             $addingIDList = array( ( int ) $addingIDList );
@@ -1990,25 +1982,23 @@ class eZContentObject extends eZPersistentObject
             return;
         }
         $relationType = ( int ) $relationType;
-        $relationList =& eZContentObject::inputRelationList();
-        if ( $relationList === array() )
+        if ( !$this->InputRelationList )
         {
-            eZContentObject::resetInputRelationList();
+            $this->resetInputRelationList();
         }
 
-        foreach ( array_keys( $relationList ) as $inputRelationType )
+        foreach ( array_keys( $this->InputRelationList ) as $inputRelationType )
         {
             if ( $inputRelationType & $relationType )
             {
-                $relationList[$inputRelationType] = array_merge( $relationList[$inputRelationType], $addingIDList );
+                $this->InputRelationList[$inputRelationType] = array_merge( $this->InputRelationList[$inputRelationType], $addingIDList );
             }
         }
     }
 
     function commitInputRelations( $editVersion)
     {
-        $relationList =& eZContentObject::inputRelationList();
-        foreach ( $relationList as $relationType => $relatedObjectIDArray )
+        foreach ( $this->InputRelationList as $relationType => $relatedObjectIDArray )
         {
             $oldRelatedObjectArray = $this->relatedObjects( $editVersion, false, 0, false, array( 'AllRelations' => $relationType ) );
 
@@ -2602,6 +2592,37 @@ class eZContentObject extends eZPersistentObject
         $db->commit();
     }
 
+    function isObjectRelationTyped()
+    {
+        $siteIni =& eZINI::instance( 'site.ini' );
+        if ( $siteIni->hasVariable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
+        {
+            if ( 'enabled' == $siteIni->variable( 'BackwardCompatibilitySettings', 'ObjectRelationTyped' ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function relationTypeMask( $allRelations = false )
+    {
+        $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_COMMON |
+                            EZ_CONTENT_OBJECT_RELATION_EMBED;
+
+        if ( eZContentObject::isObjectRelationTyped() )
+        {
+            $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_LINK;
+        }
+
+        if ( $allRelations )
+        {
+            $relationTypeMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
+        }
+
+        return $relationTypeMask;
+    }
+
     /*!
      Returns the related or reverse related objects:
      \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
@@ -2658,21 +2679,21 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relationTypeMasking = '';
-        if ( isset( $params['AllRelations'] ) )
+        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : false;
+        if ( is_bool( $relationTypeMask ) )
         {
-            $relationTypeMask = $params['AllRelations'];
-            if ( false === $relationTypeMask )
+            if ( !$relationTypeMask && $attributeID !== false )
             {
-                $relationTypeMask = eZContentFunctionCollection::contentobjectRelationTypeMask();
+                $attributeID =(int) $attributeID;
+                $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+                $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
             }
-            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+            else
+            {
+                $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
+            }
         }
-
-        if ( !isset( $params['AllRelations'] ) || $attributeID !== false )
-        {
-            $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
-        }
+        $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
 
         // Create SQL
         $versionNameTables = ', ezcontentobject_name ';
@@ -2913,17 +2934,21 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relationTypeMasking = '';
-        if ( isset( $params['AllRelations'] ) )
+        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : false;
+        if ( is_bool( $relationTypeMask ) )
         {
-            $relationTypeMasking .= " AND ( relation_type & {$params['AllRelations']} ) <> 0 ";
+            if ( !$relationTypeMask && $attributeID !== false )
+            {
+                $attributeID =(int) $attributeID;
+                $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+                $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
+            }
+            else
+            {
+                $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
+            }
         }
-
-        if ( !isset( $params['AllRelations'] ) || $attributeID !== false )
-        {
-            $attributeID =(int) $attributeID;
-            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
-        }
-
+        $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
 
         if ( $reverseRelatedObjects )
         {
@@ -5389,6 +5414,9 @@ class eZContentObject extends eZPersistentObject
 
     /// Contains the main node id for this object
     var $MainNodeID = false;
+
+    /// Contains the arrays of relatedobject id by fetching input for this object
+    var $InputRelationList = array();
 }
 
 ?>

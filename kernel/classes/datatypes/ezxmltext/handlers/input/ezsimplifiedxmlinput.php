@@ -128,8 +128,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $xmlString = eZXMLTextType::domString( $document );
 
-            //eZDebug::writeDebug( $xmlString, '$xmlString' );
-
             $urlIDArray = $parser->getUrlIDArray();
 
             if ( count( $urlIDArray ) > 0 )
@@ -137,8 +135,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
 
-            eZContentObject::appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
-            eZContentObject::appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
+            $contentObject =& $contentObjectAttribute->attribute( 'object' );
+            $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
+            $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
 
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_required" ) == true )

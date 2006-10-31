@@ -260,7 +260,11 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     $relatedObjectsTyped = array();
     $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
     $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
-    $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+    if ( eZContentObject::isObjectRelationTyped() )
+    {
+        $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+    }
+
     $relatedObjectsTypedIDArray = array();
     foreach ( $relatedObjectsTyped as $relationTypeName => $relatedObjectsByType )
     {
