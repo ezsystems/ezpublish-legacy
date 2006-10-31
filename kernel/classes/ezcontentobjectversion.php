@@ -1200,7 +1200,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentObjectID = (int) $contentObjectID;
         $version =(int) $version;
         $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as classattribute_identifier,
-                        ezcontentclass_attribute.can_translate, ezcontentclass_attribute.serialized_name_list as class_attribute_serialized_name_list
+                        ezcontentclass_attribute.can_translate, ezcontentclass_attribute.serialized_name_list as attribute_serialized_name_list
                   FROM  ezcontentobject_attribute, ezcontentclass_attribute, ezcontentobject_version
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
@@ -1231,7 +1231,7 @@ class eZContentObjectVersion extends eZPersistentObject
             else
                 $attr->setContentClassAttributeCanTranslate( 0 );
 
-            $attr->setContentClassAttributeName( eZContentClassAttribute::nameFromSerializedString( $attribute['class_attribute_serialized_name_list'] ) );
+            $attr->setContentClassAttributeName( eZContentClassAttribute::nameFromSerializedString( $attribute['attribute_serialized_name_list'] ) );
 
             $returnAttributeArray[] = $attr;
         }
@@ -1746,7 +1746,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $sql = "UPDATE ezcontentobject_attribute SET language_id=";
         if ( $db->databaseName() == 'oracle' )
         {
-            $sql .= "bitand( language_id, ~1 )";
+            $sql .= "bitand( language_id, -2 )";
         }
         else
         {

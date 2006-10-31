@@ -2693,7 +2693,14 @@ class eZContentObject extends eZPersistentObject
                 $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
             }
         }
-        $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
+        }
+        else
+        {
+            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+        }
 
         // Create SQL
         $versionNameTables = ', ezcontentobject_name ';
@@ -5368,7 +5375,7 @@ class eZContentObject extends eZPersistentObject
         $sql = "UPDATE ezcontentobject_name SET language_id=";
         if ( $db->databaseName() == 'oracle' )
         {
-            $sql .= "bitand( language_id, ~1 )";
+            $sql .= "bitand( language_id, -2 )";
         }
         else
         {

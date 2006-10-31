@@ -1606,7 +1606,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $sql = "UPDATE ezcontentclass_name SET language_id=";
         if ( $db->databaseName() == 'oracle' )
         {
-            $sql .= "bitand( language_id, ~1 )";
+            $sql .= "bitand( language_id, -2 )";
         }
         else
         {
