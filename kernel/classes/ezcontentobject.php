@@ -5016,7 +5016,7 @@ class eZContentObject extends eZPersistentObject
         $sql = "UPDATE ezcontentobject_name SET language_id=";
         if ( $db->databaseName() == 'oracle' )
         {
-            $sql .= "bitand( language_id, ~1 )";
+            $sql .= "bitand( language_id, -2 )";
         }
         else
         {
