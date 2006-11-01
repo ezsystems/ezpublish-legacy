@@ -771,3 +771,18 @@ Datatype branch:
 - Revision=17278
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.5
 - Date 25-Oct-2006
+
+3.8.6:
+- Release branch=release/3.8.6
+- Release branch start=17337
+- Release date 31-Oct-2006
+- Release branch configured=17333
+- Revision=17337
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.6
+- Date 31-Oct-2006
+
+3.9.0beta1:
+- From revision=17337
+- Revision=17337
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.0beta1
+- Date 31-Oct-2006
