@@ -685,23 +685,37 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $version =& $object->currentVersion();
     $class =& $object->contentClass();
     if ( $module->isCurrentAction( 'AddAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
         if ( !is_array( $selectedNodeIDArray ) )
             $selectedNodeIDArray = array();
+
+        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $assignedNodes =& $object->assignedNodes();
-        $assignedIDArray = array();
+
+        $parentNodeIDArray = array();
         $setMainNode = false;
         $hasMainNode = false;
         foreach ( $assignedNodes as $assignedNode )
         {
-            $assignedNodeID = $assignedNode->attribute( 'node_id' );
             if ( $assignedNode->attribute( 'is_main' ) )
                 $hasMainNode = true;
-            $assignedIDArray[] = $assignedNodeID;
+
+            $append = false;
+            foreach ( $nodeAssignmentList as $nodeAssignment )
+            {
+                if ( $nodeAssignment['parent_node'] == $assignedNode->attribute( 'parent_node_id' ) )
+                {
+                    $append = true;
+                    break;
+                }
+            }
+            if ( $append )
+            {
+                $parentNodeIDArray[] = $assignedNode->attribute( 'parent_node_id' );
+            }
         }
         if ( !$hasMainNode )
             $setMainNode = true;
@@ -715,7 +729,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         foreach ( $selectedNodeIDArray as $selectedNodeID )
         {
-            if ( !in_array( $selectedNodeID, $assignedIDArray ) )
+            if ( !in_array( $selectedNodeID, $parentNodeIDArray ) )
             {
                 $parentNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
                 $parentNodeObject =& $parentNode->attribute( 'object' );
@@ -755,7 +769,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     {
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
-        $assigned = $version->nodeAssignments();
+
+        $assigned =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $publishedAssigned =& $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
@@ -765,9 +780,10 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 $isTopLevel = true;
             foreach ( $assigned as $ass )
             {
-                if ( $ass->attribute( 'parent_node' ) == $element['parent_node_id'] )
+                if ( $ass['parent_node'] == $element['parent_node_id'] )
                 {
                     $append = true;
+                    break;
                 }
             }
             if ( $append )
@@ -796,7 +812,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                                                                         'ContentObjectLanguageCode' => $languageCode,
                                                                         'AddAssignmentAction' => '1' ),
                                             'content' => array( 'object_id' => $objectID,
-                                                                'object_version' => $version->attribute( 'version' ),
+                                                                'object_version' => $object->attribute( 'current_version' ),
                                                                 'object_language' => $languageCode ),
                                             'cancel_page' => $module->redirectionURIForModule( $module, 'view', array( $viewMode, $nodeID, $languageCode ) ),
                                             'from_page' => "/content/action" ),
@@ -900,15 +916,29 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     else
     {
         $mainNodeChanged = false;
+        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
+        $nodeAssignmentIDList =array();
 
         $db =& eZDB::instance();
         $db->begin();
         foreach ( $nodeRemoveList as $key => $node )
         {
+            foreach ( array_keys( $nodeAssignmentList ) as $nodeAssignmentKey )
+            {
+                $nodeAssignment =& $nodeAssignmentList[$nodeAssignmentKey];
+                if ( $nodeAssignment['parent_node'] == $node->attribute( 'parent_node_id' ) )
+                {
+                    $nodeAssignmentIDList[] = $nodeAssignment['id'];
+                    unset( $nodeAssignmentList[$nodeAssignmentKey] );
+                }
+            }
+
             if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
                 $mainNodeChanged = true;
             $node->remove();
         }
+        eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
+
         if ( $mainNodeChanged )
         {
             $allNodes =& $object->assignedNodes();
@@ -961,11 +991,11 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
             }
         }
 
-		if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
-		{
-			$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
-		}
-		
+        if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+        {
+            $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+        }
+
         $module->redirectToView( 'edit', $parameters );
         return;
     }
