@@ -2386,6 +2386,15 @@ class eZContentObject extends eZPersistentObject
     function &addLocation( $parentNodeID, $asObject = false )
     {
         $node =& eZContentObjectTreeNode::addChild( $this->ID, $parentNodeID, true, $this->CurrentVersion );
+
+        $data = array( 'contentobject_id' => $this->ID,
+                       'contentobject_version' => $this->attribute( 'current_version' ),
+                       'parent_node' => $parentNodeID,
+                       'is_main' => 0 );
+        $nodeAssignment = eZNodeAssignment::create( $data );
+        $nodeAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_CREATE_NOP );
+        $nodeAssignment->store();
+
         if ( $asObject )
         {
             return $node;
