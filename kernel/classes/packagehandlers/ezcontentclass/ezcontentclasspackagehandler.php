@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -257,6 +257,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $initialLanguageID = $classNameList->alwaysAvailableLanguageID();
         $languageMask = $classNameList->languageMask();
+        // Get lang Locale if we want to create class in current primary language, if false site.ini[RegionalSettings].ContentObjectLocale will be used.
+        $nameList = $classNameList->nameList();
+        $langLocale = isset( $nameList['always-available'] ) ? $nameList['always-available'] : false ;
 
         // create class
         $class = eZContentClass::create( $userID,
@@ -269,7 +272,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                 'created' => $classCreated,
                                                 'modified' => $classModified,
                                                 'initial_language_id' => $initialLanguageID,
-                                                'language_mask' => $languageMask ) );
+                                                'language_mask' => $languageMask ),
+                                          $langLocale );
 
         //$classNameList->setHasDataDirty();
         $class->setAlwaysAvailableLanguageID( $initialLanguageID );
@@ -318,7 +322,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                           'is_searchable' => $attributeIsSearchable,
                                                                           'is_information_collector' => $attributeIsInformationCollector,
                                                                           'can_translate' => $attributeIsTranslatable,
-                                                                          'placement' => $attributePlacement ) );
+                                                                          'placement' => $attributePlacement ),
+                                                                   $langLocale );
                 $dataType = $classAttribute->dataType();
                 $classAttribute->store();
                 $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
