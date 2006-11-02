@@ -650,6 +650,22 @@ class eZContentCacheManager
 
     /*!
      \static
+     Clears content cache if needed by \a $sectionID
+    */
+    function clearContentCacheIfNeededBySectionID( $sectionID )
+    {
+        // fetch all objects of this section
+        $objectList = eZContentObject::fetchList( false, array( 'section_id' => "$sectionID" ) );
+        // Clear cache
+        foreach ( $objectList as $object )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $object['id'] );
+        }
+        return true;
+    }
+
+    /*!
+     \static
      Clears content cache for specified object: view cache, template-block cache, template-block with subtree_expiry parameter cache.
      Checks appropriate ini settings to determine whether caches are enabled or not.
     */
