@@ -608,9 +608,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 {
                     $parent =& $element->parentNode;
                     $parent->removeChild( $element );
-                    // remove empty line if it appears after removing element
-                    if ( $parent->nodeName == 'line' && !count( $parent->Children ) )
-                        $parent->parentNode->removeChild( $parent );
                 }
             }
         }
