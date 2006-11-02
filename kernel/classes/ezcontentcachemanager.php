@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -734,6 +734,22 @@ class eZContentCacheManager
         }
 
         eZDebug::accumulatorStop( 'generate_cache' );
+    }
+
+    /*!
+     \static
+     Clears content cache if needed by \a $sectionID
+    */
+    function clearContentCacheIfNeededBySectionID( $sectionID )
+    {
+        // fetch all objects of this section
+        $objectList = eZContentObject::fetchList( false, array( 'section_id' => "$sectionID" ) );
+        // Clear cache
+        foreach ( $objectList as $object )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $object['id'] );
+        }
+        return true;
     }
 
     /*!
