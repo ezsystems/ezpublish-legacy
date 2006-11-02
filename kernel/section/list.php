@@ -82,8 +82,17 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 
     $db =& eZDB::instance();
     $db->begin();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    include_once( 'kernel/classes/ezcontentobject.php' );
     foreach ( $sectionIDArray as $sectionID )
     {
+        // fetch all objects of this section
+        $objectList = eZContentObject::fetchList( false, array( 'section_id' => "$sectionID" ) );
+        // Clear cache
+        foreach ( $objectList as $object )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $object['id'] );
+        }
         $section = eZSection::fetch( $sectionID );
         if( $section === null )
             continue;
