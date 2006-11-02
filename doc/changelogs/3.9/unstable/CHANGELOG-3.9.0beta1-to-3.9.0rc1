@@ -9,3 +9,5 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug 009314: Using xml block attribute and providing incorrect input
   may lead to fatal error in some cases.
   (Merged from stable/3.8 (3.8.7) rev. 17353)
+- Fixed bug #009325: Wrong values in placement boxes while moving class 
+  attributes in class attributes edit.
