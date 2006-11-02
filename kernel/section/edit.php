@@ -60,6 +60,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     if ( $http->hasPostVariable( 'Locale' ) )
         $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
     $Module->redirectTo( $Module->functionURI( 'list' ) );
     return;
 }
