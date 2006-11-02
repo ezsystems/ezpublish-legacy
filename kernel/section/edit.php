@@ -59,6 +59,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearContentCacheIfNeededBySectionID( $section->attribute( 'id' ) );
     $Module->redirectTo( $Module->functionURI( 'list' ) );
     return;
 }
