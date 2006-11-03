@@ -1996,7 +1996,7 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    function commitInputRelations( $editVersion)
+    function commitInputRelations( $editVersion )
     {
         foreach ( $this->InputRelationList as $relationType => $relatedObjectIDArray )
         {
@@ -2802,36 +2802,36 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the xml-linked objects.
     */
-    function &linkedContentObjectList()
+    function &linkedContentObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $linkedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $linkedList;
     }
 
     /*!
      Returns the xml-embedded objects.
     */
-    function &embeddedContentObjectList()
+    function &embeddedContentObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $embeddedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $embeddedList;
     }
 
     /*!
      Returns the reverse xml-linked objects.
     */
-    function &reverseLinkedObjectList()
+    function &reverseLinkedObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $linkedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ), true );
+        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ), true );
         return $linkedList;
     }
 
     /*!
      Returns the reverse xml-embedded objects.
     */
-    function &reverseEmbeddedObjectList()
+    function &reverseEmbeddedObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $embeddedList =& $this->relatedObjects( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ), true );
+        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ), true );
         return $embeddedList;
     }
 
@@ -2877,39 +2877,39 @@ class eZContentObject extends eZPersistentObject
         return $result;
     }
 
-     /*!
+    /*!
      Returns the xml-linked objects count.
     */
-    function &linkedContentObjectCount()
+    function &linkedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $result;
     }
 
-     /*!
+    /*!
      Returns the xml-embedded objects count.
     */
-    function &embeddedContentObjectCount()
+    function &embeddedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( false, false, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
     /*!
      Returns the reverse xml-linked objects count.
     */
-    function &reverseLinkedObjectCount()
+    function &reverseLinkedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( false, false, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $result;
     }
 
     /*!
      Returns the reverse xml-embedded objects count.
     */
-    function &reverseEmbeddedObjectCount()
+    function &reverseEmbeddedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( false, false, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
