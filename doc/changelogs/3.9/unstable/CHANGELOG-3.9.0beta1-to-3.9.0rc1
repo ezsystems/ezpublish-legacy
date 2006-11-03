@@ -11,6 +11,4 @@ Changes from 3.9.0beta1 to 3.9.0rc1
   (Merged from stable/3.8 (3.8.7) rev. 17353)
 - Fixed bug #009325: Wrong values in placement boxes while moving class 
   attributes in class attributes edit.
-- Fixed bug #009062: ezimage datatype (loss image file on validation)
-  (Merged from stable/3.8 (3.8.7) rev. 17364)
 - Fixed bug #009320: findNode(): copy-paste code (remoteID ignored)
