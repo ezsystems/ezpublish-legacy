@@ -4915,38 +4915,29 @@ WHERE
             $parentNode = 2;
         }
         $parentNode =(int) $parentNode;
-        $id =(int) $id;
         $db =& eZDB::instance();
         if( $asObject )
         {
             if ( $remoteID )
             {
-                $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                    WHERE parent_node_id = $parentNode AND
-                          contentobject_id = $id AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id ";
+                $objectIDFilter = 'ezcontentobject.remote_id = ' . (string) $id;
             }
             else
             {
-                $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                    WHERE parent_node_id = $parentNode AND
-                          contentobject_id = $id AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id ";
+                $objectIDFilter = 'contentobject_id = ' . (int) $id;
             }
+
+            $query="SELECT ezcontentobject.*,
+                       ezcontentobject_tree.*,
+                       ezcontentclass.name as class_name
+                FROM ezcontentobject_tree,
+                     ezcontentobject,
+                     ezcontentclass
+                WHERE parent_node_id = $parentNode AND
+                      $objectIDFilter AND
+                      ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                      ezcontentclass.version=0  AND
+                      ezcontentclass.id = ezcontentobject.contentclass_id ";
 
             $nodeListArray = $db->arrayQuery( $query );
             $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
@@ -4962,6 +4953,7 @@ WHERE
         }
         else
         {
+            $id =(int) $id;
             $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
                            WHERE
@@ -4969,9 +4961,13 @@ WHERE
                                 contentobject_id = $id ";
             $nodeArr = $db->arrayQuery( $getNodeQuery );
             if ( isset( $nodeArr[0] ) )
+            {
                 return $nodeArr[0]['node_id'];
+            }
             else
+            {
                 return false;
+            }
         }
     }
 
