@@ -233,15 +233,6 @@ class eZImageType extends eZDataType
             if ( $hasImageAltText )
                 $content->setAttribute( 'alternative_text', $imageAltText );
             $result = true;
-
-            if ( $httpFile )
-            {
-                $content->initializeFromHTTPFile( $httpFile, $imageAltText );
-            }
-            if ( $content->isStorageRequired() )
-            {
-                $content->store( $contentObjectAttribute );
-            }
         }
 
         return $result;
@@ -249,10 +240,24 @@ class eZImageType extends eZDataType
 
     /*!
      \reimp
-     Does nothing, since the image has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
+        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+        if ( $imageHandler )
+        {
+            $httpFile =& $imageHandler->httpFile( true );
+            if ( $httpFile )
+            {
+                $imageAltText = $imageHandler->attribute( 'alternative_text' );
+
+                $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
+            }
+            if ( $imageHandler->isStorageRequired() )
+            {
+                $imageHandler->store( $contentObjectAttribute );
+            }
+        }
     }
 
     /*!
