@@ -5258,7 +5258,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
-                       ezcontentclass.serialized_name_list as class_serialized_name_list
+                       ezcontentclass.name as class_name
                 FROM ezcontentobject_tree,
                      ezcontentobject,
                      ezcontentclass
@@ -5282,7 +5282,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $id = (int) $id;
+            $id =(int) $id;
             $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
                            WHERE
