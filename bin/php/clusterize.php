@@ -146,7 +146,7 @@ $options = $script->getOptions( "[u][skip-binary-files][skip-media-files][skip-i
                                 "",
                                 array( 'u'                 => 'Unclusterize',
                                        'skip-binary-files' => 'Skip copying binary files',
-                                       'skip-binary-files' => 'Skip copying media files',
+                                       'skip-media-files'  => 'Skip copying media files',
                                        'skip-images'       => 'Skip copying images',
                                        'r'                 => 'Remove files after copying',
                                        'n'                 => 'Do not wait' ) );
