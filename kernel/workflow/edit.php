@@ -11,18 +11,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -188,6 +188,27 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 $event_list =& $workflow->fetchEvents();
 $type_list =& eZWorkflowType::fetchRegisteredTypes();
 
+if ( $http->hasPostVariable( "DeleteButton" ) )
+{
+    $db =& eZDB::instance();
+    $db->begin();
+
+    if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
+                                           $http, "id",
+                                           $keepers, $rejects ) )
+    {
+        $event_list = $keepers;
+
+        foreach ( $rejects as $reject )
+        {
+            $reject->remove();
+        }
+    }
+    $db->commit();
+
+    $event_list =& $workflow->fetchEvents();
+}
+
 // Validate input
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
@@ -276,7 +297,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
 
     $workflowgroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
-	for ( $i=0;$i<count(  $workflowgroups );$i++ )
+    for ( $i=0;$i<count(  $workflowgroups );$i++ )
     {
         $workflowgroup =& $workflowgroups[$i];
         $workflowgroup->setAttribute("workflow_version", 0 );
@@ -306,23 +327,8 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 // Remove events which are to be deleted
 else if ( $http->hasPostVariable( "DeleteButton" ) )
 {
-    $db =& eZDB::instance();
-    $db->begin();
     if ( $canStore )
         $workflow->store( $event_list );
-
-    if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
-                                           $http, "id",
-                                           $keepers, $rejects ) )
-    {
-        $event_list = $keepers;
-
-        foreach ( $rejects as $reject )
-        {
-            $reject->remove();
-        }
-    }
-    $db->commit();
 }
 // Add new workflow event
 else if ( $http->hasPostVariable( "NewButton" ) )
@@ -341,7 +347,6 @@ else if ( $http->hasPostVariable( "NewButton" ) )
     $db->commit();
     $event_list[] =& $new_event;
 }
-//if ( $canStore && !$http->hasPostVariable( "NewButton" ) && !$http->hasPostVariable( "DeleteButton" ) && !$http->hasPostVariable( "StoreButton" ) )
 else if ( $canStore )
 {
     $workflow->store( $event_list );
