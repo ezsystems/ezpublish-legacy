@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -53,11 +53,6 @@ define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT", 11 );
 define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET", 12 );
 
 // include defined datatypes
-
-$wfINI =& eZINI::instance( 'workflow.ini' );
-$workflowTypes =& $GLOBALS["eZWorkflowTypes"];
-$types = $wfINI->variable( 'EventSettings', 'AvailableEventTypes' );
-// eZDebugSetting::writeDebug( 'workflow-type', $types, 'workflow' );
 
 class eZWorkflowType
 {
@@ -150,8 +145,8 @@ class eZWorkflowType
         {
             $wfINI =& eZINI::instance( 'workflow.ini' );
             $eventTypes = $wfINI->variable( "EventSettings", "AvailableEventTypes" );
-//            $workflowTypes = $wfINI->variableArray( "EventSettings", "AvailableWorkflowTypes" );
-//             $allowedTypes = array_unique( array_merge( $eventTypes, $workflowTypes ) );
+            // $availableTypes = $wfINI->variableArray( "EventSettings", "AvailableWorkflowTypes" );
+            // $allowedTypes = array_unique( array_merge( $eventTypes, $availableTypes ) );
             $allowedTypes = array_unique( $eventTypes );
         }
         return $allowedTypes;
@@ -178,25 +173,27 @@ class eZWorkflowType
         }
         else
         {
-//             eZDebugSetting::writeDebug( 'workflow-type', "Registered type: $typeString", "eZWorkflowType::registerType" );
             $types[$typeString] = array( "class_name" => $class_name );
         }
     }
 
     function loadAndRegisterType( $typeString )
     {
-        $types =& $GLOBALS["eZWorkflowTypes"];
-        if ( isset( $types[$typeString] ) )
-        {
-            eZDebug::writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
-            return null;
-        }
         $typeElements = explode( "_", $typeString );
         if ( count( $typeElements ) < 2 )
         {
             eZDebug::writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
-            return null;
+            return false;
         }
+
+        $types =& $GLOBALS["eZWorkflowTypes"];
+        if ( isset( $types[ $typeString ] ) and
+             isset( $types[ $typeString ][ 'class_name' ] ) and
+             class_exists( $types[ $typeString ][ 'class_name' ] ) )
+        {
+            return true;
+        }
+
         $group = $typeElements[0];
         $type = $typeElements[1];
 
@@ -211,23 +208,19 @@ class eZWorkflowType
             if ( file_exists( $extensionPath ) )
                 $repositoryDirectories[] = $extensionPath;
         }
-        $foundEventType = false;
+
         foreach ( $repositoryDirectories as $repositoryDirectory )
         {
             $includeFile = "$repositoryDirectory/$group/$type/" . $type . "type.php";
             if ( file_exists( $includeFile ) )
             {
-                $foundEventType = true;
-                break;
+                include_once( $includeFile );
+                return true;
             }
         }
-        if ( !$foundEventType )
-        {
-            eZDebug::writeError( "Workflow type not found: $typeString, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZWorkflowType::loadAndRegisterType" );
-            return false;
-        }
-        include_once( $includeFile );
-        return true;
+
+        eZDebug::writeError( "Workflow type not found: $typeString, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZWorkflowType::loadAndRegisterType" );
+        return false;
     }
 
 
