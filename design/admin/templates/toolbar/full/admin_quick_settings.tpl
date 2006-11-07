@@ -1,4 +1,4 @@
-<div id="quicksettings">
+<div id="quicksettings-tool">
 
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">{section show=$first}<div class="box-tl"><div class="box-tr">{/section}
 
