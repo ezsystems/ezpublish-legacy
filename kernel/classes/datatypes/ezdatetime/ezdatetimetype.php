@@ -356,18 +356,40 @@ class eZDateTimeType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
-        $adjustValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
         switch ( $defaultValue )
         {
+            case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
+            {
+                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
+                                                                                         array( 'type' => 'current-date' ) ) );
+            } break;
+            case EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT:
+            {
+                $xml = new eZXML();
+                $adjustValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
+                $adjustDOMValue =& $xml->domTree( $adjustValue );
+                $defaultNode = eZDOMDocument::createElementNode( 'default-value', array( 'type' => 'adjustment' ) );
+                if ( $adjustDOMValue )
+                {
+                    $adjustmentNodeList =& $adjustDOMValue->elementsByName( 'adjustment' );
+                    if ( $adjustmentNodeList )
+                    {
+                        $defaultNode->appendChild( $adjustmentNodeList[0] );
+                    }
+                }
+                $attributeParametersNode->appendChild( $defaultNode );
+            } break;
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
             {
                 $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
                                                                                          array( 'type' => 'empty' ) ) );
             } break;
-            case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
+            default:
             {
+                eZDebug::writeError( 'Unknown type of DateTime default value. Empty type used instead.',
+                                     'eZDateTimeType::serializeContentClassAttribute()' );
                 $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'current-date' ) ) );
+                                                                                         array( 'type' => 'empty' ) ) );
             } break;
         }
     }
@@ -377,17 +399,42 @@ class eZDateTimeType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
+        $defaultValue = '';
         $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
-        $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        if ( $defaultNode )
+        {
+            $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        }
         switch ( $defaultValue )
         {
-            case 'empty':
-            {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
-            } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
+            } break;
+            case 'adjustment':
+            {
+                $adjustmentValue = '';
+                $adjustmentNode =& $defaultNode->elementByName( 'adjustment' );
+                if ( $adjustmentNode )
+                {
+                    $adjustmentDOMValue = new eZDOMDocument();
+                    $adjustmentDOMValue->setRoot( $adjustmentNode );
+                    $adjustmentValue = $adjustmentDOMValue->toString();
+                }
+
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD, $adjustmentValue );
+            } break;
+            case 'empty':
+            {
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
+            } break;
+            default:
+            {
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
+                eZDebug::writeError( 'Type of DateTime default value is not set. Empty type used as default.',
+                                     'eZDateTimeType::unserializeContentClassAttribute()' );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
             } break;
         }
     }

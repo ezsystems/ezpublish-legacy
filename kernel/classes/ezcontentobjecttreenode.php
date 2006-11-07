@@ -5006,7 +5006,7 @@ WHERE
         }
 
         $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
-        if ( $parentNodeRemoteID !== false )
+        if ( $parentNodeRemoteID )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             if ( $parentNode !== null )
@@ -5067,13 +5067,6 @@ WHERE
             $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
-            if ( $isMain )
-            {
-                eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
-                                                           $nodeInfo['contentobject_id'],
-                                                           $nodeInfo['contentobject_version'],
-                                                           $nodeInfo['parent_node'] );
-            }
         }
 
         return true;

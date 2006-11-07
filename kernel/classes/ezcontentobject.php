@@ -3613,11 +3613,33 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
+        eZNodeAssignment::setNewMainAssignment( $contentObject->attribute( 'id' ), $activeVersion );
 
         include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
         eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                   'version' => $activeVersion ) );
 
+        $mainNodeInfo = null;
+        foreach ( $nodeList as $nodeInfo )
+        {
+            if ( $nodeInfo['is_main'] )
+            {
+                $mainNodeInfo =& $nodeInfo;
+                break;
+            }
+        }
+        if ( $mainNodeInfo )
+        {
+            $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
+            if ( $existingMainNode )
+            {
+                eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
+                                                           $mainNodeInfo['contentobject_id'],
+                                                           $mainNodeInfo['contentobject_version'],
+                                                           $mainNodeInfo['parent_node'] );
+            }
+        }
+        unset( $mainNodeInfo );
         foreach ( $versionList[$versionListActiveVersion]['node_list'] as $nodeInfo )
         {
             unset( $parentNode );

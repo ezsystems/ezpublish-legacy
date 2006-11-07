@@ -80,3 +80,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #009003: change main location does not update section
   (Merged from stable/3.8 (3.8.6) rev. 17300)
 - Fixed bug #009320: findNode(): copy-paste code (remoteID ignored)
+- Fixed bug #009317: fatal error at importing package
+  (Merged from stable/3.8 (3.8.7) rev. 17382)
