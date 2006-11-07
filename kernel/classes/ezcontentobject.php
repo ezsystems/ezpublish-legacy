@@ -4782,9 +4782,33 @@ class eZContentObject extends eZPersistentObject
             {
                 $activeVersion = $contentObjectVersion->attribute( 'version' );
             }
+            eZNodeAssignment::setNewMainAssignment( $contentObject->attribute( 'id' ), $lastVersion );
+
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                       'version' => $lastVersion ) );
+
+            $mainNodeInfo = null;
+            foreach ( $nodeList as $nodeInfo )
+            {
+                if ( $nodeInfo['is_main'] )
+                {
+                    $mainNodeInfo =& $nodeInfo;
+                    break;
+                }
+            }
+            if ( $mainNodeInfo )
+            {
+                $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
+                if ( $existingMainNode )
+                {
+                    eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
+                                                               $mainNodeInfo['contentobject_id'],
+                                                               $mainNodeInfo['contentobject_version'],
+                                                               $mainNodeInfo['parent_node'] );
+                }
+            }
+            unset( $mainNodeInfo );
             // Refresh $contentObject from DB.
             $contentObject =& eZContentObject::fetch( $contentObject->attribute( 'id' ) );
         }

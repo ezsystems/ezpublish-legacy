@@ -996,7 +996,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             if ( is_object( $newObject ) )
             {
                 eZContentObject::clearCache( $newObject->attribute( 'id' ) );
-                eZNodeAssignment::setNewMainAssignment( $newObject->attribute( 'id' ), $newObject->attribute( 'current_version' ) );
                 unset( $newObject );
             }
             unset( $realObjectNode );
@@ -1056,13 +1055,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 {
                     $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
                     $nodeAssignment->store();
-                    if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
-                    {
-                       eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
-                                                                   $nodeInfo['contentobject_id'],
-                                                                   $nodeInfo['contentobject_version'],
-                                                                   $nodeInfo['parent_node'] );
-                    }
                 }
 
                 $contentObject = eZContentObject::fetch( $nodeInfo['contentobject_id'] );
@@ -1071,6 +1063,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                    eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $nodeInfo['contentobject_id'],
                                                                               'version' =>  $nodeInfo['contentobject_version'] ) );
+                }
+                if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
+                {
+                    $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $nodeInfo['parent_remote_id'], false );
+                    if ( $existingMainNode )
+                    {
+                        eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
+                                                                   $nodeInfo['contentobject_id'],
+                                                                   $nodeInfo['contentobject_version'],
+                                                                   $nodeInfo['parent_node'] );
+                    }
                 }
             }
             else
@@ -1226,7 +1229,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $blockArray = array();
             $blockName = $blockNode->attributeValue( 'name' );
             $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
-            //$blockArray[$blockName] = $blockArray[$blockName][0]; 
 
             if ( isset( $blockArray[$blockName][$this->OverrideObjectRemoteID] ) )
             {
