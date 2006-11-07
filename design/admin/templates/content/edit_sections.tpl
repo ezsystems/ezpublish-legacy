@@ -27,7 +27,7 @@
 <div class="block">
 
 	<label>{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
-	<select name="SelectedSectionId" action='section/assign/'>
+	<select name="SelectedSectionId">
         {foreach $sections as $section}
 
         {if eq( $section.id, $object.section_id )}
@@ -44,7 +44,6 @@
 <input type="submit" value="{'Set'|i18n( 'design/admin/node/view/full' )}" name="SectionEditButton" class="button" />
 </div>
 </div></div></div></div></div></div>
-</div>
 {* DESIGN: Content END *}
 
 
