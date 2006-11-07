@@ -1726,7 +1726,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
-		
+
         $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
         if ( $language )
@@ -5397,7 +5397,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
-        if ( $parentNodeRemoteID !== false )
+        if ( $parentNodeRemoteID )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             if ( $parentNode !== null )
@@ -5433,7 +5433,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            'contentobject_version' => $version,
                            'is_main' => $isMain,
                            'parent_node' => $parentNodeID,
-                           'parent_remote_id' => $remoteID,
+                           'parent_remote_id' => $remoteID,     // meaning processed node remoteID (not parent)
                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
 
@@ -5458,13 +5458,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
-            if ( $isMain )
-            {
-                eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
-                                                           $nodeInfo['contentobject_id'],
-                                                           $nodeInfo['contentobject_version'],
-                                                           $nodeInfo['parent_node'] );
-            }
         }
 
         return true;
