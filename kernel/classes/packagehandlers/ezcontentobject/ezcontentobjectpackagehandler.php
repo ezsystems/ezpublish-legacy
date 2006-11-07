@@ -712,7 +712,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $result = eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
             if ( !$result )
                 return false;
-            eZNodeAssignment::setNewMainAssignment( $result->attribute( 'id' ), $result->attribute( 'current_version' ) );
         }
 
         $this->installSuspendedNodeAssignment( $installParameters );
@@ -749,13 +748,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 {
                     $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
                     $nodeAssignment->store();
-                    if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
-                    {
-                        eZContentObjectTreeNode::updateMainNodeID( $nodeAssignment->attribute( 'from_node_id' ),
-                                                                   $nodeInfo['contentobject_id'],
-                                                                   $nodeInfo['contentobject_version'],
-                                                                   $nodeInfo['parent_node'] );
-                    }
                 }
 
                 $contentObject = eZContentObject::fetch( $nodeInfo['contentobject_id'] );
@@ -764,6 +756,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $nodeInfo['contentobject_id'],
                                                                               'version' =>  $nodeInfo['contentobject_version'] ) );
+                }
+                if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
+                {
+                    $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $nodeInfo['parent_remote_id'], false );
+                    if ( $existingMainNode )
+                    {
+                        eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
+                                                                   $nodeInfo['contentobject_id'],
+                                                                   $nodeInfo['contentobject_version'],
+                                                                   $nodeInfo['parent_node'] );
+                    }
                 }
             }
             else
