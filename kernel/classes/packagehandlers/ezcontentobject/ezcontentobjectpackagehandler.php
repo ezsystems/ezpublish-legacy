@@ -1066,7 +1066,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
                 if ( isset( $nodeInfo['is_main'] ) && $nodeInfo['is_main'] )
                 {
-                    $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $nodeInfo['parent_remote_id'], false );
+                    $existingMainNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeInfo['parent_remote_id'], false );
                     if ( $existingMainNode )
                     {
                         eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
