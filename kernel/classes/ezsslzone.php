@@ -44,9 +44,8 @@
  For more details pleaase see doc/feautures/3.8/ssl_zones.txt
 */
 
-define( 'EZSSLZONE_DEFAULT_SSL_PORT', 443 );
-
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZSSLZone
 {
@@ -223,12 +222,8 @@ class eZSSLZone
         if ( !isset( $inSSL ) )
             return;
 
-        $ini =& eZINI::instance();
-        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-        if ( !isset( $sslPort ) )
-            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
         // $nowSSl is true if current access mode is HTTPS.
-        $nowSSL = ( eZSys::serverPort() == $sslPort );
+        $nowSSL = eZSys::isSSLNow();
 
         $requestURI = eZSys::requestURI();
 

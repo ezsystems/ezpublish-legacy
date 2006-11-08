@@ -55,6 +55,8 @@ print( eZSys::wwwDir() );
 
 define( "EZ_SYS_DEBUG_INTERNALS", false );
 
+define( 'EZSSLZONE_DEFAULT_SSL_PORT', 443 );
+
 class eZSys
 {
     /*!
@@ -637,27 +639,36 @@ class eZSys
     }
 
     /*!
+     Determines if SSL is enabled and protocol HTTPS is used.
+     \return true if current access mode is HTTPS.
+     \static
+    */
+    function isSSLNow()
+    {
+        $ini =& eZINI::instance();
+        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+        if ( !$sslPort )
+            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
+        // $nowSSl is true if current access mode is HTTPS.
+        $nowSSL = ( eZSys::serverPort() == $sslPort );
+        return $nowSSL;
+    }
+
+    /*!
      Returns the server URL. (protocol with hostname and port)
      \static
     */
     function serverURL()
     {
-        $ini =& eZINI::instance();
-        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-        if ( !isset( $sslPort ) )
-            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
-        // $nowSSl is true if current access mode is HTTPS.
-        $nowSSL = ( eZSys::serverPort() == $sslPort );
-        $url = '';
+        $nowSSL = eZSys::isSSLNow();
         if ( !$nowSSL )
         {
-            // switch to plain HTTP
             $host = eZSys::hostname();
             if ( $host )
                 $url = "http://" . $host;
             return $url;
         }
-        // switch to HTTPS
+        // https case
         $host = preg_replace( '/:\d+$/', '', $host = eZSys::hostname() );
         $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
         $url = "https://" . $host  . $sslPortString;
