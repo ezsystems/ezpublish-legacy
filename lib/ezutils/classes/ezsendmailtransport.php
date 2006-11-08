@@ -58,7 +58,7 @@ class eZSendmailTransport extends eZMailTransport
         $ini =& eZINI::instance();
         $sendmailOptions = '';
         $emailFrom = $mail->sender();
-        $emailSender = $emailFrom['email'];
+        $emailSender = isset( $emailFrom['email'] ) ? $emailFrom['email'] : false;
         if ( !$emailSender || count( $emailSender) <= 0 )
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
