@@ -4799,7 +4799,7 @@ class eZContentObject extends eZPersistentObject
             }
             if ( $mainNodeInfo )
             {
-                $existingMainNode =& eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
+                $existingMainNode = eZContentObjectTreeNode::fetchByRemoteID( $mainNodeInfo['parent_remote_id'], false );
                 if ( $existingMainNode )
                 {
                     eZContentObjectTreeNode::updateMainNodeID( $existingMainNode['node_id'],
