@@ -55,6 +55,8 @@ print( eZSys::wwwDir() );
 
 define( "EZ_SYS_DEBUG_INTERNALS", false );
 
+define( 'EZSSLZONE_DEFAULT_SSL_PORT', 443 );
+
 class eZSys
 {
     /*!
@@ -637,28 +639,49 @@ class eZSys
     }
 
     /*!
+     Determines if SSL is enabled and protocol HTTPS is used.
+     \return true if current access mode is HTTPS.
+     \static
+    */
+    function isSSLNow()
+    {
+        $ini =& eZINI::instance();
+        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+        if ( !$sslPort )
+            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
+        // $nowSSl is true if current access mode is HTTPS.
+        $nowSSL = ( eZSys::serverPort() == $sslPort );
+        return $nowSSL;
+    }
+
+    /*!
+     \static
+    */
+    function serverProtocol()
+    {
+        if ( eZSys::isSSLNow() )
+            return 'https';
+        else
+            return 'http';
+    }
+
+    /*!
      Returns the server URL. (protocol with hostname and port)
      \static
     */
     function serverURL()
     {
-        $ini =& eZINI::instance();
-        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
-        if ( !isset( $sslPort ) )
-            $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
-        // $nowSSl is true if current access mode is HTTPS.
-        $nowSSL = ( eZSys::serverPort() == $sslPort );
-        $url = '';
+        $nowSSL = eZSys::isSSLNow();
         if ( !$nowSSL )
         {
-            // switch to plain HTTP
             $host = eZSys::hostname();
             if ( $host )
                 $url = "http://" . $host;
             return $url;
         }
-        // switch to HTTPS
-        $host = preg_replace( '/:\d+$/', '', $host = eZSys::hostname() );
+        // https case
+        $host = eZSys::hostname();
+        $host = preg_replace( '/:\d+$/', '', $host );
         $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
         $url = "https://" . $host  . $sslPortString;
         return $url;
@@ -672,11 +695,14 @@ class eZSys
         $port =& $GLOBALS['eZSysServerPort'];
         if ( !isset( $port ) )
         {
-            $port = eZSys::serverVariable( 'SERVER_PORT' );
             $hostname = eZSys::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
             {
                 $port = $regs[1];
+            }
+            else
+            {
+                $port = eZSys::serverVariable( 'SERVER_PORT' );
             }
         }
         return $port;

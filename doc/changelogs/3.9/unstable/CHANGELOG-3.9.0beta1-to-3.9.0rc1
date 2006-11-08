@@ -21,3 +21,10 @@ Changes from 3.9.0beta1 to 3.9.0rc1
   (Merged from stable/3.8 (3.8.7) rev. 17405)
 - Fixed bug #009030: eZMail::sender causes warnings
   (Merged from stable/3.8 (3.8.7) rev. 17413)
+
+*Library:
+
+eZUtils:
+
+- Added: functions eZSys::serverProtocol() and eZSys::isSSLNow()
+- Fixed: extension_path function to determine server protocol correctly.
