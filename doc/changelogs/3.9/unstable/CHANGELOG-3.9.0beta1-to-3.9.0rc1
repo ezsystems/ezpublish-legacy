@@ -16,3 +16,4 @@ Changes from 3.9.0beta1 to 3.9.0rc1
   (Merged from stable/3.8 (3.8.7) rev. 17382)
 - Fixed bug #009265: Fatal Error in kernel/classes/ezcontentobjectattribute.php
   (Merged from stable/3.8 (3.8.7) rev. 17403)
+- Fixed bug #009349: Editing class with missing datatype will cause fatal error.

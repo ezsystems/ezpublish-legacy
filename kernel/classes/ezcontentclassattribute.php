@@ -258,6 +258,11 @@ class eZContentClassAttribute extends eZPersistentObject
     function store()
     {
         $dataType = $this->dataType();
+        if ( !$dataType )
+        {
+            return false;
+        }
+
         $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
