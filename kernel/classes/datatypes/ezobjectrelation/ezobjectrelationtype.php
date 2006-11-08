@@ -326,6 +326,8 @@ class eZObjectRelationType extends eZDataType
                 $module =& $parameters['module'];
                 $redirectionURI = $parameters['current-redirection-uri'];
                 $ini = eZINI::instance( 'content.ini' );
+
+                include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $browseType = 'AddRelatedObjectToDataType';
                 $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
                 foreach( $browseTypeINIVariable as $value )

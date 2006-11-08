@@ -784,6 +784,7 @@ class eZObjectRelationListType extends eZDataType
             else
                 $classConstraintList = array();
 
+            include_once( 'kernel/classes/ezcontentbrowse.php' );
             $browseParameters = array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
                                        'type' =>  $browseType,
                                        'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation_list]',
