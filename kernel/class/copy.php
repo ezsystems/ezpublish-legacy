@@ -62,12 +62,21 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
     $classAttribute =& $classAttributes[$classAttributeKey];
     $classAttributeCopy =& $classAttribute->clone();
+
+    if ( $datatype =& $classAttributeCopy->dataType() ) //avoiding fatal error if datatype not exist (was removed).
+    {
+        $datatype->cloneClassAttribute( $classAttribute, $classAttributeCopy );
+    }
+    else
+    {
+        continue;
+    }
+
     $classAttributeCopy->setAttribute( 'contentclass_id', $classCopy->attribute( 'id' ) );
     $classAttributeCopy->setAttribute( 'version', 1 );
     $classAttributeCopy->store();
-    $datatype =& $classAttributeCopy->dataType();
-    $datatype->cloneClassAttribute( $classAttribute, $classAttributeCopy );
     $classAttributeCopies[] =& $classAttributeCopy;
+    unset( $classAttributeCopy );
 }
 
 $ini =& eZINI::instance( 'content.ini' );

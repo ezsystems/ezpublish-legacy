@@ -326,10 +326,11 @@ foreach( array_keys( $attributes ) as $key )
         $identifier = $attribute->attribute( 'name' );
 
     $identifier = $trans->transformByGroup( $identifier, 'identifier' );
-
     $attribute->setAttribute( 'identifier', $identifier );
-    $dataType =& $attribute->dataType();
-    $dataType->initializeClassAttribute( $attribute );
+    if ( $dataType =& $attribute->dataType() )
+    {
+        $dataType->initializeClassAttribute( $attribute );
+    }
 }
 
 // Fixed class identifier to only contain a-z0-9_
@@ -390,13 +391,29 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 }
 
 // Fetch HTTP input
+$datatypeValidation = array();
 if ( $contentClassHasInput )
 {
     foreach( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
-        $dataType =& $attribute->dataType();
-        $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
+        if ( $dataType =& $attribute->dataType() )
+        {
+            $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
+        }
+        else
+        {
+            $datatypeValidation['processed'] = 1;
+            $datatypeValidation['attributes'][] =
+                array( 'reason' => array( 'text' => ezi18n( 'kernel/class', 'Could not load datatype: ' ).
+                                           $attribute->attribute( 'data_type_string' )."\n".
+                                           ezi18n( 'kernel/class', 'Editing this content class may cause data corruption in your system.' ).'<br>'.
+                                           ezi18n( 'kernel/class', 'Press "Cancel" to safely exit this operation.').'<br>'.
+                                           ezi18n( 'kernel/class', 'Please contact your eZ publish administrator to solve this problem.').'<br>' ),
+                       'item' => $attribute->attribute( 'data_type_string' ),
+                       'identifier' => $attribute->attribute( 'data_type_string' ),
+                       'id' => $key );
+        }
     }
 }
 
@@ -418,7 +435,7 @@ if ( $validationRequired )
                     $validation['attributes'][] = array( 'identifier' => $identifier,
                                                          'name' => $classAttribute->attribute( 'name' ),
                                                          'id' => $classAttribute->attribute( 'id' ),
-                                                         'reason' => array ( 'text' => 'duplicate attribute identifier' ) );
+                                                         'reason' => array ( 'text' => ezi18n( 'kernel/class', 'duplicate attribute identifier' ) ) );
                     $canStore = false;
                     break;
                 }
@@ -609,6 +626,7 @@ if ( !$http->hasSessionVariable( 'CanStoreTicket' ) )
 
 // Fetch updated attributes
 $attributes = $class->fetchAttributes();
+$validation = array_merge( $validation, $datatypeValidation );
 
 // Template handling
 include_once( 'kernel/common/template.php' );
