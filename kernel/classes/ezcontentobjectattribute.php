@@ -391,6 +391,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( !$languageCode )
         {
             $object =& $this->object();
+            if ( !$object )
+            {
+                $result = null;
+                return $result;
+            }
             $languageCode = $object->initialLanguageCode();
         }
         $language = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
