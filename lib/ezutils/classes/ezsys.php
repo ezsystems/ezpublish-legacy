@@ -655,6 +655,17 @@ class eZSys
     }
 
     /*!
+     \static
+    */
+    function serverProtocol()
+    {
+        if ( eZSys::isSSLNow() )
+            return 'https';
+        else
+            return 'http';
+    }
+
+    /*!
      Returns the server URL. (protocol with hostname and port)
      \static
     */
@@ -669,7 +680,8 @@ class eZSys
             return $url;
         }
         // https case
-        $host = preg_replace( '/:\d+$/', '', $host = eZSys::hostname() );
+        $host = eZSys::hostname();
+        $host = preg_replace( '/:\d+$/', '', $host );
         $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
         $url = "https://" . $host  . $sslPortString;
         return $url;
@@ -683,11 +695,14 @@ class eZSys
         $port =& $GLOBALS['eZSysServerPort'];
         if ( !isset( $port ) )
         {
-            $port = eZSys::serverVariable( 'SERVER_PORT' );
             $hostname = eZSys::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
             {
                 $port = $regs[1];
+            }
+            else
+            {
+                $port = eZSys::serverVariable( 'SERVER_PORT' );
             }
         }
         return $port;

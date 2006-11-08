@@ -330,7 +330,10 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
         if ( is_string( $withProtocol ) )
             $path .= $withProtocol . ':';
         else
-            $path .= 'http:';
+        {
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+            $path .= eZSys::serverProtocol();
+        }
     }
     if ( $withHost )
     {
