@@ -230,6 +230,11 @@ class eZContentClassAttribute extends eZPersistentObject
     function store()
     {
         $dataType = $this->dataType();
+        if ( !$dataType )
+        {
+            return false;
+        }
+
         $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
         $stored = eZPersistentObject::store();
 
