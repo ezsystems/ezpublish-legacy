@@ -86,3 +86,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17405)
 - Fixed bug #009349: Editing class with missing datatype will cause fatal error.
   (Merged from stable/3.8 (3.8.7) rev.17410 )
+- Fixed bug #009030: eZMail::sender causes warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17413)

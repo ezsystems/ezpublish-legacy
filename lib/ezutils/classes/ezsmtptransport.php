@@ -89,7 +89,7 @@ class eZSMTPTransport extends eZMailTransport
         $sendData = array();
 //        $sendData['from'] = $mail->senderText();
         $from = $mail->sender();
-        $sendData['from'] = $from['email'];
+        $sendData['from'] = isset( $from['email'] ) ? $from['email'] : '';
         $sendData["recipients"] = $mail->receiverTextList();
         $sendData['CcRecipients'] = $mail->ccReceiverTextList();
         $sendData['BccRecipients'] = $mail->bccReceiverTextList();
