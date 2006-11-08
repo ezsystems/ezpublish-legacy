@@ -189,7 +189,22 @@ class eZMail
     {
         if ( !$convert )
             return $this->From;
-        return $this->convertHeaderText( $this->From );
+
+        if ( is_array( $this->From ) )
+        {
+            $convertedSender = $this->From;
+            if ( $this->From['name'] )
+            {
+                $convertedSender['name'] = $this->convertHeaderText( $this->From['name'] );
+            }
+            return $convertedSender;
+        }
+        else if ( is_string( $this->From ) )
+        {
+            return $this->convertHeaderText( $this->From );
+        }
+
+        return $this->From;
     }
 
     /*!

@@ -19,3 +19,5 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug #009349: Editing class with missing datatype will cause fatal error.
 - Fixed bug #009061: Datatype Object relation in class user
   (Merged from stable/3.8 (3.8.7) rev. 17405)
+- Fixed bug #009030: eZMail::sender causes warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17413)
