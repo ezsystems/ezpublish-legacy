@@ -115,17 +115,6 @@ class eZTemplateUnitOperator
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
-        if ( count( $parameters ) > 3 )
-            $decimalCount = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
-        if ( count( $parameters ) > 4 )
-            $decimalSymbol = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
-        if ( count( $parameters ) > 5 )
-            $decimalThousandsSeparator = eZTemplateNodeTool::elementStaticValue( $parameters[5] );
-
-        $decimalSymbolText = eZPHPCreator::variableText( $decimalSymbol, 0, 0, false );
-        $decimalThousandsSeparatorText = eZPHPCreator::variableText( $decimalThousandsSeparator, 0, 0, false );
-
-        $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
         if ( count( $parameters ) > 2 )
         {
@@ -135,6 +124,21 @@ class eZTemplateUnitOperator
         {
             $prefix = 'auto';
         }
+
+        if ( count( $parameters ) > 3 )
+            $decimalCount = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
+        elseif ( $prefix == 'none' )
+            $decimalCount = 0;
+
+        if ( count( $parameters ) > 4 )
+            $decimalSymbol = eZTemplateNodeTool::elementStaticValue( $parameters[4] );
+        if ( count( $parameters ) > 5 )
+            $decimalThousandsSeparator = eZTemplateNodeTool::elementStaticValue( $parameters[5] );
+
+        $decimalSymbolText = eZPHPCreator::variableText( $decimalSymbol, 0, 0, false );
+        $decimalThousandsSeparatorText = eZPHPCreator::variableText( $decimalThousandsSeparator, 0, 0, false );
+
+        $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
         $ini =& eZINI::instance();
         if ( $prefix == "auto" )
@@ -303,7 +307,7 @@ class eZTemplateUnitOperator
                 $prefix_var = '';
                 if ( $hasInput )
                 {
-                    $output = number_format( $output, 0, $decimalSymbol, $decimalThousandsSeparator );
+                    $output = number_format( $output, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
                 }
                 else
                 {
@@ -312,7 +316,7 @@ class eZTemplateUnitOperator
                     $values[] = array( eZTemplateNodeTool::createStringElement( '' ) );
                     $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
 
-                    $code = '%output% = number_format( %1%, 0, ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' ) . \' \' . %2% . %3%;';
+                    $code = '%output% = number_format( %1%, ' . $decimalCount . ', ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' ) . \' \' . %2% . %3%;';
 
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
                 }
@@ -392,8 +396,12 @@ class eZTemplateUnitOperator
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
+
         if ( $namedParameters['decimal_count'] !== false )
             $decimalCount = $namedParameters['decimal_count'];
+        elseif ( $prefix == 'none' )
+            $decimalCont = 0;
+
         if ( strlen( $namedParameters['decimal_symbol'] ) > 0 )
             $decimalSymbol = $namedParameters['decimal_symbol'];
         if ( strlen( $namedParameters['thousands_separator'] ) > 0 )
@@ -493,7 +501,7 @@ class eZTemplateUnitOperator
             else if ( $prefix == "none" )
             {
                 $prefix_var = "";
-                $operatorValue = number_format( $operatorValue, 0, $decimalSymbol, $decimalThousandsSeparator );
+                $operatorValue = number_format( $operatorValue, $decimalCount, $decimalSymbol, $decimalThousandsSeparator );
             }
             else
                 $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found", $placement );
