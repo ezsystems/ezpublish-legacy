@@ -5147,7 +5147,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // code-template::auto-generated:END class-list-from-policy
 
-    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation
+    // code-template::create-block: can-instantiate-class-list, group-filter, object-policy-list, name-create, object-creation, object-sql-creation
     // code-template::auto-generated:START can-instantiate-class-list
     // This code is automatically generated from templates/classcreatelist.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD

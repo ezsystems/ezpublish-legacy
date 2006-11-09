@@ -388,7 +388,7 @@ class eZContentClass extends eZPersistentObject
         return $canInstantiateClasses;
     }
 
-    // code-template::create-block: can-instantiate-class-list, group-filter, role-caching, class-policy-list, name-instantiate, object-creation
+    // code-template::create-block: can-instantiate-class-list, group-filter, role-caching, class-policy-list, name-instantiate, object-creation, class-sql-creation
     // code-template::auto-generated:START can-instantiate-class-list
     // This code is automatically generated from templates/classcreatelist.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
