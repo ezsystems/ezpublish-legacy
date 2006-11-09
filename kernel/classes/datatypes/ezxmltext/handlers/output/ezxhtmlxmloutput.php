@@ -39,122 +39,112 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     var $OutputTags = array(
 
-    'section'      => array( 'quickRender' => array(),
+    'section'      => array( 'quickRender' => true,
                              'initHandler' => 'initHandlerSection',
                              'renderHandler' => 'renderChildrenOnly' ),
 
     'embed'        => array( 'initHandler' => 'initHandlerEmbed',
                              'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification',
-                                                       'xhtml:id' => 'id',
-                                                       'object_id' => false,
-                                                       'node_id' => false,
-                                                       'show_path' => false ),
+                             'attrNamesTemplate' => array( 'class' => 'classification',
+                                                           'xhtml:id' => 'id',
+                                                           'object_id' => false,
+                                                           'node_id' => false,
+                                                           'show_path' => false ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'embed-inline' => array( 'initHandler' => 'initHandlerEmbed',
                              'renderHandler' => 'renderInline',
-                             'attrVariables' => array( 'class' => 'classification',
-                                                       'xhtml:id' => 'id',
-                                                       'object_id' => false,
-                                                       'node_id' => false,
-                                                       'show_path' => false ),
+                             'attrNamesTemplate' => array( 'class' => 'classification',
+                                                           'xhtml:id' => 'id',
+                                                           'object_id' => false,
+                                                           'node_id' => false,
+                                                           'show_path' => false ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
-
-    /*'object'       => array( //'handler' => 'outputObject',
-                             'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification',
-                                                       'xhtml:id' => 'id',
-                                                       'image:ezurl_target' => 'target',
-                                                       'image:ezurl_href' => 'href',
-                                                       'image:ezurl_id' => false ),
-                             'attrDesignKeys' => array( 'class' => 'classification' ) ),*/
 
     'table'        => array( 'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'tr'           => array( //'quickRender' => array( 'tr', "\n" ),
                              'initHandler' => 'initHandlerTr',
                              'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'td'           => array( 'initHandler' => 'initHandlerTd',
                              'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'xhtml:width' => 'width',
-                                                       'xhtml:colspan' => 'colspan',
-                                                       'xhtml:rowspan' => 'rowspan',
-                                                       'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'xhtml:width' => 'width',
+                                                           'xhtml:colspan' => 'colspan',
+                                                           'xhtml:rowspan' => 'rowspan',
+                                                           'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'th'           => array( 'initHandler' => 'initHandlerTd',
                              'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'xhtml:width' => 'width',
-                                                       'xhtml:colspan' => 'colspan',
-                                                       'xhtml:rowspan' => 'rowspan',
-                                                       'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'xhtml:width' => 'width',
+                                                           'xhtml:colspan' => 'colspan',
+                                                           'xhtml:rowspan' => 'rowspan',
+                                                           'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'ol'           => array( 'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'ul'           => array( 'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'li'           => array( 'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'header'       => array( 'initHandler' => 'initHandlerHeader',
                              'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'paragraph'    => array( //'quickRender' => array( 'p', "\n" ),
-                             //'handler' => 'outputParagraph',
                              'renderHandler' => 'renderParagraph',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'line'         => array( //'quickRender' => array( '', "<br/>" ),
                              'renderHandler' => 'renderLine' ),
 
     'literal'      => array( 'renderHandler' => 'renderAll',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'strong'       => array( 'renderHandler' => 'renderInline',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'emphasize'    => array( 'renderHandler' => 'renderInline',
-                             'attrVariables' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'link'         => array( 'initHandler' => 'initHandlerLink',
                              'renderHandler' => 'renderInline',
-                             'attrVariables' => array( 'xhtml:id' => 'id',
-                                                       'xhtml:title' => 'title',
-                                                       'url_id' => false,
-                                                       'object_id' => false,
-                                                       'node_id' => false,
-                                                       'show_path' => false,
-                                                       'ezurl_id' => false,
-                                                       'anchor_name' => false,
-                                                       'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'xhtml:id' => 'id',
+                                                           'xhtml:title' => 'title',
+                                                           'url_id' => false,
+                                                           'object_id' => false,
+                                                           'node_id' => false,
+                                                           'show_path' => false,
+                                                           'ezurl_id' => false,
+                                                           'anchor_name' => false,
+                                                           'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'anchor'       => array( 'renderHandler' => 'renderInline' ),
 
     'custom'       => array( 'initHandler' => 'initHandlerCustom',
                              'renderHandler' => 'renderCustom',
-                             'attrVariables' => array( 'name' => false ) ),
+                             'attrNamesTemplate' => array( 'name' => false ) ),
 
-    '#text'        => array( 'quickRender' => array(),
+    '#text'        => array( 'quickRender' => true,
                              'renderHandler' => 'renderText' )
     );
 
@@ -392,7 +382,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     // Render handlers
 
-    function renderParagraph( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderParagraph( &$element, $childrenOutput, $vars )
     {
         // don't render if inside 'li' or inside 'td' (by option)
         $parent =& $element->parentNode;
@@ -415,7 +405,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
                  ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) ) )
             {
-                $tagText .= $this->renderTag( $element, $templateUri, $inlineContent, $attributes );
+                $tagText .= $this->renderTag( $element, $inlineContent, $vars );
                 $inlineContent = '';
             }
 
@@ -427,18 +417,18 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderAll( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderAll( &$element, $childrenOutput, $vars )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
         {
             $tagText .= $childOutput[1];
         }
-        $tagText = $this->renderTag( $element, $templateUri, $tagText, $attributes );
+        $tagText = $this->renderTag( $element, $tagText, $vars );
         return array( false, $tagText );
     }
 
-    function renderInline( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderInline( &$element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -453,7 +443,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( ( $childOutput[0] === false && $lastTagInline === true ) ||
                  ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) ) )
             {
-                $tagText = $this->renderTag( $element, $templateUri, $inlineContent, $attributes );
+                $tagText = $this->renderTag( $element, $inlineContent, $vars );
                 $renderedArray[] = array( true, $tagText );
                 $inlineContent = '';
             }
@@ -467,7 +457,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderLine( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderLine( &$element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -478,8 +468,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $childOutput[0] === true )
                 $inlineContent .= $childOutput[1];
 
-            // Render line tag only if the last part is inline and the next tag
+            // Render line tag only if the last part of childrenOutput is inline and the next tag
             // within the same paragraph is 'line' too.
+
             if ( $childOutput[0] === false && $lastTagInline === true )
             {
                 $renderedArray[] = array( true, $inlineContent );
@@ -490,7 +481,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $next =& $element->nextSibling();
                 if ( $next && $next->nodeName == 'line' )
                 {
-                    $tagText = $this->renderTag( $element, $templateUri, $inlineContent, $attributes );
+                    $tagText = $this->renderTag( $element, $inlineContent, $vars );
                     $renderedArray[] = array( true, $tagText );
                 }
                 else
@@ -505,20 +496,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderCustom( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderCustom( &$element, $childrenOutput, $vars )
     {
         if ( $this->XMLSchema->isInline( $element ) )
         {
-            $ret = $this->renderInline( $element, $templateUri, $childrenOutput, $attributes );
+            $ret = $this->renderInline( $element, $childrenOutput, $vars );
         }
         else
         {
-            $ret = $this->renderAll( $element, $templateUri, $childrenOutput, $attributes );
+            $ret = $this->renderAll( $element, $childrenOutput, $vars );
         }
         return $ret;
     }
 
-    function renderChildrenOnly( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderChildrenOnly( &$element, $childrenOutput, $vars )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
@@ -529,7 +520,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderText( &$element, $templateUri, $childrenOutput, $attributes )
+    function renderText( &$element, $childrenOutput, $vars )
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {

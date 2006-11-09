@@ -403,39 +403,44 @@ class eZXMLOutputHandler
             return $childrenOutput;
         }
 
-        $templateUri = '';
+        // Set tpl variables by attributes and rename rules
+        $vars = array();
+
+        if ( !isset( $currentTag['quickRender'] ) && isset( $currentTag['attrNamesTemplate'] ) )
+            $attrRenameRules =& $currentTag['attrNamesTemplate'];
+        elseif ( isset( $currentTag['quickRender'] ) && isset( $currentTag['attrNamesQuick'] ) )
+            $attrRenameRules =& $currentTag['attrNamesQuick'];
+        else
+            $attrRenameRules = array();
+
+        foreach( $attributes as $name=>$value )
+        {
+            if ( isset( $attrRenameRules[$name] ) )
+            {
+                $vars[$attrRenameRules[$name]] = $value;
+                continue;
+            }
+
+            if ( substr( $name, 0, 6 ) == 'custom:' )
+                $name = substr( $name, strpos( $name, ':' ) + 1 );
+
+            $vars[$name] = $value;
+        }
+
+        // set missing variables that have rename rules defined
+        // but were not present in the element
+        foreach( $attrRenameRules as $attrName=>$varName )
+        {
+            if ( !isset( $attributes[$attrName] ) )
+                $vars[$varName] = '';
+        }
+
+        $this->TemplateUri = '';
+
+        // In quick render mode we does not use templates and
+        // render template variables as tag attributes
         if ( !isset( $currentTag['quickRender'] ) )
         {
-            // Set tpl variables by attributes and rename rules
-            $vars = array();
-
-            if ( isset( $currentTag['attrVariables'] ) )
-                $attrVariables =& $currentTag['attrVariables'];
-            else
-                $attrVariables = array();
-
-            foreach( $attributes as $name=>$value )
-            {
-                if ( isset( $attrVariables[$name] ) )
-                {
-                    $vars[$attrVariables[$name]] = $value;
-                    continue;
-                }
-
-                if ( substr( $name, 0, 6 ) == 'custom:' )
-                    $name = substr( $name, strpos( $name, ':' ) + 1 );
-
-                $vars[$name] = $value;
-            }
-
-            // set missing variables that have defined rename rules
-            // but were not present in the element
-            foreach( $attrVariables as $attrName=>$varName )
-            {
-                if ( !isset( $attributes[$attrName] ) )
-                    $vars[$varName] = '';
-            }
-
             // Set additional variables passed by tag handler
             if ( isset( $result['tpl_vars'] ) )
             {
@@ -457,7 +462,7 @@ class eZXMLOutputHandler
                         $designKeys[$keyName] = $attributes[$attrName];
                 }
             }
-            // Merge design keys set in control array and tag handler
+            // Set additional design keys passed by tag handler
             if ( isset( $result['design_keys'] ) )
             {
                 $designKeys = array_merge( $designKeys, $result['design_keys'] );
@@ -485,12 +490,10 @@ class eZXMLOutputHandler
             {
                 $templateName = $element->nodeName;
             }
-            $templateUri = $this->TemplatesPath . $templateName . '.tpl';
+            $this->TemplateUri = $this->TemplatesPath . $templateName . '.tpl';
         }
 
-        $output = $this->callTagRenderHandler( 'renderHandler', $element, $templateUri, $childrenOutput, $attributes );
-        //$handlerName = $currentTag['renderHandler'];
-        //$output = $this->$handlerName( $element, $templateUri, $childrenOutput, $attributes );
+        $output = $this->callTagRenderHandler( 'renderHandler', $element, $childrenOutput, $vars );
 
         if ( !isset( $currentTag['quickRender'] ) )
         {
@@ -514,25 +517,25 @@ class eZXMLOutputHandler
         return $output;
     }
 
-    function renderTag( &$element, $templateUri, $content, $attributes )
+    function renderTag( &$element, $content, $vars )
     {
         $currentTag =& $this->OutputTags[$element->nodeName];
         if ( $currentTag && isset( $currentTag['quickRender'] ) )
         {
             $renderedTag = '';
             $attrString = '';
-            foreach( $attributes as $name=>$value )
+            foreach( $vars as $name=>$value )
             {
                 if ( $value != '' )
                     $attrString .= " $name=\"$value\"";
             }
 
-            if ( $currentTag['quickRender'][0] )
+            if ( isset( $currentTag['quickRender'][0] ) && $currentTag['quickRender'][0] )
                 $renderedTag = '<' . $currentTag['quickRender'][0] . "$attrString>" . $content . '</' . $currentTag['quickRender'][0] . '>';
             else
                 $renderedTag = $content;
 
-            if ( $currentTag['quickRender'][1] )
+            if ( isset( $currentTag['quickRender'][1] ) && $currentTag['quickRender'][1] )
                 $renderedTag .= $currentTag['quickRender'][1];
         }
         else
@@ -543,7 +546,7 @@ class eZXMLOutputHandler
                 $contentVarName = 'content';
 
             $this->Tpl->setVariable( $contentVarName, $content, 'xmltagns' );
-            eZTemplateIncludeFunction::handleInclude( $textElements, $templateUri, $this->Tpl, 'foo', 'xmltagns' );
+            eZTemplateIncludeFunction::handleInclude( $textElements, $this->TemplateUri, $this->Tpl, 'foo', 'xmltagns' );
             $renderedTag = is_array( $textElements ) ? implode( '', $textElements ) : '';
         }
         return $renderedTag;
@@ -571,14 +574,14 @@ class eZXMLOutputHandler
         return $result;
     }
 
-    function callTagRenderHandler( $handlerName, &$element, $templateUri, $childrenOutput, $attributes )
+    function callTagRenderHandler( $handlerName, &$element, $childrenOutput, $vars )
     {
         $result = array();
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
-                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $templateUri, $childrenOutput, $attributes );' );
+                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $childrenOutput, $vars );' );
             else
                 eZDebug::writeWarning( "'$handlerName' render handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
         }
@@ -603,6 +606,7 @@ class eZXMLOutputHandler
 
     var $Output = '';
     var $Tpl;
+    var $TemplateURI = '';
     var $Res;
 
     var $AllowMultipleSpaces = false;
