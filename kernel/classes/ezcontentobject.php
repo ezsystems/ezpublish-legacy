@@ -4087,7 +4087,6 @@ class eZContentObject extends eZPersistentObject
         {
             $classList = array();
             $db =& eZDb::instance();
-            $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
@@ -4113,7 +4112,7 @@ class eZContentObject extends eZPersistentObject
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n",
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
