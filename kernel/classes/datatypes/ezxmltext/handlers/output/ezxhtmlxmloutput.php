@@ -417,17 +417,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderAll( &$element, $childrenOutput, $vars )
-    {
-        $tagText = '';
-        foreach( $childrenOutput as $childOutput )
-        {
-            $tagText .= $childOutput[1];
-        }
-        $tagText = $this->renderTag( $element, $tagText, $vars );
-        return array( false, $tagText );
-    }
-
     function renderInline( &$element, $childrenOutput, $vars )
     {
         $renderedArray = array();
