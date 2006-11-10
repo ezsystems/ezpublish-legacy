@@ -232,10 +232,13 @@ class eZTemplateDebugFunction
                 $startDescription = "debug-timing-point START: $id";
                 eZDebug::addTimingPoint( $startDescription );
 
-                foreach ( array_keys( $children ) as $childKey )
+                if ( is_array( $children ) )
                 {
-                    $child =& $children[$childKey];
-                    $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    }
                 }
 
                 $endDescription = "debug-timing-point END: $id";
@@ -267,10 +270,13 @@ class eZTemplateDebugFunction
 
                 eZDebug::accumulatorStart( $id, 'Debug-Accumulator', $name );
 
-                foreach ( array_keys( $children ) as $childKey )
+                if ( is_array( $children ) )
                 {
-                    $child =& $children[$childKey];
-                    $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                    }
                 }
 
                 eZDebug::accumulatorStop( $id, 'Debug-Accumulator', $name );
@@ -302,15 +308,18 @@ class eZTemplateDebugFunction
                     }
                     xdebug_start_trace( $id );
 
-                    foreach ( array_keys( $children ) as $childKey )
+                    if ( is_array( $children ) )
                     {
-                        $child =& $children[$childKey];
-                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                        foreach ( array_keys( $children ) as $childKey )
+                        {
+                            $child =& $children[$childKey];
+                            $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                        }
                     }
 
                     xdebug_stop_trace();
                 }
-                else
+                elseif ( is_array( $children ) )
                 {
                     foreach ( array_keys( $children ) as $childKey )
                     {

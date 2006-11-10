@@ -376,9 +376,12 @@ ENDADDCODE;
                     if ( file_exists( $phpPath ) and
                          filemtime( $phpPath ) >= $expiryTime )
                     {
-                        $fp = fopen( $phpPath, 'r' );
-                        $textElements[] = fread( $fp, filesize( $phpPath ) );;
-                        fclose( $fp );
+                        if ( filesize( $phpPath ) > 0)
+                        {
+                            $fp = fopen( $phpPath, 'r' );
+                            $textElements[] = fread( $fp, filesize( $phpPath ) );;
+                            fclose( $fp );
+                        }
                     }
                     else
                     {
@@ -386,10 +389,13 @@ ENDADDCODE;
                         $children = $functionChildren;
 
                         $childTextElements = array();
-                        foreach ( array_keys( $children ) as $childKey )
+                        if ( is_array( $children ) )
                         {
-                            $child =& $children[$childKey];
-                            $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
+                            foreach ( array_keys( $children ) as $childKey )
+                            {
+                                $child =& $children[$childKey];
+                                $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
+                            }
                         }
                         $text = implode( '', $childTextElements );
                         $textElements[] = $text;

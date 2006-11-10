@@ -696,6 +696,11 @@ class eZTemplateNodeTool
         $skipNode = false;
         if ( $match['type'] == 'after' )
             $skipNode = true;
+
+        if ( !is_array( $nodeList ) )
+        {
+            return $newNodes;
+        }
         foreach ( $nodeList as $node )
         {
             if ( $match )

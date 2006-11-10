@@ -432,10 +432,13 @@ class eZTemplateSetFunction
         if ( $functionName == $this->LetName or
              $functionName == $this->DefaultName )
         {
-            foreach ( array_keys( $functionChildren ) as $childKey )
+            if ( is_array( $functionChildren ) )
             {
-                $child =& $functionChildren[$childKey];
-                $tpl->processNode( $child, $textElements, $rootNamespace, $name );
+                foreach ( array_keys( $functionChildren ) as $childKey )
+                {
+                    $child =& $functionChildren[$childKey];
+                    $tpl->processNode( $child, $textElements, $rootNamespace, $name );
+                }
             }
             eZTemplateSetFunction::cleanupVariables( $tpl, $rootNamespace, $currentNamespace, $definedVariables );
         }
