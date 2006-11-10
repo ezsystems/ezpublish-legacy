@@ -189,14 +189,17 @@ class eZTemplateSwitchFunction
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         $caseNodes = array();
         $caseCounter = 1;
-        foreach ( $children as $child )
+        if ( is_array( $children ) )
         {
-            $childType = $child[0];
-            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+            foreach ( $children as $child )
             {
-                if ( $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData ) === false )
+                $childType = $child[0];
+                if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
                 {
-                    return false;
+                    if ( $this->templateNodeCaseTransformation( $tpl, $tmpNodes, $caseNodes, $caseCounter, $child, $privateData ) === false )
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -247,99 +250,102 @@ class eZTemplateSwitchFunction
         $in_items = array();
         $def = null;
         $case = null;
-        reset( $children );
-        while ( ( $child_key = key( $children ) ) !== null )
+        if ( is_array( $children ) )
         {
-            $child =& $children[$child_key];
-            $childType = $child[0];
-            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+            reset( $children );
+            while ( ( $child_key = key( $children ) ) !== null )
             {
-                switch ( $child[2] )
+                $child =& $children[$child_key];
+                $childType = $child[0];
+                if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
                 {
-                    case "case":
+                    switch ( $child[2] )
                     {
-                        $child_params = $child[3];
-                        if ( isset( $child_params["match"] ) )
+                        case "case":
                         {
-                            $child_match = $child_params["match"];
-                            $child_match = $tpl->elementValue( $child_match, $rootNamespace, $currentNamespace, $functionPlacement );
-                            if ( !isset( $items[$child_match] ) )
+                            $child_params = $child[3];
+                            if ( isset( $child_params["match"] ) )
                             {
-                                $items[$child_match] =& $child;
-                                if ( is_null( $case ) and
-                                     $match == $child_match )
+                                $child_match = $child_params["match"];
+                                $child_match = $tpl->elementValue( $child_match, $rootNamespace, $currentNamespace, $functionPlacement );
+                                if ( !isset( $items[$child_match] ) )
                                 {
-                                    $case =& $child;
-                                }
-                            }
-                            else
-                            {
-                                $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping", $functionPlacement );
-                            }
-                        }
-                        else if ( isset( $child_params["in"] ) )
-                        {
-                            $key_name = null;
-                            if ( isset( $child_params["key"] ) )
-                            {
-                                $child_key = $child_params["key"];
-                                $key_name = $tpl->elementValue( $child_key, $rootNamespace, $currentNamespace, $functionPlacement );
-                            }
-                            $child_in = $child_params["in"];
-                            $child_in = $tpl->elementValue( $child_in, $rootNamespace, $currentNamespace, $functionPlacement );
-                            if ( !is_array( $child_in ) )
-                                break;
-                            if ( is_null( $case ) )
-                            {
-                                if ( is_null( $key_name ) )
-                                {
-                                    if ( in_array( $match, $child_in ) )
+                                    $items[$child_match] =& $child;
+                                    if ( is_null( $case ) and
+                                         $match == $child_match )
                                     {
                                         $case =& $child;
                                     }
                                 }
                                 else
                                 {
-                                    reset( $child_in );
-                                    while( ( $ckey = key( $child_in ) ) !== null )
+                                    $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping", $functionPlacement );
+                                }
+                            }
+                            else if ( isset( $child_params["in"] ) )
+                            {
+                                $key_name = null;
+                                if ( isset( $child_params["key"] ) )
+                                {
+                                    $child_key = $child_params["key"];
+                                    $key_name = $tpl->elementValue( $child_key, $rootNamespace, $currentNamespace, $functionPlacement );
+                                }
+                                $child_in = $child_params["in"];
+                                $child_in = $tpl->elementValue( $child_in, $rootNamespace, $currentNamespace, $functionPlacement );
+                                if ( !is_array( $child_in ) )
+                                    break;
+                                if ( is_null( $case ) )
+                                {
+                                    if ( is_null( $key_name ) )
                                     {
-                                        if ( !is_array( $key_name ) )
-                                            $key_name_array = array( $key_name );
-                                        else
-                                            $key_name_array = $key_name;
-                                        $child_value = $tpl->variableAttribute( $child_in[$ckey], $key_name );
-                                        if ( $child_value == $match )
+                                        if ( in_array( $match, $child_in ) )
                                         {
                                             $case =& $child;
-                                            break;
                                         }
-                                        next( $child_in );
+                                    }
+                                    else
+                                    {
+                                        reset( $child_in );
+                                        while( ( $ckey = key( $child_in ) ) !== null )
+                                        {
+                                            if ( !is_array( $key_name ) )
+                                                $key_name_array = array( $key_name );
+                                            else
+                                                $key_name_array = $key_name;
+                                            $child_value = $tpl->variableAttribute( $child_in[$ckey], $key_name );
+                                            if ( $child_value == $match )
+                                            {
+                                                $case =& $child;
+                                                break;
+                                            }
+                                            next( $child_in );
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else
+                            else
+                            {
+                                $def =& $child;
+                            }
+                        } break;
+                        default:
                         {
-                            $def =& $child;
-                        }
-                    } break;
-                    default:
-                    {
-                        $tpl->warning( $this->SwitchName, "Only case functions are allowed as children, found \""
-                                       . $child[2] . "\"", $functionPlacement );
-                    } break;
+                            $tpl->warning( $this->SwitchName, "Only case functions are allowed as children, found \""
+                                           . $child[2] . "\"", $functionPlacement );
+                        } break;
+                    }
                 }
+                else if ( $childType == EZ_TEMPLATE_NODE_TEXT )
+                {
+                    // Ignore text.
+                }
+                else
+                {
+                    $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
+                                   . $childType . "\"", $functionPlacement );
+                }
+                next( $children );
             }
-            else if ( $childType == EZ_TEMPLATE_NODE_TEXT )
-            {
-                // Ignore text.
-            }
-            else
-            {
-                $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
-                               . $childType . "\"", $functionPlacement );
-            }
-            next( $children );
         }
 
         if ( is_null( $case ) )

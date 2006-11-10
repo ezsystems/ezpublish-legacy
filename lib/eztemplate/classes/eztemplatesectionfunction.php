@@ -823,41 +823,44 @@ class eZTemplateSectionFunction
         $items = array();
         $items[0] = array();
         $items[1] = array();
-        foreach ( array_keys( $children ) as $childKey )
+        if ( is_array( $children ) )
         {
-            $child =& $children[$childKey];
-            $childType = $child[0];
-            if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
+            foreach ( array_keys( $children ) as $childKey )
             {
-                switch ( $child[2] )
+                $child =& $children[$childKey];
+                $childType = $child[0];
+                if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
                 {
-                    case "delimiter":
+                    switch ( $child[2] )
                     {
-                        if ( $shown === 1 and $delimiterStructure === null )
+                        case "delimiter":
                         {
-                            $delimiterStructure =& $child;
-                        }
-                    } break;
-                    case "section-exclude":
-                    case "section-include":
-                    {
-                        if ( $shown === 1 )
-                            $filterStructure[] =& $child;
-                    } break;
-                    case $elseName:
-                    {
-                        $else =& $child;
-                        $shown = 0;
-                    } break;
-                    default:
-                    {
-                        $items[$shown][] =& $child;
-                    } break;
+                            if ( $shown === 1 and $delimiterStructure === null )
+                            {
+                                $delimiterStructure =& $child;
+                            }
+                        } break;
+                        case "section-exclude":
+                        case "section-include":
+                        {
+                            if ( $shown === 1 )
+                                $filterStructure[] =& $child;
+                        } break;
+                        case $elseName:
+                        {
+                            $else =& $child;
+                            $shown = 0;
+                        } break;
+                        default:
+                        {
+                            $items[$shown][] =& $child;
+                        } break;
+                    }
                 }
-            }
-            else
-            {
-                $items[$shown][] =& $child;
+                else
+                {
+                    $items[$shown][] =& $child;
+                }
             }
         }
 

@@ -78,3 +78,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #009098: si operator ignores decimals parameter
   when prefix is "none"
   (Merged from stable/3.8 (3.8.7) rev. 17420)
+- Fixed bug #008863: Empty let or default block will cause warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17431)

@@ -109,48 +109,51 @@ class eZTemplateIfFunction
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$if_cond )\n{" );
         $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
 
-        foreach ( array_keys( $children ) as $childKey )
+        if ( is_array( $children ) )
         {
-            $child =& $children[$childKey];
-
-            if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION )
+            foreach ( array_keys( $children ) as $childKey )
             {
-                $childFunctionName =& $child[2];
-                $childChildren     = eZTemplateNodeTool::extractFunctionNodeChildren( $child );
-                $childFunctionArgs =& $child[3];
+                $child =& $children[$childKey];
 
-                if ( $childFunctionName == 'elseif' )
+                if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION )
                 {
-                    $compiledElseifCondition = eZTemplateCompiler::processElementTransformationList( $tpl, $child, $childFunctionArgs['condition'], $privateData );
-                    $nodesToPrepend[] = eZTemplateNodeTool::createVariableNode( false, $compiledElseifCondition,
-                                                                                $nodePlacement,
-                                                                                array( 'text-result' => true ),
-                                                                                "elseif_cond_$uniqid" );
-                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelseif ( \$elseif_cond_$uniqid )\n{" );
-                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
-                    $nodesToAppend[] = eZTemplateNodeTool::createVariableUnsetNode( "elseif_cond_$uniqid" );
-                    // increment unique elseif counter
-                    $uniqid        =  md5( $nodePlacement[2] ) . "_" . ++$tpl->ElseifCounter;
-                }
-                elseif ( $childFunctionName == 'else' )
-                {
-                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{" );
-                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
-                }
-                elseif ( $childFunctionName == 'break' )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
-                elseif ( $childFunctionName == 'continue' )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
-                elseif ( $childFunctionName == 'skip' )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+                    $childFunctionName =& $child[2];
+                    $childChildren     = eZTemplateNodeTool::extractFunctionNodeChildren( $child );
+                    $childFunctionArgs =& $child[3];
 
-                // let other functions (ones not listed in the conditions above) be transformed
-                if ( in_array( $childFunctionName, array( 'elseif', 'else', 'break', 'continue', 'skip' ) ) )
-                     continue;
+                    if ( $childFunctionName == 'elseif' )
+                    {
+                        $compiledElseifCondition = eZTemplateCompiler::processElementTransformationList( $tpl, $child, $childFunctionArgs['condition'], $privateData );
+                        $nodesToPrepend[] = eZTemplateNodeTool::createVariableNode( false, $compiledElseifCondition,
+                                                                                    $nodePlacement,
+                                                                                    array( 'text-result' => true ),
+                                                                                    "elseif_cond_$uniqid" );
+                        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelseif ( \$elseif_cond_$uniqid )\n{" );
+                        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+                        $nodesToAppend[] = eZTemplateNodeTool::createVariableUnsetNode( "elseif_cond_$uniqid" );
+                        // increment unique elseif counter
+                        $uniqid        =  md5( $nodePlacement[2] ) . "_" . ++$tpl->ElseifCounter;
+                    }
+                    elseif ( $childFunctionName == 'else' )
+                    {
+                        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{" );
+                        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+                    }
+                    elseif ( $childFunctionName == 'break' )
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
+                    elseif ( $childFunctionName == 'continue' )
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
+                    elseif ( $childFunctionName == 'skip' )
+                        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+
+                    // let other functions (ones not listed in the conditions above) be transformed
+                    if ( in_array( $childFunctionName, array( 'elseif', 'else', 'break', 'continue', 'skip' ) ) )
+                         continue;
+                }
+                $newNodes[] = $child;
             }
-            $newNodes[] = $child;
         }
 
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
@@ -180,6 +183,10 @@ class eZTemplateIfFunction
         $showWasTrue = $show;    // true if $show has been assigned 'true' value at least once in the current {if}...{/if} block.
         $foundElse   = false;    // true if 'else' has been met once in the current {if}...{/if} block.
 
+        if ( !is_array( $functionChildren ) )
+        {
+            return;
+        }
         foreach ( $functionChildren as $key => $child )
         {
             $childType = $child[0];

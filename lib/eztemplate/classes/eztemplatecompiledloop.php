@@ -152,37 +152,40 @@ class eZTemplateCompiledLoop
         $childrenNodes = array();
         $delimiter = null;
 
-        foreach ( array_keys( $transformedChildren ) as $childKey )
+        if ( is_array( $transformedChildren ) )
         {
-            $child =& $transformedChildren[$childKey];
-
-            if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+            foreach ( array_keys( $transformedChildren ) as $childKey )
             {
-                $childFunctionName = $child[2];
-                if ( $childFunctionName == 'delimiter' )
-                {
-                    // save delimiter for it to be processed below
-                    $delimiter =& $child;
-                    continue;
-                }
-                elseif ( $childFunctionName == 'break' )
-                {
-                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
-                    continue;
-                }
-                elseif ( $childFunctionName == 'continue' )
-                {
-                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
-                    continue;
-                }
-                elseif ( $childFunctionName == 'skip' )
-                {
-                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
-                    continue;
-                }
-            }
+                $child =& $transformedChildren[$childKey];
 
-            $childrenNodes[] = $child;
+                if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
+                {
+                    $childFunctionName = $child[2];
+                    if ( $childFunctionName == 'delimiter' )
+                    {
+                        // save delimiter for it to be processed below
+                        $delimiter =& $child;
+                        continue;
+                    }
+                    elseif ( $childFunctionName == 'break' )
+                    {
+                        $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
+                        continue;
+                    }
+                    elseif ( $childFunctionName == 'continue' )
+                    {
+                        $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
+                        continue;
+                    }
+                    elseif ( $childFunctionName == 'skip' )
+                    {
+                        $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+                        continue;
+                    }
+                }
+
+                $childrenNodes[] = $child;
+            }
         }
 
         if ( $delimiter ) // if delimiter is specified
