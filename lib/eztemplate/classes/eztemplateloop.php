@@ -183,6 +183,10 @@ class eZTemplateLoop
      */
     function processChildren()
     {
+        if ( !is_array( $this->FunctionChildren ) )
+        {
+            return false;
+        }
         foreach ( array_keys( $this->FunctionChildren ) as $childKey )
         {
             $child =& $this->FunctionChildren[$childKey];

@@ -26,7 +26,9 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug #009098: si operator ignores decimals parameter
   when prefix is "none"
   (Merged from stable/3.8 (3.8.7) rev. 17420)
-  
+- Fixed bug #008863: Empty let or default block will cause warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17431)
+
 *Library:
 
 eZUtils:
