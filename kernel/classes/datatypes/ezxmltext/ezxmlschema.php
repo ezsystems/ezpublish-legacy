@@ -6,25 +6,24 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.9.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
 
@@ -45,7 +44,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium', 'class' => '' ) ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'class' => '' ) ),
 
         'embed-inline' => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
@@ -53,7 +52,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'object_id', 'node_id', 'show_path', 'size',
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'size' => 'medium', 'class' => '' ) ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'class' => '' ) ),
     
         'object'    => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,
@@ -61,7 +60,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'class', 'id', 'size', 'align',
                                                      'view', 'image:ezurl_id', 'image:ezurl_target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed', 'size' => 'medium' ) ),
+                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed' ) ),
     
         'table'     => array( 'blockChildrenAllowed' => array( 'tr' ),
                               'inlineChildrenAllowed' => false,
@@ -215,6 +214,9 @@ class eZXMLSchema
 
         if ( $eZPublishVersion >= 3.9 )
         {
+            // <object> is not supported in 3.9
+            unset( $this->Schema['object'] );
+
             // Get all tags custom attributes list
             $ini =& eZINI::instance( 'content.ini' );
             foreach( array_keys( $this->Schema ) as $tagName )
