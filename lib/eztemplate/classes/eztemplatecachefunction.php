@@ -398,10 +398,13 @@ ENDADDCODE;
                         $children = $functionChildren;
 
                         $childTextElements = array();
-                        foreach ( array_keys( $children ) as $childKey )
+                        if ( is_array( $children ) )
                         {
-                            $child =& $children[$childKey];
-                            $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
+                            foreach ( array_keys( $children ) as $childKey )
+                            {
+                                $child =& $children[$childKey];
+                                $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
+                            }
                         }
                         $text = implode( '', $childTextElements );
                         $textElements[] = $text;

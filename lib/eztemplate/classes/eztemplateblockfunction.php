@@ -157,8 +157,8 @@ class eZTemplateBlockFunction
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $data, false, array(),
                                                                       'blockData' );
 
-                // This block checks whether the append-block variable is an array or not. 
-                // TODO: This is a temporary solution and should also check whether the template variable exists. 
+                // This block checks whether the append-block variable is an array or not.
+                // TODO: This is a temporary solution and should also check whether the template variable exists.
                 // This new solution requires probably writing the createVariableElement and createVariableNode your self.
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_null ( \$blockData ) ) \$blockData = array();" );
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array ( \$blockData ) ) \$blockData[] = \$blockText;" );
@@ -261,10 +261,13 @@ class eZTemplateBlockFunction
                 }
 
                 $childTextElements = array();
-                foreach ( array_keys( $children ) as $childKey )
+                if ( is_array( $children ) )
                 {
-                    $child =& $children[$childKey];
-                    $tpl->processNode( $child, $childTextElements, $rootNamespace, $name );
+                    foreach ( array_keys( $children ) as $childKey )
+                    {
+                        $child =& $children[$childKey];
+                        $tpl->processNode( $child, $childTextElements, $rootNamespace, $name );
+                    }
                 }
                 $text = implode( '', $childTextElements );
                 if ( $functionName == $this->AppendBlockName )
@@ -293,10 +296,13 @@ class eZTemplateBlockFunction
                 {
                     $this->registerPlacementKey( $key, $functionPlacement );
 
-                    foreach ( array_keys( $functionChildren ) as $childKey )
+                    if ( is_array( $functionChildren ) )
                     {
-                        $child =& $functionChildren[$childKey];
-                        $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                        foreach ( array_keys( $functionChildren ) as $childKey )
+                        {
+                            $child =& $functionChildren[$childKey];
+                            $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                        }
                     }
                 }
             } break;
