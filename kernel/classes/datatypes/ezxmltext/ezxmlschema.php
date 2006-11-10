@@ -447,6 +447,11 @@ class eZXMLSchema
         return false;
     }
 
+    function availableElements()
+    {
+        return array_keys( $this->Schema );
+    }
+
     function getClassesList( $tagName )
     {
         if ( isset( $this->Schema[$tagName]['classesList'] ) )
