@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -198,6 +198,67 @@ class eZShippingManager
     }
 
     /*!
+     Load basketinfo handler (if specified).
+
+     \private
+     \static
+     \return true if no handler specified,
+             false if a handler specified but could not be loaded,
+             handler object if handler specified and found.
+     */
+    function loadBasketInfoHandler()
+    {
+        $shopINI =& eZINI::instance( 'shop.ini' );
+
+        if ( !$shopINI->hasVariable( 'BasketInfoSettings', 'Handler' ) )
+            return true;
+
+        $handlerName = $shopINI->variable( 'BasketInfoSettings', 'Handler' );
+        $repositoryDirectories = $shopINI->variable( 'BasketInfoSettings', 'RepositoryDirectories' );
+        $extensionDirectories = $shopINI->variable( 'BasketInfoSettings', 'ExtensionDirectories' );
+
+        $baseDirectory = eZExtension::baseDirectory();
+        foreach ( $extensionDirectories as $extensionDirectory )
+        {
+            $extensionPath = $baseDirectory . '/' . $extensionDirectory . '/basketinfohandlers';
+            if ( file_exists( $extensionPath ) )
+                $repositoryDirectories[] = $extensionPath;
+        }
+
+        $foundHandler = false;
+        foreach ( $repositoryDirectories as $repositoryDirectory )
+        {
+            $includeFile = "$repositoryDirectory/{$handlerName}basketinfohandler.php";
+
+            if ( file_exists( $includeFile ) )
+            {
+                $foundHandler = true;
+                break;
+            }
+        }
+
+        if ( !$foundHandler )
+        {
+            eZDebug::writeError( "Basketinfo handler '$handlerName' not found, " .
+                                 "searched in these directories: " .
+                                 implode( ', ', $repositoryDirectories ),
+                                 'eZShippingManager::loadBasketInfoHandler' );
+            return false;
+        }
+
+        require_once( $includeFile );
+        $className = $handlerName . 'BasketInfoHandler';
+        if ( !class_exists ( $className ) )
+        {
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
+                                 'eZShippingManager::loadBasketInfoHandler' );
+            return null;
+        }
+
+        return new $className;
+    }
+
+    /*!
      Calculate the vat prices returned by the shippinghandler.
      \public
      \static
@@ -213,7 +274,7 @@ class eZShippingManager
                                        array( 'cost'       => 100.75,
                                               'vat_value'  => 25,
                                               'is_vat_inc' => 1 ) ),
-            'cost'       => 182.22,
+            'cost'       => 157.03,
             'vat_value'  => false,
             'is_vat_inc' => 1 );
      \endcode
@@ -349,64 +410,51 @@ class eZShippingManager
     }
 
 
+    /*!
+     Update shipping price with calculated information based on original values.
+     All values are changed or added directly in the array $basketInfo
+     \public
+     \static
+
+     Example on a calculated $basketInfo variable:
+     \code
+     array( 'price_info' => array( 0 => array( 'price_ex_vat' => 231,
+                                               'price_inc_vat' => 231,
+                                               'price_vat' => 0,
+                                               'total_price_ex_vat' => 231,
+                                               'total_price_inc_vat' => 231,
+                                               'total_price_vat' => 0 ),
+                                   12 => array( 'total_price_ex_vat' => 50.25,
+                                                'total_price_inc_vat' => 56.28,
+                                                'total_price_vat' => 6.03 ),
+                                   25 => array( 'total_price_ex_vat' => 80.6,
+                                                'total_price_inc_vat' => 100.75,
+                                                'total_price_vat' => 20.15 ) ),
+            'total_price_info' => array( 'price_ex_vat' => 231,
+                                         'price_inc_vat' => 231,
+                                         'price_vat' => 0,
+                                         'total_price_ex_vat' => 361.85,
+                                         'total_price_inc_vat' => 388.03,
+                                         'total_price_vat' => 26.18 ),
+            'additional_info' => array( 'shipping_items' => array( 12 => array( 'total_price_ex_vat' => 50.25,
+                                                                                'total_price_inc_vat' => 56.28,
+                                                                                'total_price_vat' => 6.03 ),
+                                                                   25 => array( 'total_price_ex_vat' => 80.6,
+                                                                                'total_price_inc_vat' => 100.75,
+                                                                                'total_price_vat' => 20.15 ) ),
+                                        'shipping_total' => array( 'total_price_ex_vat' => 130.85,
+                                                                   'total_price_inc_vat' => 157.03,
+                                                                   'total_price_vat' => 26.18 ) ) );
+     \endcode
+    */
     function updatePriceInfo( $productCollectionID, &$basketInfo )
     {
-        $shippingInfo = eZShippingManager::getShippingInfo( $productCollectionID );
-        $additionalShippingValues = eZShippingManager::vatPriceInfo( $shippingInfo );
-
-        foreach ( $additionalShippingValues['shipping_vat_list'] as $vatValue => $additionalShippingValueArray )
+        $returnValue = false;
+        if ( is_object( $handler = eZShippingManager::loadBasketInfoHandler() ) )
         {
-            $shippingExVAT = $additionalShippingValueArray['shipping_ex_vat'];
-            $shippingIncVAT = $additionalShippingValueArray['shipping_inc_vat'];
-            $shippingVat = $additionalShippingValueArray['shipping_vat'];
-
-            if ( !isset( $basketInfo['price_info'][$vatValue]['total_price_ex_vat'] ) )
-            {
-                $basketInfo['price_info'][$vatValue]['total_price_ex_vat'] = $shippingExVAT;
-                $basketInfo['price_info'][$vatValue]['total_price_inc_vat'] = $shippingIncVAT;
-                $basketInfo['price_info'][$vatValue]['total_price_vat'] = $shippingVat;
-
-                $basketInfo['total_price_info']['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['total_price_info']['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['total_price_info']['total_price_vat'] += $shippingVat;
-            }
-            else
-            {
-                $basketInfo['price_info'][$vatValue]['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['price_info'][$vatValue]['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['price_info'][$vatValue]['total_price_vat'] += $shippingVat;
-
-                $basketInfo['total_price_info']['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['total_price_info']['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['total_price_info']['total_price_vat'] += $shippingVat;
-            }
-
-            if ( !isset( $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_ex_vat'] ) )
-            {
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_ex_vat'] = $shippingExVAT;
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_inc_vat'] = $shippingIncVAT;
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_vat'] = ( $shippingIncVAT - $shippingExVAT );
-            }
-            else
-            {
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['additional_info']['shipping_items'][$vatValue]['total_price_vat'] += ( $shippingIncVAT - $shippingExVAT );
-            }
-
-            if ( !isset( $basketInfo['additional_info']['shipping_total']['total_price_ex_vat'] ) )
-            {
-                $basketInfo['additional_info']['shipping_total']['total_price_ex_vat'] = $shippingExVAT;
-                $basketInfo['additional_info']['shipping_total']['total_price_inc_vat'] = $shippingIncVAT;
-                $basketInfo['additional_info']['shipping_total']['total_price_vat'] = ( $shippingIncVAT - $shippingExVAT );
-            }
-            else
-            {
-                $basketInfo['additional_info']['shipping_total']['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['additional_info']['shipping_total']['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['additional_info']['shipping_total']['total_price_vat'] += ( $shippingIncVAT - $shippingExVAT );
-            }
+            $returnValue = $handler->updatePriceInfo( $productCollectionID, $basketInfo );
         }
+        return $returnValue;
     }
 }
 ?>

@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -56,7 +56,6 @@ class eZBasket extends eZPersistentObject
     function eZBasket( $row )
     {
         $this->eZPersistentObject( $row );
-        $this->Items = array();
     }
 
     /*!
@@ -100,99 +99,71 @@ class eZBasket extends eZPersistentObject
 
     function &items( $asObject = true )
     {
-        $key = 1;
-        if ( $asObject == false )
+        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                             null,
+                                                             array( 'productcollection_id' => $this->ProductCollectionID ),
+                                                             array( 'contentobject_id' => 'desc' ),
+                                                             null,
+                                                             $asObject );
+        $addedProducts = array();
+        foreach ( $productItems as  $productItem )
         {
-            $key = 0;
-        }
+            $discountPercent = 0.0;
+            $isVATIncluded = true;
+            $id = $productItem->attribute( 'id' );
+            $contentObject = $productItem->attribute( 'contentobject' );
 
-        if ( !isset( $this->Items[$key] ) )
-        {
-            $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                                 null,
-                                                                 array( 'productcollection_id' => $this->ProductCollectionID ),
-                                                                 array( 'contentobject_id' => 'desc' ),
-                                                                 null,
-                                                                 $asObject );
-            $addedProducts = array();
-            foreach ( $productItems as  $productItem )
+            if ( $contentObject !== null )
             {
-                $discountPercent = 0.0;
-                $isVATIncluded = true;
-                $id = $productItem->attribute( 'id' );
-                $contentObject = $productItem->attribute( 'contentobject' );
+                $vatValue = $productItem->attribute( 'vat_value' );
 
-                if ( $contentObject !== null )
+                // If VAT is unknown yet then we use zero VAT percentage for price calculation.
+                $realVatValue = $vatValue;
+                if ( $vatValue == -1 )
+                    $vatValue = 0;
+
+                $count = $productItem->attribute( 'item_count' );
+                $discountPercent = $productItem->attribute( 'discount' );
+                $nodeID = $contentObject->attribute( 'main_node_id' );
+                $objectName = $contentObject->attribute( 'name' );
+
+                $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
+                $price = $productItem->attribute( 'price' );
+
+                if ( $isVATIncluded )
                 {
-                    $vatValue = $productItem->attribute( 'vat_value' );
-
-                    // If VAT is unknown yet then we use zero VAT percentage for price calculation.
-                    $realVatValue = $vatValue;
-                    if ( $vatValue == -1 )
-                        $vatValue = 0;
-
-                    $count = $productItem->attribute( 'item_count' );
-                    $discountPercent = $productItem->attribute( 'discount' );
-                    $nodeID = $contentObject->attribute( 'main_node_id' );
-                    $objectName = $contentObject->attribute( 'name' );
-
-                    $isVATIncluded = $productItem->attribute( 'is_vat_inc' );
-                    $price = $productItem->attribute( 'price' );
-
-                    if ( $isVATIncluded )
-                    {
-                        $priceExVAT = $price / ( 100 + $vatValue ) * 100;
-                        $priceIncVAT = $price;
-                        $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
-                        $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    }
-                    else
-                    {
-                        $priceExVAT = $price;
-                        $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-                        $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
-                        $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                    }
-
-                    $addedProduct = array( "id" => $id,
-                                           "vat_value" => $realVatValue,
-                                           "item_count" => $count,
-                                           "node_id" => $nodeID,
-                                           "object_name" => $objectName,
-                                           "price_ex_vat" => $priceExVAT,
-                                           "price_inc_vat" => $priceIncVAT,
-                                           "discount_percent" => $discountPercent,
-                                           "total_price_ex_vat" => $totalPriceExVAT,
-                                           "total_price_inc_vat" => $totalPriceIncVAT,
-                                           'item_object' => $productItem );
-                    $addedProducts[] = $addedProduct;
+                    $priceExVAT = $price / ( 100 + $vatValue ) * 100;
+                    $priceIncVAT = $price;
+                    $totalPriceExVAT = $count * $priceExVAT * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 }
+                else
+                {
+                    $priceExVAT = $price;
+                    $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
+                    $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
+                    $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
+                }
+
+                $addedProduct = array( "id" => $id,
+                                       "vat_value" => $realVatValue,
+                                       "item_count" => $count,
+                                       "node_id" => $nodeID,
+                                       "object_name" => $objectName,
+                                       "price_ex_vat" => $priceExVAT,
+                                       "price_inc_vat" => $priceIncVAT,
+                                       "discount_percent" => $discountPercent,
+                                       "total_price_ex_vat" => $totalPriceExVAT,
+                                       "total_price_inc_vat" => $totalPriceIncVAT,
+                                       'item_object' => $productItem );
+                $addedProducts[] = $addedProduct;
             }
-            $this->Items[$key] = $addedProducts;
-        }
-        else
-        {
-            $addedProducts = $this->Items[$key];
         }
         return $addedProducts;
     }
-
-    function refreshItems( $asObject = null )
-    {
-        if ( $asObject == null )
-        {
-            $this->Items = array();
-        }
-        else if ( $asObject == true )
-        {
-            unset( $this->Items[1] );
-        }
-        else
-        {
-            unset( $this->Items[0] );
-        }
-    }
-
+    /*!
+     Fetching calculated information about the product items.
+    */
     function &itemsInfo()
     {
         $basketInfo = array();
@@ -253,36 +224,8 @@ class eZBasket extends eZPersistentObject
         // Add shipping cost to the total items price and add / update additional price information.
         $productCollectionID = $this->attribute( 'productcollection_id' );
 
-        $ini =& eZINI::instance( 'shop.ini' );
-
-        $requiredFiles = $ini->variable( 'BasketSettings', 'ItemsInfoRequiredFiles' );
-        foreach ( $requiredFiles as $requiredFile )
-        {
-            require_once( $requiredFile );
-        }
-
-        $additionalFunctionArray = $ini->variable( 'BasketSettings', 'ItemsInfoAdditionalFunctions' );
-        $additionalFunctions = array();
-        foreach ( $additionalFunctionArray as $additionalFunction )
-        {
-            $functionArray = explode( "::", $additionalFunction );
-            if ( count( $functionArray ) == 2 )
-            {
-                $className = $functionArray[0];
-                $functionName = $functionArray[1];
-                $additionalFunctions[] = array( $className, $functionName );
-            }
-            else
-            {
-                $functionName = $functionArray[0];
-                $additionalFunctions[] = $functionName;
-            }
-        }
-
-        foreach ( $additionalFunctions as $additionalFunctionInfo )
-        {
-            call_user_func_array( $additionalFunctionInfo, array( $productCollectionID, &$basketInfo ) );
-        }
+        // Add additional calculated information to the basketInfo array, that can be used in the template.
+        $shippingUpdateStatus = eZShippingManager::updatePriceInfo( $productCollectionID, &$basketInfo );
 
         ksort( $basketInfo['price_info'] );
         return $basketInfo;
@@ -451,7 +394,6 @@ class eZBasket extends eZPersistentObject
         $this->setAttribute( 'order_id', $orderID );
         $this->store();
         $db->commit();
-        $this->refreshItems();
 
         return $order;
     }
@@ -516,8 +458,6 @@ class eZBasket extends eZPersistentObject
             $productCollection->setAttribute( 'currency_code', $currencyCode );
             $productCollection->store();
             $db->commit();
-
-            $this->refreshItems();
         }
     }
 
@@ -703,8 +643,6 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
         return true;
     }
-
-    var $Items;
 }
 
 ?>

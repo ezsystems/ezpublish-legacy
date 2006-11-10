@@ -1,6 +1,8 @@
 Changes from 3.9.0beta1 to 3.9.0rc1
 
 *Kernel:
+- shop: added support of custom handlers to calculate additional priceinformation
+        to the basket.
 
 *Design:
 

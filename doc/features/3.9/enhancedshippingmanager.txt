@@ -55,4 +55,14 @@ Added info about what should be returned by the function getShippingInfo.
 You are also able to receive more information from the shippingmanager by the function updatePriceInfo and vatPriceInfo,
 which will calculate VAT prices based on the original values.
 
+The function updatePriceInfo() will load a custom basketInfoHandler where a default handler which are located in:
+
+kernel/classes/basketinfohandlers/ezdefaultbasketinfohandler.php
+
+and will be included as standard. 
+You'll be able to add a custom BasketInfoHandler in extensions, where you can specify the handler in shop.ini:
+
+[BasketInfoSettings]
+Handler=ezdefault
+
 The new functionality in the shippingmanager should be backwardscompatible.
