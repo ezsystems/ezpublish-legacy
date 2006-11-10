@@ -225,7 +225,7 @@ class eZBasket extends eZPersistentObject
         $productCollectionID = $this->attribute( 'productcollection_id' );
 
         // Add additional calculated information to the basketInfo array, that can be used in the template.
-        $shippingUpdateStatus = eZShippingManager::updatePriceInfo( $productCollectionID, &$basketInfo );
+        $shippingUpdateStatus = eZShippingManager::updatePriceInfo( $productCollectionID, $basketInfo );
 
         ksort( $basketInfo['price_info'] );
         return $basketInfo;
