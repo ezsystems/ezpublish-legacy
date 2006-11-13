@@ -30,6 +30,15 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
+if ( version_compare( phpversion(), '5.0' ) >= 0 )
+{
+    print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
+    print( "<p>eZ publish 3.x does not run with PHP 5.</p>".
+           "<p>For more information about supported software please visit ".
+           "<a href=\"http://ez.no/download/ez_publish\" >eZ publish download page</a></p>" );
+    exit;
+}
+
 ignore_user_abort( true );
 require 'lib/compat.php';
 
