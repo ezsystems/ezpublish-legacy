@@ -93,3 +93,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17420)
 - Fixed bug #008863: Empty let or default block will cause warnings
   (Merged from stable/3.8 (3.8.7) rev. 17431)
+- Fixed bug #009382: Quicktime template override contains invalid size.
+  (Merged from trunk(3.9.0rc1) rev. 17444)
