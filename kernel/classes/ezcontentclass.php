@@ -61,7 +61,11 @@ class eZContentClass extends eZPersistentObject
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
 
-            $this->NameList = new eZContentClassNameList( $row['serialized_name_list'] );
+            $this->NameList = new eZContentClassNameList();
+            if ( isset( $row['serialized_name_list'] ) )
+                $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
+            else
+                $this->NameList->initDefault();
         }
         $this->DataMap = false;
     }
