@@ -37,7 +37,7 @@ include_once( 'kernel/common/template.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
+include_once( 'lib/ezdiff/classes/ezdiff.php' );
 
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
@@ -63,6 +63,7 @@ if ( $http->hasPostVariable( 'BackButton' )  )
 }
 
 $object =& eZContentObject::fetch( $ObjectID );
+
 $editWarning = false;
 
 $canEdit = false;
@@ -81,6 +82,103 @@ $canRemove = true;
 
 $http =& eZHTTPTool::instance();
 
+
+//content/diff functionality
+//Set default values
+$previousVersion = 1;
+$newestVersion = 1;
+
+//By default, set preselect the previous and most recent version for diffing
+if ( count( $object->versions() ) > 1 )
+{
+    $versionArray = $object->versions( false );
+    $selectableVersions = array();
+    foreach( $versionArray as $versionItem )
+    {
+        //Only return version numbers of archived or published items
+        if ( in_array( $versionItem['status'], array( 0, 1, 3 ) ) )
+        {
+            $selectableVersions[] = $versionItem['version'];
+        }
+    }
+    $newestVersion = array_pop( $selectableVersions );
+    $previousVersion = array_pop( $selectableVersions );
+}
+
+$tpl->setVariable( 'selectOldVersion', $previousVersion );
+$tpl->setVariable( 'selectNewVersion', $newestVersion );
+$tpl->setVariable( 'module', $Module );
+
+$diff = array();
+
+if ( $http->hasPostVariable('DiffButton') && $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersion' ) )
+{
+    if ( !$object->attribute( 'can_diff' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+    $lang = false;
+    if ( $http->hasPostVariable( 'Language' ) )
+    {
+        $lang = $http->postVariable( 'Language' );
+    }
+    $oldVersion = $http->postVariable( 'FromVersion' );
+    $newVersion = $http->postVariable( 'ToVersion' );
+
+    if ( is_numeric( $oldVersion ) && is_numeric( $newVersion ) )
+    {
+        $oldObject = $object->version( $oldVersion );
+        $newObject = $object->version( $newVersion );
+        
+        if ( $lang )
+        {
+            $oldAttributes = $object->fetchDataMap( $oldVersion, $lang );
+            //Fallback, if desired language not available in version
+            if ( !$oldAttributes )
+            {
+                $oldObjectLang = $oldObject->attribute( 'initial_language' );
+                $oldAttributes = $object->fetchDataMap( $oldVersion, $oldObjectLang->attribute( 'locale' ) );
+            }
+            $newAttributes = $object->fetchDataMap( $newVersion, $lang );
+            //Fallback, if desired language not available in version
+            if ( !$newAttributes )
+            {
+                $newObjectLang = $newObject->attribute( 'initial_language' );
+                $newAttributes = $object->fetchDataMap( $newVersion, $newObjectLang->attribute( 'locale' ) );
+            }
+
+        }
+        else
+        {
+            $oldAttributes = $oldObject->dataMap();
+            $newAttributes = $newObject->dataMap();
+        }
+
+        //Extra options to open up for future extensions of the system.
+        $extraOptions = false;
+        if ( $http->hasPostVariable( 'ExtraOptions' ) )
+        {
+            $extraOptions = $http->postVariable( 'ExtraOptions' );
+        }
+
+        //Invoke diff method in the datatype
+        foreach ( $oldAttributes as $attribute )
+        {
+            $newAttr = $newAttributes[$attribute->attribute( 'contentclass_attribute_identifier' )];
+            $contentClassAttr = $newAttr->attribute( 'contentclass_attribute' );
+            $diff[$contentClassAttr->attribute( 'id' )] = $contentClassAttr->diff( $attribute, $newAttr, $extraOptions );
+        }
+
+        $tpl->setVariable( 'oldVersion', $oldVersion );
+        $tpl->setVariable( 'oldVersionObject', $object->version( $oldVersion ) );
+
+        $tpl->setVariable( 'newVersion', $newVersion );
+        $tpl->setVariable( 'newVersionObject', $object->version( $newVersion ) );
+        $tpl->setVariable( 'diff', $diff );
+    }
+}
+//content/diff end
+
+//content/versions
 if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 {
     $excessLimit = $http->sessionVariable( 'ExcessVersionHistoryLimit' );
@@ -132,6 +230,7 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
     else if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
+
     $version =& $object->version( $versionID );
     if ( !$version )
         $versionID = false;
@@ -275,7 +374,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         {
             $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $object->attribute( 'current_version' );
-            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion ) );
+            $Module->redirectToView( 'history', array( $ObjectID, $currentVersion ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
@@ -287,7 +386,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'class_identifier', $object->attribute( 'class_identifier' ) ), // Class identifier
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
-
+                      
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
@@ -296,6 +395,27 @@ $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI 
 if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )
   $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
+//Fetch newer drafts and count of newer drafts.
+$newerDraftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                           null, array(  'contentobject_id' => $object->attribute( 'id' ),
+                                                                         'status' => EZ_VERSION_STATUS_DRAFT,
+                                                                         'version' => array( '>', $object->attribute( 'current_version' ) ) ),
+                                                           array( 'modified' => false,
+                                                                  'initial_language_id' => true ),
+                                                           null,
+                                                           true );
+
+$newerDraftVersionListCount =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                          array(), array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                       'status' => EZ_VERSION_STATUS_DRAFT,
+                                                                       'version' => array( '>', $object->attribute( 'current_version' ) ) ),
+                                                          null, null,
+                                                          false,false,
+                                                          array( array( 'operation' => 'count( * )',
+                                                                        'name' => 'count' ) ) );
+
+$tpl->setVariable( 'newerDraftVersionList', $newerDraftVersionList );
+$tpl->setVariable( 'newerDraftVersionListCount', $newerDraftVersionListCount[0]['count'] );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
@@ -305,11 +425,9 @@ $tpl->setVariable( 'can_edit', $canEdit );
 //$tpl->setVariable( 'can_remove', $canRemove );
 $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 
-eZDebug::writeNotice( 'The versions view has been deprecated, please use the /content/history/ view instead' );
-
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Versions' ),
+$Result['content'] =& $tpl->fetch( 'design:content/history.tpl' );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'History' ),
                                 'url' => false ) );
 
 ?>

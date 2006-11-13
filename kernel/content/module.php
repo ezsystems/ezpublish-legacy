@@ -342,7 +342,22 @@ $ViewList['diff'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'params' => array( 'ObjectID' ),
     'unordered_params' => array( 'offset' => 'Offset'  ) );
-
+    
+$ViewList['history'] = array(
+    'functions' => array( 'read', 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
+    'script' => 'history.php',
+    'single_post_actions' => array( 'HistoryCopyVersionButton' => 'CopyVersion',
+                                    'HistoryEditButton' => 'Edit' ),
+    'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID',
+                                                               'VersionKeyArray' => 'HistoryCopyVersionButton',
+                                                               'LanguageArray' => 'CopyVersionLanguage' ),
+                                       'Edit' => array( 'VersionID' => 'RevertToVersionID',
+                                                        'VersionKeyArray' => 'HistoryEditButton' ) ),
+    'params' => array( 'ObjectID' ,'EditVersion' ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
+    
 $ViewList['trash'] = array(
     'functions' => array( 'restore' ),
     'script' => 'trash.php',

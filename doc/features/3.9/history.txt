@@ -1,0 +1,7 @@
+*Title: History
+
+*Incentive:
+Confusing at times with two version lists one in /content/versions, and one in /content/diff. With the history view, these two separate views are joined together, to more easily get an overview versions and changes.
+
+*Documentation:
+The old versions and diff views have been merged into a new view called /content/history. The new view is accessible both via the javascript popup menu in the treemenu, and the class icon. It is also accessible via traditional means using the "Manage versions"-button in the edit-view. The two old views have now been marked as deprecated.

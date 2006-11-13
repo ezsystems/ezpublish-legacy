@@ -69,7 +69,7 @@ $isCreator = ( $versionObject->attribute( 'creator_id' ) == $user->id() );
 
 if ( $Module->isCurrentAction( 'Versions' ) )
 {
-    return $Module->redirectToView( 'versions', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
+    return $Module->redirectToView( 'history', array( $ObjectID, $EditVersion, $LanguageCode, $FromLanguage ) );
 }
 
 $sectionID = false;

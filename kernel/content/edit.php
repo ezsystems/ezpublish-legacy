@@ -514,7 +514,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $http =& eZHTTPTool::instance();
                 $http->setSessionVariable( 'LastAccessesVersionURI', $uri );
             }
-            $module->redirectToView( 'versions', array( $object->attribute( 'id' ), $EditVersion, $EditLanguage ) );
+            $module->redirectToView( 'history', array( $object->attribute( 'id' ), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 

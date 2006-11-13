@@ -31,6 +31,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezdiff/classes/ezdiff.php' );
+include_once( 'lib/ezutils/classes/ezdebug.php' );
 
 $Module =& $Params['Module'];
 $objectID = $Params['ObjectID'];
@@ -149,6 +150,8 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
         $tpl->setVariable( 'diff', $diff );
     }
 }
+
+eZDebug::writeNotice( 'The diff view has been deprecated, please use the /content/history/ view instead' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/diff.tpl" );

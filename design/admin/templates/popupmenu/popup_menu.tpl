@@ -49,8 +49,8 @@ menuArray['Advanced']['elements']['menu-list'] = new Array();
 menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
 menuArray['Advanced']['elements']['reverse-related'] = new Array();
 menuArray['Advanced']['elements']['reverse-related']['url'] = {"content/reverserelatedlist/%nodeID%"|ezurl};
-menuArray['Advanced']['elements']['menu-diff'] = new Array();
-menuArray['Advanced']['elements']['menu-diff']['url'] = {"content/diff/%objectID%"|ezurl};
+menuArray['Advanced']['elements']['menu-history'] = new Array();
+menuArray['Advanced']['elements']['menu-history']['url'] = {"content/history/%objectID%"|ezurl};
 
 menuArray['SubitemsContextMenu'] = new Array();
 menuArray['SubitemsContextMenu']['depth'] = 0;
@@ -82,8 +82,8 @@ menuArray['ClassMenu']['elements']['view-cache-delete'] = new Array();
 menuArray['ClassMenu']['elements']['view-cache-delete']['url'] = {"%currentURL%"|ezurl};
 menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = new Array();
 menuArray['ClassMenu']['elements']['recursive-view-cache-delete']['url'] = {"%currentURL%"|ezurl};
-menuArray['ClassMenu']['elements']['class-diff'] = new Array();
-menuArray['ClassMenu']['elements']['class-diff']['url'] = {"content/diff/%objectID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-history'] = new Array();
+menuArray['ClassMenu']['elements']['class-history']['url'] = {"content/history/%objectID%"|ezurl};
 
 menuArray['BookmarkMenu'] = new Array();
 menuArray['BookmarkMenu']['depth'] = 0;
@@ -207,7 +207,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="menu-list" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'View index'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="reverse-related" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Reverse related for subtree'|i18n( 'design/admin/popupmenu' )}</a>
     <hr />
-    <a id="menu-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Compare versions'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-history" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'View history'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
@@ -230,7 +230,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="override-by-class-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByClassSiteAccess', 'override-by-class-view' ); return false;">{"New class override"|i18n("design/admin/popupmenu")}</a>
     <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
     <hr />
-    <a id="class-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Compare versions'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="class-history" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'View history'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 <!-- Bookmark popup menu -->
