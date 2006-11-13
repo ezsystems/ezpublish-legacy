@@ -40,9 +40,9 @@
 <input class="halfbox" type="text" name="LastName" size="20" value="{$last_name|wash}" />
 </div>
 
-{* E-mail. *}
+{* Email. *}
 <div class="block">
-<label>{'E-mail'|i18n( 'design/admin/shop/userregister' )}:*</label>
+<label>{'Email'|i18n( 'design/admin/shop/userregister' )}:*</label>
 <input class="halfbox" type="text" name="EMail" size="20" value="{$email|wash}" />
 </div>
 

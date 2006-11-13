@@ -2,7 +2,7 @@
 {set-block scope=root variable=subject}{'[%sitename] New collaboration item'
                                         |i18n("design/standard/notification",,
                                               hash('%sitename',ezini("SiteSettings","SiteURL")))}{/set-block}
-{"This e-mail is to inform you that a new collaboration item is awaiting your attention at %sitename.
+{"This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below."
  |i18n('design/standard/notification',,
        hash('%sitename',ezini("SiteSettings","SiteURL")))}

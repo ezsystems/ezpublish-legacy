@@ -107,7 +107,7 @@
 </th>
 {/section}
 <th>
-    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"E-mail"|i18n( "design/admin/setup/session" )}</a>
+    <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/email' )|ezurl}>{"Email"|i18n( "design/admin/setup/session" )}</a>
 </th>
 <th>
     <a class="topline" href={concat( '/setup/session/(offset)/', $view_parameters.offset, '/(sortby)/name' )|ezurl}>{"Full name"|i18n( "design/admin/setup/session" )}</a>

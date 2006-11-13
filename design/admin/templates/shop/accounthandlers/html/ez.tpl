@@ -8,7 +8,7 @@
 
 {* Email. *}
 <div class="block">
-<label>{'E-mail'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
+<label>{'Email'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}:</label>
 <a href="mailto:{$order.account_information.email}">{$order.account_information.email}</a>
 </div>
 

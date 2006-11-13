@@ -6,7 +6,7 @@
 <tr>
     <th class="tight">&nbsp;</th>
     <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
-    <th>{'E-mail'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Email'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 {section name=Author loop=$attribute.content.author_list sequence=array( bglight, bgdark )}
 <tr class="{$Author:sequence}">

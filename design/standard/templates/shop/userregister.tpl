@@ -29,7 +29,7 @@
 <br />
 <div class="block">
 <label>
-{"E-mail"|i18n("design/standard/shop")}:*
+{"Email"|i18n("design/standard/shop")}:*
 </label><div class="labelbreak"></div>
 <input class="box" type="text" name="EMail" size="20" value="{$email|wash}" />
 </div>

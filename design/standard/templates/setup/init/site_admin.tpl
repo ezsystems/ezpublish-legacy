@@ -8,7 +8,7 @@
   </div>
 
   <p>
-      {"This page lets you modify the administrator for your site. This ensures that your site is secure and has proper name and E-mail set."|i18n("design/standard/setup/init")}
+      {"This page lets you modify the administrator for your site. This ensures that your site is secure and has proper name and email set."|i18n("design/standard/setup/init")}
   </p>
 
 {section show=$has_errors}
@@ -26,12 +26,12 @@
         {/section}
         {section show=eq( $email_missing, 1 )}
             <p>
-                {"You need to fill in an e-mail address."|i18n("design/standard/setup/init")}
+                {"You need to fill in an email address."|i18n("design/standard/setup/init")}
             </p>
         {/section}
         {section show=eq( $email_invalid, 1 )}
             <p>
-                {"You need to fill in a valid e-mail address."|i18n("design/standard/setup/init")}
+                {"You need to fill in a valid email address."|i18n("design/standard/setup/init")}
             </p>
         {/section}
         {section show=eq( $password_missmatch, 1 )}
@@ -64,7 +64,7 @@
         <td><input type="text" size="20" name="eZSetup_site_templates_last_name" value="{section show=$admin.last_name}{$admin.last_name|wash}{section-else}User{/section}" /></td>
     </tr>
     <tr>
-        <td{section show=or( $email_missing, $email_invalid )} class="invalid"{/section}><label class="textfield">{"E-mail address"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        <td{section show=or( $email_missing, $email_invalid )} class="invalid"{/section}><label class="textfield">{"Email address"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         <td><input type="text" size="20" name="eZSetup_site_templates_email" value="{$admin.email|wash}" /></td>
     </tr>
     <tr>

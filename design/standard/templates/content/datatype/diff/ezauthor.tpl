@@ -6,7 +6,7 @@
  <table class="list" cellspacing="0">
     <tr>
         <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
-        <th>{'E-mail'|i18n( 'design/standard/content/datatype' )}</th>
+        <th>{'Email'|i18n( 'design/standard/content/datatype' )}</th>
     </tr>
     {foreach $oldAttr.content.author_list as $item
              sequence array( 'bglight', 'bgdark' ) as $seq}
@@ -22,7 +22,7 @@
  <table class="list" cellspacing="0">
     <tr>
         <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
-        <th>{'E-mail'|i18n( 'design/standard/content/datatype' )}</th>
+        <th>{'Email'|i18n( 'design/standard/content/datatype' )}</th>
     </tr>
     {foreach $newAttr.content.author_list as $item
              sequence array( 'bglight', 'bgdark' ) as $seq}

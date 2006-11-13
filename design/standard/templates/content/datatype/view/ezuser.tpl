@@ -12,7 +12,7 @@
 </div>
 
 <div class="element">
-<label>{'E-mail'|i18n( 'design/standard/content/datatype' )}:</label>
+<label>{'Email'|i18n( 'design/standard/content/datatype' )}:</label>
 <a href="mailto:{$attribute.content.email}">{$attribute.content.email}</a>
 </div>
 

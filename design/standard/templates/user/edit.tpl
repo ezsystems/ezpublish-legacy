@@ -11,7 +11,7 @@
 </div>
 
 <div class="block">
-  <label>{"E-mail"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+  <label>{"Email"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
   <p class="box">{$userAccount.email|wash(email)}</p>
 </div>
 

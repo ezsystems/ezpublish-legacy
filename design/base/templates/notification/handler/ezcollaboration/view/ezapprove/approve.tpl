@@ -7,7 +7,7 @@
                                         |i18n( "design/standard/collaboration/approval",,
                                                hash( '%sitename', ezini( "SiteSettings", "SiteURL" ),
                                                      '%objectname', $objectversion.version_name|wash ) )}{/set-block}
-{'This e-mail is to inform you that "%objectname" awaits your attention at %sitename.
+{'This email is to inform you that "%objectname" awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.'
  |i18n( 'design/standard/collaboration/approval',,
