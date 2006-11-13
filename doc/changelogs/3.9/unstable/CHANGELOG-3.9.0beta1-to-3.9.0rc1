@@ -31,6 +31,8 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug #009380: Call to undefined function: setname().
 - Fixed bug #009339: Importing class package will break class multilanguage feature.
 - Fixed bug #009299: change the name of an attribute in template_look class.
+- Fixed bug #009273: Compare versions functionality is buggy
+  (Merged from stable/3.8 (3.8.7) rev. 17442)
 
 *Library:
 
