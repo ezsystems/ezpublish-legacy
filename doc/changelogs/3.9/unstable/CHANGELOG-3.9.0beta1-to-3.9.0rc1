@@ -28,6 +28,8 @@ Changes from 3.9.0beta1 to 3.9.0rc1
   (Merged from stable/3.8 (3.8.7) rev. 17420)
 - Fixed bug #008863: Empty let or default block will cause warnings
   (Merged from stable/3.8 (3.8.7) rev. 17431)
+- Fixed bug #009380: Call to undefined function: setname().
+- Fixed bug #009339: Importing class package will break class multilanguage feature.
 
 *Library:
 
