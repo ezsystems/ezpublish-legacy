@@ -50,7 +50,7 @@ if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$LanguageCode)
-    $LanguageCode = $class->attribute( 'top_priority_language' );
+    $LanguageCode = $class->attribute( 'top_priority_language_locale' );
 
 if ( $http->hasPostVariable( 'AddGroupButton' ) && $http->hasPostVariable( 'ContentClass_group' ) )
 {

@@ -157,7 +157,7 @@
     <div class="block">
         <form action={concat( '/class/edit/', $class.id )|ezurl} method="post">
 
-            {def $languages=$class.languages
+            {def $languages=$class.prioritized_languages
                  $availableLanguages = fetch( 'content', 'prioritized_languages' )}
             {if and( eq( $availableLanguages|count, 1 ), eq( $languages|count, 1 ), is_set( $languages[$availableLanguages[0].locale] ) )}
                 <input type="hidden" name="EditLanguage" value="{$availableLanguages[0].locale|wash()}" />

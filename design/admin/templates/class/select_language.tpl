@@ -39,9 +39,9 @@
         </label>
         <div class="labelbreak"></div>
 
-        {foreach $class.languages as $language2}
+        {foreach $class.prioritized_languages as $language}
             <label>
-                <input name="FromLanguage" type="radio" value="{$language2.locale}" /> {$language2.name|wash}
+                <input name="FromLanguage" type="radio" value="{$language.locale}" /> {$language.name|wash}
             </label>
             <div class="labelbreak"></div>
         {/foreach}

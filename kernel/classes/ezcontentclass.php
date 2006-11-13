@@ -61,20 +61,7 @@ class eZContentClass extends eZPersistentObject
             if ( isset( $row["version_count"] ) )
                 $this->VersionCount = $row["version_count"];
 
-            $this->NameList = new eZContentClassNameList();
-            if ( isset( $row['serialized_name_list'] ) )
-            {
-                $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
-            }
-            else if ( isset( $row['name'] ) ) // depricated
-            {
-                $this->NameList->initFromString( $row['name'] );
-            }
-            else
-            {
-                $this->NameList->initDefault();
-            }
-
+            $this->NameList = new eZContentClassNameList( $row['serialized_name_list'] );
         }
         $this->DataMap = false;
     }
@@ -170,10 +157,11 @@ class eZContentClass extends eZPersistentObject
                                                       'name' => 'name',
                                                       'nameList' => 'nameList',
                                                       'languages' => 'languages',
+                                                      'prioritized_languages' => 'prioritizedLanguages',
                                                       'can_create_languages' => 'canCreateLanguages',
-                                                      'top_priority_language' => 'topPriorityLanguage',
-                                                      'default_language' => 'defaultLanguage',
+                                                      'top_priority_language_locale' => 'topPriorityLanguageLocale',
                                                       'always_available_language' => 'alwaysAvailableLanguage' ),
+                      'set_functions' => array( 'name' => 'setName' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -203,33 +191,50 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
+    /*!
+     Creates an 'eZContentClass' object.
+
+     To specify contentclass name use either $optionalValues['serialized_name_list'] or
+     combination of $optionalValues['name'] and/or $languageLocale.
+
+     In case of conflict(when both 'serialized_name_list' and 'name' with/without $languageLocale
+     are specified) 'serialized_name_list' has top priority. This means that 'name' and
+     $languageLocale will be ingnored because 'serialized_name_list' already has all needed info
+     about names and languages.
+
+     If 'name' is specified then the contentclass will have a name in $languageLocale(if specified) or
+     in default language.
+
+     If neither of 'serialized_name_list' or 'name' isn't specified then the contentclass will have an empty
+     name in 'languageLocale'(if specified) or in default language.
+
+     'language_mask' and 'initial_language_id' attributes will be set according to specified(either
+     in 'serialized_name_list' or by $languageLocale) languages.
+
+     \return 'eZContentClass' object.
+    */
     function create( $userID = false, $optionalValues = array(), $languageLocale = false )
     {
         $dateTime = time();
         if ( !$userID )
             $userID = eZUser::currentUserID();
 
-        if ( $languageLocale == false )
-        {
-            $languageLocale = eZContentObject::defaultLanguage();
-        }
+        $nameList = new eZContentClassNameList();
+        if ( isset( $optionalValues['serialized_name_list'] ) )
+            $nameList->initFromSerializedList( $optionalValues['serialized_name_list'] );
+        else if ( isset( $optionalValues['name'] ) )
+            $nameList->initFromString( $optionalValues['name'], $languageLocale );
+        else
+            $nameList->initFromString( '', $languageLocale );
 
-        $languageID = eZContentLanguage::idByLocale( $languageLocale );
-
-        $defaultSerializedNameList = '';
-        if ( !isset( $optionalValues['serialized_name_list'] ) )
-        {
-            $nameList = new eZContentClassNameList();
-            $nameList->setNameByLanguageLocale( '', $languageLocale );
-            $nameList->setAlwaysAvailableLanguage( $languageLocale );
-            $defaultSerializedNameList = $nameList->serializeNames();
-        }
+        $languageMask = $nameList->languageMask();
+        $initialLanguageID = $nameList->alwaysAvailableLanguageID();
 
         $contentClassDefinition = eZContentClass::definition();
         $row = array(
             "id" => null,
             "version" => 1,
-            "serialized_name_list" => $defaultSerializedNameList,
+            "serialized_name_list" => $nameList->serializeNames(),
             "identifier" => "",
             "contentobject_name" => "",
             "creator_id" => $userID,
@@ -239,14 +244,17 @@ class eZContentClass extends eZPersistentObject
             "modified" => $dateTime,
             "is_container" => $contentClassDefinition[ 'fields' ][ 'is_container' ][ 'default' ],
             "always_available" => $contentClassDefinition[ 'fields' ][ 'always_available' ][ 'default' ],
-            'language_mask' => $languageID,
-            'initial_language_id' => $languageID,
+            'language_mask' => $languageMask,
+            'initial_language_id' => $initialLanguageID,
             "sort_field" => $contentClassDefinition[ 'fields' ][ 'sort_field' ][ 'default' ],
             "sort_order" => $contentClassDefinition[ 'fields' ][ 'sort_order' ][ 'default' ] );
 
         $row = array_merge( $row, $optionalValues );
 
         $contentClass = new eZContentClass( $row );
+
+        // setting 'dirtyData' to make sure the 'NameList' will be stored into db.
+        $contentClass->NameList->setHasDirtyData( true );
 
         return $contentClass;
     }
@@ -1543,12 +1551,29 @@ You will need to change the class of the node by using the swap functionality.' 
 
     /*!
      \static
+     Returns a contentclass name from serialized array \a $serializedNameList using
+     top language from siteaccess language list or 'always available' name
+     from \a $serializedNameList.
+
+     \return string with contentclass name.
     */
     function nameFromSerializedString( $serailizedNameList )
     {
         return eZContentClassNameList::nameFromSerializedString( $serailizedNameList );
     }
 
+    function hasNameInLanguage( $languageLocale )
+    {
+        $hasName = $this->NameList->hasNameInLocale( $languageLocale );
+        return $hasName;
+    }
+
+    /*!
+     Returns a contentclass name in \a $languageLocale language.
+     Uses siteaccess language list or 'always available' language if \a $languageLocale is 'false'.
+
+     \return string with contentclass name.
+    */
     function &name( $languageLocale = false )
     {
         $name = $this->NameList->name( $languageLocale );
@@ -1558,7 +1583,7 @@ You will need to change the class of the node by using the swap functionality.' 
     function setName( $name, $languageLocale = false )
     {
         if ( !$languageLocale )
-            $languageLocale = $this->topPriorityLanguage();
+            $languageLocale = $this->topPriorityLanguageLocale();
         $this->NameList->setNameByLanguageLocale( $name, $languageLocale );
 
         $languageID = eZContentLanguage::idByLocale( $languageLocale );
@@ -1632,68 +1657,62 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAlwaysAvailableLanguageID( false );
     }
 
+    /*!
+     Wrapper for eZContentClassNameList::languages.
+    */
     function &languages()
     {
-        $languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
-        $alwaysAvailableLanguage = $this->alwaysAvailableLanguage();
-        if ( $alwaysAvailableLanguage )
-        {
-            $alwaysAvailableLanguageLocale = $alwaysAvailableLanguage->attribute( 'locale' );
-            if ( !isset( $languages[$alwaysAvailableLanguageLocale] ) )
-            {
-                $languages[$alwaysAvailableLanguageLocale] = $alwaysAvailableLanguage;
-            }
-        }
-
+        $languages = $this->NameList->languages();
         return $languages;
     }
 
+    /*!
+     Wrapper for eZContentClassNameList::prioritizedLanguages.
+    */
+    function &prioritizedLanguages()
+    {
+        $languages = $this->NameList->prioritizedLanguages();
+        return $languages;
+    }
+
+    /*!
+     Wrapper for eZContentClassNameList::untranslatedLanguages.
+    */
     function &canCreateLanguages()
     {
-        $availableLanguages = $this->languages();
-        $availableLanguagesCodes = array_keys( $availableLanguages );
-
-        $languages = array();
-        foreach ( eZContentLanguage::prioritizedLanguages() as $language )
-        {
-            $languageCode = $language->attribute( 'locale' );
-            if ( !in_array( $languageCode, $availableLanguagesCodes ) )
-            {
-                $languages[$languageCode] = $language;
-            }
-        }
-
+        $languages = $this->NameList->untranslatedLanguages();
         return $languages;
     }
 
-    function &topPriorityLanguage()
+    /*!
+     Wrapper for eZContentClassNameList::topPriorityLanguageLocale.
+    */
+    function &topPriorityLanguageLocale()
     {
-        $language = eZContentLanguage::topPriorityLanguageByMask( $this->attribute( 'language_mask' ) );
-        if ( !$language )
-            $language = $this->alwaysAvailableLanguage();
-
-        $languageLocale = $language ? $language->attribute( 'locale' ) : false;
-
+        $languageLocale = $this->NameList->topPriorityLanguageLocale();
         return $languageLocale;
     }
 
+    /*!
+     Wrapper for eZContentClassNameList::alwaysAvailableLanguage.
+
+     \return 'language' object.
+    */
     function &alwaysAvailableLanguage()
     {
-        $language = eZContentLanguage::fetch( $this->attribute( 'initial_language_id' ) );
+        $language = $this->NameList->alwaysAvailableLanguage();
         return $language;
     }
 
-    function &defaultLanguage()
+    /*!
+     Wrapper for eZContentClassNameList::alwaysAvailableLanguageLocale.
+
+     \return 'language' object.
+    */
+    function alwaysAvailableLanguageLocale()
     {
-        $defaultLanguage = false;
-
-        $language = eZContentLanguage::topPriorityLanguage();
-        if ( $language )
-        {
-            $defaultLanguage = $language->attribute( 'locale' );
-        }
-
-        return $defaultLanguage;
+        $language = $this->NameList->alwaysAvailableLanguageLocale();
+        return $language;
     }
 
     function &nameList()
@@ -1702,6 +1721,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $nameList;
     }
 
+    /*!
+     Removes translated name for specified by \a $languageID language.
+    */
     function removeTranslation( $languageID )
     {
         $language = eZContentLanguage::fetch( $languageID );
@@ -1723,7 +1745,6 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $classID = $this->attribute( 'id' );
         $languageID = $language->attribute( 'id' );
-        $altLanguageID = $languageID++;
 
         // change language_mask of the object
         $languageMask = (int) $this->attribute( 'language_mask' );
@@ -1733,7 +1754,7 @@ You will need to change the class of the node by using the swap functionality.' 
         // Remove all names in the language
         $db->query( "DELETE FROM ezcontentclass_name
                      WHERE contentclass_id='$classID'
-                       AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+                       AND language_id='$languageID'" );
 
         $languageLocale = $language->attribute( 'locale' );
         $this->NameList->removeName( $languageLocale );

@@ -236,7 +236,7 @@ if ( !$EditLanguage )
         $canCreateLanguages = $class->attribute( 'can_create_languages' );
         if ( count( $canCreateLanguages ) == 0)
         {
-            $EditLanguage = $class->attribute( 'top_priority_language' );
+            $EditLanguage = $class->attribute( 'top_priority_language_locale' );
         }
         else
         {

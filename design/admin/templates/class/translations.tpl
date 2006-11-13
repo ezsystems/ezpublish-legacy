@@ -1,4 +1,4 @@
-{def $translations=$class.languages
+{def $translations=$class.prioritized_languages
      $translations_count=$translations|count}
 
 <form name="translationsform" method="post" action={'class/translation'|ezurl}>

@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -747,7 +747,37 @@ language_mask=language_mask+1
 WHERE
 id $inSql";
             $db->query( $updateSql );
-//                 }
+
+            // ezcontentclass_name
+            $updateSql = "UPDATE ezcontentclass_name
+SET
+language_locale='$primaryLanguageLocaleCode'
+WHERE
+language_locale='eng-GB'";
+            $db->query( $updateSql );
+
+            // use high-level api, becuase it's impossible to update serialized names with direct sqls.
+            // use direct access to 'NameList' to avoid unnecessary sql-requests and because
+            // we do 'replacement' of existing languge(with some 'id') with another language code.
+            $contentClassList = eZContentClass::fetchList();
+            foreach( $contentClassList as $contentClass )
+            {
+                $classAttributes =& $contentClass->fetchAttributes();
+                foreach( $classAttributes as $classAttribute )
+                {
+                    $classAttribute->NameList->setName( $classAttribute->NameList->name( 'eng-GB' ), $primaryLanguageLocaleCode );
+                    $classAttribute->NameList->setAlwaysAvailableLanguage( $primaryLanguageLocaleCode );
+                    $classAttribute->NameList->removeName( 'eng-GB' );
+                    $classAttribute->store();
+                }
+
+                $contentClass->NameList->setName( $contentClass->NameList->name( 'eng-GB' ), $primaryLanguageLocaleCode );
+                $contentClass->NameList->setAlwaysAvailableLanguage( $primaryLanguageLocaleCode );
+                $contentClass->NameList->removeName( 'eng-GB' );
+                $contentClass->NameList->setHasDirtyData( false ); // to not update 'ezcontentclass_name', because we've already updated it.
+                $contentClass->store();
+            }
+
         }
         // Setup all languages
         foreach ( $allLanguages as $languageObject )

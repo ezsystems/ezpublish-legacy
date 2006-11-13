@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -78,7 +78,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param locale Locale code (e.g. 'slk-SK') of language to add.
      * \param name Optional. Name of the language. If not specified, the international language name for the $locale locale
      *             will be used.
-     * \return eZContentLanguage object of the added language (or the existing one if specified language has been already used) 
+     * \return eZContentLanguage object of the added language (or the existing one if specified language has been already used)
      *         or false in case of any error (invalid locale code or already reached CONTENT_LANGUAGES_MAX_COUNT languages).
      * \static
      */
@@ -193,7 +193,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param forceReloading Optional. If true, the list will be fetched from database even if it is cached in memory.
      *                       Default value is false.
      * \return Array of the eZContentLanguage objects of languages used on the site.
-     * \static 
+     * \static
      */
     function fetchList( $forceReloading = false )
     {
@@ -223,7 +223,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param forceReloading Optional. If true, the list will be fetched from database even if it is cached in memory.
      *                       Default value is false.
      * \return Array with names and IDs of the languages used on the site.
-     * \static 
+     * \static
      */
     function fetchLimitationList( $forceReloading = false )
     {
@@ -240,7 +240,7 @@ class eZContentLanguage extends eZPersistentObject
      * Fetches the array of locale codes of the languages used on the site.
      *
      * \return Array of locale codes of the languages used on the site.
-     * \static 
+     * \static
      */
     function fetchLocaleList()
     {
@@ -260,7 +260,7 @@ class eZContentLanguage extends eZPersistentObject
      *
      * \param id Identifier of the language to fetch.
      * \return eZContentLanguage object of language identified by ID $id.
-     * \static 
+     * \static
      */
     function fetch( $id )
     {
@@ -297,7 +297,7 @@ class eZContentLanguage extends eZPersistentObject
      *                     settings. Usage of this parameter is restricted to methods of this class!
      *                     See eZContentLanguage::setPrioritizedLanguages().
      * \return Array of the eZContentLanguage objects of the prioritized languages.
-     * \static 
+     * \static
      */
     function prioritizedLanguages( $languageList = false )
     {
@@ -364,7 +364,7 @@ class eZContentLanguage extends eZPersistentObject
      *
      * \return Array of the locale codes of the prioritized languages (in the correct order).
      * \see eZContentLanguage::prioritizedLanguages()
-     * \static 
+     * \static
      */
     function prioritizedLanguageCodes()
     {
@@ -382,9 +382,9 @@ class eZContentLanguage extends eZPersistentObject
     /**
      * Overrides the prioritized languages set by INI settings with the specified languages.
      *
-     * \param languages Locale codes of the languages which will override the prioritized languages 
+     * \param languages Locale codes of the languages which will override the prioritized languages
      *                  (the order is relevant).
-     * \static 
+     * \static
      */
     function setPrioritizedLanguages( $languages )
     {
@@ -393,10 +393,10 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * Clears the prioritized language list set by eZContentLanguage::setPrioritizedLanguages and reloading 
+     * Clears the prioritized language list set by eZContentLanguage::setPrioritizedLanguages and reloading
      * the list from INI settings.
      *
-     * \static 
+     * \static
      */
     function clearPrioritizedLanguages()
     {
@@ -478,6 +478,32 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
+     * Returns array of prioritized languages which are listed in \a $languageLocaleList.
+     * The function does the same as 'prioritizedLanguagesByMask' but uses language locale list instead of language mask.
+     *
+     * \param languageLocaleList List of language locales to choose from.
+     * \return Array of eZContentLanguage objects of prioritized languages which have set the corresponding bit in $mask.
+     */
+    function prioritizedLanguagesByLocaleList( $languageLocaleList )
+    {
+        $result = array();
+
+        if ( is_array( $languageLocaleList ) && count( $languageLocaleList ) > 0 )
+        {
+            $languages = eZContentLanguage::prioritizedLanguages();
+            foreach ( $languages as $language )
+            {
+                if ( in_array( $language->attribute( 'locale' ), $languageLocaleList ) )
+                {
+                    $result[$language->attribute( 'locale' )] = $language;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns the most prioritized language which has set the corresponding bit in the mask.
      *
      * \param mask Bitmap specifying which languages should be checked.
@@ -493,6 +519,30 @@ class eZContentLanguage extends eZPersistentObject
                 return $language;
             }
         }
+		return false;
+    }
+
+    /**
+     * Returns the most prioritized language from specified by \a $languageLocaleList list of language locales.
+     * The function does the same as 'topPriorityLanguageByMask' but uses language locale list instead of language mask.
+     *
+     * \param languageLocaleList List of language locales to choose from.
+     * \return eZContentLanguage object of the most prioritized language.
+     */
+    function topPriorityLanguageByLocaleList( $languageLocaleList )
+    {
+        if ( is_array( $languageLocaleList ) && count( $languageLocaleList ) > 0 )
+        {
+            $languages = eZContentLanguage::prioritizedLanguages();
+            foreach ( $languages as $language )
+            {
+                if ( in_array( $language->attribute( 'locale' ), $languageLocaleList ) )
+                {
+                    return $language;
+                }
+            }
+        }
+
 		return false;
     }
 
@@ -554,13 +604,13 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * Returns the SQL where-condition for selecting the rows (objects, object versions) which exist in any 
+     * Returns the SQL where-condition for selecting the rows (objects, object versions) which exist in any
      * of prioritized languages or are always available.
      *
      * \param languageListTable Name of the table
      * \param languageListAttributeName Optional. Name of the attribute in the table which contains the bitmap mask. 'language_mask' by default.
      * \return SQL where-condition described above.
-     * \static 
+     * \static
      */
     function languagesSQLFilter( $languageListTable, $languageListAttributeName = 'language_mask' )
     {
@@ -725,7 +775,7 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * \deprecated 
+     * \deprecated
      */
     function updateObjectNames()
     {
@@ -745,7 +795,7 @@ class eZContentLanguage extends eZPersistentObject
 
     /**
      * Switches off the cronjob mode.
-     * 
+     *
      * \see eZContentLanguage::setCronjobMode()
      */
     function clearCronjobMode()
@@ -754,7 +804,7 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     /**
-     * Returns the Javascript array with locale codes and names of the languages which have set the corresponding 
+     * Returns the Javascript array with locale codes and names of the languages which have set the corresponding
      * bit in specified mask.
      *
      * \param mask Bitmap mask specifying which languages should be considered.
@@ -794,8 +844,8 @@ class eZContentLanguage extends eZPersistentObject
 
     /**
      * Removes all memory cache forcing it to read from database again for next method calls.
-     * 
-     * \static 
+     *
+     * \static
      */
     function expireCache()
     {

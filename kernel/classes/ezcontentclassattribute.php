@@ -49,11 +49,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->DisplayInfo = null;
         $this->Module = null;
 
-        $this->NameList = new eZContentClassAttributeNameList();
-        if ( isset( $row['serialized_name_list'] ) )
-        {
-            $this->NameList->initFromSerializedList( $row['serialized_name_list'] );
-        }
+        $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
     }
 
     function definition()
@@ -164,6 +160,7 @@ class eZContentClassAttribute extends eZPersistentObject
                                                       'display_info' => 'displayInfo',
                                                       'name' => 'name',
                                                       'nameList' => 'nameList' ),
+                      'set_functions' => array( 'name' => 'setName' ),
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',
@@ -200,28 +197,41 @@ class eZContentClassAttribute extends eZPersistentObject
         return new eZContentClassAttribute( $row );
     }
 
+    /*!
+     Creates an 'eZContentClassAttribute' object.
+
+     To specify contentclassattribute name use either $optionalValues['serialized_name_list'] or
+     combination of $optionalValues['name'] and/or $languageLocale.
+
+     In case of conflict(when both 'serialized_name_list' and 'name' with/without $languageLocale
+     are specified) 'serialized_name_list' has top priority. This means that 'name' and
+     $languageLocale will be ingnored because 'serialized_name_list' already has all needed info
+     about names and languages.
+
+     If 'name' is specified then the contentclassattribute will have a name in $languageLocale(if specified) or
+     in default language.
+
+     If neither of 'serialized_name_list' or 'name' isn't specified then the contentclassattribute will have an empty
+     name in 'languageLocale'(if specified) or in default language.
+
+     \return 'eZContentClassAttribute' object.
+    */
     function create( $class_id, $data_type_string, $optionalValues = array(), $languageLocale = false )
     {
-        if ( $languageLocale == false )
-        {
-            $languageLocale = eZContentObject::defaultLanguage();
-        }
-
-        $defaultSerializedNameList = '';
-        if ( !isset( $optionalValues['serialized_name_list'] ) )
-        {
-            $nameList = new eZContentClassAttributeNameList();
-            $nameList->setNameByLanguageLocale( '', $languageLocale );
-            $nameList->setAlwaysAvailableLanguage( $languageLocale );
-            $defaultSerializedNameList = $nameList->serializeNames();
-        }
+        $nameList = new eZContentClassAttributeNameList();
+        if ( isset( $optionalValues['serialized_name_list'] ) )
+            $nameList->initFromSerializedList( $optionalValues['serialized_name_list'] );
+        else if ( isset( $optionalValues['name'] ) )
+            $nameList->initFromString( $optionalValues['name'], $languageLocale );
+        else
+            $nameList->initFromString( '', $languageLocale );
 
         $row = array(
             'id' => null,
             'version' => EZ_CLASS_VERSION_STATUS_TEMPORARY,
             'contentclass_id' => $class_id,
             'identifier' => '',
-            'serialized_name_list' => $defaultSerializedNameList,
+            'serialized_name_list' => $nameList->serializeNames(),
             'is_searchable' => 1,
             'is_required' => 0,
             'can_translate' => 1,
@@ -638,27 +648,15 @@ class eZContentClassAttribute extends eZPersistentObject
         return $name;
     }
 
-    function setName( $name, $languageLocale )
+    function setName( $name, $languageLocale = false )
     {
-        $this->NameList->setNameByLanguageLocale( $name, $languageLocale );
+        $this->NameList->setName( $name, $languageLocale );
     }
 
     function &nameList()
     {
         $nameList = $this->NameList->nameList();
         return $nameList;
-    }
-
-    function setAlwaysAvailableLanguageID( $languageID )
-    {
-        $languageLocale = false;
-        if ( $languageID )
-        {
-            $language = eZContentLanguage::fetch( $languageID );
-            $languageLocale = $language->attribute( 'locale' );
-        }
-
-        $this->setAlwaysAvailableLanguage( $languageLocale );
     }
 
     function setAlwaysAvailableLanguage( $languageLocale )
