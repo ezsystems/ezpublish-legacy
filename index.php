@@ -32,9 +32,18 @@
 
 if ( version_compare( phpversion(), '4.4' ) >= 0 )
 {
+    if ( version_compare( phpversion(), '5.0' ) >= 0 )
+    {
+        print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
+        print( "<p>eZ publish 3.x does not run with PHP 5.</p>".
+               "<p>For more information about supported software please visit ".
+               "<a href=\"http://ez.no/download/ez_publish\" >eZ publish download page</a></p>" );
+        exit;
+    }
+
     print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
-    include_once( 'lib/version.php' );
-    print( "<p>You cannot use this PHP version with eZ publish " . eZPublishSDK::version( true, false ) . ".<br/> You will need to upgrade to <a href=\"http://ez.no/ez_publish/download\">eZ publish version 3.7</a> or higher.</p>" );
+    require_once( 'lib/version.php' );
+    print( "<p>You cannot use this PHP version with eZ publish " . eZPublishSDK::version( true, false ) . ".<br/> You will need to upgrade to <a href=\"http://ez.no/download/ez_publish\">eZ publish version 3.7</a> or higher.</p>" );
     exit;
 }
 
