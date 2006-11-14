@@ -133,7 +133,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
     $contentObject = $class->instantiate( $creator );
     $contentObject->store();
 
-    $nodeAssignment =& eZNodeAssignment::create( array(
+    $nodeAssignment = eZNodeAssignment::create( array(
                                                      'contentobject_id' => $contentObject->attribute( 'id' ),
                                                      'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                      'parent_node' => $nodeID,
