@@ -39,6 +39,8 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug #009382: Quicktime template override contains invalid size.
 - Fixed bug #007783: Wrong Message when using PHP 5x and ezp 3.6
 - Fixed bug #009291: eZContentUpload misses includes.
+- Fixed bug #009258: Path is not set in user/activate
+  (Merged from stable/3.8 (3.8.7) rev. 17460).
 
 *Library:
 
