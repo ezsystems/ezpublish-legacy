@@ -68,6 +68,10 @@ $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 \endcode
 */
 
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
+
 define( "EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED", 1 );
 
 class eZContentUpload
