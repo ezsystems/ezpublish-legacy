@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -67,6 +67,10 @@ $upload->handleUpload( $result, 'UploadFile', 'auto', false );
 $upload->handleLocalFile( $result, 'a_yellow_flower.jpg', 'auto' );
 \endcode
 */
+
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
 
 define( "EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED", 1 );
 
@@ -1008,12 +1012,12 @@ class eZContentUpload
                         foreach ( $parentNodes as $key => $parentNode )
                         {
                             $parentNodeID = eZContentUpload::nodeAliasID( $parentNode );
-                            if ( !$parentNodeID ) 
+                            if ( !$parentNodeID )
                             {
                                 $parentNodes = false;
                                 break;
-                            }    
-                        
+                            }
+
                             $parentNodes[$key] = $parentNodeID;
 
                             if ( !eZContentUpload::checkAccess( $parentNodeID, $class ) )
@@ -1046,7 +1050,7 @@ class eZContentUpload
                             eZDebug::writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
                             return null;
                         }
-                       
+
                     }
                 }
             }
@@ -1090,7 +1094,7 @@ class eZContentUpload
     {
         $parentNodeObj = eZContentObjectTreeNode::fetch( $nodeID );
         $parentObject =  $parentNodeObj->attribute( 'object' );
-                        
+
         if ( $parentNodeObj->checkAccess( 'create',
                                           $class->attribute( 'id' ),
                                           $parentObject->attribute( 'contentclass_id' ) ) != '1' )
