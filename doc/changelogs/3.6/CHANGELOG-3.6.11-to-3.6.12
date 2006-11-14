@@ -85,3 +85,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #007783: Wrong Message when using PHP 5x and ezp 3.6
 - Fixed bug #009291: eZContentUpload misses includes
   (Manually merged from trunk (3.9.0rc1) rev. 17456).
+- Fixed bug #009258: Path is not set in user/activate
+  (Merged from stable/3.8 (3.8.7) rev. 17460).  

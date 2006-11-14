@@ -77,5 +77,9 @@ $tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/activate.tpl' );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+                                'url' => false ),
+                         array( 'text' => ezi18n( 'kernel/user', 'Activate' ),
+                                'url' => false ) );
 
 ?>
