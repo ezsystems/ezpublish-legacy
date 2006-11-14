@@ -41,6 +41,8 @@ Changes from 3.9.0beta1 to 3.9.0rc1
 - Fixed bug #009291: eZContentUpload misses includes.
 - Fixed bug #009258: Path is not set in user/activate
   (Merged from stable/3.8 (3.8.7) rev. 17460).
+- Fixed bug #009266: Binary files not deleted
+  (Merged from stable/3.8 (3.8.7)) rev. 17464).
 
 *Library:
 
