@@ -138,62 +138,53 @@ class eZBinaryFileType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
         if ( $version == null )
         {
+            $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
+            eZBinaryFile::remove( $contentObjectAttributeID, null );
+
             foreach ( array_keys( $binaryFiles ) as $key )
             {
                 $binaryFile =& $binaryFiles[$key];
+
                 $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
                 $orig_dir = $storage_dir . '/original/' . $prefix;
-//              $orig_dir = "var/storage/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
+                $filePath = $orig_dir . "/" . $fileName;
+
                 // Check if there are any other records in ezbinaryfile that point to that fileName.
-                $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $fileName );
+                $binaryObjectsWithSameFileName =& eZBinaryFile::fetchByFileName( $fileName );
 
-                if ( file_exists( $orig_dir . "/" .$fileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
-                    unlink( $orig_dir . "/" . $fileName );
-
+                if ( file_exists( $filePath ) and count( $binaryObjectsWithSameFileName ) < 1 )
+                    unlink( $filePath );
                 unset( $binaryObjectsWithSameFileName );
             }
         }
         else
         {
             $count = 0;
-            $currentBinaryFile =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-            if ( $currentBinaryFile != null )
+            $binaryFile =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+            if ( $binaryFile != null )
             {
-                $mimeType =  $currentBinaryFile->attribute( "mime_type" );
-                $currentFileName = $currentBinaryFile->attribute( "filename" );
+                $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-//              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . "/original/" . $prefix;
+                $fileName = $binaryFile->attribute( "filename" );
+                $filePath = $orig_dir . "/" . $fileName;
 
-                foreach ( array_keys ( $binaryFiles ) as $key )
-                {
-                    $binaryFile =& $binaryFiles[$key];
-                    $fileName = $binaryFile->attribute( "filename" );
-                    if ( $currentFileName == $fileName )
-                        $count += 1;
-                }
-                if ( $count == 1 )
-                {
-                    // Check if there are any other records in ezbinaryfile that point to that fileName.
-                    $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $currentFileName );
+                eZBinaryFile::remove( $contentObjectAttributeID, $version );
 
-                    if ( file_exists( $orig_dir . "/" . $currentFileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
-                        unlink( $orig_dir . "/" .  $currentFileName );
+                // Check if there are any other records in ezbinaryfile that point to that fileName.
+                $binaryObjectsWithSameFileName =& eZBinaryFile::fetchByFileName( $fileName );
 
-                    unset( $binaryObjectsWithSameFileName );
-                }
+                if ( file_exists( $filePath ) and count( $binaryObjectsWithSameFileName ) < 1 )
+                    unlink( $filePath );
             }
         }
-        eZBinaryFile::remove( $contentObjectAttributeID, $version );
     }
 
     /*!

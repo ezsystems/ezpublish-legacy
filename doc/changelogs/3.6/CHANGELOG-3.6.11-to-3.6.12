@@ -87,3 +87,5 @@ Changes from 3.6.11 to 3.6.12
   (Manually merged from trunk (3.9.0rc1) rev. 17456).
 - Fixed bug #009258: Path is not set in user/activate
   (Merged from stable/3.8 (3.8.7) rev. 17460).  
+- Fixed bug #009266: Binary files not deleted
+  (Manually merged from stable/3.8 (3.8.7)) rev. 17464).
