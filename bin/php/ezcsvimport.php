@@ -130,7 +130,7 @@ if ( !$fp )
 while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
 {
 
-    $contentObject =& $class->instantiate( $creator );
+    $contentObject = $class->instantiate( $creator );
     $contentObject->store();
 
     $nodeAssignment =& eZNodeAssignment::create( array(
