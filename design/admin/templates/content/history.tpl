@@ -427,8 +427,6 @@
 
 </form>
 
-
-
 {elseif and( is_set( $object ), is_set( $diff ), is_set( $oldVersion ), is_set( $newVersion ) )}
 {literal}
 <script type="text/javascript">
@@ -465,10 +463,9 @@ document.write('<div class="context-toolbar"><div class="block"><ul><li><a href=
 
 <div class="block">
 <div class="left">
-<form name="versionsback" action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
+<form action={concat( '/content/history/', $object.id, '/' )|ezurl} method="post">
 <input class="button" type="submit" value="{'Back to history'|i18n( 'design/admin/content/history' )}" />
 </form>
-
 </div>
 </div>
 {/if}
