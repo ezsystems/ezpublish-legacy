@@ -245,7 +245,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for inline nodes.
     function &appendLineParagraph( &$element, &$newParent )
     {
-        $ret = null;
+        $ret = array();
         $parent =& $element->parentNode;
         if ( !$parent )
         {
@@ -266,31 +266,31 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $parent->removeChild( $element );
             $newParent->appendChild( $element );
             $newLine =& $newParent;
-            $ret =& $newParent;
+            $ret['result'] =& $newParent;
         }
         elseif ( $parentName == 'paragraph' )
         {
-            $newLine =& $this->createAndPublishElement( 'line' );
+            $newLine =& $this->createAndPublishElement( 'line', $ret );
             $parent->replaceChild( $newLine, $element );
             $newLine->appendChild( $element );
-            $ret =& $newLine;
+            $ret['result'] =& $newLine;
         }
         elseif ( $newParentName == 'paragraph' )
         {
-            $newLine =& $this->createAndPublishElement( 'line' );
+            $newLine =& $this->createAndPublishElement( 'line', $ret );
             $parent->removeChild( $element );
             $newParent->appendChild( $newLine );
             $newLine->appendChild( $element );
-            $ret =& $newLine;
+            $ret['result'] =& $newLine;
         }
         elseif ( $this->XMLSchema->check( $parent, 'paragraph' ) )
         {
-            $newLine =& $this->createAndPublishElement( 'line' );
-            $newPara =& $this->createAndPublishElement( 'paragraph' );
+            $newLine =& $this->createAndPublishElement( 'line', $ret );
+            $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
             $parent->replaceChild( $newPara, $element );
             $newPara->appendChild( $newLine );
             $newLine->appendChild( $element );
-            $ret =& $newLine;
+            $ret['result'] =& $newLine;
         }
 
         return $ret;
@@ -299,7 +299,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for temporary <br> elements
     function &structHandlerBr( &$element, &$newParent )
     {
-        $ret =& $newParent;
+        $ret = array();
+        $ret['result'] =& $newParent;
         $parent =& $element->parentNode;
 
         $next =& $element->nextSibling();
@@ -313,7 +314,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( !$newParent )
                 {
                     // create paragraph in case of the first empty paragraph
-                    $newPara =& $this->createAndPublishElement( 'paragraph' );
+                    $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
                     $parent->replaceChild( $newPara, $element );
                 }
                 elseif ( $newParent->nodeName == 'paragraph' ||
@@ -321,7 +322,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 {
                     // break paragraph or line flow
                     unset( $ret );
-                    $ret = null;
+                    $ret = array();
 
                     // Do not process next <br> tag
                     $next->setAttribute( 'ignore', 'true' );
@@ -336,7 +337,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     }
                     if ( !$nextToNext )
                     {
-                        $newPara =& $this->createAndPublishElement( 'paragraph' );
+                        $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
                         $parent->replaceChild( $newPara, $element );
                     }
                 }
@@ -346,7 +347,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             if ( $newParent && $newParent->nodeName == 'line' )
             {
-                $ret =& $newParent->parentNode;
+                $ret['result'] =& $newParent->parentNode;
             }
         }
 
@@ -366,7 +367,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for in-paragraph nodes.
     function &appendParagraph( &$element, &$newParent )
     {
-        $ret = null;
+        $ret = array();
         $parent =& $element->parentNode;
         if ( !$parent )
             return $ret;
@@ -379,22 +380,22 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             {
                 $parent->removeChild( $element );
                 $newParent->appendChild( $element );
-                return $newParent;
+                $ret['result'] =& $newParent;
             }
             if ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
             {
                 $para =& $newParent->parentNode;
                 $parent->removeChild( $element );
                 $para->appendChild( $element );
-                return $newParent->parentNode;
+                $ret['result'] =& $newParent->parentNode;
             }
 
             if ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
-                $newPara =& $this->createAndPublishElement( 'paragraph' );
+                $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
                 $parent->replaceChild( $newPara, $element );
                 $newPara->appendChild( $element );
-                $ret =& $newPara;
+                $ret['result'] =& $newPara;
             }
         }
         return $ret;
@@ -506,7 +507,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for 'ul' and 'ol' tags.
     function &structHandlerLists( &$element, &$params )
     {
-        $ret = null;
+        $ret = array();
         $parent =& $element->parentNode;
         $parentName = $parent->nodeName;
 
@@ -534,13 +535,13 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $para =& $this->Document->createElement( 'paragraph' );
                     $parent->removeChild( $element );
                     $prev->appendChild( $element );
-                    $ret =& $para;
+                    $ret['result'] =& $para;
                 }
                 else
                 {
                     $parent->removeChild( $element );
                     $lastChild->appendChild( $element );
-                    $ret =& $lastChild;
+                    $ret['result'] =& $lastChild;
                 }
                 return $ret;
             }
@@ -552,7 +553,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             {
                 $parent->removeChild( $element );
                 $prev->appendChild( $element );
-                return $prev;
+                $ret['result'] =& $prev;
+		return $ret;
             }
         }
         $ret =& $this->appendParagraph( $element, $params );

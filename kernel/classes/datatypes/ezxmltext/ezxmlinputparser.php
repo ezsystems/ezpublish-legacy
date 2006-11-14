@@ -795,30 +795,37 @@ class eZXMLInputParser
                 $children[] =& $element->Children[$child_key];
             }
             $lastResult = null;
+            $newElements = array();
             for( $i = 0; $i < $childrenCount; $i++ )
             {
-                $result =& $this->processSubtree( $children[$i], $lastResult );
-                $lastResult =& $result;
+                $childReturn =& $this->processSubtree( $children[$i], $lastResult );
+		if ( isset( $childReturn['result'] ) )
+	            $lastResult =& $childReturn['result'];
+                else
+	            unset( $lastResult );
 
+	        if ( isset( $childReturn['new_elements'] ) )
+                    $newElements = array_merge( $newElements, $childReturn['new_elements'] );
+
+                unset( $childReturn );
                 if ( $this->quitIfInvalid && !$this->isInputValid )
                 {
                     return $ret;
                 }
             }
+
+	    // process elements created in children handlers
+            $this->processNewElements( $newElements );
         }
 
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
-        
+
         // Process by schema and fix tree
         if ( !$this->processElementBySchema( $element ) )
         {
-            // process newly created elements
-            $this->processNewElements();
             return $ret;
         }
-        
-        $this->processNewElements();
 
         $tmp = null;
         // Call "Publish handler"
@@ -1038,20 +1045,24 @@ class eZXMLInputParser
     // Creates new element and adds it to array for further post-processing.
     // Use this function if you need to process newly created element (check it by schema
     // and call 'structure' and 'publish' handlers)
-    function &createAndPublishElement( $elementName )
+    function &createAndPublishElement( $elementName, &$ret )
     {
         $element =& $this->Document->createElement( $elementName );
-        $element->setAttribute( 'ezparser-new-element', 'true' );
-        $this->createdElements[] =& $element;
+        //$element->setAttribute( 'ezparser-new-element', 'true' );
+
+	if ( !isset( $ret['new_elements'] ) )
+     	    $ret['new_elements'] = array();
+
+	$ret['new_elements'][] =& $element;
         return $element;
     }
 
-    function processNewElements()
+    function processNewElements( &$createdElements )
     {
         // Call publish handlers for newly created elements
-        foreach( array_keys( $this->createdElements ) as $key )
+        foreach( array_keys( $createdElements ) as $key )
         {
-            $element =& $this->createdElements[$key];
+            $element =& $createdElements[$key];
 
             $tmp = null;
             // Call "Structure handler"
@@ -1063,10 +1074,8 @@ class eZXMLInputParser
             $tmp2 = null;
             // Call "Publish handler"
             $this->callOutputHandler( 'publishHandler', $element, $tmp2 );
-            $element->removeAttribute( 'ezparser-new-element' );
+            //$element->removeAttribute( 'ezparser-new-element' );
         }
-
-        $this->createdElements = array();
     }
 
     function getMessages()
