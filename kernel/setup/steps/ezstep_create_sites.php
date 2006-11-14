@@ -911,7 +911,8 @@ language_locale='eng-GB'";
                              'preview_design' => $userDesignName,
                              'design_list' => array( $userDesignName, 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
-                             'admin_siteaccess' => $adminSiteaccessName );
+                             'admin_siteaccess' => $adminSiteaccessName,
+                             'package_object' => $sitePackage );
 
         $siteINIStored = false;
         $siteINIAdminStored = false;

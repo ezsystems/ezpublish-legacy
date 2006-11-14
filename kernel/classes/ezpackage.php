@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -674,14 +674,14 @@ class eZPackage
         $typeDir = $fileItem['type'];
         if ( $fileItem['type'] == 'design' )
             $typeDir .= '.' . $fileItem['design'];
-        if ( $fileItem['role'] )
+        if ( isset( $fileItem['role'] ) && $fileItem['role'] )
         {
             $typeDir .= '.' . $fileItem['role'];
             if ( $fileItem['role-value'] )
                 $typeDir .= '-' . $fileItem['role-value'];
         }
         $path .= '/' . $this->attribute( 'name' ) . '/' . eZPackage::filesDirectory() . '/' . $collectionName . '/' . $typeDir;
-        if ( $fileItem['subdirectory'] )
+        if ( isset( $fileItem['subdirectory'] ) && $fileItem['subdirectory'] )
             $path .= '/' . $fileItem['subdirectory'];
         $path .= '/' . $fileItem['name'];
         return $path;
@@ -776,7 +776,7 @@ class eZPackage
                 $path .= '/' . $subDirectory;
             if ( !file_exists( $path ) )
                 eZDir::mkdir( $path, eZDir::directoryPermission(), true );
-    
+
             if ( is_dir( $fileItem['path'] ) )
             {
                 eZDir::copy( $fileItem['path'], $path,
@@ -1123,13 +1123,13 @@ class eZPackage
         include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
 
         $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archivePath );
-        
+
         $packageBaseDirectory = $tempPath;
         $fileList = array();
         $fileList[] = $packageBaseDirectory;
-        
+
         $archive->createModify( $fileList, '', $packageBaseDirectory );
-        
+
         $this->removeFiles( $tempPath );
         return $archivePath;
     }
@@ -1397,12 +1397,12 @@ class eZPackage
 
                 if ( $package )
                 {
-                    $package->setCurrentRepositoryInformation( $packageRepository );                    
+                    $package->setCurrentRepositoryInformation( $packageRepository );
                 }
-                else 
+                else
                 {
                     $package = eZPackage::fetchFromFile( $filePath );
-    
+
                     if ( $package )
                     {
                         $package->setCurrentRepositoryInformation( $packageRepository );
@@ -2054,7 +2054,7 @@ class eZPackage
         $parameters['ezpublish']['version'] = $ezpublishNode->elementTextContentByName( 'version' );
         $parameters['ezpublish']['named-version'] = $ezpublishNode->elementTextContentByName( 'named-version' );
         $this->setParameters( $parameters );
-        
+
         // Read maintainers
         $maintainerList = $root->elementChildrenByName( 'maintainers' );
         if ( is_array( $maintainerList ) )

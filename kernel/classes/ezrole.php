@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -370,6 +370,42 @@ class eZRole extends eZPersistentObject
         }
         $db->commit();
         unset( $this->Policies );
+    }
+
+    /*!
+     Removes the policy object(s) by specified \a $moduleName and/or \a $functionName.
+     Removes all policies for module \a $moduleName if \a $functionName is \c false.
+     \param $moduleName Module name
+     \param $functionName function name. Default is \c false.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function removePolicy( $moduleName, $functionName = false )
+    {
+        $policyList =& $this->policyList();
+        if ( is_array( $policyList ) && count( $policyList ) > 0 )
+        {
+            $db =& eZDB::instance();
+            $db->begin();
+
+            foreach( array_keys( $policyList ) as $policyKey )
+            {
+                $policy =& $policyList[$policyKey];
+                if ( is_object( $policy ) )
+                {
+                    if ( $policy->attribute( 'module_name' ) == $moduleName )
+                    {
+                        if ( ( $functionName === false ) || ( $policy->attribute( 'function_name' ) == $functionName ) )
+                        {
+                            $policy->remove();
+                            unset( $policyList[$policyKey] );
+                        }
+                    }
+                }
+            }
+
+            $db->commit();
+        }
     }
 
     /*!
