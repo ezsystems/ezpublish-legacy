@@ -138,73 +138,57 @@ class eZBinaryFileType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//        $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-        $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
-        // VS-DBFILE
-
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
-
         if ( $version == null )
         {
+            $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
+            eZBinaryFile::remove( $contentObjectAttributeID, null );
+
             foreach ( array_keys( $binaryFiles ) as $key )
             {
                 $binaryFile =& $binaryFiles[$key];
+
                 $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
                 $orig_dir = $storage_dir . '/original/' . $prefix;
-//              $orig_dir = "var/storage/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
-                // Check if there are any other records in ezbinaryfile that point to that fileName.
-                $binaryObjectsWithSameFileName =  eZBinaryFile::fetchByFileName( $fileName );
 
-                // VS-DBFILE
+                // Check if there are any other records in ezbinaryfile that point to that fileName.
+                $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $fileName );
 
                 $filePath = $orig_dir . "/" . $fileName;
                 $file = eZClusterFileHandler::instance( $filePath );
 
-                // FIXME: optimize not to do recursive delete
-                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) <= 1 )
+                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
                     $file->delete();
             }
         }
         else
         {
             $count = 0;
-            $currentBinaryFile = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-            if ( $currentBinaryFile != null )
+            $binaryFile = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+            if ( $binaryFile != null )
             {
-                $mimeType =  $currentBinaryFile->attribute( "mime_type" );
-                $currentFileName = $currentBinaryFile->attribute( "filename" );
+                $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-//              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . "/original/" . $prefix;
+                $fileName = $binaryFile->attribute( "filename" );
 
-                foreach ( array_keys ( $binaryFiles ) as $key )
-                {
-                    $binaryFile =& $binaryFiles[$key];
-                    $fileName = $binaryFile->attribute( "filename" );
-                    if ( $currentFileName == $fileName )
-                        $count += 1;
-                }
-                if ( $count == 1 )
-                {
-                    // Check if there are any other records in ezbinaryfile that point to that fileName.
-                    $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $currentFileName );
+                eZBinaryFile::remove( $contentObjectAttributeID, $version );
 
-                    // VS-DBFILE
+                // Check if there are any other records in ezbinaryfile that point to that fileName.
+                $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $fileName );
 
-                    $filePath = $orig_dir . "/" . $currentFileName;
-                    $file = eZClusterFileHandler::instance( $filePath );
+                $filePath = $orig_dir . "/" . $fileName;
+                $file = eZClusterFileHandler::instance( $filePath );
 
-                    if ( $file->exists() and count( $binaryObjectsWithSameFileName ) <= 1 )
-                        $file->delete();
-                }
+                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) < 1 )
+                    $file->delete();
             }
         }
-        eZBinaryFile::remove( $contentObjectAttributeID, $version );
     }
 
     /*!
