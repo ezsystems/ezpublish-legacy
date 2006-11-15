@@ -74,48 +74,10 @@ class eZStepFinal extends eZStepInstaller
     {
         $siteType = $this->chosenSiteType();
 
-        $url = $siteType['url'];
-        if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-        {
-            $url = 'http://' . $url;
-        }
-        $currentURL = $url;
-        $adminURL = $url;
+        $siteaccessURLs = $this->siteaccessURLs();
 
-        if ( $siteType['access_type'] == 'url' )
-        {
-            $ini =& eZINI::instance();
-            if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
-            {
-                $siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-            }
-
-            $url .= '/' . $siteType['access_type_value'];
-            $adminURL .= '/' . $siteType['admin_access_type_value'];
-        }
-        else if ( $siteType['access_type'] == 'hostname' )
-        {
-            $url = $siteType['access_type_value'];
-            $adminURL = $siteType['admin_access_type_value'];
-            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-            {
-                $url = 'http://' . $url;
-            }
-            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
-            {
-                $adminURL = 'http://' . $adminURL;
-            }
-            $url .= eZSys::indexDir( false );
-            $adminURL .= eZSys::indexDir( false );
-        }
-        else if ( $siteType['access_type'] == 'port' )
-        {
-            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
-            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
-        }
-
-        $siteType['url'] = $url;
-        $siteType['admin_url'] = $adminURL;
+        $siteType['url'] = $siteaccessURLs['url'];
+        $siteType['admin_url'] = $siteaccessURLs['admin_url'];
 
         $customText = isset( $this->PersistenceList['final_text'] ) ? $this->PersistenceList['final_text'] : '';
 

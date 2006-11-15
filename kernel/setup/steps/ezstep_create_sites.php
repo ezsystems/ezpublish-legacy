@@ -912,7 +912,8 @@ language_locale='eng-GB'";
                              'design_list' => array( $userDesignName, 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
                              'admin_siteaccess' => $adminSiteaccessName,
-                             'package_object' => $sitePackage );
+                             'package_object' => $sitePackage,
+                             'siteaccess_urls' => $this->siteaccessURLs() );
 
         $siteINIStored = false;
         $siteINIAdminStored = false;
