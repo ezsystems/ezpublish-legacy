@@ -258,10 +258,10 @@ class eZDiffTextEngine extends eZDiffEngine
             {
                 $distance = $key - $prevKey - $offset;
 
-                if ( $distance > 0 )
+                if ( $distance > 1 )
                 {
                     $nk = $prevKey;
-                    while ( $distance > 0 )
+                    while ( $distance > 1 )
                     {
                         $nk++;
                         $added[$nk] = 'added';
