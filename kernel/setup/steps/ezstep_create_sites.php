@@ -1267,6 +1267,16 @@ language_locale='eng-GB'";
         if ( function_exists( 'eZSitePostInstall' ) )
             eZSitePostInstall( $parameters );
 
+        // Call user function for some text which will be displayed at 'Finish' screen
+        if ( function_exists( 'eZSiteFinalText' ) )
+        {
+            $text = eZSiteFinalText( $parameters );
+            if ( !isset( $this->PersistenceList['final_text'] ) )
+                $this->PersistenceList['final_text'] = array();
+
+            $this->PersistenceList['final_text'][] = $text;
+        }
+
         return true;
     }
 

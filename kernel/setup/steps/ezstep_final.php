@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -73,7 +73,7 @@ class eZStepFinal extends eZStepInstaller
     function &display()
     {
         $siteType = $this->chosenSiteType();
-	
+
         $url = $siteType['url'];
         if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
         {
@@ -81,7 +81,7 @@ class eZStepFinal extends eZStepInstaller
         }
         $currentURL = $url;
         $adminURL = $url;
-	
+
         if ( $siteType['access_type'] == 'url' )
         {
             $ini =& eZINI::instance();
@@ -93,18 +93,18 @@ class eZStepFinal extends eZStepInstaller
             $url .= '/' . $siteType['access_type_value'];
             $adminURL .= '/' . $siteType['admin_access_type_value'];
         }
-	else if ( $siteType['access_type'] == 'hostname' )
+        else if ( $siteType['access_type'] == 'hostname' )
         {
             $url = $siteType['access_type_value'];
             $adminURL = $siteType['admin_access_type_value'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-	    {
+            {
                 $url = 'http://' . $url;
-	    }
+            }
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
-	    {
+            {
                 $adminURL = 'http://' . $adminURL;
-	    }
+            }
             $url .= eZSys::indexDir( false );
             $adminURL .= eZSys::indexDir( false );
         }
@@ -113,11 +113,15 @@ class eZStepFinal extends eZStepInstaller
             $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
             $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
         }
-	
+
         $siteType['url'] = $url;
         $siteType['admin_url'] = $adminURL;
 
+        $customText = isset( $this->PersistenceList['final_text'] ) ? $this->PersistenceList['final_text'] : '';
+
         $this->Tpl->setVariable( 'site_type', $siteType );
+
+        $this->Tpl->setVariable( 'custom_text', $customText );
 
         $this->Tpl->setVariable( 'setup_previous_step', 'Final' );
         $this->Tpl->setVariable( 'setup_next_step', 'Final' );
