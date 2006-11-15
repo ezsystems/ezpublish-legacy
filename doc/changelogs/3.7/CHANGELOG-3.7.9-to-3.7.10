@@ -101,4 +101,7 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #009258: Path is not set in user/activate
   (Merged from stable/3.8 (3.8.7) rev. 17460).
 - Fixed bug #009266: Binary files not deleted
-  (Merged from stable/3.8 (3.8.7)) rev. 17464).
+  (Merged from stable/3.8 (3.8.7) rev. 17464).
+- Fixed bug #009353: Uploading files to automatic placement fails when placement
+  node changes name.
+  (Merged from stable/3.8 (3.8.7) rev. 17483)
