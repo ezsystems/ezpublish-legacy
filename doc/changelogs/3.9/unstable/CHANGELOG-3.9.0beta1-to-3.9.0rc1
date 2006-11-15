@@ -7,6 +7,10 @@ Changes from 3.9.0beta1 to 3.9.0rc1
            The new view is accessible via the accustomary "Manage versions"-button
            in the edit view, the treemenu- and the classmenu-popup.
 
+*INI settings:
+- Added site.ini:[SiteSettings].AdditionalLoginFormActionURL
+  Used to specify additional url for user/login form action.
+
 *Design:
 
 *Bugfixes:
