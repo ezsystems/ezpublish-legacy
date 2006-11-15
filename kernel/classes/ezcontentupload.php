@@ -1020,26 +1020,30 @@ class eZContentUpload
             }
         }
 
+        if ( $parentNodes )
+        {
+            foreach ( $parentNodes as $key => $parentNode )
+            {
+                if ( $parentNode = eZContentUpload::nodeAliasID( $parentNode ) )
+                {
+                    $parentNodes[$key] = $parentNode;
+                }
+                else
+                {
+                    unset( $parentNodes[$key] );
+                }
+            }
+        }
+
         if ( !$parentNodes && isset( $defaultPlacement ) && $defaultPlacement )
         {
-            $parentNodes = array( $defaultPlacement );
+            if ( $parentNode = eZContentUpload::nodeAliasID( $defaultPlacement ) )
+            {
+                $parentNodes = array( $parentNode );
+            }
         }
         if ( !$parentNodes or
              count( $parentNodes ) == 0 )
-        {
-            return false;
-        }
-
-        foreach ( $parentNodes as $key => $parentNode )
-        {
-            $parentNode = eZContentUpload::nodeAliasID( $parentNode );
-            if ( $parentNode === false )
-                unset( $parentNodes[$key] );
-            else
-                $parentNodes[$key] = $parentNode;
-
-        }
-        if ( count( $parentNodes ) == 0 )
         {
             return false;
         }
