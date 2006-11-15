@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -57,11 +57,6 @@ class MyClass extends eZPersistentObject
 
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
-
-$GLOBALS['eZPersistentObject_Cache'] = array();
-$GLOBALS['eZPersistentObject_CacheHitCount'] = 0;
-$GLOBALS['eZPersistentObject_CacheRegister'] = array();
-$GLOBALS['eZPersistentObject_CacheCount'] = 0;
 
 class eZPersistentObject
 {
@@ -689,27 +684,6 @@ class eZPersistentObject
                               $custom_conds = null )
     {
         $db =& eZDB::instance();
-        $ini = eZINI::instance();
-
-        if ( $db->supportQueryCache() &&
-             $ini->variable( 'PersistentObjectSettings', 'CachePersistentObject' ) == 'true' )
-        {
-            $cacheKey = md5( serialize( array( $field_filters,
-                                               $conds,
-                                               $sorts,
-                                               $limit,
-                                               $asObject,
-                                               $grouping,
-                                               $custom_fields,
-                                               $custom_tables,
-                                               $custom_conds ) ) );
-            if ( isset( $GLOBALS['eZPersistentObject_Cache'][$def['name']][$cacheKey] ) )
-            {
-                $GLOBALS['eZPersistentObject_CacheHitCount']++;
-                return $GLOBALS['eZPersistentObject_Cache'][$def['name']][$cacheKey];
-            }
-        }
-
         $fields =& $def["fields"];
         $tables =& $def["name"];
         $class_name =& $def["class_name"];
@@ -835,37 +809,7 @@ class eZPersistentObject
             return null;
 
         $objectList = eZPersistentObject::handleRows( $rows, $class_name, $asObject );
-
-        if ( $db->supportQueryCache() &&
-             $ini->variable( 'PersistentObjectSettings', 'CachePersistentObject' ) == 'true' )
-        {
-            $maxCount = $ini->variable( 'PersistentObjectSettings', 'PersistentObjectCount' );
-            if ( $maxCount != 0 &&
-                 $GLOBALS['eZPersistentObject_CacheCount'] > $maxCount )
-            {
-                $removeCacheKey = $GLOBALS['eZPersistentObject_CacheRegister'][$GLOBALS['eZPersistentObject_CacheCount']%$maxCount];
-                if ( isset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]] ) &&
-                     isset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]][$removeCacheKey[1]] ) )
-                {
-                    unset( $GLOBALS['eZPersistentObject_Cache'][$removeCacheKey[0]][$removeCacheKey[1]] );
-                }
-            }
-            $GLOBALS['eZPersistentObject_Cache'][$def['name']][$cacheKey] = $objectList;
-            $GLOBALS['eZPersistentObject_CacheRegister'][$GLOBALS['eZPersistentObject_CacheCount']%$maxCount] = array( $def['name'], $cacheKey );
-            $GLOBALS['eZPersistentObject_CacheCount']++;
-        }
         return $objectList;
-    }
-
-    /*!
-     \static
-
-     Clear eZPersistentObject cahce for specified tables
-    */
-    function clearObjectCache( $tableName )
-    {
-        // eZDebug::writeNotice( 'Clearing persistent object cache for: '. $tableName, 'eZPersistentObject::clearObjectCache()' );
-        unset( $GLOBALS['eZPersistentObject_Cache'][trim( $tableName )] );
     }
 
     /*!

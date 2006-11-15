@@ -1194,8 +1194,6 @@ ob_end_flush();
 
 eZDB::checkTransactionCounter();
 
-eZDebugSetting::writeNotice( 'kernel-persistent-object-cache', $GLOBALS['eZPersistentObject_CacheHitCount'], 'eZPersistentObject cache hits' );
-
 eZDisplayResult( $templateResult );
 
 eZExecution::cleanup();

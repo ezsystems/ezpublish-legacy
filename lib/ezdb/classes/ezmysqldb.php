@@ -15,18 +15,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -473,42 +473,6 @@ class eZMySQLDB extends eZDBInterface
             eZDebug::accumulatorStop( 'mysql_query' );
             if ( $result )
             {
-                if ( $isWriteQuery )
-                {
-                    if ( strncasecmp( $sql, 'update', 6 ) === 0 )
-                    {
-                        $matches = array();
-                        $queryParts = preg_match( "/(update[\s]*)(low_priority[\s*])?(ignore[\s*])?([\s\w,]*)([\s]set[\s].*)/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        foreach( explode( ",", $matches[4] ) as $tableName )
-                        {
-                            eZPersistentObject::clearObjectCache( $tableName );
-                        }
-                    }
-                    else if ( strncasecmp( $sql, 'insert', 6 ) === 0 )
-                    {
-                        $matches = array();
-                        $queryParts = preg_match( "/(insert[\s*])(low_priority[\s*])?(delayed[\s*])?(high_priority[\s*])?(ignore[\s*])?(into[\s*])?([\s\w]*)(\(.*\))?([\s](set|values|select).*)?/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        foreach( explode( ",", $matches[7] ) as $tableName )
-                        {
-                            eZPersistentObject::clearObjectCache( $tableName );
-                        }
-                    }
-                    else if ( strncasecmp( $sql, 'delete', 6 ) === 0 )
-                    {
-                        $matches = array();
-                        $queryParts = preg_match( "/(delete[\s]*)(low_priority[\s*])?(quick[\s*])?(ignore[\s*])?(from[\s*])?([\s\w,]*)([\s]where[\s].*)/",
-                                                  strtolower( $sql ),
-                                                  $matches );
-                        foreach( explode( ",", $matches[6] ) as $tableName )
-                        {
-                            eZPersistentObject::clearObjectCache( $tableName );
-                        }
-                    }
-                }
                 return $result;
             }
             else
@@ -641,14 +605,6 @@ class eZMySQLDB extends eZDBInterface
     function md5( $str )
     {
         return " MD5( $str ) ";
-    }
-
-    /*!
-     \reimp
-    */
-    function supportQueryCache()
-    {
-        return true;
     }
 
     /*!
