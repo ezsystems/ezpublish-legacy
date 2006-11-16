@@ -11,18 +11,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -33,7 +33,7 @@
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 9 );
 define( "EZ_SDK_VERSION_RELEASE", 0 );
-define( "EZ_SDK_VERSION_STATE", 'rc1' );
+define( "EZ_SDK_VERSION_STATE", 'rc2' );
 define( "EZ_SDK_VERSION_DEVELOPMENT", true );
 define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
 define( "EZ_SDK_VERSION_ALIAS", '3.9' );
