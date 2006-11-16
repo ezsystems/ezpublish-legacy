@@ -409,7 +409,7 @@ for FILE in $FILES; do
 ### END = Find third party software =======================
 
 done
-
+OLD=IFS
 # Find all contrib files
 IFS='
 '
@@ -420,6 +420,7 @@ for FILE in $FILES; do
 ?>" >> $FILE
     fi
 done
+IFS=$OLD
 
 # Finish third-party sowaftware file
 if [ -e "$THIRDSOFT_FILE" ]; then
