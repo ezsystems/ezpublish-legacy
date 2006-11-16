@@ -1,5 +1,4 @@
 #!/bin/sh
-
 function show_help
 {
     echo
@@ -172,6 +171,7 @@ SOFTWARE_NAME="SOFTWARE NAME: eZ publish"
 # Do the work.
 parse_cl_parameters $*
 
+EXCLUDE_DIR="extension"
 LICENSE_DIR="$LICENSES_DIR/$LICENSE_TYPE"
 
 LICENSE_FILE="$LICENSE_DIR/$LICENSE_FILE"
@@ -219,8 +219,8 @@ fetch_notice $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 fetch_license $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 
 # Find files
-FILES=`find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \)`
-#FILES="index.php access.php kernel/class/classlist.php kernel/classes/ezcontentobject.php"
+#FILES=`find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \)`
+FILES=`find "$DEST_DIR" -type d \( -name "$EXCLUDE_DIR" \) -prune -o -type f \( -name "*.js" -o -name "*.php" \)`
 
 for FILE in $FILES; do
 #    echo "Processing file: $FILE"
@@ -420,7 +420,7 @@ for FILE in $FILES; do
 ?>" >> $FILE
     fi
 done
-IFS=$OLD
+
 
 # Finish third-party sowaftware file
 if [ -e "$THIRDSOFT_FILE" ]; then
