@@ -75,6 +75,8 @@ function getThirdPartySoftware( $pathToFile )
     if ( !isset( $thirdPartySoftware ) )
         return '';
 
+    $thirdPartySoftware = array_unique( $thirdPartySoftware );
+
     $thirdParty = '<ul>';
     foreach ( $thirdPartySoftware as $part )
     {
