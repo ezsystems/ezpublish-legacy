@@ -968,6 +968,24 @@ language_locale='eng-GB'";
                                             'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezdhtml' ) ) ) );
         }
 
+        // Enable OO by default
+        $ooEnableSettingAdded = false;
+        foreach ( $extraCommonSettings as $key => $extraCommonSetting )
+        {
+            if ( $extraCommonSetting['name'] == 'site.ini' &&
+                 isset( $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'] ) )
+            {
+                $ooEnableSettingAdded = true;
+                $extraCommonSettings[$key]['settings']['ExtensionSettings']['ActiveExtensions'][] = 'ezodf';
+                break;
+            }
+        }
+        if ( !$ooEnableSettingAdded )
+        {
+            $extraCommonSettings[] = array( 'name' => 'site.ini',
+                                            'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezodf' ) ) ) );
+        }
+
         $resultArray['common_settings'] = $extraCommonSettings;
 
         foreach ( $extraSettings as $extraSetting )
