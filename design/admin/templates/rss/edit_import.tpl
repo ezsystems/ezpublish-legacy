@@ -25,12 +25,9 @@
     <input class="halfbox" type="text" name="url" value="{$rss_import.url|wash}" title="{'Use this field to enter the source URL of the RSS feed to import.'|i18n('design/admin/rss/edit_import')}" />
     <input class="button" type="submit" name="AnalyzeFeedButton" value="{'Update'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to proceede, and analyze the import feed.'|i18n('design/admin/rss/edit_import')}" />
     </div>
-    {if $rss_import.import_description_array}
-    {if $rss_import.import_description_array.rss_version}
-
+    {if and( is_set( $rss_import.import_description_array.rss_version ), $rss_import.import_description_array.rss_version )}
     <label>{"RSS Version"|i18n( 'design/admin/rss/edit_import' )}:</label>
     {$rss_import.import_description_array.rss_version|wash}
-    {/if}
     {/if}
 
     {* Destination path. *}
@@ -40,8 +37,7 @@
     <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
-    {if $rss_import.import_description_array}
-    {if $rss_import.import_description_array.rss_version}
+    {if and( is_set( $rss_import.import_description_array.rss_version ), $rss_import.import_description_array.rss_version )}
 
     {* Imported objects owner. *}
     <div class="block">
@@ -110,7 +106,6 @@
     {/if}
 
     {/if} {* Step end RSS *}
-    {/if}
 
     </div>
 
