@@ -11,94 +11,214 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
+
+define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
+define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
+
+/*!
+  Returns list of contributors;
+  Searches all php files in \a $pathToDir and tries to fetch contributor's info
+*/
+function getContributors( $pathToDir )
+{
+    include_once( 'lib/ezfile/classes/ezdir.php' );
+    $contribFiles = eZDir::recursiveFind( $pathToDir, "php" );
+    $contributors = '';
+    if ( count( $contribFiles ) )
+    {
+        $contributors = "<ul>";
+        foreach ( $contribFiles as $contribFile )
+        {
+            include_once( $contribFile );
+            if ( !isset( $contributorSettings ) )
+                continue;
+
+            $name = $contributorSettings['name'];
+            $tmpFiles = explode( ',', $contributorSettings['files'] );
+            $updatedFiles = array();
+            foreach ( $tmpFiles as $file )
+            {
+                if ( trim( $file ) )
+                    $updatedFiles[] = trim( $file,"\n\r" );
+            }
+            $files = implode( ', ', $updatedFiles );
+            $contributors .="<li>$name: $files</li>";
+        }
+        $contributors .= "</ul>";
+    }
+    return $contributors;
+}
+
+/*!
+  Returns third-party software from \a $pathToFile
+*/
+function getThirdPartySoftware( $pathToFile )
+{
+    if ( !file_exists( $pathToFile ) )
+        return '';
+
+    include_once( $pathToFile );
+    if ( !isset( $thirdPartySoftware ) )
+        return '';
+
+    $thirdParty = '<ul>';
+    foreach ( $thirdPartySoftware as $part )
+    {
+        $thirdParty .= "<li>$part</li>";
+    }
+    $thirdParty .= '</ul>';
+    return $thirdParty;
+}
+
+/*!
+  Returns parsed array to str
+*/
+function parseArray( $array )
+{
+    if ( !is_array( $array ) )
+        return $array;
+
+    $string = '';
+    $coma = '<br> ';
+    foreach ( array_keys( $array ) as $itemKey )
+    {
+        $item = $array[$itemKey];
+        $key = is_numeric( $itemKey ) ? '' : $coma . $itemKey . ' : ';
+        $parsed = parseArray( $item );
+        $string .= $key . $parsed;
+    }
+    return $string;
+}
+
+/*!
+  Returns active extentions info in run-time
+*/
+function getExtensionsInfo()
+{
+    include_once( 'lib/ezutils/classes/ezini.php' );
+    $siteINI = eZINI::instance();
+    $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+    $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+    $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
+    $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
+    $selectedExtensions           = array_unique( $selectedExtensions );
+    $result = '';
+    foreach ( $selectedExtensions as $extension )
+    {
+        $pathToFile = $extensionDir . '/' . $extension . '/ezinfo.php';
+        if ( !file_exists( $pathToFile ) )
+            continue;
+
+        include_once( $pathToFile );
+        $className = $extension .'Info';
+        $info = call_user_func_array( array( $className, 'info' ),array() );
+        $result .= '<ul><li>';
+        foreach ( array_keys( $info ) as $key )
+        {
+            $item = $info[$key];
+            if ( !is_array( $item ) )
+            {
+                $result .= $key . ' : ' . $item . '<br>';
+            }
+            else
+            {
+                $str = parseArray( $item );
+                $result .= "<ul><li><b>$key:</b></li><ul><li>$str</li></ul></ul>";
+            }
+        }
+        $result .= '</li></ul>';
+    }
+    return $result;
+}
 
 $Module =& $Params['Module'];
 
 include_once( 'lib/version.php' );
+
 $ezinfo = array( 'version' => eZPublishSDK::version( true ),
                  'version_alias' => eZPublishSDK::version( true, true ) );
 
+$header = "<a href=\"http://ez.no/developer\"><h3>About eZ publish " . eZPublishSDK::version( true )  ." ( " . eZPublishSDK::version( true, true ). " )</h3></a>
+<hr noshade=\"noshade\"  />";
 
-$text = "<a href=\"http://ez.no/developer\"><h3>About eZ publish " . eZPublishSDK::version( true )  ." ( " . eZPublishSDK::version( true, true ). " )</h3></a>
-<hr noshade=\"noshade\"  />
+$whatIsEzPublish = '<h3>What is eZ publish?</h3>
+<p>eZ Publish 3 is a professional PHP application framework with advanced
+CMS (content management system) functionality. As a CMS its most notable
+featureis its revolutionary, fully customizable and extendable content
+model. Thisis also what makes eZ publish suitable as a platform for
+general PHP  development,allowing you to rapidly create professional
+web-based applications.</p>
 
-<h3>What is eZ publish?</h3>
-<p>
-eZ publish 3 is a professional PHP application framework with advanced CMS
-(content management system) functionality. As a CMS it's most notable feature
-is its revolutionary, fully customizable and extendable content model. This is
-also what makes it suitable as a platform for general PHP development, allowing
-you to develop professional Internet applications fast.
-</p>
-<p>
-Standard CMS functionality, like news publishing, e-commerce and forums is
-already implemented and ready for you to use. Its stand-alone libraries can be
-used for cross-platform, database independent PHP projects.
-</p>
-<p>
-eZ publish 3 is database, platform and browser independent. Because it is
-browser based it can be used and updated from anywhere as long as you have
-access to the Internet.
-</p>
+<p>Standard CMS functionality (such as news publishing, e-commerce and
+forums) are already implemented and ready to use. Standalone libraries
+can be used for cross-platform database-independent browser-neutral
+PHP projects. Because eZ publish 3 is a web-based application, it can
+be accessed from anywhere you have an internet connection.</p>';
 
+$license ='<h3>Licence</h3>' .
+## BEGIN LICENSE INFO ##
+'<p> This copy of eZ Publish is distributed under the terms and conditions of
+the GNU General Public License (GPL). Briefly summarized, the GPL gives
+you the right to use, modify and share this copy of eZ Publish. If you
+choose to share eZ Publish, you may only share it under the terms and
+conditions of the GPL. If you share a modified version of eZ Publish,
+these modifications must also be placed under the GPL. Read the
+complete legal terms and conditions of the GPL at
+http://www.gnu.org/licenses/gpl.txt or see the file named LICENSE in
+the root directory of this eZ Publish distribution.
+</p>';
+## END LICENSE INFO ##
 
-<h3>Licence</h3>
-<p>
-eZ publish is dual licensed. You can choose between the GNU GPL and the
-eZ publish Professional Licence. The GNU GPL gives you the right to use, modify
-and redistribute eZ publish under certain conditions. The GNU GPL licence is
-distributed with the software, see the file LICENCE. It is also available at
-http://www.gnu.org/licenses/gpl.txt
-Using eZ publish under the terms of the GNU GPL is free of charge.
-</p>
-<p>
-The eZ publish Professional Licence gives you the right to use the source code
-for making your own commercial software. It allows you full protection of your
-work made with eZ publish. You may re-brand, license and close your source
-code. eZ publish is not free of charge when used under the terms of the
-Professional Licence. For pricing and ordering, please contact us at
-info@ez.no.
-</p>
+### Contributor Credits ###
+$contributors = '<h3>Contributors</h3>
+<p>The following is a list of eZ Publish contributors who have licensed
+their work for use by eZ systems AS under the terms and conditions of
+the eZ Contributor Licensing Agreement. As permitted by this agreement
+with the contributors, eZ systems AS is redistributing the
+contribution under the same license as the file that the contribution
+is included in. The list of contributors includes the contributors\'s
+name, optional contact info and a list of files that they have
+either contributed or contributed work to.</p>';
 
-<h3>eZ publish features</h3>
-<ul>
-<li>User defined content classes and objects</li>
-<li>Advanced search engine</li>
-<li>Role based permissions system</li>
-<li> Advanced template engine</li>
-<li> Version control</li>
-<li> Professional workflow management</li>
-<li> Multi-lingual support</li>
-<li> Support for Unicode</li>
-<li> Task system for easy collaboration</li>
-<li> Image conversion and scaling</li>
-<li> Database abstraction layer</li>
-<li> XML handling and parsing library</li>
-<li> SOAP communication library</li>
-<li> Localisation and internationalisation libraries</li>
-<li> Several other reusable libraries</li>
-<li> SDK (software development kit)
-  and full documentation</li>
-</ul>
+$contributors .= getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 
-<p>
-It is released under the <a href=\"http://www.gnu.org/copyleft/gpl.html\">GPL license</a> and can be downloaded from <a href=\"http://ez.no/developer\">ez.no/developer</a>.
-You can get commercial support from <a href=\"http://ez.no\">eZ systems</a> at <a href=\"http://ez.no\">ez.no</a>.
-</p>";
+### Copyright Notice ###
+$copyrightNotice = '<h3>Copyright Notice</h3>
+<p>Copyright &copy; 1999-2006 eZ systems AS, with portions copyright by
+other parties. A complete list of all contributors and third-party
+software follows.</p>';
+
+### Third-Party Software ####
+$thirdPartySoftware = '<h3>Third-Party Software</h3>
+<p>The following is a list of the third-party software that is
+distributed with this copy of eZ Publish. The list of third party
+software includes the license for the software in question and the
+directory or files that contain the third-party software.</p>';
+
+$thirdPartySoftware .= getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
+
+### Extensions ###
+$extensions = '<h3>Extensions</H3>
+<p>The following is a list of the extensions that have been loaded at
+ run-time by this copy of eZ Publish. </p>';
+
+$extensions .= getExtensionsInfo();
+
+$text = $whatIsEzPublish . $license . $copyrightNotice . $contributors . $thirdPartySoftware . $extensions;
 
 $Result = array();
 $Result['content'] = $text;
