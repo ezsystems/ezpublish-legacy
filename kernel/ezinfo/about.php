@@ -126,6 +126,8 @@ function getExtensionsInfo()
         include_once( $pathToFile );
         $className = $extension .'Info';
         $info = call_user_func_array( array( $className, 'info' ),array() );
+        if ( !$info )
+            continue;
         $result .= '<ul><li>';
         foreach ( array_keys( $info ) as $key )
         {
