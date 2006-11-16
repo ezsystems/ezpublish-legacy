@@ -214,6 +214,8 @@ rm -f "$THIRDSOFT_FILE"
 # Update ezinfo license
 update_ezinfo_license "$EZINFO_FILE" "$LICENSE_INFO"
 
+OLDIFS=$IFS
+
 # Init notice and license
 fetch_notice $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 fetch_license $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
@@ -239,6 +241,10 @@ for FILE in $FILES; do
 #    '// ## END')
 # if we reach '// ## END' remove that line and stop removing notice.
 # if non of conditions was triggered - just output current line.
+
+    if [ -d $FILE ]; then
+        continue
+    fi
 
     awk "{if ( NR > $MAXLENGTH )
               {
@@ -333,7 +339,7 @@ for FILE in $FILES; do
 
     rm -f "$CONTRIBUTORS_TMP_FILE"
 
-    OLDIFS=IFS
+    OLDIFS2=$IFS
     IFS="#"
     for CONTR in $CONTRIBUTORS; do
        # Strip spaces
@@ -350,7 +356,7 @@ for FILE in $FILES; do
 
        echo ${FILE//$DEST_DIR\//''}"," >> "$CONTRIBUTORS_DIR/$FILENAME"
     done
-    IFS=$OLDIFS
+    IFS=$OLDIFS2
 
 ### END = Find contributors =================================
 
@@ -409,7 +415,7 @@ for FILE in $FILES; do
 ### END = Find third party software =======================
 
 done
-OLD=IFS
+#OLD=$IFS
 # Find all contrib files
 IFS='
 '
@@ -428,4 +434,4 @@ if [ -e "$THIRDSOFT_FILE" ]; then
 ?>" >> "$THIRDSOFT_FILE"
 
 fi
-
+IFS=$OLDIFS
