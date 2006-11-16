@@ -99,9 +99,9 @@ function parseArray( $array )
     foreach ( array_keys( $array ) as $itemKey )
     {
         $item = $array[$itemKey];
-        $key = is_numeric( $itemKey ) ? '' : $coma . $itemKey . ' : ';
+        $key = is_numeric( $itemKey ) ? '' :  $itemKey . ' : ';
         $parsed = parseArray( $item );
-        $string .= $key . $parsed;
+        $string .= $key . $parsed . $coma;
     }
     return $string;
 }
@@ -141,7 +141,10 @@ function getExtensionsInfo()
             else
             {
                 $str = parseArray( $item );
-                $result .= "<ul><li><b>$key:</b></li><ul><li>$str</li></ul></ul>";
+                $result .= "<b>$key:</b>
+                            <ul><li>$str</li></ul>
+                            ";
+
             }
         }
         $result .= '</li></ul>';
