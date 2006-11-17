@@ -25,8 +25,7 @@
     <input class="halfbox" type="text" name="url" value="{$rss_import.url|wash}" title="{'Use this field to enter the source URL of the RSS feed to import.'|i18n('design/admin/rss/edit_import')}" />
     <input class="button" type="submit" name="AnalyzeFeedButton" value="{'Update'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to proceede, and analyze the import feed.'|i18n('design/admin/rss/edit_import')}" />
     </div>
-    {if $rss_import.import_description_array.rss_version}
-
+    {if and( is_set( $rss_import.import_description_array.rss_version ), $rss_import.import_description_array.rss_version )}
     <label>{"RSS Version"|i18n( 'design/admin/rss/edit_import' )}:</label>
     {$rss_import.import_description_array.rss_version|wash}
     {/if}
@@ -38,7 +37,7 @@
     <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
-    {if $rss_import.import_description_array.rss_version}
+    {if and( is_set( $rss_import.import_description_array.rss_version ), $rss_import.import_description_array.rss_version )}
 
     {* Imported objects owner. *}
     <div class="block">
@@ -63,6 +62,8 @@
     </div>
 
     {if $rss_import.class_id|gt(0)}
+    {def $import_description_array = $rss_import.import_description_array}
+    {def $field_map = $rss_import.field_map}
     {* Class attributes *}
     <fieldset>
     <legend>{'Class Attributes'|i18n( 'design/admin/rss/edit_import' )}</legend>
@@ -71,8 +72,8 @@
         <label>{$class_attribute.name|wash}:</label>
             <select name="Class_Attribute_{$class_attribute.id}" title="{'Use this drop-down menu to select the attribute that should bet set as information from the RSS stream.'|i18n('design/admin/rss/edit_import')}">
             <option value="-1">{"Ignore"|i18n( 'design/admin/rss/edit_import' )}</option>
-            {foreach $rss_import.field_map as $key => $value}
-                <option value="{$key|wash}" {cond( $rss_import.import_description_array.class_attributes[$class_attribute.id]|eq($key), 'selected="selected"', '' )}>
+            {foreach $field_map as $key => $value}
+                <option value="{$key|wash}" {cond( and( is_set( $import_description_array.class_attributes[$class_attribute.id] ), $import_description_array.class_attributes[$class_attribute.id]|eq($key) ), 'selected="selected"', '' )}>
                 {$value|wash}
                 </option>
             {/foreach}
@@ -89,8 +90,8 @@
         <label>{$object_attribute|wash}:</label>
             <select name="Object_Attribute_{$key|wash}" title="{'Use this drop-down menu to select the attribute that should bet set as information from the RSS stream.'|i18n('design/admin/rss/edit_import')}">
             <option value="-1">{"Ignore"|i18n( 'design/admin/rss/edit_import' )}</option>
-            {foreach $rss_import.field_map as $key2 => $value}
-                <option value="{$key2|wash}" {cond( $rss_import.import_description_array.object_attributes[$key]|eq($key2), 'selected="selected"', '' )}>
+            {foreach $field_map as $key2 => $value}
+                <option value="{$key2|wash}" {cond( and( is_set( $import_description_array.object_attributes[$key] ), $import_description_array.object_attributes[$key]|eq($key2) ), 'selected="selected"', '' )}>
                 {$value|wash}
                 </option>
             {/foreach}
@@ -107,7 +108,6 @@
     {/if}
 
     {/if} {* Step end RSS *}
-
 
     </div>
 
