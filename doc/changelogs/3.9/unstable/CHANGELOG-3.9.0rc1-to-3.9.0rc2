@@ -3,3 +3,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #009416: User selfedit no longer works
+  (Merged from stable/3.8 (3.8.7) rev. 17517)

@@ -3236,11 +3236,12 @@ class eZContentObject extends eZPersistentObject
     {
         $availableLanguages = $this->availableLanguages();
         $languages = array();
+
         foreach ( eZContentLanguage::prioritizedLanguages() as $language )
         {
             $languageCode = $language->attribute( 'locale' );
             if ( in_array( $languageCode, $availableLanguages ) &&
-                 $this->checkAccess( 'edit', false, false, false, $languageCode ) )
+                 $this->canEdit( false, false, false, $languageCode ) )
             {
                 $languages[] = $language;
             }
@@ -4244,11 +4245,11 @@ class eZContentObject extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canEdit( )
+    function &canEdit( $originalClassID = false, $parentClassID = false, $returnAccessList = false, $language = false )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit' );
+            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', $originalClassID, $parentClassID, $returnAccessList, $language );
             if ( $this->Permissions["can_edit"] != 1 )
             {
                  $user =& eZUser::currentUser();
