@@ -400,7 +400,7 @@ class eZTemplateUnitOperator
         if ( $namedParameters['decimal_count'] !== false )
             $decimalCount = $namedParameters['decimal_count'];
         elseif ( $prefix == 'none' )
-            $decimalCont = 0;
+            $decimalCount = 0;
 
         if ( strlen( $namedParameters['decimal_symbol'] ) > 0 )
             $decimalSymbol = $namedParameters['decimal_symbol'];
