@@ -21,7 +21,13 @@
 {/let}
 
 <ul>
-<li><div><a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl} title="{'Change name, e-mail, password, etc.'|i18n( 'design/admin/pagelayout' )}">{'Change information'|i18n( 'design/admin/pagelayout' )}</a></div></li>
+<li><div>
+{if $current_user.contentobject.can_edit}
+    <a href={concat( '/content/edit/',  $current_user.contentobject_id, '/' )|ezurl} title="{'Change name, e-mail, password, etc.'|i18n( 'design/admin/pagelayout' )}">{'Change information'|i18n( 'design/admin/pagelayout' )}</a>
+{else}
+    <span class="disabled">{'Change user info'|i18n( 'design/admin/pagelayout' )}</span>
+{/if}
+</div></li>
 <li><div><a href={concat( '/user/password/', $current_user.contentobject_id )|ezurl} title="{'Change password for <%username>.'|i18n( 'design/admin/pagelayout',, hash( '%username', $current_user.contentobject.name ) )|wash}">{'Change password'|i18n( 'design/admin/pagelayout' )}</a></div></li>
 {section show=$basket.is_empty|not}
 {section show=$basket.items|count|eq(1)}
