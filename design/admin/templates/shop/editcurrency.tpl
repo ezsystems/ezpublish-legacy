@@ -73,7 +73,7 @@
         {if $can_edit}
             {if eq( $original_currency_code, '' )}
                 {* Create button *}
-                <input class="button" type="submit" name="CreateButton" value="{'Create'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Finish creating currnecy.'|i18n( 'design/admin/shop/editcurrency' )}" />
+                <input class="button" type="submit" name="CreateButton" value="{'Create'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Finish creating currency.'|i18n( 'design/admin/shop/editcurrency' )}" />
             {else}
                 {* 'Store changes' button *}
                 <input class="button" type="submit" name="StoreChangesButton" value="{'Store changes'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Store changes.'|i18n( 'design/admin/shop/editcurrency' )}" />
