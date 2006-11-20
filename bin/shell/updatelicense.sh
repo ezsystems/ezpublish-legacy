@@ -222,6 +222,8 @@ fetch_license $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 
 # Find files
 #FILES=`find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \)`
+
+# We shoud exclude some dirs (eg extension) from searching
 FILES=`find "$DEST_DIR" -type d \( -name "$EXCLUDE_DIR" \) -prune -o -type f \( -name "*.js" -o -name "*.php" \)`
 
 for FILE in $FILES; do
@@ -349,7 +351,7 @@ for FILE in $FILES; do
        CONTR_NAME=${CONTR_NAME//\'/\\\'}
        #CONTR_NAME=${CONTR_NAME//\$/\\\$}
        if [ ! -e "$CONTRIBUTORS_DIR/$FILENAME" ]; then
-            echo "<?
+            echo "<?php
 \$contributorSettings = array( 'name' => '$CONTR_NAME',
 'files' => '" > "$CONTRIBUTORS_DIR/$FILENAME"
        fi
@@ -401,7 +403,7 @@ for FILE in $FILES; do
                               }" "$FILE"`
 
        if [ ! -e "$THIRDSOFT_FILE" ]; then
-            echo "<?
+            echo "<?php
 \$thirdPartySoftware = array( "> "$THIRDSOFT_FILE"
        fi
        THIRD_SOFTWARE="$SOFTWARE_NAME : $SOFTWARE_LICENSE. $COPYRIGHT_NOTICE"
