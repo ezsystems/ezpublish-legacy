@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -1193,14 +1193,21 @@ class eZContentFunctionCollection
         {
             $params['SortBy'] = $sortBy;
         }
-        if ( isset( $allRelations ) )
-        {
-            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
-        }
-
         if ( !$attributeID && 0 !== $attributeID )
         {
             $attributeID = false;
+        }
+
+        if ( isset( $allRelations ) )
+        {
+            if ( $attributeID !== false && !$allRelations )
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            else
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+            }
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
@@ -1231,14 +1238,21 @@ class eZContentFunctionCollection
         }
 
         $params=array();
-        if ( isset( $allRelations ) )
-        {
-            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
-        }
-
         if ( !$attributeID && 0 !== $attributeID )
         {
             $attributeID = false;
+        }
+
+        if ( isset( $allRelations ) )
+        {
+            if ( $attributeID !== false && !$allRelations )
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            else
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+            }
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
@@ -1270,14 +1284,21 @@ class eZContentFunctionCollection
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
-        if ( isset( $allRelations ) )
-        {
-            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
-        }
-
         if ( !$attributeID && 0 !== $attributeID )
         {
             $attributeID = false;
+        }
+
+        if ( isset( $allRelations ) )
+        {
+            if ( $attributeID !== false && !$allRelations )
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            else
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+            }
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
@@ -1302,14 +1323,22 @@ class eZContentFunctionCollection
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
-        if ( isset( $allRelations ) )
-        {
-            $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
-        }
 
         if ( !$attributeID && 0 !== $attributeID )
         {
             $attributeID = false;
+        }
+
+        if ( isset( $allRelations ) )
+        {
+            if ( $attributeID !== false && !$allRelations )
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            else
+            {
+                $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( $allRelations );
+            }
         }
 
         if ( $attributeID && !is_numeric( $attributeID ) && !is_bool( $attributeID ) )
