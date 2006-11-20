@@ -242,7 +242,7 @@ for FILE in $FILES; do
 # if we reach '// ## END' remove that line and stop removing notice.
 # if non of conditions was triggered - just output current line.
 
-    if [ -d $FILE ]; then
+    if [ -d "$FILE" ]; then
         continue
     fi
 
