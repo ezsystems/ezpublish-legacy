@@ -88,7 +88,7 @@
             <input class="button" type="submit" name="StoreChangesButton" value="{'Store changes'|i18n( 'design/admin/shop/editvatrule' )}" title="{'Store changes.'|i18n( 'design/admin/shop/editvatrule' )}" />
         {else}
             {* Create button *}
-            <input class="button" type="submit" name="CreateButton" value="{'Create'|i18n( 'design/admin/shop/editvatrule' )}" title="{'Finish creating currnecy.'|i18n( 'design/admin/shop/editvatrule' )}" />
+            <input class="button" type="submit" name="CreateButton" value="{'Create'|i18n( 'design/admin/shop/editvatrule' )}" title="{'Finish creating currency.'|i18n( 'design/admin/shop/editvatrule' )}" />
         {/if}
         {* Cancel button *}
         <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/shop/editvatrule' )}" title="{'Cancel creating new currency.'|i18n( 'design/admin/shop/editvatrule' )}" />
