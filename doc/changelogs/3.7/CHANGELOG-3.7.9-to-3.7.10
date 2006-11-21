@@ -106,4 +106,6 @@ Changes from 3.7.9 to 3.7.10
   node changes name.
   (Merged from stable/3.8 (3.8.7) rev. 17483)
 - Fixed bug #009514: Typo error 3.9rc1.
-  (Merged from trunk (3.9.0)alpha1 rev. 17527)
+  (Merged from trunk (3.9.0rc2) rev. 17527)
+- Fixed bug #009508: Minor typo errors in 3.9rc1.
+  (Merged from trunk (3.9.0rc2) rev. 17530)
