@@ -268,7 +268,6 @@ class eZXMLInputParser
             if ( $this->quitIfInvalid && !$this->isInputValid )
             {
                 $ret = false;
-                break;
             }
         }
         return $ret;
