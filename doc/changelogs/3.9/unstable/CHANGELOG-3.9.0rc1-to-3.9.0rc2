@@ -12,3 +12,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #009458: Cannot break/continue 1 level in eZpublish (not ezdhtml)
   (Merged from stable/3.8 (3.8.7) rev. 17525)
 - Fixed bug #009514: Typo error 3.9rc1.
+- Fixed bug #009508: Minor typo errors in 3.9rc1.
