@@ -105,3 +105,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #009353: Uploading files to automatic placement fails when placement
   node changes name.
   (Merged from stable/3.8 (3.8.7) rev. 17483)
+- Fixed bug #009514: Typo error 3.9rc1.
+  (Merged from trunk (3.9.0)alpha1 rev. 17527)
