@@ -532,7 +532,7 @@ if ( $contentClassHasInput )
                 array( 'reason' => array( 'text' => ezi18n( 'kernel/class', 'Could not load datatype: ' ).
                                            $attribute->attribute( 'data_type_string' )."\n".
                                            ezi18n( 'kernel/class', 'Editing this content class may cause data corruption in your system.' ).'<br>'.
-                                           ezi18n( 'kernel/class', 'Press "Cancel" to safly exit this operation.').'<br>'.
+                                           ezi18n( 'kernel/class', 'Press "Cancel" to safely exit this operation.').'<br>'.
                                            ezi18n( 'kernel/class', 'Please contact your eZ publish administrator to solve this problem.').'<br>' ),
                        'item' => $attribute->attribute( 'data_type_string' ),
                        'identifier' => $attribute->attribute( 'data_type_string' ),
