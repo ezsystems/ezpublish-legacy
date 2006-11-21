@@ -2,7 +2,7 @@
 {let root_node=fetch( content, node, hash( node_id, $browse.content.node_id ) )}
 <div class="maincontentheader">
 <h1>
-    {'Choose new location for copy of subtree of node %node_name'
+    {'Choose new location for the copy of subtree of node %node_name'
      |i18n( 'design/standard/content/view',, hash( '%node_name', $root_node.name|wash ) )}
 </h1>
 </div>
