@@ -2,7 +2,7 @@
 {let content_object=fetch( content, object, hash( object_id, $browse.content.object_id ) )}
 <div class="maincontentheader">
 <h1>
-    {'Choose a new location the copy of %objectname'
+    {'Choose a new location for the copy of %objectname'
      |i18n( 'design/standard/content/view',, hash( '%objectname', $content_object.name|wash ) )}
 </h1>
 </div>

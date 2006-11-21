@@ -92,3 +92,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #009353: Uploading files to automatic placement fails when placement
   node changes name.
   (Merged from stable/3.8 (3.8.7) rev. 17483)
+- Fixed bug #009508: Minor typo errors in 3.9rc1.
+  (Merged from trunk (3.9.0rc2) rev. 17530)
