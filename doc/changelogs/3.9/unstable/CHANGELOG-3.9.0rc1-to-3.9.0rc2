@@ -9,3 +9,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9456: updatelicense.sh uses a PHP short open tag.
 - Fixed bug #009468: Filter attribute_identifier in related_objects is not
   working in 3.9.0rc1
+- Fixed bug #009458: Cannot break/continue 1 level in eZpublish (not ezdhtml)
+  (Merged from stable/3.8 (3.8.7) rev. 17525)
