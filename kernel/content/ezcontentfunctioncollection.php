@@ -787,10 +787,10 @@ class eZContentFunctionCollection
             $classIDArray = $classid;
         }
 
-        $limitationList = array();
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $false = false;
-        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( eZContentObjectTreeNode::getLimitationList( $false ) );
+        $limitation = false;
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
