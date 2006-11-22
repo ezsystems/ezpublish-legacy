@@ -134,7 +134,7 @@ $childrenList = array(); // Contains children of Nodes from $deleteIDArray
 $reverselistCountChildrenArray = array();
 foreach( $rows as $child )
 {
-    $contentObject = eZContentObject::fetchByNodeID( $child['node_id'] );
+    $contentObject =& eZContentObject::fetchByNodeID( $child['node_id'] );
     $contentObject_ID = $contentObject->attribute('id');
     $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false );
     $reverselistCountChildrenArray[$contentObject_ID] = $reverseObjectCount;
@@ -155,6 +155,21 @@ $tpl->setVariable( 'reverse_list_children_count', count( $reverselistCountChildr
 $tpl->setVariable( 'node_id',  $NodeID );
 
 $Result = array();
+
+$contentObject =& $contentObjectTreeNode->attribute( 'object' );
+if ( $contentObject )
+{
+    $section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+    if ( $section )
+    {
+        $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+        if ( $navigationPartIdentifier )
+        {
+            $Result['navigation_part'] = $navigationPartIdentifier;
+        }
+    }
+}
+
 $Result['content'] =& $tpl->fetch( "design:content/reverserelatedlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
