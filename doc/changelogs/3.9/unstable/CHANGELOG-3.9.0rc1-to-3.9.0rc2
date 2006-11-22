@@ -20,3 +20,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #009243: "Compare versions" and "Reverse related for subtree"
   functionalities don't works correctly.
   (Merged from stable/3.8 (3.8.7) rev. 17544)
+- Fixed bug #009092: Policy limitations cannot recieve values from extension.  
+  (Merged from stable/3.8 (3.8.7) rev. 17548)
