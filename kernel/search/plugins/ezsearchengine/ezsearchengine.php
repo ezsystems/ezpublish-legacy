@@ -749,13 +749,14 @@ class eZSearchEngine
                 }
             }
 
-            $limitationList = false;
+            $limitation = false;
             if ( isset( $params['Limitation'] ) )
             {
-                $limitationList =& $params['Limitation'];
+                $limitation =& $params['Limitation'];
             }
 
-            $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
+            $limitationList =& eZContentObjectTreeNode::getLimitationList( $limitation );
+            $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
             $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
 
             $useVersionName = true;
