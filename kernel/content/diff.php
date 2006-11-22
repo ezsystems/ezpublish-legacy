@@ -151,6 +151,17 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
 }
 
 $Result = array();
+
+$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+if ( $section )
+{
+    $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+    if ( $navigationPartIdentifier )
+    {
+        $Result['navigation_part'] = $navigationPartIdentifier;
+    }
+}
+
 $Result['content'] =& $tpl->fetch( "design:content/diff.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', 'Differences' ) ) );
