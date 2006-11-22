@@ -253,7 +253,11 @@ class eZPolicyLimitation extends eZPersistentObject
              count( $limitation[ 'values' ] == 0 ) &&
              array_key_exists( 'class', $limitation ) )
         {
-            include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
+			$basePath = 'kernel/'; //set default basepath for limitationValueClasses
+			if( $limitation['extension'] ) {
+				$basePath = 'extension/' . $limitation['extension'] . '/';
+			}
+            include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
 //            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueList, "limitationList" );
