@@ -115,3 +115,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #009243: "Compare versions" and "Reverse related for subtree"
   functionalities don't works correctly.
   (Merged from stable/3.8 (3.8.7) rev. 17544)
+- Fixed bug #009300: Memory issue with the updatecontentobjectname.php script due to caching.
+  (Merged from trunk (3.9.0rc2) rev. 17551)
