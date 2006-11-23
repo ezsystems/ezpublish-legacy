@@ -91,7 +91,7 @@ class eZContentObject extends eZPersistentObject
             $topPriorityLanguage = eZContentLanguage::topPriorityLanguageByMask( $row['language_mask'] );
             if ( $topPriorityLanguage )
             {
-        	   $this->CurrentLanguage = $topPriorityLanguage->attribute( 'locale' );
+               $this->CurrentLanguage = $topPriorityLanguage->attribute( 'locale' );
             }
         }
     }
@@ -183,7 +183,7 @@ class eZContentObject extends eZPersistentObject
                                                       "content_action_list" => "contentActionList",
                                                       "class_identifier" => "contentClassIdentifier",
                                                       'class_group_id_list' => 'contentClassGroupIDList',
-                                                      "name" => "Name",
+                                                      'name' => 'name',
                                                       'match_ingroup_id_list' => 'matchIngroupIDList',
                                                       'remote_id' => 'remoteID',
                                                       'current_language' => 'currentLanguage',
@@ -457,7 +457,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 \return a map with all the content object attributes where the keys are the
+     \return a map with all the content object attributes where the keys are the
              attribute identifiers.
     */
     function &dataMap()
@@ -466,7 +466,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 \return a map with all the content object attributes where the keys are the
+     \return a map with all the content object attributes where the keys are the
              attribute identifiers.
      \sa eZContentObjectTreeNode::dataMap
     */
@@ -737,7 +737,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &fetchByNodeID( $nodeID, $asObject = true )
     {
-    	global $eZContentObjectContentObjectCache;
+        global $eZContentObjectContentObjectCache;
         $nodeID = (int)$nodeID;
 
         $useVersionName = true;
@@ -1067,15 +1067,15 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$languageCode )
         {
-        	$initialLanguage = $version->initialLanguage();
-        	if ( !$initialLanguage )
-        	{
-        	    $initialLanguage = $this->initialLanguage();
-        	}
+            $initialLanguage = $version->initialLanguage();
+            if ( !$initialLanguage )
+            {
+                $initialLanguage = $this->initialLanguage();
+            }
 
-        	if ( $initialLanguage )
-        	{
-        	    $languageCode = $initialLanguage->attribute( 'locale' );
+            if ( $initialLanguage )
+            {
+                $languageCode = $initialLanguage->attribute( 'locale' );
             }
         }
 
@@ -1201,17 +1201,17 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$haveCopied && $languageCode )
         {
-        	$class =& $this->contentClass();
-        	$classAttributes =& $class->fetchAttributes();
-        	foreach ( array_keys( $classAttributes ) as $attributeKey )
-        	{
-            	$classAttribute =& $classAttributes[$attributeKey];
-            	if ( $classAttribute->attribute( 'can_translate' ) == 1 )
-            	{
-            	    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
-            	}
-            	else
-            	{
+            $class =& $this->contentClass();
+            $classAttributes =& $class->fetchAttributes();
+            foreach ( array_keys( $classAttributes ) as $attributeKey )
+            {
+                $classAttribute =& $classAttributes[$attributeKey];
+                if ( $classAttribute->attribute( 'can_translate' ) == 1 )
+                {
+                    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
+                }
+                else
+                {
                     // If attribute is NOT Translatable we should check isAlwaysAvailable(),
                     // For example,
                     // if initial_language_id is 4 and the attribute is always available
@@ -1223,17 +1223,17 @@ class eZContentObject extends eZPersistentObject
                                                                                            $this->attribute( 'id' ),
                                                                                            $this->attribute( 'current_version' ),
                                                                                            $initialLangID );
-            	    if ( $contentAttribute )
-            	    {
-            	        $newAttribute = $contentAttribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
-            	        $newAttribute->sync();
-            	    }
-            	    else
-            	    {
-            	        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
-            	    }
-            	}
-        	}
+                    if ( $contentAttribute )
+                    {
+                        $newAttribute = $contentAttribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
+                        $newAttribute->sync();
+                    }
+                    else
+                    {
+                        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
+                    }
+                }
+            }
         }
 
         if ( $languageCode )
@@ -1244,7 +1244,7 @@ class eZContentObject extends eZPersistentObject
 
         $db->commit();
 
-		return $clonedVersion;
+        return $clonedVersion;
     }
 
     /*!
@@ -1413,13 +1413,13 @@ class eZContentObject extends eZPersistentObject
         }
         $version =(int) $version;
         $db->query( "DELETE FROM ezcontentobject_attribute
-					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
+                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
+                          WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
         $db->query( "DELETE FROM eznode_assignment
-					      WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
+                          WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
 
         $this->CurrentVersion = $version;
         $this->store();
@@ -1515,19 +1515,19 @@ class eZContentObject extends eZPersistentObject
         eZInformationCollection::removeContentObject( $delID );
 
         $db->query( "DELETE FROM ezcontentobject_tree
-		     WHERE contentobject_id='$delID'" );
+             WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_attribute
-		     WHERE contentobject_id='$delID'" );
+             WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-		     WHERE contentobject_id='$delID'" );
+             WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_name
-		     WHERE contentobject_id='$delID'" );
+             WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject
-		     WHERE id='$delID'" );
+             WHERE id='$delID'" );
 
         $db->query( "DELETE FROM eznode_assignment
              WHERE contentobject_id = '$delID'" );
@@ -1751,7 +1751,7 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-        	$version = (int) $version;
+            $version = (int) $version;
         }
 
         if ( $language === false )
@@ -1776,7 +1776,7 @@ class eZContentObject extends eZPersistentObject
             }
             else
             {
-            	$languageText = "AND\n                    ".eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
+                $languageText = "AND\n                    ".eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' );
             }
             $attributeIDText = false;
             if ( $contentObjectAttributeID )
@@ -2167,7 +2167,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	  Returns the parent objects.
+      Returns the parent objects.
     */
     function &parents( )
     {
@@ -2190,32 +2190,32 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 Returns the next available version number for this object.
+     Returns the next available version number for this object.
     */
     function nextVersion()
     {
         $db =& eZDB::instance();
         $versions = $db->arrayQuery( "SELECT ( MAX( version ) + 1 ) AS next_id FROM ezcontentobject_version
-				       WHERE contentobject_id='$this->ID'" );
+                       WHERE contentobject_id='$this->ID'" );
         return $versions[0]["next_id"];
 
     }
 
     /*!
-	 Returns number of exist versions.
+     Returns number of exist versions.
     */
     function getVersionCount()
     {
         $db =& eZDB::instance();
         $versionCount = $db->arrayQuery( "SELECT ( COUNT( version ) ) AS version_count FROM ezcontentobject_version
-				       WHERE contentobject_id='$this->ID'" );
+                       WHERE contentobject_id='$this->ID'" );
         return $versionCount[0]["version_count"];
 
     }
 
     function &currentLanguage()
     {
-    	return $this->CurrentLanguage;
+        return $this->CurrentLanguage;
     }
 
     function &currentLanguageObject()
@@ -2240,17 +2240,17 @@ class eZContentObject extends eZPersistentObject
 
     function &initialLanguage()
     {
-    	$initialLanguage = eZContentLanguage::fetch( $this->InitialLanguageID );
+        $initialLanguage = eZContentLanguage::fetch( $this->InitialLanguageID );
 
-    	return $initialLanguage;
+        return $initialLanguage;
     }
 
     function &initialLanguageCode()
     {
-    	$initialLanguage =& $this->initialLanguage();
-    	$initialLanguageCode = $initialLanguage->attribute( 'locale' );
-    	
-    	return $initialLanguageCode;
+        $initialLanguage =& $this->initialLanguage();
+        $initialLanguageCode = $initialLanguage->attribute( 'locale' );
+
+        return $initialLanguageCode;
     }
 
     /*!
@@ -2319,12 +2319,12 @@ class eZContentObject extends eZPersistentObject
         {
             $db->begin();
             $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
-		                 VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
+                         VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
             // if an object relation is being added and it is in draft, add the row with op_code 1
             if ( $attributeID == 0 && $fromObjectVersion != $this->CurrentVersion )
             {
                 $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code )
-		                     VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1' )" );
+                             VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID, '1' )" );
             }
             $db->commit();
         }
@@ -2381,7 +2381,7 @@ class eZContentObject extends eZPersistentObject
             foreach ( $rows as $row )
             {
                 $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id, op_code )
-		                       VALUES ( $fromObjectID, $fromObjectVersion, " . $row['to_contentobject_id'] . ", '0', '-1' )" );
+                               VALUES ( $fromObjectID, $fromObjectVersion, " . $row['to_contentobject_id'] . ", '0', '-1' )" );
             }
         }
 
@@ -2862,16 +2862,16 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
         $query = "SELECT ezcontentobject.*,
-			 ezcontentobject_tree.*,
-			 ezcontentclass.name as class_name
-		  FROM   ezcontentobject_tree,
-			 ezcontentobject,
-			 ezcontentclass
-		  WHERE  contentobject_id=$contentobjectID AND
-			 ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-			 ezcontentclass.version=0 AND
-			 ezcontentclass.id = ezcontentobject.contentclass_id
-		  ORDER BY path_string";
+             ezcontentobject_tree.*,
+             ezcontentclass.name as class_name
+          FROM   ezcontentobject_tree,
+             ezcontentobject,
+             ezcontentclass
+          WHERE  contentobject_id=$contentobjectID AND
+             ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+             ezcontentclass.version=0 AND
+             ezcontentclass.id = ezcontentobject.contentclass_id
+          ORDER BY path_string";
         $db =& eZDB::instance();
         $nodesListArray = $db->arrayQuery( $query );
         if ( $asObject == true )
@@ -4073,9 +4073,9 @@ class eZContentObject extends eZPersistentObject
 
     function &languages()
     {
-    	$languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
+        $languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
 
-    	return $languages;
+        return $languages;
     }
 
     function &defaultLanguage()
@@ -4136,15 +4136,15 @@ class eZContentObject extends eZPersistentObject
     */
     function translationStringList()
     {
-    	$translationList = array();
-    	$languageList = eZContentLanguage::fetchList();
+        $translationList = array();
+        $languageList = eZContentLanguage::fetchList();
 
-    	foreach ( $languageList as $language )
-    	{
-    		$translationList[] = $language->attribute( 'locale' );
-    	}
+        foreach ( $languageList as $language )
+        {
+            $translationList[] = $language->attribute( 'locale' );
+        }
 
-    	return $translationList;
+        return $translationList;
     }
 
     /*!
@@ -4154,15 +4154,15 @@ class eZContentObject extends eZPersistentObject
     */
     function translationList()
     {
-    	$translationList = array();
-    	$languageList = eZContentLanguage::fetchList();
+        $translationList = array();
+        $languageList = eZContentLanguage::fetchList();
 
-    	foreach ( $languageList as $language )
-    	{
-    		$translationList[] = $language->localeObject();
-    	}
+        foreach ( $languageList as $language )
+        {
+            $translationList[] = $language->localeObject();
+        }
 
-    	return $translationList;
+        return $translationList;
     }
 
     /*!
