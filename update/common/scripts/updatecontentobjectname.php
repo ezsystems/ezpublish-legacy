@@ -341,9 +341,13 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
         foreach ( $subTree as $innerNode )
         {
             $object =& $innerNode->attribute( 'object' );
-            $object->store();
             $class =& $object->contentClass();
             $object->setName( $class->contentObjectName( $object ) );
+            $object->store();
+            unset( $object );
+            unset( $class );
+
+            // show progress bar
             ++$i;
             ++$dotCount;
             print( "." );
@@ -355,6 +359,7 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
             }
         }
         $offset += $limit;
+        unset( $subTree );
         $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
                                            'Limitation' => array() ) );
     }

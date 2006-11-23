@@ -145,7 +145,7 @@ class eZContentObject extends eZPersistentObject
                                                       "content_action_list" => "contentActionList",
                                                       "class_identifier" => "contentClassIdentifier",
                                                       'class_group_id_list' => 'contentClassGroupIDList',
-                                                      "name" => "Name",
+                                                      'name' => 'name',
                                                       'match_ingroup_id_list' => 'matchIngroupIDList' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
@@ -416,7 +416,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 \return a map with all the content object attributes where the keys are the
+     \return a map with all the content object attributes where the keys are the
              attribute identifiers.
     */
     function &dataMap()
@@ -425,7 +425,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 \return a map with all the content object attributes where the keys are the
+     \return a map with all the content object attributes where the keys are the
              attribute identifiers.
      \sa eZContentObjectTreeNode::dataMap
     */
@@ -1219,13 +1219,13 @@ class eZContentObject extends eZPersistentObject
         }
         $version =(int) $version;
         $db->query( "DELETE FROM ezcontentobject_attribute
-					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
+                     WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
+                     WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
         $db->query( "DELETE FROM eznode_assignment
-					      WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
+                     WHERE contentobject_id='$this->ID' AND contentobject_version > '$version'" );
 
         $this->CurrentVersion = $version;
         $this->store();
@@ -1322,28 +1322,28 @@ class eZContentObject extends eZPersistentObject
         eZInformationCollection::removeContentObject( $delID );
 
         $db->query( "DELETE FROM ezcontentobject_tree
-		     WHERE contentobject_id='$delID'" );
+                     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_attribute
-		     WHERE contentobject_id='$delID'" );
+                     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-		     WHERE contentobject_id='$delID'" );
+                     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_name
-		     WHERE contentobject_id='$delID'" );
+                     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject
-		     WHERE id='$delID'" );
+                     WHERE id='$delID'" );
 
         $db->query( "DELETE FROM eznode_assignment
-             WHERE contentobject_id = '$delID'" );
+                     WHERE contentobject_id = '$delID'" );
 
         $db->query( "DELETE FROM ezuser_role
-             WHERE contentobject_id = '$delID'" );
+                     WHERE contentobject_id = '$delID'" );
 
         $db->query( "DELETE FROM ezuser_discountrule
-             WHERE contentobject_id = '$delID'" );
+                     WHERE contentobject_id = '$delID'" );
 
         eZContentObject::removeReverseRelations( $delID );
         include_once( "kernel/classes/ezsearch.php" );
@@ -1381,19 +1381,19 @@ class eZContentObject extends eZPersistentObject
                      WHERE  contentobject_id = ' . $delID );
 
         $db->query( "DELETE FROM ezcontentobject_link
-             WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
+                     WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
 
         // Cleanup properties: LastVisit, Creator, Owner
         $db->query( "DELETE FROM ezuservisit
-             WHERE user_id = '$delID'" );
+                     WHERE user_id = '$delID'" );
 
         $db->query( "UPDATE ezcontentobject_version
-             SET creator_id = 0
-             WHERE creator_id = '$delID'" );
+                     SET creator_id = 0
+                     WHERE creator_id = '$delID'" );
 
         $db->query( "UPDATE ezcontentobject
-             SET owner_id = 0
-             WHERE owner_id = '$delID'" );
+                     SET owner_id = 0
+                     WHERE owner_id = '$delID'" );
 
         include_once( "kernel/classes/ezworkflowtype.php" );
         if ( isset( $GLOBALS["eZWorkflowTypeObjects"] ) and is_array( $GLOBALS["eZWorkflowTypeObjects"] ) )
@@ -1537,16 +1537,14 @@ class eZContentObject extends eZPersistentObject
             $distinctText = false;
             if ( $distinctItemsOnly )
                 $distinctText = "GROUP BY ezcontentobject_attribute.id";
-            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
-                    ezcontentobject_attribute, ezcontentclass_attribute
-                  WHERE
-                    ezcontentclass_attribute.version = '0' AND
-                    ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
-                    ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
-                  $distinctText
-                  ORDER BY
-                    ezcontentclass_attribute.placement ASC,
-                    ezcontentobject_attribute.language_code ASC";
+            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
+                      FROM   ezcontentobject_attribute, ezcontentclass_attribute
+                      WHERE  ezcontentclass_attribute.version = '0' AND
+                             ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                             ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
+                      $distinctText
+                      ORDER BY ezcontentclass_attribute.placement ASC,
+                               ezcontentobject_attribute.language_code ASC";
 
             $attributeArray =& $db->arrayQuery( $query );
 
@@ -1611,14 +1609,12 @@ class eZContentObject extends eZPersistentObject
                     $whereSQL .= ' OR ';
             }
 
-            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
-                    ezcontentobject_attribute, ezcontentclass_attribute
-                  WHERE
-                    ezcontentclass_attribute.version = '0' AND
-                    ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
-                    ( $whereSQL )
-                  ORDER BY
-                    ezcontentobject_attribute.contentobject_id, ezcontentclass_attribute.placement ASC";
+            $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier
+                      FROM   ezcontentobject_attribute, ezcontentclass_attribute
+                      WHERE  ezcontentclass_attribute.version = '0' AND
+                             ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
+                             ( $whereSQL )
+                      ORDER BY ezcontentobject_attribute.contentobject_id, ezcontentclass_attribute.placement ASC";
 
             $attributeArray =& $db->arrayQuery( $query );
 
@@ -1956,7 +1952,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	  Returns the parent objects.
+      Returns the parent objects.
     */
     function &parents( )
     {
@@ -1979,25 +1975,25 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-	 Returns the next available version number for this object.
+     Returns the next available version number for this object.
     */
     function nextVersion()
     {
         $db =& eZDB::instance();
         $versions =& $db->arrayQuery( "SELECT ( MAX( version ) + 1 ) AS next_id FROM ezcontentobject_version
-				       WHERE contentobject_id='$this->ID'" );
+                                       WHERE contentobject_id='$this->ID'" );
         return $versions[0]["next_id"];
 
     }
 
     /*!
-	 Returns number of exist versions.
+     Returns number of exist versions.
     */
     function getVersionCount()
     {
         $db =& eZDB::instance();
         $versionCount =& $db->arrayQuery( "SELECT ( COUNT( version ) ) AS version_count FROM ezcontentobject_version
-				       WHERE contentobject_id='$this->ID'" );
+                                           WHERE contentobject_id='$this->ID'" );
         return $versionCount[0]["version_count"];
 
     }
@@ -2040,7 +2036,7 @@ class eZContentObject extends eZPersistentObject
         // if current relation does not exists
         if ( ( $count[0]['count'] == '0' ) or ( !isset( $count[0]['count'] ) ) )
             $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
-		                 VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
+                                VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
     }
 
     /*!
@@ -2493,16 +2489,16 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
         $query = "SELECT ezcontentobject.*,
-			 ezcontentobject_tree.*,
-			 ezcontentclass.name as class_name
-		  FROM   ezcontentobject_tree,
-			 ezcontentobject,
-			 ezcontentclass
-		  WHERE  contentobject_id=$contentobjectID AND
-			 ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-			 ezcontentclass.version=0 AND
-			 ezcontentclass.id = ezcontentobject.contentclass_id
-		  ORDER BY path_string";
+                         ezcontentobject_tree.*,
+                         ezcontentclass.name as class_name
+                  FROM   ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                  WHERE  contentobject_id=$contentobjectID AND
+                         ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+                         ezcontentclass.version=0 AND
+                         ezcontentclass.id = ezcontentobject.contentclass_id
+                  ORDER BY path_string";
         $db =& eZDB::instance();
         $nodesListArray =& $db->arrayQuery( $query );
         if ( $asObject == true )
