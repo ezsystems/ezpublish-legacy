@@ -319,6 +319,14 @@ if ( $EditLanguage == false )
             return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $firstLanguage->attribute( 'locale' ) ) );
         }
 
+        $canCreateLanguageList =& $obj->attribute( 'can_create_languages' );
+        $canEditLanguageList =& $obj->attribute( 'can_edit_languages' );
+        if ( count( $canCreateLanguageList ) == 0 && count( $canEditLanguageList ) == 1 )
+        {
+            $firstLanguage = array_shift( $canEditLanguageList );
+            return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $firstLanguage->attribute( 'locale' ) ) );
+        }
+
         // No version found, ask the user.
         include_once( 'kernel/common/template.php' );
 

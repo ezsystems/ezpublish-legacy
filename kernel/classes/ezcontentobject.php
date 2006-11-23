@@ -2920,7 +2920,7 @@ class eZContentObject extends eZPersistentObject
 
     function &canEditLanguages()
     {
-        $availableLanguages = $this->availableLanguages();
+        $availableLanguages =& $this->availableLanguages();
         $languages = array();
 
         foreach ( eZContentLanguage::prioritizedLanguages() as $language )
@@ -2938,7 +2938,7 @@ class eZContentObject extends eZPersistentObject
 
     function &canCreateLanguages()
     {
-        $availableLanguages = $this->availableLanguages();
+        $availableLanguages =& $this->availableLanguages();
         $languages = array();
         foreach ( eZContentLanguage::prioritizedLanguages() as $language )
         {
@@ -3863,23 +3863,33 @@ class eZContentObject extends eZPersistentObject
     */
     function &canEdit( $originalClassID = false, $parentClassID = false, $returnAccessList = false, $language = false )
     {
-        if ( !isset( $this->Permissions["can_edit"] ) )
+        $isCalledClean = ( func_num_args() == 0 );
+        if ( isset( $this->Permissions["can_edit"] ) && $isCalledClean )
         {
-            $this->Permissions["can_edit"] = $this->checkAccess( 'edit', $originalClassID, $parentClassID, $returnAccessList, $language );
-            if ( $this->Permissions["can_edit"] != 1 )
+            $canEdit = $this->Permissions["can_edit"];
+        }
+        else
+        {
+            $canEdit = $this->checkAccess( 'edit', $originalClassID, $parentClassID, $returnAccessList, $language );
+            if ( $canEdit != 1 )
             {
                  $user =& eZUser::currentUser();
-                 if ( $user->id() == $this->attribute( 'id' ) )
+                 if ( $user->attribute( 'contentobject_id' ) === $this->attribute( 'id' ) )
                  {
                      $access = $user->hasAccessTo( 'user', 'selfedit' );
                      if ( $access['accessWord'] == 'yes' )
                      {
-                         $this->Permissions["can_edit"] = 1;
+                         $canEdit = 1;
                      }
                  }
             }
+
+            if ( $isCalledClean )
+            {
+                $this->Permissions["can_edit"] = $canEdit;
+            }
         }
-        $p = ( $this->Permissions["can_edit"] == 1 );
+        $p = ( $canEdit == 1 );
         return $p;
     }
 
