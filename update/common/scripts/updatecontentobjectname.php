@@ -12,18 +12,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -314,9 +314,9 @@ $db->setIsSQLOutputEnabled( $showSQL );
 
 // Get top node
 $topNodeArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                      null,
-                                                      array( 'parent_node_id' => 1,
-                                                             'depth' => 1 ) );
+                                                     null,
+                                                     array( 'parent_node_id' => 1,
+                                                            'depth' => 1 ) );
 $subTreeCount = 0;
 foreach ( array_keys ( $topNodeArray ) as $key  )
 {
@@ -341,9 +341,13 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
         foreach ( $subTree as $innerNode )
         {
             $object =& $innerNode->attribute( 'object' );
-            $object->store();
             $class =& $object->contentClass();
             $object->setName( $class->contentObjectName( $object ) );
+            $object->store();
+            unset( $object );
+            unset( $class );
+
+            // show progress bar
             ++$i;
             ++$dotCount;
             print( "." );
@@ -355,6 +359,7 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
             }
         }
         $offset += $limit;
+        unset( $subTree );
         $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
                                            'Limitation' => array() ) );
     }

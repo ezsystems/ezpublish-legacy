@@ -207,7 +207,7 @@ class eZContentObject extends eZPersistentObject
                                                       "content_action_list" => "contentActionList",
                                                       "class_identifier" => "contentClassIdentifier",
                                                       'class_group_id_list' => 'contentClassGroupIDList',
-                                                      "name" => "Name",
+                                                      'name' => 'name',
                                                       'match_ingroup_id_list' => 'matchIngroupIDList',
                                                       'remote_id' => 'remoteID',
                                                       'current_language' => 'currentLanguage',
