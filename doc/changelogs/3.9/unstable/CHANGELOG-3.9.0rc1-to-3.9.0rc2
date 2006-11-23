@@ -22,4 +22,8 @@ Changes from 3.9.0rc1 to 3.9.0rc2
   (Merged from stable/3.8 (3.8.7) rev. 17544)
 - Fixed bug #009092: Policy limitations cannot recieve values from extension.  
   (Merged from stable/3.8 (3.8.7) rev. 17548)
-- Fixed bug #009300: Memory issue with the updatecontentobjectname.php script due to caching.
+- Fixed bug #009300: Memory issue with the updatecontentobjectname.php script 
+  due to caching.
+- Fixed bug #008844: don't show language selection page when only one language
+  available
+  (Merged from stable/3.8 (3.8.7) rev. 17555)
