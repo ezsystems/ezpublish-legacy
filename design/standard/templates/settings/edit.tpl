@@ -14,15 +14,17 @@
 <form method="post" action={"settings/edit"|ezurl}>
 
 <div class="object">
-    <p>Block: {$block}</p>
+    <h2>{'Ini setting'|i18n( 'design/admin/settings')}</h2>
+    <p><strong>{'INI File'|i18n( 'design/admin/settings' )}:</strong> {$ini_file}</p>
+    <p><strong>{'Block'|i18n( 'design/admin/settings')}:</strong> {$block}</p>
     {section show=$setting_name}
-        <p>Setting: {$setting_name}</p>
+        <p><strong>{'Setting'|i18n( 'design/admin/settings' )}:</strong> {$setting_name}</p>
         {section-else}
-        <p>Setting: &lt;new setting&gt;</p>
+        <p><strong>{'Setting: <new setting>'|i18n( 'design/admin/settings' )|wash}</strong></p>
     {/section}
-    <p>INI File: {$ini_file}</p>
-    <p>SiteAccess: {$current_siteaccess}</p>
-    {*<p>[DEBUG] VALUE: {$value}</p>*}
+    <p><strong>{'SiteAccess'|i18n( 'design/admin/settings' )}:</strong> {$current_siteaccess}</p>
+    <p>{'Values for each location setting is shown. The first values are lowest priority, and the values towards the end will have higher  priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
+    <p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
     <div class="block">
         <div class="element">
             <label>Change setting type</label><div class="labelbreak"></div>
@@ -47,22 +49,63 @@
 
 <input type="hidden" name="SiteAccess" value="{$current_siteaccess}" />
 
-<p><strong>{'Note'|i18n( 'design/admin/settings' )}:</strong> {'A global setting will override a siteaccess setting'|i18n( 'design/admin/settings' )}</p>
-<p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
-
-{def $active_extensions=ezini( 'ExtensionSettings', 'ActiveExtensions', 'site.ini' )}
 <div class="block">
-    {foreach $active_extensions as $extension_name}
-        <label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label>
-    {/foreach}
-    {section show=eq( $placement, "siteaccess" )}
-        <label><input type="radio" name="SettingPlacement" checked="checked" value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label>
-        <label><input type="radio" name="SettingPlacement" value="override" >{'Override setting (global)'|i18n( 'design/admin/settings' )}</label>
-     {section-else}
-        <label><input type="radio" name="SettingPlacement" value="siteaccess" >{'Siteaccess setting'|i18n( 'design/admin/settings' )}</label>
-        <label><input type="radio" name="SettingPlacement" value="override" checked="checked">{'Global setting'|i18n( 'design/admin/settings' )}</label>
-    {/section}
+<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr>
+    <th width="50%">
+        {'Location (prioritized list shown)'|i18n( 'design/admin/settings' )|wash}
+    </th>
+    <th >
+	{'Value'|i18n( 'design/admin/settings' )|wash}
+    </th>
+</tr>
+<tr>
+    <td>
+        <strong>{'Default (cannot change)'|i18n( 'design/admin/settings' )|wash}</strong>
+    </td>
+    <td>
+        {if and( is_set( $values['default'] ), ne( $values['default'], false() ))}
+	    {$values['default']}
+	{else}
+	    {'No value'|i18n( 'design/admin/settings' )|wash}
+	{/if}
+    </td>
+</tr>
+<tr>
+    <td><label><input type="radio" name="SettingPlacement" {section show=eq( $placement, "siteaccess" )}checked="checked"{/section} value="siteaccess">{'Siteaccess setting'|i18n('design/admin/settings')}</label></td>
+    <td>
+	{if and( is_set( $values['siteaccess'] ), ne( $values['siteaccess'], false() ) )}
+	    {$values['siteaccess']}
+	{else}
+	    {'No value'|i18n( 'design/admin/settings' )|wash}
+	{/if}
+    </td>
+</tr>
+{foreach $values['extensions'] as $extension_name=>$extension_value}
+<tr>
+    <td><label><input type="radio" name="SettingPlacement" value="{$extension_name}">{$extension_name}</label></td>
+    <td>
+        {if ne( $extension_value, false() )}
+	    {$extension_value}
+	{else}
+	    {'No value'|i18n( 'design/admin/settings' )|wash}
+	{/if}
+    </td>
+</tr>
+{/foreach}
+<tr>
+    <td><label><input type="radio" name="SettingPlacement" value="override" {section show=ne( $placement, "siteaccess" )}checked="checked"{/section}>{'Override setting (global)'|i18n( 'design/admin/settings' )}</label></td>
+    <td>
+        {if and( is_set( $values['override'] ), ne( $values['override'], false() ) )}
+	    {$values['override']}
+	{else}
+	    {'No value'|i18n( 'design/admin/settings' )|wash}
+	{/if}
+    </td>
+</tr>
+</table>
 </div>
+
 
 {*
 <div>
