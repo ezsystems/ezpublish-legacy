@@ -1,29 +1,30 @@
 Changes from 3.9.0rc1 to 3.9.0rc2
 
 *Kernel:
+- Implemented enhancement #9194: Improvements to ini editor.
 
 *Bugfixes:
 - Fixed bug #9416: User selfedit no longer works
   (Merged from stable/3.8 (3.8.7) rev. 17517)
 - Fixed bug #9483: Typo error in ts.
 - Fixed bug #9456: updatelicense.sh uses a PHP short open tag.
-- Fixed bug #009468: Filter attribute_identifier in related_objects is not
+- Fixed bug #9468: Filter attribute_identifier in related_objects is not
   working in 3.9.0rc1
-- Fixed bug #009458: Cannot break/continue 1 level in eZpublish (not ezdhtml)
+- Fixed bug #9458: Cannot break/continue 1 level in eZpublish (not ezdhtml)
   (Merged from stable/3.8 (3.8.7) rev. 17525)
-- Fixed bug #009514: Typo error 3.9rc1.
-- Fixed bug #009508: Minor typo errors in 3.9rc1.
-- Fixed bug #009452: Tip a friend - Email not send error message.
-- Fixed bug #009394: Only variables should be passed by reference
+- Fixed bug #9514: Typo error 3.9rc1.
+- Fixed bug #9508: Minor typo errors in 3.9rc1.
+- Fixed bug #9452: Tip a friend - Email not send error message.
+- Fixed bug #9394: Only variables should be passed by reference
   in eZSearchEngine
   (Merged from stable/3.8 (3.8.7) rev. 17540)
-- Fixed bug #009243: "Compare versions" and "Reverse related for subtree"
+- Fixed bug #9243: "Compare versions" and "Reverse related for subtree"
   functionalities don't works correctly.
   (Merged from stable/3.8 (3.8.7) rev. 17544)
-- Fixed bug #009092: Policy limitations cannot recieve values from extension.  
+- Fixed bug #9092: Policy limitations cannot recieve values from extension.  
   (Merged from stable/3.8 (3.8.7) rev. 17548)
-- Fixed bug #009300: Memory issue with the updatecontentobjectname.php script 
+- Fixed bug #9300: Memory issue with the updatecontentobjectname.php script 
   due to caching.
-- Fixed bug #008844: don't show language selection page when only one language
+- Fixed bug #8844: don't show language selection page when only one language
   available
   (Merged from stable/3.8 (3.8.7) rev. 17555)

@@ -11,18 +11,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 include_once( "kernel/common/template.php" );
@@ -171,6 +171,37 @@ if ( $http->hasPostVariable( 'Cancel' ) )
     return $Module->redirectTo( '/settings/view/' . $siteAccess . '/' . $iniFile );
 }
 
+function parseArrayToStr( $value, $separator )
+{
+    if ( !is_array( $value ) )
+        return $value;
+
+    $valueArray = array();
+    $valueArray[] = "=";
+
+    foreach( $value as $param=>$key )
+    {
+        if ( !is_numeric( $param ) )
+        {
+            $valueArray[] = "[$param]=$key";
+        }
+        else
+        {
+            $valueArray[] = "=$key";
+        }
+    }
+    $value = implode( $separator, $valueArray );
+    return $value;
+}
+
+function getVariable( $block, $settingName, $iniFile, $path )
+{
+    $ini =& eZINI::instance( $iniFile, $path, null, null, null, true );
+    $result = $ini->hasVariable( $block, $settingName ) ? $ini->variable( $block, $settingName ) : false;
+    $result = parseArrayToStr( $result, '<br>' );
+    return $result;
+}
+
 $ini =& eZINI::instance( $iniFile, 'settings', null, null, false );
 
 if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
@@ -187,22 +218,23 @@ if ( ( is_array( $value ) || $value ) and !isset( $settingType ) )
     $settingType = $ini->settingType( $value );
     if ( $settingType == 'array' )
     {
-        $valueArray = array();
-        $valueArray[] = "=";
-
-        foreach( $value as $param=>$key )
-        {
-            if ( !is_numeric( $param ) )
-            {
-                $valueArray[] = "[$param]=$key";
-            }
-            else
-            {
-                $valueArray[] = "=$key";
-            }
-        }
-        $value = implode( "\n", $valueArray );
+        $value = parseArrayToStr( $value, "\n" );
     }
+
+}
+// Init value from ini (default\override\extensions\siteaccess)
+$values = array();
+$values['default'] = getVariable( $block, $settingName, $iniFile, 'settings/' );
+$values['siteaccess'] = getVariable( $block, $settingName, $iniFile, "settings/siteaccess/$siteAccess" );
+$values['override'] = getVariable( $block, $settingName, $iniFile, "settings/override/" );
+// Get values from extensions
+$ini =& eZINI::instance();
+$extensions = $ini->hasVariable( 'ExtensionSettings','ActiveExtensions' ) ? $ini->variable( 'ExtensionSettings','ActiveExtensions' ) : array();
+$extensionDir = $ini->hasVariable( 'ExtensionSettings','ExtensionDirectory' ) ? $ini->variable( 'ExtensionSettings','ExtensionDirectory' ) : 'extension';
+foreach ( $extensions as $extension )
+{
+    $extValue = getVariable( $block, $settingName, $iniFile, "$extensionDir/$extension/settings" );
+    $values['extensions'][$extension] = $extValue;
 }
 
 if ( !isset( $settingType ) )
@@ -215,6 +247,7 @@ $tpl->setVariable( 'setting_type', $settingType );
 $tpl->setVariable( 'ini_file', $iniFile );
 $tpl->setVariable( 'block', $block );
 $tpl->setVariable( 'value', $value );
+$tpl->setVariable( 'values', $values );
 $tpl->setVariable( 'placement', $settingPlacement );
 
 $Result = array();
