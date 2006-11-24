@@ -30,3 +30,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
   (Merged from stable/3.8 (3.8.7) rev. 17555)
 - Fixed bug #008809: eZContentObjectTreeNode::assignSectionToSubTree does
   not clear $eZContentObjectContentObjectCache.
+- Fixed bug #9544: ezinfo/about link in the footer does not contain siteaccess
