@@ -37,3 +37,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9594: copy-disabled icon is not correct
 - Fixed bug #9596: content/history published field does misses label for Copy translation
 - Fixed bug #9573: ezinfo/about has no admin design.
+- Fixed bug #009273: Compare versions functionality is buggy
+  (Merged from stable/3.8 (3.8.7) rev. 17573)
