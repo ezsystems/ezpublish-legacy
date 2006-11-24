@@ -51,31 +51,43 @@ class eZSearchLog
     function addPhrase( $phrase, $returnCount )
     {
         $db =& eZDB::instance();
+        $db->begin();
 
-        $phrase = trim( $phrase );
+        $phrase = strtolower( trim( $phrase ) );
         $phrase = $db->escapeString( $phrase );
 
         // find or store the phrase
-        $phraseRes = $db->arrayQuery( "SELECT * FROM ezsearch_search_phrase WHERE phrase='$phrase'" );
+        $phraseRes = $db->arrayQuery( "SELECT id FROM ezsearch_search_phrase WHERE phrase='$phrase'" );
 
         if ( count( $phraseRes ) == 1 )
         {
             $phraseID = $phraseRes[0]['id'];
+            $db->query( "UPDATE ezsearch_search_phrase
+                         SET    phrase_count = phrase_count + 1,
+                                result_count = result_count + $returnCount
+                         WHERE  id = $phraseID" );
         }
         else
         {
             $db->query( "INSERT INTO
-                              ezsearch_search_phrase ( phrase )
-                         VALUES ( '$phrase' )" );
+                              ezsearch_search_phrase ( phrase, phrase_count, result_count )
+                         VALUES ( '$phrase', 1, $returnCount )" );
 
+            /* when breaking BC: delete next line */
             $phraseID = $db->lastSerialID( 'ezsearch_search_phrase', 'id' );
         }
 
+        /* when breaking BC: delete next lines */
+        /* ezsearch_return_count is not used any more by eZ publish
+           but perhaps someone else added some functionality... */
         $time = mktime();
         // store the search result
         $db->query( "INSERT INTO
                            ezsearch_return_count ( phrase_id, count, time )
                      VALUES ( '$phraseID', '$returnCount', '$time' )" );
+        /* end of BC breaking delete*/
+
+        $db->commit();
     }
 
     /*!
@@ -85,13 +97,8 @@ class eZSearchLog
     {
         $db =& eZDB::instance();
 
-        $query = 'SELECT count(*) as phrase_count, AVG( ezsearch_return_count.count ) AS result_count, ezsearch_search_phrase.* FROM
-                    ezsearch_search_phrase,
-                    ezsearch_return_count
-                  WHERE
-                    ezsearch_search_phrase.id = ezsearch_return_count.phrase_id
-                  GROUP BY
-                    ezsearch_search_phrase.id, ezsearch_search_phrase.phrase
+        $query = 'SELECT phrase_count, result_count / phrase_count AS result_count, id, phrase
+                  FROM   ezsearch_search_phrase
                   ORDER BY phrase_count DESC';
 
         $phraseArray = $db->arrayQuery( $query, $parameters );
@@ -108,6 +115,7 @@ class eZSearchLog
         $db =& eZDB::instance();
         $query = "DELETE FROM ezsearch_search_phrase";
         $db->query( $query );
+        /* when breaking BC: delete those two lines */
         $query = "DELETE FROM ezsearch_return_count";
         $db->query( $query );
     }

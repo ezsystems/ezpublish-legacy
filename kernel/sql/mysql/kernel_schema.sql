@@ -1196,7 +1196,8 @@ CREATE TABLE ezsearch_return_count (
   id int(11) NOT NULL auto_increment,
   phrase_id int(11) NOT NULL default '0',
   time int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezsearch_return_cnt_ph_id_cnt (phrase_id,count)
 ) TYPE=MyISAM;
 
 
@@ -1206,7 +1207,11 @@ CREATE TABLE ezsearch_return_count (
 CREATE TABLE ezsearch_search_phrase (
   id int(11) NOT NULL auto_increment,
   phrase varchar(250) default NULL,
-  PRIMARY KEY  (id)
+  phrase_count int(11) default '0',
+  result_count int(11) default '0',
+  PRIMARY KEY  (id),
+  KEY ezsearch_search_phrase_count (phrase_count),
+  UNIQUE KEY ezsearch_search_phrase_phrase (phrase)
 ) TYPE=MyISAM;
 
 

@@ -5471,6 +5471,15 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezsearch_return_cnt_ph_id_cnt' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'phrase_id',
+          1 => 'count',
+        ),
+      ),
     ),
   ),
   'ezsearch_search_phrase' => 
@@ -5489,6 +5498,18 @@ $schema = array (
         'type' => 'varchar',
         'default' => NULL,
       ),
+      'phrase_count' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'result_count' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -5498,6 +5519,22 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezsearch_search_phrase_count' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'phrase_count',
+        ),
+      ),
+      'ezsearch_search_phrase_phrase' => 
+      array (
+        'type' => 'unique',
+        'fields' => 
+        array (
+          0 => 'phrase',
         ),
       ),
     ),

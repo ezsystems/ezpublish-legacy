@@ -2209,7 +2209,9 @@ CREATE TABLE ezsearch_return_count (
 
 CREATE TABLE ezsearch_search_phrase (
     id integer DEFAULT nextval('ezsearch_search_phrase_s'::text) NOT NULL,
-    phrase character varying(250)
+    phrase character varying(250),
+    phrase_count integer DEFAULT 0,
+    result_count integer DEFAULT 0
 );
 
 
@@ -3275,6 +3277,30 @@ CREATE INDEX ezsearch_object_word_link_object ON ezsearch_object_word_link USING
 
 
 CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING btree (word_id);
+
+
+
+
+
+
+
+CREATE INDEX ezsearch_return_cnt_ph_id_cnt ON ezsearch_return_count USING btree (phrase_id, count);
+
+
+
+
+
+
+
+CREATE INDEX ezsearch_search_phrase_count ON ezsearch_search_phrase USING btree (phrase_count);
+
+
+
+
+
+
+
+CREATE UNIQUE INDEX ezsearch_search_phrase_phrase ON ezsearch_search_phrase USING btree (phrase);
 
 
 
