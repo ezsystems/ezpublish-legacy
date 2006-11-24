@@ -3023,6 +3023,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE $filterPart id IN ( $inSQL )" );
         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$sectionID' WHERE $filterPart contentobject_id IN ( $inSQL )" );
         $db->commit();
+
+        // clear caches for updated objects
+        eZContentObject::clearCache( $objectIDArray );
     }
 
     /*!
