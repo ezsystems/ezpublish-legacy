@@ -31,4 +31,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #008809: eZContentObjectTreeNode::assignSectionToSubTree does
   not clear $eZContentObjectContentObjectCache.
 - Fixed bug #9544: ezinfo/about link in the footer does not contain siteaccess
-- Fixed bug #008785: Permission problems on Node 1
+- Fixed bug #8785: Permission problems on Node 1
+- Fixed bug #9518: Extensions not enabled in 3.9rc1 upgrade scripts.

@@ -44,7 +44,7 @@ $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "\nAdd 'embed' & 'link' contentobject relations.\n"  ),
                                       'use-session' => false,
                                       'use-modules' => false,
-                                      'use-extensions' => false ) );
+                                      'use-extensions' => true ) );
 
 $script->startup();
 

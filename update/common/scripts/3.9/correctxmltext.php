@@ -12,18 +12,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -47,7 +47,7 @@ $script =& eZScript::instance( array( 'description' => "\nThis script performs t
                                                        "\nYou can optionally perform only some of these tasks.",
                                       'use-session' => false,
                                       'use-modules' => false,
-                                      'use-extensions' => false ) );
+                                      'use-extensions' => true ) );
 
 $script->startup();
 
@@ -144,7 +144,7 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
         $child =& $children[$key];
         updateAvailableClasses( $doc, $child, $isIniModified, $contentIniDirect, $XMLSchema, $dumpOnly );
     }
-    
+
     $class = $element->getAttribute( 'class' );
     if ( !$class )
         return;
@@ -330,7 +330,7 @@ while( count( $xmlFieldsArray ) )
                 $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $result .
                    "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
                 $db->query( $sql );
-        
+
                 if ( !$isQuiet )
                     $cli->notice( "<object> tag(s) have been converted. Object ID: " . $xmlField['contentobject_id'] . ", version: ". $xmlField['version'] .
                                   ", attribute ID :" . $xmlField['id'] );
@@ -339,7 +339,7 @@ while( count( $xmlFieldsArray ) )
             $doc->cleanup();
         }
         unset( $doc );
-    }    
+    }
     $xmlFieldsArray = $db->arrayQuery( $xmlFieldsQuery, array( "limit" => QUERY_LIMIT, "offset" => $pass * QUERY_LIMIT ) );
     if ( !is_array( $xmlFieldsArray ) )
     {
