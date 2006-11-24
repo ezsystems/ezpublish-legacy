@@ -61,8 +61,13 @@ $contentObject =& $node->attribute( 'object' );
 if ( !$contentObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-if ( !$contentObject->attribute( 'can_read' ) )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+if ( !$contentObject->attribute( 'can_read' ) || !$node->attribute( 'can_read' ) )
+{
+    if ( !$node->attribute( 'children_count' ) )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+}
 
 $cancelAction = trim( $browse->attribute( 'cancel_page' ) );
 if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
