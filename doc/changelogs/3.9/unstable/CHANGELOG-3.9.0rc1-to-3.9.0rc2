@@ -35,3 +35,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9518: Extensions not enabled in 3.9rc1 upgrade scripts.
 - Fixed bug #009254: eZ publish crashes because of missing database index on ezsearch_return_count.
 - Fixed bug #9594: copy-disabled icon is not correct
+- Fixed bug #9596: content/history published field does misses label for Copy translation

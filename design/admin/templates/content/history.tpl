@@ -279,7 +279,7 @@
 	<th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
 	<th>{'Created'|i18n( 'design/admin/content/history' )}</th>
 	<th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
-    <th class="tight">&nbsp;</th>
+    <th class="tight">{'Copy translation'|i18n( 'design/admin/content/history' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
