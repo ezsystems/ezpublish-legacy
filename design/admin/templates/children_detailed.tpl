@@ -87,7 +87,7 @@
     {section show=$can_copy}
     <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'Create a copy of <%child_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name ) )|wash}" /></a>
     {section-else}
-    <img src={'copy_disabled.png'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You can not make a copy of <%child_name> because you do not have create permissions for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
+    <img src={'copy-disabled.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/node/view/full' )}" title="{'You can not make a copy of <%child_name> because you do not have create permissions for <%node_name>.'|i18n( 'design/admin/node/view/full',, hash( '%child_name', $child_name, '%node_name', $node_name ) )|wash}" />
     {/section}
     </td>
 

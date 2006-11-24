@@ -167,7 +167,7 @@
 	        <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
 			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-			<input type="image" src={'copy-disabled.png'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
 	{undef $can_edit_lang}
     </td>
@@ -329,7 +329,7 @@
         {if and( $can_edit, $can_edit_lang )}
 			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" />
         {else}
-			<input type="image" src={'copy-disabled.png'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
 		{undef $can_edit_lang}
     </td>
@@ -398,7 +398,7 @@
 	        <input type="hidden" name="CopyVersionLanguage[{$draft_version.version}]" value="{$initial_language.locale}" />
 			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$draft_version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {else}
-			<input type="image" src={'copy-disabled.png'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
 	{undef $can_edit_lang}
     </td>
