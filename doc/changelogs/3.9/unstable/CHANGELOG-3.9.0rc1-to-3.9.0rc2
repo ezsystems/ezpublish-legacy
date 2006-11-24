@@ -28,3 +28,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #8844: don't show language selection page when only one language
   available
   (Merged from stable/3.8 (3.8.7) rev. 17555)
+- Fixed bug #008809: eZContentObjectTreeNode::assignSectionToSubTree does
+  not clear $eZContentObjectContentObjectCache.
