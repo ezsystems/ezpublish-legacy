@@ -2240,7 +2240,7 @@ class eZContentObject extends eZPersistentObject
 
     function &initialLanguage()
     {
-        $initialLanguage = eZContentLanguage::fetch( $this->InitialLanguageID );
+        $initialLanguage = isset( $this->InitialLanguageID ) ? eZContentLanguage::fetch( $this->InitialLanguageID ) : false;
 
         return $initialLanguage;
     }
@@ -2248,7 +2248,8 @@ class eZContentObject extends eZPersistentObject
     function &initialLanguageCode()
     {
         $initialLanguage =& $this->initialLanguage();
-        $initialLanguageCode = $initialLanguage->attribute( 'locale' );
+        // If current contentobject is "Top Level Nodes" than it doesn't have "initial Language" and "locale".
+        $initialLanguageCode = $initialLanguage !== false ?  $initialLanguage->attribute( 'locale' ) : false;
 
         return $initialLanguageCode;
     }
@@ -4083,7 +4084,7 @@ class eZContentObject extends eZPersistentObject
 
     function &languages()
     {
-        $languages = eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask );
+        $languages = isset( $this->LanguageMask ) ? eZContentLanguage::prioritizedLanguagesByMask( $this->LanguageMask ) : array();
 
         return $languages;
     }
