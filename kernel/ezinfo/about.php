@@ -29,6 +29,8 @@
 define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
 define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
 
+include_once( "kernel/common/template.php" );
+
 /*!
   Returns list of contributors;
   Searches all php files in \a $pathToDir and tries to fetch contributor's info
@@ -156,14 +158,7 @@ $Module =& $Params['Module'];
 
 include_once( 'lib/version.php' );
 
-$ezinfo = array( 'version' => eZPublishSDK::version( true ),
-                 'version_alias' => eZPublishSDK::version( true, true ) );
-
-$header = "<a href=\"http://ez.no/developer\"><h3>About eZ publish " . eZPublishSDK::version( true )  ." ( " . eZPublishSDK::version( true, true ). " )</h3></a>
-<hr noshade=\"noshade\"  />";
-
-$whatIsEzPublish = '<h3>What is eZ publish?</h3>
-<p>eZ Publish 3 is a professional PHP application framework with advanced
+$whatIsEzPublish = '<p>eZ Publish 3 is a professional PHP application framework with advanced
 CMS (content management system) functionality. As a CMS its most notable
 featureis its revolutionary, fully customizable and extendable content
 model. Thisis also what makes eZ publish suitable as a platform for
@@ -176,7 +171,7 @@ can be used for cross-platform database-independent browser-neutral
 PHP projects. Because eZ publish 3 is a web-based application, it can
 be accessed from anywhere you have an internet connection.</p>';
 
-$license ='<h3>Licence</h3>' .
+$license =
 ## BEGIN LICENSE INFO ##
 '<p> This copy of eZ Publish is distributed under the terms and conditions of
 the GNU General Public License (GPL). Briefly summarized, the GPL gives
@@ -191,8 +186,7 @@ the root directory of this eZ Publish distribution.
 ## END LICENSE INFO ##
 
 ### Contributor Credits ###
-$contributors = '<h3>Contributors</h3>
-<p>The following is a list of eZ Publish contributors who have licensed
+$contributors = '<p>The following is a list of eZ Publish contributors who have licensed
 their work for use by eZ systems AS under the terms and conditions of
 the eZ Contributor Licensing Agreement. As permitted by this agreement
 with the contributors, eZ systems AS is redistributing the
@@ -204,14 +198,12 @@ either contributed or contributed work to.</p>';
 $contributors .= getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 
 ### Copyright Notice ###
-$copyrightNotice = '<h3>Copyright Notice</h3>
-<p>Copyright &copy; 1999-2006 eZ systems AS, with portions copyright by
+$copyrightNotice = '<p>Copyright &copy; 1999-2006 eZ systems AS, with portions copyright by
 other parties. A complete list of all contributors and third-party
 software follows.</p>';
 
 ### Third-Party Software ####
-$thirdPartySoftware = '<h3>Third-Party Software</h3>
-<p>The following is a list of the third-party software that is
+$thirdPartySoftware = '<p>The following is a list of the third-party software that is
 distributed with this copy of eZ Publish. The list of third party
 software includes the license for the software in question and the
 directory or files that contain the third-party software.</p>';
@@ -219,16 +211,21 @@ directory or files that contain the third-party software.</p>';
 $thirdPartySoftware .= getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 
 ### Extensions ###
-$extensions = '<h3>Extensions</H3>
-<p>The following is a list of the extensions that have been loaded at
+$extensions = '<p>The following is a list of the extensions that have been loaded at
  run-time by this copy of eZ Publish. </p>';
 
 $extensions .= getExtensionsInfo();
 
-$text = $whatIsEzPublish . $license . $copyrightNotice . $contributors . $thirdPartySoftware . $extensions;
+$tpl =& templateInit();
+$tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
+$tpl->setVariable( 'license', $license );
+$tpl->setVariable( 'contributors', $contributors );
+$tpl->setVariable( 'copyright_notice', $copyrightNotice );
+$tpl->setVariable( 'third_party_software', $thirdPartySoftware );
+$tpl->setVariable( 'extensions', $extensions );
 
 $Result = array();
-$Result['content'] = $text;
+$Result['content'] = & $tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,

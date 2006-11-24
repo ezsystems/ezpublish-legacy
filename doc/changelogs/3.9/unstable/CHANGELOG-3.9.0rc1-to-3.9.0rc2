@@ -28,11 +28,12 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #8844: don't show language selection page when only one language
   available
   (Merged from stable/3.8 (3.8.7) rev. 17555)
-- Fixed bug #008809: eZContentObjectTreeNode::assignSectionToSubTree does
+- Fixed bug #8809: eZContentObjectTreeNode::assignSectionToSubTree does
   not clear $eZContentObjectContentObjectCache.
 - Fixed bug #9544: ezinfo/about link in the footer does not contain siteaccess
 - Fixed bug #8785: Permission problems on Node 1
 - Fixed bug #9518: Extensions not enabled in 3.9rc1 upgrade scripts.
-- Fixed bug #009254: eZ publish crashes because of missing database index on ezsearch_return_count.
+- Fixed bug #9254: eZ publish crashes because of missing database index on ezsearch_return_count.
 - Fixed bug #9594: copy-disabled icon is not correct
 - Fixed bug #9596: content/history published field does misses label for Copy translation
+- Fixed bug #9573: ezinfo/about has no admin design.
