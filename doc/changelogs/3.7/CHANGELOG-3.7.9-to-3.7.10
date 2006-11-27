@@ -124,3 +124,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0rc2) rev. 17560)
 - Fixed bug #008785: Permission problems on Node 1
   (Merged from trunk (3.9.0rc2) rev. 17567)
+- Fixed bug #009614: Undefined offset 0 in ezcontentoperationcollection.php
+  (Merged from stable/3.8 (3.8.7) rev. 17584)

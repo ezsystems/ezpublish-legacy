@@ -382,7 +382,8 @@ class eZContentOperationCollection
             return;
         }
 
-        list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+        $newMainAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+        $newMainAssignment = ( count( $newMainAssignmentList ) ) ? array_pop( $newMainAssignmentList ) : null;
 
         $currentVersion =& $object->attribute( 'current' );
         $nodeAssigmentTmpArray = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 1 );
