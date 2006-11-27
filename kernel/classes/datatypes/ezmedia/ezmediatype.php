@@ -635,6 +635,12 @@ class eZMediaType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
         $mediaFile =& $objectAttribute->attribute( 'content' );
+        if ( !$mediaFile )
+        {
+            // Media type content could not be found.
+            return $node;
+        }
+
         $fileKey = md5( mt_rand() );
 
         $fileInfo = $mediaFile->storedFileInfo();
@@ -669,6 +675,12 @@ class eZMediaType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $mediaNode = $attributeNode->elementByName( 'media-file' );
+        if ( !$mediaNode )
+        {
+            // No media type data found.
+            return;
+        }
+
         $mediaFile =& eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
         $sourcePath = $package->simpleFilePath( $mediaNode->attributeValue( 'filekey' ) );
