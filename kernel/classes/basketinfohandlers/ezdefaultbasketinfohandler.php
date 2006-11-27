@@ -58,9 +58,9 @@ class eZDefaultBasketInfoHandler
                 $basketInfo['price_info'][$vatValue]['total_price_inc_vat'] = $shippingIncVAT;
                 $basketInfo['price_info'][$vatValue]['total_price_vat'] = $shippingVat;
 
-                $basketInfo['total_price_info']['total_price_ex_vat'] += $shippingExVAT;
-                $basketInfo['total_price_info']['total_price_inc_vat'] += $shippingIncVAT;
-                $basketInfo['total_price_info']['total_price_vat'] += $shippingVat;
+                $basketInfo['total_price_info']['total_price_ex_vat'] = $shippingExVAT;
+                $basketInfo['total_price_info']['total_price_inc_vat'] = $shippingIncVAT;
+                $basketInfo['total_price_info']['total_price_vat'] = $shippingVat;
             }
             else
             {
