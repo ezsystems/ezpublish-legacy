@@ -458,7 +458,8 @@ class eZContentOperationCollection
             return;
         }
 
-        list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+        $newMainAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
+        $newMainAssignment = ( count( $newMainAssignmentList ) ) ? array_pop( $newMainAssignmentList ) : null;
 
         $currentVersion =& $object->attribute( 'current' );
         // Here we need to fetch published nodes and not old node assignments.
