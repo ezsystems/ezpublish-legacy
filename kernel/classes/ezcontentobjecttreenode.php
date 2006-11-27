@@ -2904,15 +2904,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( count( $objectIDArray ) == 0 )
             return;
 
-        $inSQL = "";
-        $i = 0;
+        $objectSimpleIDArray = array();
         foreach ( $objectIDArray as $objectID )
         {
-            if ( $i > 0 )
-                $inSQL .= ",";
-            $inSQL .= " " . $objectID['id'];
-            $i++;
+            $objectSimpleIDArray[] = $objectID['id'];
         }
+
+        $inSQL = implode( ', ', $objectSimpleIDArray );
 
         $filterPart = '';
         if ( $oldSectionID !== false )
@@ -2927,7 +2925,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->commit();
 
         // clear caches for updated objects
-        eZContentObject::clearCache( $objectIDArray );
+        eZContentObject::clearCache( $objectSimpleIDArray );
     }
 
     /*!
