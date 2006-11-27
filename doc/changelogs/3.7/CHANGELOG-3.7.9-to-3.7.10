@@ -52,6 +52,8 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #9130: Bug closing </form> tag missing 
   in standard/templates/content/upload.tpl
   (Merged from trunk (3.9.0alpha1) rev. 17142)
+- Fixed bug #009374: exporting object content with media file doesn't work
+  ( Merged from stable/3.6 rev. 17578 )
 - Fixed bug #9152: HTML should not be in i18n strings.
   (Merged from trunk (3.9.0alpha1) rev. 17166)
 - Fixed bug #9073: Setup wizard must check for write access to /extension folder.
