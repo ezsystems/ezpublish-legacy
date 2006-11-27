@@ -42,6 +42,7 @@ include_once( "kernel/classes/ezproductcollectionitem.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/ezshippingmanager.php" );
 include_once( "kernel/classes/ezorder.php" );
 
 /*!

@@ -41,3 +41,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
   (Merged from stable/3.8 (3.8.7) rev. 17573)
 - Fixed bug #009374: exporting object content with media file doesn't work
   ( Merged from stable/3.6 rev. 17578, stable/3.7 rev. 17579, stable/3.8 rev. 17580 )
+- Fixed bug #009605: Undefined class name ezshippingmanager.
