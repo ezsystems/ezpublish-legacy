@@ -8,12 +8,10 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-
 {section show=$verify_user_email}
-
 <div class="feedback">
 <p>
 {'Your account was successfully created. An email will be sent to the specified
@@ -26,13 +24,19 @@ your account.'|i18n('design/admin/user')}
 <h2>{"Your account was successfully created."|i18n("design/admin/user")}</h2>
 </div>
 {/section}
+</div>
 
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+{* DESIGN: Control bar START *}
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+<div class="block">
 <form action={"/user/register"|ezurl} method="post">
     <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user' )}" />
 </form>
-
 </div>
-
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
 
 </div>
