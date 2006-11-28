@@ -249,8 +249,8 @@
         function auth()
         {
             $error = $this->get_data();
-            if( is_resource($this->connection) and
-                $this->send_data('AUTH LOGIN') and
+            if( is_resource( $this->connection ) and
+                $this->send_data( 'AUTH LOGIN' ) and
                 substr( trim( $error ), 0, 3) === '334' and
                 $this->send_data( base64_encode( $this->user ) ) and // Send username
                 substr( trim( $error ), 0, 3 ) === '334' and
@@ -291,19 +291,21 @@
         ** Function that handles the RCPT TO: cmd
         ***************************************/
 
-        function rcpt($to)
+        function rcpt( $to )
         {
             if ( !preg_match( "/<.+>/", $to ) )
                 $to = '<' . $to .'>';
-            if($this->is_connected()
-                AND $this->send_data('RCPT TO:'.$to.'' )
-                AND substr(trim($error = $this->get_data()), 0, 3) === '250' )
+
+            $error = $this->get_data();
+            if ( $this->is_connected() and
+                 $this->send_data( 'RCPT TO:' . $to . '' ) and
+                 substr( trim( $error ), 0, 3 ) === '250' )
             {
                 return TRUE;
-
-            }else
+            }
+            else
             {
-                $this->errors[] = trim(substr(trim($error), 3 ) );
+                $this->errors[] = trim( substr( trim( $error ), 3 ) );
                 return FALSE;
             }
         }
