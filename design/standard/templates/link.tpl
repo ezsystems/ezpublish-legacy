@@ -4,7 +4,7 @@
 
 <link rel="Home" href={"/"|ezurl} title="{'%sitetitle front page'|i18n('design/standard/layout',,hash('%sitetitle',$site.title))}" />
 <link rel="Index" href={"/"|ezurl} />
-<link rel="Top"  href={"/"|ezurl} title="{$site.title}" />
+<link rel="Top"  href={"/"|ezurl} title="{$site_title}" />
 <link rel="Search" href={"content/advancedsearch"|ezurl} title="{'Search %sitetitle'|i18n('design/standard/layout',,hash('%sitetitle',$site.title))}" />
 <link rel="Shortcut icon" href={"favicon.ico"|ezimage} type="image/x-icon" />
 <link rel="Copyright" href={"/ezinfo/copyright"|ezurl} />
