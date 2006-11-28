@@ -246,20 +246,23 @@
         ** Function to implement AUTH cmd
         ***************************************/
 
-        function auth(){
-            if(is_resource($this->connection)
-                    AND $this->send_data('AUTH LOGIN')
-                    AND substr(trim($error = $this->get_data()), 0, 3) === '334'
-                    AND $this->send_data(base64_encode($this->user))            // Send username
-                    AND substr(trim($error = $this->get_data()),0,3) === '334'
-                    AND $this->send_data(base64_encode($this->pass))            // Send password
-                    AND substr(trim($error = $this->get_data()),0,3) === '235' ){
-
+        function auth()
+        {
+            $error = $this->get_data();
+            if( is_resource($this->connection) and
+                $this->send_data('AUTH LOGIN') and
+                substr( trim( $error ), 0, 3) === '334' and
+                $this->send_data( base64_encode( $this->user ) ) and // Send username
+                substr( trim( $error ), 0, 3 ) === '334' and
+                $this->send_data( base64_encode( $this->pass ) ) and // Send password
+                substr( trim( $error ), 0, 3 ) === '235' )
+            {
                 $this->authenticated = TRUE;
                 return TRUE;
-
-            }else{
-                $this->errors[] = 'AUTH command failed: ' . trim(substr(trim($error),3));
+            }
+            else
+            {
+                $this->errors[] = 'AUTH command failed: ' . trim( substr( trim( $error ), 3 ) );
                 return FALSE;
             }
         }
