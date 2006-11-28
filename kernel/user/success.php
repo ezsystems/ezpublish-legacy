@@ -40,6 +40,10 @@ else
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/success.tpl" );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+                                'url' => false ),
+                         array( 'text' => ezi18n( 'kernel/user', 'Success' ),
+                                'url' => false ) );
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
     $Result['pagelayout'] = 'loginpagelayout.tpl';
 
