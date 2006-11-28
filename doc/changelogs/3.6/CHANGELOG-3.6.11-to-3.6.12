@@ -110,3 +110,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #009374: exporting object content with media file doesn't work
 - Fixed bug #009614: Undefined offset 0 in ezcontentoperationcollection.php
   (Merged from stable/3.8 (3.8.7) rev. 17584)
+- Fixed bug #009434: Wrong ui_context for user/activate.
+  (Merged from trunk (3.9.0rc2) rev. 17633)
