@@ -44,3 +44,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #009605: Undefined class name ezshippingmanager.
 - Fixed bug #009614: Undefined offset 0 in ezcontentoperationcollection.php
   (Merged from stable/3.8 (3.8.7) rev. 17584)
+- Fixed bug #009123: When having Interface locales like "ger" or "ita".

@@ -79,19 +79,49 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     $iniI18N =& eZINI::instance( "i18n.ini" );
     $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
 
+    include_once( 'lib/ezutils/classes/ezextension.php' );
+    $extensionBase = eZExtension::baseDirectory();
+    $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
+
     if ( array_key_exists( $language,  $fallbacks ) and $fallbacks[$language] )
     {
         if ( file_exists( 'share/translations/' . $fallbacks[$language] . '/translation.ts' ) )
+        {
             $hasFallback = true;
+        }
+        else
+        {
+            foreach ( $translationExtensions as $translationExtension )
+            {
+                $extensionPath = $extensionBase . '/' . $translationExtension . '/translations' . $fallbacks[$language] . '/translation.ts';
+                if ( file_exists( $extensionPath ) )
+                {
+                    $hasFallback = true;
+                    break;
+                }
+            }
+        }
     }
-    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) or $hasFallback )
+    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) || $hasFallback )
     {
         $useTextTranslation = true;
     }
+    else
+    {
+        foreach ( $translationExtensions as $translationExtension )
+        {
+            $extensionPath = $extensionBase . '/' . $translationExtension . '/translations' . $language . '/translation.ts';
+            if ( file_exists( $extensionPath ) )
+            {
+                $useTextTranslation = true;
+                break;
+            }
+        }
+    }
+
 
     if ( $language != "eng-GB" ) // eng-GB does not need translation
     {
-        include_once( 'lib/ezutils/classes/ezextension.php' );
         include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
         include_once( 'lib/ezi18n/classes/eztstranslator.php' );
     }
@@ -124,7 +154,7 @@ if ( $useTextTranslation )
 
         // Bork translation: Makes it easy to see what is not translated.
         // If no translation is found in the eZTSTranslator, a Bork translation will be returned.
-        // Bork is different than, but similar to, eng-GB, and is enclosed in square brackets [].
+        // Bork is different than, but similar to, eng-GB, and is enclosed in square brackets [].
         $developmentMode = $ini->variable( 'RegionalSettings', 'DevelopmentMode' ) != 'disabled';
         if ( $developmentMode )
         {
