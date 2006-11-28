@@ -9,5 +9,10 @@
 {section-else}
 {'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/standard/user')}
 {/section}
-
 </p>
+
+<div class="buttonblock">
+<form action={"/user/login"|ezurl} method="post">
+    <input class="button" type="submit" value="{'OK'|i18n( 'design/standard/user' )}" />
+</form>
+</div>

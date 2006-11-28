@@ -8,10 +8,9 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-
 <p>
 {section show=$account_activated}
 {'Your account is now activated.'|i18n('design/admin/user')}
@@ -19,9 +18,19 @@
 {'Sorry, the key submitted was not a valid key. Account was not activated.'|i18n('design/admin/user')}
 {/section}
 </p>
-
 </div>
 
-{* DESIGN: Content END *}</div></div></div></div></div></div>
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+{* DESIGN: Control bar START *}
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+    <div class="block">
+    <form action={"/user/login"|ezurl} method="post">
+        <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user' )}" />
+    </form>
+    </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
 
 </div>
