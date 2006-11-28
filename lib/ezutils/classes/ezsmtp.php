@@ -314,15 +314,18 @@
         ** Function that sends the DATA cmd
         ***************************************/
 
-        function data(){
-
-            if($this->is_connected()
-                AND $this->send_data('DATA')
-                AND substr(trim($error = $this->get_data()), 0, 3) === '354' ){
+        function data()
+        {
+            $error = $this->get_data();
+            if( $this->is_connected() and
+                $this->send_data( 'DATA' ) and
+                substr( trim( $error ), 0, 3 ) === '354' )
+            {
                 return TRUE;
-
-            }else{
-                $this->errors[] = trim(substr(trim($error), 3));
+            }
+            else
+            {
+                $this->errors[] = trim( substr( trim( $error ), 3 ) );
                 return FALSE;
             }
         }
@@ -332,8 +335,8 @@
         ** is connected to the server or not.
         ***************************************/
 
-        function is_connected(){
-
+        function is_connected()
+        {
             return (is_resource($this->connection) AND ($this->status === SMTP_STATUS_CONNECTED));
         }
 
@@ -341,11 +344,13 @@
         ** Function to send a bit of data
         ***************************************/
 
-        function send_data($data){
-            if(is_resource($this->connection)){
-                return fwrite($this->connection, $data.CRLF, strlen($data)+2);
-
-            }else
+        function send_data( $data )
+        {
+            if ( is_resource( $this->connection ) )
+            {
+                return fwrite( $this->connection, $data.CRLF, strlen( $data ) + 2 );
+            }
+            else
                 return FALSE;
         }
 
@@ -375,8 +380,8 @@
         ** Sets a variable
         ***************************************/
 
-        function set($var, $value){
-
+        function set( $var, $value )
+        {
             $this->$var = $value;
             return TRUE;
         }
