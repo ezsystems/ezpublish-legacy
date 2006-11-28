@@ -224,17 +224,20 @@
         ** Function to implement QUIT cmd
         ***************************************/
 
-        function quit(){
-            if(is_resource($this->connection)
-                    AND $this->send_data('QUIT')
-                    AND substr(trim($error = $this->get_data()), 0, 3) === '221' ){
-
-                fclose($this->connection);
+        function quit()
+        {
+            $error = $this->get_data();
+            if ( is_resource( $this->connection ) and
+                 $this->send_data( 'QUIT' ) and
+                 substr( trim( $error ), 0, 3 ) === '221' )
+            {
+                fclose( $this->connection );
                 $this->status = SMTP_STATUS_NOT_CONNECTED;
                 return TRUE;
-
-            }else{
-                $this->errors[] = 'QUIT command failed, output: ' . trim(substr(trim($error),3));
+            }
+            else
+            {
+                $this->errors[] = 'QUIT command failed, output: ' . trim( substr( trim( $error ), 3 ) );
                 return FALSE;
             }
         }
