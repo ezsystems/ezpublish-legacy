@@ -47,3 +47,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #009123: When having Interface locales like "ger" or "ita".
 - Fixed bug #009434: Wrong ui_context for user/activate.
 - Fixed bug #009257: Path is not set in user/success.
+- Fixed bug #009532: Auto-numbered headers generate wrong links.

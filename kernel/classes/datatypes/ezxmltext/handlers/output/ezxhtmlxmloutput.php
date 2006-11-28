@@ -196,6 +196,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         $levelNumber = str_replace( "_", ".", $headerAutoName );
 
+        if ( $this->ObjectAttributeID )
+            $headerAutoName = $this->ObjectAttributeID . '_' . $headerAutoName;
+
         $ret = array( 'tpl_vars' => array( 'level' => $level,
                                            'header_number' => $levelNumber,
                                            'toc_anchor_name' => $headerAutoName ) );
