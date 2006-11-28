@@ -81,5 +81,8 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Activate' ),
                                 'url' => false ) );
+$ini =& eZINI::instance();
+if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+    $Result['pagelayout'] = 'loginpagelayout.tpl';
 
 ?>
