@@ -128,3 +128,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17584)
 - Fixed bug #009434: Wrong ui_context for user/activate.
   (Merged from trunk (3.9.0rc2) rev. 17633)
+- Fixed bug #009257: Path is not set in user/success.
+  (Merged from trunk (3.9.0rc2) rev. 17637)
