@@ -345,21 +345,23 @@
         ** Function to get data.
         ***************************************/
 
-        function &get_data(){
-
+        function get_data()
+        {
             $return = '';
             $line   = '';
             $loops  = 0;
 
-            if(is_resource($this->connection)){
-                while((strpos($return, CRLF) === FALSE OR substr($line,3,1) !== ' ') AND $loops < 100){
-                    $line    = fgets($this->connection, 512);
+            if ( is_resource( $this->connection ) )
+            {
+                while ( ( strpos( $return, CRLF ) === FALSE OR substr( $line, 3, 1 ) !== ' ' ) AND $loops < 100 )
+                {
+                    $line    = fgets( $this->connection, 512 );
                     $return .= $line;
                     $loops++;
                 }
                 return $return;
-
-            }else
+            }
+            else
                 return FALSE;
         }
 
