@@ -20,3 +20,9 @@ your account.'|i18n('design/standard/user')}
 <h2>{"Your account was successfully created."|i18n("design/standard/user")}</h2>
 </div>
 {/section}
+
+<div class="buttonblock">
+<form action={"/user/register"|ezurl} method="post">
+    <input class="button" type="submit" value="{'OK'|i18n( 'design/standard/user' )}" />
+</form>
+</div>
