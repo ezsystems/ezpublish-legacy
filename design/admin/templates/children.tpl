@@ -262,7 +262,7 @@
 
         languagesByClassID = new Array();
         {foreach $can_create_classes as $class}
-        languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $language}'{$language}'{delimiter}, {/delimiter} {/foreach} ];
+        languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $language_item}'{$language_item}'{delimiter}, {/delimiter} {/foreach} ];
     {/foreach}
     // -->
     </script>
@@ -286,8 +286,8 @@
         <script type="text/javascript">
         <!--
             document.writeln( '<select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">' );
-            {foreach $can_create_languages as $language}
-                document.writeln( '<option value="{$language.locale|wash()}">{$language.name|wash()}</option>' );
+            {foreach $can_create_languages as $language_item}
+                document.writeln( '<option value="{$language_item.locale|wash()}">{$language_item.name|wash()}</option>' );
             {/foreach}
             document.writeln( '</select>' );
         -->
