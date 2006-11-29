@@ -33,11 +33,9 @@
 
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
-if ( $Params['SiteAccess'] )
-    $currentSiteAccess = $Params['SiteAccess'];
-if ( $Params['Position'] )
-    $toolbarPosition =& $Params['Position'];
 
+$currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
+$toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
 
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
@@ -47,7 +45,9 @@ include_once( "kernel/classes/ezsiteaccess.php" );
 $http =& eZHTTPTool::instance();
 
 $siteini =& eZINI::instance();
-if ( !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
+if ( !$currentSiteAccess or
+     !$toolbarPosition or
+     !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );
