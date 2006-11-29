@@ -49,3 +49,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #009257: Path is not set in user/success.
 - Fixed bug #009532: Auto-numbered headers generate wrong links.>>>>>>> .r17643
 - Fixed bug #9635: Change text of link to content/history in popup-menu
+- Fixed bug #009638: "Remove selected" button not disabled when no relations 
+  can be removed

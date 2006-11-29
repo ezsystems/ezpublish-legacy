@@ -184,7 +184,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 
-    {section show=$related_contentobjects}
+    {section show=$related_contentobjects_id['common']|count|gt( 0 )}
     <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" />
     {section-else}
     <input class="button-disabled" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
