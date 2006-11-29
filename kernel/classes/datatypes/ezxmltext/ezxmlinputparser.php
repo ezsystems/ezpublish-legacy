@@ -871,6 +871,12 @@ class eZXMLInputParser
             if ( ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
                  && !$element->hasChildNodes() )
             {
+                $this->isInputValid = false;
+                if ( $verbose && $this->errorLevel >= 1 )
+                {
+                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
+                                                false, array( $element->nodeName ) );
+                }
                 $parent->removeChild( $element );
                 return false;
             }
