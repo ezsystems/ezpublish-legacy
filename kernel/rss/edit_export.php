@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -238,7 +238,7 @@ $tpl =& templateInit();
 
 // Populate site access list
 $config =& eZINI::instance( 'site.ini' );
-//$siteAccess = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );
 $rssDefaultVersion = $config->variable( 'RSSSettings', 'DefaultVersion' );
 $numberOfObjectsArray = $config->variable( 'RSSSettings', 'NumberOfObjectsList' );
@@ -251,7 +251,7 @@ $tpl->setVariable( 'rss_version_array', $rssVersionArray );
 $tpl->setVariable( 'rss_version_default', $rssDefaultVersion );
 $tpl->setVariable( 'number_of_objects_array', $numberOfObjectsArray );
 $tpl->setVariable( 'number_of_objects_default', $numberOfObjectsDefault );
-//$tpl->setVariable( 'rss_site_access', $siteAccess );
+
 $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_export', $rssExport );
 $tpl->setVariable( 'rss_export_id', $rssExportID );
