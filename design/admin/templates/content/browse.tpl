@@ -5,7 +5,8 @@
      select_attribute='contentobject_id'
      browse_list_count=0
      page_uri_suffix=false()
-     node_array=array()}
+     node_array=array()
+     bookmark_list=fetch('content','bookmarks',array())}
 {section show=is_set( $node_list )}
     {def $page_uri=$requested_uri }
     {def $page_uri_suffix=concat( '?', $requested_uri_suffix)}
@@ -56,10 +57,49 @@
 
 {/section}
 
-<div class="context-block">
-
 <form name="browse" method="post" action={$browse.from_page|ezurl}>
 
+{section show=or(eq($browse.action_name,"SelectLinkNodeID"),eq($browse.action_name,"SelectLinkObjectID"),eq($browse.action_name,"AddRelatedObjectToOE"))}
+<div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h2 class="context-title">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</h2>
+{* DESIGN: Subline *}<div class="header-subline"></div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+<ul class="oe-bookmarks">
+{section var=Nodes loop=$bookmark_list show=$bookmark_list}
+  <li>
+  {section show=$browse.ignore_nodes_select|contains($Nodes.item.node_id)|not()}
+     {section show=is_array($browse.class_array)}
+         {section show=$browse.class_array|contains($Nodes.item.node.object.content_class.identifier)}
+             <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item.node[$select_attribute]}" />
+         {section-else}
+             &nbsp;
+         {/section}
+     {section-else}
+         <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item.node[$select_attribute]}" />
+     {/section}
+  {section-else}
+      &nbsp;
+  {/section}
+
+   {section show=$browse.ignore_nodes_click|contains( $Nodes.item.node_id )|not}
+        {section show=$Nodes.item.node.object.content_class.is_container}
+            {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;<a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>
+        {section-else}
+            {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
+        {/section}
+    {section-else}
+        {$Nodes.item.node.object.class_identifier|class_icon( small, $Nodes.item.node.object.class_name )}&nbsp;{$Nodes.item.name|wash}
+    {/section}
+    </li>
+{/section}
+</ul>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
+</div>
+{/section}
+
+<div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 {section show=is_set( $node_list )|not()}
     {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
