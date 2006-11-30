@@ -37,17 +37,18 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9594: copy-disabled icon is not correct
 - Fixed bug #9596: content/history published field does misses label for Copy translation
 - Fixed bug #9573: ezinfo/about has no admin design.
-- Fixed bug #009273: Compare versions functionality is buggy
+- Fixed bug #9273: Compare versions functionality is buggy
   (Merged from stable/3.8 (3.8.7) rev. 17573)
-- Fixed bug #009374: exporting object content with media file doesn't work
+- Fixed bug #9374: exporting object content with media file doesn't work
   ( Merged from stable/3.6 rev. 17578, stable/3.7 rev. 17579, stable/3.8 rev. 17580 )
-- Fixed bug #009605: Undefined class name ezshippingmanager.
-- Fixed bug #009614: Undefined offset 0 in ezcontentoperationcollection.php
+- Fixed bug #9605: Undefined class name ezshippingmanager.
+- Fixed bug #9614: Undefined offset 0 in ezcontentoperationcollection.php
   (Merged from stable/3.8 (3.8.7) rev. 17584)
-- Fixed bug #009123: When having Interface locales like "ger" or "ita".
-- Fixed bug #009434: Wrong ui_context for user/activate.
-- Fixed bug #009257: Path is not set in user/success.
-- Fixed bug #009532: Auto-numbered headers generate wrong links.>>>>>>> .r17643
+- Fixed bug #9123: When having Interface locales like "ger" or "ita".
+- Fixed bug #9434: Wrong ui_context for user/activate.
+- Fixed bug #9257: Path is not set in user/success.
+- Fixed bug #9532: Auto-numbered headers generate wrong links.>>>>>>> .r17643
 - Fixed bug #9635: Change text of link to content/history in popup-menu
-- Fixed bug #009638: "Remove selected" button not disabled when no relations 
+- Fixed bug #9638: "Remove selected" button not disabled when no relations 
   can be removed
+- Fixed bug #9611: Paging in Resultset with Subtree limitation doesn't work
