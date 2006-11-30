@@ -35,37 +35,37 @@
     {foreach $site_packages as $package_info}
     {if and( is_set( $message ), $message )}
        {if not( and( $chosen_package, eq( $package_info.name, $chosen_package ) ))}
-       	 {continue}
+         {continue}
        {/if}
     {/if}
     <tr>
     <td>
      {if is_set( $package_info.url )}
-      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
+      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}" {if or( eq($package_info.name,$chosen_package), $site_packages|count|eq( 1 ) )} checked="checked"{/if}/>
      {else}
-      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
-	 {/if}
+      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {if or( eq($package_info.name,$chosen_package), $site_packages|count|eq( 1 ) )} checked="checked"{/if}/>
+     {/if}
      </td>
     <td>
-	{if is_set( $package_info.thumbnail_path )}
+    {if is_set( $package_info.thumbnail_path )}
           <img class="site-type" src={$package_info.thumbnail_path|ezroot} alt="{$package_info.name|wash}" title="{$package_info.summary|wash}" />
-	{elseif is_set( $package_info.thumbnail_url )}
+    {elseif is_set( $package_info.thumbnail_url )}
           <img class="site-type" src="{$package_info.thumbnail_url}" alt="{$package_info.summary|wash}" title="{$package_info.summary|wash}"/>
-	{else}
-	  <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$package_info.name|wash}" title="{$package_info.summary|wash}"  />
+    {else}
+      <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$package_info.name|wash}" title="{$package_info.summary|wash}"  />
         {/if}
     </td>
     <td>
         <h2>{$package_info.summary} (ver. {$package_info.version})</h2>
-	{$package_info.description}
+    {$package_info.description}
     </td>
 
     <td class="importstatus">
-	{if $package_info.status}
-	    <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
-	{else}
-	    <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
-	{/if}
+    {if $package_info.status}
+        <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
+    {else}
+        <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
+    {/if}
     </td>
     </tr>
 
@@ -73,28 +73,28 @@
      <td></td>
      <td></td>
      <td>
-	 <h3>Dependencies</h3>
+     <h3>Dependencies</h3>
      </td>
      <td></td>
     </tr>
-	{if is_set( $package_info.requires )}
-	    {foreach $package_info.requires as $req_name => $req_info}
+    {if is_set( $package_info.requires )}
+        {foreach $package_info.requires as $req_name => $req_info}
         <tr>
         <td></td>
         <td></td>
         <td>
-		{$req_name} (ver.{$req_info.version}):
+        {$req_name} (ver.{$req_info.version}):
         </td>
         <td>
-		{if $req_info.status}
-    	    <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
-		{else}
-    	    <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
-		{/if}
+        {if $req_info.status}
+            <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
+        {else}
+            <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
+        {/if}
         </td>
         </tr>
-	    {/foreach}
-	{else}
+        {/foreach}
+    {else}
     <tr>
      <td></td>
      <td></td>
@@ -107,7 +107,7 @@
      </td>
      <td></td>
     </tr>
-	{/if}
+    {/if}
 
     {/foreach}
 {else} {* !$remote_site_packages *}
