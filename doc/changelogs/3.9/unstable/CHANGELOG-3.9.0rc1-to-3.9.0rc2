@@ -47,8 +47,8 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9123: When having Interface locales like "ger" or "ita".
 - Fixed bug #9434: Wrong ui_context for user/activate.
 - Fixed bug #9257: Path is not set in user/success.
-- Fixed bug #9532: Auto-numbered headers generate wrong links.>>>>>>> .r17643
+- Fixed bug #9532: Auto-numbered headers generate wrong links.
 - Fixed bug #9635: Change text of link to content/history in popup-menu
 - Fixed bug #9638: "Remove selected" button not disabled when no relations 
   can be removed
-- Fixed bug #9611: Paging in Resultset with Subtree limitation doesn't work
+- Fixed bug #9611: Paging in Resultset with Subtree limitation doesn't work.
