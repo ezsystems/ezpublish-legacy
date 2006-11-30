@@ -93,7 +93,7 @@
 {include name=Navigator
          uri='design:navigator/google.tpl'
          page_uri='/content/search'
-         page_uri_suffix=concat( '?SearchText=', $search_text|urlencode, $search_timestamp|gt( 0 )|choose( '', concat( '&SearchTimestamp=', $search_timestamp ) ) )
+         page_uri_suffix=concat( '?SearchText=', $search_text|urlencode, $search_timestamp|gt( 0 )|choose( '', concat( '&SearchTimestamp=', $search_timestamp ) ), '&SubTreeArray=',$search_subtree_array|implode( ',' ) )
          item_count=$search_count
          view_parameters=$view_parameters
          item_limit=$page_limit}
