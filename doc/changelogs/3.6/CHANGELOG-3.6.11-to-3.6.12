@@ -56,61 +56,63 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #8644: bug appears when writing INI files 
   while the siteaccess resides in an extension.
   (Merged from stable/3.8 (3.8.5) rev. 17267)
-- Fixed bug #009028: Importing packages fail to set related objects.
+- Fixed bug #9028: Importing packages fail to set related objects.
   (Merged from stable/3.8 (3.8.5) rev. 17256)
 - Fixed bug #9260: Include file path contains two slashes in eznotificationeventfilter.php
   (Merged from trunk rev. 17279, stable/3.8 rev. 17280, stable/3.7 rev. 17281)
-- Fixed bug #009082: Packages imports fails with objects in multiple locations.
-- Fixed bug #009264: Fatal translation error.
+- Fixed bug #9082: Packages imports fails with objects in multiple locations.
+- Fixed bug #9264: Fatal translation error.
   (Manually merged from stable/3.8 (3.8.6) rev. 17296)
-- Fixed bug #009003: change main location does not update section
+- Fixed bug #9003: change main location does not update section
   (Merged from stable/3.8 (3.8.6) rev. 17300)
-- Fixed bug #009320: findNode(): copy-paste code (remoteID ignored)
+- Fixed bug #9320: findNode(): copy-paste code (remoteID ignored)
   (Merged from stable/3.7 (3.7.10) rev. 17373)
-- Fixed bug #009317: fatal error at importing package
+- Fixed bug #9317: fatal error at importing package
   (Merged from stable/3.8 (3.8.7) rev. 17382)
-- Fixed bug #009061: Datatype Object relation in class user
+- Fixed bug #9061: Datatype Object relation in class user
   (Merged from stable/3.8 (3.8.7) rev. 17405)
-- Fixed bug #009349: Editing class with missing datatype will cause fatal error.
+- Fixed bug #9349: Editing class with missing datatype will cause fatal error.
   (Manually merged from stable/3.8 (3.8.7) rev.17410 )
-- Fixed bug #009030: eZMail::sender causes warnings
+- Fixed bug #9030: eZMail::sender causes warnings
   (Merged from stable/3.8 (3.8.7) rev. 17413)
-- Fixed bug #009098: si operator ignores decimals parameter
+- Fixed bug #9098: si operator ignores decimals parameter
   when prefix is "none"
   (Merged from stable/3.8 (3.8.7) rev. 17420)
-- Fixed bug #008863: Empty let or default block will cause warnings
+- Fixed bug #8863: Empty let or default block will cause warnings
   (Merged from stable/3.8 (3.8.7) rev. 17431)
-- Fixed bug #009382: Quicktime template override contains invalid size.
+- Fixed bug #9382: Quicktime template override contains invalid size.
   (Merged from trunk(3.9.0rc1) rev. 17444)
-- Fixed bug #007783: Wrong Message when using PHP 5x and ezp 3.6
-- Fixed bug #009291: eZContentUpload misses includes
+- Fixed bug #7783: Wrong Message when using PHP 5x and ezp 3.6
+- Fixed bug #9291: eZContentUpload misses includes
   (Manually merged from trunk (3.9.0rc1) rev. 17456).
-- Fixed bug #009258: Path is not set in user/activate
+- Fixed bug #9258: Path is not set in user/activate
   (Merged from stable/3.8 (3.8.7) rev. 17460).  
-- Fixed bug #009266: Binary files not deleted
+- Fixed bug #9266: Binary files not deleted
   (Manually merged from stable/3.8 (3.8.7) rev. 17464).
-- Fixed bug #009353: Uploading files to automatic placement fails when placement
+- Fixed bug #9353: Uploading files to automatic placement fails when placement
   node changes name.
   (Merged from stable/3.8 (3.8.7) rev. 17483)
-- Fixed bug #009508: Minor typo errors in 3.9rc1.
+- Fixed bug #9508: Minor typo errors in 3.9rc1.
   (Merged from trunk (3.9.0rc2) rev. 17530)
-- Fixed bug #009394: Only variables should be passed by reference
+- Fixed bug #9394: Only variables should be passed by reference
   in eZSearchEngine
   (Manually merged from stable/3.8 (3.8.7) rev. 17540)
-- Fixed bug #009243: "Compare versions" and "Reverse related for subtree"
+- Fixed bug #9243: "Compare versions" and "Reverse related for subtree"
   functionalities don't works correctly.
   (Merged from stable/3.8 (3.8.7) rev. 17544)
-- Fixed bug #009300: Memory issue with the updatecontentobjectname.php script due to caching.
+- Fixed bug #9300: Memory issue with the updatecontentobjectname.php script due to caching.
   (Merged from trunk (3.9.0rc2) rev. 17551)
-- Fixed bug #008809: eZContentObjectTreeNode::assignSectionToSubTree does
+- Fixed bug #8809: eZContentObjectTreeNode::assignSectionToSubTree does
   not clear $eZContentObjectContentObjectCache.
   (Merged from trunk (3.9.0rc2) rev. 17560)
-- Fixed bug #008785: Permission problems on Node 1
+- Fixed bug #8785: Permission problems on Node 1
   (Merged from trunk (3.9.0rc2) rev. 17567)
-- Fixed bug #009374: exporting object content with media file doesn't work
-- Fixed bug #009614: Undefined offset 0 in ezcontentoperationcollection.php
+- Fixed bug #9374: exporting object content with media file doesn't work
+- Fixed bug #9614: Undefined offset 0 in ezcontentoperationcollection.php
   (Merged from stable/3.8 (3.8.7) rev. 17584)
-- Fixed bug #009434: Wrong ui_context for user/activate.
+- Fixed bug #9434: Wrong ui_context for user/activate.
   (Merged from trunk (3.9.0rc2) rev. 17633)
-- Fixed bug #009257: Path is not set in user/success.
+- Fixed bug #9257: Path is not set in user/success.
   (Merged from trunk (3.9.0rc2) rev. 17637)
+- Fixed bug #9611: Paging in Resultset with Subtree limitation doesn't work.
+  (Merged from trunk (3.9.0rc2) rev. 17657)
