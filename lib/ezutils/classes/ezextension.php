@@ -331,7 +331,7 @@ class eZExtension
     */
     function extensionInfo( $extension )
     {
-        include_once( 'lib/ezfile/class/ezdir.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
         $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
         if ( file_exists( $infoFileName ) )
         {
