@@ -1,5 +1,9 @@
 Changes from 3.7.9 to 3.7.10
 
+*Library:
+- Added library function for reading extension information.
+  eZExtension::extensionInfo()
+
 *Kernel:
 - Implemented suggestion #8081: receivers name in tipafriend.php.
   (Merged from trunk (3.9.0alpha1) rev. 16939)

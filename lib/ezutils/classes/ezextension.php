@@ -319,6 +319,36 @@ class eZExtension
         return $foundType;
     }
 
+    /*!
+     \static
+     Read extension information. Returns extension information array
+     specified in feature request 9371. ( http://issues.ez.no/9371 )
+
+     \param extension name
+
+     \return Extension information array. null if extension is not found,
+             or does not contain extension information.
+    */
+    function extensionInfo( $extension )
+    {
+        include_once( 'lib/ezfile/class/ezdir.php' );
+        $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
+        if ( file_exists( $infoFileName ) )
+        {
+            include_once( $fileName );
+            $className = $extension . 'Info';
+            if ( is_callable( array( $className, 'info' ) ) )
+            {
+                $result = call_user_func_array( array( $className, 'info' ), array() );
+                if ( is_array( $result ) )
+                {
+                    return $result;
+                }
+            }
+        }
+
+        return null;
+    }
 }
 
 function extension_path( $extension, $withWWWDir = false, $withHost = false, $withProtocol = false )
