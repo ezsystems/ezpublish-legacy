@@ -5,14 +5,6 @@
 <head>
 {include uri='design:page_head.tpl'}
 
-{* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
-{* Cache header for each navigation part *}
-
-<script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
-{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
-<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
-{/section}
-
 {set-block variable=$admin_right}
 {tool_bar name='admin_right' view=full}
 {/set-block}
@@ -20,6 +12,17 @@
 {set-block variable=$admin_developer}
 {tool_bar name='admin_developer' view=full}
 {/set-block}
+
+{def $hide_right_menu = and($admin_right|eq(''), $admin_developer|eq(''))}
+
+{* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu) *}
+{* Cache header for each navigation part *}
+
+<script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
+{section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
+<script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
+{/section}
+
 
 <style type="text/css">
     @import url({'stylesheets/core.css'|ezdesign});
@@ -30,7 +33,7 @@
 {/section}
 
 
-{if and($admin_right|eq(''), $admin_developer|eq(''))}
+{if $hide_right_menu}
     div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
 {/if}
 
@@ -184,7 +187,7 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 
 {/section}
 
-{if and($admin_right|eq(''), $admin_developer|eq(''))}
+{if $hide_right_menu}
 <li class="last"><div>
 <a href={'/user/logout'|ezurl} title="{'Logout from the system.'|i18n( 'design/admin/pagelayout' )}">{'Logout'|i18n( 'design/admin/pagelayout' )}</a>
 </div></li>
