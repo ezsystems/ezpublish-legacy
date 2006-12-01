@@ -1,5 +1,9 @@
 Changes from 3.9.0rc1 to 3.9.0rc2
 
+*Library:
+- Added library function for reading extension information.
+  eZExtension::extensionInfo()
+
 *Kernel:
 - Implemented enhancement #9194: Improvements to ini editor.
 
