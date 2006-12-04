@@ -19,7 +19,7 @@
 <tr>
 <td>
     {if is_set( $what_is_ez_publish )}
-       {$what_is_ez_publish}
+       <p>{$what_is_ez_publish}</p>
     {/if}
 </td>
 </tr>
@@ -31,7 +31,7 @@
 <tr>
 <td>
     {if is_set( $license )}
-       {$license}
+       <p>{$license}</p>
     {/if}
 </td>
 </tr>
@@ -43,8 +43,17 @@
 </tr>
 <tr>
 <td>
-    {if is_set( $contributors )}
-       {$contributors}
+    <p>The following is a list of eZ Publish contributors who have licensed their work for use by eZ systems AS under the terms and conditions of
+       the eZ Contributor Licensing Agreement. As permitted by this agreement with the contributors, eZ systems AS is redistributing the
+       contribution under the same license as the file that the contribution is included in. The list of contributors includes the contributors's
+       name, optional contact info and a list of files that they have either contributed or contributed work to.</p>
+
+    {if and( is_set( $contributors ), is_array( $contributors ) )}
+        <ul>
+        {foreach $contributors as $contributor}
+             <li>{$contributor['name']} : {$contributor['files']}</li>
+        {/foreach}
+        </ul>
     {/if}
 </td>
 </tr>
@@ -55,9 +64,7 @@
 </tr>
 <tr>
 <td>
-    {if is_set( $copyright_notice )}
-       {$copyright_notice}
-    {/if}
+    <p>Copyright &copy; 1999-2006 eZ systems AS, with portions copyright by other parties. A complete list of all contributors and third-party software follows.</p>
 </td>
 </tr>
 </table>
@@ -68,8 +75,15 @@
 </tr>
 <tr>
 <td>
-    {if is_set( $third_party_software )}
-       {$third_party_software}
+    <p>The following is a list of the third-party software that is distributed with this copy of eZ Publish. The list of third party
+       software includes the license for the software in question and the directory or files that contain the third-party software.</p>
+
+    {if and( is_set( $third_party_software ), is_array( $third_party_software ) )}
+        <ul>
+	{foreach $third_party_software as $software_key => $software}
+          <li>{$software}</li>
+        {/foreach}
+        </ul>
     {/if}
 </td>
 </tr>
@@ -81,8 +95,28 @@
 </tr>
 <tr>
 <td>
+    <p>The following is a list of the extensions that have been loaded at run-time by this copy of eZ Publish. </p>
     {if is_set( $extensions )}
-       {$extensions}
+       {foreach $extensions as $ext_name => $extension}
+          <ul>
+              <li>
+              {foreach $extension as $ext_key => $ext_info}
+                {$ext_key}:
+		{if not( is_array( $ext_info ))}
+                     {$ext_info}<br>
+                {else}
+                     <ul>
+                         <li>
+                             {foreach $ext_info as $ext_info_key => $ext_info_value}
+                                  {$ext_info_key} : {$ext_info_value}<br>
+                             {/foreach}
+                         </li>
+                    </ul>
+                {/if}
+              {/foreach}
+              </li>
+          </ul>
+       {/foreach}
     {/if}
 </td>
 </tr>

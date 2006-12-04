@@ -154,7 +154,6 @@ function update_ezinfo_license()
 ## main ################################################
 
 # "Declare" all the variables used in the script.
-#NAME=""
 VERSION=""
 REV=""
 LICENSE_TYPE='gpl'
@@ -164,9 +163,6 @@ LICENSE_NOTICE_TMP_FILE="license-notice.tmp"
 BEGIN_LICENSE_BLOCK="## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##"
 END_LICENSE_BLOCK="## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##"
 SOFTWARE_NAME="SOFTWARE NAME: eZ publish"
-
-#BEGIN_LICENSE_BLOCK="Copyright (C) 1999-"
-#END_LICENSE_BLOCK="you."
 
 # Do the work.
 parse_cl_parameters $*
@@ -315,26 +311,31 @@ for FILE in $FILES; do
          "$FILE" > $CONTRIBUTORS_TMP_FILE
 
     # Parse contributors
-    CONTRIBUTORS=`awk '{ i = split( $0, Names, ", " );
-                        for ( j=1; j<=i; j++ )
-                        {
-                             {if ( j==1 )
-                                {
-                                  i1 = split( Names[j], CoNames, "{" );
-                                  result = CoNames[2]
+    CONTRIBUTORS=`awk '{iopen = split( $0, NamesOpen, "{" );
+                        OName = NamesOpen[iopen];
+                        iclose = split( OName, NamesClose, "}" );
+                        CName = NamesClose[1];
+                        i = split( CName, Names, ", " );
+                        {if ( i==1 )
+                          {
+                            result = CName;
+                          }
+                          else
+                          {
+                             for ( j=1; j<=i; j++ )
+                             {
+                                {if ( j==1 )
+                                   {
+                                     result = Names[j];
+                                   }
+                                }
+                                {if ( ( j != 1 ) )
+                                   {
+                                     result = result"#"Names[j]
+                                   }
                                 }
                              }
-                             {if ( j==i )
-                                {
-                                  i2 = split( Names[j], Co2Names, "}" );
-                                  result = result"#"Co2Names[1]
-                                }
-                             }
-                             {if ( ( j != 1 ) && ( j != i ) )
-                                {
-                                  result = result"#"Names[j]
-                                }
-                             }
+                          }
                         }
                         }
                         END {print result}' $CONTRIBUTORS_TMP_FILE`
@@ -428,7 +429,6 @@ for FILE in $FILES; do
 ?>" >> $FILE
     fi
 done
-
 
 # Finish third-party sowaftware file
 if [ -e "$THIRDSOFT_FILE" ]; then
