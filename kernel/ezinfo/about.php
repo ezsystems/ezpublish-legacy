@@ -98,7 +98,8 @@ function getExtensionsInfo()
     foreach ( $selectedExtensions as $extension )
     {
         $extensionInfo = eZExtension::extensionInfo( $extension );
-        $result[$extension] = $extensionInfo;
+        if ( $extensionInfo )
+            $result[$extension] = $extensionInfo;
     }
     return $result;
 }
