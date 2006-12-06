@@ -87,6 +87,23 @@ function eZSetupFetchPersistenceList()
     return $persistenceList;
 }
 
+function eZSetupSetPersistencePostVariable( $var, $value )
+{
+    include_once( 'lib/ezutils/classes/ezhttptool.php' );
+    $http =& eZHTTPTool::instance();
+    if ( is_array( $value ) )
+    {
+        foreach ( $value as $valueKey => $valueItem )
+        {
+            $http->setPostVariable( 'P_' . $var . '-' . $valueKey, $valueItem );
+        }
+    }
+    else
+    {
+        $http->setPostVariable( 'P_' . $var . '-0', $value );
+    }
+}
+
 function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )
 {
     foreach ( $persistenceDataList as $persistenceData )

@@ -155,12 +155,12 @@ class eZStepLanguageOptions extends eZStepInstaller
             if ( !in_array( $data['Primary'], $data['Languages'] ) )
                 $data['Languages'][] = $data['Primary'];
             $regionalInfo['languages'] = $data['Languages'];
-            //var_dump( $data );
             if ( isset( $data['EnableUnicode'] ) )
             {
                 $regionalInfo['enable_unicode'] = $data['EnableUnicode'] == 'true';
             }
             $this->PersistenceList['regional_info'] = $regionalInfo;
+            $this->storePersistenceData();
 
             return $this->kickstartContinueNextStep();
         }
