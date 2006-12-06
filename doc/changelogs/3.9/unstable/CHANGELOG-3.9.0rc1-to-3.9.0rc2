@@ -60,3 +60,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9642: Brazilian flag has wrong filename
 - Fixed bug #9747: Update templates for ezinfo/about for all designs
 - Fixed bug #9727: default cronjobs are not optimal.
+- Fixed bug #9743: Path is not set in kernel/content/versionview.php
