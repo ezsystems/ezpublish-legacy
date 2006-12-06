@@ -29,7 +29,8 @@
 define( 'EZ_ABOUT_CONTRIBUTORS_DIR', 'var/storage/contributors' );
 define( 'EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE', 'var/storage/third_party_software.php' );
 
-include_once( "kernel/common/template.php" );
+include_once( 'kernel/common/template.php' );
+include_once( 'lib/version.php' );
 
 /*!
   Returns list of contributors;
@@ -104,9 +105,7 @@ function getExtensionsInfo()
     return $result;
 }
 
-$Module =& $Params['Module'];
-
-include_once( 'lib/version.php' );
+$ezinfo = eZPublishSDK::version( true );
 
 $whatIsEzPublish = 'eZ Publish 3 is a professional PHP application framework with advanced
 CMS (content management system) functionality. As a CMS its most notable
@@ -139,6 +138,7 @@ $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE )
 $extensions = getExtensionsInfo();
 
 $tpl =& templateInit();
+$tpl->setVariable( 'ezinfo', $ezinfo );
 $tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
 $tpl->setVariable( 'license', $license );
 $tpl->setVariable( 'contributors', $contributors );
@@ -146,7 +146,7 @@ $tpl->setVariable( 'third_party_software', $thirdPartySoftware );
 $tpl->setVariable( 'extensions', $extensions );
 
 $Result = array();
-$Result['content'] = & $tpl->fetch( "design:ezinfo/about.tpl" );
+$Result['content'] =& $tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,
