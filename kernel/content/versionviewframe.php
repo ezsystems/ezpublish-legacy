@@ -112,6 +112,8 @@ $tpl->setVariable( 'from_language', $FromLanguage );
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['node_id'] =& $node->attribute( 'node_id' );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
+                                'url' => false ) );
 
 if ( $LanguageCode )
 {
