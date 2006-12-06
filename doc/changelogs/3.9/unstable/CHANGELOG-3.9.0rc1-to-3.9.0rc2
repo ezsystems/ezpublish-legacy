@@ -63,3 +63,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9743: Path is not set in kernel/content/versionview.php
 - Fixed bug #9529: Shop - missing content in demo product.
   (Merged from stable/3.8 (3.8.7) rev. 17696)
+- Fixed bug #9467: ezwebin installation script is unable 
+  to accesss setup wizard varibles when using kickstart.ini.
