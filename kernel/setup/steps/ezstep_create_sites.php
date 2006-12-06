@@ -913,7 +913,9 @@ language_locale='eng-GB'";
                              'user_siteaccess' => $userSiteaccessName,
                              'admin_siteaccess' => $adminSiteaccessName,
                              'package_object' => $sitePackage,
-                             'siteaccess_urls' => $this->siteaccessURLs() );
+                             'siteaccess_urls' => $this->siteaccessURLs(),
+                             'access_map' => $accessMap,
+                             'site_type' => $siteType );
 
         $siteINIStored = false;
         $siteINIAdminStored = false;
@@ -1285,6 +1287,8 @@ language_locale='eng-GB'";
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePostInstall' ) )
             eZSitePostInstall( $parameters );
+
+        $accessMap = $parameters['access_map'];
 
         // Call user function for some text which will be displayed at 'Finish' screen
         if ( function_exists( 'eZSiteFinalText' ) )
