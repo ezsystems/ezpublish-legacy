@@ -45,7 +45,7 @@ WHERE     ezsearch_search_phrase_new.phrase = LOWER( ezsearch_search_phrase.phra
 
 -- final tasks with and without BC
 DROP TABLE ezsearch_search_phrase;
---ALTER TABLE ezsearch_search_phrase RENAME TO ezsearch_search_phrase_old;
+-- ALTER TABLE ezsearch_search_phrase RENAME TO ezsearch_search_phrase_old;
 ALTER TABLE ezsearch_search_phrase_new RENAME TO ezsearch_search_phrase;
 
 DROP TABLE `ezsearch_return_count`;
