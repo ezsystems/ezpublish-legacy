@@ -1101,7 +1101,7 @@ class eZImageAliasHandler
         $this->increaseImageSerialNumber();
 
         if ( !$originalFilename )
-            $originalFilename = $filename;
+            $originalFilename = basename( $filename );
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $filename );
         if ( !$mimeData['is_valid'] and
