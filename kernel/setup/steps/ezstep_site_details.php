@@ -311,7 +311,6 @@ class eZStepSiteDetails extends eZStepInstaller
             if ( $result['site_charset'] )
             {
                 $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
-                eZSetupSetPersistencePostVariable( 'regional_info', array( 'site_charset' => $result['site_charset'] ) );
             }
 
             $this->storeSiteType( $siteType );

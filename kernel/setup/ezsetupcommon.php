@@ -99,7 +99,9 @@ function eZSetupSetPersistencePostVariable( $var, $value )
         }
     }
     else
-        $http->setPostVariable( 'P_' . $var . '-' . $value );
+    {
+        $http->setPostVariable( 'P_' . $var . '-0', $value );
+    }
 }
 
 function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )

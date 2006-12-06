@@ -297,13 +297,20 @@ class eZStepInstaller
             if ( isset( $siteType[$extraItem] ) )
             {
                 $this->PersistenceList['site_extra_data_' . $extraItem][$siteIdentifier] = $siteType[$extraItem];
-                if ( $this->hasKickstartData() and function_exists( 'eZSetupSetPersistencePostVariable' ) )
-                    eZSetupSetPersistencePostVariable( 'site_extra_data_' . $extraItem, array( $siteIdentifier => $siteType[$extraItem] ) );
             }
         }
         $this->PersistenceList['chosen_site_package']['0'] = $siteIdentifier;
-        if ( $this->hasKickstartData() and function_exists( 'eZSetupSetPersistencePostVariable' ) )
-            eZSetupSetPersistencePostVariable( 'chosen_site_package', array( '0' => $siteIdentifier ) );
+        if ( $this->hasKickstartData() )
+            $this->storePersistenceData();
+    }
+
+    function storePersistenceData()
+    {
+        include_once( 'kernel/setup/ezsetupcommon.php' );
+        foreach ( $this->PersistenceList as $key => $value )
+        {
+            eZSetupSetPersistencePostVariable( $key, $value );
+        }
     }
 
     function storeExtraSiteData( $siteIdentifier, $dataIdentifier, $value )

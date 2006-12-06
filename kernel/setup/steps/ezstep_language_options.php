@@ -159,8 +159,8 @@ class eZStepLanguageOptions extends eZStepInstaller
             {
                 $regionalInfo['enable_unicode'] = $data['EnableUnicode'] == 'true';
             }
-            eZSetupSetPersistencePostVariable( 'regional_info', $regionalInfo );
             $this->PersistenceList['regional_info'] = $regionalInfo;
+            $this->storePersistenceData();
 
             return $this->kickstartContinueNextStep();
         }
