@@ -164,6 +164,7 @@ $versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' )
                                           ,array( '3.9.0alpha1', '3.9.0beta1' )
                                           ,array( '3.9.0beta1', '3.9.0rc1' )
                                           ,array( '3.9.0rc1', '3.9.0rc2' )
+                                          ,array( '3.9.0rc2', '3.9.0' )
                                         ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );
