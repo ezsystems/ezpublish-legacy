@@ -786,3 +786,15 @@ Datatype branch:
 - Revision=17337
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.0beta1
 - Date 31-Oct-2006
+
+3.9.0rc1:
+- From revision=17510
+- Revision=17511
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.0rc1
+- Date 16-Nov-2006
+
+3.9.0rc2:
+- From revision=17704
+- Revision=17704
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.0rc2
+- Date 7-Dec-2006
