@@ -20,6 +20,10 @@
                                   'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
                                   'xml_link',  'Linked'|i18n( 'design/admin/content/edit' ),
                                   'attribute', 'Attribute'|i18n( 'design/admin/content/edit' ) )}
+{def $relation_name_delimiter = ', '}
+
+{def $empty_array = array( 1 )}
+{set $empty_array = $empty_array|extract( 1 )}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -44,15 +48,20 @@
             <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
             <td>{$object.content_class.name|wash}</td>
             <td>
-                {foreach $related_objects_id_typed as $relationType => $relationIDArray}
-                    {if $relationIDArray|contains($object.id)}
-                        {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType} ( {$attr.name} )
-                        {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType}
+                {if and( ne( $attribute_id, 0 ), $related_objects_id_typed['attribute']|contains( $object.id ) )}
+                    {$relation_type_names['attribute']} ( {$attr.name} )
+                {elseif eq( $attribute_id, 0 )}
+                    {def $relation_name_array = $empty_array}
+                    {foreach $related_objects_id_typed as $relation_type => $relation_id_array}
+                        {if ne( $relation_type, 'attribute' )}
+                            {if $relation_id_array|contains( $object.id )}
+                                {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
+                            {/if}
                         {/if}
-                    {/if}
-                {/foreach}
+                    {/foreach}
+                    {$relation_name_array|implode( $relation_name_delimiter )}
+                    {undef $relation_name_array}
+                {/if}
             </td>
             </tr>
             {if eq( $tr_class,'bdark' )}
@@ -92,15 +101,20 @@
             <td>{$object.content_class.identifier|class_icon( small, $object.content_class.name|wash )}&nbsp;{content_view_gui view=text_linked content_object=$object}</td>
             <td>{$object.content_class.name|wash}</td>
             <td>
-                {foreach $reverse_related_objects_id_typed as $relationType => $relationIDArray}
-                    {if $relationIDArray|contains($object.id)}
-                        {if and( ne( $attribute_id, 0 ), eq( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType} ( {$attr.name} )
-                        {elseif and( eq( $attribute_id, 0 ), ne( $relationType, 'attribute' ) )}
-                            {$relation_type_names.$relationType}
+                {if and( ne( $attribute_id, 0 ), $reverse_related_objects_id_typed['attribute']|contains( $object.id ) )}
+                    {$relation_type_names['attribute']} ( {$attr.name} )
+                {elseif eq( $attribute_id, 0 )}
+                    {def $relation_name_array = $empty_array}
+                    {foreach $reverse_related_objects_id_typed as $relation_type => $relation_id_array}
+                        {if ne( $relation_type, 'attribute' )}
+                            {if $relation_id_array|contains( $object.id )}
+                                {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
+                            {/if}
                         {/if}
-                    {/if}
-                {/foreach}
+                    {/foreach}
+                    {$relation_name_array|implode( $relation_name_delimiter )}
+                    {undef $relation_name_array}
+                {/if}
             </td>
             </tr>
             {if eq( $tr_class,'bdark' )}

@@ -16,6 +16,10 @@
                                   'xml_embed', 'Embedded'|i18n( 'design/admin/content/edit' ),
                                   'xml_link',  'Linked'|i18n( 'design/admin/content/edit' ),
                                   'attribute', 'Attribute'|i18n( 'design/admin/content/edit' ) )}
+{def $relation_name_delimiter = ', '}
+
+{def $empty_array = array( 1 )}
+{set $empty_array = $empty_array|extract( 1 )}
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
@@ -41,11 +45,14 @@
             {/section}
            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
            <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedImageObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" /><br />
-            ({foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                {if $relationIDArray|contains( $RelatedImageObjects.item.id )}
-                    {$relation_type_names[$relationType]}
+            {def $relation_name_array = $empty_array}
+            {foreach $related_contentobjects_id as $relation_type => $relation_id_array}
+                {if $relation_id_array|contains( $RelatedImageObjects.item.id )}
+                    {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
                 {/if}
-            {/foreach})
+            {/foreach}
+            ({$relation_name_array|implode( $relation_name_delimiter )})
+            {undef $relation_name_array}
         </div>
         </td>
         {delimiter modulo=4}
@@ -87,11 +94,14 @@
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
-                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                                {if $relationIDArray|contains($RelatedFileObjects.item.id)}
-                                    {$relation_type_names[$relationType]}
+                            {def $relation_name_array = $empty_array}
+                            {foreach $related_contentobjects_id as $relation_type => $relation_id_array}
+                                {if $relation_id_array|contains( $RelatedFileObjects.item.id )}
+                                    {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
                                 {/if}
                             {/foreach}
+                            {$relation_name_array|implode( $relation_name_delimiter )}
+                            {undef $relation_name_array}
                         </td>
                     {section-else}
                         <td class="checkbox">&nbsp;</td>
@@ -101,11 +111,14 @@
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedFileObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
-                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                                {if $relationIDArray|contains($RelatedFileObjects.item.id)}
-                                    {$relation_type_names[$relationType]}
+                            {def $relation_name_array = $empty_array}
+                            {foreach $related_contentobjects_id as $relation_type => $relation_id_array}
+                                {if $relation_id_array|contains( $RelatedFileObjects.item.id )}
+                                    {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
                                 {/if}
                             {/foreach}
+                            {$relation_name_array|implode( $relation_name_delimiter )}
+                            {undef $relation_name_array}
                         </td>
                     {/section}
                 </tr>
@@ -143,11 +156,14 @@
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
-                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                                {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relation_type_names[$relationType]}
+                            {def $relation_name_array = $empty_array}
+                            {foreach $related_contentobjects_id as $relation_type => $relation_id_array}
+                                {if $relation_id_array|contains( $RelatedObjects.item.id )}
+                                    {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
                                 {/if}
                             {/foreach}
+                            {$relation_name_array|implode( $relation_name_delimiter )}
+                            {undef $relation_name_array}
                         </td>
                     {section-else}
                         <td class="checkbox">&nbsp;</td>
@@ -157,11 +173,14 @@
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
-                            {foreach $related_contentobjects_id as $relationType => $relationIDArray}
-                                {if $relationIDArray|contains($RelatedObjects.item.id)}
-                                    {$relation_type_names[$relationType]}
+                            {def $relation_name_array = $empty_array}
+                            {foreach $related_contentobjects_id as $relation_type => $relation_id_array}
+                                {if $relation_id_array|contains( $RelatedObjects.item.id )}
+                                    {set $relation_name_array = $relation_name_array|append( $relation_type_names[$relation_type] )}
                                 {/if}
                             {/foreach}
+                            {$relation_name_array|implode( $relation_name_delimiter )}
+                            {undef $relation_name_array}
                         </td>
                     {/section}
                 </tr>
