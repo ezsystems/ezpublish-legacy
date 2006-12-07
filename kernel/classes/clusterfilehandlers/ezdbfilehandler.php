@@ -74,16 +74,25 @@ class eZDBFileHandler
                 return;
             }
         }
+
         $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
         $this->backend = new $backendClassName;
-
         $this->backend->_connect();
-
-        // Fetch metadata.
         $this->metaData['name'] = $filePath;
-        if ( $filePath !== false )
+
+        $this->loadMetaData();
+    }
+
+    /*!
+     \public
+     Load file meta information.
+    */
+    function loadMetaData()
+    {
+        // Fetch metadata.
+        if ( $this->metaData['name'] !== false )
         {
-            $metaData = $this->backend->_fetchMetadata( $filePath );
+            $metaData = $this->backend->_fetchMetadata( $this->metaData['name'] );
             if ( $metaData )
                 $this->metaData = $metaData;
         }

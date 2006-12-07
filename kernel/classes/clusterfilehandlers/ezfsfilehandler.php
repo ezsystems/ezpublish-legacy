@@ -43,9 +43,20 @@ class eZFSFileHandler
     function eZFSFileHandler( $filePath = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::ctor( '$filePath' )" );
-        if ( $filePath !== false )
+        $this->metaData['name'] = $filePath;
+        $this->loadMetaData();
+    }
+
+    /*!
+     \public
+     Load file meta information.
+    */
+    function loadMetaData()
+    {
+        if ( $this->metaData['name'] !== false )
         {
             // fill $this->metaData
+            $filePath = $this->metaData['name'];
             eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
             $this->metaData = @stat( $filePath );
             eZDebug::accumulatorStop( 'dbfile' );
@@ -139,19 +150,8 @@ class eZFSFileHandler
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        if ( !( $fh = fopen( $filePath, 'w' ) ) )
-        {
-            eZDebug::writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::storeContents()' );
-            return false;
-        }
-
-        if ( fwrite( $fh, $contents ) === false )
-        {
-            eZDebug::writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::storeContents()' );
-            return false;
-        }
-
-        fclose( $fh );
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        eZFile::create( basename( $filePath ), dirname( $filePath ), $contents );
 
         eZDebug::accumulatorStop( 'dbfile' );
     }

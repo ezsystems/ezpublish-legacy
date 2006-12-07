@@ -67,3 +67,4 @@ Changes from 3.9.0rc1 to 3.9.0rc2
   to accesss setup wizard varibles when using kickstart.ini.
 - Fixed bug #9537: The image field in the "Site settings" edit interface 
   is not confined to the page width.
+- Fixed bug #9639: eZ publish generates same cache block simultaneously.
