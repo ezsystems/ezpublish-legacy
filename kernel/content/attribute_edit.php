@@ -240,6 +240,10 @@ if ( $storingAllowed && $hasObjectInput)
     if ( $Module->isCurrentAction( 'Discard' ) )
         $inputValidated = true;
 
+    // If an input is invalid, prevent from redirection that might be set by a custom action
+    if ( !$inputValidated && $Module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
+        $Module->setExitStatus( EZ_MODULE_STATUS_OK );
+
     if ( $inputValidated and count( $attributeInputMap ) > 0 )
     {
         if ( $Module->runHooks( 'pre_commit', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
