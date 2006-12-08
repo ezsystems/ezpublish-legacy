@@ -138,3 +138,6 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0rc2) rev. 17657)
 - Fixed bug #9743: Path is not set in kernel/content/versionview.php
   (Merged from trunk (3.9.0rc2) rev. 17692)
+- Fixed bug #9766: Template error when viewing embedded image without size
+  parameter.
+  (Merged from stable/3.6 (3.6.10) rev. 17709)
