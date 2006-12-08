@@ -28,7 +28,3 @@ Changes from 3.6.9 to 3.6.10
   (Merged from trunk(3.9.0alpha1) rev. 16903)
 - Fixed bug #9073: Setup wizard must check for write access to /extension folder.
   (Merged from trunk (3.9.0alpha1) rev. 17191)
-- Fixed bug #9766: Template error when viewing embedded image without size
-  parameter.
-- Fixed bug #9760: Quick settings toolbar doesn't refresh settings by siteaccess.
-  (Merged from trunk (3.9,0) rev. 17713)

@@ -118,3 +118,7 @@ Changes from 3.6.11 to 3.6.12
   (Merged from trunk (3.9.0rc2) rev. 17657)
 - Fixed bug #9743: Path is not set in kernel/content/versionview.php
   (Merged from trunk (3.9.0rc2) rev. 17692)
+- Fixed bug #9766: Template error when viewing embedded image without size
+  parameter.
+- Fixed bug #9760: Quick settings toolbar doesn't refresh settings by siteaccess.
+  (Merged from trunk (3.9.0) rev. 17713)
