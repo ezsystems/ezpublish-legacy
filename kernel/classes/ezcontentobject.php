@@ -1468,7 +1468,7 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
         $objectID = (int) $objectID;
         // Get list of objects referring to this one.
-        $relatingObjects = $this->reverseRelatedObjectList( false, false, false, false );
+        $relatingObjects = $this->reverseRelatedObjectList( false, false, 0, false, array( 'AllRelations' => true ) );
 
         // Finds all the attributes that store relations to the given object.
 
@@ -2647,7 +2647,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &relatedObjects( $fromObjectVersion = false,
                               $objectID = false,
-                              $attributeID = false,
+                              $attributeID = 0,
                               $groupByAttribute = false,
                               $params = false,
                               $reverseRelatedObjects = false )
@@ -2689,20 +2689,18 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relationTypeMasking = '';
-        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : false;
-        if ( is_bool( $relationTypeMask ) )
+        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : ( $attributeID === false );
+        if ( $attributeID && ( $relationTypeMask === false || $relationTypeMask === EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE ) )
         {
-            if ( !$relationTypeMask && $attributeID !== false )
-            {
-                $attributeID =(int) $attributeID;
-                $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
-                $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            }
-            else
-            {
-                $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
-            }
+            $attributeID =(int) $attributeID;
+            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+            $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
         }
+        elseif ( is_bool( $relationTypeMask ) )
+        {
+            $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
+        }
+
         if ( $db->databaseName() == 'oracle' )
         {
             $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
@@ -2790,7 +2788,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &relatedContentObjectList( $fromObjectVersion = false,
                                         $fromObjectID = false,
-                                        $attributeID = false,
+                                        $attributeID = 0,
                                         $groupByAttribute = false,
                                         $params = false )
     {
@@ -2805,7 +2803,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &linkedContentObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $linkedList;
     }
 
@@ -2814,7 +2812,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &embeddedContentObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $embeddedList;
     }
 
@@ -2823,7 +2821,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseLinkedObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ), true );
+        $linkedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ), true );
         return $linkedList;
     }
 
@@ -2832,12 +2830,12 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseEmbeddedObjectList( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ), true );
+        $embeddedList =& $this->relatedObjects( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ), true );
         return $embeddedList;
     }
 
     // left for compatibility
-    function &relatedContentObjectArray( $fromObjectVersion = false, $fromObjectID = false, $attributeID = false, $params = false )
+    function &relatedContentObjectArray( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $params = false )
      {
         $relatedList =& eZContentObject::relatedContentObjectList( $fromObjectVersion, $fromObjectID, $attributeID, false, $params );
         return $relatedList;
@@ -2849,7 +2847,7 @@ class eZContentObject extends eZPersistentObject
                            0  - count regular relations (not by attribute)
                            false - count all relations
     */
-    function &relatedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false, $attributeID = false, $params = false )
+    function &relatedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $params = false )
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "relatedContentObjectCount::objectID" );
         $result = get_class( $this ) == 'ezcontentobject' ? $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, $attributeID, false, $params )
@@ -2869,7 +2867,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,
-                                        $attributeID = false,
+                                        $attributeID = 0,
                                         $groupByAttribute = false,
                                         $params = false )
     {
@@ -2883,7 +2881,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &linkedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $result;
     }
 
@@ -2892,7 +2890,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &embeddedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, 0, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
@@ -2901,7 +2899,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseLinkedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, 0, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
         return $result;
     }
 
@@ -2910,7 +2908,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseEmbeddedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
     {
-        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, false, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+        $result =& $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, 0, true, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
         return $result;
     }
 
@@ -2923,7 +2921,7 @@ class eZContentObject extends eZPersistentObject
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
-    function &relatedObjectCount( $version = false, $objectID = false, $attributeID = false, $reverseRelatedObjects = false, $params = false )
+    function &relatedObjectCount( $version = false, $objectID = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
     {
         if ( !$objectID )
             $objectID = $this->ID;
@@ -2951,21 +2949,26 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relationTypeMasking = '';
-        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : false;
-        if ( is_bool( $relationTypeMask ) )
+        $relationTypeMask = isset( $params['AllRelations'] ) ? $params['AllRelations'] : ( $attributeID === false );
+        if ( $attributeID && ( $relationTypeMask === false || $relationTypeMask === EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE ) )
         {
-            if ( !$relationTypeMask && $attributeID !== false )
-            {
-                $attributeID =(int) $attributeID;
-                $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
-                $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            }
-            else
-            {
-                $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
-            }
+            $attributeID =(int) $attributeID;
+            $relationTypeMasking .= " AND contentclassattribute_id=$attributeID ";
+            $relationTypeMask = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
         }
-        $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+        elseif ( is_bool( $relationTypeMask ) )
+        {
+            $relationTypeMask = eZContentObject::relationTypeMask( $relationTypeMask );
+        }
+
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $relationTypeMasking .= " AND bitand( relation_type, $relationTypeMask ) <> 0 ";
+        }
+        else
+        {
+            $relationTypeMasking .= " AND ( relation_type & $relationTypeMask ) <> 0 ";
+        }
 
         if ( $reverseRelatedObjects )
         {

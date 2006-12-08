@@ -262,11 +262,11 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 
     $relatedObjectsTyped = array();
-    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
-    $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+    $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
     if ( eZContentObject::isObjectRelationTyped() )
     {
-        $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, false, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
     }
 
     $relatedObjectsTypedIDArray = array();

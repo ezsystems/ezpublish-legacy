@@ -1193,16 +1193,20 @@ class eZContentFunctionCollection
         {
             $params['SortBy'] = $sortBy;
         }
-        if ( !$attributeID && 0 !== $attributeID )
+        if ( !$attributeID )
         {
-            $attributeID = false;
+            $attributeID = 0;
         }
 
         if ( isset( $allRelations ) )
         {
-            if ( $attributeID !== false && !$allRelations )
+            if ( $attributeID && !$allRelations )
             {
                 $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            elseif( $allRelations === true )
+            {
+                $attributeID = false;
             }
             else
             {
@@ -1238,16 +1242,20 @@ class eZContentFunctionCollection
         }
 
         $params=array();
-        if ( !$attributeID && 0 !== $attributeID )
+        if ( !$attributeID )
         {
-            $attributeID = false;
+            $attributeID = 0;
         }
 
         if ( isset( $allRelations ) )
         {
-            if ( $attributeID !== false && !$allRelations )
+            if ( $attributeID && !$allRelations )
             {
                 $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            elseif( $allRelations === true )
+            {
+                $attributeID = false;
             }
             else
             {
@@ -1284,16 +1292,20 @@ class eZContentFunctionCollection
         {
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
-        if ( !$attributeID && 0 !== $attributeID )
+        if ( !$attributeID )
         {
-            $attributeID = false;
+            $attributeID = 0;
         }
 
         if ( isset( $allRelations ) )
         {
-            if ( $attributeID !== false && !$allRelations )
+            if ( $attributeID && !$allRelations )
             {
                 $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            elseif( $allRelations === true )
+            {
+                $attributeID = false;
             }
             else
             {
@@ -1324,16 +1336,20 @@ class eZContentFunctionCollection
             $params['IgnoreVisibility'] = $ignoreVisibility;
         }
 
-        if ( !$attributeID && 0 !== $attributeID )
+        if ( !$attributeID )
         {
-            $attributeID = false;
+            $attributeID = 0;
         }
 
         if ( isset( $allRelations ) )
         {
-            if ( $attributeID !== false && !$allRelations )
+            if ( $attributeID && !$allRelations )
             {
                 $params['AllRelations'] = eZContentFunctionCollection::contentobjectRelationTypeMask( array( 'attribute' ) );
+            }
+            elseif( $allRelations === true )
+            {
+                $attributeID = false;
             }
             else
             {
