@@ -553,6 +553,7 @@ class eZContentClass extends eZPersistentObject
         }
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
+        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] .".contentclass_id";
 
         if ( $fetchAll )
         {
