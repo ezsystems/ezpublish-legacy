@@ -2635,13 +2635,23 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the related or reverse related objects:
-     \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
-                            0     - use regular relations (content object level)
-                            false - return ALL relations
+     \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                            >0              - return relations made with attribute ID ( "related object(s)" datatype )
+                            0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                            - return relations made with any attributes
+                            false       ( $params['AllRelations'] not set )
+                                            - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
      \param $groupByAttribute : false - return all relations as an array of content objects
                                 true  - return all relations groupped by attribute ID
-                                This parameter makes sense only when $attributeID == false
-     \param $params : other parameters from template fetch function.
+                                This parameter makes sense only when $attributeID == false or $params['AllRelations'] = true
+     \param $params : other parameters from template fetch function :
+                $params['AllRelations']     - relation type filter :
+                            true    - return ALL relations, including attribute-level
+                            false   - return object-level relations
+                            >0      - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
+                $params['SortBy']           - related objects sorting mode.
+                            Supported modes: class_identifier, class_name, modified, name, published, section
+                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
@@ -2778,13 +2788,23 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the related objects.
-     \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
-                            0     - use regular relations (content object level)
-                            false - return ALL relations
-     \param $groupByAttribute : false - return all relations as an array of content objects
-                                true  - return all relations groupped by attribute ID
-                                This parameter makes sense only when $attributeID == false
-     \param $params : other parameters from template fetch function.
+    \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                           >0           - return relations made with attribute ID ( "related object(s)" datatype )
+                           0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                           - return relations made with any attributes
+                           false        ( $params['AllRelations'] not set )
+                                           - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
+    \param $groupByAttribute : false - return all relations as an array of content objects
+                               true  - return all relations groupped by attribute ID
+                               This parameter makes sense only when $attributeID == false or $params['AllRelations'] = true
+    \param $params : other parameters from template fetch function :
+               $params['AllRelations'] - relation type filter :
+                           true - return ALL relations, including attribute-level
+                           false    - return object-level relations
+                           >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
+                $params['SortBy']           - related objects sorting mode.
+                            Supported modes: class_identifier, class_name, modified, name, published, section
+                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
     */
     function &relatedContentObjectList( $fromObjectVersion = false,
                                         $fromObjectID = false,
@@ -2843,9 +2863,20 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      \return the number of related objects
-     \param $attributeID : >0 - count relations made with attribute ID ("related object(s)" datatype)
-                           0  - count regular relations (not by attribute)
-                           false - count all relations
+    \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                           >0           - return relations made with attribute ID ( "related object(s)" datatype )
+                           0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                           - return relations made with any attributes
+                           false        ( $params['AllRelations'] not set )
+                                           - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
+    \param $params : other parameters from template fetch function :
+               $params['AllRelations'] - relation type filter :
+                           true - return ALL relations, including attribute-level
+                           false    - return object-level relations
+                           >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
+                $params['SortBy']           - related objects sorting mode.
+                            Supported modes: class_identifier, class_name, modified, name, published, section
+                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
     */
     function &relatedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $params = false )
     {
@@ -2856,14 +2887,24 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Returns the related objects.
-     \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
-                            0     - use regular relations (content object level)
-                            false - return ALL relations
-     \param $groupByAttribute : false - return all relations as an array of content objects
-                                true  - return all relations groupped by attribute ID
-                                This parameter makes sense only when $attributeID == false
-     \param $params : other parameters from template fetch function.
+     Returns the objects to which this object are related .
+    \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                           >0           - return relations made with attribute ID ( "related object(s)" datatype )
+                           0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                           - return relations made with any attributes
+                           false        ( $params['AllRelations'] not set )
+                                           - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
+    \param $groupByAttribute : false - return all relations as an array of content objects
+                               true  - return all relations groupped by attribute ID
+                               This parameter makes sense only when $attributeID == false or $params['AllRelations'] = true
+    \param $params : other parameters from template fetch function :
+               $params['AllRelations'] - relation type filter :
+                           true - return ALL relations, including attribute-level
+                           false    - return object-level relations
+                           >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
+                $params['SortBy']           - related objects sorting mode.
+                            Supported modes: class_identifier, class_name, modified, name, published, section
+                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
     */
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,
@@ -2914,10 +2955,20 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      \return the number of related or reverse related objects
-     \param $attributeID : >0 - count relations made with attribute ID ("related object(s)" datatype)
-                           0  - count regular relations (not by attribute)
-                           false - count all relations
-     \param $params : other parameters from template fetch function.
+     \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                            >0              - return relations made with attribute ID ( "related object(s)" datatype )
+                            0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                            - return relations made with any attributes
+                            false       ( $params['AllRelations'] not set )
+                                            - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
+     \param $params : other parameters from template fetch function :
+                $params['AllRelations'] - relation type filter :
+                            true    - return ALL relations, including attribute-level
+                            false   - return object-level relations
+                            >0      - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
+                $params['SortBy']           - related objects sorting mode.
+                            Supported modes: class_identifier, class_name, modified, name, published, section
+                $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
@@ -3008,9 +3059,17 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Returns the number of objects to which this object is related.
-     \param $attributeID : >0 - count relations made with attribute ID ("related object(s)" datatype)
-                           0  - count regular relations (not by attribute)
-                           false - count all relations
+    \param $attributeID :  ( makes sense only when $params['AllRelations'] not set or EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                           >0           - return relations made with attribute ID ( "related object(s)" datatype )
+                           0 or false  ( $params['AllRelations'] is EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
+                                           - return relations made with any attributes
+                           false        ( $params['AllRelations'] not set )
+                                           - return ALL relations (deprecated, use "$params['AllRelations'] = true" instead)
+    \param $params : other parameters from template fetch function :
+               $params['AllRelations'] - relation type filter :
+                           true - return ALL relations, including attribute-level
+                           false    - return object-level relations
+                           >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
     */
     function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0, $params = false )
     {
