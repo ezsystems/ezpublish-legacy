@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -386,7 +386,7 @@ class eZContentStructureTreeOperator
                                         'depth' => $treeNode['depth'],
                                         'is_hidden' => $treeNode['is_hidden'],
                                         'is_invisible' => $treeNode['is_invisible'] ),
-                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'path_string' => $treeNode['path_string'] ) ),
+                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'path_string' => $treeNode['path_string'], 'is_container' => $treeNode['is_container'] ) ),
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],

@@ -6118,14 +6118,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function &availableClassesJsArray()
     {
-        $obj =& $this->object();
-        $contentClass =& $obj->attribute( 'content_class' );
-        if ( !$contentClass->attribute( 'is_container' ) )
-        {
-            $retValue = "''";
-            return $retValue;
-        }
-
         $classList = eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
         return $classList;
     }
@@ -6154,13 +6146,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $node = isset( $parameters['node'] ) ? $parameters['node'] : false;
         if ( is_object( $node ) )
         {
+            $obj =& $node->object();
+            $contentClass =& $obj->attribute( 'content_class' );
+            if ( !$contentClass->attribute( 'is_container' ) )
+                return $falseValue;
+
             $pathArray = $node->pathArray();
         }
         else
         {
+            // If current object is not container we should not return class list, should not display "create here" menu.
+            if ( isset( $parameters['is_container'] ) and !$parameters['is_container'] )
+                return $falseValue;
+
             $pathString = isset( $parameters['path_string'] ) ? $parameters['path_string'] : false;
             if ( !$pathString )
-                return false;
+                return $falseValue;
 
             $pathItems = explode( '/', $pathString );
             $pathArray = array();
