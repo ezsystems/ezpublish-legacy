@@ -5,3 +5,6 @@ Changes from 3.9.0rc2 to 3.9.0
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #9766: Template error when viewing embedded image without size
+  parameter.
+  (Merged from stable/3.6 (3.6.10) rev. 17709)
