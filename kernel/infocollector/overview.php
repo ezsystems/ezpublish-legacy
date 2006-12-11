@@ -118,8 +118,9 @@ if ( $infoCollectorObjectsQuery )
 {
     $numberOfInfoCollectorObjects = $infoCollectorObjectsQuery[0]['count'];
 }
+eZDebug::writeDebug( $objects, "sptest" );
 
-for( $i=0; $i<count( $objects ); $i++ )
+foreach ( array_keys( $objects ) as $i )
 {
     $collections = eZInformationCollection::fetchCollectionsList( (int)$objects[$i]['contentobject_id'], /* object id */
                                                                   false, /* creator id */
