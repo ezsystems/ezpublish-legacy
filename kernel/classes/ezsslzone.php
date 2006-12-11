@@ -231,6 +231,7 @@ class eZSSLZone
         if ( $nowSSL && !$inSSL )
         {
             // switch to plain HTTP
+            $ini =& eZINI::instance();
             $host = $ini->variable( 'SiteSettings', 'SiteURL' );
             $sslZoneRedirectionURL = "http://" . $host  . $requestURI;
         }
