@@ -119,7 +119,7 @@ if ( $infoCollectorObjectsQuery )
     $numberOfInfoCollectorObjects = $infoCollectorObjectsQuery[0]['count'];
 }
 
-for( $i=0; $i<count( $objects ); $i++ )
+foreach ( array_keys( $objects ) as $i )
 {
     $collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE contentobject_id=' . (int)$objects[$i]['contentobject_id'] );
 

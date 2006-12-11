@@ -125,3 +125,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #9770: Adding a related object when you have content that does not
   validate.
   (Merged from stable/3.8 (3.8.0) rev. 17722)
+- Fixed bug #9745: Collected information list shows empty items.
+  (Merged from stable/3.8 (3.8.7) rev. 17729)
