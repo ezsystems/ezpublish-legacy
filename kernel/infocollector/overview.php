@@ -118,7 +118,6 @@ if ( $infoCollectorObjectsQuery )
 {
     $numberOfInfoCollectorObjects = $infoCollectorObjectsQuery[0]['count'];
 }
-eZDebug::writeDebug( $objects, "sptest" );
 
 foreach ( array_keys( $objects ) as $i )
 {
