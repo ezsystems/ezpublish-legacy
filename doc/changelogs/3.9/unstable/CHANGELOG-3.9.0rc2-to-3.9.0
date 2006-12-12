@@ -1,5 +1,9 @@
 Changes from 3.9.0rc2 to 3.9.0
 
+*INI settings:
+- Added viewcache.ini:[ViewCacheSettings].ClearRelationTypes :
+  Determines which types of related objects will be choosen to clear view caches.
+
 *Library:
 
 *Kernel:

@@ -123,10 +123,70 @@ class eZContentCacheManager
     */
     function appendRelatingNodeIDs( &$object, &$nodeIDList )
     {
-        $normalRelated =& $object->relatedContentObjectArray();
-        $reversedRelated =& $object->contentObjectListRelatingThis();
+        $viewCacheIni = eZINI::instance( 'viewcache.ini' );
+        if ( $viewCacheIni->hasVariable( 'ViewCacheSettings', 'ClearRelationTypes' ) )
+        {
+            $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
+    
+            if ( !count( $relTypes ) )
+                return;
+    
+            $relatedObjects = array();
+            
+            $relationsMask = 0;
+            if ( in_array( 'object', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
 
-        $relatedObjects = array_merge( $normalRelated, $reversedRelated );
+            if ( in_array( 'common', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON;
+
+            if ( in_array( 'embedded', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_EMBED;
+
+            if ( in_array( 'linked', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINKED;
+
+            if ( in_array( 'attribute', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
+            
+            if ( $relationsMask )
+            {
+                $objects = $object->relatedContentObjectList( false, false, false, false,
+                                                              array( 'AllRelations' => $relationsMask ) );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+    
+            $relationsMask = 0;
+            if ( in_array( 'reverse_object', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
+
+            if ( in_array( 'reverse_common', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON;
+
+            if ( in_array( 'reverse_embedded', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_EMBED;
+
+            if ( in_array( 'reverse_linked', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_LINKED;
+
+            if ( in_array( 'reverse_attribute', $relTypes ) )
+                $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
+
+            if ( $relationsMask )
+            {
+                $objects = $object->reverseRelatedObjectList( false, false, false, false,
+                                                              array( 'AllRelations' => $relationsMask ) );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+        }
+        else
+        {
+            $normalRelated =& $object->relatedContentObjectArray();
+            $reversedRelated =& $object->contentObjectListRelatingThis();
+
+            $relatedObjects = array_merge( $normalRelated, $reversedRelated );
+        }
+
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
         {
             $relatedObject =& $relatedObjects[$relatedObjectKey];
