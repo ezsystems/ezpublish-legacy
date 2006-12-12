@@ -111,7 +111,13 @@ $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                              array( 'limit'  => (int)$limit,
                                     'offset' => (int)$offset ) );
 
-$infoCollectorObjectsQuery = $db->arrayQuery( 'SELECT COUNT( DISTINCT contentobject_id ) as count FROM ezinfocollection' );
+$infoCollectorObjectsQuery = $db->arrayQuery( 'SELECT COUNT( DISTINCT ezinfocollection.contentobject_id ) as count
+                                               FROM ezinfocollection,
+                                                    ezcontentobject,
+                                                    ezcontentobject_tree
+                                               WHERE
+                                                    ezinfocollection.contentobject_id=ezcontentobject.id
+                                                    AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id' );
 $numberOfInfoCollectorObjects = 0;
 
 if ( $infoCollectorObjectsQuery )
