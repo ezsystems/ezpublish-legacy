@@ -217,10 +217,10 @@ fetch_notice $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 fetch_license $LICENSE_NOTICE_FILE $NOTICE_TMP_FILE
 
 # Find files
-#FILES=`find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \)`
+FILES=`find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \)`
 
 # We shoud exclude some dirs (eg extension) from searching
-FILES=`find "$DEST_DIR" -type d \( -name "$EXCLUDE_DIR" \) -prune -o -type f \( -name "*.js" -o -name "*.php" \)`
+#FILES=`find "$DEST_DIR" -type d \( -name "$EXCLUDE_DIR" \) -prune -o -type f \( -name "*.js" -o -name "*.php" \)`
 
 for FILE in $FILES; do
 #    echo "Processing file: $FILE"
@@ -302,6 +302,11 @@ for FILE in $FILES; do
 
     cp -f "$FILE.tmp" "$FILE"
     rm -f "$FILE.tmp"
+
+    # We should not parse contributors or third-party software if the $file is in $EXCLUDE_DIR
+    if [ ${FILE//$EXCLUDE_DIR/''} != "$FILE" ]; then
+       continue;
+    fi
 
 ### BEGIN = Find contributors ======================================================
 
