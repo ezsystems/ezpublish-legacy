@@ -123,10 +123,59 @@ class eZContentCacheManager
     */
     function appendRelatingNodeIDs( &$object, &$nodeIDList )
     {
-        $normalRelated =& $object->relatedContentObjectArray();
-        $reversedRelated =& $object->contentObjectListRelatingThis();
+        $viewCacheIni = eZINI::instance( 'viewcache.ini' );
+        if ( $viewCacheIni->hasVariable( 'ViewCacheSettings', 'ClearRelationTypes' ) )
+        {
+            $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
+    
+            if ( !count( $relTypes ) )
+                return;
+    
+            $relatedObjects = array();
+            if ( in_array( 'object', $relTypes ) && in_array( 'attribute', $relTypes ) )
+            {
+                $objects = $object->relatedContentObjectList( false, false, false );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+            elseif ( in_array( 'object', $relTypes ) )
+            {
+                $objects = $object->relatedContentObjectList( false, false, 0 );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+            if ( in_array( 'attribute', $relTypes ) )
+            {
+                $allObjects = $object->relatedContentObjectList( false, false, false );
+                $objects = $object->relatedContentObjectList( false, false, 0 );
+                $objects = array_diff( $allObjects, $objects );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
 
-        $relatedObjects = array_merge( $normalRelated, $reversedRelated );
+            if ( in_array( 'reverse_object', $relTypes ) && in_array( 'reverse_attribute', $relTypes ) )
+            {
+                $objects = $object->reverseRelatedObjectList( false, false, false );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+            elseif ( in_array( 'reverse_object', $relTypes ) )
+            {
+                $objects = $object->reverseRelatedObjectList( false, false, 0 );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+            if ( in_array( 'reverse_attribute', $relTypes ) )
+            {
+                $allObjects = $object->reverseRelatedObjectList( false, false, false );
+                $objects = $object->reverseRelatedObjectList( false, false, 0 );
+                $objects = array_diff( $allObjects, $objects );
+                $relatedObjects = array_merge( $relatedObjects, $objects );
+            }
+        }
+        else
+        {
+            $normalRelated =& $object->relatedContentObjectArray();
+            $reversedRelated =& $object->contentObjectListRelatingThis();
+
+            $relatedObjects = array_merge( $normalRelated, $reversedRelated );
+        }
+
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
         {
             $relatedObject =& $relatedObjects[$relatedObjectKey];
