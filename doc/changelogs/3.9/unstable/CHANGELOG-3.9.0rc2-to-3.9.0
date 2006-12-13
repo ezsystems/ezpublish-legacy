@@ -23,3 +23,4 @@ Changes from 3.9.0rc2 to 3.9.0
   (Merged from stable/3.8 (3.8.7) rev. 17729)
 - Fixed bug #7642: LDAP users bug
 - Fixed bug #9800: Long object names does not fare well in dropdown-boxes in content history.=======
+- Fixed bug #009793: Typo error.
