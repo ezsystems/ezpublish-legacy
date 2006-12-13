@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $access = $user->hasAccessTo( 'content', 'cleantrash' );
-        if ( $access['accessWord'] == 'yes' )
+        if ( $access['accessWord'] == 'yes' || $access['accessWord'] == 'limited' )
         {
             $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
