@@ -669,7 +669,7 @@ class eZLDAPUser extends eZUser
         }
         else
         {
-            $userID = $user->attribute( 'contentobject_id' );
+            $userID = $contentObjectID = $user->attribute( 'contentobject_id' );
             $contentObject =& eZContentObject::fetch( $userID );
             $version =& $contentObject->attribute( 'current' );
             //$currentVersion = $contentObject->attribute( 'current_version' );
@@ -754,28 +754,60 @@ class eZLDAPUser extends eZUser
                     //$adminUser = eZUser::fetchByName( 'admin' );
                     //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
-                    $mainNodeID = $contentObject->attribute( 'main_node_id' );
-                    $mainNode = eZContentObjectTreeNode::fetch( $mainNodeID );
-
-                    if ( !$mainNode->canMoveFrom() )
+                    // Check: is there user has location (not main) in default placement
+                    $nodeAssignmentList =& $version->nodeAssignments();
+                    $isAssignmentExist = false;
+                    foreach ( array_keys( $nodeAssignmentList ) as $nodeAssignmentKey )
                     {
-                        eZDebug::writeError( "Cannot move node $mainNodeID.",
-                                             'kernel/classes/datatypes/ezuser/ezldapuser' );
+                        $nodeAssignment =& $nodeAssignmentList[$nodeAssignmentKey];
+                        if ( $defaultUserPlacement == $nodeAssignment->attribute( 'parent_node' ) )
+                        {
+                            $isAssignmentExist = true;
+                            break;
+                        }
                     }
-                    $newParentNode = eZContentObjectTreeNode::fetch( $defaultUserPlacement );
-                    // Check if we try to move the node as child of itself or one of its children
-                    if ( in_array( $mainNodeID, $newParentNode->pathArray() ) )
+
+                    if ( $isAssignmentExist )
                     {
-                        eZDebug::writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
-                                             'kernel/classes/datatypes/ezuser/ezldapuser' );
+                        // make existing node as main
+                        $existingNode = eZContentObjectTreeNode::fetchNode( $contentObjectID, $defaultUserPlacement );
+                        if ( !is_object( $existingNode ) )
+                        {
+                            eZDebug::writeError( "Cannot find assigned node as $defaultUserPlacement's child.",
+                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
+                        }
+                        else
+                        {
+                            $existingNodeID = $existingNode->attribute( 'node_id' );
+                            $versionNum = $version->attribute( 'version' );
+                            eZContentObjectTreeNode::updateMainNodeID( $existingNodeID, $contentObjectID, $versionNum, $defaultUserPlacement );
+                        }
                     }
                     else
                     {
-                        include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
-                        if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
+                        $mainNodeID = $contentObject->attribute( 'main_node_id' );
+                        $mainNode = eZContentObjectTreeNode::fetch( $mainNodeID );
+
+                        if ( !$mainNode->canMoveFrom() )
                         {
-                            eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
+                            eZDebug::writeError( "Cannot move node $mainNodeID.",
                                                  'kernel/classes/datatypes/ezuser/ezldapuser' );
+                        }
+                        $newParentNode = eZContentObjectTreeNode::fetch( $defaultUserPlacement );
+                        // Check if we try to move the node as child of itself or one of its children
+                        if ( in_array( $mainNodeID, $newParentNode->pathArray() ) )
+                        {
+                            eZDebug::writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
+                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
+                        }
+                        else
+                        {
+                            include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+                            if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
+                            {
+                                eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
+                                                     'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            }
                         }
                     }
                 }

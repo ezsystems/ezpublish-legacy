@@ -21,3 +21,4 @@ Changes from 3.9.0rc2 to 3.9.0
   (Merged from stable/3.8 (3.8.7) rev. 17726)
 - Fixed bug #9745: Collected information list shows empty items.
   (Merged from stable/3.8 (3.8.7) rev. 17729)
+- Fixed bug #7642: LDAP users bug
