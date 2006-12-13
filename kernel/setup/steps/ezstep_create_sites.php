@@ -34,6 +34,7 @@ include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezpolicy.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
@@ -607,6 +608,10 @@ class eZStepCreateSites extends eZStepInstaller
         $extraFunctionality = array_unique( $extraFunctionality );
         */
 
+        // Add a policy to permit editors using OE
+        eZPolicy::createNew( 3, array( 'ModuleName' => 'ezdhtml', 'FunctionName' => '*' ) );
+
+        // Install site package and it's required packages
         $sitePackageName = $this->chosenSitePackage();
         $sitePackage = eZPackage::fetch( $sitePackageName );
         if ( !is_object( $sitePackage ) )
