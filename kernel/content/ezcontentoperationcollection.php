@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -374,7 +374,6 @@ class eZContentOperationCollection
         }
         elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
         {
-            eZNodeAssignment::purgeByID( $nodeAssignment->attribute( 'id' ) );
             $db->commit();
             return;
         }
@@ -518,12 +517,19 @@ class eZContentOperationCollection
 
         $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
         $removeParentNodeList = array();
+        $removeAssignmentsList = array();
         foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
         {
             $nodeAssignment =& $curentVersionNodeAssignments[$key];
-            if ( $nodeAssignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+            $nodeAssignmentOpcode = $nodeAssignment->attribute( 'op_code' );
+            if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE ||
+                 $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP )
             {
-                $removeParentNodeList[] = $nodeAssignment->attribute( 'parent_node' );
+                $removeAssignmentsList[] = $nodeAssignment->attribute( 'id' );
+                if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+                {
+                    $removeParentNodeList[] = $nodeAssignment->attribute( 'parent_node' );
+                }
 //            $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
             }
         }
@@ -541,6 +547,12 @@ class eZContentOperationCollection
                 eZContentObjectTreeNode::removeSubtrees( array( $node->attribute( 'node_id' ) ), $moveToTrash );
             }
         }
+
+        if ( count( $removeAssignmentsList ) > 0 )
+        {
+            eZNodeAssignment::purgeByID( $removeAssignmentsList );
+        }
+
         $db->commit();
     }
 

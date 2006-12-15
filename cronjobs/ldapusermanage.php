@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -465,20 +465,12 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
             }
             if ( $republishRequired )
             {
-                $newVersion = $contentObject->createNewVersion();
-                $newVersionNr = $newVersion->attribute( 'version' );
-                $nodeAssignmentList =& $newVersion->attribute( 'node_assignments' );
-                foreach ( array_keys( $nodeAssignmentList ) as $key  )
-                {
-                    $nodeAssignment =& $nodeAssignmentList[$key];
-                    $nodeAssignment->remove();
-                }
-
+                $noRemoveAssignmentList = array();
                 if ( $hasOtherNodeType )
                 {
                     foreach ( $otherNodeArray as $otherNode )
                     {
-                        $newVersion->assignToNode( $otherNode['parent_node_id'], $otherNode['is_main'] );
+                        $noRemoveAssignmentList[$otherNode['parent_node_id']] = $otherNode['is_main'];
                     }
                 }
 
@@ -486,7 +478,54 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                 {
                     foreach ( $newLDAPNodeArray as $newLDAPNode )
                     {
-                        $newVersion->assignToNode( $newLDAPNode['parent_node_id'], $newLDAPNode['is_main'] );
+                        $noRemoveAssignmentList[$newLDAPNode['parent_node_id']] = $newLDAPNode['is_main'];
+                    }
+                }
+
+                if ( !$hasOtherNodeType and !$hasLDAPNodeType )
+                {
+                    $noRemoveAssignmentList[$defaultUserPlacement] = 1;
+                }
+
+                $newVersion = $contentObject->createNewVersion();
+                $newVersionNr = $newVersion->attribute( 'version' );
+                $nodeAssignmentList =& $newVersion->attribute( 'node_assignments' );
+                $noAddAssignmentList = array();
+                foreach ( array_keys( $nodeAssignmentList ) as $key  )
+                {
+                    $nodeAssignment =& $nodeAssignmentList[$key];
+                    $parentNodeID = $nodeAssignment->attribute( 'parent_node' );
+                    if ( array_key_exists( $parentNodeID, $noRemoveAssignmentList ) )
+                    {
+                        $noAddAssignmentList[] = $parentNodeID;
+                        $nodeAssignment ->setAttribute( 'parent_remote_id', 'LDAP_' . $parentNodeID );
+                        $nodeAssignment ->store();
+                    }
+                    else
+                    {
+                        eZNodeAssignment::removeByID( $nodeAssignment->attribute( 'id' ) );
+                    }
+                }
+
+                if ( $hasOtherNodeType )
+                {
+                    foreach ( $otherNodeArray as $otherNode )
+                    {
+                        if ( !in_array( $otherNode['parent_node_id'], $noAddAssignmentList ) )
+                        {
+                            $newVersion->assignToNode( $otherNode['parent_node_id'], $otherNode['is_main'] );
+                        }
+                    }
+                }
+
+                if ( $hasLDAPNodeType )
+                {
+                    foreach ( $newLDAPNodeArray as $newLDAPNode )
+                    {
+                        if ( !in_array( $newLDAPNode['parent_node_id'], $noAddAssignmentList ) )
+                        {
+                            $newVersion->assignToNode( $newLDAPNode['parent_node_id'], $newLDAPNode['is_main'] );
+                        }
                         $assignment = eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $newVersionNr, $newLDAPNode['parent_node_id'] );
                         $assignment->setAttribute( 'parent_remote_id', "LDAP_" . $newLDAPNode['parent_node_id'] );
                         $assignment->store();
@@ -495,9 +534,15 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
 
                 if ( !$hasOtherNodeType and !$hasLDAPNodeType )
                 {
-                    $newVersion->assignToNode( $defaultUserPlacement, 1 );
+                    if ( !in_array( $defaultUserPlacement, $noAddAssignmentList ) )
+                    {
+                        $newVersion->assignToNode( $defaultUserPlacement, 1 );
+                    }
                 }
                 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                $adminUser = eZUser::fetchByName( 'admin' );
+                $adminUserContentObjectID = $adminUser->attribute( 'contentobject_id' );
+                eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUserContentObjectID );
                 $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
                                                                                              'version' => $newVersionNr ) );
                 $cli->output( $cli->stylize( 'emphasize', $existUser->attribute('login') ) . " has changed group, updated." );
