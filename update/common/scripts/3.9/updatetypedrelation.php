@@ -41,7 +41,8 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 
 $cli =& eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nAdd 'embed' & 'link' contentobject relations.\n"  ),
+$script =& eZScript::instance( array( 'description' => ( "\nThis script performs the task needed to upgrade to 3.9:\n" .
+                                                         "\nAdds 'embed' & 'link' contentobject relations.\n"  ),
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => true ) );
