@@ -150,3 +150,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17729)
 - Fixed bug #9831: Obsolete code in kernel/classes/ezworkflowtype.php
   ( Merged from stable/3.8 rev. 17755 )
+- Fixed bug #8171: Installer innodb check mechanism flawed.
+  (Merged from stable/3.8 rev. 17759)
