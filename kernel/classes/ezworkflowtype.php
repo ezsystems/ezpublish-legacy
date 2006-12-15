@@ -52,13 +52,6 @@ define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE", 9 );
 define( "EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT", 11 );
 define( "EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET", 12 );
 
-// include defined datatypes
-
-$wfINI =& eZINI::instance( 'workflow.ini' );
-$workflowTypes =& $GLOBALS["eZWorkflowTypes"];
-$types = $wfINI->variable( 'EventSettings', 'AvailableEventTypes' );
-// eZDebugSetting::writeDebug( 'workflow-type', $types, 'workflow' );
-
 class eZWorkflowType
 {
     function eZWorkflowType( $group, $type,
