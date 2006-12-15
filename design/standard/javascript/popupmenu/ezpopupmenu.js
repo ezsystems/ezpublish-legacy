@@ -228,6 +228,8 @@ function ezpopmenu_showSubLevel( event, menuID, overItem )
     //    ezpopmenu_showTopLevel( event, menuName, -1 );
     ezpopmenu_doItemSubstitution( menuID );
 
+    ezpopmenu_hideHigher( menuArray[menuID]['depth'] - 1 ); //hide all other submenus 
+
     // make menu visible
     ezpopmenu_moveSubLevelOnScreen( menuID, overItem );
     ezpopmenu_makeVisible( menuID );
