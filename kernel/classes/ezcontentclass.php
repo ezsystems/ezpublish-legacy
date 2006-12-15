@@ -277,7 +277,7 @@ class eZContentClass extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = false )
+    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = EZ_VERSION_STATUS_INTERNAL_DRAFT )
     {
         $attributes = $this->fetchAttributes();
 

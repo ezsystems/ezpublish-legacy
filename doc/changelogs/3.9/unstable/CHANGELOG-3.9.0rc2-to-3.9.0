@@ -34,3 +34,4 @@ Changes from 3.9.0rc2 to 3.9.0
   (Merged from stable/3.8 rev. 17759)
 - Fixed bug #8328: LDAP user manage cronjob / login handler unable to remove 
   old nodes
+- Fixed bug #9798: user/register does not use internal drafts feature.
