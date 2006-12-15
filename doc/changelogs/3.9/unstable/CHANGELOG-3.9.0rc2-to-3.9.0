@@ -28,3 +28,5 @@ Changes from 3.9.0rc2 to 3.9.0
   (Merged from stable/3.8 (3.8.7) rev. 17751)
 - Fixed bug #9787: Cannot remove objects from trash with editor permissions.
   (Merged from stable/3.8 (3.8.7) rev. 17753)
+- Fixed bug #9831: Obsolete code in kernel/classes/ezworkflowtype.php
+  ( Merged from stable/3.8 rev. 17755 )
