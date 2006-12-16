@@ -374,7 +374,6 @@ class eZContentOperationCollection
         }
         elseif ( $opCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
         {
-            eZNodeAssignment::purgeByID( $nodeAssignment->attribute( 'id' ) );
             $db->commit();
             return;
         }
@@ -511,13 +510,21 @@ class eZContentOperationCollection
 
         $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
         $removeParentNodeList = array();
+        $removeAssignmentsList = array();
         foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
         {
             $nodeAssignment =& $curentVersionNodeAssignments[$key];
-            if ( $nodeAssignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+            $nodeAssignmentOpcode = $nodeAssignment->attribute( 'op_code' );
+            if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE ||
+            $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP )
             {
                 $removeParentNodeList[] = $nodeAssignment->attribute( 'parent_node' );
+                $removeAssignmentsList[] = $nodeAssignment->attribute( 'id' );
+                if ( $nodeAssignmentOpcode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+                {
+                    $removeParentNodeList[] = $nodeAssignment->attribute( 'parent_node' );
 //            $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
+                }
             }
         }
 
@@ -534,6 +541,12 @@ class eZContentOperationCollection
                 eZContentObjectTreeNode::removeSubtrees( array( $node->attribute( 'node_id' ) ), $moveToTrash );
             }
         }
+
+        if ( count( $removeAssignmentsList ) > 0 )
+        {
+            eZNodeAssignment::purgeByID( $removeAssignmentsList );
+        }
+
         $db->commit();
     }
 
