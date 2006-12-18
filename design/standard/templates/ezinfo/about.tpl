@@ -6,7 +6,7 @@
 </div>
 <div class="object">
     {if is_set( $what_is_ez_publish )}
-       <p>{$what_is_ez_publish|wash}</p>
+       <p>{$what_is_ez_publish}</p>
     {/if}
 </div>
 
@@ -15,7 +15,7 @@
 </div>
 <div class="object">
     {if is_set( $license )}
-       <p>{$license|wash}</p>
+       <p>{$license}</p>
     {/if}
 </div>
 
@@ -25,8 +25,8 @@
 </div>
 <div class="object">
 <p>
-    The following is a list of eZ Publish contributors who have licensed their work for use by eZ systems AS under the terms and conditions of
-    the eZ Contributor Licensing Agreement. As permitted by this agreement with the contributors, eZ systems AS is redistributing the
+    The following is a list of <a href='http://ez.no/ezpublish'>eZ Publish</a> contributors who have licensed their work for use by <a href='http://ez.no/'>eZ Systems AS</a> under the terms and conditions of
+    the eZ Contributor Licensing Agreement. As permitted by this agreement with the contributors, <a href='http://ez.no/'>eZ Systems AS</a> is redistributing the
     contribution under the same license as the file that the contribution is included in. The list of contributors includes the
     contributors&apos;s name, optional contact info and a list of files that they have either contributed or contributed work to.
 </p>
@@ -44,7 +44,7 @@
 </div>
 <div class="object">
     <p>
-        Copyright &copy; 1999-2006 eZ systems AS, with portions copyright by other parties. A complete list of all contributors and third-party
+        Copyright &copy; 1999-2006 <a href='http://ez.no/'>eZ Systems AS</a>, with portions copyright by other parties. A complete list of all contributors and third-party
         software follows.
     </p>
 </div>
@@ -55,7 +55,7 @@
     </div>
     <div class="object">
         <p>
-            The following is a list of the third-party software that is distributed with this copy of eZ Publish. The list of third party
+            The following is a list of the third-party software that is distributed with this copy of <a href='http://ez.no/ezpublish'>eZ Publish</a>. The list of third party
             software includes the license for the software in question and the directory or files that contain the third-party software.
         </p>
 
@@ -71,7 +71,7 @@
     <h2>{'Extensions'|i18n('design/standard/ezinfo/about')}</h2>
 </div>
 <div class="object">
-    <p>The following is a list of the extensions that have been loaded at run-time by this copy of eZ Publish.</p>
+    <p>The following is a list of the extensions that have been loaded at run-time by this copy of <a href='http://ez.no/ezpublish'>eZ Publish</a>.</p>
     {if is_set( $extensions )}
         {foreach $extensions as $ext_name => $extension}
             {if is_array( $extension )}
@@ -80,7 +80,7 @@
                         {foreach $extension as $ext_key => $ext_info}
                             {$ext_key|wash}:
                             {if not( is_array( $ext_info ) )}
-                                {$ext_info|wash}<br />
+                                {$ext_info}<br />
                             {else}
                                 <ul>
                                     <li>

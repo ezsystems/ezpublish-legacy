@@ -80,7 +80,6 @@ function getThirdPartySoftware( $pathToFile )
     return $thirdPartySoftware;
 }
 
-
 /*!
   Returns active extentions info in run-time
 */
@@ -103,6 +102,32 @@ function getExtensionsInfo()
             $result[$extension] = $extensionInfo;
     }
     return $result;
+}
+
+/*!
+  Replaces all occurrences (in \a $subjects) of the search string (keys of \a $searches )
+  with the replacement string (values of \a $searches)
+*/
+function strReplaceByArray( $searches = array(), $subjects = array() )
+{
+    foreach ( array_keys( $subjects ) as $subjectKey )
+    {
+        $subject =& $subjects[$subjectKey];
+        foreach ( array_keys( $searches ) as $search )
+        {
+            $replace = $searches[$search];
+            if ( is_array( $subject ) )
+            {
+                foreach ( array_keys( $subject ) as $sububjectItemKey )
+                {
+                    $sububjectItem =& $subject[$sububjectItemKey];
+                    $sububjectItem = str_replace( $search, $replace, $sububjectItem );
+                }
+            }
+            else
+                $subject = str_replace( $search, $replace, $subject );
+        }
+    }
 }
 
 $ezinfo = eZPublishSDK::version( true );
@@ -136,6 +161,12 @@ the root directory of this eZ Publish distribution.';
 $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 $extensions = getExtensionsInfo();
+
+strReplaceByArray( array( 'eZ systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
+                          'eZ Systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
+                          'eZ publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>",
+                          'eZ Publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>" ),
+                   array( &$whatIsEzPublish, &$license, &$contributors, &$thirdPartySoftware, &$extensions ) );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'ezinfo', $ezinfo );
