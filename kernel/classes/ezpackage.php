@@ -1091,27 +1091,27 @@ class eZPackage
                                             'licence' => $time,
                                             'state' => $time ),
                                      $modification );
-        if ( $version )
+        if ( $version !== false )
         {
             $this->Parameters['version-number'] = $version;
             $this->ModifiedParameters['version-number'] = $modification['number'];
         }
-        if ( $release )
+        if ( $release !== false )
         {
             $this->Parameters['release-number'] = $release;
             $this->ModifiedParameters['release-number'] = $modification['release'];
         }
-        if ( $timestamp )
+        if ( $timestamp !== false )
         {
             $this->Parameters['release-timestamp'] = $timestamp;
             $this->ModifiedParameters['release-timestamp'] = $modification['timestamp'];
         }
-        if ( $licence )
+        if ( $licence !== false )
         {
             $this->Parameters['licence'] = $licence;
             $this->ModifiedParameters['licence'] = $modification['licence'];
         }
-        if ( $state )
+        if ( $state !== false )
         {
             $this->Parameters['state'] = $state;
             $this->ModifiedParameters['state'] = $modification['state'];
