@@ -132,7 +132,7 @@ function strReplaceByArray( $searches = array(), $subjects = array() )
 
 $ezinfo = eZPublishSDK::version( true );
 
-$whatIsEzPublish = 'eZ Publish 3 is a professional PHP application framework with advanced
+$whatIsEzPublish = 'eZ publish 3 is a professional PHP application framework with advanced
 CMS (content management system) functionality. As a CMS its most notable
 featureis its revolutionary, fully customizable and extendable content
 model. Thisis also what makes eZ publish suitable as a platform for
@@ -147,25 +147,25 @@ be accessed from anywhere you have an internet connection.';
 
 $license =
 ## BEGIN LICENSE INFO ##
-'This copy of eZ Publish is distributed under the terms and conditions of
+'This copy of eZ publish is distributed under the terms and conditions of
 the GNU General Public License (GPL). Briefly summarized, the GPL gives
-you the right to use, modify and share this copy of eZ Publish. If you
-choose to share eZ Publish, you may only share it under the terms and
-conditions of the GPL. If you share a modified version of eZ Publish,
+you the right to use, modify and share this copy of eZ publish. If you
+choose to share eZ publish, you may only share it under the terms and
+conditions of the GPL. If you share a modified version of eZ publish,
 these modifications must also be placed under the GPL. Read the
 complete legal terms and conditions of the GPL at
 http://www.gnu.org/licenses/gpl.txt or see the file named LICENSE in
-the root directory of this eZ Publish distribution.';
+the root directory of this eZ publish distribution.';
 ## END LICENSE INFO ##
 
 $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 $extensions = getExtensionsInfo();
 
-strReplaceByArray( array( 'eZ systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
-                          'eZ Systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
-                          'eZ publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>",
-                          'eZ Publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>" ),
+strReplaceByArray( array( 'eZ systems AS' => "<a href='http://ez.no/'>eZ systems AS</a>",
+                          'eZ Systems AS' => "<a href='http://ez.no/'>eZ systems AS</a>",
+                          'eZ publish' => "<a href='http://ez.no/ezpublish'>eZ publish</a>",
+                          'eZ Publish' => "<a href='http://ez.no/ezpublish'>eZ publish</a>" ),
                    array( &$whatIsEzPublish, &$license, &$contributors, &$thirdPartySoftware, &$extensions ) );
 
 $tpl =& templateInit();
