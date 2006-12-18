@@ -1,0 +1,645 @@
+Changes from 3.8.0 to 3.9.0
+
+*Kernel:
+- Improved eZSearchEngine to search URLs better.
+- Improved 'eZURLAlias' updating process
+  (see features/3.9/improved_urlalias_updating_process.txt)
+  (patch by Bard Farstad)
+- Added "Name" input field to file uploading dialog to name newly created objects.
+  (module content/upload)
+  (Merged from stable/3.8 (3.8.1) rev. 16420)
+- Improved files uploading to automatically choosen location.
+  (see features/3.9/upload_to_automatic_location_improved.txt)
+- Added the possibility to assign a section to an object 
+  when creating/editing it.
+- Implemented enhancement #4809: Proxy support needed for "outside data" 
+  (RSS, link checking).
+- Implemented suggestion #8081: receivers name in tipafriend.php.
+- Added name's tranlsation support for ezcontentclass/ezcontentclass_attribute.
+- Added foreign key definitions.
+- Added toString() and fromString() functions to the contentobject_attribute and datatype interfases.
+- Implemented enhancement #8309: Make ISBN datatype user-friendly.
+- Added 'AdditionalObjectIDs' option to the SmartViewCache.
+- Added a confirmorderhandler to be able to make you own handlers to send a confirmation email.
+- Caching for items in ezbasket.php.
+- Added isVATIncluded to orderitem.
+- Added audit trailing.
+  see doc/features/3.9/audit_trailing.txt
+- Added the ability to input placement of attribute in class.
+- Added default child sort per content class.
+- Added ezsubtreeremove.php script.
+- Added foreign key definitions.
+- Added extended LDAP user group mapping.
+- Added cronjob script for cleanuping old drafts.
+- Added Match[parent_class] - new matching way to override templates.
+- Added Group-based limitation for content/read, content/edit policies.
+- Added Caching of eZPersistentObject.
+- Added New 'remove to trash' confirmation settings.
+- Improved Trash.
+- Added Workflow process status.
+- Workflows multiplexer and approve enhancement.
+- shop: added support of custom handlers to calculate additional priceinformation
+        to the basket.
+- History: version- and diff-view have been merged into a new view, /content/history
+           The new view is accessible via the accustomary "Manage versions"-button
+           in the edit view, the treemenu- and the classmenu-popup.
+- Implemented enhancement #9194: Improvements to ini editor.	   
+
+DataType:
+- Improved ezcountry datatype.
+- Improved ISBN datatype.
+- Improved eZObjectRelationList datatype.
+- Added toString and fromString datatype functionality.
+
+eZXMLText:
+- Improved custom attributes.
+- Modifications needed to fix bug #8553: wrong object embedding by "eznode".
+- Added XML numeric entities handling.
+- Added XML block new features.
+- Added Improvements to related objects added from XML block text field.
+
+Clustering:
+- Changed the way clustering settings are stored.
+  For more details see doc/features/3.8/clustering.txt.
+  (Merged from stable/3.8 (3.8.1) rev. 16215)
+- Optimized index_image.php to gain more speed.
+  (Merged from stable/3.8 (3.8.1) rev. 16215)
+
+*INI settings:
+- Added site.ini:[SiteAccessSettings].PathPrefixExclude[]
+  Which URLs to exclude from being affected by PathPrefix setting. 
+- Added support of "ResetArrays" for setting group:
+  If ResetArrays is false arrays in specified group
+  will be never cleared (after saving of ini file)
+  Otherwise clearing of arrays will be defined by parameter in
+  ezini:save()
+  For example:
+  [Tool] 
+  AvailableToolArray[]=test
+  ResetArrays=false
+- Implemented enhancement #8474: Add possibility to set Content-Type for layout 
+  module.
+- Added content.ini[RemoveSettings].MaxNodesRemoveSubtree
+  Maximum number of nodes to remove (using Remove Subtrees feature)
+- Added site.ini[DebugSettings].DebugByUser and 
+  site.ini[DebugSettings].DebugUserIDList
+  Whether debug is set per UserID. If set to enabled only users with
+  IDs (in DebugUserIDList) can get debug.
+- Added site.ini[UserSettings].MaxNumberOfFailedLogin:
+  The possibility to deny login after MaxNumberOfFailedLogin failed login attempts. 
+  Max number of failed login attempts. 
+  If the max number is '0' the possibility will be disabled.
+- Added site.ini[UserSettings].TrustedIPList:
+  An array with IP addresses or networks which will be always 
+  allowed to login after a few failed login attempts.
+- Added site.ini[UserSettings].ShowMessageIfExceeded:
+  If true and failed login attempts of current user execeed MaxNumberOfFailedLogin 
+  the user will get a message
+- Implemented enhancement #7556: Need a way to set minimum password length.
+  Added site.ini[UserSettings].MinPasswordLength.
+- Added content.ini[AlphabeticalFilterSettings].ContentFilterList[]
+  List of alphabets that will be used in alphabetical navigation.
+  Alphabets will be fetched from AlphabetList[<name of alphabet>]
+- Added content.ini[AlphabeticalFilterSettings].AlphabetList[]
+  Alphabet range/sequence in unicode.
+- Added content.ini[AlphabeticalFilterSettings].EnableUnusedLetters=true/false
+  If true unused letters in alphabetical navigation (when browsing or fetching subitems)
+  will be disabled.
+- Added support of read-only settings.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Added site.ini:[eZINISettings].ReadonlySettingList[]
+  Specifies settings which should be read-only.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Added site.ini[ProxySettings].ProxyServer
+  Proxy server which will be used in 
+  linkcheck.php/rssimport.php/downloading site packages with "setup wizard".
+  If empty proxy will not be used.
+  NOTE: You will need CURL compiled with your php installation.
+- Added site.ini[ProxySettings].User 
+- Added site.ini[ProxySettings].Password
+  For proxy authentification.
+- Added site.ini[Session].RememberMeTimeout - "Remember me" feature of the login.
+- Added viewcache.ini:[ViewCacheSettings].ClearRelationTypes :
+  Determines which types of related objects will be choosen to clear view caches.
+- Added site.ini:[SiteSettings].AdditionalLoginFormActionURL
+  Used to specify additional url for user/login form action.
+- Changed default value of ApplyButton setting in content.ini ClassSettings 
+  group from disabled to enabled.
+
+*Design:
+- Fixed suggestion #8262: No need displaying language 
+  when only one is installed.
+- Added ability to hide admin toolbars on right side in admin if empty
+- Added new template variables to be able to list more information about VAT / prices.
+- Updated the design in basket and confirmorder to list a summary.
+- Added a checkbox which allows user to stay in the edit window after publishing.
+- Implemented enhancement #9270: modify setup wizard to read defaultaccess 
+  from site.ini (for url access-type)
+
+*Library:
+- Added eZStringUtils library to simplify storing structured data in strings.
+- Added viewcaches expiration for template 'DevelopmentMode' when templates files 
+  are modified.
+- Added library function for reading extension information.
+  eZExtension::extensionInfo()
+
+eZTemplate:
+- Implemented enhancement #8584: 'content_structure_tree' operator should support 
+  multiple sort criteria.
+- Fixed suggestion #7588: "ignore_visibility" and "limitation" parameters 
+  to "search" fetch function.
+- Implemented enhancement #7449: No way to check existance of variable 
+  in ezini or ezhttp. 
+  (Added new tpl operators ezini_hasvariable,ezhttp_hasvariable and added new parameters
+   to ezini and ezhttp).
+- Added alphabet() tpl function returns current alphabet.
+  (Settings are in content.ini[GoogleSettings]).
+  alphabet() has one param "charset_code" - where alphabet will be fetched from
+  (see content.ini[GoogleSettings].Alphabet).
+- Fixed suggestion #8227: Add extended_attribute_filte to list_count/tree_count.
+- Added locale template fetch function.
+  see doc/features/3.9/added_locale_template_fetch_function.txt
+- Adde best_sell_list extended fetch function.
+  see doc/features/3.9/best_sell_list_extended.txt
+- No more $node variable in pagelayout.
+- Added New fetch function in the 'search' module.
+- Added tipafriend_top_list extended fetch function.
+- Added "view_parameters" in edit.tpl's templates.
+
+eZSOAP:
+- Fixed some php warnings with SOAP server.
+
+eZMail:
+- Minor improvement in debug output when sending with SMTP.
+- Added new mail transport "file" for debugging.
+
+eZDiff:
+- Optimized memory footprint of eZDiffMatrix, it will no longer use subarrays.
+- Changed hash format from md5 to crc32.
+
+Shop:
+- Added Enhanced shippingmanager.
+- Added order confirmation handler.
+
+eZUtils:
+- Added: functions eZSys::serverProtocol() and eZSys::isSSLNow()
+- Fixed: extension_path function to determine server protocol correctly.
+
+*Bugfixes:
+- Fixed bug #7741: safe_mode off evaluates to "true".
+- Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
+- Fixed bug #8210: ez crash when using fetch content/related_objects 
+  without a correct object_id.
+- Fixed bug #8192: content tree fetch function fails with parent_node_id 
+  as array and depth set.
+  (Merged from stable35 (3.5.11) rev. 16008)
+- Fixed bug #8241: Collaboration module: fetchItemList and fetchItemCount don't 
+  agree on param 'status'.
+  (Merged from stable/3.6 (3.6.9) rev. 16028)
+- Fixed bug #8243: Template compiler does not check if object isset 
+  when fetching attributes.
+  (Merged from stable/3.7 rev. 16032, stable/3.8 rev. 16034)
+- Fixed bug #8236: articlethumbnail still listed 2 times in image.ini.append.
+- Fixed bug #8224: Fallback language for US should not be ger-GB.
+  (Fixed a typo).
+  (Merged from stable/3.8 (3.8.1) rev. 16041)  
+- Fixed bug #8223: Notification is sent even though object is hidden 
+  when you publish it.
+  (Merged from stable/3.7 (3.7.7) rev. 16043)
+- Fixed bug #8245: Reference bugs in eZContentObjectTree::canCreateClassList 
+  and related functions.
+  (Merged from stable/3.7 rev. 16047, stable/3.8 rev. 16048)
+- Fixed bug #8246: toolbar template "user_country" missing.
+  (Merged from stable/3.8 (3.8.1) rev. 16054)
+- Fixed bug #8242: Wrong PHP requrements in setup.ini.
+- Fixed broken script bin/php/clusterize.php.
+  (Merged from stable/3.8 (3.8.1) rev. 16065)
+- Fixed bug #8253: Deleting an unpublished object returns an error.
+- Fixed bug #8156: Encoding format in RSS feeds.
+  (Merged from stable/3.7 (3.7.7) rev. 16075, 16077)
+- Fixed bug #8254: eZSelection edit template contains invalid XHTML.
+  (Merged from stable/3.5 (3.5.11) rev. 16076)
+- Fixed bug #8258: Accumulator $key does not exists, 
+  run eZDebug::accumulatorStart first.
+  (Merged from stable/3.7 (3.7.7) rev. 16085)
+- Fixed bug #8261: Editing of objects crashes.
+- Fixed bug #8279: Typo in lib/ezfile/classes/ezlog.php.
+  (Merged from stable/3.6 rev. 16095, stable/3.7 rev. 16096, stable/3.8 rev. 16097)
+- Fixed bug #8289: eZDir::findSubitems() throws warning when searching areas 
+  without read access.
+  (Merged from stable/3.6 rev. 16099, stable/3.7 rev. 16100, stable/3.8 rev. 16101)
+- Fixed bug #8150: issue in the embed/image.tpl
+  (Merged from stable/3.7 (3.7.7) rev. 16103)
+- Fixed bug #8293: Bug in roman() operator.
+- Fixed bug #8229: Image Upload in 3.8 doesn't work.
+- Fixed bug #8297: Checkbox datatype Information collector bug.
+  (Merged from stable/3.7 (3.7.7) rev. 16115)
+- Fixed bug #8294: Warning: array_merge_recursive(): recursion detected 
+  in ezuser.php.
+- Fixed bug: RelatedSiteAccessList setting is set in override setting dir instead
+  of siteaccess dir. Also not present and documented in main site.ini file.
+- Fixed bug #8233: Problem with untranslateable content object attributes
+  when switching main language.
+- Fixed bug #8311: Literal tag changes all <br /> to \n and <p></p> to \n\n.
+- Fixed bug #8184: Object Relation Lists after upgrade to 3.8 rc1.
+  (Merged from stable/3.8 (3.8.1) rev. 16133)
+- Fixed suggestion #6747: modulo parameter for delimeter.
+  (Merged from stable/3.6 (3.6.9) rev. 16139)
+- Fixed bug #8344: Removing locations.
+  (Removing of multiple locations doesn't work)
+  (Merged from stable/3.8 (3.8.1) rev. 16146)
+- Fixed bug #8343: Rss feed bug when importing into xml block.
+  (Merged from stable/3.8 (3.8.1) rev. 16151)
+- Fixed bug #8380: eZWizardBase - Operation in step definition does not work 
+  properly.
+  (Merged from stable/3.6 rev. 16157, stable/3.7 16158, stable/3.8 rev. 16159)
+- Fixed bug #8287: kernel 1 error when editing content.
+- Fixed bug #8372: Literal tag (even with html class) decodes all entities.
+- Fixed bug #8308: Removing an object invalidates all the viewcache.
+- Fixed bug #7898: Multiplexer fails when redirecting to template or cron.
+- Fixed bug: Images disappear if ezimage attr is Not translatable.
+  (e.g If image object has cze-CZ and eng-GB translations)
+  (Merged from stable/3.8 (3.8.1) rev. 16188)
+- Fixed bug: Image attr isn't updated after publishing if attr is Not translatable.
+  (Image should be fetched from original attr)
+  (Merged from stable/3.8 (3.8.1) rev. 16188)
+- Fixed bug #8447: Template for with error cause crash.
+- Fixed bug #8238: multilingual upgrade script cause seg fault, and has memory leakage.
+- Fixed bug #8203: Memory leak in updatemultilingual.php.
+- Fixed bug #8469: updatemultilingual.php doesn't work with siteacceses in extensions.
+  (Patch by Ole Marius Smestad)
+- Fixed bug: Importing an OO document containing images does not work
+  if clustering is enabled.
+  (Merged from stable/3.8 (3.8.1) rev. 16208)
+- Fixed bug: bin/php/clusterize.php cannot load cluster handler
+  from an extension.      
+  (Merged from stable/3.8 (3.8.1) rev. 16213)
+- Fixed bug #8394: Fatal error due to typo in clustering code.
+  (Merged from stable/3.8 (3.8.1) rev. 16212)
+- Fixed bug #8395: Not possible to define MySQL socket when using
+  MySQL cluster handler.
+  (Merged from stable/3.8 (3.8.1) rev. 16219)
+- Fixed bug #8259: Performance issue with eZKeyword datatype.
+- Fixed bug: "Relation" and "Relation List" attributes were not imported properly
+  when installing a package.
+- Fixed bug #8445: Poll return wrong report.
+- Fixed bug #8342: Missing index on ezurlalias, eznode_assignment table.
+- Fixed bug: Images disappear when changing/removing versions/translations
+  If ezimage attr is not translatable.
+  Changed: If an image exists in other ezimage attributes we should not delete 
+  it from storage. ezImageFile table contains not unique filepath. 
+  (Merged from stable/3.8 (3.8.1) rev. 16235)
+- Fixed bug #8312: bug with SearchContentClassID in advancedsearch.php.
+  (Merged from stable/3.8 (3.8.1) rev. 16236)
+- Fixed bug #8516: Create static cache via admin interface fails.
+  (Merged from stable/3.8 (3.8.1) rev. 16241)
+- Fixed bug #8439: Empty product category attribute gives a Fatal error.
+- Fixed bug #8519: Vise versa behavior of KeepGroupAssignment ini-setting (ldap.ini).
+- Fixed bug #8459: Content object packages does not support embedded objects.
+- Fixed bug #8325: problem with versionview.tpl (standard)
+  (Merged from stable/3.7 (3.7.7) rev. 16253)
+- Fixed bug #8534: Images are installed under var/storage instead of
+  var/<siteaccess>/storage.
+- Fixed bug #8381: PathPrefix not removed when linking to root node.
+  (Merged from stable/3.7 (3.7.7) rev. 16269)
+- Fixed bug #8476: Reference usage in eZWorkflowProcess::setParameters().
+  (Merged from stable/3.8 (3.8.1) rev. 16273)
+- Fixed bug #8539: CRITICAL language permissions bug (if languages >= 4).
+  (Merged from stable/3.8 (3.8.1) rev. 16279)
+- Fixed bug #8568: eZModuleGlobalPathList undefined using eZ SOAP server.
+  (Merged from stable/3.6 rev. 16287, stable/3.7 rev. 16288, stable/3.8 rev. 16289)
+- Fixed bug #8470: Error when publishing content with removed flash 
+  from not required field.
+  (Merged from stable/3.8 (3.8.2) rev. 16291)
+- Fixed bug #8536: Module setup/session error in SQL query.
+  (Merged from stable/3.8 (3.8.2) rev. 16295)
+- Fixed bug #8556: multioption can be blank even though required.
+  (Merged from stable/3.6 (3.6.9) rev. 16303)
+- Fixed bug #8548: Invalid comment in site.ini.
+  (Merged from stable/3.6 (3.6.9) rev. 16307)
+- Fixed bug #8545: Wash operator applied twice in text_linked.tpl
+  (Merged from stable/3.8 (3.8.2) rev. 16311)
+- Fixed bug #8517: Site style edit overrides global settings.
+  (Merged from stable/3.8 (3.8.2) rev. 16315)
+- Fixed bug #8567: Missing quote with automatic numbering of xml text headers.
+  (Merged from stable/3.8 (3.8.2) rev. 16319)
+- Fixed bug #8560: eZURLAlias::fetchByDestinationURL wrong "sql select" 
+  when is not internal.
+  (Merged from stable/3.7 (3.7.7) rev. 16325)
+- Fixed bug #8491: Folders list in file uploading dialog contains wrong items.
+  (Merged from stable/3.8 (3.8.2) rev. 16329)
+- Fixed bug #8544: Add locations allows non containers.
+  (Merged from stable/3.8 (3.8.2) rev. 16337)
+- Fixed bug #8003: PathPrefix doesn't work with user folder.
+  (Merged from stable/3.7 (3.7.7) rev. 16343)
+- Fixed bug #8582: Removed linebreak in an item on a list.
+  (Merged from stable/3.8 (3.8.2) rev. 16348)
+- Fixed bug #8334: link checker check deleted /no longer present links.
+  (Merged from stable/3.8 (3.8.2) rev. 16350)
+- Fixed bug #8605: Wrong settings in settings/override/site.ini.append.php
+- Fixed bug 7994: Adding toolbar or tool in siteaccess override 
+  toolbar.ini breaks toolbar manager.
+  (Merged from stable/3.8 (3.8.2) rev. 16362)
+- Fixed bug #8617: Bug in the kernel/classes/ezcontentcache.php.
+- Fixed bug #8510: Problem with redirect on SSLZones (they don't work in
+  non-VH mode).
+  (Merged from stable/3.8 (3.8.2) rev. 16372)
+- Fixed bug #8625: Header numeration is wrong on first-level headers.
+  (Merged from stable/3.8 (3.8.2) rev. 16374)
+- Fixed bug #8622: eZXHTMLXMLOutput Handler crashes on eZ survey extension.
+  (Merged from stable/3.8 (3.8.2) rev. 16374)
+- Fixed bug #7060: eZINI code makes it hard to use settings in extensions.
+- Fixed bug #3604: Debug redirect always on when using Debug by IP
+- Fixed bug #8634: Impossible to delete order, bug in the design/admin/templates/shop/orderview.tpl
+  (Merged from stable/3.8 (3.8.2) rev.16384)
+- Fixed bug #8635: Bug "only variable references..." in ezdatetime.php.
+  (Merged from stable/3.6 (3.6.9) rev. 16386)
+- Fixed bug #8636: Only variables should be assigned by reference ... in ezfloattype.php.
+  (Merged from stable/3.7 (3.7.7) rev. 16391)  
+- Fixed bug #8640: max file size of 0 bytes no longer means unlimited in 3.8.X
+  (Merged from stable/3.8 (3.8.2) rev. 16394)
+- Fixed bug #8628: data loss: entire storage/original dir wiped.
+  (Merged from stable/3.8 (3.8.2) rev. 16398)
+- Fixed bug #8649: RSS import to XML text block is broken.
+- Fixed bug #8409: New bug: Order Statistics doesn't compute last day of the month.
+- Fixed bug #8638: Notice: Only variables should be assigned by reference ... ezpersistentobject.php on line 1109
+- Fixed bug #8642: $view_parameters holds trialing slash.
+  (Merged from stable/3.8 rev. 16424)
+- Fixed bug #8662: title() of eZXMLtexttype datatype works incorrectly.
+- Fixed bug #8654: XHTML Conformance of generated anchor tags preceding the header (a name="XXX").
+  (Merged from stable/3.8 rev. 16435)
+- Fixed bug #8585: default location in object relation list will not be used.
+- Fixed bug #8610: Problem with option datatype in form management.
+  (Merged from stable/3.6 (3.6.10) rev. 16477)
+- Fixed bug #8702: bold and italic formating with ezxmltext does not work.
+  (Merged from stable/3.8 rev. 16484)
+- Fixed bug #8700: No more [depth_operator = 'eq']-support in ContentObjectTreeNode
+- Fixed bug #8681: ezurl and ezroot operators don't work correctly.
+  (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug #7619: RSS: Relative image src in XML field.
+  (Merged from stable/3.8 (3.8.3) rev. 16499)
+- Fixed bug #8707: Missing i18n (poll view full).
+- Fixed bug #8680: Navigator disappears in order list.
+  (Merged from stable/3.8 (3.8.4) rev. 16528)
+- Fixed bug #8597: Problem with path to icons on list of used templates.
+  (Merged from stable/3.8 (3.8.4) rev. 16536)
+- Fixed bug #7776: Remove many objects does not work correctly.
+- Fixed bug: problem with special chars in email's header.
+- Fixed bug #8698: Automatic VAT calculation broken with
+  ezdefaultshopaccounthandler.
+- Fixed bug #8109: Missing MIMEType (flv/flash video).
+- Fixed bug #8741: ezurl can cause fatal error in compiled state.
+  (Merged from stable/3.8 (3.8.4) rev. 16574)
+- Fixed bug #8553: Wrong object embedding by "eznode" if you have more locations.
+- Fixed bug #8304: kickstart.ini should be updated.
+- Fixed bug #8780: Text in content/browse mentions a "Choose" button, but the
+  button's caption is "Select".
+- Fixed bug #8811: content/diff/ crashes when object_id is not set in the URL.
+  (Merged from stable/3.8 (3.8.4) rev. 16607)
+- Fixed bug #8558: No warning message when the same user edits the same object
+  twice at the same time.
+  (Merged from stable/3.8 (3.8.4) rev. 16611)
+- Fixed bug #8810: {fetch( content , list , hash( parent_node_id , 0 ) )} 
+  causes fatal error.
+- Fixed bug #8814: Treemenu going nuts.
+- Fixed bug #8813: warnings when using treemenu without 
+  class_filter parameter.
+- Fixed bug #8438: Publish operation doesn't process additional 
+  node assignments.
+- Fixed bug #8793: No user/password in final page of install.
+- Fixed bug #8708: Another problem with strong and emphasize ezxmltags.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug: content/download ignores node's visibility.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug: 'classification' override does not work for 'embed' tags.
+  (Merged from stable/3.8 (3.8.4) rev.16666)
+- Fixed bug #8784: Section list in admin interface, pagination bug.
+- Fixed bug #8846: No navigation (standard forum_topic full view).
+- Fixed bug #8764: Wrong format in ezcontentobject_tree table for design/ez_publish.
+- Fixed bug #8824: PathPrefixing and Url translating dont cooperate.
+- Fixed bug #8864: Toolbar descriptions are only loaded 
+  from default toolbar.ini file.
+- Fixed bug #8715: Module content/keyword does not recognise 
+  the special charecters from other languages.
+- Fixed bug #8726: Unpublish cronjob does not flush cache.
+- Fixed bug #8874: indexcontent cron script does not process 
+  all index_object pending actions.
+- Fixed bug #8909: No real item's name in pendiglist.
+- Fixed bug #8867: Cron and cli scripts do not check transactions.
+- Fixed bug #8932: content/download of files within loose objects in AdvancedObjectRelationList.
+  (Merged from release/3.6.11 rev. 16749)
+- Fixed bug #8759: Users without "manage_locations" seem to be able to add new
+  locations.
+  (Merged from stable/3.8 (3.8.5) rev.16781)
+- Fixed bug #6804: Role limitation assignment is not part of viewcache hash key
+  (Merged from stable/3.8 (3.8.5) rev.16790)
+- Fixed bug #8880: Discarding an object during publishing 
+  can break the whole content.
+- Fixed bug #8952: Include used instead of include_once.
+  (Merged from stable/3.6 (3.6.12) rev.16798)
+- Fixed bug #8968: Class group removal on discarding in class/groupedit.
+- Fixed bug #8926: Js error: languageSelector.options has no properties.
+- Fixed bug #8898: Passing view parameters through login.
+- Fixed bug #8941: Enumeration style value is changed 
+  when I edit the content class.
+- Fixed bug #8985: Uploading of an object under the current object doesn't work properly.
+- Fixed bug #8795: Bug Users with permissions on one language can create drafts
+  in other languages
+  (Merged from stable/3.8 (3.8.5) rev.16841)
+- Fixed bug #8953: Double member variable declarations
+  (Merged from stable/3.8 (3.8.5) rev.16843)
+- Fixed bug #8992: Undefined class "eZContentObjectTreeNode" in ezhttpheader.php  
+  (Merged from stable/3.8 rev. 16844)
+- Fixed bug #8872: WebShop fatal error (view orders of removed users).
+  (Merged from stable/3.8 (3.8.5) rev. 16850)
+- Fixed bug #8643: RSS import shows error, if description contains <![CDATA[.
+  (Merged from stable/3.8 (3.8.5) rev. 16857)
+- Fixed bug #6790: Unterminated let inside a section will cause the section-else
+   Merged from stable/3.8 (3.8.5) rev. 16871)
+- Fixed bug #8890: Passing extra parameters to template functions clears params
+  with the same name in current template
+  (Merged from stable/3.8 (3.8.5) rev. 16882)
+- Fixed bug #9032: Impossible to disable language choice 
+  for /user/edit module.
+  (Merged from stable/3.8 (3.8.5) rev. 16886)  
+- Fixed bug #7021: Offset greater than arraylength in foreach
+  (Merged from stable/3.8 (3.8.5) rev. 16888)
+- Fixed bug: 'always available' bit is not cleared in language mask while 
+  changing 'main' language.
+- Fixed bug #9035: static cache creates extra directory
+- Fixed bug #6545: Setup fails with MySql 4.1
+  (The database charset check uses unquoted db names)
+  (Merged from stable/3.8 (3.8.5) rev. 16907)
+- Fixed bug #8750: "My drafts" not accessible for users with only editing
+  permissions
+  (Merged from stable/3.8 (3.8.5) rev.16923)
+- Fixed bug #8883: ezsubtreecopy: current version other than 1 does not work.
+- Fixed bug #9081: Bug in multi-option datatype.
+- Fixed bug: almost all i18n calls were not compiled but ran the interpreted
+  mode.
+- Fixed bug: fatal error in packaging with ezenum datatype.
+  (Merged from stable/3.8 (3.8.5) rev. 17077 )
+- Fixed bug #9127: "Manage versions"-button disabled in versionview.
+- Fixed bug: Left menu missed when page access denied
+  (Merged from stable/3.8 (3.8.5) rev. 17111)
+- Fixed bug #9151: RSS import does not support link elements with CDATA.
+- Fixed bug #9149: Missing </p> tag in ez.tpl
+- Fixed bug #9143: Error in HTML for peak memory usage
+- Fixed bug #9130: Bug closing </form> tag missing in standard/templates/content/upload.tpl
+- Fixed bug: 9064: Location is broken in the Edit mode
+  (Merged from stable/3.8 (3.8.5) rev. 17148)
+- Fixed bug #9150: Bug in edit\ezimage.tpl
+- Fixed bug #9152: HTML should not be in i18n strings.
+- Fixed bug #9076: Fatal error when publishing top nodes with PreViewCache.
+  (Merged from stable/3.8 (3.8.5) rev. 17181)
+- Fixed bug #9073: Setup wizard must check for write access to /extension folder.
+- Fixed memory leak in package export & eZCodePage::convertString()
+  (Merged from stable/3.8 (3.8.5) rev. 17192)
+- Fixed bug #9142: updatetypedrelation.php throws a lot of PHP warnings.
+- Fixed bug #8497: Missing toggle-button-16x16.gif image in standard design.
+- Fixed bug #8616: PDF exports with the same filename overwrite each other.
+  (Merged from stable/3.8 (3.8.5) rev. 17221)
+- Fixed bug #9028: Importing packages fail to set related objects.
+  (Merged from stable/3.8 (3.8.5) rev. 17237)
+- Fixed bug #7575: eZURLAlias | Using PathPrefix causes wrong index page.
+  (Additional fix: rev. 17249)
+- Fixed bug #9091: Missing indexes in 3.8.
+  (Manually merged from stable/3.8 (3.8.5) rev. 17258)
+- Fixed bug #9117: Content class editing is not inside DB transaction.
+  (Manually merged from stable/3.8 (3.8.5) rev. 17260)
+- Fixed #8644: bug appears when writing INI files 
+  while the siteaccess resides in an extension.
+- Fixed bug #9260: Include file path contains two slashes in eznotificationeventfilter.php
+- Fixed bug #9082: Packages imports fails with objects in multiple locations.
+  (Merged from stable/3.8 (3.8.6) rev. 17294)
+- Fixed bug #9264: Fatal translation error.
+  (Merged from stable/3.8 (3.8.6) rev. 17296)
+- Fixed bug #9003: change main location does not update section
+  (Merged from stable/3.8 (3.8.6) rev. 17300)
+- Fixed bug #9255: workflow/processlist does not set path.
+- Fixed bug #9201: Don't show language dropdown box on class/view when there's
+  only one language.
+- Fixed bug #9253: Sorting class attributes will remove all attribute names.
+- Fixed bug #9259: Add Publish button in preview mode.
+- Fixed bug #9222: Missing memento keys for workflow processes.
+- Fixed bug: Instant connection close after sending wrong HTTP header.
+- Fixed bug #9250: It's possible to add an object more than once to a node.
+- Fixed bug #9314: Using xml block attribute and providing incorrect input
+  may lead to fatal error in some cases.
+  (Merged from stable/3.8 (3.8.7) rev. 17353)
+- Fixed bug #9325: Wrong values in placement boxes while moving class 
+  attributes in class attributes edit.
+- Fixed bug #9320: findNode(): copy-paste code (remoteID ignored)
+- Fixed bug #9317: fatal error at importing package
+  (Merged from stable/3.8 (3.8.7) rev. 17382)
+- Fixed bug #9265: Fatal Error in kernel/classes/ezcontentobjectattribute.php
+  (Merged from stable/3.8 (3.8.7) rev. 17403)
+- Fixed bug #9349: Editing class with missing datatype will cause fatal error.
+- Fixed bug #9061: Datatype Object relation in class user
+  (Merged from stable/3.8 (3.8.7) rev. 17405)
+- Fixed bug #9030: eZMail::sender causes warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17413)
+- Fixed bug #9098: si operator ignores decimals parameter
+  when prefix is "none"
+  (Merged from stable/3.8 (3.8.7) rev. 17420)
+- Fixed bug #8863: Empty let or default block will cause warnings
+  (Merged from stable/3.8 (3.8.7) rev. 17431)
+- Fixed bug #9380: Call to undefined function: setname().
+- Fixed bug #9339: Importing class package will break class multilanguage feature.
+- Fixed bug #9299: change the name of an attribute in template_look class.
+- Fixed bug #9382: Quicktime template override contains invalid size.
+- Fixed bug #7783: Wrong Message when using PHP 5x and ezp 3.6
+- Fixed bug #9291: eZContentUpload misses includes.
+- Fixed bug #9258: Path is not set in user/activate
+  (Merged from stable/3.8 (3.8.7) rev. 17460).
+- Fixed bug #9266: Binary files not deleted
+  (Merged from stable/3.8 (3.8.7)) rev. 17464).
+- Fixed bug #9386: Content truncated in simplified xml input.
+- Fixed bug #9418: "Translate from"-box in edit interface is rendered 
+  incorrectly
+- Fixed bug #9416: User selfedit no longer works
+  (Merged from stable/3.8 (3.8.7) rev. 17517)
+- Fixed bug #9483: Typo error in ts.
+- Fixed bug #9456: updatelicense.sh uses a PHP short open tag.
+- Fixed bug #9468: Filter attribute_identifier in related_objects is not
+  working in 3.9.0rc1
+- Fixed bug #9458: Cannot break/continue 1 level in eZpublish (not ezdhtml)
+  (Merged from stable/3.8 (3.8.7) rev. 17525)
+- Fixed bug #9514: Typo error 3.9rc1.
+- Fixed bug #9508: Minor typo errors in 3.9rc1.
+- Fixed bug #9452: Tip a friend - Email not send error message.
+- Fixed bug #9394: Only variables should be passed by reference
+  in eZSearchEngine
+  (Merged from stable/3.8 (3.8.7) rev. 17540)
+- Fixed bug #9243: "Compare versions" and "Reverse related for subtree"
+  functionalities don't works correctly.
+  (Merged from stable/3.8 (3.8.7) rev. 17544)
+- Fixed bug #9092: Policy limitations cannot recieve values from extension.  
+  (Merged from stable/3.8 (3.8.7) rev. 17548)
+- Fixed bug #9300: Memory issue with the updatecontentobjectname.php script 
+  due to caching.
+- Fixed bug #8844: don't show language selection page when only one language
+  available
+  (Merged from stable/3.8 (3.8.7) rev. 17555)
+- Fixed bug #8809: eZContentObjectTreeNode::assignSectionToSubTree does
+  not clear $eZContentObjectContentObjectCache.
+- Fixed bug #9544: ezinfo/about link in the footer does not contain siteaccess
+- Fixed bug #8785: Permission problems on Node 1
+- Fixed bug #9518: Extensions not enabled in 3.9rc1 upgrade scripts.
+- Fixed bug #9254: eZ publish crashes because of missing database index on ezsearch_return_count.
+- Fixed bug #9594: copy-disabled icon is not correct
+- Fixed bug #9596: content/history published field does misses label for Copy translation
+- Fixed bug #9573: ezinfo/about has no admin design.
+- Fixed bug #9273: Compare versions functionality is buggy
+  (Merged from stable/3.8 (3.8.7) rev. 17573)
+- Fixed bug #9374: exporting object content with media file doesn't work
+  ( Merged from stable/3.6 rev. 17578, stable/3.7 rev. 17579, stable/3.8 rev. 17580 )
+- Fixed bug #9605: Undefined class name ezshippingmanager.
+- Fixed bug #9614: Undefined offset 0 in ezcontentoperationcollection.php
+  (Merged from stable/3.8 (3.8.7) rev. 17584)
+- Fixed bug #9123: When having Interface locales like "ger" or "ita".
+- Fixed bug #9434: Wrong ui_context for user/activate.
+- Fixed bug #9257: Path is not set in user/success.
+- Fixed bug #9532: Auto-numbered headers generate wrong links.
+- Fixed bug #9635: Change text of link to content/history in popup-menu
+- Fixed bug #9638: "Remove selected" button not disabled when no relations 
+  can be removed
+- Fixed bug #9611: Paging in Resultset with Subtree limitation doesn't work.
+- Fixed bug #9644: Setup wizard behaviour when only one package is available
+- Fixed bug #9642: Brazilian flag has wrong filename
+- Fixed bug #9747: Update templates for ezinfo/about for all designs
+- Fixed bug #9727: default cronjobs are not optimal.
+- Fixed bug #9743: Path is not set in kernel/content/versionview.php
+- Fixed bug #9529: Shop - missing content in demo product.
+  (Merged from stable/3.8 (3.8.7) rev. 17696)
+- Fixed bug #9467: ezwebin installation script is unable 
+  to accesss setup wizard varibles when using kickstart.ini.
+- Fixed bug #9537: The image field in the "Site settings" edit interface 
+  is not confined to the page width.
+- Fixed bug #9639: eZ publish generates same cache block simultaneously.
+- Fixed bug #9766: Template error when viewing embedded image without size
+  parameter.
+  (Merged from stable/3.6 (3.6.10) rev. 17709)
+- Fixed bug #9760: Quick settings toolbar doesn't refresh settings by siteaccess.
+- Fixed bug #9751: Content structure popup menu - create here under non container
+- Fixed bug #9770: Adding a related object when you have content that does not
+  validate.
+  (Merged from stable/3.8 (3.8.7) rev. 17722)
+- Fixed bug #9411: sslzones redirect to non-ssl fails.
+  (Merged from stable/3.8 (3.8.7) rev. 17726)
+- Fixed bug #9745: Collected information list shows empty items.
+  (Merged from stable/3.8 (3.8.7) rev. 17729)
+- Fixed bug #7642: LDAP users bug
+- Fixed bug #9800: Long object names does not fare well in dropdown-boxes in content history.=======
+- Fixed bug #9793: Typo error.
+- Fixed bug #9789: 'Editor' role doesn't have a policy to access OE.
+  (Merged from stable/3.8 (3.8.7) rev. 17751)
+- Fixed bug #9787: Cannot remove objects from trash with editor permissions.
+  (Merged from stable/3.8 (3.8.7) rev. 17753)
+- Fixed bug #9831: Obsolete code in kernel/classes/ezworkflowtype.php
+  (Merged from stable/3.8 rev. 17755)
+- Fixed bug #8171: Installer innodb check mechanism flawed.
+  (Merged from stable/3.8 rev. 17759)
+- Fixed bug #8328: LDAP user manage cronjob / login handler unable to remove 
+  old nodes
+- Fixed bug #9798: user/register does not use internal drafts feature.
