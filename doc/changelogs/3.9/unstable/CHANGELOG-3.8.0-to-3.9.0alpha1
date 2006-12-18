@@ -36,7 +36,6 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Added Caching of eZPersistentObject.
 - Added New 'remove to trash' confirmation settings.
 - Improved Trash.
-- Added Workflow process status.
 - Workflows multiplexer and approve enhancement.
 
 DataType:
