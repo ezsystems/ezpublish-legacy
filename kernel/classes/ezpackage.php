@@ -997,23 +997,23 @@ class eZPackage
     function setRelease( $version = false, $release = false, $timestamp = false,
                          $licence = false, $state = false )
     {
-        if ( $version )
+        if ( $version !== false )
         {
             $this->Parameters['version-number'] = $version;
         }
-        if ( $release )
+        if ( $release !== false )
         {
             $this->Parameters['release-number'] = $release;
         }
-        if ( $timestamp )
+        if ( $timestamp !== false )
         {
             $this->Parameters['release-timestamp'] = $timestamp;
         }
-        if ( $licence )
+        if ( $licence !== false )
         {
             $this->Parameters['licence'] = $licence;
         }
-        if ( $state )
+        if ( $state !== false )
         {
             $this->Parameters['state'] = $state;
         }
