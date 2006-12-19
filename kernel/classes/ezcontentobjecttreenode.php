@@ -1439,18 +1439,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
     {
-		$versionNameJoins = '';
-		if ( $useVersionName )
-		{
-			if ( $includeAnd )
-			{
-				$versionNameJoins .= ' AND ';
-			}
-			$versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+        $versionNameJoins = '';
+        if ( $useVersionName )
+        {
+            if ( $includeAnd )
+            {
+                $versionNameJoins .= ' AND ';
+            }
+            $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                    ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
-			$versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
-		}
-    	return $versionNameJoins;   	
+            $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
+        }
+        return $versionNameJoins;
     }
 
     /*!
@@ -1771,7 +1771,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                 $groupByText";
 
-	if ( $sortingInfo['sortingFields'] )
+    if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db =& eZDB::instance();
@@ -4908,6 +4908,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $object === false )
                 $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['ParentDepth'] ) && is_array( $policy['ParentDepth'] ) )
+        {
+            $NodeDepth = $this->attribute( 'depth' );
+            if ( !in_array( '*', $policy['ParentDepth'] ) && !in_array( $NodeDepth, $policy['ParentDepth'] ) )
             {
                 return array();
             }
