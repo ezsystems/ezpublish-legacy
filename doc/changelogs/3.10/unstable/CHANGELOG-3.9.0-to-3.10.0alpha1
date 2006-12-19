@@ -3,6 +3,10 @@ Changes from 3.9.0 to 3.10.0alpha1
 *Kernel:
 
 *Bugfixes:
-- Fixed bug #009461: Wrong site access list used in some templates of the admin interface.
+- Fixed bug #9461: Wrong site access list used in some templates of the admin
+  interface.
 - Fixed bug #9851: Certain table format kills PDF export.
   (Merged from stable/3.8 (3.8.7) rev.17795)
+- Fixed bug #8763: the class filter for content creation does not use
+  the parentdepth property, assigned in a role
+  (Merged from stable/3.8 (3.8.7) rev.17803)
