@@ -617,7 +617,10 @@ class eZRole extends eZPersistentObject
                             foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
                             {
                                 $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];
-                                $limitKeyArray = array_unique( $limitKeyArray );
+                                if ( is_array( $limitKeyArray ) )
+                                {
+                                    $limitKeyArray = array_unique( $limitKeyArray );
+                                }
                             }
                         }
                     }
