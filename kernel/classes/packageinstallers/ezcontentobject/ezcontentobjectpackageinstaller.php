@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -50,13 +50,13 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
                           'name' => ezi18n( 'kernel/package', 'Site access mapping' ),
-						  'methods' => array( 'initialize' => 'initializeSiteAccess',
-						                      'validate' => 'validateSiteAccess' ),
+                          'methods' => array( 'initialize' => 'initializeSiteAccess',
+                                              'validate' => 'validateSiteAccess' ),
                           'template' => 'site_access.tpl' );
         $steps[] = array( 'id' => 'top_nodes',
                           'name' => ezi18n( 'kernel/package', 'Top node placements' ),
-						  'methods' => array( 'initialize' => 'initializeTopNodes',
-						                      'validate' => 'validateTopNodes' ),
+                          'methods' => array( 'initialize' => 'initializeTopNodes',
+                                              'validate' => 'validateTopNodes' ),
                           'template' => 'top_nodes.tpl' );
         $this->eZPackageInstallationHandler( $package,
                                              $type,
@@ -77,10 +77,10 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \return \c 'contentclass'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'contentobject';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'contentobject';
+    }
 
     /*!
      \reimp
@@ -89,7 +89,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         if ( !isset( $persistentData['site_access_map'] ) )
         {

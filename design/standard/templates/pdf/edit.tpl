@@ -22,7 +22,7 @@
     <br/>
     &nbsp;&nbsp;<label>{"Sub text"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     &nbsp;&nbsp;<textarea name="SubText" cols="64" rows="3">{$pdf_export.sub_text|wash}</textarea>
-    <br/>    
+    <br/>
 
     <label>{"Source node"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node..path_identification_string|wash}{/section}" maxlength="60" />
@@ -31,23 +31,23 @@
     <br/>
 
     <label>{"Export structure"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
-    <input type="radio" name="ExportType" 
-      {section show=$pdf_export.export_structure|eq("tree")} 
+    <input type="radio" name="ExportType"
+      {section show=$pdf_export.export_structure|eq("tree")}
         checked="checked"
       {/section}
       value="tree">{"Tree"|i18n("design/standard/rss/edit")}</input>
     <br/>
-    <input type="radio" name="ExportType" 
-      {section show=$pdf_export.export_structure|eq("tree")|not()} 
+    <input type="radio" name="ExportType"
+      {section show=$pdf_export.export_structure|eq("tree")|not()}
         checked="checked"
       {/section}
       value="node">{"Node"|i18n("design/standard/rss/edit")}</input>
     <br/>
-    
+
     <label>{"Export classes"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     <select name="ClassList[]" multiple="multiple" size="8">
     {section var=class loop=$export_class_array}
-      <option value="{$class.item.id}" 
+      <option value="{$class.item.id}"
       {section show=$pdf_export.export_classes|contains($class.item.id)}
         selected="selected"
       {/section}
@@ -55,18 +55,6 @@
     {/section}
     </select>
     <br/>
-
-{*    <label>{"Site access"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
-    <select name="SiteAccess" size="1">
-    {section var=site_access loop=$export_site_access}
-      <option 
-      {section show=$site_access.index|eq($pdf_export.site_access)}
-        selected="selected"
-      {/section}
-      value="{$site_access.index}">{$site_access.item|wash}</option>
-    {/section}
-    </select>
-    <br/> *}
 
     <label>{"Export destination"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
     <input type="radio" name="DestinationType" value="url" {section show=$export_type|eq(2)|not}checked="checked"{/section}>{"Export to URL"|i18n("design/standard/rss/edit")}</input>
@@ -76,7 +64,6 @@
     <br/>
 
     {include uri="design:gui/button.tpl" id_name=ExportPDFButton value="Export"|i18n("design/standard/rss/edit") }
-
     </td>
 </tr>
 
