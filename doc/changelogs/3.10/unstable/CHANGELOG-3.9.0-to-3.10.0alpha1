@@ -3,3 +3,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #009461: Wrong site access list used in some templates of the admin interface.
