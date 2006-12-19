@@ -2380,13 +2380,16 @@ class eZPDFTable extends Cezpdf
                     $cellData[$columnCount.','.$rowCount]['title'] = true;
                     if ( isset( $thParams['colspan'] ) )
                     {
-                        $cellData[$columnCount. ',' .$rowCount]['size'] = array( (int)$thParams['colspan'], 1 );
+                        $cellData[$columnCount. ',' .$rowCount]['size'] = (int)$thParams['colspan'];
                     }
                     if ( isset( $thParams['align'] ) )
                     {
-                        $cellData[$columnCount. ',' .$rowCount]['justification'] = array( $thParams['align'], 1 );
+                        $cellData[$columnCount. ',' .$rowCount]['justification'] = $thParams['align'];
                     }
-
+                    if ( isset( $thParams['width'] ) )
+                    {
+                        $cellData[$columnCount. ',' .$rowCount]['width'] = $thParams['width'];
+                    }
                     continue;
                 }
                 else if ( strcmp( substr($text, $offSet+1, strlen( '/tr' ) ), '/tr' ) == 0 )
