@@ -47,7 +47,7 @@ $http =& eZHTTPTool::instance();
 $siteini =& eZINI::instance();
 if ( !$currentSiteAccess or
      !$toolbarPosition or
-     !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
+     !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );

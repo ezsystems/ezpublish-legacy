@@ -235,8 +235,6 @@ else // New RSSExport
 }
 
 $tpl =& templateInit();
-
-// Populate site access list
 $config =& eZINI::instance( 'site.ini' );
 
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );

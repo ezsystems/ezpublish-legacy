@@ -8,13 +8,13 @@
 </p>
 
 <select name="CurrentSiteAccess">
-{section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
+{section name=SiteAccess loop=ezini('SiteAccessSettings','RelatedSiteAccessList')}
     {section show=eq($current_siteaccess,$:item)}
         <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
     {section-else}
         <option value="{$SiteAccess:item}">{$:item}</option>
     {/section}
-{/section}    
+{/section}
 </select>
 <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
 
@@ -44,10 +44,10 @@
 {section name=CustomMatch loop=$template_settings.custom_match sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
     <td valign="top">
-        {$CustomMatch:item.override_name} 
+        {$CustomMatch:item.override_name}
     </td>
     <td valign="top">
-        {$CustomMatch:item.match_file} 
+        {$CustomMatch:item.match_file}
     </td>
     <td valign="top">
         {section show=is_set($CustomMatch:item.conditions)}
@@ -57,7 +57,7 @@
             <br />
             {/delimiter}
             {/section}
-	{/section}
+    {/section}
     </td>
     <td valign="top">
         <input type="text" name="PriorityArray[{$CustomMatch:item.override_name}]" size="2" value="{$CustomMatch:number}" />
