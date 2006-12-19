@@ -152,3 +152,4 @@ Changes from 3.7.9 to 3.7.10
   ( Merged from stable/3.8 rev. 17755 )
 - Fixed bug #8171: Installer innodb check mechanism flawed.
   (Merged from stable/3.8 rev. 17759)
+- Fixed bug #9808: accessArrayByUserID: array_merge_recursive misusage
