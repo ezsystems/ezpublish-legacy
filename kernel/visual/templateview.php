@@ -56,7 +56,7 @@ if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
 // Default to first defined siteacces if none are selected
 if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
 {
-    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccessList[0] );
 }
 

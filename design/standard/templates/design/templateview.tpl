@@ -21,7 +21,7 @@
 <label>{'Siteaccess'|i18n( 'design/standard/design/templateview' )}:</label>
 
 <select name="CurrentSiteAccess">
-{section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
+{section name=SiteAccess loop=ezini('SiteAccessSettings','RelatedSiteAccessList')}
     {section show=eq($current_siteaccess,$:item)}
         <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
     {section-else}
@@ -62,7 +62,7 @@
             <br />
             {/delimiter}
             {/section}
-	{/section}
+    {/section}
     </td>
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
     <td><a href={concat( '/design/templateedit/', $CustomMatch.item.match_file)|ezurl}><img src={'edit.gif'|ezimage} alt="Edit" /></a></td>

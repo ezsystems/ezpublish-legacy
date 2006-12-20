@@ -32,7 +32,7 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 $ini =& eZINI::instance();
-$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$siteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
 if ( $Params['INIFile'] )
     $settingFile = $Params['INIFile'];
@@ -46,7 +46,8 @@ if ( $Params['SiteAccess'] )
 if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
     $currentSiteAccess = $http->postVariable( 'CurrentSiteAccess' );
 
-if ( !isset( $currentSiteAccess ) )
+if ( !isset( $currentSiteAccess ) or
+     !in_array( $currentSiteAccess, $siteAccessList ) )
     $currentSiteAccess = $siteAccessList[0];
 
 unset( $ini );

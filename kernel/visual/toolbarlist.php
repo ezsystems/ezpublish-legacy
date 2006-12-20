@@ -45,7 +45,7 @@ if ( $Params['SiteAccess'] )
     $currentSiteAccess = $Params['SiteAccess'];
 
 $ini =& eZINI::instance();
-$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$siteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
 if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
     $currentSiteAccess = $http->postVariable( 'CurrentSiteAccess' );

@@ -50,13 +50,13 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
                           'name' => ezi18n( 'kernel/package', 'Site access mapping' ),
-						  'methods' => array( 'initialize' => 'initializeSiteAccess',
-						                      'validate' => 'validateSiteAccess' ),
+                          'methods' => array( 'initialize' => 'initializeSiteAccess',
+                                              'validate' => 'validateSiteAccess' ),
                           'template' => 'site_access.tpl' );
         $steps[] = array( 'id' => 'top_nodes',
                           'name' => ezi18n( 'kernel/package', 'Top node placements' ),
-						  'methods' => array( 'initialize' => 'initializeTopNodes',
-						                      'validate' => 'validateTopNodes' ),
+                          'methods' => array( 'initialize' => 'initializeTopNodes',
+                                              'validate' => 'validateTopNodes' ),
                           'template' => 'top_nodes.tpl' );
         $this->eZPackageInstallationHandler( $package,
                                              $type,
@@ -77,10 +77,10 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \return \c 'contentclass'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'contentobject';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'contentobject';
+    }
 
     /*!
      \reimp
@@ -89,7 +89,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         if ( !isset( $persistentData['site_access_map'] ) )
         {

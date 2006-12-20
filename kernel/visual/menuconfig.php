@@ -47,7 +47,7 @@ if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
     }
 }
 
-$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$siteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 $siteAccess = false;
 
 // Fetch siteaccess settings for the selected override
@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
 
 // Get path to specified site access.
 $pathToSiteAccess = eZSiteAccess::findPathToSiteAccess( $siteAccess );
-$menuINI =& eZINI::instance( "menu.ini","",null,null, true );
+$menuINI =& eZINI::instance( "menu.ini", "", null, null, true );
 $menuINI->prependOverrideDir( $pathToSiteAccess, true, 'siteaccess' );
 $menuINI->loadCache();
 

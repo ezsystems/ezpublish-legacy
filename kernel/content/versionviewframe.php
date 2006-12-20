@@ -99,7 +99,7 @@ if ( $LanguageCode )
     $node->setCurrentLanguage( $LanguageCode );
     $contentObject->setCurrentLanguage( $LanguageCode );
 }
-$tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
+$tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) );
 $tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version', $versionObject );

@@ -43,17 +43,17 @@
          </label>
       {/let}
       {/let}
-   {/section}   
+   {/section}
 {/section}
 </div>
 {section show=eq( $select_siteaccess, true )}
-    {let siteaccesslist=ezini( 'SiteAccessSettings', 'AvailableSiteAccessList' )}
+    {let siteaccesslist=ezini( 'SiteAccessSettings', 'RelatedSiteAccessList' )}
     <div class="block">
     <label>Siteaccess:</label>
     <select name="siteaccesslist"{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} onchange='location.href=this.value'>
             <option value={'/user/preferences/set/admin_quicksettings_siteaccess/global_override'|ezurl}{section show=eq( $siteaccess, 'global_override')} selected="selected"{/section}>Global (override)</option>
     {section loop=$siteaccesslist}
-    		<option value={concat( '/user/preferences/set/admin_quicksettings_siteaccess/', $:item )|ezurl}{section show=eq( $siteaccess, $:item )} selected="selected"{/section}>{$:item|wash}</option>
+            <option value={concat( '/user/preferences/set/admin_quicksettings_siteaccess/', $:item )|ezurl}{section show=eq( $siteaccess, $:item )} selected="selected"{/section}>{$:item|wash}</option>
     {/section}
     </select>
     </div>

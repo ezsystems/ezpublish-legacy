@@ -226,7 +226,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 </div>
 
 <!-- Site access for override popup menu -->
-{let siteAccessList=ezini('SiteAccessSettings','AvailableSiteAccessList')|unique}
+{let siteAccessList=ezini('SiteAccessSettings','RelatedSiteAccessList')|unique}
 
 <div class="popupmenu" id="OverrideSiteAccess">
     <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
