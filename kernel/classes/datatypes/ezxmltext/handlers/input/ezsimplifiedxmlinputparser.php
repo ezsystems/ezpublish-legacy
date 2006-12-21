@@ -360,7 +360,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $parent->removeChild( $next );
             }
         }
-
         return $ret;
     }
 
@@ -382,15 +381,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $newParent->appendChild( $element );
                 $ret['result'] =& $newParent;
             }
-            if ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
+            elseif ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
             {
                 $para =& $newParent->parentNode;
                 $parent->removeChild( $element );
                 $para->appendChild( $element );
                 $ret['result'] =& $newParent->parentNode;
             }
-
-            if ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
+            elseif ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
                 $newPara =& $this->createAndPublishElement( 'paragraph', $ret );
                 $parent->replaceChild( $newPara, $element );
@@ -554,7 +552,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $parent->removeChild( $element );
                 $prev->appendChild( $element );
                 $ret['result'] =& $prev;
-		return $ret;
+                return $ret;
             }
         }
         $ret =& $this->appendParagraph( $element, $params );
