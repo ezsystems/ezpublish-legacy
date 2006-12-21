@@ -170,7 +170,7 @@
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 /*START:code-template::class-sql-creation*/
-        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] .".contentclass_id";
+        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] . ".contentclass_id";
 /*END:code-template::class-sql-creation*/
 
         if ( $fetchAll )
@@ -182,13 +182,13 @@
 /*START:code-template::class-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::class-sql-creation*/
 /*START:code-template::object-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
+                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::object-sql-creation*/
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );	
@@ -211,14 +211,14 @@
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::class-sql-creation*/
 /*START:code-template::object-sql-creation*/
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL AND $classNameFilter[where]\n" .
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where]\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
 /*END:code-template::object-sql-creation*/
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );

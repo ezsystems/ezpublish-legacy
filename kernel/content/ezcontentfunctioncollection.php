@@ -575,6 +575,9 @@ class eZContentFunctionCollection
             $ClassGroupIDs = $groupID;
         }
 
+        if ( is_numeric( $parentNode ) )
+            $parentNode = eZContentObjectTreeNode::fetch( $parentNode );
+
         if ( is_object( $parentNode ) )
         {
             $classList =& $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );

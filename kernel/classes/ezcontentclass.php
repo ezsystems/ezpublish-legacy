@@ -553,7 +553,7 @@ class eZContentClass extends eZPersistentObject
         }
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
-        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] .".contentclass_id";
+        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] . ".contentclass_id";
 
         if ( $fetchAll )
         {
@@ -563,7 +563,7 @@ class eZContentClass extends eZPersistentObject
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
-                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
@@ -584,7 +584,7 @@ class eZContentClass extends eZPersistentObject
             $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
                                      "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from]\n" .
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . " $filterSQL\n" .
                                      "ORDER BY $classNameFilter[nameField] ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
