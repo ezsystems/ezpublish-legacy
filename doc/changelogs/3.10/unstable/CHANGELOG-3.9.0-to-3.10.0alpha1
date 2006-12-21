@@ -12,3 +12,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 (3.8.7) rev.17803)
 - Fixed bug #9846: foreach internals
   (Merged from stable/3.8 (3.8.7) rev.17808)
+- Fixed bug #9850: Possible image template class problem.
+  (Merged from stable/3.8 (3.8.7) rev. 17811)
