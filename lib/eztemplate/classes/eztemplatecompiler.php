@@ -2683,7 +2683,10 @@ END;
                             $unsetVariableText = "\nunset( $variableText );";
                         if ( isset( $variableParameters['local-variable'] ) )
                         {
-                            $php->addCodePiece( "\$tpl->setLocalVariable( $variableNameText, $variableText, $namespaceText );\n" ,
+                            $php->addCodePiece( "if ( \$tpl->hasVariable( $variableNameText, $namespaceText ) )\n{\n" ); // if the variable already exists
+                            $php->addCodePiece( "    \$tpl->warning( '" . EZ_TEMPLATE_DEF_FUNCTION_NAME . "', \"Variable $variableNameText is already defined.\" );\n" );
+                            $php->addCodePiece( "    \$tpl->setVariable( $variableNameText, $variableText, $namespaceText );\n}\nelse\n{\n" );
+                            $php->addCodePiece( "    \$tpl->setLocalVariable( $variableNameText, $variableText, $namespaceText );\n}\n" ,
                                                 array( 'spacing' => $spacing ) );
                         }
                         else
