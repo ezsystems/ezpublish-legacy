@@ -222,9 +222,6 @@ class eZTemplateForeachFunction
         $loop->cleanup();
 
         // unset the loop variables
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $parameters['item_var'][0][1] );
-        if ( isset( $parameters['key_var'] ) )
-            $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $parameters['key_var'][0][1] );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $array );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $arrayKeys );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $nItems );
