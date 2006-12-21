@@ -10,3 +10,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #8763: the class filter for content creation does not use
   the parentdepth property, assigned in a role
   (Merged from stable/3.8 (3.8.7) rev.17803)
+- Fixed bug #9846: foreach internals
+  (Merged from stable/3.8 (3.8.7) rev.17808)
