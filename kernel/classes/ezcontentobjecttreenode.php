@@ -4913,15 +4913,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
-        if ( isset( $policy['ParentDepth'] ) && is_array( $policy['ParentDepth'] ) )
-        {
-            $NodeDepth = $this->attribute( 'depth' );
-            if ( !in_array( '*', $policy['ParentDepth'] ) && !in_array( $NodeDepth, $policy['ParentDepth'] ) )
-            {
-                return array();
-            }
-        }
-
         if ( isset( $policy['Assigned'] ) )
         {
             if ( $object === false )
