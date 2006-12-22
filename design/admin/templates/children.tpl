@@ -328,6 +328,7 @@
 {section show=$node.can_edit}
     {set title='Use these controls to set the sorting method for the sub items of the current location.'|i18n( 'design/admin/node/view/full' )}
     {set disabled=''}
+    <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
 {/section}
 
 <select name="SortingField" title="{$title}"{$disabled}>
