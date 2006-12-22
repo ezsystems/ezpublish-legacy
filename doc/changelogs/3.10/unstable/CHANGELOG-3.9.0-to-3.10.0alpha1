@@ -19,3 +19,6 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9887: Certain sequence in simplified XML input may cause line 
   removal.
   (Merged from trunk (3.9.0) rev. 17816)
+- Fixed bug #9610: Unexpected error changing sub-items sorting type when user
+  has limited editing role
+  (Merged from stable/3.8 (3.8.7) rev.17825)
