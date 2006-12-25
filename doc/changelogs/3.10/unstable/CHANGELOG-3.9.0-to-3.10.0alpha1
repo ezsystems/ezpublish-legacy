@@ -2,6 +2,9 @@ Changes from 3.9.0 to 3.10.0alpha1
 
 *Kernel:
 
+*Design:
+- Added Bulgarian flag.
+
 *Bugfixes:
 - Fixed bug #9461: Wrong site access list used in some templates of the admin
   interface.
