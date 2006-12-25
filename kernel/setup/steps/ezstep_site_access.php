@@ -68,26 +68,9 @@ class eZStepSiteAccess extends eZStepInstaller
         $siteType = $this->chosenSiteType();
 
         $siteType['access_type'] = $accessType;
-        if ( $accessType == 'url' )
-        {
-            $siteType['access_type_value'] = $siteType['identifier'];
-            $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
-        }
-        else if ( $accessType == 'port' )
-        {
-            $siteType['access_type_value'] = 8080;        // default port values
-            $siteType['admin_access_type_value'] = 8081;
-        }
-        else if ( $accessType == 'hostname' )
-        {
-            $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
-            $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
-        }
-        else
-        {
-            $siteType['access_type_value'] = $accessType;
-            $siteType['admin_access_type_value'] = $accessType . '_admin';
-        }
+
+        $this->setAccessValue( $siteType );
+
         $this->storeSiteType( $siteType );
         return true;
     }
@@ -108,6 +91,7 @@ class eZStepSiteAccess extends eZStepInstaller
                            array( 'url', 'port', 'hostname' ) ) )
             $siteType['access_type'] = $accessType;
 
+            $this->setAccessValues( $siteType );
             $this->storeSiteType( $siteType );
             return $this->kickstartContinueNextStep();
         }
@@ -153,6 +137,30 @@ class eZStepSiteAccess extends eZStepInstaller
         return $result;
     }
 
+    function setAccessValues( &$siteType )
+    {
+        $accessType = $siteType['access_type'];
+        if ( $accessType == 'url' )
+        {
+            $siteType['access_type_value'] = $siteType['identifier'];
+            $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
+        }
+        else if ( $accessType == 'port' )
+        {
+            $siteType['access_type_value'] = 8080;        // default port values
+            $siteType['admin_access_type_value'] = 8081;
+        }
+        else if ( $accessType == 'hostname' )
+        {
+            $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
+            $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
+        }
+        else
+        {
+            $siteType['access_type_value'] = $accessType;
+            $siteType['admin_access_type_value'] = $accessType . '_admin';
+        }
+    }
 }
 
 ?>
