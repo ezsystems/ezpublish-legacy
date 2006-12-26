@@ -26,7 +26,7 @@ o  PHP version:
 
 o  Database server:
 
-   MySQL 3.23 or later
+   MySQL 3.23 or later (4.1 or later if you wish to use UTF-8)
    or
    PostgreSQL 7.3 or later
 
