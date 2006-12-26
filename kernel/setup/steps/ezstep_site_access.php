@@ -69,7 +69,7 @@ class eZStepSiteAccess extends eZStepInstaller
 
         $siteType['access_type'] = $accessType;
 
-        $this->setAccessValue( $siteType );
+        $this->setAccessValues( $siteType );
 
         $this->storeSiteType( $siteType );
         return true;
