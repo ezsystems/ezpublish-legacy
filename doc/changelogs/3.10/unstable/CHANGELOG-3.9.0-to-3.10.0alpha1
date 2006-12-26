@@ -27,3 +27,6 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 (3.8.7) rev.17825)
 - Fixed bug #9901: Setup wizard step site_access doesn't work with kickstart.ini
   properly.
+- Fixed bug #9790: using single quotes in strings may cause problem with french
+  language in php compiled template
+  (Merged from stable/3.8 rev. 17838)

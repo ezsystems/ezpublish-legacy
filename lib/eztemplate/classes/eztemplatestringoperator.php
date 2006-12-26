@@ -265,7 +265,9 @@ class eZTemplateStringOperator
         if ( eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
         {
             $text = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
-            $code = "%output% = '" . $phpFunction( $text ) . "' ;\n";
+            $text = $phpFunction( $text );
+            $text = str_replace( array( "'" ), array( "\\'" ), $text );
+            $code = "%output% = '" . $text . "' ;\n";
         }
         else
         {
