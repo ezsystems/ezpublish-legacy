@@ -171,9 +171,6 @@ if ( $versionAttributes === null or
 
 $ini =& eZINI::instance();
 
-$relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion );
-
-
 if ( $assignment )
 {
     $parentNodeObject =& $assignment->attribute( 'parent_node_obj' );
@@ -192,12 +189,11 @@ if ( $sectionID !== false )
 }
 $designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
 
-$contentObject->setAttribute( 'current_version', $EditVersion );
+//$contentObject->setAttribute( 'current_version', $EditVersion );
 
 $class = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
 $objectName = $class->contentObjectName( $contentObject );
 $contentObject->setCachedName( $objectName );
-$contentObject->ContentObjectAttributeArray;
 if ( $assignment )
     $assignment->setName( $objectName );
 
