@@ -53,7 +53,6 @@ if ( $Module->isCurrentAction( 'Publish' ) and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
-    $user =& eZUser::currentUser();
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
@@ -83,6 +82,8 @@ if ( $Module->isCurrentAction( 'Publish' ) and
 
     return;
 }
+
+$contentObject->setAttribute( 'current_version', $EditVersion );
 
 $ini =& eZINI::instance();
 
