@@ -110,7 +110,13 @@ class eZTemplateForFunction
                                             $newNodes, $parameters, $nodePlacement, $uniqid,
                                             $node, $tpl, $privateData );
 
+        $variableStack   = "for_variable_stack_$uniqid";
+        $namesArray = array( "for_firstval_$uniqid", "for_lastval_$uniqid", "for_i_$uniqid" );
+
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// for begins" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( !isset( \$$variableStack ) ) \$$variableStack = array();" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$" . $variableStack ."[] = compact( '" . implode( "', '", $namesArray ) . "' );" );
+
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['first_val'], $nodePlacement, array( 'treat-value-as-non-object' => true ), "for_firstval_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['last_val'],  $nodePlacement, array( 'treat-value-as-non-object' => true ), "for_lastval_$uniqid"  );
 
@@ -135,10 +141,15 @@ class eZTemplateForFunction
         // loop footer
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // for" );
+
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( count( \$$variableStack ) ) extract( array_pop( \$$variableStack ) );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else\n{\n" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $indexArray );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_firstval_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_lastval_$uniqid" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( "for_i_$uniqid" );
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( $variableStack );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
         $loop->cleanup();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// for ends\n" );
 
