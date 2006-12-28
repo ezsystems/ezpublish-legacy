@@ -1690,6 +1690,35 @@ class eZContentObjectVersion extends eZPersistentObject
         $this->setAlwaysAvailableLanguageID( false );
     }
 
+    // Checks if there is another version (published or archived status) which has higher modification time than the
+    // current version creation time.
+    // Typically this function can be used before object's publishing to prevent conflicts.
+    //
+    // \return  array of version objects that caused conflict or false.
+    function hasConflicts( $editLanguage = false )
+    {
+        $object =& $this->contentObject();
+        if ( !$editLanguage )
+            $editLanguage = $this->initialLanguageCode();
+
+        // Get versions (with published or archived status)
+        $versions =& $object->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_PUBLISHED, EZ_VERSION_STATUS_ARCHIVED ) ),
+                                                                            'language_code' => $editLanguage ) ) );
+
+        $conflictVersions = array();
+        foreach ( $versions as $version )
+        {
+            if ( $version->attribute( 'modified' ) > $this->attribute( 'created' ) )
+            {
+                $conflictVersions[] =& $version;
+            }
+        }
+        if ( !count( $conflictVersions ) )
+            return false;
+        else
+            return $conflictVersions;
+    }
+
     var $CurrentLanguage = false;
 }
 
