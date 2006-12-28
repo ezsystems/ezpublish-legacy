@@ -53,6 +53,30 @@ if ( $Module->isCurrentAction( 'Publish' ) and
      $contentObject->attribute( 'can_edit' ) and
      $isCreator )
 {
+    $conflictingVersions = $versionObject->hasConflicts( $LanguageCode );
+    if ( $conflictingVersions )
+    {
+        include_once( 'kernel/common/template.php' );
+        $tpl =& templateInit();
+
+        $res =& eZTemplateDesignResource::instance();
+        $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
+                            array( 'class', $class->attribute( 'id' ) ),
+                            array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                            array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+
+        $tpl->setVariable( 'edit_language', $LanguageCode );
+        $tpl->setVariable( 'current_version', $versionObject->attribute( 'version' ) );
+        $tpl->setVariable( 'object', $contentObject );
+        $tpl->setVariable( 'draft_versions', $conflictingVersions );
+
+        $Result = array();
+        $Result['content'] =& $tpl->fetch( 'design:content/edit_conflict.tpl' );
+        $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Version preview' ),
+                                        'url' => false ) );
+        return $Result;
+    }
+
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $ObjectID,
                                                                                  'version' => $EditVersion ) );
