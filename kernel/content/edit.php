@@ -650,26 +650,12 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $user =& eZUser::currentUser();
-            // Get drafts (with published or archived status)
-            $draftVersions =& $object->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_PUBLISHED, EZ_VERSION_STATUS_ARCHIVED ) ),
-                                                                                  'language_code' => $EditLanguage ) ) );
             // Checking the source and destination language from the url,
             // if they are the same no confirmation is needed.
             if ( $EditLanguage != $FromLanguage )
             {
-                $isPublishedByOther = false;
-                foreach ( $draftVersions as $draftVersion )
-                {
-                    // if there is another draft (published or archived status) which has higher modification time than the
-                    // creation date of the current version.
-                    if ( $draftVersion->attribute( 'modified' ) > $version->attribute( 'created' ) )
-                    {
-                        $isPublishedByOther = true;
-                        break;
-                    }
-                }
-                if ( $isPublishedByOther )
+                $conflictingVersions = $version->hasConflicts( $EditLanguage );
+                if ( $conflictingVersions )
                 {
                     include_once( 'kernel/common/template.php' );
                     $tpl =& templateInit();
@@ -683,7 +669,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     $tpl->setVariable( 'edit_language', $EditLanguage );
                     $tpl->setVariable( 'current_version', $version->attribute( 'version' ) );
                     $tpl->setVariable( 'object', $object );
-                    $tpl->setVariable( 'draft_versions', $draftVersions );
+                    $tpl->setVariable( 'draft_versions', $conflictingVersions );
 
                     $Result = array();
                     $Result['content'] =& $tpl->fetch( 'design:content/edit_conflict.tpl' );
