@@ -5,7 +5,7 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'My pending items [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $pending_list|count ) )}</h1>
+<h1 class="context-title">{'My pending items [%pending_count]'|i18n( 'design/admin/content/pendinglist',, hash( '%pending_count', $list_count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
