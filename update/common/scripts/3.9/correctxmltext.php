@@ -308,7 +308,7 @@ while( count( $xmlFieldsArray ) )
     foreach ( $xmlFieldsArray as $xmlField )
     {
         $text = $xmlField['data_text'];
-        $doc =& $xml->domTree( $text, array( "TrimWhiteSpace" => false ) );
+        $doc =& $xml->domTree( $text, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
 
         if ( $doc )
         {
