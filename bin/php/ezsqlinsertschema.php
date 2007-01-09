@@ -40,7 +40,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password;][socket:]" .
+$options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:]" .
                                 "[table-type:][table-charset:]" .
                                 "[insert-types:][allow-multi-insert][schema-file:][clean-existing]",
                                 "[filename][database]",
@@ -49,6 +49,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][socket:]" .
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'port' => 'Port to connect to source database',
                                        'socket' => 'Socket to connect to match and source database (only for MySQL)',
                                        'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
                                                          "MySQL: bdb, innodb and myisam\n" .
@@ -72,6 +73,7 @@ $host = $options['host'];
 $user = $options['user'];
 $socket = $options['socket'];
 $password = $options['password'];
+$port = $options['port'];
 
 if ( !is_string( $password ) )
     $password = '';
@@ -202,6 +204,8 @@ $parameters = array( 'server' => $host,
                      'database' => $database );
 if ( $socket )
     $parameters['socket'] = $socket;
+if ( $port )
+    $parameters['port'] = $port;
 $db =& eZDB::instance( $type,
                        $parameters,
                        true );

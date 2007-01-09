@@ -1133,13 +1133,13 @@ class eZDBSchemaInterface
                 continue;
 
             preg_match( '/(\w+)\((\d+)\)/', $localType, $matches );
-            $localLength = ( count($matches) == 2 ) ? $matches[2] : null;
-            if ( count($matches) == 2 )
+            $localLength = ( count($matches) == 3 ) ? $matches[2] : null;
+            if ( count($matches) == 3 )
                 $localType = $matches[1];
 
             preg_match( '/(\w+)\((\d+)\)/', $genericType, $matches );
-            $genericLength = ( count($matches) == 2 ) ? $matches[2] : null;
-            if ( count($matches) == 2 )
+            $genericLength = ( count($matches) == 3 ) ? $matches[2] : null;
+            if ( count($matches) == 3 )
                 $genericType = $matches[1];
 
             $fieldsSchema =& $schema[$tableName]['fields'];

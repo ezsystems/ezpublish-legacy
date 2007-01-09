@@ -40,7 +40,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password;][socket:][output-array][output-serialized][output-sql]" .
+$options = $script->getOptions( "[type:][user:][host:][password;][port:][socket:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
@@ -50,6 +50,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][socket:][outpu
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'port' => 'Port to connect to source database',
                                        'socket' => 'Socket to connect to match and source database (only for MySQL)',
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
@@ -78,6 +79,7 @@ $script->initialize();
 $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
+$port = $options['port'];
 $socket = $options['socket'];
 $password = $options['password'];
 
@@ -246,6 +248,8 @@ else
                          'database' => $database );
     if ( $socket )
         $parameters['socket'] = $socket;
+    if ( $port )
+        $parameters['port'] = $port;
     $db =& eZDB::instance( $type,
                            $parameters,
                            true );
