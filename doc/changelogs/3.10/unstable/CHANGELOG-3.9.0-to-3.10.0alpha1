@@ -37,3 +37,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 rev. 17857)
 - Fixed bug #9952: correctxmltext.php update script problem.
 - Fixed bug #9940: Error in design/base/override/templates/embed/image.tpl
+- Fixed bug #9964: Typo in lib/ezlocale/classes/ezdatetime.php
+

@@ -113,8 +113,8 @@ class eZDateTime
         else
         {
             $arr = getdate( $datetime );
-            $date = mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
-                             $arr['mon'], $arr['mday'], $arr['year'] );
+            $datetime = mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
+                                $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->DateTime =& $datetime;
         $this->Locale =& eZLocale::instance();
