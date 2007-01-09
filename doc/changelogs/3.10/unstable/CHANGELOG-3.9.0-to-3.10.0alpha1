@@ -38,4 +38,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9952: correctxmltext.php update script problem.
 - Fixed bug #9940: Error in design/base/override/templates/embed/image.tpl
 - Fixed bug #9964: Typo in lib/ezlocale/classes/ezdatetime.php
-
+- Fixed bug #9949: Not possible to create template override by class in admin.
+  (Merged from stable/3.9 rev.17876)
