@@ -142,3 +142,6 @@ Changes from 3.6.11 to 3.6.12
   (Merged from stable/3.8 rev. 17857)
 - Fixed bug #9940: Error in design/base/override/templates/embed/image.tpl
   (Merged from trunk (3.9.10alpha1) rev. 17868)
+- Fixed bug #9844: Location for Users directory isn't displayed for users with
+  read permissions.
+  (Merged from stable/3.7 rev. 17881)
