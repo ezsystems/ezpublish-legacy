@@ -5881,7 +5881,7 @@ INSERT INTO ezcontentobject_tree (
   sort_order
 ) VALUES (
   4,
-  0,
+  1,
   1,
   1,
   0,
