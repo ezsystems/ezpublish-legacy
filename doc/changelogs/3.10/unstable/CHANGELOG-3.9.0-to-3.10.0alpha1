@@ -45,3 +45,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #8653: Time conversion error when setting Expire-header
   in ezhttpheader.php
   (Merged from stable/3.9 (3.9.1) rev.17887)
+- Fixed bug #9900: Sending mail issue.
