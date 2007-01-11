@@ -65,7 +65,7 @@ class eZSectionFunctionCollection
         return array( 'result' => $sectionObjects );
     }
 
-    function fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false )
+    function fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false, $status = false )
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
@@ -73,23 +73,33 @@ class eZSectionFunctionCollection
         {
             $sortOrder = array( 'id' => 'desc' );
         }
+        if ( $status == 'archived' )
+            $status = EZ_CONTENT_OBJECT_STATUS_ARCHIVED;
+        else
+            $status = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
         $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                         null,
-                                                        array( 'section_id' => $sectionID ),
+                                                        array( 'section_id' => $sectionID,
+                                                               'status' => $status ),
                                                         $sortOrder,
                                                         array( 'offset' => $offset, 'limit' => $limit ) );
         return array( 'result' => $objects );
     }
 
-    function fetchObjectListCount( $sectionID )
+    function fetchObjectListCount( $sectionID, $status = false )
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
         $custom = array( array( 'operation' => 'count( id )',
                                 'name' => 'count' ) );
+        if ( $status == 'archived' )
+            $status = EZ_CONTENT_OBJECT_STATUS_ARCHIVED;
+        else
+            $status = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
         $rows = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                      array(),
-                                                     array( 'section_id' => $sectionID ),
+                                                     array( 'section_id' => $sectionID,
+                                                            'status' => $status ),
                                                      false, null, false, false, $custom );
         return array( 'result' => $rows[0]['count'] );
     }

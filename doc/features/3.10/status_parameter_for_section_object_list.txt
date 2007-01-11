@@ -1,0 +1,17 @@
+*Title: New 'status' parameter for 'object_list' and 'object_list_count' fetch functions of 'section' module.
+
+*Documentation:
+Added new optional parameter 'status' to give possibility to fetch separately
+archived (trashed) and published content-objects (or count of them) using 'object_list'
+or 'object_list_count' fetch functions of 'section' module. Thus 'status' can be one of
+following values: 'archived' or 'published'. Default is 'published'.
+Examples:
+
+This one will fetch all not more then 20 archived objects which belong to standard section (id=1):
+{set $objects = fetch( 'section', 'object_list', hash( section_id, 1,
+                                                       limit, 20,
+                                                       offset, 3,
+                                                       status, 'archived' ) )}
+
+and one will fetch all objects published within media section (id=3):
+{set $objects_count = fetch( 'section', 'object_list_count', hash( section_id, 3 ) )}

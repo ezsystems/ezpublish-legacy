@@ -66,6 +66,10 @@ $FunctionList['object_list'] = array( 'name' => 'object_list',
                                                              array( 'name' => 'sort_order',
                                                                     'type' => 'variant',
                                                                     'required' => false,
+                                                                    'default' => false ),
+                                                             array( 'name' => 'status',
+                                                                    'type' => 'string',
+                                                                    'required' => false,
                                                                     'default' => false ) ) );
 
 $FunctionList['object_list_count'] = array( 'name' => 'object_list_count',
@@ -75,7 +79,11 @@ $FunctionList['object_list_count'] = array( 'name' => 'object_list_count',
                                             'parameter_type' => 'standard',
                                             'parameters' => array( array( 'name' => 'section_id',
                                                                           'type' => 'integer',
-                                                                          'required' => true ) ) );
+                                                                          'required' => true ),
+                                                                   array( 'name' => 'status',
+                                                                          'type' => 'string',
+                                                                          'required' => false,
+                                                                          'default' => false ) ) );
 
 $FunctionList['roles'] = array( 'name' => 'roles',
                                 'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',

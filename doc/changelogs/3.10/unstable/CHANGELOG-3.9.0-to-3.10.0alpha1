@@ -6,6 +6,10 @@ Changes from 3.9.0 to 3.10.0alpha1
 *Design:
 - Added Bulgarian flag.
 
+*eZTemplate:
+- Added 'status' parameter to 'object_list' and 'object_list_count' fetch functions of 'section' module.
+
+
 *Bugfixes:
 - Fixed Bug: Minor issue with SQL transformation.
 - Fixed bug #9461: Wrong site access list used in some templates of the admin
@@ -46,3 +50,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   in ezhttpheader.php
   (Merged from stable/3.9 (3.9.1) rev.17887)
 - Fixed bug #9900: Sending mail issue.
+- Fixed bug #9550: Broken section view.
