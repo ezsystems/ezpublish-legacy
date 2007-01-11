@@ -186,19 +186,9 @@
 
         function helo()
         {
-            $error = $this->get_data();
-            if ( is_resource( $this->connection ) and
-                 $this->send_data( 'HELO ' . $this->helo ) and
-                 substr( trim( $error ), 0, 3 ) === '250' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = 'HELO command failed, output: ' . trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+            return( $this->send_cmd( 'HELO ' . $this->helo, '250' ) );
         }
+
 
         /***************************************
         ** Function to implement EHLO cmd
@@ -206,18 +196,8 @@
 
         function ehlo()
         {
-            $error = $this->get_data();
-            if ( is_resource( $this->connection ) and
-                 $this->send_data( 'EHLO ' . $this->helo ) and
-                 substr( trim( ), 0, 3 ) === '250' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = 'EHLO command failed, output: ' . trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+            /* return the result of the EHLO command */
+            return ( $this->send_cmd( 'EHLO ' . $this->helo, '250' ) );
         }
 
         /***************************************
@@ -226,18 +206,8 @@
 
         function rset()
         {
-            $error = $this->get_data();
-            if ( is_resource( $this->connection ) and
-                 $this->send_data( 'RSET' ) and
-                 substr( trim( $error ), 0, 3 ) === '250' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = 'RSET command failed, output: ' . trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+            /* return the result of the RSET command */
+            return ( $this->send_cmd( 'RSET', '250' ) );
         }
 
         /***************************************
@@ -246,20 +216,15 @@
 
         function quit()
         {
-            $error = $this->get_data();
-            if ( is_resource( $this->connection ) and
-                 $this->send_data( 'QUIT' ) and
-                 substr( trim( $error ), 0, 3 ) === '221' )
+            /* if QUIT OK */
+            if ( $this->send_cmd( 'QUIT', '221' ) )
             {
-                fclose( $this->connection );
+                /* unset the connection flag and return TRUE */
                 $this->status = SMTP_STATUS_NOT_CONNECTED;
                 return TRUE;
             }
-            else
-            {
-                $this->errors[] = 'QUIT command failed, output: ' . trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+            /* in other case return FALSE */
+            return FALSE;
         }
 
         /***************************************
@@ -268,23 +233,23 @@
 
         function auth()
         {
-            $error = $this->get_data();
-            if ( is_resource( $this->connection ) and
-                 $this->send_data( 'AUTH LOGIN' ) and
-                 substr( trim( $error ), 0, 3) === '334' and
-                 $this->send_data( base64_encode( $this->user ) ) and // Send username
-                 substr( trim( $error ), 0, 3 ) === '334' and
-                 $this->send_data( base64_encode( $this->pass ) ) and // Send password
-                 substr( trim( $error ), 0, 3 ) === '235' )
-            {
-                $this->authenticated = TRUE;
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = 'AUTH command failed: ' . trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+    		/* if the connection is made */
+    		if ( $this->send_cmd('AUTH', '334' ) )
+    		{
+    			/* if sending username ok */
+    			if ( $this->send_cmd( base64_encode( $this->user ), '334' ) )
+    			{
+    				/* if sending password ok */
+    				if ( $this->send_cmd( base64_encode( $this->pass ), '235' ) )
+    				{
+    					/* set the authenticated  flag and return TRUE */
+    					$this->authenticated = TRUE;
+    		 			return TRUE;
+    				}
+    			}
+    		}
+    		/* in other case return FALSE */
+            return FALSE;
         }
 
         /***************************************
@@ -293,18 +258,12 @@
 
         function mail( $from )
         {
-            if ( !preg_match( "/<.+>/", $from ) )
-                $from = '<' . $from .'>';
-            if ( $this->is_connected() and
-                 $this->send_data( 'MAIL FROM:' . $from . '' ) and
-                 substr( trim( $this->get_data() ), 0, 3 ) === '250' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                return FALSE;
-            }
+    		/* normalize the from field */
+    		if ( !preg_match( "/<.+>/", $from ) )
+    			$from = '<' . $from .'>';
+    		
+    		/* return the result of the MAIL FROM command */
+    		return ( $this->send_cmd('MAIL FROM:' . $from . '', '250' ) );
         }
 
         /***************************************
@@ -313,22 +272,14 @@
 
         function rcpt( $to )
         {
-            if ( !preg_match( "/<.+>/", $to ) )
-                $to = '<' . $to .'>';
-
-            $error = $this->get_data();
-            if ( $this->is_connected() and
-                 $this->send_data( 'RCPT TO:' . $to . '' ) and
-                 substr( trim( $error ), 0, 3 ) === '250' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+    		/* normalize the to field */
+    		if ( !preg_match( "/<.+>/", $to ) )
+    			$to = '<' . $to .'>';
+    			
+    		/* return the result of the RCPT TO command */
+    		return ( $this->send_cmd( 'RCPT TO:' . $to . '', '250' ) );
         }
+
 
         /***************************************
         ** Function that sends the DATA cmd
@@ -336,18 +287,8 @@
 
         function data()
         {
-            $error = $this->get_data();
-            if( $this->is_connected() and
-                $this->send_data( 'DATA' ) and
-                substr( trim( $error ), 0, 3 ) === '354' )
-            {
-                return TRUE;
-            }
-            else
-            {
-                $this->errors[] = trim( substr( trim( $error ), 3 ) );
-                return FALSE;
-            }
+            /* return the result of the RCPT TO command */
+            return ( $this->send_cmd('DATA', '354' ) );
         }
 
         /***************************************
@@ -357,7 +298,7 @@
 
         function is_connected()
         {
-            return (is_resource($this->connection) AND ($this->status === SMTP_STATUS_CONNECTED));
+            return ( is_resource( $this->connection ) AND ( $this->status === SMTP_STATUS_CONNECTED ) );
         }
 
         /***************************************
@@ -406,6 +347,32 @@
         {
             $this->$var = $value;
             return TRUE;
+        }
+	
+        /********************************************************
+        ** Function to simply send a command to the smtp socket
+        *********************************************************/
+        function send_cmd( $msg, $answer )
+        {
+    		/* if the connection is made */
+    		if ( $error = is_resource( $this->connection ) )
+    		{
+    			/* if sending DATA ok */
+    			if ( $error = $this->send_data( $msg ) )
+    			{
+    				/* Wait for server answer */
+    				$error = $this->get_data();
+    			
+    				/* return TRUE if the server answered the expected tag */
+    				if( substr( trim( $error ), 0, 3 ) === $answer )
+    				{
+    					return TRUE;
+    				}
+    			}
+    		}
+    		/* else return FALSE and set an error */
+            $this->errors[] = $msg . ' command failed, output: ' . $error;
+            return FALSE;
         }
 
     } // End of class
