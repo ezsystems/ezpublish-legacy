@@ -136,7 +136,7 @@ class eZHTTPHeader
 
                     if ( $header == 'Expires' )
                     {
-                        $headerValue = gmdate( 'D, d M Y H:i:s', gmmktime() + $headerValue ) . ' GMT';
+                        $headerValue = gmdate( 'D, d M Y H:i:s', mktime() + $headerValue ) . ' GMT';
                     }
 
                     if ( $depth === null )
