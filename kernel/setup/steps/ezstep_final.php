@@ -130,6 +130,10 @@ class eZStepFinal extends eZStepInstaller
         $this->Tpl->setVariable( 'setup_previous_step', 'Final' );
         $this->Tpl->setVariable( 'setup_next_step', 'Final' );
 
+        $passwordChanged = isset( $this->PersistenceList['admin']['password_canged'] );
+        $this->Tpl->setVariable( 'has_errors', $passwordChanged );
+        $this->Tpl->setVariable( 'password_changed', $passwordChanged );
+
         $result = array();
         // Display template
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/final.tpl' );
