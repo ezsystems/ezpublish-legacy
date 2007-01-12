@@ -260,23 +260,17 @@ class eZUser extends eZPersistentObject
         $this->setAttribute( "contentobject_id", $id );
         $this->setAttribute( "email", $email );
         $this->setAttribute( "login", $login );
-        $ini =& eZINI::instance();
-        $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
-        if ( $password !== false and
-             $password !== null and
-             $password == $passwordConfirm and
-             strlen( $password ) >= (int) $minPasswordLength ) // Cannot change login or password_hash without login and password
+        if ( eZUser::validatePassword( $password ) and
+             $password == $passwordConfirm ) // Cannot change login or password_hash without login and password
         {
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
-            return true;
         }
         else
         {
             $this->setOriginalPassword( $password );
             $this->setOriginalPasswordConfirm( $passwordConfirm );
-            return false;
         }
     }
 
@@ -2182,6 +2176,25 @@ WHERE user_id = '" . $userID . "' AND
         // Get names of user-group classes
         $groupClassNames = array_diff( $userGroupClassNames, $userClassNames );
         return $groupClassNames;
+    }
+
+    /*!
+     Checks the password for validity
+     \static
+     \return true when password is valid by length and not empty, false if not
+    */
+    function validatePassword( $password )
+    {
+        $ini =& eZINI::instance();
+        $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;
+        if ( $password !== false and
+             $password !== null and
+             strlen( $password ) >= (int) $minPasswordLength )
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// \privatesection
