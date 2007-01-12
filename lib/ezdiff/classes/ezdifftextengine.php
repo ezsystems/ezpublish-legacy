@@ -239,8 +239,15 @@ class eZDiffTextEngine extends eZDiffEngine
         $internalOffset = 0;
         $merged = array();
 
+        $oldOffset = -1;
+
         foreach ( $mergedStrings as $key => $wordArray )
         {
+            if ( $oldOffset >= $wordArray['oldOffset'] )
+            {
+                continue;
+            }
+
             $oldOffset = $wordArray['oldOffset'];
 
             //Check for inserted paragraphs
@@ -356,8 +363,15 @@ class eZDiffTextEngine extends eZDiffEngine
         $offset = 0;
         $delOffset = 0;
 
+        $oldOffset = -1;
+
         foreach ( $mergedStrings as $key => $wordArray )
         {
+            if ( $oldOffset >= $wordArray['oldOffset'] )
+            {
+                continue;
+            }
+
             $oldOffset = $wordArray['oldOffset'];
 
             // Added words
