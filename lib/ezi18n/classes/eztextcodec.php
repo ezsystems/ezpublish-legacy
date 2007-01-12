@@ -53,7 +53,7 @@ class eZTextCodec
         $this->InputCharacterEncodingScheme = $inputEncoding;
         $this->OutputCharacterEncodingScheme = $outputEncoding;
 
-        $useMBStringExtension = false;
+        $useMBStringExtension = true;
         if ( isset( $GLOBALS['eZTextCodecMBStringExtension'] ) )
             $useMBStringExtension = $GLOBALS['eZTextCodecMBStringExtension'];
 
@@ -563,7 +563,10 @@ class eZTextCodec
         if ( !isset( $realCharset ) )
         {
             if ( !isset( $GLOBALS['eZTextCodecInternalCharset'] ) )
-                $charsetCode = 'iso-8859-1';
+            {
+                $i18n =& eZINI::instance( 'i18n.ini', '', false );
+                $charsetCode = $i18n->variable( 'CharacterSettings', 'Charset' );
+            }
             else
                 $charsetCode = $GLOBALS['eZTextCodecInternalCharset'];
             include_once( "lib/ezi18n/classes/ezcharsetinfo.php" );

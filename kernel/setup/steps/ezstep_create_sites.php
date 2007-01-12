@@ -168,6 +168,16 @@ class eZStepCreateSites extends eZStepInstaller
             $this->setAllowKickstart( false );
             return 'LanguageOptions';
         }
+        else
+        {
+            $i18nINI =& eZINI::create( 'i18n.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $i18nINI->setReadOnlySettingsCheck( false );
+
+            $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
+            $i18nINI->save( false, '.php', 'append', true );
+        }
 
         $siteType = $this->chosenSiteType();
 
@@ -264,7 +274,7 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $saveResult and
              $charset !== false )
         {
-            $i18nINI =& eZINI::create( 'i18n.ini' );
+            /*$i18nINI =& eZINI::create( 'i18n.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $i18nINI->setReadOnlySettingsCheck( false );
@@ -272,6 +282,7 @@ class eZStepCreateSites extends eZStepInstaller
             $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
             if ( $saveData )
                 $saveResult = $i18nINI->save( false, '.php', 'append', true );
+            */
         }
 
         switch ( $accessType )
@@ -769,7 +780,6 @@ id $inSql";
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
 
-
         if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
         {
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
@@ -803,6 +813,7 @@ id $inSql";
                                                     'restore_dates' => true,
                                                     'user_id' => $user->attribute( 'contentobject_id' ),
                                                     'non-interactive' => true );
+
                         $status = $package->install( $installParameters );
                         if ( !$status )
                         {
