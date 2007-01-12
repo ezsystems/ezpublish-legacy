@@ -84,7 +84,7 @@ class eZStepCreateSites extends eZStepInstaller
                                 'create_sites', 'Create sites' );
     }
 
-	/*!
+    /*!
      \reimp
     */
     function processPostData()
@@ -1238,7 +1238,11 @@ language_locale='eng-GB'";
 
         if ( trim( $admin['email'] ) )
         {
-            $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+            $passwordValid = $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+            if ( !$passwordValid )
+            {
+                $this->PersistenceList['admin']['password_canged'] = 1;
+            }
         }
 
         if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
