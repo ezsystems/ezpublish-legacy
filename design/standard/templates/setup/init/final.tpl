@@ -9,6 +9,17 @@
   {"eZ publish has been installed with your select site setup. You will find the username mentioned in the details below."|i18n("design/standard/setup/init")}
 </p>
 
+{section show=$has_errors}
+    <blockquote class="error">
+        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+        {section show=eq( $password_changed, 1 )}
+            <p>
+                {"Administrator password is invalid. Changed by default."|i18n("design/standard/setup/init")}
+            </p>
+        {/section}
+    </blockquote>
+{/section}
+
 <blockquote class="note">
 <p>
  <b>{"Note"|i18n("design/standard/setup/init")}:</b>
@@ -28,20 +39,20 @@
           </a>
         </div>
         <div align="bottom">
-	  <table border="0" cellspacing="0" cellpadding="0">
+      <table border="0" cellspacing="0" cellpadding="0">
         <tr>
-	      <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
-	      <td>{$site_type.title|wash}</td>
-	    </tr>
-	    <tr>
-	      <td>{"URL"|i18n("design/standard/setup/init")}:&nbsp;</td>
-	      <td><a href="{$site_type.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$site_type.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
-	    </tr>
-	    <tr>
-	      <td>{"Username"|i18n("design/standard/setup/init")}:&nbsp;</td>
-	      <td>admin</td>
-	    </tr>
-	  </table>
+          <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
+          <td>{$site_type.title|wash}</td>
+        </tr>
+        <tr>
+          <td>{"URL"|i18n("design/standard/setup/init")}:&nbsp;</td>
+          <td><a href="{$site_type.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$site_type.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
+        </tr>
+        <tr>
+          <td>{"Username"|i18n("design/standard/setup/init")}:&nbsp;</td>
+          <td>admin</td>
+        </tr>
+      </table>
         </div>
 {*      </td>
 
