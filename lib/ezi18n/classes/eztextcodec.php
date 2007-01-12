@@ -53,7 +53,7 @@ class eZTextCodec
         $this->InputCharacterEncodingScheme = $inputEncoding;
         $this->OutputCharacterEncodingScheme = $outputEncoding;
 
-        $useMBStringExtension = false;
+        $useMBStringExtension = true;
         if ( isset( $GLOBALS['eZTextCodecMBStringExtension'] ) )
             $useMBStringExtension = $GLOBALS['eZTextCodecMBStringExtension'];
 
