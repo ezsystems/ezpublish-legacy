@@ -270,11 +270,13 @@ class eZUser extends eZPersistentObject
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
+            return true;
         }
         else
         {
             $this->setOriginalPassword( $password );
             $this->setOriginalPasswordConfirm( $passwordConfirm );
+            return false;
         }
     }
 
