@@ -299,12 +299,11 @@ class eZSearchEngine
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
             $identifier = $indexArray[$i]['identifier'];
             $integerValue = $indexArray[$i]['integer_value'];
-            $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
             $wordID = $wordIDArray[$indexWord];
 
             if ( isset( $indexArray[$i+1] ) )
             {
-                $nextIndexWord = $trans->transformByGroup( $indexArray[$i+1]['Word'], 'lowercase' );
+                $nextIndexWord = $indexArray[$i+1]['Word'];
                 $nextWordID = $wordIDArray[$nextIndexWord];
             }
             else
