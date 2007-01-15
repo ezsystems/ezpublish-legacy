@@ -57,3 +57,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   notifying user
   (Merged from stable/3.9 (3.9.1) rev. 17899)
 - Fixed bug #10000: Slowdowns in setup wizard caused by string conversions.
+- Fixed bug #010011: No existing "patch" package type.
