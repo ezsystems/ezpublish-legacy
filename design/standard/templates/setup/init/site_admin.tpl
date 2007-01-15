@@ -44,6 +44,11 @@
                 {"You need to fill in a password."|i18n("design/standard/setup/init")}
             </p>
         {/section}
+        {section show=eq( $password_too_short, 1 )}
+            <p>
+                {"The password is too short."|i18n("design/standard/setup/init")}
+            </p>
+        {/section}
     </blockquote>
 {/section}
 
