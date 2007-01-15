@@ -9,17 +9,6 @@
   {"eZ publish has been installed with the following sites. You will find the username mentioned for each site in the details below."|i18n("design/standard/setup/init")}
 </p>
 
-{section show=$has_errors}
-    <blockquote class="error">
-        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
-        {section show=eq( $password_changed, 1 )}
-            <p>
-                {"Administrator password is invalid. Changed by default."|i18n("design/standard/setup/init")}
-            </p>
-        {/section}
-    </blockquote>
-{/section}
-
 <blockquote class="note">
 <p>
  <b>{"Note"|i18n("design/standard/setup/init")}:</b>

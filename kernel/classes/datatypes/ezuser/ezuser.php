@@ -241,21 +241,17 @@ class eZUser extends eZPersistentObject
         $this->setAttribute( "contentobject_id", $id );
         $this->setAttribute( "email", $email );
         $this->setAttribute( "login", $login );
-        if ( $password !== false and
-             $password !== null and
-             $password == $passwordConfirm and
-             strlen( $password ) >= 3 ) // Cannot change login or password_hash without login and password
+        if ( eZUser::validatePassword( $password ) and
+             $password == $passwordConfirm ) // Cannot change login or password_hash without login and password
         {
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
-            return true;
         }
         else
         {
             $this->setOriginalPassword( $password );
             $this->setOriginalPasswordConfirm( $passwordConfirm );
-            return false;
         }
     }
 
@@ -1484,7 +1480,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
+                $userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
@@ -1767,6 +1763,23 @@ WHERE user_id = '" . $userID . "' AND
         return false;
     }
 
+
+    /*!
+     Checks the password for validity
+     \static
+     \return true when password is valid by length and not empty, false if not
+    */
+    function validatePassword( $password )
+    {
+        if ( $password !== false and
+             $password !== null and
+             strlen( $password ) >= 3 )
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     /// \privatesection
     var $Login;
