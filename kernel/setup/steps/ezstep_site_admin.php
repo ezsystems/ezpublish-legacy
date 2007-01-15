@@ -33,6 +33,7 @@
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
+include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
 define( 'EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH', 1 );
 define( 'EZ_SETUP_SITE_ADMIN_FIRST_NAME_MISSING', 2 );
@@ -40,6 +41,7 @@ define( 'EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING', 3 );
 define( 'EZ_SETUP_SITE_ADMIN_EMAIL_MISSING', 4 );
 define( 'EZ_SETUP_SITE_ADMIN_EMAIL_INVALID', 5 );
 define( 'EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING', 6 );
+define( 'EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT', 7 );
 
 /*!
   \class eZStepSiteAdmin ezstep_site_admin.php
@@ -91,6 +93,10 @@ class eZStepSiteAdmin extends eZStepInstaller
         else if ( $this->Http->postVariable( 'eZSetup_site_templates_password1' ) != $this->Http->postVariable( 'eZSetup_site_templates_password2' ) )
         {
             $this->Error[] = EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH;
+        }
+        else if ( !eZUser::validatePassword( trim( $this->Http->postVariable( 'eZSetup_site_templates_password1' ) ) ) )
+        {
+            $this->Error[] = EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT;
         }
         else
         {
@@ -161,6 +167,7 @@ class eZStepSiteAdmin extends eZStepInstaller
         $this->Tpl->setVariable( 'email_invalid', 0 );
         $this->Tpl->setVariable( 'password_missmatch', 0 );
         $this->Tpl->setVariable( 'password_missing', 0 );
+        $this->Tpl->setVariable( 'password_too_short', 0 );
 
         if ( isset( $this->Error[0] ) )
         {
@@ -170,30 +177,35 @@ class eZStepSiteAdmin extends eZStepInstaller
                 {
                     $this->Tpl->setVariable( 'first_name_missing', 1 );
                 } break;
-    
+
                 case EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING:
                 {
                     $this->Tpl->setVariable( 'last_name_missing', 1 );
                 } break;
-    
+
                 case EZ_SETUP_SITE_ADMIN_EMAIL_MISSING:
                 {
                     $this->Tpl->setVariable( 'email_missing', 1 );
                 } break;
-    
+
                 case EZ_SETUP_SITE_ADMIN_EMAIL_INVALID:
                 {
                     $this->Tpl->setVariable( 'email_invalid', 1 );
                 } break;
-    
+
                 case EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH:
                 {
                     $this->Tpl->setVariable( 'password_missmatch', 1 );
                 } break;
-    
+
                 case EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING:
                 {
                     $this->Tpl->setVariable( 'password_missing', 1 );
+                } break;
+
+                case EZ_SETUP_SITE_ADMIN_PASSWORD_TOO_SHORT:
+                {
+                    $this->Tpl->setVariable( 'password_too_short', 1 );
                 } break;
             }
         }
