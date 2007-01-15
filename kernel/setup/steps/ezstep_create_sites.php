@@ -1249,11 +1249,7 @@ language_locale='eng-GB'";
 
         if ( trim( $admin['email'] ) )
         {
-            $passwordValid = $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
-            if ( !$passwordValid )
-            {
-                $this->PersistenceList['admin']['password_canged'] = 1;
-            }
+            $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
         }
 
         if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
