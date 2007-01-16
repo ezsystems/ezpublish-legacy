@@ -1,0 +1,10 @@
+*Title: Enhanced 'keyword' fetch function.
+
+*Documentation:
+Using enhanced Keyword function you can fetch keywords by parent node id
+
+*Example
+
+  {def $list=fetch( 'content', 'keyword', hash( alphabet, 'computer',
+                                                classid, 3,
+						parent_node_id, 2 ) )}
