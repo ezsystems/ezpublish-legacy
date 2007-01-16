@@ -778,7 +778,7 @@ class eZContentFunctionCollection
         return array( 'result' => $objectCount );
     }
 
-    function fetchKeywordCount( $alphabet, $classid, $owner = false )
+    function fetchKeywordCount( $alphabet, $classid, $owner = false, $sortBy = false, $parentNodeID = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -800,9 +800,16 @@ class eZContentFunctionCollection
 
         $alphabet = $db->escapeString( $alphabet );
 
+        if ( $sortBy !== false )
+            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+        else
+            $sortingInfo = array( 'sortingFields' => 'ezkeyword.keyword ASC' );
+
         $sqlOwnerString = '';
         if ( is_numeric( $owner ) )
             $sqlOwnerString = "AND ezcontentobject.owner_id = '$owner'";
+        if ( is_numeric( $parentNodeID ) )
+            $parentNodeIDString ="AND ezcontentobject_tree.parent_node_id = '$parentNodeID'";
 
         if ( $classid != null )
         {
@@ -814,6 +821,7 @@ class eZContentFunctionCollection
                       $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
+                      $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
@@ -822,7 +830,7 @@ class eZContentFunctionCollection
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
                       AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
         }
         else
         {
@@ -840,7 +848,7 @@ class eZContentFunctionCollection
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
                       AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
         }
 
         $keyWords = $db->arrayQuery( $query );
