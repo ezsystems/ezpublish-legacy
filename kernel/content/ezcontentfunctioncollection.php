@@ -811,7 +811,7 @@ class eZContentFunctionCollection
         if ( is_numeric( $parentNodeID ) )
             $parentNodeIDString ="AND ezcontentobject_tree.parent_node_id = '$parentNodeID'";
 
-        if ( $classid != null )
+        if ( $classIDArray != null )
         {
             $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
             $query = "SELECT count(*) AS count
