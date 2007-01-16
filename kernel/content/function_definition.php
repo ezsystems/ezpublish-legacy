@@ -952,7 +952,11 @@ $FunctionList['keyword'] = array( 'name' => 'keyword',
                                                          array( 'name' => 'sort_by',
                                                                 'type' => 'array',
                                                                 'required' => false,
-                                                                'default' => array() ) ) );
+                                                                'default' => array() ),
+                                                         array( 'name' => 'parent_node_id',
+                                                                'type' => 'integer',
+                                                                'required' => false,
+                                                                'default' => false ) ) );
 
 $FunctionList['keyword_count'] = array( 'name' => 'keyword_count',
                                         'operation_types' => array( 'read' ),

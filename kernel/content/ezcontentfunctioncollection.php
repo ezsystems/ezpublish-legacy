@@ -848,7 +848,7 @@ class eZContentFunctionCollection
         return array( 'result' => $keyWords[0]['count'] );
     }
 
-    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = false )
+    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = false, $parentNodeID = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -940,6 +940,8 @@ class eZContentFunctionCollection
         $sqlOwnerString = '';
         if ( is_numeric( $owner ) )
             $sqlOwnerString = "AND ezcontentobject.owner_id = '$owner'";
+        if ( is_numeric( $parentNodeID ) )
+            $parentNodeIDString ="AND ezcontentobject_tree.parent_node_id = '$parentNodeID'";
 
         if ( $classIDArray != null )
         {
@@ -951,6 +953,7 @@ class eZContentFunctionCollection
                       $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
+                      $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
@@ -969,6 +972,7 @@ class eZContentFunctionCollection
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionChecking[where]
                       $sqlOwnerString
+                      $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
