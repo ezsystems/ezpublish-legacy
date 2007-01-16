@@ -32,6 +32,8 @@
 
 set_time_limit( 0 );
 
+define( "QUERY_LIMIT", 30 );
+
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
@@ -98,31 +100,85 @@ if ( !$language )
 }
 
 
-$classList = eZContentClass::fetchList( false, true );
-
 $db =& eZDB::instance();
 $db->begin();
 
-foreach ( $classList as $class )
+for ( $offset = 0; ; $offset += QUERY_LIMIT )
 {
-    $oldClassName = $class->attribute( 'serialized_name_list' );
+    $classList = eZContentClass::fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED,
+                                            $asObject = true,
+                                            $user_id = false,
+                                            $sorts = null,
+                                            $fields = null,
+                                            $classFilter = false,
+                                            $limit = array( "limit" => QUERY_LIMIT, "offset" => $offset ) );
 
-    $cli->output( "Updating " . $cli->stylize( 'emphasize', $oldClassName ) . " class" );
-
-    $attributeList = $class->fetchAttributes();
-    foreach ( $attributeList as $attribute )
+    if ( count( $classList ) <= 0 )
     {
-        $oldAttributeName = $attribute->attribute( 'serialized_name_list' );
-        $attribute->setName( $oldAttributeName, $languageLocale );
-        $attribute->store();
+        break;
     }
 
-    $class->setAttribute( 'language_mask', $language->attribute( 'id' ) );
-    $class->setName( $oldClassName, $languageLocale );
-    $class->setAttribute( 'initial_language_id', $language->attribute( 'id' ) );
-    $class->setAlwaysAvailableLanguageID( $language->attribute( 'id' ) );
-    // setAlwaysAvailableLanguageID will do 'store'
-    // $class->store();
+    foreach ( $classList as $class )
+    {
+        $oldClassName = $class->attribute( 'serialized_name_list' );
+        $unserializedClassName = @unserialize( $oldClassName );
+        if ( $unserializedClassName === false || !is_array( $unserializedClassName ) )
+        {
+            $classNameNeedUpdate = true;
+            $cli->output( "Updating " . $cli->stylize( 'emphasize', $oldClassName ) . " class" );
+        }
+        else
+        {
+            $classNameNeedUpdate = false;
+            if ( array_key_exists( $languageLocale, $unserializedClassName ) )
+            {
+                $oldClassName = $unserializedClassName[$languageLocale];
+            }
+            else
+            {
+                $oldClassName = array_shift( $unserializedClassName );
+            }
+            $cli->output( "Class name " . $cli->stylize( 'emphasize', $oldClassName ) . " already updated" );
+        }
+
+        $attributeList = $class->fetchAttributes();
+        $attributeNameUpdated = 0;
+        foreach ( $attributeList as $attribute )
+        {
+            $oldAttributeName = $attribute->attribute( 'serialized_name_list' );
+            $unserializedAttributeName = @unserialize( $oldAttributeName );
+            if ( $unserializedAttributeName !== false && is_array( $unserializedAttributeName ) )
+            {
+                continue;
+            }
+
+            $attribute->setName( $oldAttributeName, $languageLocale );
+            $attribute->store();
+            $attributeNameUpdated++;
+        }
+
+        if ( $attributeNameUpdated )
+        {
+            $cli->output( $cli->stylize( 'emphasize', $attributeNameUpdated ) . ' of ' .
+                          $cli->stylize( 'emphasize', count( $attributeList ) ) . ' attributes updated.' );
+        }
+        else
+        {
+            $cli->output( "No attributes updated." );
+        }
+
+        if ( !$classNameNeedUpdate )
+        {
+            continue;
+        }
+
+        $class->setAttribute( 'language_mask', $language->attribute( 'id' ) );
+        $class->setName( $oldClassName, $languageLocale );
+        $class->setAttribute( 'initial_language_id', $language->attribute( 'id' ) );
+        $class->setAlwaysAvailableLanguageID( $language->attribute( 'id' ) );
+        // setAlwaysAvailableLanguageID will do 'store'
+        // $class->store();
+    }
 }
 
 $db->commit();
