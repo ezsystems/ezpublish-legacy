@@ -57,6 +57,8 @@ Changes from 3.9.0 to 3.10.0alpha1
   notifying user
   (Merged from stable/3.9 (3.9.1) rev. 17899)
 - Fixed bug #10000: Slowdowns in setup wizard caused by string conversions.
-- Fixed bug #010011: No existing "patch" package type.
+- Fixed bug #10011: No existing "patch" package type.
 - Fixed bug #9872: Some problems in updateclasstranslations.php
 - Fixed bug #9987: Restoring an object from the trash
+- Fixed bug #9683: Section assignment for large subtrees doesn't work with oracle.
+  (Merged from stable/3.8 (3.8.7) rev. 17937)
