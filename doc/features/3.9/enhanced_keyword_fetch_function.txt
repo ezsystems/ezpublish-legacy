@@ -1,0 +1,10 @@
+*Title: Enhanced 'keyword' and  'keyword_count' fetch functions.
+
+*Documentation:
+Using enhanced 'keyword' and 'keyword_count' functions you can fetch keywords by parent node id
+
+*Example
+
+  {def $list=fetch( 'content', 'keyword', hash( alphabet, 'computer',
+                                                classid, 3,
+						parent_node_id, 2 ) )}
