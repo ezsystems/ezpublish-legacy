@@ -805,11 +805,8 @@ class eZContentFunctionCollection
         else
             $sortingInfo = array( 'sortingFields' => 'ezkeyword.keyword ASC' );
 
-        $sqlOwnerString = '';
-        if ( is_numeric( $owner ) )
-            $sqlOwnerString = "AND ezcontentobject.owner_id = '$owner'";
-        if ( is_numeric( $parentNodeID ) )
-            $parentNodeIDString ="AND ezcontentobject_tree.parent_node_id = '$parentNodeID'";
+        $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
+        $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
 
         if ( $classIDArray != null )
         {
@@ -840,6 +837,7 @@ class eZContentFunctionCollection
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionChecking[where]
                       $sqlOwnerString
+                      $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
@@ -945,11 +943,8 @@ class eZContentFunctionCollection
         else
             $sortingInfo = array( 'sortingFields' => 'ezkeyword.keyword ASC' );
 
-        $sqlOwnerString = '';
-        if ( is_numeric( $owner ) )
-            $sqlOwnerString = "AND ezcontentobject.owner_id = '$owner'";
-        if ( is_numeric( $parentNodeID ) )
-            $parentNodeIDString ="AND ezcontentobject_tree.parent_node_id = '$parentNodeID'";
+        $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
+        $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
 
         if ( $classIDArray != null )
         {
