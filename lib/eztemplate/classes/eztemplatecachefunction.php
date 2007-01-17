@@ -300,8 +300,11 @@ ENDADDCODE;
             $code .= "@unlink( $filepathText );\n";
         }
         $code .= "rename( $filedirText. '/'. \$uniqid, $filepathText );\n" .
-            "\$cacheGenFile->delete();\n" .
-            "unset( \$cacheGenFile );";
+            "if ( isset( \$cacheGenFile ) and is_object( \$cacheGenFile ) )\n" .
+            "{\n" .
+            "   \$cacheGenFile->delete();\n" .
+            "   unset( \$cacheGenFile );\n" .
+            "}\n";
 
         // VS-DBFILE
 
