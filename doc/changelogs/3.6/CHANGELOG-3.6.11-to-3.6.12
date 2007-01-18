@@ -152,3 +152,5 @@ Changes from 3.6.11 to 3.6.12
   (Merged from stable/3.9 (3.9.1) rev. 17899, 17903)
 - Fixed bug #010011: No existing "patch" package type.
   (Merged from trunk (3.10.0alpha1) rev. 17914)
+- Fixed bug #9553: user account verification gives misleading information
+  (Merged from stable/3.8 (3.8.7) rev. 17949)
