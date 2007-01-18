@@ -35,9 +35,11 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 $Module =& $Params['Module'];
 //$http =& eZHTTPTool::instance();
 $hash =& $Params['Hash'];
+$mainNodeID =& $Params['MainNodeID'];
 
 // Check if key exists
 $accountActivated = false;
+$alreadyActive = false;
 $accountKey = eZUserAccountKey::fetchByKey( $hash );
 
 if ( $accountKey )
@@ -61,7 +63,16 @@ if ( $accountKey )
     // Remove key
     $accountKey->remove( $userID );
 }
+elseif( $mainNodeID )
+{
+    $userContentObject = eZContentObject::fetchByNodeID( $mainNodeID );
+    $userSetting = eZUserSetting::fetch( $userContentObject->attribute( 'id' ) );
 
+    if ( $userSetting !== null && $userSetting->attribute( 'is_enabled' ) )
+    {
+        $alreadyActive = true;
+    }
+}
 
 // Template handling
 include_once( 'kernel/common/template.php' );
@@ -69,6 +80,7 @@ $tpl =& templateInit();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'account_activated', $accountActivated );
+$tpl->setVariable( 'already_active', $alreadyActive );
 
 // This line is deprecated, the correct name of the variable should
 // be 'account_activated' as shown above.
