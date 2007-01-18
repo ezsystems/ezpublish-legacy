@@ -15,7 +15,7 @@
 {section show=and( is_set( $hash ), $hash )}
 
 {'Click the following URL to confirm your account'|i18n('design/standard/user/register')}
-http://{$hostname}{concat("user/activate/",$hash)|ezurl(no)}
+http://{$hostname}{concat( 'user/activate/', $hash, '/', $object.main_node_id )|ezurl(no)}
 
 {/section}
 

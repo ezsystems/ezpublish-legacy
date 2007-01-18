@@ -112,7 +112,7 @@ $ViewList['activate'] = array(
     'script' => 'activate.php',
     'ui_context' => 'authentication',
     'default_navigation_part' => 'ezmynavigationpart',
-    'params' => array( 'Hash' ) );
+    'params' => array( 'Hash', 'MainNodeID' ) );
 
 $ViewList['success'] = array(
     'script' => 'success.php',
