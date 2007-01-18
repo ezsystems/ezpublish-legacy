@@ -64,3 +64,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 (3.8.7) rev. 17937)
 - Fixed bug #9925: Nested cache-block in pagelayout.tpl
   (Merged from stable/3.9 (3.9.1) rev. 17940)
+- Fixed bug #5516:PDF-on-the-fly-issue with IE: wrong header?
+  ( Merged from stable/3.8 rev. 17942, stable/3.9 rev. 17943 )
