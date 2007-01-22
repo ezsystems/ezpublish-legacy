@@ -37,7 +37,7 @@ function eZSetupTestTable()
 {
     return array( 'phpversion' => array( 'eZSetupTestPhpVersion' ),
                   'php_session' => array( 'eZSetupTestExtension' ),
-                  'directory_permissions' => array( 'eZSetupTestFilePermissions' ),
+                  'directory_permissions' => array( 'eZSetupTestDirectoryPermissions' ),
                   'settings_permission' => array( 'eZSetupTestFilePermissions' ),
                   'database_extensions' => array( 'eZSetupTestExtension' ),
                   'database_all_extensions' => array( 'eZSetupTestExtension' ),
@@ -279,16 +279,16 @@ function eZSetupTestPhpVersion( $type, &$arguments )
     $operatingSystem = split( " ", php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
 
-	// Find out if there is an os specific version needed
+    // Find out if there is an os specific version needed
     if ( isset( $argArray["req"][$operatingSystem] ) )
         $neededVersion = $argArray["req"][$operatingSystem];
     else if ( isset( $argArray["req"] ) )
         $neededVersion = $argArray["req"];
     else
         $neededVersion = $argArray["req"];
-	*/
+    */
 
-	$neededVersion = $minVersion;
+    $neededVersion = $minVersion;
 
     // compare the versions
     $currentVersion = phpversion();
@@ -406,7 +406,6 @@ function eZSetupTestExtension( $type, &$arguments )
     $failedExtensions = array();
     foreach ( $extensionList as $extension )
     {
-//        if ( false )
         if ( extension_loaded( $extension ) )
         {
             $foundExtensions[] = $extension;
@@ -441,8 +440,85 @@ function eZSetupTestExtension( $type, &$arguments )
 
 
 /*!
-	Test file permissions
+    Test file permissions
 */
+
+function eZSetupTestDirectoryPermissions( $type, &$arguments )
+{
+    include_once( 'lib/ezfile/classes/ezdir.php' );
+
+    $dirList = eZSetupConfigVariableArray( $type, 'CheckList' );
+
+    $ini =& eZINI::instance();
+    $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+
+    $result = true;
+    $resultElements = array();
+    $resultElementsByErrorCode = array();
+
+    $rootDir = eZSys::rootDir();
+    $dirPermOctal = octdec( $dirPermission );
+
+    foreach ( $dirList as $dir )
+    {
+        if ( empty( $dir ) )
+            continue;
+
+        $resultElement = array();
+        $resultElement['file']       = $dir;
+        $resultElement['result']     = 1; // ok by default
+        $resultElement['permission'] = false;
+
+        $dir = eZDir::cleanPath( $dir );
+
+        if ( !file_exists( $dir ) )
+        {
+            // if directory does not exist then try to create it
+            if ( empty( $rootDir ) )
+                $dirPath = './' . $dir;
+            else
+                $dirPath = $rootDir . '/' . $dir;
+            $res = @mkdir( $dirPath, $dirPermOctal );
+            if ( $res )
+            {
+                $resultElement['permission'] = $dirPermission;
+                $resultElement['result'] = 1;
+            }
+            else
+            {
+                $result = false;
+                $resultElement['result'] = 2; // unable to create unexistent dir
+            }
+        }
+        else if ( is_dir( $dir ) )
+        {
+            $resultElement['permission'] = $dirPermission;
+            if ( !eZSetupPrvtAreDirAndFilesWritable( $dir ) )
+            {
+                $result = false;
+                $resultElement['result'] = 3; // dir has wrong permissions
+            }
+        }
+        else if ( is_file( $dir ) )
+        {
+            $result = false;
+            $resultElement['result'] = 4; // dir exists but it is a file
+        }
+        $resultElements[] = $resultElement;
+        $resultElementsByErrorCode[ $resultElement['result'] ][] = $resultElement;
+    }
+    $safeMode = ini_get( 'safe_mode' ) != 0;
+    $userInfo = eZSetupPrvPosixExtension();
+
+    return array( 'result'          => $result,
+                  'safe_mode'       => $safeMode,
+                  'user_info'       => $userInfo,
+                  'persistent_data' => array( 'result' => array( 'value' => $result ) ),
+                  'current_path'    => realpath( '.' ),
+                  'result_elements' => $resultElements,
+                  'result_elements_by_error_code' => $resultElementsByErrorCode );
+}
+
 function eZSetupTestFilePermissions( $type, &$arguments )
 {
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
@@ -456,6 +532,9 @@ function eZSetupTestFilePermissions( $type, &$arguments )
     $resultElements = array();
     foreach ( $fileList as $file )
     {
+        if ( empty( $file ) )
+            continue;
+
         $resultElement = array();
         $resultElement['file'] = $file;
         unset( $fileResult );
@@ -468,7 +547,9 @@ function eZSetupTestFilePermissions( $type, &$arguments )
 
         $file = eZDir::cleanPath( $file );
         if ( !file_exists( $file ) )
+        {
             continue;
+        }
         if ( is_dir( $file ) )
         {
             $filePerm = $dirPermission;
@@ -480,8 +561,8 @@ function eZSetupTestFilePermissions( $type, &$arguments )
                 $fileResult = false;
             }
         }
-    	else if ( is_file( $file ) )
-    	{
+        else if ( is_file( $file ) )
+        {
             $filePerm = $filePermission;
 
             if ( !eZFile::isWriteable( $file ) )
@@ -489,7 +570,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
                 $result = false;
                 $fileResult = false;
             }
-    	}
+        }
     }
     $safeMode = ini_get( 'safe_mode' ) != 0;
     $userInfo = eZSetupPrvPosixExtension();
@@ -529,7 +610,7 @@ function eZSetupPrvPosixExtension()
 
 
 /*!
-	Test if a program can be found in our path and is executable
+    Test if a program can be found in our path and is executable
 */
 function eZSetupCheckExecutable( $type, &$arguments )
 {
@@ -540,10 +621,10 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
     $filesystemType = eZSys::filesystemType();
     $envSeparator = eZSys::envSeparator();
-	$programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
+    $programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
     $systemSearchPaths = explode( $envSeparator, eZSys::path() );
-	$additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
-	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
+    $additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
+    $excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
 
     /*
@@ -583,7 +664,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
     $searchPaths = array_merge( $systemSearchPaths, $additionalSearchPaths, $extraPath, $imageIniPath );
 
-	$result = false;
+    $result = false;
     $correctPath = false;
     $correctProgram = false;
     foreach ( $programs as $program )
@@ -647,11 +728,11 @@ function eZSetupCheckExecutable( $type, &$arguments )
         }
         if ( $result )
             break;
-	}
+    }
 
     $extraPathAsString = implode( $envSeparator, $extraPath );
 
-	return array( 'result' => $result,
+    return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
                                               'program' => array( 'value' => $correctProgram ),
                                               'extra_path' => array( 'value' => $extraPathAsString,
@@ -668,11 +749,11 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
 
 /*!
-	Test php ini settings
+    Test php ini settings
 */
 function testPHPIni( $parameters )
 {
-	$setting = $parameters["setting"];
+    $setting = $parameters["setting"];
     $state = $parameters["state"];
 
     if ( (bool) ini_get( $setting ) == $state )
@@ -681,7 +762,7 @@ function testPHPIni( $parameters )
         $pass = false;
 
     $status = $pass;
-	return array( "status" => $status, "pass" => $pass );
+    return array( "status" => $status, "pass" => $pass );
 }
 
 
@@ -696,7 +777,7 @@ function eZSetupCheckGDVersion( $type, &$arguments )
 }
 
 /*!
-	Test if mbstring is available
+    Test if mbstring is available
 */
 function eZSetupMBStringExtension( $type, &$arguments )
 {
@@ -882,6 +963,7 @@ function eZSetupPrvtExtractExtraPaths( &$givenPersistentList )
  */
 function eZSetupPrvtAreDirAndFilesWritable( $dir )
 {
+    include_once( 'lib/ezfile/classes/ezdir.php' );
     if ( !eZDir::isWriteable( $dir ) )
         return FALSE;
 
