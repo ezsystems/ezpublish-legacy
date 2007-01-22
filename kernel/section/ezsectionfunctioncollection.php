@@ -75,7 +75,8 @@ class eZSectionFunctionCollection
         }
         $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                         null,
-                                                        array( 'section_id' => $sectionID ),
+                                                        array( 'section_id' => $sectionID,
+                                                               'status' => EZ_CONTENT_OBJECT_STATUS_PUBLISHED ),
                                                         $sortOrder,
                                                         array( 'offset' => $offset, 'limit' => $limit ) );
         return array( 'result' => $objects );
@@ -89,7 +90,8 @@ class eZSectionFunctionCollection
                                 'name' => 'count' ) );
         $rows = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                      array(),
-                                                     array( 'section_id' => $sectionID ),
+                                                     array( 'section_id' => $sectionID,
+                                                            'status' => EZ_CONTENT_OBJECT_STATUS_PUBLISHED ),
                                                      false, null, false, false, $custom );
         return array( 'result' => $rows[0]['count'] );
     }
