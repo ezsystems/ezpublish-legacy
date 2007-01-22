@@ -175,3 +175,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17949)
 - Fixed bug #9995: Email addresses with underscores
   (Merged from stable/3.8 (3.8.7) rev. 17955)
+- Fixed bug #9953: SiteAccessRules example 3 disables website root /
+  (Merged from stable/3.8 (3.8.7) rev. 17960)
