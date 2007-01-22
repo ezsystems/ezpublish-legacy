@@ -341,7 +341,7 @@ function accessAllowed( $uri )
     $check = array( 'result' => true,
                     'module' => $moduleName,
                     'view' => $viewName,
-                    'view-checked' => false );
+                    'view_checked' => false );
 
     $ini =& eZINI::instance();
 
