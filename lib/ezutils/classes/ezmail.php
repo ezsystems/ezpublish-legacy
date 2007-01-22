@@ -626,15 +626,6 @@ class eZMail
             $textElements[] = eZMail::composeEmailName( $item, $key, $convert );
         }
 
-        if ( $convert )
-        {
-            foreach ( array_keys( $textElements ) as $elementKey )
-            {
-                $element =& $textElements[$elementKey];
-                $element = $this->convertHeaderText( $element );
-            }
-        }
-
         if ( $join )
             $text = implode( ', ', $textElements );
         else
