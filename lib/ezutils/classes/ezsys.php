@@ -523,23 +523,19 @@ class eZSys
             $instance =& $this;
         else
             $instance =& eZSys::instance();
-        if ( $instance->RootDir )
+        if ( !$instance->RootDir )
         {
-            return $instance->RootDir;
-        }
-        $cwd  = getcwd();
-        $self  = $instance->serverVariable( 'PHP_SELF' );
-        if ( file_exists( $cwd.$instance->FileSeparator.$self ) )
-        {
-            $instance->RootDir = $cwd;
-        }
-        else if ( file_exists( $cwd.$instance->FileSeparator.$instance->IndexFile ) )
-        {
-            $instance->Root = $cwd;
-        }
-        else
-        {
-            $instance->RootDir=null;
+            $cwd  = getcwd();
+            $self  = $instance->serverVariable( 'PHP_SELF' );
+            if ( file_exists( $cwd . $instance->FileSeparator . $self ) or
+                 file_exists( $cwd . $instance->FileSeparator . $instance->IndexFile ) )
+            {
+                $instance->RootDir = $cwd;
+            }
+            else
+            {
+                $instance->RootDir = null;
+            }
         }
         return $instance->RootDir;
     }
