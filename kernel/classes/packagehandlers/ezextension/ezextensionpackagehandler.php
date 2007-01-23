@@ -96,7 +96,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
                       &$installData )
     {
         $extensionName = $content->getAttribute( 'name' );
-        
+
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' ) . '/' . $extensionName;
 
@@ -133,9 +133,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
                       &$installData )
     {
         //$this->Package =& $package;
-        
+
         $extensionName = $content->getAttribute( 'name' );
-        
+
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' ) . '/' . $extensionName;
         $packageExtensionDir = $package->path() . '/' . $parameters['sub-directory'] . '/' . $extensionName;
@@ -151,7 +151,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
             {
             case EZ_PACKAGE_EXTENSION_SKIP:
                 return true;
-        
+
             case EZ_PACKAGE_NON_INTERACTIVE:
             case EZ_PACKAGE_EXTENSION_REPLACE:
                 eZDir::recursiveDelete( $extensionDir );
@@ -168,7 +168,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
 
         eZDir::mkdir( $extensionDir, eZDir::directoryPermission(), true );
-        
+
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
         $files = $content->Children;
@@ -207,6 +207,97 @@ class eZExtensionPackageHandler extends eZPackageHandler
             $siteINI->save( 'site.ini.append', '.php', false, false );
         }
         return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function add( $packageType, &$package, &$cli, $parameters )
+    {
+        //eZDebug::writeDebug( $parameters, 'extension add parameters' );
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+
+        // code taken from eZExtensionPackageCreator
+        $siteINI = eZINI::instance();
+        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+
+        foreach ( $parameters as $extensionName )
+        {
+            $cli->output( 'adding extension ' . $cli->style( 'dir' ) . $extensionName .  $cli->style( 'dir-end' ) );
+
+            $fileList = array();
+            $sourceDir = $extensionDir . '/' . $extensionName;
+            $targetDir = $package->path() . '/ezextension';
+
+            eZDir::mkdir( $targetDir, false, true );
+            eZDir::copy( $sourceDir, $targetDir );
+
+            eZDir::recursiveList( $targetDir, '', $fileList );
+
+            $doc = new eZDOMDocument;
+
+            $packageRoot =& $doc->createElement( 'extension' );
+            $packageRoot->setAttribute( 'name', $extensionName );
+
+            foreach( $fileList as $file )
+            {
+                $fileNode =& $doc->createElement( 'file' );
+                $fileNode->setAttribute( 'name', $file['name'] );
+
+                if ( $file['path'] )
+                    $fileNode->setAttribute( 'path', $file['path'] );
+
+                $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
+                //$fileNode->setAttribute( 'full-path', $fullPath );
+                $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
+
+                if ( $file['type'] == 'dir' )
+                     $fileNode->setAttribute( 'type', 'dir' );
+
+                $packageRoot->appendChild( $fileNode );
+                unset( $fileNode );
+            }
+
+            $filename = 'extension-' . $extensionName;
+
+            $package->appendInstall( 'ezextension', false, false, true,
+                                           $filename, 'ezextension',
+                                           array( 'content' => $packageRoot ) );
+            $package->appendInstall( 'ezextension', false, false, false,
+                                           $filename, 'ezextension',
+                                           array( 'content' => false ) );
+        }
+    }
+
+    /*!
+     \reimp
+    */
+    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
+    {
+        $arguments = array_unique( $arguments );
+        $extensionsToAdd = array();
+
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+        $siteINI = eZINI::instance();
+        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        $extensionList = eZDir::findSubItems( $extensionDir );
+
+        foreach ( $arguments as $argument )
+        {
+            if ( in_array( $argument, $extensionList ) )
+            {
+                $extensionsToAdd[] = $argument;
+            }
+            else
+            {
+                $cli->error( 'Extension ' . $cli->style( 'dir' ) . $argument .  $cli->style( 'dir-end' ) . ' not found.' );
+                return false;
+            }
+        }
+
+        return $extensionsToAdd;
     }
 
     var $Package = null;

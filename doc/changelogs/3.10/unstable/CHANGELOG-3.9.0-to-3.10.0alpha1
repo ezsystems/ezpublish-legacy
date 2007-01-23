@@ -9,6 +9,13 @@ Changes from 3.9.0 to 3.10.0alpha1
 *eZTemplate:
 - Added 'status' parameter to 'object_list' and 'object_list_count' fetch functions of 'section' module.
 
+*Package system:
+- Command line package tool 'ezpm.php' updated:
+  o 'list', 'import', 'install' command have been changed to match admin
+     interface functionality.
+  o  Implemented suggestion #010001: 'ezinstallscript' and 'ezextension' items are
+     supported by 'add' command.
+  o  Implemented suggestion : Allow ezpm to set vendor.
 
 *Bugfixes:
 - Fixed Bug: Minor issue with SQL transformation.
@@ -76,3 +83,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 (3.8.7) rev. 17960)
 - Fixed bug #10050: row_count and col_count are not set in 'tr' and 'table'
   tags' templates.
+- Fixed bug #10078: 'vendor' field is not kept when exporting package.
+- Fixed bug #8718: ezpm.php call to undefined function.
