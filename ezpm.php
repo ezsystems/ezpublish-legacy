@@ -5,25 +5,25 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: 3.9.x
+// SOFTWARE RELEASE: 3.10.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
 //
@@ -62,7 +62,6 @@ function help()
                   "  -c,--colors          display output using ANSI colors (default)\n" .
                   "  -l,--login USER      login with USER and use it for all operations\n" .
                   "  -p,--password PWD    use PWD as password for USER\n" .
-                  "  -r,--repos REPOS     use REPOS for repository when accessing packages\n" .
                   "  --db-type TYPE       set type of db to use\n" .
                   "  --db-name NAME       set name of db to use\n" .
                   "  --db-user USER       set database user\n" .
@@ -115,7 +114,7 @@ function helpImport()
 {
     $cli =& eZCLI::instance();
     $cli->output( "import: Import an eZ publish package.\n" .
-                  "usage: import PACKAGE\n" .
+                  "usage: import PACKAGE [ARCHIVENAME]\n" .
                   "\n" .
                   "PACKAGE can be specified with just the name of the of package or\n" .
                   "the filename of the package. If just the name is used the package\n" .
@@ -126,8 +125,9 @@ function helpImport()
 function helpList()
 {
     $cli =& eZCLI::instance();
-    $cli->output( "list (ls): Lists all packages in the repository.\n" .
-                  "usage: list\n"
+    $cli->output( "list (ls): Lists all packages in the given repository.\n" .
+                  "Lists packages in all the repositories if no repository given" .
+                  "usage: list [REPOSITORYID]\n"
                   );
 }
 
@@ -235,7 +235,6 @@ $useLogFiles = false;
 $userLogin = false;
 $userPassword = false;
 $command = false;
-$repositoryPath = false;
 
 $dbUser = false;
 $dbPassword = false;
@@ -279,7 +278,7 @@ function appendCommandItem( &$commandList, &$commandItem )
 resetCommandItem( $commandItem );
 
 $optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
-$longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos',
+$longOptionsWithData = array( 'siteaccess', 'login', 'password',
                               'db-type', 'db-name', 'db-user', 'db-password', 'db-socket', 'db-host' );
 
 $commandAlias = array();
@@ -364,10 +363,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'password' )
             {
                 $userPassword = $optionData;
-            }
-            else if ( $flag == 'repos' )
-            {
-                $repositoryPath = $optionData;
             }
             else if ( $flag == 'db-user' )
             {
@@ -479,10 +474,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 $userPassword = $optionData;
             }
-            else if ( $flag == 'r' )
-            {
-                $repositoryPath = $optionData;
-            }
         }
     }
     else
@@ -591,6 +582,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 if ( $commandItem['name'] === false )
                     $commandItem['name'] = $arg;
+                else if ( !isset( $commandItem['archive'] ) )
+                    $commandItem['archive'] = $arg;
             }
             else if ( $commandItem['command'] == 'install' )
             {
@@ -606,6 +599,11 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     ++$i;
                     $commandItem['export-directory'] = $argv[$i];
                 }
+            }
+            else if ( $commandItem['command'] == 'list' )
+            {
+                if ( isset( $commandItem['repos'] ) === false )
+                    $commandItem['repos'] = $arg;
             }
         }
     }
@@ -771,18 +769,22 @@ foreach ( $commandList as $commandItem )
     if ( $command == 'list' )
     {
         $fetchParameters = array();
-        if ( $repositoryPath )
-            $fetchParameters['path'] = $repositoryPath;
+        $repository = '';
+        if ( isset( $commandItem['repos'] ) )
+        {
+            $fetchParameters['repository_id'] = $commandItem['repos'];
+            $cli->output( "The the of packages in the repository " . $cli->stylize( 'dir', $fetchParameters['repository_id'] ) . ":" );
+        }
+        else
+             $cli->output( "The list of all packages:" );
+
         $packages = eZPackage::fetchPackages( $fetchParameters );
         if ( count( $packages ) > 0 )
         {
-            if ( $repositoryPath )
-                $cli->output( "The following packages are in the repository " . $cli->stylize( 'dir', $repositoryPath ) . ":" );
-            else
-                $cli->output( "The following packages are in the repository:" );
             foreach ( $packages as $package )
             {
-                $cli->output( $package->attribute( 'name' ) . '-' . $package->attribute( 'version-number' ) . '-' . $package->attribute( 'release-number' ) . ' (' . $cli->stylize( 'emphasize', $package->attribute( 'summary' ) ) . ')' );
+                $packageRepInfo = $package->currentRepositoryInformation();
+                $cli->output( '[' . $packageRepInfo['id'] . '] ' . $package->attribute( 'name' ) . '  ver.' . $package->attribute( 'version-number' ) . '-' . $package->attribute( 'release-number' ) . ' (' . $cli->stylize( 'emphasize', $package->attribute( 'summary' ) ) . ')' );
             }
         }
         else
@@ -790,10 +792,10 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'info' )
     {
-        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
-            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        if ( isset( $createdPackages[$commandItem['name']] ) )
+            $package =& $createdPackages[$commandItem['name']];
         else
-            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
             $showInfo = false;
@@ -846,10 +848,10 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'add' )
     {
-        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
-            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        if ( isset( $createdPackages[$commandItem['name']] ) )
+            $package =& $createdPackages[$commandItem['name']];
         else
-            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
             $itemType = $commandItem['item'];
@@ -918,10 +920,10 @@ foreach ( $commandList as $commandItem )
         }
         else
         {
-            if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
-                $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+            if ( isset( $createdPackages[$commandItem['name']] ) )
+                $package =& $createdPackages[$commandItem['name']];
             else
-                $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
+                $package = eZPackage::fetch( $commandItem['name'] );
             if ( $package )
             {
                 switch ( $commandItem['attribute'] )
@@ -947,59 +949,69 @@ foreach ( $commandList as $commandItem )
                 $cli->output( "package " . $commandItem['name'] . " is not in repository" );
         }
     }
-    else if ( $command == 'import' or
-              $command == 'install' )
+    else if ( $command == 'import' )
     {
         $archiveNames = array();
-        $archiveName = $commandItem['name'];
-        $archiveNames[] = $archiveName;
-        if ( !file_exists( $archiveName ) )
+        if ( isset( $commandItem['archive'] ) )
+            $archiveNames[] = $commandItem['archive'];
+        $archiveNames[] = $commandItem['name'];
+        $archiveNames[] = $commandItem['name'] . '.' . eZPackage::suffix();
+
+        $archiveName = '';
+        foreach( $archiveNames as $name )
         {
-            $archiveName .= '.' . eZPackage::suffix();
-            $archiveNames[] = $archiveName;
+            if ( file_exists( $name ) )
+            {
+                $archiveName = $name;
+                break;
+            }
         }
-        if ( file_exists( $archiveName ) )
+
+        if ( $archiveName )
         {
             $package =& eZPackage::import( $archiveName, $commandItem['name'] );
 
             if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
             {
-                if ( $command == 'install' )
-                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already installed " );
-                else
-                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
-
+                $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
                 $package = false;
             }
 
             if ( $package )
             {
-                if ( $command == 'install' )
-                {
-                    $installParameters = array( 'path' => '.' );
-                    $package->install( $installParameters );
-                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully installed" );
-                }
-                else
-                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully imported" );
-            }
-            else
-            {
-                if ( $command == 'install' )
-                    $cli->error( "Failed installing package $archiveName" );
-                else
-                    $cli->error( "Failed importing package $archiveName" );
+                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully imported" );
             }
         }
         else
-            $cli->error( "Could not open package " . $commandItem['name'] . ", none of these files were found: " . implode( ',', $archiveNames ) );
+            $cli->error( "Could not import package " . $commandItem['name'] . ", none of these files were found: " . implode( ', ', $archiveNames ) );
+    }
+    else if ($command == 'install' )
+    {
+        $package =& eZPackage::fetch( $commandItem['name'] );
+        if ( $package )
+        {
+            $user =& eZUser::currentUser();
+            $installParameters = array( 'site_access_map' => array( '*' => $siteaccess ),
+                                        'top_nodes_map' => array( '*' => 2 ),
+                                        'design_map' => array( '*' => $siteaccess ),
+                                        'restore_dates' => true,
+                                        'user_id' => $user->attribute( 'contentobject_id' ),
+                                        'non-interactive' => true );
+            $result = $package->install( $installParameters );
+            if ( $result )
+                $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully installed" );
+            else
+                $cli->error( "Failed to install package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) );
+        }
+        else
+            $cli->error( "Could not open package " . $commandItem['name'] );
     }
     else if ( $command == 'export' )
     {
-        if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
-            $package =& $createdPackages[$repositoryPath][$commandItem['name']];
+        if ( isset( $createdPackages[$commandItem['name']] ) )
+            $package =& $createdPackages[$commandItem['name']];
         else
-            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
             if ( isset( $commandItem['export-directory'] ) )
@@ -1012,14 +1024,15 @@ foreach ( $commandList as $commandItem )
                 }
                 else
                 {
-                    $package->export( $exportDirectory );
+                    include_once( 'lib/ezutils/classes/ezsys.php' );
+                    $package->exportToArchive( $exportDirectory . eZSys::fileSeparator() . $package->exportName() );
                     if ( !$isQuiet )
                         $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
                 }
             }
             else
             {
-                $exportPath = $package->archive( $package->exportName() );
+                $exportPath = $package->exportToArchive( $package->exportName() );
                 if ( !$isQuiet )
                     $cli->notice( "Package " . $cli->stylize( 'symbol', $package->attribute( 'name' ) ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
             }
@@ -1032,8 +1045,7 @@ foreach ( $commandList as $commandItem )
         if ( $alreadyCreated )
             $cli->output();
         $package = eZPackage::create( $commandItem['name'],
-                                       array( 'summary' => $commandItem['summary'] ),
-                                       $repositoryPath );
+                                       array( 'summary' => $commandItem['summary'] ) );
 
         require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
@@ -1063,7 +1075,7 @@ foreach ( $commandList as $commandItem )
         if ( eZPublishSDK::developmentVersion() !== false )
             $cli->warning( "The package will be in development format and can not be installed on a stable eZ publish site" );
         $alreadyCreated = true;
-        $createdPackages[$repositoryPath][$commandItem['name']] =& $package;
+        $createdPackages[$commandItem['name']] =& $package;
     }
 }
 
