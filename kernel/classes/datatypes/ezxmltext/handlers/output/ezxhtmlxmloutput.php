@@ -61,7 +61,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                                                            'show_path' => false ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
-    'table'        => array( 'renderHandler' => 'renderAll',
+    'table'        => array( 'initHandler' => 'initHandlerTable',
+                             'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
                              'attrNamesTemplate' => array( 'class' => 'classification' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
@@ -352,6 +353,23 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
+    function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    {
+        // Numbers of rows and cols are lower by 1 for back-compatibility.
+        $rows =& $element->children();
+        $rowCount = count( $rows );
+        $rowCount--;
+        $lastRow =& $element->lastChild();
+        $cols =& $lastRow->children();
+        $colCount = count( $cols );
+        if ( $colCount )
+            $colCount--;
+
+        $ret = array( 'tpl_vars' => array( 'col_count' => $colCount,
+                                           'row_count' => $rowCount ) );
+        return $ret;
+    }
+
     function initHandlerTr( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
@@ -362,6 +380,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $parentParams['table_row_count'] = $sibilingParams['table_row_count'];
 
+        // Number of cols is lower by 1 for back-compatibility.
+        $cols =& $element->children();
+        $colCount = count( $cols );
+        if ( $colCount )
+            $colCount--;
+
+        $ret = array( 'tpl_vars' => array( 'row_count' => $parentParams['table_row_count'],
+                                           'col_count' => $colCount ) );
         return $ret;
     }
 
