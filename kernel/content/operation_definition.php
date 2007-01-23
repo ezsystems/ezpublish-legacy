@@ -11,18 +11,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -82,16 +82,20 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                                   array( 'name' => 'status',
                                                                                          'type' => 'integer',
                                                                                          'constant' => 1 ) ) ), // EZ_VERSION_STATUS_PENDING
+                                                    array( 'type' => 'method',
+                                                           'name' => 'update-section-id',
+                                                           'frequency' => 'once',
+                                                           'method' => 'updateSectionID'
+                                                           ),
                                                     array( 'type' => 'trigger',
                                                            'name' => 'pre_publish',
                                                            'keys' => array( 'object_id',
-                                                                            'version'
-                                                                             ) ),
-
+                                                                            'version' )
+                                                           ),
                                                     array( 'type' => 'method',
                                                            'name' => 'begin-publish',
                                                            'frequency' => 'once',
-                                                           'method' => 'beginPublish',
+                                                           'method' => 'beginPublish'
                                                            ),
                                                     array( 'type' => 'method',
                                                            'name' => 'copy-translations',

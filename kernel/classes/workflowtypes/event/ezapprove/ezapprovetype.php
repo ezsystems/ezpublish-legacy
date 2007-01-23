@@ -13,18 +13,18 @@
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -234,7 +234,7 @@ class eZApproveType extends eZWorkflowEventType
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $languageMask, 'eZApproveType::execute::languageMask' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
 
-        $section = $object->attribute( 'section_id');
+        $section = $object->attribute( 'section_id' );
         $correctSection = false;
 
         if ( !in_array( $section, $workflowSections ) && !in_array( -1, $workflowSections ) )
