@@ -180,3 +180,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #9962: [Workflow] When speciying a section for content approval mechanism,
   content appears without being approved.
   (Merged from stable/3.9 (3.9.1) rev. 17990)
+- Fixed bug #9550: Broken section view.
+  (Merged from stable/3.9 (3.9.1) rev. 17977)  
