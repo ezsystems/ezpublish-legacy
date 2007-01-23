@@ -2349,6 +2349,7 @@ class eZPackage
         $extension = $this->attribute( 'extension' );
         $extensionAttributes = array( 'name' => $extension );
         $installType = $this->attribute( 'install_type' );
+        $vendorName = $this->attribute( 'vendor' );
         $source = $this->attribute( 'source' );
         $sourceAttributes = array();
 
@@ -2394,11 +2395,11 @@ class eZPackage
             $root->appendChild( $rootDescriptionTextNode );
         }
 
-        /*if ( $vendor )
+        if ( $vendorName )
         {
-            $rootVendorTextNode = $dom->createElementTextNode( 'vendor', $vendor, $vendorAttributes );
+            $rootVendorTextNode = $dom->createElementTextNode( 'vendor', $vendorName );
             $root->appendChild( $rootVendorTextNode );
-        }*/
+        }
 
         if ( $priority )
         {

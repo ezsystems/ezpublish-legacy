@@ -12,6 +12,15 @@ Changes from 3.8.6 to 3.8.7
 - Implemented enhancement #9194: Improvements to ini editor.
   (Merged from trunk (3.9.0rc2) rev. 17559)
 
+*Package system:
+- Command line package tool 'ezpm.php' updated:
+  o 'list', 'import', 'install' command have been changed to match admin
+     interface functionality.
+  o  Implemented suggestion #010001: 'ezinstallscript' and 'ezextension' items are
+     supported by 'add' command.
+  o  Implemented suggestion : Allow ezpm to set vendor.
+  (Merged from trunk (3.9.10alpha1) rev. 17983)
+
 *Design:
 
 *Bugfixes:
@@ -164,3 +173,7 @@ Changes from 3.8.6 to 3.8.7
 - Fixed bug #9553: user account verification gives misleading information
 - Fixed bug #9995: Email addresses with underscores
 - Fixed bug #9953: SiteAccessRules example 3 disables website root /
+- Fixed bug #10078: 'vendor' field is not kept when exporting package.
+  (Merged from trunk (3.9.10alpha1) rev. 17983)
+- Fixed bug #8718: ezpm.php call to undefined function.
+  (Merged from trunk (3.9.10alpha1) rev. 17980)
