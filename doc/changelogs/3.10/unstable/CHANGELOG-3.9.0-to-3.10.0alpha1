@@ -85,3 +85,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   tags' templates.
 - Fixed bug #10078: 'vendor' field is not kept when exporting package.
 - Fixed bug #8718: ezpm.php call to undefined function.
+- Fixed bug #9927: ID is not set in embed.tpl.
+- Fixed bug #8553: Wrong object embedding by "eznode" if you have more locations.

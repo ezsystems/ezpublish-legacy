@@ -279,9 +279,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     function initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
-	// default return value in case of errors
+        // default return value in case of errors
         $ret = array( 'no_render' => true );
 
+        $tplSuffix = '';
         $objectID = $element->getAttribute( 'object_id' );
         if ( $objectID )
         {
@@ -297,6 +298,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $node =& $this->NodeArray[$nodeID];
                     $objectID = $node->attribute( 'contentobject_id' );
                     $object =& $node->object();
+                    $tplSuffix = '_node';
                 }
                 else
                 {
@@ -320,7 +322,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         if ( $object->attribute( 'can_read' ) ||
              $object->attribute( 'can_view_embed' ) )
         {
-            $templateName = $element->nodeName;
+            $templateName = $element->nodeName . $tplSuffix;
         }
         else
         {
@@ -329,14 +331,17 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $objectParameters = array();
         $excludeAttrs = array( 'view', 'class', 'node_id', 'object_id' );
-        foreach ( $attributes as $attrName=>$value )
+
+        foreach ( array_keys( $attributes ) as $attrName )
         {
+           $value = $attributes[$attrName];
            if ( !in_array( $attrName, $excludeAttrs ) )
            {
-               if ( substr( $attrName, 0, 6 ) == 'custom:' )
+               if ( strpos( $attrName, ':' ) !== false )
                    $attrName = substr( $attrName, strpos( $attrName, ':' ) + 1 );
 
                $objectParameters[$attrName] = $value;
+               unset( $attributes[$attrName] );
            }
         }
 
@@ -345,11 +350,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         else
             $linkParameters = array();
 
-        $ret = array( 'tpl_vars' => array( 'object' => $object,
-                                           'template_name' => $templateName,
+        $ret = array( 'template_name' => $templateName,
+                      'tpl_vars' => array( 'object' => $object,
                                            'link_parameters' => $linkParameters,
                                            'object_parameters' => $objectParameters ),
                       'design_keys' => array( 'class_identifier', $object->attribute( 'class_identifier' ) ) );
+
+        if ( $tplSuffix == '_node')
+            $ret['tpl_vars']['node'] = $node;
+        
         return $ret;
     }
 
