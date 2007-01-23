@@ -82,16 +82,20 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                                                   array( 'name' => 'status',
                                                                                          'type' => 'integer',
                                                                                          'constant' => 1 ) ) ), // EZ_VERSION_STATUS_PENDING
+                                                    array( 'type' => 'method',
+                                                           'name' => 'update-section-id',
+                                                           'frequency' => 'once',
+                                                           'method' => 'updateSectionID'
+                                                           ),
                                                     array( 'type' => 'trigger',
                                                            'name' => 'pre_publish',
                                                            'keys' => array( 'object_id',
-                                                                            'version'
-                                                                             ) ),
-
+                                                                            'version' )
+                                                           ),
                                                     array( 'type' => 'method',
                                                            'name' => 'begin-publish',
                                                            'frequency' => 'once',
-                                                           'method' => 'beginPublish',
+                                                           'method' => 'beginPublish'
                                                            ),
                                                     array( 'type' => 'method',
                                                            'name' => 'copy-translations',
