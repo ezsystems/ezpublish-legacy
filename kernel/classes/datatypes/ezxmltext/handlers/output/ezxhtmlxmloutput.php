@@ -514,10 +514,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $isInline = in_array( $linkChild->name(), $this->InLineTagArray );
                 }
 
-                if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
+                // at least one child tag have't inline type, so cancel
+                if ( !$isInline )
+                {
+                    $isChildrenInline = false;
+                    break;
+                }
             }
-            //true if all $linkChild are inline
-            $isChildrenInline = $isInline;
         }
 
         // render children tags using recursion
