@@ -8,7 +8,12 @@
     {* Image. *}
     {section show=$node.data_map.image.content}
         <div class="attribute-image">
+        {* Becuse of changes to the product class in ezwebin, we'll have to check if image is object relation or not *}
+        {if is_set($node.data_map.image.content.data_map)}
             {attribute_view_gui alignment=right image_class=medium attribute=$node.data_map.image.content.data_map.image}
+        {else}
+            {attribute_view_gui alignment=right image_class=medium attribute=$node.data_map.image}
+        {/if}
         </div>
     {/section}
 
