@@ -1134,7 +1134,7 @@ class eZPackage
         return $archivePath;
     }
 
-    function &import( $archiveName, &$packageName, $dbAvailable = true )
+    function &import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
         if ( is_dir( $archiveName ) )
@@ -1169,7 +1169,9 @@ class eZPackage
             if ( $package )
             {
                 $packageName = $package->attribute( 'name' );
-                $vendorDir = $package->attribute( 'vendor-dir' );
+
+                if ( !$repositoryID )
+                    $repositoryID = $package->attribute( 'vendor-dir' );
 
                 $existingPackage = eZPackage::fetch( $packageName, false, false, $dbAvailable );
                 if ( $existingPackage )
@@ -1180,8 +1182,8 @@ class eZPackage
                 unset( $archive );
                 unset( $package );
 
-                $vendorRepositoryPath = eZPackage::repositoryPath() . '/' . $vendorDir;
-                $packagePath = $vendorRepositoryPath . '/' . $packageName;
+                $fullRepositoryPath = eZPackage::repositoryPath() . '/' . $repositoryID;
+                $packagePath = $fullRepositoryPath . '/' . $packageName;
                 if ( !file_exists( $packagePath ) )
                 {
                     eZDir::mkdir( $packagePath, eZDir::directoryPermission(), true );
@@ -1189,10 +1191,10 @@ class eZPackage
                 $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
                 $archive->extractModify( $packagePath, '' );
 
-                $package = eZPackage::fetch( $packageName, $vendorRepositoryPath, false, $dbAvailable );
+                $package = eZPackage::fetch( $packageName, $fullRepositoryPath, false, $dbAvailable );
                 if ( !$package )
                 {
-                    eZDebug::writeError( "Failed loading imported package $packageName from $vendorRepositoryPath" );
+                    eZDebug::writeError( "Failed loading imported package $packageName from $fullRepositoryPath" );
                 }
             }
             else

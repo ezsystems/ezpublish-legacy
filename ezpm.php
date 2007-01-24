@@ -62,6 +62,7 @@ function help()
                   "  -c,--colors          display output using ANSI colors (default)\n" .
                   "  -l,--login USER      login with USER and use it for all operations\n" .
                   "  -p,--password PWD    use PWD as password for USER\n" .
+                  "  -r,--repos REPOS     use REPOS for repository when accessing packages\n" .
                   "  --db-type TYPE       set type of db to use\n" .
                   "  --db-name NAME       set name of db to use\n" .
                   "  --db-user USER       set database user\n" .
@@ -125,9 +126,10 @@ function helpImport()
 function helpList()
 {
     $cli =& eZCLI::instance();
-    $cli->output( "list (ls): Lists all packages in the given repository.\n" .
-                  "Lists packages in all the repositories if no repository given" .
-                  "usage: list [REPOSITORYID]\n"
+    $cli->output( "list (ls): Lists all the packages\n" .
+                  "If repository ID is given (-r option) it will show packages\n" .
+                  "only from the given repository" .
+                  "usage: list\n"
                   );
 }
 
@@ -235,6 +237,7 @@ $useLogFiles = false;
 $userLogin = false;
 $userPassword = false;
 $command = false;
+$repositoryID = false;
 
 $dbUser = false;
 $dbPassword = false;
@@ -278,7 +281,7 @@ function appendCommandItem( &$commandList, &$commandItem )
 resetCommandItem( $commandItem );
 
 $optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
-$longOptionsWithData = array( 'siteaccess', 'login', 'password',
+$longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos',
                               'db-type', 'db-name', 'db-user', 'db-password', 'db-socket', 'db-host' );
 
 $commandAlias = array();
@@ -363,6 +366,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'password' )
             {
                 $userPassword = $optionData;
+            }
+            else if ( $flag == 'repos' )
+            {
+                $repositoryID = $optionData;
             }
             else if ( $flag == 'db-user' )
             {
@@ -473,6 +480,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'p' )
             {
                 $userPassword = $optionData;
+            }
+            else if ( $flag == 'r' )
+            {
+                $repositoryID = $optionData;
             }
         }
     }
@@ -599,11 +610,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     ++$i;
                     $commandItem['export-directory'] = $argv[$i];
                 }
-            }
-            else if ( $commandItem['command'] == 'list' )
-            {
-                if ( isset( $commandItem['repos'] ) === false )
-                    $commandItem['repos'] = $arg;
             }
         }
     }
@@ -769,10 +775,9 @@ foreach ( $commandList as $commandItem )
     if ( $command == 'list' )
     {
         $fetchParameters = array();
-        $repository = '';
-        if ( isset( $commandItem['repos'] ) )
+        if ( $repositoryID )
         {
-            $fetchParameters['repository_id'] = $commandItem['repos'];
+            $fetchParameters['repository_id'] = $repositoryID;
             $cli->output( "The the of packages in the repository " . $cli->stylize( 'dir', $fetchParameters['repository_id'] ) . ":" );
         }
         else
@@ -788,7 +793,7 @@ foreach ( $commandList as $commandItem )
             }
         }
         else
-            $cli->output( "No packages are available in the repository" );
+            $cli->output( "No packages are available" );
     }
     else if ( $command == 'info' )
     {
@@ -969,7 +974,7 @@ foreach ( $commandList as $commandItem )
 
         if ( $archiveName )
         {
-            $package =& eZPackage::import( $archiveName, $commandItem['name'] );
+            $package =& eZPackage::import( $archiveName, $commandItem['name'], true, $repositoryID );
 
             if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
             {
@@ -1045,7 +1050,8 @@ foreach ( $commandList as $commandItem )
         if ( $alreadyCreated )
             $cli->output();
         $package = eZPackage::create( $commandItem['name'],
-                                       array( 'summary' => $commandItem['summary'] ) );
+                                      array( 'summary' => $commandItem['summary'] ),
+                                      false, $repositoryID );
 
         require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
@@ -1072,8 +1078,6 @@ foreach ( $commandList as $commandItem )
         if ( $commandItem['summary'] )
             $text .= " " . $cli->stylize( 'archive', $commandItem['summary'] );
         $cli->output( $text );
-        if ( eZPublishSDK::developmentVersion() !== false )
-            $cli->warning( "The package will be in development format and can not be installed on a stable eZ publish site" );
         $alreadyCreated = true;
         $createdPackages[$commandItem['name']] =& $package;
     }
