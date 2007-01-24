@@ -778,7 +778,7 @@ class eZContentFunctionCollection
         return array( 'result' => $objectCount );
     }
 
-    function fetchKeywordCount( $alphabet, $classid, $owner = false, $sortBy = false, $parentNodeID = false )
+    function fetchKeywordCount( $alphabet, $classid, $owner = false, $parentNodeID = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -799,11 +799,6 @@ class eZContentFunctionCollection
         $db =& eZDB::instance();
 
         $alphabet = $db->escapeString( $alphabet );
-
-        if ( $sortBy !== false )
-            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
-        else
-            $sortingInfo = array( 'sortingFields' => 'ezkeyword.keyword ASC' );
 
         $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
         $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
@@ -827,7 +822,7 @@ class eZContentFunctionCollection
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
                       AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
         }
         else
         {
@@ -846,7 +841,7 @@ class eZContentFunctionCollection
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
                       AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
-                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
+                      AND ezkeyword_attribute_link.keyword_id = ezkeyword.id";
         }
 
         $keyWords = $db->arrayQuery( $query );
@@ -854,7 +849,7 @@ class eZContentFunctionCollection
         return array( 'result' => $keyWords[0]['count'] );
     }
 
-    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = false, $parentNodeID = false )
+    function fetchKeyword( $alphabet, $classid, $offset, $limit, $owner = false, $sortBy = array(), $parentNodeID = false )
     {
         $classIDArray = array();
         if ( is_numeric( $classid ) )
@@ -938,52 +933,97 @@ class eZContentFunctionCollection
 
         $alphabet = $db->escapeString( $alphabet );
 
-        if ( $sortBy !== false )
-            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+        $sortingInfo = array();
+        $sortingInfo['attributeFromSQL'] = ', ezcontentobject_attribute a1';
+        $sortingInfo['attributeWhereSQL'] = '';
+        $sqlTarget = 'ezkeyword.keyword,ezcontentobject_tree.node_id';
+
+        if ( is_array( $sortBy ) and count ( $sortBy ) )
+        {
+            switch ( $sortBy[0] )
+            {
+                case 'keyword':
+                case 'name':
+                {
+                    $sortingString = '';
+                    if ( $sortBy[0] == 'name' )
+                        $sortingString = 'ezcontentobject.name';
+                    elseif ( $sortBy[0] == 'keyword' )
+                        $sortingString = 'ezkeyword.keyword';
+
+                    $sortOrder = true; // true is ascending
+                    if ( isset( $sortBy[1] ) )
+                        $sortOrder = $sortBy[1];
+                    $sortingOrder = $sortOrder ? " ASC" : " DESC";
+                    $sortingInfo['sortingFields'] = $sortingString . $sortingOrder;
+                } break;
+                default:
+                {
+                    $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+
+                    if ( $sortBy[0] == 'attribute' )
+                    {
+                        // if sort_by is 'attribute' we should add ezcontentobject_name to "FromSQL" and link to ezcontentobject
+                        $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_name, ezcontentobject_attribute a1';
+                        $sortingInfo['attributeWhereSQL'] .= ' ezcontentobject.id = ezcontentobject_name.contentobject_id AND';
+                        $sqlTarget = 'DISTINCT ezcontentobject_tree.node_id, ezkeyword.keyword';
+                    }
+                    else // for unique declaration
+                        $sortingInfo['attributeFromSQL']  .= ', ezcontentobject_attribute a1';
+
+                } break;
+            }
+        }
         else
-            $sortingInfo = array( 'sortingFields' => 'ezkeyword.keyword ASC' );
+        {
+            $sortingInfo['sortingFields'] = 'ezkeyword.keyword ASC';
+        }
+        $sortingInfo['attributeWhereSQL'] .= " a1.version=ezcontentobject.current_version
+                                             AND a1.contentobject_id=ezcontentobject.id AND";
 
         $sqlOwnerString = is_numeric( $owner ) ? "AND ezcontentobject.owner_id = '$owner'" : '';
         $parentNodeIDString = is_numeric( $parentNodeID ) ? "AND ezcontentobject_tree.parent_node_id = '$parentNodeID'" : '';
 
-        if ( $classIDArray != null )
+        if ( is_array( $classIDArray ) and count( $classIDArray ) )
         {
             $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
-            $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
-                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+            $query = "SELECT $sqlTarget
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass
+                           $sortingInfo[attributeFromSQL]
                            $sqlPermissionChecking[from]
-                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      WHERE
+                      $sortingInfo[attributeWhereSQL]
+                      ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionChecking[where]
                       AND ezkeyword.class_id IN $classIDString
                       $sqlOwnerString
                       $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
-                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
                       AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
-                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND a1.id=ezkeyword_attribute_link.objectattribute_id
                       AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
         }
         else
         {
-            $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
-                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
+            $query = "SELECT $sqlTarget
+                      FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass
+                           $sortingInfo[attributeFromSQL]
                            $sqlPermissionChecking[from]
-                      WHERE ezkeyword.keyword LIKE '$alphabet%'
+                      WHERE
+                      $sortingInfo[attributeWhereSQL]
+                      ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionChecking[where]
                       $sqlOwnerString
                       $parentNodeIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
-                      AND ezcontentobject_attribute.version=ezcontentobject.current_version
                       AND ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id
-                      AND ezcontentobject_attribute.contentobject_id=ezcontentobject.id
                       AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
                       AND ezcontentclass.id = ezcontentobject.contentclass_id
-                      AND ezcontentobject_attribute.id=ezkeyword_attribute_link.objectattribute_id
+                      AND a1.id=ezkeyword_attribute_link.objectattribute_id
                       AND ezkeyword_attribute_link.keyword_id = ezkeyword.id ORDER BY {$sortingInfo['sortingFields']}";
         }
 
