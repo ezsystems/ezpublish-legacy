@@ -182,3 +182,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.9 (3.9.1) rev. 17990)
 - Fixed bug #9550: Broken section view.
   (Merged from stable/3.9 (3.9.1) rev. 17977)  
+- Fixed bug #10048: pdf( set_margin, ... - fails for link text.
+  ( Merged from stable/3.8 rev. 18012 )
