@@ -5,6 +5,8 @@ Changes from 3.9.0 to 3.10.0alpha1
 
 *Design:
 - Added Bulgarian flag.
+- Improved enchancement #10023: add only one row into ezmatrix
+  (Merged from stable/3.9 (3.9.1) rev.19021)
 
 *eZTemplate:
 - Added 'status' parameter to 'object_list' and 'object_list_count' fetch functions of 'section' module.
