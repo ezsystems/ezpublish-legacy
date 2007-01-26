@@ -2426,15 +2426,22 @@ class Cpdf
  *
  * @access private
  */
-    function PRVTgetTextPosition($x,$y,$angle,$size,$wa,$text){
-	// given this information return an array containing x and y for the end position as elements 0 and 1
-	$w = $this->getTextWidth($size,$text);
-	// need to adjust for the number of spaces in this text
-	$words = explode(' ',$text);
-	$nspaces=count($words)-1;
-	$w += $wa*$nspaces;
-	$a = deg2rad((float)$angle);
-	return array(cos($a)*$w+$x,-sin($a)*$w+$y);
+    function PRVTgetTextPosition($x,$y,$angle,$size,$wa,$text)
+    {
+        $tmp = false;
+        // given this information return an array containing x and y for the end position as elements 0 and 1
+
+        $w = $this->getTextWidth($size,$text);
+        // need to adjust for the number of spaces in this text
+        $words = explode(' ',$text);
+        $nspaces=count($words)-1;
+        $w += $wa*$nspaces;
+        $a = deg2rad((float)$angle);
+        if ( $tmp )
+        {
+            return array($this->xOffset(),-sin($a)*$w+$y);
+        }
+        return array(cos($a)*$w+$x,-sin($a)*$w+$y);
     }
 
 /**
@@ -2509,8 +2516,19 @@ class Cpdf
                                 if ( $final === 1 ){
                                     // need to assess the text position, calculate the text width to this point
                                     // can use getTextWidth to find the text width I think
-                                    $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
+                                    if ( $x < $this->leftMargin() )
+                                    {
+                                        $x = $this->leftMargin();
+                                    }
+                                    $startInfo = $this->callback[$this->nCallback];
+
+                                    if ( $x < $this->xOffset() )
+                                    {
+                                        $x = $this->xOffset();
+                                    }
+                                    $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,$startInfo['i'],$i-$startInfo['i']));
                                     $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'end','p'=>$parm,'nCallback'=>$this->nCallback);
+
                                     $x=$tmp[0];
                                     $y=$tmp[1];
                                     $ret = $this->$func($info);
@@ -2576,7 +2594,16 @@ class Cpdf
                             // can use getTextWidth to find the text width I think
                             // also add the text height and decender
                             $tmp = $this->PRVTgetTextPosition($x,$y,$angle,$size,$wordSpaceAdjust,substr($text,0,$i));
-                            $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'start','p'=>$parm,'f'=>$func,'height'=>$this->getFontHeight($size),'decender'=>$this->getFontDecender($size));
+                            if ( $tmp[0] < $this->leftMargin() )
+                            {
+                                $tmp[0] = $this->leftMargin();
+                            }
+                            if ( $tmp[0] < $this->xOffset() )
+                            {
+                                $tmp[0] = $this->xOffset();
+                            }
+                            $info = array('x'=>$tmp[0],'y'=>$tmp[1],'angle'=>$angle,'status'=>'start','p'=>$parm,'f'=>$func,'height'=>$this->getFontHeight($size),'decender'=>$this->getFontDecender($size), 'i' => $i);
+
                             $x=$tmp[0];
                             $y=$tmp[1];
                             if (!isset($noClose) || !$noClose){
@@ -2816,7 +2843,7 @@ class Cpdf
 
 	// need to store the initial text state, as this will change during the width calculation
 	// but will need to be re-set before printing, so that the chars work out right
-	$store_currentTextState = $this->currentTextState;
+    $store_currentTextState = $this->currentTextState;
     $returnArray = array ( 'text' => '',
                            'width' => 0,
                            'height' => 0 );
