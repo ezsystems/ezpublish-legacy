@@ -82,7 +82,6 @@ if ( strlen( $hashKey ) == 32 )
         $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
         $tpl->setVariable( 'password', $password );
 
-        eZDebug::writeDebug( $password, "New Password" );
         $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
         $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
@@ -116,7 +115,6 @@ if ( $module->isCurrentAction( "Generate" ) )
     $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
     $password = eZUser::createPassword( $passwordLength );
     $passwordConfirm = $password;
-    eZDebug::writeDebug( $password, "New Password" );
 
 //    $http->setSessionVariable( "GeneratedPassword", $password );
 
@@ -163,7 +161,6 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'password', $password );
             $tpl->setVariable( 'link', true );
             $tpl->setVariable( 'hash_key', $hashKey );
-            eZDebug::writeDebug( $password, "New Password" );
             include_once( 'lib/ezutils/classes/ezhttptool.php' );
             $http =& eZHTTPTool::instance();
             $http->UseFullUrl = true;
