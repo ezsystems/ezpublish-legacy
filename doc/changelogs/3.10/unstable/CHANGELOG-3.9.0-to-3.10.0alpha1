@@ -97,3 +97,6 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10048: pdf( set_margin, ... - fails for link text.
   ( Merged from stable/3.8 rev. 18012, stable/3.8 rev. 18015 )
 - Fixed bug #010097: Plain passwords in debug output.
+- Fixed bug #9043: information_schema table is displayed in db selection list
+  of setup wizard.
+  (Merged from stable/3.9 (3.9.1) rev. 18029)
