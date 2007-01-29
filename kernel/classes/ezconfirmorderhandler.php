@@ -2,8 +2,7 @@
 // Created on: <08-Aug-2006 15:14:44 bjorn>
 //
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: eZ publish
-// BUILD VERSION: 3.8.x
+// SOFTWARE RELEASE: 3.9.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
