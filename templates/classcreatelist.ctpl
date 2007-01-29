@@ -170,7 +170,7 @@
 
         $classNameFilter = eZContentClassName::sqlFilter( 'cc' );
 /*START:code-template::class-sql-creation*/
-        $filterSQL .= "AND\n      cc.id=" . $classNameFilter['from'] . ".contentclass_id";
+        $filterSQL .= " AND\n      cc.id=" . $classNameFilter['from'] . ".contentclass_id";
 /*END:code-template::class-sql-creation*/
 
         if ( $fetchAll )
