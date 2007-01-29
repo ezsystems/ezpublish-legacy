@@ -959,7 +959,14 @@ class eZContentFunctionCollection
         $params = array();
         if ( $sortBy )
         {
-            $params['SortBy'] = $sortBy;
+            if ( is_array( $sortBy ) )
+            {
+                $params['SortBy'] = $sortBy;
+            }
+            else
+            {
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
+            }
         }
 
         if ( !$attributeID )
@@ -1024,7 +1031,14 @@ class eZContentFunctionCollection
         $params = array();
         if ( $sortBy )
         {
-            $params['SortBy'] = $sortBy;
+            if ( is_array( $sortBy ) )
+            {
+                $params['SortBy'] = $sortBy;
+            }
+            else
+            {
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
+            }
         }
 
         if ( !$attributeID )
