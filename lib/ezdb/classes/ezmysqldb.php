@@ -900,12 +900,18 @@ class eZMySQLDB extends eZDBInterface
             return false;
         }
 
+        $dbServerVersion = $this->databaseServerVersion();
+        $dbServerMainVersion = $dbServerVersion['values'][0];
+
         while ( $i < $numRows )
         {
             // we don't allow "mysql" database to be shown anywhere
             $curDB = mysql_db_name( $databaseArray, $i );
-            if ( strcasecmp( $curDB, 'mysql' ) != 0 )
+            if ( strcasecmp( $curDB, 'mysql' ) != 0 &&
+                 ( $dbServerMainVersion < '5' || strcasecmp( $curDB, 'information_schema' ) != 0 ) )
+            {
                 $databases[] = $curDB;
+            }
             ++$i;
         }
         return $databases;

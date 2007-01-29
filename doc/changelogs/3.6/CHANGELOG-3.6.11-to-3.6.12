@@ -162,3 +162,6 @@ Changes from 3.6.11 to 3.6.12
   ( Merged from stable/3.8 rev. 18012, stable/3.7 rev. 18013 )
 - Fixed bug #010097: Plain passwords in debug output.
   (Merged from trunk (3.10.0alpha1) rev. 18018)
+- Fixed bug #9043: information_schema table is displayed in db selection list
+  of setup wizard.
+  (Merged from stable/3.9 (3.9.1) rev. 18029)
