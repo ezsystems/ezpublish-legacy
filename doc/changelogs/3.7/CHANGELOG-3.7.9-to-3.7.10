@@ -191,3 +191,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.9 (3.9.1) rev. 18029)
 - Fixed bug #9202: Reverse_related_objects fetch results in a query error
   (Manually merged from stable/3.9 (3.9.1) rev. 18034)
+- Fixed bug #9876: setup wizzard, text does not match visual
+  (Manually merged from stable/3.9 (3.9.1) rev. 18047)
