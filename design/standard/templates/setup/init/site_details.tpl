@@ -90,13 +90,13 @@ The setup can continue with the initialization but may damage the present data."
     <tr>
         {switch match=$site_type.access_type}
         {case match='url'}
-            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if eq( $site_access_illegal, 1 )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"User path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case match='port'}
-            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if eq( $site_access_illegal, 1 )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"User port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case match='hostname'}
-            <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"User hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"User hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case/}
         {/switch}
@@ -105,13 +105,13 @@ The setup can continue with the initialization but may damage the present data."
     <tr>
         {switch match=$site_type.access_type}
         {case match='url'}
-            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if eq( $site_access_illegal, 1 )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Admin path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case match='port'}
-            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if eq( $site_access_illegal, 1 )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Admin port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case match='hostname'}
-            <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"Admin hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+            {if or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Admin hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
         {/case}
         {case/}
         {/switch}
@@ -119,7 +119,7 @@ The setup can continue with the initialization but may damage the present data."
     </tr>
 
     <tr>
-        <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}><label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site_type.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+        {if or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )}<td class="invalid">* {else}<td>{/if}<label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site_type.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
         <td>
         {section show=$database_available|count|gt( 0 )}
             <select name="eZSetup_site_templates_database">
