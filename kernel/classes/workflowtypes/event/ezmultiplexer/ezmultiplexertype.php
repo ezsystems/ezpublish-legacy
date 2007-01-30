@@ -54,37 +54,31 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             case 'selected_sections':
             {
-                if ( trim( $event->attribute( 'data_text1' ) ) == '' )
-                    $sections = array( -1 );
-                else
-                    $sections = explode( ',', $event->attribute( 'data_text1' ) );
-                return $sections;
-            }
-            break;
+                $attributeValue = trim( $event->attribute( 'data_text1' ) );
+                $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_classes':
             {
-                if ( trim( $event->attribute( 'data_text3' ) ) == '' )
-                    $users = array( -1 );
-                else
-                    $users = explode( ',', $event->attribute( 'data_text3' ) );
-                return $users;
-            }
-            break;
+                $attributeValue = trim( $event->attribute( 'data_text3' ) );
+                $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_usergroups':
             {
-                $groups = explode( ',', $event->attribute( 'data_text2' ) );
-                return $groups;
-            }
+                $attributeValue = trim( $event->attribute('data_text2') );
+                $returnValue = empty( $attributeValue ) ? array() : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_workflow':
             {
-                return $event->attribute( 'data_int1' );
-            }
+                $returnValue = $event->attribute( 'data_int1' );
+            }break;
+
+            default:
+                $returnValue = null;
         }
-        $retValue = null;
-        return $retValue;
+        return $returnValue;
     }
 
     function typeFunctionalAttributes()
