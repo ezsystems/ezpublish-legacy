@@ -63,62 +63,47 @@ class eZApproveType extends eZWorkflowEventType
         {
             case 'selected_sections':
             {
-                $returnValue = explode( ',', $event->attribute( 'data_text1' ) );
-                return $returnValue;
-            } break;
+                $attributeValue = trim( $event->attribute( 'data_text1' ) );
+                $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
+            }break;
 
             case 'approve_users':
             {
-                if ( $event->attribute( 'data_text3' ) == '' )
-                {
-                    $returnValue = array();
-                    return $returnValue;
-                }
-                $returnValue = explode( ',', $event->attribute( 'data_text3' ) );
-                return $returnValue;
+                $attributeValue = trim( $event->attribute( 'data_text3' ) );
+                $returnValue = empty( $attributeValue ) ? array() : explode( ',', $attributeValue );
             }break;
 
             case 'approve_groups':
             {
-                if ( $event->attribute( 'data_text4' ) == '' )
-                {
-                    $returnValue = array();
-                    return $returnValue;
-                }
-                $returnValue = explode( ',', $event->attribute( 'data_text4' ) );
-                return $returnValue;
+                $attributeValue = trim( $event->attribute( 'data_text4' ) );
+                $returnValue = empty( $attributeValue ) ? array() : explode( ',', $attributeValue );
             }break;
 
             case 'selected_usergroups':
             {
-                if ( $event->attribute( 'data_text2' ) == '' )
-                {
-                    $returnValue = array();
-                    return $returnValue;
-                }
-                $returnValue = explode( ',', $event->attribute( 'data_text2' ) );
-                return $returnValue;
-            } break;
+                $attributeValue = trim( $event->attribute( 'data_text2' ) );
+                $returnValue = empty( $attributeValue ) ? array() : explode( ',', $attributeValue );
+            }break;
 
             case 'language_list':
             {
-                if ( $event->attribute( 'data_int2' ) == 0 )
-                {
-                    $returnValue = array();
-                    return $returnValue;
-                }
-                include_once( 'kernel/classes/ezcontentlanguage.php' );
-                $languages = eZContentLanguage::languagesByMask( $event->attribute( 'data_int2' ) );
                 $returnValue = array();
-                foreach ( $languages as $language )
+                $attributeValue = $event->attribute( 'data_int2' );
+                if ( $attributeValue != 0 )
                 {
-                    $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                    include_once( 'kernel/classes/ezcontentlanguage.php' );
+                    $languages = eZContentLanguage::languagesByMask( $attributeValue );
+                    foreach ( $languages as $language )
+                    {
+                        $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                    }
                 }
-                return $returnValue;
-            } break;
+            }break;
+
+            default:
+                $returnValue = null;
         }
-        $retValue = null;
-        return $retValue;
+        return $returnValue;
     }
 
     function typeFunctionalAttributes( )
