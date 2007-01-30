@@ -63,59 +63,51 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             case 'selected_sections':
             {
-                if ( trim( $event->attribute( 'data_text1' ) ) == '' )
-                    $sections = array( -1 );
-                else
-                    $sections = explode( ',', $event->attribute( 'data_text1' ) );
-                return $sections;
-            }
-            break;
+                $attributeValue = trim( $event->attribute( 'data_text1' ) );
+                $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_classes':
             {
-                if ( trim( $event->attribute( 'data_text3' ) ) == '' )
-                    $users = array( -1 );
-                else
-                    $users = explode( ',', $event->attribute( 'data_text3' ) );
-                return $users;
-            }
-            break;
+                $attributeValue = trim( $event->attribute( 'data_text3' ) );
+                $returnValue = empty( $attributeValue ) ? array( -1 ) : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_usergroups':
             {
-                $groups = explode( ',', $event->attribute( 'data_text2' ) );
-                return $groups;
-            }
+                $attributeValue = trim( $event->attribute('data_text2') );
+                $returnValue = empty( $attributeValue ) ? array() : explode( ',', $attributeValue );
+            }break;
 
             case 'selected_workflow':
             {
-                return $event->attribute( 'data_int1' );
-            }
+                $returnValue = $event->attribute( 'data_int1' );
+            }break;
 
             case 'language_list':
             {
-                if ( $event->attribute( 'data_int2' ) == 0 )
-                {
-                    $returnValue = array();
-                    return $returnValue;
-                }
-                include_once( 'kernel/classes/ezcontentlanguage.php' );
-                $languages = eZContentLanguage::languagesByMask( $event->attribute( 'data_int2' ) );
                 $returnValue = array();
-                foreach ( $languages as $language )
+                $attributeValue = $event->attribute( 'data_int2' );
+                if ( $attributeValue != 0 )
                 {
-                    $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                    include_once( 'kernel/classes/ezcontentlanguage.php' );
+                    $languages = eZContentLanguage::languagesByMask( $attributeValue );
+                    foreach ( $languages as $language )
+                    {
+                        $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                    }
                 }
-                return $returnValue;
-            } break;
+            }break;
+
             case 'version_option':
             {
-                $retValue = EZ_MULTIPLEXER_VERSION_OPTION_ALL & $event->attribute( 'data_int3' );
-                return $retValue;
-            } break;
+                $returnValue = EZ_MULTIPLEXER_VERSION_OPTION_ALL & $event->attribute( 'data_int3' );
+            }break;
+
+            default:
+                $returnValue = null;
         }
-        $retValue = null;
-        return $retValue;
+        return $returnValue;
     }
 
     function typeFunctionalAttributes()
