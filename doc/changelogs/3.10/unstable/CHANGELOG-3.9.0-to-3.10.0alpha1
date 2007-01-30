@@ -104,3 +104,6 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.1) rev. 18034)
 - Fixed bug #9876: setup wizzard, text does not match visual
   (Merged from stable/3.9 (3.9.1) rev. 18047)
+- Fixed bug #10105: collectedinfo.php don't include ezcontentobjecttreenode.php.
+  (Manually merged from stable/3.6 (3.6.12) rev. 18053)
+  
