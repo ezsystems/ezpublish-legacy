@@ -363,6 +363,7 @@ class eZDOMNode
     }
 
     /*!
+      \deprecated Use firstElementByName() instead.
       \returns The first element that is named \a $name.
                If multiple elements with that name is found \c false is returned.
 
@@ -383,6 +384,27 @@ class eZDOMNode
                     return $retValue;
                 }
                 $element =& $child;
+            }
+        }
+        return $element;
+    }
+
+    /*
+    \returns The first element that is named \a $name.
+               If multiple elements with that name is found \c false is returned.
+
+      \note This will only make sense for element nodes.
+    */
+    function &firstElementByName( $name )
+    {
+        $element = false;
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->name() == $name && !$child->prefix() )
+            {
+                $element =& $child;
+                break;
             }
         }
         return $element;
@@ -444,6 +466,7 @@ class eZDOMNode
     }
 
     /*!
+      \deprecated Use getElementsByTagName/getElementsByTagNameNS instead.
       \return An array with elements that matches the name \a $name.
 
       \note This will only make sense for element nodes.
@@ -1298,6 +1321,39 @@ class eZDOMNode
         }
         $this->flag = false;
         return $ret;
+    }
+
+    /*!
+      \note W3C DOM function
+    */
+
+    function getElementsByTagName( $name )
+    {
+        $elements = array();
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->name() == $name && !$child->prefix() )
+                $elements[] =& $child;
+        }
+
+        return $elements;
+    }
+
+    /*!
+      \note W3C DOM function
+    */
+    function getElementsByTagNameNS( $namespaceURI, $localName )
+    {
+        $elements = array();
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->name() == $localName && $child->namespaceURI() == $namespaceURI )
+                $elements[] =& $child;
+        }
+
+        return $elements;
     }
 
     /*!

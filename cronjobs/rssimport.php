@@ -154,7 +154,7 @@ function rssImport1( &$root, &$rssImport, &$cli )
 
     // Get all items in rss feed
     $itemArray = $root->elementsByName( 'item' );
-    $channel = $root->elementByName( 'channel' );
+    $channel = $root->firstElementByName( 'channel' );
 
     // Loop through all items in RSS feed
     foreach ( $itemArray as $item )
@@ -183,7 +183,7 @@ function rssImport2( &$root, &$rssImport, &$cli )
     $addCount = 0;
 
     // Get all items in rss feed
-    $channel =& $root->elementByName( 'channel' );
+    $channel =& $root->firstElementByName( 'channel' );
 
     // Loop through all items in RSS feed
     foreach ( $channel->elementsByName( 'item' ) as $item )
@@ -225,9 +225,9 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     }
 
     $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
-    $titleElement = $item->elementByName( 'title' );
+    $titleElement = $item->firstElementByName( 'title' );
     $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
-    $link = $item->elementByName( 'link' );
+    $link = $item->firstElementByName( 'link' );
     $linkURL = $link->textContent() . getCDATA( $link );
     $md5Sum = md5( $linkURL );
 
@@ -433,7 +433,7 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
         {
             if ( count( $importDescriptionArray ) == 1 )
             {
-                $element = $xmlDomNode->elementByName( $importDescriptionArray[0] );
+                $element = $xmlDomNode->firstElementByName( $importDescriptionArray[0] );
                 // We should check if text contains CDATA content
                 $resultText = is_object( $element ) ? $element->textContent() . getCDATA( $element ) : false;
                 return $resultText;
@@ -442,7 +442,7 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
             {
                 $elementName = $importDescriptionArray[0];
                 array_shift( $importDescriptionArray );
-                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->elementByName( $elementName ) );
+                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->firstElementByName( $elementName ) );
             }
         }
 

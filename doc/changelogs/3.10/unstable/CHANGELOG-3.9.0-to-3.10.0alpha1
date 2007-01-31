@@ -109,3 +109,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10132: Bug in eZDiscount.
   (Merged from stable/3.8 rev. 18060)
 - Fixed bug #10124: Unneccessary redeclaration of $http.
+- Fixed bug #10100: RSS import doesn't work with <dc:> tags.
