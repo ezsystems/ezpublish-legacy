@@ -80,9 +80,6 @@ if ( $object->attribute( 'can_edit' ) )
 
 $canRemove = true;
 
-$http =& eZHTTPTool::instance();
-
-
 //content/diff functionality
 //Set default values
 $previousVersion = 1;
