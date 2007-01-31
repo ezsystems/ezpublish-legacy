@@ -55,7 +55,7 @@ class eZDiscount
         if ( is_object( $user ) )
         {
             $groups =& $user->groups();
-            $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
+            $idArray = array_merge( $groups, array( $user->attribute( 'contentobject_id' ) ) );
 
             // Fetch discount rules for the current user
             $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
