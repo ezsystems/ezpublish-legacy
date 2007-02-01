@@ -920,7 +920,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     else
     {
         $mainNodeChanged = false;
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $nodeAssignmentIDList =array();
 
         $db =& eZDB::instance();
