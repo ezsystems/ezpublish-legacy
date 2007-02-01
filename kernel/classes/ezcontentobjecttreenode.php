@@ -6159,7 +6159,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $iniMenu =& eZINI::instance( 'contentstructuremenu.ini' );
         $falseValue = "''";
-        $createHereMenu = $iniMenu->variable( 'TreeMenu', 'CreateHereMenu' );
+
+        if ( $iniMenu->hasVariable( 'TreeMenu', 'CreateHereMenu' ) )
+        {
+            $createHereMenu = $iniMenu->variable( 'TreeMenu', 'CreateHereMenu' );
+        }
+        else
+        {
+            $createHereMenu = 'simplified';
+        }
         if ( $createHereMenu != 'simplified' and $createHereMenu != 'full' )
             return $falseValue;
 
