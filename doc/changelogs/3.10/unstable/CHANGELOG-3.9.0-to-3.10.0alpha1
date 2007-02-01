@@ -112,3 +112,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10100: RSS import doesn't work with <dc:> tags.
 - Fixed bug #9814: Context menue is gone
   (Merged from stable/3.9 (3.9.1) rev. 18068)
+- Fixed bug #10094: Breaking subtrees
+  (Merged from stable/3.9 (3.9.1) rev. 18070)
