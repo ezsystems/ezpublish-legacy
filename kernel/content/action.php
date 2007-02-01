@@ -692,7 +692,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         if ( !is_array( $selectedNodeIDArray ) )
             $selectedNodeIDArray = array();
 
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $assignedNodes =& $object->assignedNodes();
 
         $parentNodeIDArray = array();
@@ -770,7 +770,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
 
-        $assigned =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
+        $assigned = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $publishedAssigned =& $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
@@ -916,7 +916,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     else
     {
         $mainNodeChanged = false;
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $nodeAssignmentIDList =array();
 
         $db =& eZDB::instance();
