@@ -85,6 +85,7 @@ class eZSimplifiedXMLEditOutput
                                                         'show_path' => false,
                                                         'ezurl_id' => false,
                                                         'anchor_name' => false ) ),
+        'anchor'       => array( 'isSingle' => true ),
 
         '#text'        => array( 'handler' => 'outputText' )
         );
