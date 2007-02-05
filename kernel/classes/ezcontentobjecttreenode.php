@@ -3829,6 +3829,12 @@ WHERE
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
 
+        $parentNode =& $node->attribute( 'parent' );
+        if ( is_object( $parentNode ) )
+        {
+            eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
+        }
+
         // Clean up policies and limitations
         eZRole::cleanupByNode( $node );
 

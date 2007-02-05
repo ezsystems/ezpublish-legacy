@@ -195,4 +195,5 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from stable/3.9 (3.9.1) rev. 18047)
 - Fixed bug #10105: collectedinfo.php don't include ezcontentobjecttreenode.php.
   (Manually merged from stable/3.6 (3.6.12) rev. 18053)
-  
+- Fixed bug #9984: Multiple locations and content cache problem.  
+  (Manually merged from trunk (3.9.10alpha1) rev. 18083)  
