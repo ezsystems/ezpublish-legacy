@@ -199,3 +199,6 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from trunk (3.10.0alpha1) rev. 18083)
 - Fixed bug #9050: Links to non-existing stylesheets.
   (Manually merged from trunk (3.10.0alpha1) rev. 18103)
+- Fixed bug #8498: Missing JavaScript function used in ezobjectrelationlist
+  template
+  (Merged from trunk (3.10.0alpha1) rev. 18107)
