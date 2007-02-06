@@ -118,4 +118,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9984: Multiple locations and content cache problem.
 - Fixed bug #8966: Impossible to generate documentation with stable release.
   (Merged from stable/3.9 (3.9.1) rev. 18089)
-- Fixed bug #09924: SSLSubtrees failure.
+- Fixed bug #9924: SSLSubtrees failure.
+- Fixed bug #9050: Links to non-existing stylesheets.
