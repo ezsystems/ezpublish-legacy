@@ -20,7 +20,7 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0alpha1) rev. 16806)
 - Fixed bug #8898: Passing view parameters through login.
   (Merged from trunk (3.9.0alpha1) rev. 16813)
-- Fixed bug #8941: Enumeration style value is changed 
+- Fixed bug #8941: Enumeration style value is changed
   when I edit the content class.
   (Merged from trunk (3.9.0alpha1) rev. 16827)
 - Fixed bug #8872: WebShop fatal error (view orders of removed users).
@@ -41,7 +41,7 @@ Changes from 3.7.9 to 3.7.10
   permissions
   (Merged from stable/3.8 (3.8.5) rev. 16923)
 - Fixed bug #9081: Bug in multi-option datatype.
-  (Merged from trunk (3.9.0alpha1) rev. 17041)  
+  (Merged from trunk (3.9.0alpha1) rev. 17041)
 - Fixed bug: almost all i18n calls were not compiled but ran the interpreted
   mode.
   (Merged from trunk (3.9.0alpha1) rev. 17070)
@@ -49,11 +49,11 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.5) rev. 17077 )
 - Fixed bug: Left menu missed when page access denied
   (Merged from stable/3.8 (3.8.5) rev. 17111)
-- Fixed bug #9149: Missing </p> tag in ez.tpl  
+- Fixed bug #9149: Missing </p> tag in ez.tpl
   (Merged from trunk (3.9.0alpha1) rev. 17134)
 - Fixed bug #9143: Error in HTML for peak memory usage
   (Merged from trunk (3.9.0alpha1) rev. 17138)
-- Fixed bug #9130: Bug closing </form> tag missing 
+- Fixed bug #9130: Bug closing </form> tag missing
   in standard/templates/content/upload.tpl
   (Merged from trunk (3.9.0alpha1) rev. 17142)
 - Fixed bug #009374: exporting object content with media file doesn't work
@@ -72,7 +72,7 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.9.0beta1) rev. 17244, 17249)
 - Fixed bug #9117: Content class editing is not inside DB transaction.
   (Merged from stable/3.8 (3.8.5) rev. 17260)
-- Fixed bug #8644: bug appears when writing INI files 
+- Fixed bug #8644: bug appears when writing INI files
   while the siteaccess resides in an extension.
   (Merged from stable/3.8 (3.8.5) rev. 17267)
 - Fixed bug #9028: Importing packages fail to set related objects.
@@ -161,11 +161,11 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #9839: Wrong total number of pending items in pendinglist view
   (Merged from stable/3.8 rev. 17857)
 - Fixed bug #9940: Error in design/base/override/templates/embed/image.tpl
-  (Merged from trunk (3.9.10alpha1) rev. 17868)
+  (Merged from trunk (3.10.0alpha1) rev. 17868)
 - Fixed bug #9844: Location for Users directory isn't displayed for users with
   read permissions.
 - Fixed bug #9900: Sending mail issue.
-  (Merged from trunk (3.9.10alpha1) rev. 17890)
+  (Merged from trunk (3.10.0alpha1) rev. 17890)
 - Fixed bug #9860: ezp390 setup wizard sets admin password to "publish" without
   notifying user
   (Merged from stable/3.9 (3.9.1) rev. 17899)
@@ -181,7 +181,7 @@ Changes from 3.7.9 to 3.7.10
   content appears without being approved.
   (Merged from stable/3.9 (3.9.1) rev. 17990)
 - Fixed bug #9550: Broken section view.
-  (Merged from stable/3.9 (3.9.1) rev. 17977)  
+  (Merged from stable/3.9 (3.9.1) rev. 17977)
 - Fixed bug #10048: pdf( set_margin, ... - fails for link text.
   ( Merged from stable/3.8 rev. 18012 )
 - Fixed bug #010097: Plain passwords in debug output.
@@ -195,5 +195,5 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from stable/3.9 (3.9.1) rev. 18047)
 - Fixed bug #10105: collectedinfo.php don't include ezcontentobjecttreenode.php.
   (Manually merged from stable/3.6 (3.6.12) rev. 18053)
-- Fixed bug #9984: Multiple locations and content cache problem.  
-  (Manually merged from trunk (3.9.10alpha1) rev. 18083)  
+- Fixed bug #9984: Multiple locations and content cache problem.
+  (Manually merged from trunk (3.10.0alpha1) rev. 18083)
