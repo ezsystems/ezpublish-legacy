@@ -123,7 +123,8 @@ class eZXMLOutputHandler
                 {
                     $this->AliasedHandler =& eZXMLText::inputHandler( $this->XMLData,
                                                                       $this->AliasedType,
-                                                                      false );
+                                                                      false,
+                                                                      $this->ContentObjectAttribute );
                 }
                 return $this->AliasedHandler;
             } break;
