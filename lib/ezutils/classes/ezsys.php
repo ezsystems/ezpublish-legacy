@@ -667,19 +667,26 @@ class eZSys
     */
     function serverURL()
     {
-        $nowSSL = eZSys::isSSLNow();
-        if ( !$nowSSL )
-        {
-            $host = eZSys::hostname();
-            if ( $host )
-                $url = "http://" . $host;
-            return $url;
-        }
-        // https case
         $host = eZSys::hostname();
-        $host = preg_replace( '/:\d+$/', '', $host );
-        $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
-        $url = "https://" . $host  . $sslPortString;
+        $url = '';
+        if ( $host )
+        {
+            if ( eZSys::isSSLNow() )
+            {
+                // https case
+                $host = preg_replace( '/:\d+$/', '', $host );
+
+                $ini =& eZINI::instance();
+                $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+
+                $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
+                $url = "https://" . $host  . $sslPortString;
+            }
+            else
+            {
+                $url = "http://" . $host;
+            }
+        }
         return $url;
     }
     /*!
