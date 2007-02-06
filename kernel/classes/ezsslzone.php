@@ -226,6 +226,7 @@ class eZSSLZone
         $nowSSL = eZSys::isSSLNow();
 
         $requestURI = eZSys::requestURI();
+        $indexDir = eZSys::indexDir( false );
 
         $sslZoneRedirectionURL = false;
         if ( $nowSSL && !$inSSL )
@@ -233,14 +234,17 @@ class eZSSLZone
             // switch to plain HTTP
             $ini =& eZINI::instance();
             $host = $ini->variable( 'SiteSettings', 'SiteURL' );
-            $sslZoneRedirectionURL = "http://" . $host  . $requestURI;
+            $sslZoneRedirectionURL = "http://" . $host . $indexDir . $requestURI;
         }
         elseif ( !$nowSSL && $inSSL )
         {
             // switch to HTTPS
-            $host = preg_replace( '/:\d+$/', '', $host = eZSys::serverVariable( 'HTTP_HOST' ) );
+            $host = eZSys::serverVariable( 'HTTP_HOST' );
+            $host = preg_replace( '/:\d+$/', '', $host );
+
+            $ini =& eZINI::instance();
+            $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
             $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
-            $indexDir = eZSys::indexDir( false );
             $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI;
         }
 
