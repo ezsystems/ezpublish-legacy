@@ -2,10 +2,16 @@
 
 *Incentive: 
 Currently eZSOAPClient is transmitting data using soap without SSL.
-The current era is loocking for security and SSL is found the most suitable protocal for transmitting secure private document via internet for that we are implementing SSL with soap for the most secure transmittion of data.
+The current era is loocking for security and SSL is found the most suitable
+protocol for transmitting secure private document via internet. Thus we are
+implementing SSL with soap for the most secure transmission of data.
 
 *Documentation: 
-eZSOAPClient can transfer data with SSL and without SSL now. if the port is mentioned as 443 or just the string 'ssl' then this class will cansider that transfer using SSL protocal otherwise the transfer will be consider as a normal transfer.
-Even after enhancement with SSL still it will work with previous versions of eZ publish with normal soap transfer of data also.
+eZSOAPClient can transfer data with SSL and without SSL now. If the port is
+mentioned as 443 or just the string 'ssl' then this class will consider that
+transfer using SSL protocol, otherwise the transfer will be consider as a normal
+transfer. Even after enhancement with SSL still it will work with previous
+versions of eZ publish with normal soap transfer of data also.
 
-CURL library function is used for SSL transfer so it needs to install curl package 7.0.2 or above and recompile PHP 4.3.0 and above with option --with-curl='PATH' to use this feature.
+CURL library function is used for SSL transfer so it needs to install curl package
+7.0.2 or above and recompile PHP with option --with-curl='PATH' to use this feature.
