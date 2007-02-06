@@ -6,7 +6,6 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
 
 {include uri="design:page_head.tpl"}
 

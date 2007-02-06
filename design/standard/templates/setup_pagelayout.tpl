@@ -5,8 +5,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/admin.css"|ezroot} />
-    <link rel="stylesheet" type="text/css" href={"/design/admin/stylesheets/debug.css"|ezroot} />
+    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/setup.css"|ezdesign} />
 
 {include uri="design:page_head.tpl" enable_link=false()}
@@ -29,7 +28,7 @@
 
   </tr>
   <tr>
-  
+
 {* Left bar START *}
 
     <td class="setup_noborder" width="20" background={"/design/standard/images/setup/eZ_setup_left_bar.png"|ezroot} style="background-repeat: no-repeat;">
@@ -55,7 +54,7 @@
           <td class="setup_noborder" width="11">
             <img src={"/design/standard/images/setup/eZ_setup_top_right_corner.png"|ezroot} alt="" width="11" /></td>
         </tr>
-    
+
 {* Top view area END *}
 
 {* Main view area START *}
@@ -69,18 +68,18 @@
           {* Main stuff goes here *}
           {$module_result.content}
           </td>
-        
+
           <td class="setup_noborder_blue" width="210" colspan="2">
-	    <div class="setup_help">
-	      {* Setup help *}
-	      <h1 class="setup_help_summary">{"Help"|i18n("design/standard/setup")}</h1>
-	      {$module_result.help}
-	    </div>
-	    <div class="setup_summary">
-	      {* Setup summary *}
-	      <h1 class="setup_help_summary">{"Summary"|i18n("design/standard/setup")}</h1>
-	      {$module_result.summary}
-	    </div>
+        <div class="setup_help">
+          {* Setup help *}
+          <h1 class="setup_help_summary">{"Help"|i18n("design/standard/setup")}</h1>
+          {$module_result.help}
+        </div>
+        <div class="setup_summary">
+          {* Setup summary *}
+          <h1 class="setup_help_summary">{"Summary"|i18n("design/standard/setup")}</h1>
+          {$module_result.summary}
+        </div>
           </td>
         </tr>
 
@@ -101,7 +100,7 @@
           <td class="setup_noborder" width="11">
             <img src={"/design/standard/images/setup/eZ_setup_bottom_right_corner.png"|ezroot} alt="" width="11" /></td>
         </tr>
-    
+
 {* Bottom view area END *}
 
       </table>
