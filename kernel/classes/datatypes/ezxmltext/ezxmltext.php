@@ -70,7 +70,7 @@ class eZXMLText
             {
                 if ( $this->XMLInputHandler === null )
                 {
-                    $this->XMLInputHandler =& $this->inputHandler( $this->XMLData );
+                    $this->XMLInputHandler =& $this->inputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLInputHandler;
             }break;
@@ -79,7 +79,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData );
+                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -88,7 +88,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, 'ezpdf' );
+                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, 'ezpdf', true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -128,7 +128,7 @@ class eZXMLText
         }
     }
 
-    function &inputHandler( &$xmlData, $type = false, $useAlias = true )
+    function &inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $inputDefinition = array( 'ini-name' => 'ezxml.ini',
                                   'repository-group' => 'HandlerSettings',
@@ -150,16 +150,17 @@ class eZXMLText
         }
         $inputHandler =& eZXMLText::fetchHandler( $inputDefinition,
                                                   'XMLInput',
-                                                  $xmlData );
+                                                  $xmlData,
+                                                  $contentObjectAttribute );
         if ( $inputHandler === null )
         {
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php' );
-            $inputHandler = new eZSimplifiedXMLInput( $this->XMLData, false, $this->ContentObjectAttribute );
+            $inputHandler = new eZSimplifiedXMLInput( $xmlData, false, $contentObjectAttribute );
         }
         return $inputHandler;
     }
 
-    function &outputHandler( &$xmlData, $type = false, $useAlias = true )
+    function &outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $outputDefinition = array( 'ini-name' => 'ezxml.ini',
                                    'repository-group' => 'HandlerSettings',
@@ -181,16 +182,17 @@ class eZXMLText
         }
         $outputHandler = eZXMLText::fetchHandler( $outputDefinition,
                                                   'XMLOutput',
-                                                  $xmlData );
+                                                  $xmlData,
+                                                  $contentObjectAttribute );
         if ( $outputHandler === null )
         {
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/output/ezxhtmlxmloutput.php' );
-            $outputHandler = new eZXHTMLXMLOutput( $this->XMLData, false );
+            $outputHandler = new eZXHTMLXMLOutput( $xmlData, false, $contentObjectAttribute );
         }
         return $outputHandler;
     }
 
-    function &fetchHandler( $definition, $classSuffix, &$xmlData )
+    function &fetchHandler( $definition, $classSuffix, &$xmlData, $contentObjectAttribute )
     {
         $handler = null;
         if ( eZExtension::findExtensionType( $definition,
@@ -205,7 +207,7 @@ class eZXMLText
                 $aliasedType = $out['original-type'];
             if( class_exists( $class ) )
             {
-                $handler = new $class( $xmlData, $aliasedType, $this->ContentObjectAttribute );
+                $handler = new $class( $xmlData, $aliasedType, $contentObjectAttribute );
                 if ( $handler->isValid() )
                     $handlerValid = true;
             }
@@ -228,7 +230,7 @@ class eZXMLText
                     $handlerValid = false;
                     if( class_exists( $class ) )
                     {
-                        $handler = new $class( $xmlData, false, $this->ContentObjectAttribute );
+                        $handler = new $class( $xmlData, false, $contentObjectAttribute );
                         if ( $handler->isValid() )
                             $handlerValid = true;
                     }

@@ -121,3 +121,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9924: SSLSubtrees failure.
 - Fixed bug #9050: Links to non-existing stylesheets.
 - Fixed bug #8498: Missing JavaScript function used in ezobjectrelationlist template
+- Fixed bug #10142: eZXMLText::inputHandler uses $this while it is sometimes
+  called statically.
