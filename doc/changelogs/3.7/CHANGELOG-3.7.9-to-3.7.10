@@ -197,3 +197,5 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from stable/3.6 (3.6.12) rev. 18053)
 - Fixed bug #9984: Multiple locations and content cache problem.
   (Manually merged from trunk (3.10.0alpha1) rev. 18083)
+- Fixed bug #9050: Links to non-existing stylesheets.
+  (Manually merged from trunk (3.10.0alpha1) rev. 18103)

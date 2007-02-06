@@ -385,7 +385,6 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
                  '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
                  '<head>' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
-                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .
                  '    {include uri="design:page_head.tpl"}' . "\n" .
                  '</head>' . "\n" .
@@ -434,7 +433,6 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
                  '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">' .
                  '<head>' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />' . "\n" .
-                 '    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />' . "\n" .
                  '    <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />' . "\n" .
                  '    {include uri="design:page_head.tpl"}' . "\n" .
                  '</head>' . "\n" .
