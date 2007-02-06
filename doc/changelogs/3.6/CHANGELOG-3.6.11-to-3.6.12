@@ -170,3 +170,6 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #9876: setup wizzard, text does not match visual
   (Manually merged from stable/3.9 (3.9.1) rev. 18047)
 - Fixed bug #10105: collectedinfo.php don't include ezcontentobjecttreenode.php.
+- Fixed bug #8498: Missing JavaScript function used in ezobjectrelationlist
+  template
+  (Merged from trunk (3.10.0alpha1) rev. 18107)
