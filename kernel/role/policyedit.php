@@ -342,7 +342,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
 
     foreach ( $selectedSubtreeIDList as $nodeID )
     {
-        if ( !in_array( $nodeID, $subtreeIDList ) )
+        if ( !isset( $subtreeIDList ) or !in_array( $nodeID, $subtreeIDList ) )
         {
             $subtree = eZContentObjectTreeNode::fetch( $nodeID );
             $pathString = $subtree->attribute( 'path_string' );
