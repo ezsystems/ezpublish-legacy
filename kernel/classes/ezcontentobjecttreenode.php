@@ -6189,6 +6189,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $node = isset( $parameters['node'] ) ? $parameters['node'] : false;
         if ( is_object( $node ) )
         {
+            if ( $createHereMenu == 'full' and !$node->canCreate() )
+                return $falseValue;
+
             $obj =& $node->object();
             $contentClass =& $obj->attribute( 'content_class' );
             if ( !$contentClass->attribute( 'is_container' ) )
@@ -6202,6 +6205,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( isset( $parameters['is_container'] ) and !$parameters['is_container'] )
                 return $falseValue;
 
+            // Check if current user can create under this node
+            if ( $createHereMenu == 'full' and isset( $parameters['node_id'] ) )
+            {
+                $node =& eZContentObjectTreeNode::fetch( $parameters['node_id'] );
+                if ( is_object( $node ) and !$node->canCreate() )
+                    return $falseValue;
+            }
             $pathString = isset( $parameters['path_string'] ) ? $parameters['path_string'] : false;
             if ( !$pathString )
                 return $falseValue;
@@ -6249,7 +6259,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $classes === false )
         {
             // If $node is object we should fetch available classes from node, from ezcontentclass otherwise
-            $classes = ( is_object( $node ) and get_class( $node ) == 'eZContentObjectTreeNode' )
+            $classes = ( is_object( $node ) and get_class( $node ) == 'ezcontentobjecttreenode' )
                         ? $node->canCreateClassList( false, $includeFilter, $groupList, $fetchID )
                         : eZContentClass::canInstantiateClassList( false, $includeFilter, $groupList, $fetchID );
         }

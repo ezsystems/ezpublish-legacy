@@ -386,7 +386,7 @@ class eZContentStructureTreeOperator
                                         'depth' => $treeNode['depth'],
                                         'is_hidden' => $treeNode['is_hidden'],
                                         'is_invisible' => $treeNode['is_invisible'] ),
-                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'path_string' => $treeNode['path_string'], 'is_container' => $treeNode['is_container'] ) ),
+                                        'classes_js_array' => eZContentObjectTreeNode::availableClassListJsArray( array( 'path_string' => $treeNode['path_string'], 'is_container' => $treeNode['is_container'], 'node_id' => $treeNode['node_id'] ) ),
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
                                           'class_identifier' => $treeNode['class_identifier'],
