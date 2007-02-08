@@ -59,16 +59,16 @@ class eZPackageCreationHandler
         $this->LoadStepMethodMap = array();
     }
 
-	/*!
-	 Will go over the steps and make sure that:
-	 - The next and previous links are correct
-	 - Steps that aren't needed are removed
+    /*!
+     Will go over the steps and make sure that:
+     - The next and previous links are correct
+     - Steps that aren't needed are removed
 
- 	 It will also make sure that steps can be looked up by their ID.
-	*/
-	function generateStepMap( &$package, &$persistentData )
-	{
-		$steps = $this->attribute( 'steps' );
+      It will also make sure that steps can be looked up by their ID.
+    */
+    function generateStepMap( &$package, &$persistentData )
+    {
+        $steps = $this->attribute( 'steps' );
         $map = array();
         $lastStep = false;
         $currentSteps = array();
@@ -89,33 +89,33 @@ class eZPackageCreationHandler
                 else
                     $step['next_step'] = false;
             }
-			if ( isset( $step['methods']['initialize'] ) )
-			    $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
+            if ( isset( $step['methods']['initialize'] ) )
+                $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
             if( isset( $step['methods']['load'] ) )
                 $this->LoadStepMethodMap[$step['id']] = $step['methods']['load'];
-			if ( isset( $step['methods']['validate'] ) )
-			    $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
-			if ( isset( $step['methods']['commit'] ) )
-			    $this->CommitStepMethodMap[$step['id']] = $step['methods']['commit'];
-			$isStepIncluded = true;
-			if ( isset( $step['methods']['check'] ) )
-			{
-				$checkMethod = $step['methods']['check'];
-				$isStepIncluded = $this->$checkMethod( $package, $persistentData );
-			}
-			if ( $isStepIncluded )
-			{
-	            $map[$step['id']] =& $step;
-    	        $lastStep =& $step;
-    	        $currentSteps[] =& $step;
-			}
+            if ( isset( $step['methods']['validate'] ) )
+                $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
+            if ( isset( $step['methods']['commit'] ) )
+                $this->CommitStepMethodMap[$step['id']] = $step['methods']['commit'];
+            $isStepIncluded = true;
+            if ( isset( $step['methods']['check'] ) )
+            {
+                $checkMethod = $step['methods']['check'];
+                $isStepIncluded = $this->$checkMethod( $package, $persistentData );
+            }
+            if ( $isStepIncluded )
+            {
+                $map[$step['id']] =& $step;
+                $lastStep =& $step;
+                $currentSteps[] =& $step;
+            }
         }
         $this->StepMap = array( 'first' => &$steps[0],
                                 'map' => &$map,
                                 'steps' => &$steps );
         $this->Attributes['step_map'] =& $this->StepMap;
         $this->Attributes['current_steps'] = $currentSteps;
-	}
+    }
 
     function attributes()
     {
@@ -160,8 +160,8 @@ class eZPackageCreationHandler
     }
 
     /*!
-	 \return a process step map which has proper next/previous links,
-	         method maps and allows lookup of steps by ID.
+     \return a process step map which has proper next/previous links,
+             method maps and allows lookup of steps by ID.
     */
     function &stepMap()
     {
@@ -316,20 +316,20 @@ class eZPackageCreationHandler
     {
         $allowedCreators = false;
 
-		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
-	    $limitationList = array();
-	    $canCreate = false;
-		if ( $accessResult['accessWord'] == 'no' )
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $currentUser =& eZUser::currentUser();
+        $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
+        $limitationList = array();
+        $canCreate = false;
+        if ( $accessResult['accessWord'] == 'no' )
         {
             $creators = array();
             return $creators;
         }
 
-		if ( $accessResult['accessWord'] == 'limited' )
-		{
-		    $limitationList =& $accessResult['policies'];
+        if ( $accessResult['accessWord'] == 'limited' )
+        {
+            $limitationList =& $accessResult['policies'];
             foreach( $limitationList as $dummyKey => $limitationArray ) // TODO : fix this
             {
                 foreach ( $limitationArray as $key => $limitation )
@@ -341,9 +341,9 @@ class eZPackageCreationHandler
                         $list = $limitation;
                         $allowedCreators = array_merge( $allowedCreators, $list );
                     }
-				}
-			}
-		}
+                }
+            }
+        }
 
         $creators =& $GLOBALS['eZPackageCreatorList'];
         if ( !isset( $creators ) )
@@ -410,62 +410,62 @@ class eZPackageCreationHandler
      \static
      \return A ready to use creation step which takes care of package information.
     */
-	function packageInformationStep()
-	{
-		return array( 'id' => 'packageinfo',
+    function packageInformationStep()
+    {
+        return array( 'id' => 'packageinfo',
                       'name' => ezi18n( 'kernel/package', 'Package information' ),
-					  'methods' => array( 'initialize' => 'initializePackageInformation',
-					                      'validate' => 'validatePackageInformation',
-										  'commit' => 'commitPackageInformation' ),
+                      'methods' => array( 'initialize' => 'initializePackageInformation',
+                                          'validate' => 'validatePackageInformation',
+                                          'commit' => 'commitPackageInformation' ),
                       'use_standard_template' => true,
                       'template' => 'info.tpl' );
-	}
+    }
 
     /*!
      \static
      \return A ready to use creation step which takes care of reading in maintainer information.
     */
-	function packageMaintainerStep()
-	{
-		return array( 'id' => 'packagemaintainer',
+    function packageMaintainerStep()
+    {
+        return array( 'id' => 'packagemaintainer',
                       'name' => ezi18n( 'kernel/package', 'Package maintainer' ),
-					  'methods' => array( 'initialize' => 'initializePackageMaintainer',
-					                      'validate' => 'validatePackageMaintainer',
-										  'commit' => 'commitPackageMaintainer',
-										  'check' => 'checkPackageMaintainer' ),
+                      'methods' => array( 'initialize' => 'initializePackageMaintainer',
+                                          'validate' => 'validatePackageMaintainer',
+                                          'commit' => 'commitPackageMaintainer',
+                                          'check' => 'checkPackageMaintainer' ),
                       'use_standard_template' => true,
                       'template' => 'maintainer.tpl' );
-	}
+    }
 
     /*!
      \static
      \return A ready to use creation step which takes care of reading in a changelog entry.
     */
-	function packageChangelogStep()
-	{
-		return array( 'id' => 'packagechangelog',
+    function packageChangelogStep()
+    {
+        return array( 'id' => 'packagechangelog',
                       'name' => ezi18n( 'kernel/package', 'Package changelog' ),
-					  'methods' => array( 'initialize' => 'initializePackageChangelog',
-					                      'validate' => 'validatePackageChangelog',
-										  'commit' => 'commitPackageChangelog' ),
+                      'methods' => array( 'initialize' => 'initializePackageChangelog',
+                                          'validate' => 'validatePackageChangelog',
+                                          'commit' => 'commitPackageChangelog' ),
                       'use_standard_template' => true,
                       'template' => 'changelog.tpl' );
-	}
+    }
 
     /*!
      \static
      \return A ready to use creation step which takes care of fetching a thumbnail image.
     */
-	function packageThumbnailStep()
-	{
-		return array( 'id' => 'packagethumbnail',
+    function packageThumbnailStep()
+    {
+        return array( 'id' => 'packagethumbnail',
                       'name' => ezi18n( 'kernel/package', 'Package thumbnail' ),
-					  'methods' => array( 'initialize' => 'initializePackageThumbnail',
-					                      'validate' => 'validatePackageThumbnail',
-										  'commit' => 'commitPackageThumbnail' ),
+                      'methods' => array( 'initialize' => 'initializePackageThumbnail',
+                                          'validate' => 'validatePackageThumbnail',
+                                          'commit' => 'commitPackageThumbnail' ),
                       'use_standard_template' => true,
                       'template' => 'thumbnail.tpl' );
-	}
+    }
 
     /*!
      \virtual
@@ -513,14 +513,14 @@ class eZPackageCreationHandler
 
      \note This function is called from createPackage and checkPackageMaintainer()
     */
-	function packageType( &$package, &$persistentData )
-	{
-		if ( get_class( $package ) == 'ezpackage' )
-		{
-		    return $package->attribute( 'type' );
-		}
-		return false;
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        if ( get_class( $package ) == 'ezpackage' )
+        {
+            return $package->attribute( 'type' );
+        }
+        return false;
+    }
 
     /*!
      Creates a new package in \a $package and initializes it with the
@@ -529,17 +529,17 @@ class eZPackageCreationHandler
      \return \c true if the package was created or \c false if it was only re-initialized.
      \sa packageType, packageInitialState and packageInstallType
     */
-	function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles, $storePackage = true )
-	{
-		$createdPackage = false;
-		if ( get_class( $package ) != 'ezpackage' )
-		{
-	        $package = eZPackage::create( $persistentData['name'],
-    	                                  array( 'summary' => $persistentData['summary'] ) );
-			$createdPackage = true;
-		}
-		else
-			$package->setAttribute( 'summary', $persistentData['summary'] );
+    function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles, $storePackage = true )
+    {
+        $createdPackage = false;
+        if ( get_class( $package ) != 'ezpackage' )
+        {
+            $package = eZPackage::create( $persistentData['name'],
+                                          array( 'summary' => $persistentData['summary'] ) );
+            $createdPackage = true;
+        }
+        else
+            $package->setAttribute( 'summary', $persistentData['summary'] );
 
         $package->setAttribute( 'is_active', false );
         $package->setAttribute( 'type', $this->packageType( $package, $persistentData ) );
@@ -561,15 +561,15 @@ class eZPackageCreationHandler
         $maintainerEmail = $persistentData['maintainer_email'];
         $maintainerRole = $persistentData['maintainer_role'];
 
-		if ( $maintainerPerson )
-		{
+        if ( $maintainerPerson )
+        {
             $package->appendMaintainer( $maintainerPerson, $maintainerEmail, $maintainerRole );
         }
 
         if ( $changelogPerson )
         {
-	        $package->appendChange( $changelogPerson, $changelogEmail, $changelogEntries );
-	    }
+            $package->appendChange( $changelogPerson, $changelogEmail, $changelogEntries );
+        }
 
         if ( $persistentData['licence'] == 'GPL' )
         {
@@ -582,7 +582,7 @@ class eZPackageCreationHandler
 
         if ( isset( $persistentData['thumbnail'] ) and
              $persistentData['thumbnail'] )
-		{
+        {
             $thumbnail = $persistentData['thumbnail'];
             $fileItem = array( 'file' => $thumbnail['filename'],
                                'type' => 'thumbnail',
@@ -626,7 +626,7 @@ class eZPackageCreationHandler
             $package->store();
 
         return $createdPackage;
-	}
+    }
 
     /*!
      \virtual
@@ -634,9 +634,9 @@ class eZPackageCreationHandler
      Reimplementing this function allows the creator to fill in some default values for the information fields.
      \note The default does nothing.
     */
-	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
-	{
-	}
+    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    {
+    }
 
     /*!
      Initializes the package information step with some default values.
@@ -655,12 +655,12 @@ class eZPackageCreationHandler
             $host = $_SERVER['HTTP_HOST'];
         $persistentData['host'] = $host;
         $user =& eZUser::currentUser();
-	    $userObject =& $user->attribute( 'contentobject' );
-	    $packager = false;
-		if ( $userObject )
-			$packager = $userObject->attribute( 'name' );
+        $userObject =& $user->attribute( 'contentobject' );
+        $packager = false;
+        if ( $userObject )
+            $packager = $userObject->attribute( 'name' );
         $persistentData['packager'] = $packager;
-		$this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
+        $this->generatePackageInformation( $persistentData, $package, $http, $step, $persistentData );
 
         // Make sure the package name contains only valid characters
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
@@ -766,10 +766,10 @@ class eZPackageCreationHandler
     function initializePackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
     {
         $user =& eZUser::currentUser();
-	    $userObject =& $user->attribute( 'contentobject' );
-		if ( $userObject )
-			$changelogPerson = $userObject->attribute( 'name' );
-		$changelogEmail = $user->attribute( 'email' );
+        $userObject =& $user->attribute( 'contentobject' );
+        if ( $userObject )
+            $changelogPerson = $userObject->attribute( 'name' );
+        $changelogEmail = $user->attribute( 'email' );
         $changelogText = '';
 
         $persistentData['changelog_person'] = $changelogPerson;
@@ -829,35 +829,35 @@ class eZPackageCreationHandler
     */
     function commitPackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-		$changelogEntries = array();
-		$changelogText = $persistentData['changelog_text'];
-		$lines = preg_split( "#\r\n|\n|\r#", $changelogText );
-		$currentEntries = false;
-		foreach ( $lines as $line )
-		{
-			if ( strlen( $line ) > 0 and
-			     ( $line[0] == '-' or $line[0] == '*' ) )
-			{
-				if ( $currentEntries !== false )
-				{
-					$changelogEntries[] = implode( ' ', $currentEntries );
-				}
-				$currentEntries = array();
-				$currentEntries[] = trim( substr( $line, 1 ) );
-			}
-			else
-			{
-				if ( $currentEntries === false )
-				{
-					$changelogEntries = array();
-				}
-				$currentEntries[] = trim( $line );
-			}
-		}
-		if ( $currentEntries !== false )
-		{
-			$changelogEntries[] = implode( ' ', $currentEntries );
-		}
+        $changelogEntries = array();
+        $changelogText = $persistentData['changelog_text'];
+        $lines = preg_split( "#\r\n|\n|\r#", $changelogText );
+        $currentEntries = false;
+        foreach ( $lines as $line )
+        {
+            if ( strlen( $line ) > 0 and
+                 ( $line[0] == '-' or $line[0] == '*' ) )
+            {
+                if ( $currentEntries !== false )
+                {
+                    $changelogEntries[] = implode( ' ', $currentEntries );
+                }
+                $currentEntries = array();
+                $currentEntries[] = trim( substr( $line, 1 ) );
+            }
+            else
+            {
+                if ( $currentEntries === false )
+                {
+                    $changelogEntries = array();
+                }
+                $currentEntries[] = trim( $line );
+            }
+        }
+        if ( $currentEntries !== false )
+        {
+            $changelogEntries[] = implode( ' ', $currentEntries );
+        }
         $persistentData['changelog_entries'] = $changelogEntries;
     }
 
@@ -869,10 +869,10 @@ class eZPackageCreationHandler
         $maintainerPerson = false;
         $maintainerEmail = false;
         $user =& eZUser::currentUser();
-   	    $userObject =& $user->attribute( 'contentobject' );
-		if ( $userObject )
-			$maintainerPerson = $userObject->attribute( 'name' );
-		$maintainerEmail = $user->attribute( 'email' );
+           $userObject =& $user->attribute( 'contentobject' );
+        if ( $userObject )
+            $maintainerPerson = $userObject->attribute( 'name' );
+        $maintainerEmail = $user->attribute( 'email' );
         $persistentData['maintainer_person'] = $maintainerPerson;
         $persistentData['maintainer_email'] = $maintainerEmail;
         $persistentData['maintainer_role'] = false;
@@ -926,32 +926,32 @@ class eZPackageCreationHandler
      The maintainer step is not required if the user has no maintainer roles to use
      or if the package already has a maintainer with the same name as the current user.
     */
-	function checkPackageMaintainer( &$package, &$persistentData )
-	{
-	    $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
-	    if ( count( $roleList ) > 0 )
-	    {
-	        if ( get_class( $package ) == 'ezpackage' )
-	        {
-	            $maintainerPerson = false;
+    function checkPackageMaintainer( &$package, &$persistentData )
+    {
+        $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
+        if ( count( $roleList ) > 0 )
+        {
+            if ( get_class( $package ) == 'ezpackage' )
+            {
+                $maintainerPerson = false;
                 $user =& eZUser::currentUser();
-           	    $userObject =& $user->attribute( 'contentobject' );
-        		if ( $userObject )
-        			$maintainerPerson = $userObject->attribute( 'name' );
+                   $userObject =& $user->attribute( 'contentobject' );
+                if ( $userObject )
+                    $maintainerPerson = $userObject->attribute( 'name' );
 
-    			$maintainers = $package->attribute( 'maintainers' );
-    			foreach ( $maintainers as $maintainer )
-    			{
-    				if ( $maintainer['person'] == $maintainerPerson )
-    				{
-       					return false;
-    				}
-    			}
-    		}
-    		return true;
-	    }
-	    return false;
-	}
+                $maintainers = $package->attribute( 'maintainers' );
+                foreach ( $maintainers as $maintainer )
+                {
+                    if ( $maintainer['person'] == $maintainerPerson )
+                    {
+                           return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
     /*!
      Initializes the package thumbnail step.

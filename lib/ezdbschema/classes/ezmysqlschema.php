@@ -84,30 +84,30 @@ class eZMysqlSchema extends eZDBSchemaInterface
         return $schema;
     }
 
-	/*!
-	 \private
+    /*!
+     \private
 
      \param table name
-	 */
-	function fetchTableFields( $table, $params )
-	{
-		$fields = array();
+     */
+    function fetchTableFields( $table, $params )
+    {
+        $fields = array();
 
         $resultArray = $this->DBInstance->arrayQuery( "DESCRIBE $table" );
 
         foreach( $resultArray as $row )
         {
-			$field = array();
-			$field['type'] = $this->parseType ( $row['Type'], $field['length'] );
-			if ( !$field['length'] )
-			{
-				unset( $field['length'] );
-			}
+            $field = array();
+            $field['type'] = $this->parseType ( $row['Type'], $field['length'] );
+            if ( !$field['length'] )
+            {
+                unset( $field['length'] );
+            }
             $field['not_null'] = 0;
-			if ( $row['Null'] != 'YES' )
-			{
-				$field['not_null'] = '1';
-			}
+            if ( $row['Null'] != 'YES' )
+            {
+                $field['not_null'] = '1';
+            }
             $field['default'] = false;
             if ( !$field['not_null'] )
             {
@@ -117,9 +117,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
                     $field['default'] = (string)$row['Default'];
             }
             else
-			{
-				$field['default'] = (string)$row['Default'];
-			}
+            {
+                $field['default'] = (string)$row['Default'];
+            }
 
             $numericTypes = array( 'float', 'int' );
             $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
@@ -167,51 +167,51 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 $field['default'] = false;
             }
 
-			if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
-			{
-				unset( $field['length'] );
-				$field['not_null'] = 0;
-				$field['default'] = false;
-				$field['type'] = 'auto_increment';
-			}
+            if ( substr ( $row['Extra'], 'auto_increment' ) !== false )
+            {
+                unset( $field['length'] );
+                $field['not_null'] = 0;
+                $field['default'] = false;
+                $field['type'] = 'auto_increment';
+            }
 
             if ( !$field['not_null'] )
                 unset( $field['not_null'] );
 
-			$fields[$row['Field']] = $field;
-		}
+            $fields[$row['Field']] = $field;
+        }
         ksort( $fields );
 
-		return $fields;
-	}
+        return $fields;
+    }
 
-	/*!
-	 * \private
-	 */
-	function fetchTableIndexes( $table, $params )
-	{
+    /*!
+     * \private
+     */
+    function fetchTableIndexes( $table, $params )
+    {
         $metaData = false;
         if ( isset( $params['meta_data'] ) )
         {
             $metaData = $params['meta_data'];
         }
 
-		$indexes = array();
+        $indexes = array();
 
         $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );
 
         foreach( $resultArray as $row )
-		{
-			$kn = $row['Key_name'];
+        {
+            $kn = $row['Key_name'];
 
-			if ( $kn == 'PRIMARY' )
-			{
-				$indexes[$kn]['type'] = 'primary';
-			}
-			else
-			{
-				$indexes[$kn]['type'] = $row['Non_unique'] ? 'non-unique' : 'unique';
-			}
+            if ( $kn == 'PRIMARY' )
+            {
+                $indexes[$kn]['type'] = 'primary';
+            }
+            else
+            {
+                $indexes[$kn]['type'] = $row['Non_unique'] ? 'non-unique' : 'unique';
+            }
 
             $indexFieldDef = array( 'name' => $row['Column_name'] );
 
@@ -226,30 +226,30 @@ class eZMysqlSchema extends eZDBSchemaInterface
             {
                 $indexFieldDef = $indexFieldDef['name'];
             }
-			$indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
-		}
+            $indexes[$kn]['fields'][$row['Seq_in_index'] - 1] = $indexFieldDef;
+        }
         ksort( $indexes );
 
-		return $indexes;
-	}
+        return $indexes;
+    }
 
-	function parseType( $type_info, &$length_info )
-	{
-		preg_match( "@([a-z]*)(\(([0-9]*)\))?@", $type_info, $matches );
-		if ( isset( $matches[3] ) )
-		{
-			$length_info = $matches[3];
+    function parseType( $type_info, &$length_info )
+    {
+        preg_match( "@([a-z]*)(\(([0-9]*)\))?@", $type_info, $matches );
+        if ( isset( $matches[3] ) )
+        {
+            $length_info = $matches[3];
             if ( is_numeric( $length_info ) )
                 $length_info = (int)$length_info;
-		}
-		return $matches[1];
-	}
+        }
+        return $matches[1];
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateAddIndexSql( $table_name, $index_name, $def, $params, $isEmbedded = false )
-	{
+    /*!
+     * \private
+     */
+    function generateAddIndexSql( $table_name, $index_name, $def, $params, $isEmbedded = false )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         // If the output should compatible with existing MySQL dumps
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
@@ -262,8 +262,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
             $sql .= " ";
         }
 
-		switch ( $def['type'] )
-		{
+        switch ( $def['type'] )
+        {
             case 'primary':
             {
                 $sql .= 'PRIMARY KEY';
@@ -294,7 +294,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                     $sql .= "UNIQUE $index_name";
                 }
             } break;
-		}
+        }
 
         $sql .= ( $diffFriendly ? " (\n    " : ( $mysqlCompatible ? " (" : " ( " ) );
         $fields = $def['fields'];
@@ -343,52 +343,52 @@ class eZMysqlSchema extends eZDBSchemaInterface
             return $sql . ";\n";
         }
         return $sql;
-	}
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateDropIndexSql( $table_name, $index_name, $def, $params )
-	{
+    /*!
+     * \private
+     */
+    function generateDropIndexSql( $table_name, $index_name, $def, $params )
+    {
         $sql = '';
-		$sql .= "ALTER TABLE $table_name DROP ";
+        $sql .= "ALTER TABLE $table_name DROP ";
 
-		if ( $def['type'] == 'primary' )
-		{
-			$sql .= 'PRIMARY KEY';
-		}
-		else
-		{
-			$sql .= "INDEX $index_name";
-		}
-		return $sql . ";\n";
-	}
+        if ( $def['type'] == 'primary' )
+        {
+            $sql .= 'PRIMARY KEY';
+        }
+        else
+        {
+            $sql .= "INDEX $index_name";
+        }
+        return $sql . ";\n";
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateFieldDef( $field_name, $def, &$skip_primary, $params = null )
-	{
+    /*!
+     * \private
+     */
+    function generateFieldDef( $field_name, $def, &$skip_primary, $params = null )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         // If the output should compatible with existing MySQL dumps
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
-		$sql_def = $field_name . ' ';
+        $sql_def = $field_name . ' ';
         $defaultText = $mysqlCompatible ? "default" : "DEFAULT";
 
-		if ( $def['type'] != 'auto_increment' )
-		{
+        if ( $def['type'] != 'auto_increment' )
+        {
             $defList = array();
             $type = $def['type'];
-			if ( isset( $def['length'] ) )
-			{
-				$type .= "({$def['length']})";
-			}
-			$defList[] = $type;
-			if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
+            if ( isset( $def['length'] ) )
             {
-				$defList[] = 'NOT NULL';
-			}
+                $type .= "({$def['length']})";
+            }
+            $defList[] = $type;
+            if ( isset( $def['not_null'] ) && ( $def['not_null'] ) )
+            {
+                $defList[] = 'NOT NULL';
+            }
             if ( array_key_exists( 'default', $def ) )
             {
                 if ( $def['default'] === null )
@@ -399,16 +399,16 @@ class eZMysqlSchema extends eZDBSchemaInterface
                 {
                     $defList[] = "$defaultText '{$def['default']}'";
                 }
-			}
-			else if ( $def['type'] == 'varchar' )
-			{
-				$defList[] = "$defaultText ''";
-			}
+            }
+            else if ( $def['type'] == 'varchar' )
+            {
+                $defList[] = "$defaultText ''";
+            }
             $sql_def .= join( $diffFriendly ? "\n    " : " ", $defList );
-			$skip_primary = false;
-		}
-		else
-		{
+            $skip_primary = false;
+        }
+        else
+        {
             $incrementText = $mysqlCompatible ? "auto_increment" : "AUTO_INCREMENT";
             if ( $diffFriendly )
             {
@@ -418,60 +418,60 @@ class eZMysqlSchema extends eZDBSchemaInterface
             {
                 $sql_def .= "int(11) NOT NULL $incrementText";
             }
-			$skip_primary = true;
-		}
-		return $sql_def;
-	}
+            $skip_primary = true;
+        }
+        return $sql_def;
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateAddFieldSql( $table_name, $field_name, $def, $params )
-	{
-		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
+    /*!
+     * \private
+     */
+    function generateAddFieldSql( $table_name, $field_name, $def, $params )
+    {
+        $sql = "ALTER TABLE $table_name ADD COLUMN ";
+        $sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
 
-		return $sql . ";\n";
-	}
+        return $sql . ";\n";
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateAlterFieldSql( $table_name, $field_name, $def = array() )
-	{
-		$sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
-		$sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
+    /*!
+     * \private
+     */
+    function generateAlterFieldSql( $table_name, $field_name, $def = array() )
+    {
+        $sql = "ALTER TABLE $table_name CHANGE COLUMN $field_name ";
+        $sql .= eZMysqlSchema::generateFieldDef ( $field_name, $def, $dummy );
 
-		return $sql . ";\n";
-	}
+        return $sql . ";\n";
+    }
 
-	/*!
+    /*!
      \reimp
      \note Calls generateTableSQL() with \a $asArray set to \c false
     */
-	function generateTableSchema( $tableName, $table, $params )
-	{
+    function generateTableSchema( $tableName, $table, $params )
+    {
         return $this->generateTableSQL( $tableName, $table, $params, false, false );
     }
 
-	/*!
-	 \reimp
+    /*!
+     \reimp
      \note Calls generateTableSQL() with \a $asArray set to \c true
     */
-	function generateTableSQLList( $tableName, $table, $params, $separateTypes )
-	{
+    function generateTableSQLList( $tableName, $table, $params, $separateTypes )
+    {
         return $this->generateTableSQL( $tableName, $table, $params, true, $separateTypes );
     }
 
-	/*!
-	 \private
+    /*!
+     \private
 
      \param $asArray If \c true all SQLs are return in an array,
                      if not they are returned as a string.
      \note When returned as array the SQLs will not have a semi-colon to end the statement
     */
-	function generateTableSQL( $tableName, $tableDef, $params, $asArray, $separateTypes = false )
-	{
+    function generateTableSQL( $tableName, $tableDef, $params, $asArray, $separateTypes = false )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
@@ -487,7 +487,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
         }
 
-		$sql = '';
+        $sql = '';
         $skip_pk = false;
         $sql_fields = array();
         $sql .= "CREATE TABLE $tableName (\n";
@@ -568,8 +568,8 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
         }
 
-		return $asArray ? $sqlList : $sql;
-	}
+        return $asArray ? $sqlList : $sql;
+    }
 
     /*!
      Detects known options and generates the MySQL SQL code for it.
@@ -608,7 +608,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                  'windows-1251' => 'cp1251',
                                  'windows-1256' => 'cp1256',
                                  'windows-1257' => 'cp1257',
-                                 'utf-8' => 'utf8',				 
+                                 'utf-8' => 'utf8',
                                  'koi8-r' => 'koi8r',
                                  'koi8-u' => 'koi8u' );
         $charset = strtolower( $charset );

@@ -67,7 +67,7 @@ elseif ( $cacheType == 'Ini' )
 elseif ( $cacheType == 'Static' )
 {
     include_once( 'kernel/classes/ezstaticcache.php' );
-    
+
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );
     $cacheCleared['static'] = true;
@@ -99,7 +99,7 @@ elseif ( $cacheType == 'ContentSubtree' )
     }
 }
 
-$uri = $http->sessionVariable( "LastAccessedModifyingURI" ); 
+$uri = $http->sessionVariable( "LastAccessedModifyingURI" );
 $module->redirectTo( $uri );
-	
+
 ?>

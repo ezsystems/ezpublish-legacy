@@ -46,10 +46,10 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
         $persistentData = array();
         $http->setSessionVariable( 'eZPackageCreatorData' . $creatorID, $persistentData );
         $initializeStep = true;
-	    $package = false;
-    	if ( isset( $persistentData['package_name'] ) )
-        	$package = eZPackage::fetch( $persistentData['package_name'] );
-		$creator->generateStepMap( $package, $persistentData );
+        $package = false;
+        if ( isset( $persistentData['package_name'] ) )
+            $package = eZPackage::fetch( $persistentData['package_name'] );
+        $creator->generateStepMap( $package, $persistentData );
     }
 }
 else if ( $module->isCurrentAction( 'PackageStep' ) )
@@ -62,10 +62,10 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
             $persistentData = $http->sessionVariable( 'eZPackageCreatorData' . $creatorID );
         else
             $persistentData = array();
-	    $package = false;
-    	if ( isset( $persistentData['package_name'] ) )
-        	$package = eZPackage::fetch( $persistentData['package_name'] );
-		$creator->generateStepMap( $package, $persistentData );
+        $package = false;
+        if ( isset( $persistentData['package_name'] ) )
+            $package = eZPackage::fetch( $persistentData['package_name'] );
+        $creator->generateStepMap( $package, $persistentData );
     }
 }
 
@@ -89,11 +89,11 @@ if ( $creator )
         $hasAdvanced = true;
         $currentStepID = $creator->validateStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
         if ( $currentStepID != $lastStepID )
-		{
+        {
             $lastStep =& $steps['map'][$lastStepID];
             $creator->commitStep( $package, $http, $lastStep, $persistentData, $tpl );
             $initializeStep = true;
-		}
+        }
     }
 
     if ( $currentStepID )

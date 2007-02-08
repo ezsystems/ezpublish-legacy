@@ -60,7 +60,7 @@ $FunctionList['maintainer_role_list'] = array( 'name' => 'maintainer_role_list',
                                                                               'type' => 'string',
                                                                               'required' => false,
                                                                               'default' => false ),
-																	   array( 'name' => 'check_roles',
+                                                                       array( 'name' => 'check_roles',
                                                                               'type' => 'boolean',
                                                                               'required' => false,
                                                                               'default' => false ) ) );

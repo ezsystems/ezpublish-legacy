@@ -249,7 +249,7 @@ function contentPDFPassthrough( $cacheFile )
 
     header( 'X-Powered-By: eZ publish' );
 
-	header( 'Content-Length: '. filesize( $cacheFile ) );
+    header( 'Content-Length: '. filesize( $cacheFile ) );
     header( 'Content-Type: application/pdf' );
     header( 'Content-Transfer-Encoding: binary' );
     header( 'Accept-Ranges: bytes' );

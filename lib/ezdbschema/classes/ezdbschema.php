@@ -89,8 +89,8 @@ class eZDbSchema
     /*!
      \static
     */
-	function read( $filename, $returnArray = false )
-	{
+    function read( $filename, $returnArray = false )
+    {
         $fd = @fopen( $filename, 'rb' );
         if ( $fd )
         {
@@ -124,43 +124,43 @@ class eZDbSchema
                 return false;
             }
         }
-	}
+    }
 
     /*!
      \static
     */
-	function readArray( $filename )
-	{
-		$schema = false;
+    function readArray( $filename )
+    {
+        $schema = false;
         include( $filename );
         return $schema;
-	}
-
-	/*!
-     \static
-    */
-	function generateUpgradeFile( $differences )
-	{
-		$diff = var_export( $differences, true );
-		return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n" );
-	}
+    }
 
     /*!
      \static
     */
-	function writeUpgradeFile( $differences, $filename )
-	{
-		$fp = @fopen( $filename, 'w' );
-		if ( $fp )
-		{
-			fputs( $fp, eZDbSchema::generateUpgradeFile( $differences ) );
-			fclose( $fp );
-			return true;
-		}
+    function generateUpgradeFile( $differences )
+    {
+        $diff = var_export( $differences, true );
+        return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n" );
+    }
+
+    /*!
+     \static
+    */
+    function writeUpgradeFile( $differences, $filename )
+    {
+        $fp = @fopen( $filename, 'w' );
+        if ( $fp )
+        {
+            fputs( $fp, eZDbSchema::generateUpgradeFile( $differences ) );
+            fclose( $fp );
+            return true;
+        }
         else
         {
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 }
 ?>

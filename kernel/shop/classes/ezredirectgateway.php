@@ -78,26 +78,25 @@ class eZRedirectGateway extends eZPaymentGateway
                 $thePayment = eZPaymentObject::fetchByProcessID( $processID );
                 if ( is_object( $thePayment ) && $thePayment->approved() )
                 {
-                //__DEBUG__
-                $this->logger->writeTimedString("Payment accepted.");
-                //___end____
-                return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                    //__DEBUG__
+                    $this->logger->writeTimedString("Payment accepted.");
+                    //___end____
+                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
                 }
                 //__DEBUG__
                 else
                 {
                     $this->logger->writeTimedString("Error. Payment rejected: unable to fetch 'eZPaymentObject' or payment status 'not approved'");
                 }
-                 //___end____
+                //___end____
 
                 return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
-            }
-            break;
+            }break;
 
             case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED:
-            //__DEBUG__
+                //__DEBUG__
                 $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED");
-            //___end____
+                //___end____
 
             default:
             {
@@ -118,8 +117,7 @@ class eZRedirectGateway extends eZPaymentGateway
                     //___end____
                     return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
                 }
-            }
-            break;
+            }break;
         };
 
         //__DEBUG__

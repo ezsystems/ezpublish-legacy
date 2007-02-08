@@ -50,9 +50,9 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         $steps = array();
         $steps[] = array( 'id' => 'class',
                           'name' => ezi18n( 'kernel/package', 'Content classes to include' ),
-						  'methods' => array( 'initialize' => 'initializeClassData',
-						                      'validate' => 'validateClassData',
-											  'commit' => 'commitClassData' ),
+                          'methods' => array( 'initialize' => 'initializeClassData',
+                                              'validate' => 'validateClassData',
+                                              'commit' => 'commitClassData' ),
                           'template' => 'class.tpl' );
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
@@ -68,7 +68,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     */
     function finalize( &$package, &$http, &$persistentData )
     {
-		$this->createPackage( $package, $http, $persistentData, $cleanupFiles );
+        $this->createPackage( $package, $http, $persistentData, $cleanupFiles );
 
         $classHandler = eZPackage::packageHandler( 'ezcontentclass' );
         $classList = $persistentData['classlist'];
@@ -92,10 +92,10 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'contentclass'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'contentclass';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'contentclass';
+    }
 
     function initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )
     {
@@ -124,48 +124,48 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
 
     function commitClassData( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-	}
+    }
 
     /*!
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
-	{
+    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    {
         $classList = $persistentData['classlist'];
 
-		if ( count( $classList ) == 1 )
-		{
-			$classID = $classList[0];
-			$class = eZContentClass::fetch( $classID );
-			if ( $class )
-			{
-				$packageInformation['name'] = $class->attribute( 'name' );
-				$packageInformation['summary'] = 'Export of content class ' . $class->attribute( 'name' );
-				$packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ publish site';
-			}
-		}
-		else if ( count( $classList ) > 1 )
-		{
-			$classNames = array();
-			foreach ( $classList as $classID )
-			{
-				$class = eZContentClass::fetch( $classID );
-				if ( $class )
-				{
-					$classNames[] = $class->attribute( 'name' );
-				}
-			}
-			$packageInformation['name'] = count( $classList ) . ' Classes';
-			$packageInformation['summary'] = 'Export of ' . count( $classList ) . ' content classes';
-			$description = 'This package contains exported definitions of the following content classes:' . "\n";
-			foreach ( $classNames as $className )
-			{
-			    $description .= '- ' . $className . "\n";
-			}
-			$packageInformation['description'] = $description;
-		}
-	}
+        if ( count( $classList ) == 1 )
+        {
+            $classID = $classList[0];
+            $class = eZContentClass::fetch( $classID );
+            if ( $class )
+            {
+                $packageInformation['name'] = $class->attribute( 'name' );
+                $packageInformation['summary'] = 'Export of content class ' . $class->attribute( 'name' );
+                $packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ publish site';
+            }
+        }
+        else if ( count( $classList ) > 1 )
+        {
+            $classNames = array();
+            foreach ( $classList as $classID )
+            {
+                $class = eZContentClass::fetch( $classID );
+                if ( $class )
+                {
+                    $classNames[] = $class->attribute( 'name' );
+                }
+            }
+            $packageInformation['name'] = count( $classList ) . ' Classes';
+            $packageInformation['summary'] = 'Export of ' . count( $classList ) . ' content classes';
+            $description = 'This package contains exported definitions of the following content classes:' . "\n";
+            foreach ( $classNames as $className )
+            {
+                $description .= '- ' . $className . "\n";
+            }
+            $packageInformation['description'] = $description;
+        }
+    }
 }
 
 ?>

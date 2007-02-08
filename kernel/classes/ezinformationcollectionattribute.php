@@ -107,7 +107,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         return $content;
     }
     
-	/*!
+    /*!
      \return the content for this attribute.
     */
     function &content()
