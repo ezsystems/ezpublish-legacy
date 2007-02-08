@@ -258,21 +258,21 @@ class eZIntegerType extends eZDataType
     }
 
     /*!
-	 \reimp
-	*/
-	function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
-		$minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-		$maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+     \reimp
+    */
+    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $defaultValueName = $base . EZ_DATATYPESTRING_DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
-		{
-			$minValueValue = $http->postVariable( $minValueName );
+        {
+            $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = str_replace(" ", "", $minValueValue );
-			$maxValueValue = $http->postVariable( $maxValueName );
+            $maxValueValue = $http->postVariable( $maxValueName );
             $maxValueValue = str_replace(" ", "", $maxValueValue );
             $defaultValueValue = $http->postVariable( $defaultValueName );
             $defaultValueValue = str_replace(" ", "", $defaultValueValue );
@@ -313,21 +313,21 @@ class eZIntegerType extends eZDataType
             }
             else
                 $default_state = $this->IntegerValidator->validate( $defaultValueValue );
-		}
+        }
 
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
-	}
+    }
 
-	/*!
-	 \reimp
-	*/
-	function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
-		$minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-		$maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-		if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
-		{
-			$minValueValue = $http->postVariable( $minValueName );
+    /*!
+     \reimp
+    */
+    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
+        {
+            $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = $this->IntegerValidator->fixup( $minValueValue );
             $http->setPostVariable( $minValueName, $minValueValue );
 
@@ -336,27 +336,27 @@ class eZIntegerType extends eZDataType
             $http->setPostVariable( $maxValueName, $maxValueValue );
 
             if ($minValueValue > $maxValueValue)
-			{
+            {
                 $this->IntegerValidator->setRange( $minValueValue, false );
                 $maxValueValue = $this->IntegerValidator->fixup( $maxValueValue );
-				$http->setPostVariable( $maxValueName, $maxValueValue );
-			}
-		}
-	}
+                $http->setPostVariable( $maxValueName, $maxValueValue );
+            }
+        }
+    }
 
-	/*!
-	 \reimp
-	*/
-	function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
-		$minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
-		$maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
+        $minValueName = $base . EZ_DATATYPESTRING_MIN_VALUE_VARIABLE . $classAttribute->attribute( "id" );
+        $maxValueName = $base . EZ_DATATYPESTRING_MAX_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $defaultValueName = $base . EZ_DATATYPESTRING_DEFAULT_VALUE_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $minValueName ) and
              $http->hasPostVariable( $maxValueName ) and
              $http->hasPostVariable( $defaultValueName ) )
-		{
+        {
             $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = str_replace(" ", "", $minValueValue );
             $maxValueValue = $http->postVariable( $maxValueName );
@@ -388,9 +388,9 @@ class eZIntegerType extends eZDataType
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD, $input_state );
             }
             return true;
-		}
+        }
         return false;
-	}
+    }
 
     /*!
      Returns the content.

@@ -180,7 +180,7 @@ class eZTreeMenuOperator
 
                     $indent = ($i - 1) * $indentationLevel;
 
-					$isSelected = false;
+                    $isSelected = false;
                     $nextNextElements = ( $isSelectedMethod == 'node' and isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ) ? explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
                     if ( $nextNodeID === $tmpNodeID and !isset( $nextNextElements[4] ) )
                     {
@@ -197,7 +197,7 @@ class eZTreeMenuOperator
                                              'url_alias' => $urlAlias,
                                              'url' => $url,
                                              'text' => $name,
-											 'is_selected' => $isSelected,
+                                             'is_selected' => $isSelected,
                                              'node' => $child );
                 }
 

@@ -158,34 +158,34 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
     {
-	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
-    
+
     if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
     {
-	$versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
-	$versionID = $versionID[0];
+        $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+        $versionID = $versionID[0];
     }
     else
     {
-	$versionID = $Module->actionParameter( 'VersionID' );
+        $versionID = $Module->actionParameter( 'VersionID' );
     }
-    
+
     $languages = $Module->actionParameter( 'LanguageArray' );
     if ( $languages && array_key_exists( $versionID, $languages ) )
     {
-	$language = $languages[$versionID];
+        $language = $languages[$versionID];
     }
     else
     {
-	$language = false;
+        $language = false;
     }
-    
+
     if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
     {
-	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
-    
+
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 

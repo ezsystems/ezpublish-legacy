@@ -103,5 +103,5 @@ foreach( $iniFiles as $fileName => $settings )
 
 $uri = $http->sessionVariable( "LastAccessedModifyingURI" );
 $module->redirectTo( $uri );
-	
+
 ?>

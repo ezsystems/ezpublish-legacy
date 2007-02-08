@@ -239,10 +239,10 @@ class eZEnumType extends eZDataType
     }
 
     /*!
-	 Returns actual the class attribute content.
-	*/
-	function &objectAttributeContent( &$contentObjectAttribute )
-	{
+     Returns actual the class attribute content.
+    */
+    function &objectAttributeContent( &$contentObjectAttribute )
+    {
         $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();

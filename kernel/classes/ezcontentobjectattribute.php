@@ -241,7 +241,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         if ( $languageCode == false )
         {
-        	$languageCode = eZContentObject::defaultLanguage();
+            $languageCode = eZContentObject::defaultLanguage();
         }
 
         $languageID = eZContentLanguage::idByLocale( $languageCode );
@@ -266,9 +266,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function store()
     {
-		require_once( 'kernel/classes/ezcontentlanguage.php' );
+        require_once( 'kernel/classes/ezcontentlanguage.php' );
 
-    	// Unset the cache
+        // Unset the cache
         global $eZContentObjectContentObjectCache;
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
         global $eZContentObjectDataMapCache;
@@ -304,7 +304,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function storeData()
     {
-    	require_once( 'kernel/classes/ezcontentlanguage.php' );
+        require_once( 'kernel/classes/ezcontentlanguage.php' );
 
         // Unset the cache
         global $eZContentObjectContentObjectCache;
@@ -421,7 +421,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     function &objectVersion()
     {
-    	$version = eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
+        $version = eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
 
         return $version;
     }
@@ -939,7 +939,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             // if copying the whole object
             if ( $contentObjectID != $tmp->attribute( 'contentobject_id' ) )
             {
-            	$exAttr =  eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                $exAttr =  eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                             null,
                                                             array( 'contentobject_id'         => $contentObjectID,
                                                                    'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
@@ -966,7 +966,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         if ( $newLanguageCode != false && $tmp->attribute( 'language_code' ) != $newLanguageCode )
         {
-        	$exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+            $exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                        null,
                                                        array( 'contentobject_id'         => $contentObjectID? $contentObjectID: $tmp->attribute( 'contentobject_id' ),
                                                               'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
@@ -975,11 +975,11 @@ class eZContentObjectAttribute extends eZPersistentObject
             // if the new object already contains the same attribute with another version
             if ( is_object( $exAttr ) )
             {
-            	$id = $exAttr->attribute( 'id' );
+                $id = $exAttr->attribute( 'id' );
             }
             else
             {
-            	$id = null;
+                $id = null;
             }
             $tmp->setAttribute( 'id', $id );
             $tmp->setAttribute( 'language_code', $newLanguageCode );
@@ -1006,9 +1006,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &translateTo( $languageCode, $updateLanguageMask = true )
     {
-    	$languageID = eZContentLanguage::idByLocale( $languageCode );
+        $languageID = eZContentLanguage::idByLocale( $languageCode );
 
-    	$tmp = $this;
+        $tmp = $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
         $tmp->setAttribute( 'language_id', $languageID );
@@ -1022,8 +1022,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         $tmp->postInitialize( $currentVersionNumber, $this );
         if ( $updateLanguageMask )
         {
-        	$version = $tmp->objectVersion();
-        	$version->updateLanguageMask( (int) $version->languageMask() | (int) $languageID, false );
+            $version = $tmp->objectVersion();
+            $version->updateLanguageMask( (int) $version->languageMask() | (int) $languageID, false );
         }
         $db->commit();
         return $tmp;

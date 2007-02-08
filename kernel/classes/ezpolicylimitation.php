@@ -253,10 +253,10 @@ class eZPolicyLimitation extends eZPersistentObject
              count( $limitation[ 'values' ] == 0 ) &&
              array_key_exists( 'class', $limitation ) )
         {
-			$basePath = 'kernel/'; //set default basepath for limitationValueClasses
-			if( array_key_exists( 'extension', $limitation ) && $limitation['extension'] )
+            $basePath = 'kernel/'; //set default basepath for limitationValueClasses
+            if( array_key_exists( 'extension', $limitation ) && $limitation['extension'] )
             {
-				$basePath = 'extension/' . $limitation['extension'] . '/';
+                $basePath = 'extension/' . $limitation['extension'] . '/';
             }
             include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );

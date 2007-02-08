@@ -230,11 +230,11 @@ class eZIniSettingType extends eZDataType
         }
     }
 
-	/*!
-	 \reimp
-	*/
-	function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
         $fileParam = $base . EZ_DATATYPEINISETTING_CLASS_FILE . $classAttribute->attribute( 'id' );
         $sectionParam = $base . EZ_DATATYPEINISETTING_CLASS_SECTION . $classAttribute->attribute( 'id' );
         $paramParam = $base . EZ_DATATYPEINISETTING_CLASS_PARAMETER . $classAttribute->attribute( 'id' );
