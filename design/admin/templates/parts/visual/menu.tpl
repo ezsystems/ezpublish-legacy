@@ -18,7 +18,12 @@
 {section-else}
 
 <ul>
-    <li><div><a href={'/content/edit/54/'|ezurl}>{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
+    {def $template_look_class = fetch( 'content', 'class', hash( 'class_id', 'template_look' ) )}
+    {if $template_look_class.object_count|eq( 0 )}
+        <li><div><span class="disabled">{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</span></div></li>
+    {else}
+        <li><div><a href={concat( '/content/edit/', $template_look_class.object_list[0].id, '/' )|ezurl}>{'Look and feel'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
+    {/if}
     <li><div><a href={'/visual/menuconfig/'|ezurl}>{'Menu management'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
     <li><div><a href={'/visual/toolbarlist/'|ezurl}>{'Toolbar management'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>
     <li><div><a href={'/visual/templatelist/'|ezurl}>{'Templates'|i18n( 'design/admin/parts/visual/menu' )}</a></div></li>

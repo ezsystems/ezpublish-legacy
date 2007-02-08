@@ -3430,31 +3430,6 @@ INSERT INTO ezcontentobject (
   section_id,
   status
 ) VALUES (
-  14,
-  1,
-  53,
-  0,
-  0,
-  'New Common ini settings',
-  14,
-  0,
-  '27437f3547db19cf81a33c92578b2c89',
-  4,
-  0
-);
-INSERT INTO ezcontentobject (
-  contentclass_id,
-  current_version,
-  id,
-  is_published,
-  modified,
-  name,
-  owner_id,
-  published,
-  remote_id,
-  section_id,
-  status
-) VALUES (
   15,
   1,
   54,
@@ -3466,31 +3441,6 @@ INSERT INTO ezcontentobject (
   '8b8b22fe3c6061ed500fbd2b377b885f',
   5,
   1
-);
-INSERT INTO ezcontentobject (
-  contentclass_id,
-  current_version,
-  id,
-  is_published,
-  modified,
-  name,
-  owner_id,
-  published,
-  remote_id,
-  section_id,
-  status
-) VALUES (
-  15,
-  1,
-  55,
-  0,
-  0,
-  'New Template look',
-  14,
-  0,
-  '8b8b22fe3c6061ed500fbd2b377b885f',
-  4,
-  0
 );
 INSERT INTO ezcontentobject (
   contentclass_id,

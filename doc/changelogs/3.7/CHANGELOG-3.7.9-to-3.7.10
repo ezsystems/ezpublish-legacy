@@ -203,3 +203,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.10.0alpha1) rev. 18107)
 - Fixed bug #9074: Coding standards: tabs in source code.
   (Manually merged from trunk (3.10.0alpha1) rev. 18120)
+- Fixed bug #10005: Hardcoded object id
+  (Manually merged from trunk (3.10.0alpha1) rev. 18136)

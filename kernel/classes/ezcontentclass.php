@@ -112,6 +112,7 @@ class eZContentClass extends eZPersistentObject
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap",
                                                       'object_count' => 'objectCount',
+                                                      'object_list' => 'objectList',
                                                       'version_count' => 'versionCount',
                                                       'version_status' => 'versionStatus',
                                                       'remote_id' => 'remoteID', // Note: This overrides remote_id field
@@ -1298,6 +1299,15 @@ You will need to change the class of the node by using the swap functionality.' 
                                      'WHERE contentclass_id='.$this->ID ." and status = " . EZ_CONTENT_OBJECT_STATUS_PUBLISHED );
 
         return $countRow[0]['count'];
+    }
+
+    /*!
+     \return will return the list of objects published by this class.
+    */
+    function &objectList()
+    {
+        $resultList = eZContentObject::fetchSameClassList( $this->ID );
+        return $resultList;
     }
 
     /// \privatesection
