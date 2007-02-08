@@ -45,15 +45,10 @@ class eZDefaultShopAccountHandler
     {
         // Check login
         $user =& eZUser::currentUser();
-
         if ( !$user->isLoggedIn() )
-        {
             return false;
-        }
         else
-        {
             return true;
-        }
     }
 
     /*!
@@ -62,22 +57,14 @@ class eZDefaultShopAccountHandler
     function email( $order = false )
     {
         if ( $order === false )
-	{
             $user =& eZUser::currentUser();
-	}
         else
-	{
             $user =& $order->attribute( 'user' );
-	}
-	
-	if ( null === $user )
-	{
-	    return null;
-	}
-	else
-	{
-	    return $user->attribute( 'email' );
-	}
+
+        if ( is_object( $user ) )
+            return $user->attribute( 'email' );
+        else
+            return null;
     }
 
     /*!
@@ -86,23 +73,17 @@ class eZDefaultShopAccountHandler
     function accountName( $order = false )
     {
         if ( $order === false )
-	{
             $user =& eZUser::currentUser();
-	}
         else
-	{
             $user =& $order->attribute( 'user' );
-	}
-	
-	if ( null === $user )
-	{
-	    $accountName = null;
-	}
-	else
-	{
+
+        if ( is_object( $user ) )
+        {
             $userObject = $user->attribute( 'contentobject' );
-	    $accountName = $userObject->attribute( 'name' );
-	}
+            $accountName = $userObject->attribute( 'name' );
+        }
+        else
+            $accountName = null;
         return $accountName;
     }
 

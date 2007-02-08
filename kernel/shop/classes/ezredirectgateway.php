@@ -48,133 +48,131 @@ include_once( 'kernel/shop/classes/ezpaymentgateway.php' );
 class eZRedirectGateway extends eZPaymentGateway
 {
     /*!
-	Constructor.
+    Constructor.
     */
     function eZRedirectGateway()
     {
-	//__DEBUG__
-	    $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZRedirectGateway.log" );
-	    $this->logger->writeTimedString( 'eZRedirectGateway::eZRedirectGateway()' );
-	//___end____
+        //__DEBUG__
+        $this->logger   = eZPaymentLogger::CreateForAdd( "var/log/eZRedirectGateway.log" );
+        $this->logger->writeTimedString( 'eZRedirectGateway::eZRedirectGateway()' );
+        //___end____
     }
 
     function execute( &$process, &$event )
     {
-	//__DEBUG__
-	    $this->logger->writeTimedString("execute");
-	//___end____
+        //__DEBUG__
+        $this->logger->writeTimedString("execute");
+        //___end____
 
-	$processParameters =& $process->attribute( 'parameter_list' );
-	$processID         =  $process->attribute( 'id' );
+        $processParameters =& $process->attribute( 'parameter_list' );
+        $processID         =  $process->attribute( 'id' );
 
-	switch ( $process->attribute( 'event_state' ) )
-	{
-	    case EZ_REDIRECT_GATEWAY_OBJECT_CREATED:
-		{
-		    //__DEBUG__
-			$this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_CREATED");
-		    //___end____
+        switch ( $process->attribute( 'event_state' ) )
+        {
+            case EZ_REDIRECT_GATEWAY_OBJECT_CREATED:
+            {
+                //__DEBUG__
+                $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_CREATED");
+                //___end____
 
-		    $thePayment = eZPaymentObject::fetchByProcessID( $processID );
-		    if ( is_object( $thePayment ) && $thePayment->approved() )
-		    {
-			//__DEBUG__
-			    $this->logger->writeTimedString("Payment accepted.");
-			//___end____
-			return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-		    }
-		    //__DEBUG__
-			else
-			{
-			    $this->logger->writeTimedString("Error. Payment rejected: unable to fetch 'eZPaymentObject' or payment status 'not approved'");
-			}
-		     //___end____
+                $thePayment = eZPaymentObject::fetchByProcessID( $processID );
+                if ( is_object( $thePayment ) && $thePayment->approved() )
+                {
+                    //__DEBUG__
+                    $this->logger->writeTimedString("Payment accepted.");
+                    //___end____
+                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+                }
+                //__DEBUG__
+                else
+                {
+                    $this->logger->writeTimedString("Error. Payment rejected: unable to fetch 'eZPaymentObject' or payment status 'not approved'");
+                }
+                //___end____
 
-		    return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
-		}
-		break;
+                return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+            }break;
 
-	    case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED:
-		//__DEBUG__
-		    $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED");
-		//___end____
+            case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED:
+                //__DEBUG__
+                $this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_NOT_CREATED");
+                //___end____
 
-	    default:
-		{
-		    $orderID        = $processParameters['order_id'];
-		    $paymentObject  =& $this->createPaymentObject( $processID, $orderID );
+            default:
+            {
+                $orderID        = $processParameters['order_id'];
+                $paymentObject  =& $this->createPaymentObject( $processID, $orderID );
 
-		    if( is_object( $paymentObject ) )
-		    {
-			$paymentObject->store();
-			$process->setAttribute( 'event_state', EZ_REDIRECT_GATEWAY_OBJECT_CREATED );
+                if( is_object( $paymentObject ) )
+                {
+                    $paymentObject->store();
+                    $process->setAttribute( 'event_state', EZ_REDIRECT_GATEWAY_OBJECT_CREATED );
 
-			$process->RedirectUrl = $this->createRedirectionUrl( $process );
-		    }
-		    else
-		    {
-			//__DEBUG__
-			    $this->logger->writeTimedString("Unable to create 'eZPaymentObject'. Payment rejected.");
-			//___end____
-			return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
-		    }
-		}
-		break;
-	};
+                    $process->RedirectUrl = $this->createRedirectionUrl( $process );
+                }
+                else
+                {
+                    //__DEBUG__
+                    $this->logger->writeTimedString("Unable to create 'eZPaymentObject'. Payment rejected.");
+                    //___end____
+                    return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
+                }
+            }break;
+        };
 
-	//__DEBUG__
-	    $this->logger->writeTimedString("return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT");
-	//___end____
-	return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT;
+        //__DEBUG__
+        $this->logger->writeTimedString("return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT");
+        //___end____
+        return EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT;
     }
 
     function needCleanup()
     {
-	return true;
+        return true;
     }
 
     /*!
-	Removes temporary eZPaymentObject from database.
+    Removes temporary eZPaymentObject from database.
     */
     function cleanup( &$process, &$event )
     {
-	//__DEBUG__
-	    $this->logger->writeTimedString("cleanup");
-	//___end____
+        //__DEBUG__
+        $this->logger->writeTimedString("cleanup");
+        //___end____
 
-	$paymentObj = eZPaymentObject::fetchByProcessID( $process->attribute( 'id' ) );
+        $paymentObj = eZPaymentObject::fetchByProcessID( $process->attribute( 'id' ) );
 
-	if ( is_object( $paymentObj ) )
-	{
-	    $paymentObj->remove();
-	}
+        if ( is_object( $paymentObj ) )
+        {
+            $paymentObj->remove();
+        }
     }
 
     /*!
-	Creates instance of subclass of eZPaymentObject which stores
-	information about payment processing(orderID, workflowID, ...).
-	Must be overridden in subclass.
+    Creates instance of subclass of eZPaymentObject which stores
+    information about payment processing(orderID, workflowID, ...).
+    Must be overridden in subclass.
     */
     function &createPaymentObject( &$processID, &$orderID )
     {
-	//__DEBUG__
-	    $this->logger->writeTimedString("createPaymentObject. You have to override this");
-	//___end____
-	$theObject = null;
-	return $theObject;
+        //__DEBUG__
+        $this->logger->writeTimedString("createPaymentObject. You have to override this");
+        //___end____
+        $theObject = null;
+        return $theObject;
     }
 
     /*!
-	Creates redirection url to payment site.
-	Must be overridden in subclass.
+    Creates redirection url to payment site.
+    Must be overridden in subclass.
     */
     function &createRedirectionUrl( &$process )
     {
-	//__DEBUG__
-	    $this->logger->writeTimedString("createRedirectionUrl. You have to override this");
-	//___end____
-	$theObject = null;
-	return $theObject;
+        //__DEBUG__
+        $this->logger->writeTimedString("createRedirectionUrl. You have to override this");
+        //___end____
+        $theObject = null;
+        return $theObject;
     }
 }
 

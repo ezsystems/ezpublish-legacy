@@ -76,10 +76,10 @@ class eZSelectionType extends eZDataType
 
         if ( $http->hasPostVariable( $base . "_ezselection_ismultiple_value_" . $classAttributeID ) )
         {
-	    if( $http->postVariable( $base . "_ezselection_ismultiple_value_" . $classAttributeID ) != 0 )
-	    {
+            if( $http->postVariable( $base . "_ezselection_ismultiple_value_" . $classAttributeID ) != 0 )
+            {
                 $isMultipleSelection = true;
-	    }
+            }
         }
 
         $currentOptions = $attributeContent['options'];
@@ -106,7 +106,6 @@ class eZSelectionType extends eZDataType
                 $currentCount = max( $currentCount, $option['id'] );
             }
             $currentCount += 1;
-
             $currentOptions[] = array( 'id' => $currentCount,
                                        'name' => '' );
             $hasPostData = true;

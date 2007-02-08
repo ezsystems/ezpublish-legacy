@@ -125,7 +125,7 @@ if ( $http->hasPostVariable('DiffButton') && $http->hasPostVariable( 'FromVersio
     {
         $oldObject = $object->version( $oldVersion );
         $newObject = $object->version( $newVersion );
-        
+
         if ( $lang )
         {
             $oldAttributes = $object->fetchDataMap( $oldVersion, $lang );
@@ -256,34 +256,34 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
     {
-	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
-    
+
     if ( is_array( $Module->actionParameter( 'VersionKeyArray' ) ) )
     {
-	$versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
-	$versionID = $versionID[0];
+        $versionID = array_keys( $Module->actionParameter( 'VersionKeyArray' ) );
+        $versionID = $versionID[0];
     }
     else
     {
-	$versionID = $Module->actionParameter( 'VersionID' );
+        $versionID = $Module->actionParameter( 'VersionID' );
     }
-    
+
     $languages = $Module->actionParameter( 'LanguageArray' );
     if ( $languages && array_key_exists( $versionID, $languages ) )
     {
-	$language = $languages[$versionID];
+        $language = $languages[$versionID];
     }
     else
     {
-	$language = false;
+        $language = false;
     }
-    
+
     if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
     {
-	return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
-    
+
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
@@ -383,7 +383,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
                       array( 'class_identifier', $object->attribute( 'class_identifier' ) ), // Class identifier
                       array( 'section_id', $object->attribute( 'section_id' ) ) // Section ID
                       ) ); // Section ID, 0 so far
-                      
+
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 $versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();

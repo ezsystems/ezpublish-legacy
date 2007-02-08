@@ -46,8 +46,8 @@ if( eZPreferences::value( 'admin_role_list_limit' ) )
     switch( eZPreferences::value( 'admin_role_list_limit' ) )
     {
         case '2': { $limit = 25; } break;
-	case '3': { $limit = 50; } break;
-	default:  { $limit = 10; } break;
+        case '3': { $limit = 50; } break;
+        default:  { $limit = 10; } break;
     }
 }
 else

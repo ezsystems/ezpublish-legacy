@@ -1161,12 +1161,12 @@ function showDebug()
     {
         //Mozilla, Firefox, etc.
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-	debugWindow.document.location.href=\"/$debugFilePath\";
+        debugWindow.document.location.href=\"/$debugFilePath\";
     };
 }
 
 showDebug();
-		
+
 // done hiding from old browsers -->
 </SCRIPT>
 " );
@@ -1378,7 +1378,7 @@ td.debugheader
 
 pre.debugtransaction
 \{
-	background-color : #f8f6d8;
+    background-color : #f8f6d8;
 \}
 
 td.timingpoint1
