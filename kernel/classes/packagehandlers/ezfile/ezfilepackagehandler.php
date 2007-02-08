@@ -148,9 +148,9 @@ class eZFilePackageHandler extends eZPackageHandler
                                          false, false,
                                          array( 'collection' => $collection ) );
             $dependencyItems = $package->dependencyItems( 'provides',
-	                                                  array( 'type'  => 'ezfile',
-							         'name'  => 'collection',
-								 'value' =>  $collection ) );
+                                                          array( 'type'  => 'ezfile',
+                                                                 'name'  => 'collection',
+                                                                 'value' =>  $collection ) );
             if ( count( $dependencyItems ) == 0 )
                 $package->appendDependency( 'provides',
                                             array( 'type'  => 'ezfile',

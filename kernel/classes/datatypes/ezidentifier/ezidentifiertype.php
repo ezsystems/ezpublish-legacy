@@ -142,8 +142,8 @@ class eZIdentifierType extends eZDataType
       Validates the input and returns true if the input was
       valid for this datatype.
     */
-	function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
+    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
         $startValueName = $base . EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $digitsName = $base . EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
 
@@ -166,15 +166,15 @@ class eZIdentifierType extends eZDataType
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
-	/*!
-	 \reimp
-	*/
-	function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
-	{
+    /*!
+     \reimp
+    */
+    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    {
         $startValueName = $base . EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $digitsName = $base . EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
-		$preTextName = $base . EZ_DATATYPESTRING_PRETEXT_VARIABLE . $classAttribute->attribute( "id" );
-		$postTextName = $base . EZ_DATATYPESTRING_POSTTEXT_VARIABLE . $classAttribute->attribute( "id" );
+        $preTextName = $base . EZ_DATATYPESTRING_PRETEXT_VARIABLE . $classAttribute->attribute( "id" );
+        $postTextName = $base . EZ_DATATYPESTRING_POSTTEXT_VARIABLE . $classAttribute->attribute( "id" );
 
         if ( $http->hasPostVariable( $startValueName ) and
              $http->hasPostVariable( $digitsName ) and

@@ -243,7 +243,7 @@ class eZDB
                                                 'slave_password' => $slaveServerPassword,
                                                 'slave_database' => $slaveServerDatabase,
                                                 'charset' => $charset,
-												'is_internal_charset' => $isInternalCharset,
+                                                'is_internal_charset' => $isInternalCharset,
                                                 'socket' => $socketPath,
                                                 'builtin_encoding' => $builtinEncoding,
                                                 'connect_retries' => $retries,
@@ -271,10 +271,10 @@ class eZDB
             if ( isset( $b['slave_database'] ) )
                 $databaseParameters['slave_database'] = $b['slave_database'];
             if ( isset( $b['charset'] ) )
-			{
+            {
                 $databaseParameters['charset'] = $b['charset'];
-				$databaseParameters['is_internal_charset'] = false;
-			}
+                $databaseParameters['is_internal_charset'] = false;
+            }
             if ( isset( $b['socket'] ) )
                 $databaseParameters['socket'] = $b['socket'];
             if ( isset( $b['builtin_encoding'] ) )

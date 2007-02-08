@@ -51,10 +51,10 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         $steps = array();
         $steps[] = array( 'id' => 'extensionname',
                           'name' => ezi18n( 'kernel/package', 'Select an extension to be exported' ),
-						  'methods' => array( 'initialize' => 'initializeExtensionName',
+                          'methods' => array( 'initialize' => 'initializeExtensionName',
                                               'load' => 'loadExtensionName',
-						                      'validate' => 'validateExtensionName',
-											  'commit' => 'commitExtensionName' ),
+                                              'validate' => 'validateExtensionName',
+                                              'commit' => 'commitExtensionName' ),
                           'template' => 'extension.tpl' );
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
@@ -66,7 +66,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
     function finalize( &$package, &$http, &$persistentData )
     {
-		$this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
+        $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
@@ -138,10 +138,10 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'sitestyle'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'extension';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'extension';
+    }
 
     function initializeExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
     {
@@ -175,17 +175,17 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
-	{
+    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    {
         $extensionName = $persistentData['extensionname'];
         
-		if ( $extensionName )
-		{
+        if ( $extensionName )
+        {
             $packageInformation['name'] = $extensionName;
-			$packageInformation['summary'] = $extensionName . ' extension';
-			$packageInformation['description'] = $extensionName . ' eZ publish extension';
-		}
-	}
+            $packageInformation['summary'] = $extensionName . ' extension';
+            $packageInformation['description'] = $extensionName . ' eZ publish extension';
+        }
+    }
 }
 
 ?>

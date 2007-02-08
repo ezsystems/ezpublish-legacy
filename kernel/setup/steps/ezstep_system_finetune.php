@@ -69,7 +69,7 @@ class eZStepSystemFinetune extends eZStepInstaller
     function init()
     {
         if ( !isset( $this->PersistenceList['run_finetune'] ) )
-    	    $this->PersistenceList['run_finetune'] = false;
+            $this->PersistenceList['run_finetune'] = false;
         if ( $this->PersistenceList['run_finetune'] )
         {
             $criticalTests = eZSetupCriticalTests();

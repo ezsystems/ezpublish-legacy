@@ -35,43 +35,43 @@
 
 define( 'SHOW_TABLES_QUERY', <<<END
 SELECT n.nspname as "Schema",
-	c.relname as "Name",
-	CASE c.relkind
-		WHEN 'r' THEN 'table'
-		WHEN 'v' THEN 'view'
-		WHEN 'i' THEN 'index'
-		WHEN 'S' THEN 'sequence'
-		WHEN 's' THEN 'special'
-	END as "Type",
-	u.usename as "Owner"
+       c.relname as "Name",
+       CASE c.relkind
+            WHEN 'r' THEN 'table'
+            WHEN 'v' THEN 'view'
+            WHEN 'i' THEN 'index'
+            WHEN 'S' THEN 'sequence'
+            WHEN 's' THEN 'special'
+       END as "Type",
+       u.usename as "Owner"
 FROM pg_catalog.pg_class c
-	LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
-	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
+     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 WHERE c.relkind IN ('r','')
-	AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
-	AND pg_catalog.pg_table_is_visible(c.oid)
+      AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+      AND pg_catalog.pg_table_is_visible(c.oid)
 ORDER BY 1,2
 END
 );
 
 define( 'FETCH_TABLE_OID_QUERY', <<<END
 SELECT c.oid,
-	n.nspname,
-	c.relname
+       n.nspname,
+       c.relname
 FROM pg_catalog.pg_class c
-	LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 WHERE pg_catalog.pg_table_is_visible(c.oid)
-	AND c.relname ~ '^<<tablename>>$'
+      AND c.relname ~ '^<<tablename>>$'
 ORDER BY 2, 3;
 END
 );
 
 define( 'FETCH_TABLE_DEF_QUERY', <<<END
 SELECT a.attname,
-	pg_catalog.format_type(a.atttypid, a.atttypmod),
-	(SELECT substring(d.adsrc for 128) FROM pg_catalog.pg_attrdef d
-		WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef) as default,
-	a.attnotnull, a.attnum
+       pg_catalog.format_type(a.atttypid, a.atttypmod),
+       (SELECT substring(d.adsrc for 128) FROM pg_catalog.pg_attrdef d
+        WHERE d.adrelid = a.attrelid AND d.adnum = a.attnum AND a.atthasdef) as default,
+       a.attnotnull, a.attnum
 FROM pg_catalog.pg_attribute a
 WHERE a.attrelid = '<<oid>>' AND a.attnum > 0 AND NOT a.attisdropped
 ORDER BY a.attnum
@@ -82,7 +82,7 @@ define( 'FETCH_INDEX_DEF_QUERY', <<<END
 SELECT c.relname, i.*
 FROM pg_catalog.pg_index i, pg_catalog.pg_class c
 WHERE indrelid = '<<oid>>'
-	AND i.indexrelid = c.oid
+      AND i.indexrelid = c.oid
 END
 );
 
@@ -141,36 +141,36 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             $this->transformSchema( $this->Schema, $params['format'] == 'local' );
             $schema = $this->Schema;
         }
-		return $schema;
+        return $schema;
     }
 
-	/*!
-	 * \private
-	 */
-	function fetchTableFields( $table, $params )
-	{
-		$fields = array();
+    /*!
+     * \private
+     */
+    function fetchTableFields( $table, $params )
+    {
+        $fields = array();
 
         $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
-		$row = $resultArray[0];
-		$oid = $row['oid'];
+        $row = $resultArray[0];
+        $oid = $row['oid'];
 
         $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_TABLE_DEF_QUERY ) );
         foreach( $resultArray as $row )
-		{
-			$field = array();
-			$autoinc = false;
-			$field['type'] = $this->parseType( $row['format_type'], $field['length'] );
-			if ( !$field['length'] )
-			{
-				unset( $field['length'] );
-			}
+        {
+            $field = array();
+            $autoinc = false;
+            $field['type'] = $this->parseType( $row['format_type'], $field['length'] );
+            if ( !$field['length'] )
+            {
+                unset( $field['length'] );
+            }
 
             $field['not_null'] = 0;
-			if ( $row['attnotnull'] == 't' )
-			{
-				$field['not_null'] = '1';
-			}
+            if ( $row['attnotnull'] == 't' )
+            {
+                $field['not_null'] = '1';
+            }
 
             $field['default'] = false;
             if ( !$field['not_null'] )
@@ -181,9 +181,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                     $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
             }
             else
-			{
+            {
                 $field['default'] = (string)$this->parseDefault ( $row['default'], $autoinc );
-			}
+            }
 
             $numericTypes = array( 'float', 'int' );
             $blobTypes = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
@@ -234,51 +234,51 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                 $field['default'] = false;
             }
 
-			if ( $autoinc )
-			{
-				unset( $field['length'] );
-				$field['not_null'] = 0;
-				$field['default'] = false;
-				$field['type'] = 'auto_increment';
-			}
+            if ( $autoinc )
+            {
+                unset( $field['length'] );
+                $field['not_null'] = 0;
+                $field['default'] = false;
+                $field['type'] = 'auto_increment';
+            }
 
             if ( !$field['not_null'] )
                 unset( $field['not_null'] );
 
-			$fields[$row['attname']] = $field;
-		}
+            $fields[$row['attname']] = $field;
+        }
         ksort( $fields );
 
-		return $fields;
-	}
+        return $fields;
+    }
 
-	/*!
-	 * \private
-	 */
-	function fetchTableIndexes( $table, $params )
-	{
+    /*!
+     * \private
+     */
+    function fetchTableIndexes( $table, $params )
+    {
         $metaData = false;
         if ( isset( $params['meta_data'] ) )
         {
             $metaData = $params['meta_data'];
         }
 
-		$indexes = array();
+        $indexes = array();
 
         $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<tablename>>', $table, FETCH_TABLE_OID_QUERY ) );
-		$row = $resultArray[0];
-		$oid = $row['oid'];
+        $row = $resultArray[0];
+        $oid = $row['oid'];
 
         $resultArray = $this->DBInstance->arrayQuery( str_replace( '<<oid>>', $oid, FETCH_INDEX_DEF_QUERY ) );
 
         foreach( $resultArray as $row )
-		{
-			$fields = array();
-			$kn = $row['relname'];
+        {
+            $fields = array();
+            $kn = $row['relname'];
 
-			$column_id_array = split( ' ', $row['indkey'] );
-			if ( $row['indisprimary'] == 't' )
-			{
+            $column_id_array = split( ' ', $row['indkey'] );
+            if ( $row['indisprimary'] == 't' )
+            {
                 // If the name of the key matches our primary key naming standard
                 // we change the name to PRIMARY, this makes it 100% similar to
                 // primary keys in MySQL
@@ -299,46 +299,46 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                     $indexes[$kn]['postgresql:name'] = $correctName;
                 }
 
-				$indexes[$kn]['type'] = 'primary';
-			}
-			else
-			{
-				$indexes[$kn]['type'] = $row['indisunique'] == 't' ? 'unique' : 'non-unique';
-			}
+                $indexes[$kn]['type'] = 'primary';
+            }
+            else
+            {
+                $indexes[$kn]['type'] = $row['indisunique'] == 't' ? 'unique' : 'non-unique';
+            }
 
-			/* getting fieldnames requires yet another query and it doesn't return it 'in order' either.
-			 * grumbl, stupid pgsql :) */
-			$att_ids = join( ', ',  $column_id_array );
-			$query = str_replace( '<<indexrelid>>', $row['indrelid'], FETCH_INDEX_COL_NAMES_QUERY );
-			$query = str_replace( '<<attids>>', $att_ids, $query );
+            /* getting fieldnames requires yet another query and it doesn't return it 'in order' either.
+             * grumbl, stupid pgsql :) */
+            $att_ids = join( ', ',  $column_id_array );
+            $query = str_replace( '<<indexrelid>>', $row['indrelid'], FETCH_INDEX_COL_NAMES_QUERY );
+            $query = str_replace( '<<attids>>', $att_ids, $query );
 
             $fieldsArray = $this->DBInstance->arrayQuery( $query );
             foreach( $fieldsArray as $fields_row )
             {
-				$fields[$fields_row['attnum']] = $fields_row['attname'];
-			}
-			foreach ( $column_id_array as $rank => $id )
-			{
-				$indexes[$kn]['fields'][$rank] = $fields[$id];
-			}
-		}
+                $fields[$fields_row['attnum']] = $fields_row['attname'];
+            }
+            foreach ( $column_id_array as $rank => $id )
+            {
+                $indexes[$kn]['fields'][$rank] = $fields[$id];
+            }
+        }
         ksort( $indexes );
 
-		return $indexes;
-	}
+        return $indexes;
+    }
 
-	function parseType( $type_info, &$length_info )
-	{
-		preg_match ( "@([a-z ]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?@", $type_info, $matches );
-		if ( isset( $matches[3] ) )
-		{
-			$length_info = $matches[3];
+    function parseType( $type_info, &$length_info )
+    {
+        preg_match ( "@([a-z ]*)(\(([0-9]*|[0-9]*,[0-9]*)\))?@", $type_info, $matches );
+        if ( isset( $matches[3] ) )
+        {
+            $length_info = $matches[3];
             if ( is_numeric( $length_info ) )
                 $length_info = (int)$length_info;
-		}
-		$type = $this->convertToStandardType ( $matches[1], $length_info );
-		return $type;
-	}
+        }
+        $type = $this->convertToStandardType ( $matches[1], $length_info );
+        return $type;
+    }
 
     function isTypeLengthSupported( $pgType )
     {
@@ -354,10 +354,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return true;
     }
 
-	function convertFromStandardType( $type, &$length )
-	{
-		switch ( $type )
-		{
+    function convertFromStandardType( $type, &$length )
+    {
+        switch ( $type )
+        {
             case 'char':
             {
                 if ( $length == 1 )
@@ -398,10 +398,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 return 'numeric';
             } break;
-		default:
-			die ( "ERROR UNHANDLED TYPE: $type\n" );
-		}
-	}
+
+            default:
+                die ( "ERROR UNHANDLED TYPE: $type\n" );
+        }
+    }
 
     /*!
      \private
@@ -415,10 +416,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return $tableName . '_pkey';
     }
 
-	function convertToStandardType( $type, &$length )
-	{
-		switch ( $type )
-		{
+    function convertToStandardType( $type, &$length )
+    {
+        switch ( $type )
+        {
             case 'bigint':
             {
                 return 'int';
@@ -449,63 +450,64 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 return 'decimal';
             } break;
-		default:
-			die ( "ERROR UNHANDLED TYPE: $type\n" );
-		}
-	}
 
-	function parseDefault( $default, &$autoinc )
-	{
-		if ( preg_match( "@^nextval\('([a-z_]+_s)'::text\)$@", $default ) )
-		{
-			$autoinc = 1;
-			return '';
-		}
+            default:
+                die ( "ERROR UNHANDLED TYPE: $type\n" );
+        }
+    }
 
-		if ( preg_match( "@^\(?([^()]*)\)?::double precision@", $default, $matches ) )
-		{
-			return $matches[1];
-		}
+    function parseDefault( $default, &$autoinc )
+    {
+        if ( preg_match( "@^nextval\('([a-z_]+_s)'::text\)$@", $default ) )
+        {
+            $autoinc = 1;
+            return '';
+        }
 
-		if ( preg_match( "@^(.*)::bigint@", $default, $matches ) )
-		{
-			return $matches[1];
-		}
+        if ( preg_match( "@^\(?([^()]*)\)?::double precision@", $default, $matches ) )
+        {
+            return $matches[1];
+        }
 
-		if ( preg_match( "@^'(.*)'::character\ varying$@", $default, $matches ) )
-		{
-			return $matches[1];
-		}
+        if ( preg_match( "@^(.*)::bigint@", $default, $matches ) )
+        {
+            return $matches[1];
+        }
 
-		if ( preg_match( "@^'(.*)'::[a-zA-Z ]+$@", $default, $matches ) )
-		{
-			return $matches[1];
-		}
+        if ( preg_match( "@^'(.*)'::character\ varying$@", $default, $matches ) )
+        {
+            return $matches[1];
+        }
 
-		if ( preg_match( "@^'(.*)'$@", $default, $matches ) )
-		{
-			return $matches[1];
-		}
+        if ( preg_match( "@^'(.*)'::[a-zA-Z ]+$@", $default, $matches ) )
+        {
+            return $matches[1];
+        }
 
-		return $default;
-	}
+        if ( preg_match( "@^'(.*)'$@", $default, $matches ) )
+        {
+            return $matches[1];
+        }
 
-	/*!
-	 \private
+        return $default;
+    }
+
+    /*!
+     \private
      \param $table_name The table name
      \param $index_name The index name
      \param $def The index structure, see eZDBSchemaInterface for more details
      \param $params An associative array with optional parameters which controls the output of SQLs
      \param $withClosure If \c true then the SQLs will contain semi-colons to close them.
     */
-	function generateAddIndexSql( $table_name, $index_name, $def, $params, $withClosure )
-	{
+    function generateAddIndexSql( $table_name, $index_name, $def, $params, $withClosure )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
         $spacing = $postgresqlCompatible ? "\n    " : " ";
-		switch ( $def['type'] )
-		{
+        switch ( $def['type'] )
+        {
             case 'primary':
             {
                 $pkeyName = $this->primaryKeyIndexName( $table_name, $index_name, $def['fields'] );
@@ -525,7 +527,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 $sql = "CREATE UNIQUE INDEX $index_name ON $table_name USING btree";
             } break;
-		}
+        }
 
         $sql .= ( $diffFriendly ? " (\n    " : ( $postgresqlCompatible ? ' (' : ' ( ' ) );
         $i = 0;
@@ -556,30 +558,30 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
         $sql .= ( $diffFriendly ? "\n)" : ( $postgresqlCompatible ? ')' : ' )' ) );
 
-		return $sql . ( $withClosure ? ";\n" : "" );
-	}
+        return $sql . ( $withClosure ? ";\n" : "" );
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateDropIndexSql( $table_name, $index_name, $def, $withClosure )
-	{
-		if ($def['type'] == 'primary' )
-		{
-			$sql = "ALTER TABLE $table_name DROP CONSTRAINT $index_name";
-		}
-		else
-		{
-			$sql = "DROP INDEX $index_name";
-		}
-		return $sql . ( $withClosure ? ";\n" : "" );
-	}
+    /*!
+     * \private
+     */
+    function generateDropIndexSql( $table_name, $index_name, $def, $withClosure )
+    {
+        if ($def['type'] == 'primary' )
+        {
+            $sql = "ALTER TABLE $table_name DROP CONSTRAINT $index_name";
+        }
+        else
+        {
+            $sql = "DROP INDEX $index_name";
+        }
+        return $sql . ( $withClosure ? ";\n" : "" );
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true, $params )
-	{
+    /*!
+     * \private
+     */
+    function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true, $params )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
 
         if ( in_array( $field_name, $this->reservedKeywordList() ) )
@@ -592,16 +594,16 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         }
 
         $sql_def .= ( $diffFriendly ? "\n    " : " " );
-		if ( $def['type'] != 'auto_increment' )
-		{
-			$pgType = eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
+        if ( $def['type'] != 'auto_increment' )
+        {
+            $pgType = eZPgsqlSchema::convertFromStandardType( $def['type'], $def['length'] );
             $sql_def .= $pgType;
-			if ( eZPgsqlSchema::isTypeLengthSupported( $pgType ) and isset( $def['length'] ) && $def['length'] )
-			{
-				$sql_def .= "({$def['length']})";
-			}
-			if ( $add_default_not_null )
-			{
+            if ( eZPgsqlSchema::isTypeLengthSupported( $pgType ) and isset( $def['length'] ) && $def['length'] )
+            {
+                $sql_def .= "({$def['length']})";
+            }
+            if ( $add_default_not_null )
+            {
                 $defaultDef = eZPGSQLSchema::generateDefaultDef( false, false, $def, $params );
                 if ( $defaultDef )
                 {
@@ -614,10 +616,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                     $sql_def .= ( $diffFriendly ? "\n    " : " " );
                     $sql_def .= trim( $nullDef );
                 }
-			}
-		}
-		else
-		{
+            }
+        }
+        else
+        {
             if ( $diffFriendly )
             {
                 $sql_def .= "integer\n    DEFAULT nextval('{$table_name}_s'::text)\n    NOT NULL";
@@ -626,9 +628,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 $sql_def .= "integer DEFAULT nextval('{$table_name}_s'::text) NOT NULL";
             }
-		}
-		return $sql_def;
-	}
+        }
+        return $sql_def;
+    }
 
     /*!
      \private
@@ -701,13 +703,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
         return $sql_def;
     }
 
-	/*!
-	 * \private
-	 */
-	function generateAddFieldSql( $table_name, $field_name, $def, $params )
-	{
-		$sql = "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
+    /*!
+     * \private
+     */
+    function generateAddFieldSql( $table_name, $field_name, $def, $params )
+    {
+        $sql = "ALTER TABLE $table_name ADD COLUMN ";
+        $sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
         $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def, $params );
         if ( $defaultSQL )
             $sql .= $defaultSQL . ";\n";
@@ -716,16 +718,16 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             $sql .= $nullSQL . ";\n";
         $sql .= "\n";
         return $sql;
-	}
+    }
 
-	/*!
-	 * \private
-	 */
-	function generateAlterFieldSql( $table_name, $field_name, $def, $params )
-	{
-		$sql = "ALTER TABLE $table_name RENAME COLUMN $field_name TO " . $field_name . "_tmp;\n";
-		$sql .= "ALTER TABLE $table_name ADD COLUMN ";
-		$sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
+    /*!
+     * \private
+     */
+    function generateAlterFieldSql( $table_name, $field_name, $def, $params )
+    {
+        $sql = "ALTER TABLE $table_name RENAME COLUMN $field_name TO " . $field_name . "_tmp;\n";
+        $sql .= "ALTER TABLE $table_name ADD COLUMN ";
+        $sql .= eZPgsqlSchema::generateFieldDef( $table_name, $field_name, $def, false, $params ) . ";\n";
         $defaultSQL = eZPGSQLSchema::generateDefaultDef( $table_name, $field_name, $def, $params );
         if ( $defaultSQL )
             $sql .= $defaultSQL . ";\n";
@@ -734,14 +736,14 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             $sql .= $nullSQL . ";\n";
         $sql .= "UPDATE $table_name SET $field_name=" . $field_name . "_tmp;\n";
         $sql .= "ALTER TABLE $table_name DROP COLUMN " . $field_name . "_tmp;\n\n";
-		return $sql;
-	}
+        return $sql;
+    }
 
-	/*!
-	 \reimp
+    /*!
+     \reimp
     */
-	function generateTableSchema( $table, $table_def, $params )
-	{
+    function generateTableSchema( $table, $table_def, $params )
+    {
         $arrays = $this->generateTableArrays( $table, $table_def, $params, true );
         return ( join( "\n\n", $arrays['sequences'] ) . "\n" .
                  join( "\n\n", $arrays['tables'] ) . "\n" .
@@ -749,11 +751,11 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                  join( "\n\n", $arrays['constraints'] ) . "\n" );
     }
 
-	/*!
-	 \reimp
+    /*!
+     \reimp
     */
-	function generateTableSQLList( $table, $table_def, $params, $separateTypes )
-	{
+    function generateTableSQLList( $table, $table_def, $params, $separateTypes )
+    {
         $arrays = $this->generateTableArrays( $table, $table_def, $params, false );
 
         // If we have to separate the types the current array is sufficient
@@ -765,15 +767,15 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                             $arrays['constraints'] );
     }
 
-	/*!
-	 \private
+    /*!
+     \private
      \param $table The table name
      \param $table_def The table structure, see eZDBSchemaInterface for more details
      \param $params An associative array with optional parameters which controls the output of SQLs
      \param $withClosure If \c true then the SQLs will contain semi-colons to close them.
     */
-	function generateTableArrays( $table, $table_def, $params, $withClosure )
-	{
+    function generateTableArrays( $table, $table_def, $params, $withClosure )
+    {
         $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
@@ -826,8 +828,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             }
         }
 
-		return $arrays;
-	}
+        return $arrays;
+    }
 
 
     /*!
@@ -857,8 +859,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
       \reimp
     */
     function generateSchemaFile( $schema, $params = array() )
-	{
-		$sql = '';
+    {
+        $sql = '';
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
         $i = 0;
@@ -867,8 +869,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                             'indexes' => array(),
                             'constraints' => array() );
 
-		foreach ( $schema as $table => $tableDef )
-		{
+        foreach ( $schema as $table => $tableDef )
+        {
             // Skip the info structure, this is not a table
             if ( $table == '_info' )
                 continue;
@@ -896,7 +898,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                           join( "\n", $arrays['indexes'] ) . "\n" .
                           join( "\n", $arrays['constraints'] ) . "\n" );
             }
-		}
+        }
 
         if ( $postgresqlCompatible )
         {
@@ -907,8 +909,8 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                      join( str_repeat( "\n", 7 ), $allArrays['constraints'] ) . str_repeat( "\n", 8 ) );
         }
 
-		return $sql;
-	}
+        return $sql;
+    }
 
     /*!
      * \private

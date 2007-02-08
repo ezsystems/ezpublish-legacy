@@ -48,7 +48,7 @@ define( "EZ_REDIRECT_PAYMENT_STATUS_APPROVED"       , 1 );
 class eZPaymentObject extends eZPersistentObject
 {
     /*!
-	Constructor.
+    Constructor.
     */
     function eZPaymentObject( $row )
     {
@@ -57,7 +57,7 @@ class eZPaymentObject extends eZPersistentObject
 
     /*!
      \static
-	Creates new object.
+    Creates new object.
     */
     function &createNew( $workflowprocessID, $orderID, $paymentType )
     {
@@ -68,7 +68,7 @@ class eZPaymentObject extends eZPersistentObject
     }
 
     /*!
-	Approves payment.
+    Approves payment.
     */
     function approve()
     {
@@ -117,7 +117,7 @@ class eZPaymentObject extends eZPersistentObject
 
     /*!
      \static
-	Returns eZPaymentObject by 'id'.
+    Returns eZPaymentObject by 'id'.
     */
     function fetchByID( $transactionID )
     {
@@ -129,7 +129,7 @@ class eZPaymentObject extends eZPersistentObject
 
     /*!
      \static
-	Returns eZPaymentObject by 'id' of eZOrder.
+    Returns eZPaymentObject by 'id' of eZOrder.
     */
     function fetchByOrderID( $orderID )
     {
@@ -140,7 +140,7 @@ class eZPaymentObject extends eZPersistentObject
 
     /*!
      \static
-	Returns eZPaymentObject by 'id' of eZWorkflowProcess.
+    Returns eZPaymentObject by 'id' of eZWorkflowProcess.
     */
     function fetchByProcessID( $workflowprocessID )
     {
@@ -151,7 +151,7 @@ class eZPaymentObject extends eZPersistentObject
 
     /*!
      \static
-	Continues workflow after approvement.
+    Continues workflow after approvement.
     */
     function continueWorkflow( $workflowProcessID )
     {

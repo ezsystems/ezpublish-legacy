@@ -34,7 +34,7 @@
     - 1st pass: Parsing input, check for syntax errors, build DOM tree.
     - 2nd pass: Walking through DOM tree, checking validity by XML schema,
                 calling tag handlers to transform the tree.
-                
+
     Both passes are controlled by the arrays described bellow and user handler functions.
 
 */
@@ -52,30 +52,30 @@ class eZXMLInputParser
 {
 
     /* $InputTags array contains properties of elements that come from the input.
-    
+
     Each array element describes a tag that comes from the input. Arrays index is
     a tag's name. Each element is an array that may contain the following members:
-    
+
     'name'        - a string representing a new name of the tag,
     'nameHandler' - a name of the function that returns new tag name. Function format:
                     function &tagNameHandler( $tagName, &$attributes )
-                    
+
     If no of those elements are defined the original tag's name is used.
-                    
+
     'noChildren'  - boolean value that determines if this tag could have child tags,
                     default value is false.
-    
+
     Example:
-    
+
     var $InputTags = array(
-    
+
         'old-name' => array( 'name' => 'new-name' ),
-    
+
         'tagname' => array( 'nameHandler' => 'tagNameHandler',
                             'noChildren' => true ),
-                            
+
          ...
-         
+
          );
     */
 
@@ -85,7 +85,7 @@ class eZXMLInputParser
     $OutputTags array contains properties of elements that are produced in the output.
     Each array element describes a tag presented in the output. Arrays index is
     a tag's name. Each element is an array that may contain the following members:
-    
+
     'parsingHandler' - "Parsing handler" called at parse pass 1 before processing tag's children.
     'initHandler'    - "Init handler" called at pass 2 before proccessing tag's children.
     'structHandler'  - "Structure handler" called at pass 2 after proccessing tag's children,
@@ -93,26 +93,26 @@ class eZXMLInputParser
                        transformations.
     'publishHandler' - "Publish handler" called at pass 2 after schema validity check, so it is called
                        in case the element has it's guaranteed place in the DOM tree.
-                       
+
     'attributes'     - an array that describes attributes transformations. Array's index is the
                        original name of an attribute, and the value is the new name.
-    
+
     'requiredInputAttributes' - attributes that are required in the input tag. If they are not presented
                                 it raises invalid input flag.
-                       
+
     Example:
-    
+
     var $OutputTags = array(
-    
+
         'custom'    => array( 'parsingHandler' => 'parsingHandlerCustom',
                               'initHandler' => 'initHandlerCustom',
                               'structHandler' => 'structHandlerCustom',
                               'publishHandler' => 'publishHandlerCustom',
                               'attributes' => array( 'title' => 'name' ) ),
-                              
+
         ...
     );
-                     
+
     */
 
     var $OutputTags = array();
@@ -122,14 +122,14 @@ class eZXMLInputParser
                              'custom' => 'http://ez.no/namespaces/ezpublish3/custom/' );
 
     /*!
-    
+
     The constructor.
-       
+
     \param $validate   If true, parser quits immediately after validity flag (isInputValid)
                        set to false and function 'process' returns false.
-                       
+
                        If false, parser tries to modify and transform the input automatically
-                       in order to get the valid result. 
+                       in order to get the valid result.
     */
 
     function eZXMLInputParser( $validate = false, $errorLevel = EZ_XMLINPUTPARSER_SHOW_NO_ERRORS, $parseLineBreaks = false,
@@ -155,7 +155,7 @@ class eZXMLInputParser
                 $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
                 $this->TrimSpaces = $trimSpaces == 'true' ? true : false;
             }
-    
+
             if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
             {
                 $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
@@ -544,32 +544,32 @@ class eZXMLInputParser
     {
         // Convert single quotes to double quotes
         $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\='(.*?)'/e", "' \\1'.'=\"'.'\\2'.'\"'", ' ' . $attributeString );
-    
+
         // Convert no quotes to double quotes and remove extra spaces
         $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\= *([^\s'\"]+)/e", "' \\1'.'=\"'.'\\2'.'\" '", $attributeString );
-    
+
         // Split by quotes followed by spaces
         $attributeArray = preg_split( "#(?<=\") +#", $attributeString );
-    
+
         $attributes = array();
         foreach( $attributeArray as $attrStr )
         {
             if ( !$attrStr || strlen( $attrStr ) < 4 )
                 continue;
-    
+
             list( $attrName, $attrValue ) = split( '="', $attrStr );
-    
+
             $attrName = strtolower( trim( $attrName ) );
             if ( !$attrName )
                 continue;
-    
+
             $attrValue = substr( $attrValue, 0, -1 );
             if ( $attrValue === '' || $attrValue === false )
                 continue;
-    
+
             $attributes[$attrName] = $attrValue;
         }
-    
+
         return $attributes;
     }
 
@@ -690,9 +690,9 @@ class eZXMLInputParser
             $startPos = $pos;
             while( !( $text[$pos] == '&' && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
                 $pos++;
-    
+
             $domString .= substr( $text, $startPos, $pos - $startPos );
-    
+
             if ( $pos < strlen( $text ) - 1 )
             {
                 $endPos = strpos( $text, ";", $pos + 2 );
@@ -702,10 +702,10 @@ class eZXMLInputParser
                     $pos += 2;
                     continue;
                 }
-    
+
                 $code = substr( $text, $pos + 2, $endPos - ( $pos + 2 ) );
                 $char = $codec->convertString( array( $code ) );
-    
+
                 $pos = $endPos + 1;
                 $domString .= $char;
             }
@@ -798,12 +798,12 @@ class eZXMLInputParser
             for( $i = 0; $i < $childrenCount; $i++ )
             {
                 $childReturn =& $this->processSubtree( $children[$i], $lastResult );
-		if ( isset( $childReturn['result'] ) )
-	            $lastResult =& $childReturn['result'];
+                if ( isset( $childReturn['result'] ) )
+                    $lastResult =& $childReturn['result'];
                 else
-	            unset( $lastResult );
+                    unset( $lastResult );
 
-	        if ( isset( $childReturn['new_elements'] ) )
+                if ( isset( $childReturn['new_elements'] ) )
                     $newElements = array_merge( $newElements, $childReturn['new_elements'] );
 
                 unset( $childReturn );
@@ -813,7 +813,7 @@ class eZXMLInputParser
                 }
             }
 
-	    // process elements created in children handlers
+            // process elements created in children handlers
             $this->processNewElements( $newElements );
         }
 
@@ -999,7 +999,7 @@ class eZXMLInputParser
                                                         false, array( $fullName, $element->nodeName ) );
                 }
             }
-            elseif ( $this->removeDefaultAttrs ) 
+            elseif ( $this->removeDefaultAttrs )
             {
                 // Remove attributes having default values
                 $default = $this->XMLSchema->attrDefaultValue( $element->nodeName, $fullName );
@@ -1055,10 +1055,10 @@ class eZXMLInputParser
         $element =& $this->Document->createElement( $elementName );
         //$element->setAttribute( 'ezparser-new-element', 'true' );
 
-	if ( !isset( $ret['new_elements'] ) )
-     	    $ret['new_elements'] = array();
+        if ( !isset( $ret['new_elements'] ) )
+             $ret['new_elements'] = array();
 
-	$ret['new_elements'][] =& $element;
+        $ret['new_elements'][] =& $element;
         return $element;
     }
 

@@ -183,10 +183,10 @@ if ( $displayStep )
         $hasAdvanced = true;
         $currentStepID = $installer->validateStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
         if ( $currentStepID != $lastStepID )
-		{
+        {
             $lastStep =& $steps['map'][$lastStepID];
             $installer->commitStep( $package, $http, $lastStep, $persistentData, $tpl );
-		}
+        }
     }
 
     if ( $currentStepID )

@@ -111,6 +111,6 @@ class eZMath
         return eZMath::rgbToCMYK( array( 'r' => $r,
                                          'g' => $g,
                                          'b' => $b ) );
-	}
+    }
 }
 ?>

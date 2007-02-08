@@ -79,21 +79,21 @@ $browser_name = "Unknown";
 <?
 if ( $browser_os == "Windows" )
 {
-	if ( ( ( $browser_name == "Internet Explorer" ) && ( $browser_version >= 6 ) )
-	|| ( $browser_name == "Netscape" ) )
-	{
-	?>
-		<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
-	<?	
-	}
+    if ( ( ( $browser_name == "Internet Explorer" ) && ( $browser_version >= 6 ) )
+    || ( $browser_name == "Netscape" ) )
+    {
+    ?>
+        <link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
+    <?    
+    }
 }
 else if ( $browser_os == "Mac" )
 {
-	if ( ( $browser_name == "Netscape" ) && ( $browser_version = 4 ) )
-	{
-	?>
-		<link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
-	<?	
-	}
+    if ( ( $browser_name == "Netscape" ) && ( $browser_version = 4 ) )
+    {
+    ?>
+        <link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
+    <?    
+    }
 }
 ?>

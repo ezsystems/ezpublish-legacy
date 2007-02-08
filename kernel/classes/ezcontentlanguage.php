@@ -50,7 +50,7 @@ class eZContentLanguage extends eZPersistentObject
      */
     function definition()
     {
-	    return array( 'fields' => array( 'id' => array( 'name' => 'ID',
+        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'required' => true ),
                                          'name' => array( 'name' => 'Name',
@@ -514,12 +514,12 @@ class eZContentLanguage extends eZPersistentObject
         $languages = eZContentLanguage::prioritizedLanguages();
         foreach ( $languages as $language )
         {
-			if ( ( (int) $language->attribute( 'id' ) & (int) $mask ) > 0 )
+            if ( ( (int) $language->attribute( 'id' ) & (int) $mask ) > 0 )
             {
                 return $language;
             }
         }
-		return false;
+        return false;
     }
 
     /**
@@ -543,7 +543,7 @@ class eZContentLanguage extends eZPersistentObject
             }
         }
 
-		return false;
+        return false;
     }
 
     /**
