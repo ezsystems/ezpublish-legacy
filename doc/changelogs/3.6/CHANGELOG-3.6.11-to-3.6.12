@@ -173,3 +173,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #8498: Missing JavaScript function used in ezobjectrelationlist
   template
   (Merged from trunk (3.10.0alpha1) rev. 18107)
+- Fixed bug #10005: Hardcoded object id
+  (Manually merged from trunk (3.10.0alpha1) rev. 18136)
