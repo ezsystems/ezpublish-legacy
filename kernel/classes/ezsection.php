@@ -46,7 +46,7 @@ class eZSection extends eZPersistentObject
     }
 
     /*!
-     \return the persistent object definition for the eZCard class.
+     \return the persistent object definition for the eZSection class.
     */
     function definition()
     {
