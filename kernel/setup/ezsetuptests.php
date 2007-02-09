@@ -279,16 +279,16 @@ function eZSetupTestPhpVersion( $type, &$arguments )
     $operatingSystem = split( " ", php_uname() );
     $operatingSystem = strtolower( $operatingSystem[0] );
 
-	// Find out if there is an os specific version needed
+    // Find out if there is an os specific version needed
     if ( isset( $argArray["req"][$operatingSystem] ) )
         $neededVersion = $argArray["req"][$operatingSystem];
     else if ( isset( $argArray["req"] ) )
         $neededVersion = $argArray["req"];
     else
         $neededVersion = $argArray["req"];
-	*/
+    */
 
-	$neededVersion = $minVersion;
+    $neededVersion = $minVersion;
 
     // compare the versions
     $currentVersion = phpversion();
@@ -441,7 +441,7 @@ function eZSetupTestExtension( $type, &$arguments )
 
 
 /*!
-	Test file permissions
+    Test file permissions
 */
 function eZSetupTestFilePermissions( $type, &$arguments )
 {
@@ -480,8 +480,8 @@ function eZSetupTestFilePermissions( $type, &$arguments )
                 $fileResult = false;
             }
         }
-    	else if ( is_file( $file ) )
-    	{
+        else if ( is_file( $file ) )
+        {
             $filePerm = $filePermission;
 
             if ( !eZFile::isWriteable( $file ) )
@@ -489,7 +489,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
                 $result = false;
                 $fileResult = false;
             }
-    	}
+        }
     }
     $safeMode = ini_get( 'safe_mode' ) != 0;
     $userInfo = eZSetupPrvPosixExtension();
@@ -529,7 +529,7 @@ function eZSetupPrvPosixExtension()
 
 
 /*!
-	Test if a program can be found in our path and is executable
+    Test if a program can be found in our path and is executable
 */
 function eZSetupCheckExecutable( $type, &$arguments )
 {
@@ -540,10 +540,10 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
     $filesystemType = eZSys::filesystemType();
     $envSeparator = eZSys::envSeparator();
-	$programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
+    $programs = eZSetupConfigVariableArray( $type, $filesystemType . '_Executable' );
     $systemSearchPaths = explode( $envSeparator, eZSys::path() );
-	$additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
-	$excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
+    $additionalSearchPaths = eZSetupConfigVariableArray( $type, $filesystemType . '_SearchPaths' );
+    $excludePaths = eZSetupConfigVariableArray( $type, $filesystemType . '_ExcludePaths' );
     $imageIniPath = eZSetupImageConfigVariableArray( 'ShellSettings', 'ConvertPath' );
 
     /*
@@ -583,7 +583,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
     $searchPaths = array_merge( $systemSearchPaths, $additionalSearchPaths, $extraPath, $imageIniPath );
 
-	$result = false;
+    $result = false;
     $correctPath = false;
     $correctProgram = false;
     foreach ( $programs as $program )
@@ -647,11 +647,11 @@ function eZSetupCheckExecutable( $type, &$arguments )
         }
         if ( $result )
             break;
-	}
+    }
 
     $extraPathAsString = implode( $envSeparator, $extraPath );
 
-	return array( 'result' => $result,
+    return array( 'result' => $result,
                   'persistent_data' => array( 'path' => array( 'value' => $correctPath ),
                                               'program' => array( 'value' => $correctProgram ),
                                               'extra_path' => array( 'value' => $extraPathAsString,
@@ -668,11 +668,11 @@ function eZSetupCheckExecutable( $type, &$arguments )
 
 
 /*!
-	Test php ini settings
+    Test php ini settings
 */
 function testPHPIni( $parameters )
 {
-	$setting = $parameters["setting"];
+    $setting = $parameters["setting"];
     $state = $parameters["state"];
 
     if ( (bool) ini_get( $setting ) == $state )
@@ -681,7 +681,7 @@ function testPHPIni( $parameters )
         $pass = false;
 
     $status = $pass;
-	return array( "status" => $status, "pass" => $pass );
+    return array( "status" => $status, "pass" => $pass );
 }
 
 
@@ -696,7 +696,7 @@ function eZSetupCheckGDVersion( $type, &$arguments )
 }
 
 /*!
-	Test if mbstring is available
+    Test if mbstring is available
 */
 function eZSetupMBStringExtension( $type, &$arguments )
 {

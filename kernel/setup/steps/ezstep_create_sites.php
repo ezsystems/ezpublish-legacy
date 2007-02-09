@@ -83,7 +83,7 @@ class eZStepCreateSites extends eZStepInstaller
                                 'create_sites', 'Create sites' );
     }
 
-	/*!
+    /*!
      \reimp
     */
     function processPostData()

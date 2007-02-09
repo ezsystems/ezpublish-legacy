@@ -49,15 +49,15 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $steps = array();
         $steps[] = array( 'id' => 'object',
                           'name' => ezi18n( 'kernel/package', 'Content objects to include' ),
-						  'methods' => array( 'initialize' => 'initializeObjectList',
+                          'methods' => array( 'initialize' => 'initializeObjectList',
                                               'load' => 'loadObjectList',
-						                      'validate' => 'validateObjectList' ),
+                                              'validate' => 'validateObjectList' ),
                           'template' => 'object_select.tpl' );
         $steps[] = array( 'id' => 'object_limits',
                           'name' => ezi18n( 'kernel/package', 'Content object limits' ),
-						  'methods' => array( 'initialize' => 'initializeObjectLimits',
+                          'methods' => array( 'initialize' => 'initializeObjectLimits',
                                               'load' => 'loadObjectLimits',
-						                      'validate' => 'validateObjectLimits' ),
+                                              'validate' => 'validateObjectLimits' ),
                           'template' => 'object_limit.tpl' );
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
@@ -73,7 +73,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     */
     function finalize( &$package, &$http, &$persistentData )
     {
-		$this->createPackage( $package, $http, $persistentData, $cleanupFiles );
+        $this->createPackage( $package, $http, $persistentData, $cleanupFiles );
 
         $objectHandler = eZPackage::packageHandler( 'ezcontentobject' );
         $nodeList = $persistentData['node_list'];
@@ -101,10 +101,10 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'contentclass'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'contentobject';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'contentobject';
+    }
 
     function initializeObjectList( &$package, &$http, $step, &$persistentData, &$tpl )
     {
@@ -269,8 +269,8 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
-	{
+    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    {
         $nodeList = $persistentData['node_list'];
         $options = $persistentData['object_options'];
         $nodeCount = 0;

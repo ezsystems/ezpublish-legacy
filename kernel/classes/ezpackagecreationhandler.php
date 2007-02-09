@@ -314,7 +314,7 @@ class eZPackageCreationHandler
         $limitationList = array();
         $canCreate = false;
         if ( $accessResult['accessWord'] == 'no' )
-		    return array();
+            return array();
         if ( $accessResult['accessWord'] == 'limited' )
         {
             $limitationList =& $accessResult['policies'];

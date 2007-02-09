@@ -1508,7 +1508,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups =& $db->arrayQuery( "SELECT d.*, c.path_string
+                $userGroups =& $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d

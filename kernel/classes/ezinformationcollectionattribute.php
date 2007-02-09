@@ -37,7 +37,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
 {
     function eZInformationCollectionAttribute( $row )
     {
-	    $this->Content = null;
+        $this->Content = null;
         $this->eZPersistentObject( $row );
     }
 

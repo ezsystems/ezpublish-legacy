@@ -1040,28 +1040,28 @@ class eZDebug
             if ( $ipAddress )
             {
                 $debugEnabled = false;
-            	foreach( $settings['debug-ip-list'] as $itemToMatch )
-            	{
-                	if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
-                	{
-                    	if ( $matches[6] )
-                    	{
-                        	if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
-                        	{
-                            	$debugEnabled=true;
-                            	break;
-                        	}
-                    	}
-                    	else
-                    	{
-                        	if ( $matches[1] == $ipAddress )
-                        	{
-                            	$debugEnabled=true;
-                            	break;
-                        	}
-                    	}
-                	}
-            	}
+                foreach( $settings['debug-ip-list'] as $itemToMatch )
+                {
+                    if ( preg_match("/^(([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+))(\/([0-9]+)$|$)/", $itemToMatch, $matches ) )
+                    {
+                        if ( $matches[6] )
+                        {
+                            if ( eZDebug::isIPInNet( $ipAddress, $matches[1], $matches[7]))
+                            {
+                                $debugEnabled=true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if ( $matches[1] == $ipAddress )
+                            {
+                                $debugEnabled=true;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             else
             {

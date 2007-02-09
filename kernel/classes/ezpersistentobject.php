@@ -1003,7 +1003,7 @@ function definition()
         foreach( $updateFields as $field => $value )
         {
             $fieldDef =& $fields[ $field ];
-            $numericDataTypes = array( 'integer', 'float', 'double' );		
+            $numericDataTypes = array( 'integer', 'float', 'double' );        
             if ( strlen( $value ) == 0 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $numericDataTypes  ) &&

@@ -653,7 +653,7 @@ class eZContentObjectVersion extends eZPersistentObject
 */
 
     /*!
-	 \return the content object attribute
+     \return the content object attribute
     */
     function &dataMap()
     {
@@ -715,7 +715,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-		$time = time();
+        $time = time();
         $row = array(
             "contentobject_id" => $contentobjectID,
             "version" => $version,
@@ -807,7 +807,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
-		$time = time();
+        $time = time();
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
         if ( $contentObjectID !== false )

@@ -718,11 +718,10 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $newVersion->attribute( 'version' ) ) );
-		    unset( $newVersion );
-		    unset( $object );
-		    $object =& eZContentObject::fetch( $objectID );
-		
+                                                                                                 'version' => $newVersion->attribute( 'version' ) ) );
+                    unset( $newVersion );
+                    unset( $object );
+                    $object =& eZContentObject::fetch( $objectID );
                 }
             }
         }
@@ -917,11 +916,11 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
             }
         }
 
-		if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
-		{
-			$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
-		}
-		
+        if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
+        {
+            $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+        }
+
         $module->redirectToView( 'edit', $parameters );
         return;
     }
