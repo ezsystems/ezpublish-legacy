@@ -54,10 +54,10 @@ class eZHTTPTool
         $this->UseFullUrl = false;
         $magicQuote = get_magic_quotes_gpc();
 
-		if ( $magicQuote == 1 )
-		{
-			eZHTTPTool::removeMagicQuotes();
-		}
+        if ( $magicQuote == 1 )
+        {
+            eZHTTPTool::removeMagicQuotes();
+        }
     }
 
     /*!
@@ -552,16 +552,16 @@ class eZHTTPTool
         header( $headerName .': '. $headerData );
     }
 
-	function removeMagicQuotes()
-	{
+    function removeMagicQuotes()
+    {
         foreach ( array_keys( $_POST ) as $key )
         {
-			if ( !is_array( $_POST[$key] ) )
-			{
-				$_POST[$key] = str_replace( "\'", "'", $_POST[$key] );
-				$_POST[$key] = str_replace( '\"', '"', $_POST[$key] );
-				$_POST[$key] = str_replace( '\\\\', '\\', $_POST[$key] );
-			}
+            if ( !is_array( $_POST[$key] ) )
+            {
+                $_POST[$key] = str_replace( "\'", "'", $_POST[$key] );
+                $_POST[$key] = str_replace( '\"', '"', $_POST[$key] );
+                $_POST[$key] = str_replace( '\\\\', '\\', $_POST[$key] );
+            }
             else
             {
                 foreach ( array_keys( $_POST[$key] ) as $arrayKey )
@@ -574,12 +574,12 @@ class eZHTTPTool
         }
         foreach ( array_keys( $_GET ) as $key )
         {
-			if ( !is_array( $_GET[$key] ) )
-			{
-				$_GET[$key] = str_replace( "\'", "'", $_GET[$key] );
-				$_GET[$key] = str_replace( '\"', '"', $_GET[$key] );
-				$_GET[$key] = str_replace( '\\\\', '\\', $_GET[$key] );
-			}
+            if ( !is_array( $_GET[$key] ) )
+            {
+                $_GET[$key] = str_replace( "\'", "'", $_GET[$key] );
+                $_GET[$key] = str_replace( '\"', '"', $_GET[$key] );
+                $_GET[$key] = str_replace( '\\\\', '\\', $_GET[$key] );
+            }
             else
             {
                 foreach ( array_keys( $_GET[$key] ) as $arrayKey )
@@ -590,7 +590,7 @@ class eZHTTPTool
                 }
             }
         }
-	}
+    }
 
     function createPostVarsFromImageButtons()
     {

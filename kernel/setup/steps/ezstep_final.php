@@ -84,12 +84,11 @@ class eZStepFinal extends eZStepInstaller
 
         if ( $siteType['access_type'] == 'url' )
         {
-	    $ini =& eZINI::instance();
-	    if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
+            $ini =& eZINI::instance();
+            if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
             {
-		$siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-    	    }
-		  
+                $siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+            }
             $url .= '/' . $siteType['access_type_value'];
             $adminURL .= '/' . $siteType['admin_access_type_value'];
         }
@@ -98,13 +97,13 @@ class eZStepFinal extends eZStepInstaller
             $url = $siteType['access_type_value'];
             $adminURL = $siteType['admin_access_type_value'];
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-	    {
+            {
                 $url = 'http://' . $url;
-	    }
+            }
             if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $adminURL ) )
-	    {
+            {
                 $adminURL = 'http://' . $adminURL;
-	    }
+            }
 
             $url .= eZSys::indexDir( false );
             $adminURL .= eZSys::indexDir( false );

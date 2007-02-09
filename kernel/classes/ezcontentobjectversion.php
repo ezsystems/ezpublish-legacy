@@ -276,7 +276,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $contentObject =& $this->contentObject();
             if ( $contentObject )
             {
-            	return $contentObject->name( $lang );
+                return $contentObject->name( $lang );
             }
         }
         if ( $this->VersionName === false )
@@ -284,7 +284,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $contentObject =& $this->contentObject();
             if ( $contentObject )
             {
-            	$this->VersionName = $contentObject->name( $lang );
+                $this->VersionName = $contentObject->name( $lang );
             }
         }
         return $this->VersionName;
@@ -821,7 +821,7 @@ class eZContentObjectVersion extends eZPersistentObject
 */
 
     /*!
-	 \return the content object attribute
+     \return the content object attribute
     */
     function &dataMap()
     {
@@ -877,16 +877,16 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-		$time = time();
+        $time = time();
 
-		if ( $initialLanguageCode == false )
+        if ( $initialLanguageCode == false )
         {
-        	$initialLanguageCode = eZContentObject::defaultLanguage();
+            $initialLanguageCode = eZContentObject::defaultLanguage();
         }
 
-		$initialLanguageID = eZContentLanguage::idByLocale( $initialLanguageCode );
+        $initialLanguageID = eZContentLanguage::idByLocale( $initialLanguageCode );
 
-		$row = array(
+        $row = array(
             "contentobject_id" => $contentobjectID,
             'initial_language_id' => $initialLanguageID,
             'language_mask' => 0,
@@ -982,7 +982,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
-		$time = time();
+        $time = time();
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
         if ( $contentObjectID !== false )
@@ -1587,21 +1587,21 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function &languageMask()
     {
-    	return (int)$this->attribute( 'language_mask' );
+        return (int)$this->attribute( 'language_mask' );
     }
 
     function updateLanguageMask( $mask = false, $forceStore = true )
     {
-    	if ( $mask == false )
-    	{
-    		$mask = eZContentLanguage::maskByLocale( $this->translationList( false, false ), true );
-    	}
+        if ( $mask == false )
+        {
+            $mask = eZContentLanguage::maskByLocale( $this->translationList( false, false ), true );
+        }
 
         $this->setAttribute( 'language_mask', $mask );
 
         if ( $forceStore )
         {
-        	$this->store();
+            $this->store();
         }
     }
 
