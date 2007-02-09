@@ -970,7 +970,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function headers()
     {
-		header( "WebDAV-Powered-By: eZ publish" );
+        header( "WebDAV-Powered-By: eZ publish" );
     }
 
     /*!

@@ -47,21 +47,21 @@ if ( $module->isCurrentAction( 'RemovePackage' ) or
 {
     if ( $module->hasActionParameter( 'PackageSelection' ) )
     {
-	    $removeConfirmation = $module->isCurrentAction( 'ConfirmRemovePackage' );
+        $removeConfirmation = $module->isCurrentAction( 'ConfirmRemovePackage' );
         $packageSelection = $module->actionParameter( 'PackageSelection' );
         foreach ( $packageSelection as $packageID )
         {
             $package =& eZPackage::fetch( $packageID );
             if ( $package )
             {
-				if ( $removeConfirmation )
-				{
-	                $package->remove();
-				}
-				else
-				{
-					$removeList[] =& $package;
-				}
+                if ( $removeConfirmation )
+                {
+                    $package->remove();
+                }
+                else
+                {
+                    $removeList[] = $package;
+                }
             }
         }
         if ( $removeConfirmation )

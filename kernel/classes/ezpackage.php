@@ -419,13 +419,13 @@ class eZPackage
 
     function canUsePolicyFunction( $functionName )
     {
-		include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-		$currentUser =& eZUser::currentUser();
-		$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
-		if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
-		{
-		    return true;
-		}
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $currentUser =& eZUser::currentUser();
+        $accessResult = $currentUser->hasAccessTo( 'package', $functionName );
+        if ( in_array( $accessResult['accessWord'], array( 'yes', 'limited' ) ) )
+        {
+            return true;
+        }
         return false;
     }
 
@@ -454,142 +454,142 @@ class eZPackage
         $canUse =& $this->PolicyCache[$functionName];
         if ( !isset( $canUse ) )
         {
-			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', $functionName );
-		    $limitationList = array();
-		    $canUse = false;
-			if ( $accessResult['accessWord'] == 'yes' )
-			{
-		    $canUse = true;
-			}
-			else if ( $accessResult['accessWord'] == 'limited' )
-			{
-				$allRoles = array();
-			    $limitation =& $accessResult['policies'];
-			    foreach ( $limitation as $dummyKey => $val )
-			    {
-			        $limitationList[] =& $val;
-			    }
-				$typeList = false;
-	            foreach( $limitationList as $limitationArray )
-	            {
-	                foreach ( $limitationArray as $key => $limitation )
-	                {
-	                    if ( $key == 'Type' )
-	                    {
-	                        if ( !is_array( $typeList ) )
-	                            $typeList = array();
-	                        $typeList = array_merge( $typeList, $limitation );
-	                    }
-					}
-				}
-				if ( $typeList === false )
-				{
-				    $canUse = true;
-				}
-				else
-				{
-				    $canUse = in_array( $this->attribute( 'type' ), $typeList );
-				}
-			}
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $currentUser =& eZUser::currentUser();
+            $accessResult = $currentUser->hasAccessTo( 'package', $functionName );
+            $limitationList = array();
+            $canUse = false;
+            if ( $accessResult['accessWord'] == 'yes' )
+            {
+            $canUse = true;
+            }
+            else if ( $accessResult['accessWord'] == 'limited' )
+            {
+                $allRoles = array();
+                $limitation =& $accessResult['policies'];
+                foreach ( $limitation as $dummyKey => $val )
+                {
+                    $limitationList[] =& $val;
+                }
+                $typeList = false;
+                foreach( $limitationList as $limitationArray )
+                {
+                    foreach ( $limitationArray as $key => $limitation )
+                    {
+                        if ( $key == 'Type' )
+                        {
+                            if ( !is_array( $typeList ) )
+                                $typeList = array();
+                            $typeList = array_merge( $typeList, $limitation );
+                        }
+                    }
+                }
+                if ( $typeList === false )
+                {
+                    $canUse = true;
+                }
+                else
+                {
+                    $canUse = in_array( $this->attribute( 'type' ), $typeList );
+                }
+            }
         }
         return $canUse;
     }
 
-	function fetchMaintainerRoleIDList( $packageType = false, $checkRoles = false )
-	{
-		$allRoles = false;
-		if ( $checkRoles )
-		{
-			include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-			$currentUser =& eZUser::currentUser();
-			$accessResult = $currentUser->hasAccessTo( 'package', 'create' );
-		    $limitationList = array();
-			if ( $accessResult['accessWord'] == 'limited' )
-			{
-				$allRoles = array();
-			    $limitation =& $accessResult['policies'];
-			    foreach ( $limitation as $key => $val )
-			    {
-			        $limitationList[] =& $val;
-			    }
-	            foreach( $limitationList as $limitationArray )
-	            {
-					$allowedType = true;
-					$allowedRoles = false;
-	                foreach ( $limitationArray as $key => $limitation )
-	                {
-	                    if ( $key == 'Role' )
-	                    {
-	                        $allowedRoles = $limitation;
-	                    }
-	                    else if ( $key == 'Type' )
-	                    {
-	                        $typeList = $limitation;
-							if ( $packageType === false )
-							{
-								$allowedType = in_array( $packageType, $typeList );
-							}
-	                    }
-					}
-					if ( $allowedType and
-					     count( $allowedRoles ) > 0 )
-					{
-						$allRoles = array_merge( $allRoles, $allowedRoles );
-					}
-				}
-			}
-		}
-		if ( is_array( $allRoles ) and count( $allRoles ) == 0 )
-			return array();
-		$ini =& eZINI::instance( 'package.ini' );
-		$roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
-		if ( $allRoles !== false )
-		{
-			$roleList = array_intersect( $roleList, $allRoles );
-		}
-		return $roleList;
-	}
+    function fetchMaintainerRoleIDList( $packageType = false, $checkRoles = false )
+    {
+        $allRoles = false;
+        if ( $checkRoles )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $currentUser =& eZUser::currentUser();
+            $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
+            $limitationList = array();
+            if ( $accessResult['accessWord'] == 'limited' )
+            {
+                $allRoles = array();
+                $limitation =& $accessResult['policies'];
+                foreach ( $limitation as $key => $val )
+                {
+                    $limitationList[] =& $val;
+                }
+                foreach( $limitationList as $limitationArray )
+                {
+                    $allowedType = true;
+                    $allowedRoles = false;
+                    foreach ( $limitationArray as $key => $limitation )
+                    {
+                        if ( $key == 'Role' )
+                        {
+                            $allowedRoles = $limitation;
+                        }
+                        else if ( $key == 'Type' )
+                        {
+                            $typeList = $limitation;
+                            if ( $packageType === false )
+                            {
+                                $allowedType = in_array( $packageType, $typeList );
+                            }
+                        }
+                    }
+                    if ( $allowedType and
+                         count( $allowedRoles ) > 0 )
+                    {
+                        $allRoles = array_merge( $allRoles, $allowedRoles );
+                    }
+                }
+            }
+        }
+        if ( is_array( $allRoles ) and count( $allRoles ) == 0 )
+            return array();
+        $ini =& eZINI::instance( 'package.ini' );
+        $roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
+        if ( $allRoles !== false )
+        {
+            $roleList = array_intersect( $roleList, $allRoles );
+        }
+        return $roleList;
+    }
 
-	function fetchMaintainerRoleList( $packageType = false, $checkRoles = false )
-	{
-	    $roleList = eZPackage::fetchMaintainerRoleIDList( $packageType, $checkRoles );
-		$roleNameList = array();
-		foreach ( $roleList as $roleID )
-		{
-			$roleName = eZPackage::maintainerRoleName( $roleID );
-			$roleNameList[] = array( 'name' => $roleName,
-			                         'id' => $roleID );
-		}
-		return $roleNameList;
-	}
+    function fetchMaintainerRoleList( $packageType = false, $checkRoles = false )
+    {
+        $roleList = eZPackage::fetchMaintainerRoleIDList( $packageType, $checkRoles );
+        $roleNameList = array();
+        foreach ( $roleList as $roleID )
+        {
+            $roleName = eZPackage::maintainerRoleName( $roleID );
+            $roleNameList[] = array( 'name' => $roleName,
+                                     'id' => $roleID );
+        }
+        return $roleNameList;
+    }
 
-	function maintainerRoleListForRoles()
-	{
-		$ini =& eZINI::instance( 'package.ini' );
-		$roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
-		$roleNameList = array();
-		foreach ( $roleList as $roleID )
-		{
-			$roleName = eZPackage::maintainerRoleName( $roleID );
-			$roleNameList[] = array( 'name' => $roleName,
-			                         'id' => $roleID );
-		}
-		return $roleNameList;
-	}
+    function maintainerRoleListForRoles()
+    {
+        $ini =& eZINI::instance( 'package.ini' );
+        $roleList = $ini->variable( 'MaintainerSettings', 'RoleList' );
+        $roleNameList = array();
+        foreach ( $roleList as $roleID )
+        {
+            $roleName = eZPackage::maintainerRoleName( $roleID );
+            $roleNameList[] = array( 'name' => $roleName,
+                                     'id' => $roleID );
+        }
+        return $roleNameList;
+    }
 
-	function maintainerRoleName( $roleID )
-	{
-		$nameMap = array( 'lead' => ezi18n( 'kernel/package', 'Lead' ),
-						  'developer' => ezi18n( 'kernel/package', 'Developer' ),
-						  'designer' => ezi18n( 'kernel/package', 'Designer' ),
-						  'contributor' => ezi18n( 'kernel/package', 'Contributor' ),
-						  'tester' => ezi18n( 'kernel/package', 'Tester' ) );
-		if ( isset( $nameMap[$roleID] ) )
-			return $nameMap[$roleID];
-		return false;
-	}
+    function maintainerRoleName( $roleID )
+    {
+        $nameMap = array( 'lead' => ezi18n( 'kernel/package', 'Lead' ),
+                          'developer' => ezi18n( 'kernel/package', 'Developer' ),
+                          'designer' => ezi18n( 'kernel/package', 'Designer' ),
+                          'contributor' => ezi18n( 'kernel/package', 'Contributor' ),
+                          'tester' => ezi18n( 'kernel/package', 'Tester' ) );
+        if ( isset( $nameMap[$roleID] ) )
+            return $nameMap[$roleID];
+        return false;
+    }
 
     function appendMaintainer( $name, $email, $role = false,
                                $modified = null )

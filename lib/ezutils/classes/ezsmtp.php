@@ -233,22 +233,22 @@
 
         function auth()
         {
-    		/* if the connection is made */
-    		if ( $this->send_cmd('AUTH', '334' ) )
-    		{
-    			/* if sending username ok */
-    			if ( $this->send_cmd( base64_encode( $this->user ), '334' ) )
-    			{
-    				/* if sending password ok */
-    				if ( $this->send_cmd( base64_encode( $this->pass ), '235' ) )
-    				{
-    					/* set the authenticated  flag and return TRUE */
-    					$this->authenticated = TRUE;
-    		 			return TRUE;
-    				}
-    			}
-    		}
-    		/* in other case return FALSE */
+            /* if the connection is made */
+            if ( $this->send_cmd('AUTH', '334' ) )
+            {
+                /* if sending username ok */
+                if ( $this->send_cmd( base64_encode( $this->user ), '334' ) )
+                {
+                    /* if sending password ok */
+                    if ( $this->send_cmd( base64_encode( $this->pass ), '235' ) )
+                    {
+                        /* set the authenticated  flag and return TRUE */
+                        $this->authenticated = TRUE;
+                         return TRUE;
+                    }
+                }
+            }
+            /* in other case return FALSE */
             return FALSE;
         }
 
@@ -258,12 +258,12 @@
 
         function mail( $from )
         {
-    		/* normalize the from field */
-    		if ( !preg_match( "/<.+>/", $from ) )
-    			$from = '<' . $from .'>';
-    		
-    		/* return the result of the MAIL FROM command */
-    		return ( $this->send_cmd('MAIL FROM:' . $from . '', '250' ) );
+            /* normalize the from field */
+            if ( !preg_match( "/<.+>/", $from ) )
+                $from = '<' . $from .'>';
+            
+            /* return the result of the MAIL FROM command */
+            return ( $this->send_cmd('MAIL FROM:' . $from . '', '250' ) );
         }
 
         /***************************************
@@ -272,12 +272,12 @@
 
         function rcpt( $to )
         {
-    		/* normalize the to field */
-    		if ( !preg_match( "/<.+>/", $to ) )
-    			$to = '<' . $to .'>';
-    			
-    		/* return the result of the RCPT TO command */
-    		return ( $this->send_cmd( 'RCPT TO:' . $to . '', '250' ) );
+            /* normalize the to field */
+            if ( !preg_match( "/<.+>/", $to ) )
+                $to = '<' . $to .'>';
+                
+            /* return the result of the RCPT TO command */
+            return ( $this->send_cmd( 'RCPT TO:' . $to . '', '250' ) );
         }
 
 
@@ -348,29 +348,29 @@
             $this->$var = $value;
             return TRUE;
         }
-	
+    
         /********************************************************
         ** Function to simply send a command to the smtp socket
         *********************************************************/
         function send_cmd( $msg, $answer )
         {
-    		/* if the connection is made */
-    		if ( $error = is_resource( $this->connection ) )
-    		{
-    			/* if sending DATA ok */
-    			if ( $error = $this->send_data( $msg ) )
-    			{
-    				/* Wait for server answer */
-    				$error = $this->get_data();
-    			
-    				/* return TRUE if the server answered the expected tag */
-    				if( substr( trim( $error ), 0, 3 ) === $answer )
-    				{
-    					return TRUE;
-    				}
-    			}
-    		}
-    		/* else return FALSE and set an error */
+            /* if the connection is made */
+            if ( $error = is_resource( $this->connection ) )
+            {
+                /* if sending DATA ok */
+                if ( $error = $this->send_data( $msg ) )
+                {
+                    /* Wait for server answer */
+                    $error = $this->get_data();
+                
+                    /* return TRUE if the server answered the expected tag */
+                    if( substr( trim( $error ), 0, 3 ) === $answer )
+                    {
+                        return TRUE;
+                    }
+                }
+            }
+            /* else return FALSE and set an error */
             $this->errors[] = $msg . ' command failed, output: ' . $error;
             return FALSE;
         }

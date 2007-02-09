@@ -368,7 +368,7 @@ class eZINI
 
         $loadCache = false;
         $cacheTime = false;
-		$fileInfo = @stat( $cachedFile );
+        $fileInfo = @stat( $cachedFile );
         if ( $fileInfo )
         {
             $cacheTime = $fileInfo['mtime'];

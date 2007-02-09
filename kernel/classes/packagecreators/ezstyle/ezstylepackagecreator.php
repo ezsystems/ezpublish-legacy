@@ -51,15 +51,15 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $steps[] = $this->packageThumbnailStep();
         $steps[] = array( 'id' => 'cssfile',
                           'name' => ezi18n( 'kernel/package', 'CSS files' ),
-						  'methods' => array( 'initialize' => 'initializeCSSFile',
-						                      'validate' => 'validateCSSFile',
-											  'commit' => 'commitCSSFile' ),
+                          'methods' => array( 'initialize' => 'initializeCSSFile',
+                                              'validate' => 'validateCSSFile',
+                                              'commit' => 'commitCSSFile' ),
                           'template' => 'cssfile.tpl' );
         $steps[] = array( 'id' => 'imagefiles',
                           'name' => ezi18n( 'kernel/package', 'Image files' ),
-						  'methods' => array( 'initialize' => 'initializeImageFiles',
-						                      'validate' => 'validateImageFiles',
-											  'commit' => 'commitImageFiles' ),
+                          'methods' => array( 'initialize' => 'initializeImageFiles',
+                                              'validate' => 'validateImageFiles',
+                                              'commit' => 'commitImageFiles' ),
                           'template' => 'imagefiles.tpl' );
         $steps[] = $this->packageInformationStep();
         $steps[] = $this->packageMaintainerStep();
@@ -72,11 +72,11 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function finalize( &$package, &$http, &$persistentData )
     {
         $cleanupFiles = array();
-		$this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
+        $this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
         $collections = array();
 
-		$siteCssfile = $persistentData['sitecssfile'];
+        $siteCssfile = $persistentData['sitecssfile'];
         $fileItem = array( 'file' => $siteCssfile['filename'],
                            'type' => 'file',
                            'role' => false,
@@ -184,10 +184,10 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'sitestyle'.
     */
-	function packageType( &$package, &$persistentData )
-	{
-	    return 'sitestyle';
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        return 'sitestyle';
+    }
 
 
     function initializeCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
@@ -239,7 +239,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         eZMimeType::changeDirectoryPath( $classesMimeData, $dir );
         $classesFile->store( false, false, $classesMimeData );
         $persistentData['classescssfile'] = $classesMimeData;
-	}
+    }
 
     function initializeImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
     {
@@ -274,25 +274,25 @@ class eZStylePackageCreator extends eZPackageCreationHandler
 
     function commitImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-	}
+    }
 
     /*!
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-	function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
-	{
+    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    {
         $cssfile = $persistentData['sitecssfile'];
         if ( $cssfile )
             $cssfile = $persistentData['classescssfile'];
 
-		if ( $cssfile )
-		{
+        if ( $cssfile )
+        {
             $packageInformation['name'] = $cssfile['basename'];
-			$packageInformation['summary'] = $cssfile['basename'] . ' site style';
-			$packageInformation['description'] = 'A site style called ' . $cssfile['basename'];
-		}
-	}
+            $packageInformation['summary'] = $cssfile['basename'] . ' site style';
+            $packageInformation['description'] = 'A site style called ' . $cssfile['basename'];
+        }
+    }
 }
 
 ?>

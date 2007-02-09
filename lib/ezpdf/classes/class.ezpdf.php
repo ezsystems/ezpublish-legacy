@@ -41,15 +41,15 @@ include_once( 'lib/ezpdf/classes/class.pdf.php' );
 class Cezpdf extends Cpdf
 {
 
-    var $ez=array('fontSize'=>10); // used for storing most of the page configuration parameters
+    var $ez = array( 'fontSize' => 10 ); // used for storing most of the page configuration parameters
     var $y; // this is the current vertical positon on the page of the writing point, very important
-    var $ezPages=array(); // keep an array of the ids of the pages, making it easy to go back and add page numbers etc.
-    var $ezPageCount=0;
-
+    var $ezPages = array(); // keep an array of the ids of the pages, making it easy to go back and add page numbers etc.
+    var $ezPageCount = 0;
 
 // ------------------------------------------------------------------------------
 
-    function Cezpdf($paper='a4',$orientation='portrait'){
+    function Cezpdf( $paper = 'a4', $orientation = 'portrait' )
+    {
         // Assuming that people don't want to specify the paper size using the absolute coordinates
         // allow a couple of options:
         // orientation can be 'portrait' or 'landscape'
@@ -64,8 +64,10 @@ class Cezpdf extends Cpdf
         // Now you may also pass a 2 values array containing the page width and height in centimeters
         // -------------------------
 
-        if (!is_array($paper)){
-            switch (strtoupper($paper)){
+        if ( !is_array( $paper ) )
+        {
+            switch ( strtoupper( $paper ) )
+            {
                 case '4A0': {$size = array(0,0,4767.87,6740.79); break;}
                 case '2A0': {$size = array(0,0,3370.39,4767.87); break;}
                 case 'A0': {$size = array(0,0,2383.94,3370.39); break;}
@@ -116,26 +118,30 @@ class Cezpdf extends Cpdf
                 case 'EXECUTIVE': {$size = array(0,0,521.86,756.00); break;}
                 case 'FOLIO': {$size = array(0,0,612.00,936.00); break;}
             }
-            switch (strtolower($orientation)){
+            switch ( strtolower( $orientation ) )
+            {
                 case 'landscape':
                     $a=$size[3];
-				$size[3]=$size[2];
-				$size[2]=$a;
-				break;
+                    $size[3]=$size[2];
+                    $size[2]=$a;
+                break;
             }
-        } else {
-            if (count($paper)>2) {
-                // then an array was sent it to set the size
+        }
+        else
+        {
+            if ( count( $paper ) > 2 )
+            {   // then an array was sent it to set the size
                 $size = $paper;
             }
-            else { //size in centimeters has been passed
+            else
+            {   //size in centimeters has been passed
                 $size[0] = 0;
                 $size[1] = 0;
                 $size[2] = ( $paper[0] / 2.54 ) * 72;
                 $size[3] = ( $paper[1] / 2.54 ) * 72;
             }
         }
-        $this->Cpdf($size);
+        $this->Cpdf( $size );
         $this->ez['pageWidth']=$size[2];
         $this->ez['pageHeight']=$size[3];
 
@@ -162,12 +168,13 @@ class Cezpdf extends Cpdf
 // ------------------------------------------------------------------------------
 // 2002-07-24: Nicola Asuni (info@tecnick.com)
 // Set Margins in centimeters
-    function ezSetCmMargins($top,$bottom,$left,$right){
+    function ezSetCmMargins( $top, $bottom, $left, $right )
+    {
         $top = ( $top / 2.54 ) * 72;
         $bottom = ( $bottom / 2.54 ) * 72;
         $left = ( $left / 2.54 ) * 72;
         $right = ( $right / 2.54 ) * 72;
-        $this->ezSetMargins($top,$bottom,$left,$right);
+        $this->ezSetMargins( $top, $bottom, $left, $right );
     }
 
 // ------------------------------------------------------------------------------
@@ -192,7 +199,7 @@ class Cezpdf extends Cpdf
 // 2003-11-06 Kåre Køhler Høvik ( eZ systems, http://ez.no )
 // Get justification
 
-    function justification( )
+    function justification()
     {
         return $this->ez['justification'];
     }
@@ -201,108 +208,125 @@ class Cezpdf extends Cpdf
 // 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
 // Get fontsize
 
-    function fontSize( )
+    function fontSize()
     {
         return $this->ez['fontSize'];
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezColumnsStart($options=array()){
+    function ezColumnsStart( $options = array() )
+    {
         // start from the current y-position, make the set number of columne
-        if (isset($this->ez['columns']) && $this->ez['columns']==1){
-            // if we are already in a column mode then just return.
+        if ( isset( $this->ez['columns'] ) && $this->ez['columns'] == 1 )
+        {   // if we are already in a column mode then just return.
             return;
         }
-        $def=array('gap'=>10,'num'=>2);
-        foreach($def as $k=>$v){
-            if (!isset($options[$k])){
-                $options[$k]=$v;
+        $def = array( 'gap'=>10, 'num'=>2 );
+        foreach( $def as $k => $v )
+        {
+            if ( !isset( $options[$k] ) )
+            {
+                $options[$k] = $v;
             }
         }
         // setup the columns
-        $this->ez['columns']=array('on'=>1,'colNum'=>1);
+        $this->ez['columns'] = array( 'on' => 1, 'colNum' => 1 );
 
         // store the current margins
-        $this->ez['columns']['margins']=array(
-            $this->ez['leftMargin']
-            ,$this->ez['rightMargin']
-            ,$this->ez['topMargin']
-            ,$this->ez['bottomMargin']
-            );
+        $this->ez['columns']['margins'] = array( $this->ez['leftMargin'],
+                                                 $this->ez['rightMargin'],
+                                                 $this->ez['topMargin'],
+                                                 $this->ez['bottomMargin'] );
         // and store the settings for the columns
-        $this->ez['columns']['options']=$options;
+        $this->ez['columns']['options'] = $options;
         // then reset the margins to suit the new columns
         // safe enough to assume the first column here, but start from the current y-position
-        $this->ez['topMargin']=$this->ez['pageHeight']-$this->y;
-        $width=($this->ez['pageWidth']-$this->ez['leftMargin']-$this->ez['rightMargin']-($options['num']-1)*$options['gap'])/$options['num'];
-        $this->ez['columns']['width']=$width;
-        $this->ez['rightMargin']=$this->ez['pageWidth']-$this->ez['leftMargin']-$width;
+        $this->ez['topMargin'] = $this->ez['pageHeight']-$this->y;
+        $width = ( $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'] - ( $options['num'] - 1 ) * $options['gap'] ) / $options['num'];
+        $this->ez['columns']['width'] = $width;
+        $this->ez['rightMargin'] = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $width;
 
     }
 // ------------------------------------------------------------------------------
-    function ezColumnsStop(){
-        if (isset($this->ez['columns']) && $this->ez['columns']['on']==1){
-            $this->ez['columns']['on']=0;
-            $this->ez['leftMargin']=$this->ez['columns']['margins'][0];
-            $this->ez['rightMargin']=$this->ez['columns']['margins'][1];
-            $this->ez['topMargin']=$this->ez['columns']['margins'][2];
-            $this->ez['bottomMargin']=$this->ez['columns']['margins'][3];
+    function ezColumnsStop()
+    {
+        if ( isset( $this->ez['columns'] ) && $this->ez['columns']['on']==1 )
+        {
+            $this->ez['columns']['on'] = 0;
+            $this->ez['leftMargin'] = $this->ez['columns']['margins'][0];
+            $this->ez['rightMargin'] = $this->ez['columns']['margins'][1];
+            $this->ez['topMargin'] = $this->ez['columns']['margins'][2];
+            $this->ez['bottomMargin'] = $this->ez['columns']['margins'][3];
         }
     }
 // ------------------------------------------------------------------------------
-    function ezInsertMode($status=1,$pageNum=1,$pos='before'){
+    function ezInsertMode( $status = 1, $pageNum = 1, $pos = 'before' )
+    {
         // puts the document into insert mode. new pages are inserted until this is re-called with status=0
         // by default pages wil be inserted at the start of the document
-        switch($status){
+        switch ( $status )
+        {
             case '1':
-                if (isset($this->ezPages[$pageNum])){
-                    $this->ez['insertMode']=1;
-                    $this->ez['insertOptions']=array('id'=>$this->ezPages[$pageNum],'pos'=>$pos);
-                }
-                break;
+                if ( isset( $this->ezPages[$pageNum] ) )
+                {
+                    $this->ez['insertMode'] = 1;
+                    $this->ez['insertOptions'] = array( 'id' => $this->ezPages[$pageNum],
+                                                        'pos' => $pos );
+                } break;
             case '0':
-                $this->ez['insertMode']=0;
-            break;
+                $this->ez['insertMode'] = 0;
+                break;
         }
     }
 // ------------------------------------------------------------------------------
 
-    function ezNewPage(){
-        $pageRequired=1;
-        if (isset($this->ez['columns']) && $this->ez['columns']['on']==1){
+    function ezNewPage()
+    {
+        $pageRequired = 1;
+        if ( isset( $this->ez['columns'] ) && $this->ez['columns']['on'] == 1 )
+        {
             // check if this is just going to a new column
             // increment the column number
 
             $this->ez['columns']['colNum']++;
-            if ($this->ez['columns']['colNum'] <= $this->ez['columns']['options']['num']){
+            if ( $this->ez['columns']['colNum'] <= $this->ez['columns']['options']['num'] )
+            {
                 // then just reset to the top of the next column
                 $pageRequired=0;
-            } else {
-                $this->ez['columns']['colNum']=1;
-                $this->ez['topMargin']=$this->ez['columns']['margins'][2];
+            }
+            else
+            {
+                $this->ez['columns']['colNum'] = 1;
+                $this->ez['topMargin'] = $this->ez['columns']['margins'][2];
             }
 
             $width = $this->ez['columns']['width'];
-            $this->ez['leftMargin']=$this->ez['columns']['margins'][0]+($this->ez['columns']['colNum']-1)*($this->ez['columns']['options']['gap']+$width);
-            $this->ez['rightMargin']=$this->ez['pageWidth']-$this->ez['leftMargin']-$width;
+            $this->ez['leftMargin'] = $this->ez['columns']['margins'][0] + ( $this->ez['columns']['colNum'] - 1 ) * ( $this->ez['columns']['options']['gap'] + $width );
+            $this->ez['rightMargin'] = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $width;
         }
 
-        if ($pageRequired){
+        if ( $pageRequired )
+        {
             // make a new page, setting the writing point back to the top
             $this->y = $this->ez['pageHeight']-$this->ez['topMargin'] - $this->getFontHeight();
             $this->ez['xOffset'] = 0;
             // make the new page with a call to the basic class.
             $this->ezPageCount++;
-            if (isset($this->ez['insertMode']) && $this->ez['insertMode']==1){
-                $id = $this->ezPages[$this->ezPageCount] = $this->newPage(1,$this->ez['insertOptions']['id'],$this->ez['insertOptions']['pos']);
+            if ( isset( $this->ez['insertMode'] ) && $this->ez['insertMode'] == 1 )
+            {
+                $id = $this->ezPages[$this->ezPageCount] = $this->newPage( 1, $this->ez['insertOptions']['id'], $this->ez['insertOptions']['pos'] );
                 // then manipulate the insert options so that inserted pages follow each other
-                $this->ez['insertOptions']['id']=$id;
-                $this->ez['insertOptions']['pos']='after';
-            } else {
+                $this->ez['insertOptions']['id'] = $id;
+                $this->ez['insertOptions']['pos'] = 'after';
+            }
+            else
+            {
                 $this->ezPages[$this->ezPageCount] = $this->newPage();
             }
-        } else {
+        }
+        else
+        {
             $this->y = $this->ez['pageHeight']-$this->ez['topMargin'] - $this->getFontHeight();
             $this->ez['xOffset'] = 0;
         }
@@ -312,21 +336,24 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezSetMargins($top,$bottom,$left,$right){
+    function ezSetMargins( $top, $bottom, $left, $right )
+    {
         // sets the margins to new values
-        $this->ez['topMargin']=$top;
-        $this->ez['bottomMargin']=$bottom;
-        $this->ez['leftMargin']=$left;
-        $this->ez['rightMargin']=$right;
+        $this->ez['topMargin'] = $top;
+        $this->ez['bottomMargin'] = $bottom;
+        $this->ez['leftMargin'] = $left;
+        $this->ez['rightMargin'] = $right;
         $this->LeftMarginArray = array();
         $this->RightMarginArray = array();
         // check to see if this means that the current writing position is outside the
         // writable area
-        if ($this->y > $this->ez['pageHeight']-$top){
+        if ( $this->y > $this->ez['pageHeight'] - $top )
+        {
             // then move y down
-            $this->ezSetY( $this->ez['pageHeight']-$top );
+            $this->ezSetY( $this->ez['pageHeight'] - $top );
         }
-        if ( $this->y < $bottom){
+        if ( $this->y < $bottom )
+        {
             // then make a new page
             $this->ezNewPage();
         }
@@ -334,14 +361,16 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezGetCurrentPageNumber(){
+    function ezGetCurrentPageNumber()
+    {
         // return the strict numbering (1,2,3,4..) number of the current page
         return $this->ezPageCount;
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezStartPageNumbers($x,$y,$size,$pos='left',$pattern='{PAGENUM} of {TOTALPAGENUM}',$num=''){
+    function ezStartPageNumbers( $x, $y, $size, $pos = 'left', $pattern = '{PAGENUM} of {TOTALPAGENUM}', $num = '' )
+    {
         // put page numbers on the pages from here.
         // place then on the 'pos' side of the coordinates (x,y).
         // pos can be 'left' or 'right'
@@ -351,46 +380,56 @@ class Cezpdf extends Cpdf
         // be adjusted to account for this.
         // Adjust this function so that each time you 'start' page numbers then you effectively start a different batch
         // return the number of the batch, so that they can be stopped in a different order if required.
-        if (!$pos || !strlen($pos)){
+        if ( !$pos || !strlen( $pos ) )
+        {
             $pos='left';
         }
-        if (!$pattern || !strlen($pattern)){
-            $pattern='{PAGENUM} of {TOTALPAGENUM}';
+        if ( !$pattern || !strlen( $pattern ) )
+        {
+            $pattern = '{PAGENUM} of {TOTALPAGENUM}';
         }
-        if (!isset($this->ez['pageNumbering'])){
-            $this->ez['pageNumbering']=array();
+        if ( !isset( $this->ez['pageNumbering'] ) )
+        {
+            $this->ez['pageNumbering'] = array();
         }
-        $i = count($this->ez['pageNumbering']);
-        $this->ez['pageNumbering'][$i][$this->ezPageCount]=array('x'=>$x,'y'=>$y,'pos'=>$pos,'pattern'=>$pattern,'num'=>$num,'size'=>$size);
+        $i = count( $this->ez['pageNumbering'] );
+        $this->ez['pageNumbering'][$i][$this->ezPageCount] = array( 'x' => $x, 'y' => $y, 'pos' => $pos, 'pattern' => $pattern, 'num' => $num, 'size' => $size );
         return $i;
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezWhatPageNumber($pageNum,$i=0){
+    function ezWhatPageNumber( $pageNum, $i = 0 )
+    {
         // given a particular generic page number (ie, document numbered sequentially from beginning),
         // return the page number under a particular page numbering scheme ($i)
-        $num=0;
-        $start=1;
-        $startNum=1;
-        if (!isset($this->ez['pageNumbering']))
+        $num = 0;
+        $start = 1;
+        $startNum = 1;
+        if ( !isset( $this->ez['pageNumbering'] ) )
         {
-            $this->addMessage('WARNING: page numbering called for and wasn\'t started with ezStartPageNumbers');
+            $this->addMessage( 'WARNING: page numbering called for and wasn\'t started with ezStartPageNumbers' );
             return 0;
         }
-        foreach($this->ez['pageNumbering'][$i] as $k=>$v){
-            if ($k<=$pageNum){
-                if (is_array($v)){
+        foreach ( $this->ez['pageNumbering'][$i] as $k => $v )
+        {
+            if ( $k <= $pageNum )
+            {
+                if ( is_array( $v ) )
+                {
                     // start block
-                    if (strlen($v['num'])){
+                    if ( strlen( $v['num'] ) )
+                    {
                         // a start was specified
-                        $start=$v['num'];
-                        $startNum=$k;
-                        $num=$pageNum-$startNum+$start;
+                        $start = $v['num'];
+                        $startNum = $k;
+                        $num = $pageNum - $startNum + $start;
                     }
-                } else {
+                }
+                else
+                {
                     // stop block
-                    $num=0;
+                    $num = 0;
                 }
             }
         }
@@ -399,43 +438,63 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezStopPageNumbers($stopTotal=0,$next=0,$i=0){
+    function ezStopPageNumbers( $stopTotal = 0, $next = 0, $i = 0 )
+    {
         // if stopTotal=1 then the totalling of pages for this number will stop too
         // if $next=1, then do this page, but not the next, else do not do this page either
         // if $i is set, then stop that particular pagenumbering sequence.
-        if (!isset($this->ez['pageNumbering'])){
-            $this->ez['pageNumbering']=array();
+        if ( !isset( $this->ez['pageNumbering'] ) )
+        {
+            $this->ez['pageNumbering'] = array();
         }
-        if ($next && isset($this->ez['pageNumbering'][$i][$this->ezPageCount]) && is_array($this->ez['pageNumbering'][$i][$this->ezPageCount])){
+        if ( $next && isset( $this->ez['pageNumbering'][$i][$this->ezPageCount] ) &&
+             is_array( $this->ez['pageNumbering'][$i][$this->ezPageCount] ) )
+        {
             // then this has only just been started, this will over-write the start, and nothing will appear
             // add a special command to the start block, telling it to stop as well
-            if ($stopTotal){
-                $this->ez['pageNumbering'][$i][$this->ezPageCount]['stoptn']=1;
-            } else {
-                $this->ez['pageNumbering'][$i][$this->ezPageCount]['stopn']=1;
+            if ( $stopTotal )
+            {
+                $this->ez['pageNumbering'][$i][$this->ezPageCount]['stoptn'] = 1;
             }
-        } else {
-            if ($stopTotal){
-                $this->ez['pageNumbering'][$i][$this->ezPageCount]='stopt';
-            } else {
-                $this->ez['pageNumbering'][$i][$this->ezPageCount]='stop';
+            else
+            {
+                $this->ez['pageNumbering'][$i][$this->ezPageCount]['stopn'] = 1;
             }
-            if ($next){
-                $this->ez['pageNumbering'][$i][$this->ezPageCount].='n';
+        }
+        else
+        {
+            if ( $stopTotal )
+            {
+                $this->ez['pageNumbering'][$i][$this->ezPageCount] = 'stopt';
+            }
+            else
+            {
+                $this->ez['pageNumbering'][$i][$this->ezPageCount] = 'stop';
+            }
+            if ( $next )
+            {
+                $this->ez['pageNumbering'][$i][$this->ezPageCount] .= 'n';
             }
         }
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezPRVTpageNumberSearch($lbl,&$tmp){
-        foreach($tmp as $i=>$v){
-            if (is_array($v)){
-                if (isset($v[$lbl])){
+    function ezPRVTpageNumberSearch( $lbl, &$tmp )
+    {
+        foreach ( $tmp as $i => $v )
+        {
+            if ( is_array( $v ) )
+            {
+                if ( isset( $v[$lbl] ) )
+                {
                     return $i;
                 }
-            } else {
-                if ($v==$lbl){
+            }
+            else
+            {
+                if ( $v == $lbl )
+                {
                     return $i;
                 }
             }
@@ -445,69 +504,92 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezPRVTaddPageNumbers(){
+    function ezPRVTaddPageNumbers()
+    {
         // this will go through the pageNumbering array and add the page numbers are required
-        if (isset($this->ez['pageNumbering'])){
+        if ( isset( $this->ez['pageNumbering'] ) )
+        {
             $totalPages1 = $this->ezPageCount;
-            $tmp1=$this->ez['pageNumbering'];
-            $status=0;
-            foreach($tmp1 as $i=>$tmp){
+            $tmp1 = $this->ez['pageNumbering'];
+            $status = 0;
+            foreach ( $tmp1 as $i => $tmp )
+            {
                 // do each of the page numbering systems
                 // firstly, find the total pages for this one
-                $k = $this->ezPRVTpageNumberSearch('stopt',$tmp);
-                if ($k && $k>0){
-                    $totalPages = $k-1;
-                } else {
-                    $l = $this->ezPRVTpageNumberSearch('stoptn',$tmp);
-                    if ($l && $l>0){
+                $k = $this->ezPRVTpageNumberSearch( 'stopt', $tmp );
+                if ( $k && $k > 0 )
+                {
+                    $totalPages = $k - 1;
+                }
+                else
+                {
+                    $l = $this->ezPRVTpageNumberSearch( 'stoptn', $tmp );
+                    if ( $l && $l > 0 )
+                    {
                         $totalPages = $l;
-                    } else {
+                    }
+                    else
+                    {
                         $totalPages = $totalPages1;
                     }
                 }
-                foreach ($this->ezPages as $pageNum=>$id){
-                    if (isset($tmp[$pageNum])){
-                        if (is_array($tmp[$pageNum])){
+                foreach ( $this->ezPages as $pageNum => $id )
+                {
+                    if ( isset( $tmp[$pageNum] ) )
+                    {
+                        if ( is_array( $tmp[$pageNum] ) )
+                        {
                             // then this must be starting page numbers
-                            $status=1;
+                            $status = 1;
                             $info = $tmp[$pageNum];
-                            $info['dnum']=$info['num']-$pageNum;
+                            $info['dnum'] = $info['num'] - $pageNum;
                             // also check for the special case of the numbering stopping and starting on the same page
-                            if (isset($info['stopn']) || isset($info['stoptn']) ){
-                                $status=2;
+                            if ( isset( $info['stopn'] ) || isset( $info['stoptn'] ) )
+                            {
+                                $status = 2;
                             }
-                        } else if ($tmp[$pageNum]=='stop' || $tmp[$pageNum]=='stopt'){
+                        }
+                        else if ( $tmp[$pageNum] == 'stop' || $tmp[$pageNum] == 'stopt' )
+                        {
                             // then we are stopping page numbers
-                            $status=0;
-                        } else if ($status==1 && ($tmp[$pageNum]=='stoptn' || $tmp[$pageNum]=='stopn')){
+                            $status = 0;
+                        }
+                        else if ( $status == 1 && ( $tmp[$pageNum] == 'stoptn' || $tmp[$pageNum] == 'stopn' ) )
+                        {
                             // then we are stopping page numbers
-                            $status=2;
+                            $status = 2;
                         }
                     }
-                    if ($status){
+                    if ( $status )
+                    {
                         // then add the page numbering to this page
-                        if (strlen($info['num'])){
-                            $num=$pageNum+$info['dnum'];
-                        } else {
-                            $num=$pageNum;
+                        if ( strlen( $info['num'] ) )
+                        {
+                            $num = $pageNum + $info['dnum'];
                         }
-                        $total = $totalPages+$num-$pageNum;
-                        $pat = str_replace('{PAGENUM}',$num,$info['pattern']);
-                        $pat = str_replace('{TOTALPAGENUM}',$total,$pat);
-                        $this->reopenObject($id);
-                        switch($info['pos']){
+                        else
+                        {
+                            $num = $pageNum;
+                        }
+                        $total = $totalPages + $num - $pageNum;
+                        $pat = str_replace( '{PAGENUM}', $num, $info['pattern'] );
+                        $pat = str_replace( '{TOTALPAGENUM}', $total, $pat );
+                        $this->reopenObject( $id );
+                        switch ( $info['pos'] )
+                        {
                             case 'right':
-                                $this->addText($info['x'],$info['y'],$info['size'],$pat);
-                            break;
+                                $this->addText( $info['x'], $info['y'], $info['size'], $pat );
+                                break;
                             default:
-                                $w=$this->getTextWidth($info['size'],$pat);
-                            $this->addText($info['x']-$w,$info['y'],$info['size'],$pat);
-                            break;
+                                $w = $this->getTextWidth( $info['size'], $pat );
+                                $this->addText( $info['x'] - $w, $info['y'], $info['size'], $pat );
+                                break;
                         }
                         $this->closeObject();
                     }
-                    if ($status==2){
-                        $status=0;
+                    if ( $status == 2 )
+                    {
+                        $status = 0;
                     }
                 }
             }
@@ -516,31 +598,36 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezPRVTcleanUp(){
+    function ezPRVTcleanUp()
+    {
         $this->ezPRVTaddPageNumbers();
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezStream($options=''){
+    function ezStream( $options = '' )
+    {
         $this->ezPRVTcleanUp();
-        $this->stream($options);
+        $this->stream( $options );
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezOutput($options=0){
+    function ezOutput( $options = 0 )
+    {
         $this->ezPRVTcleanUp();
-        return $this->output($options);
+        return $this->output( $options );
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezSetY($y){
+    function ezSetY( $y )
+    {
         // used to change the vertical position of the writing point.
         $this->y = $y;
         $this->ez['xOffset'] = 0;
-        if ( $this->y < $this->ez['bottomMargin']){
+        if ( $this->y < $this->ez['bottomMargin'] )
+        {
             // then make a new page
             $this->ezNewPage();
         }
@@ -548,7 +635,8 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezSetDy($dy,$mod=''){
+    function ezSetDy( $dy, $mod = '' )
+    {
         // used to change the vertical position of the writing point.
         // changes up by a positive increment, so enter a negative number to go
         // down the page
@@ -556,10 +644,12 @@ class Cezpdf extends Cpdf
         // down on the new page, this will allow space to be reserved for graphics etc.
         $this->y += $dy;
         $this->ez['xOffset'] = 0;
-        if ( $this->y < $this->ez['bottomMargin']){
+        if ( $this->y < $this->ez['bottomMargin'] )
+        {
             // then make a new page
             $this->ezNewPage();
-            if ($mod=='makeSpace'){
+            if ( $mod == 'makeSpace' )
+            {
                 $this->y += $dy;
             }
         }
@@ -567,49 +657,65 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
 
-    function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
-        $x0=1000;
-        $x1=0;
-        $this->setStrokeColorRGB($col[0],$col[1],$col[2]);
-        $cnt=0;
-        $n = count($pos);
-        foreach($pos as $x){
+    function ezPrvtTableDrawLines( $pos, $gap, $x0, $x1, $y0, $y1, $y2, $col, $inner, $outer, $opt = 1 )
+    {
+        $x0 = 1000;
+        $x1 = 0;
+        $this->setStrokeColorRGB( $col[0], $col[1], $col[2] );
+        $cnt = 0;
+        $n = count( $pos );
+        foreach ( $pos as $x )
+        {
             $cnt++;
-            if ($cnt==1 || $cnt==$n){
-                $this->setLineStyle($outer);
-            } else {
-                $this->setLineStyle($inner);
+            if ( $cnt == 1 || $cnt == $n )
+            {
+                $this->setLineStyle( $outer );
             }
-            $this->line($x-$gap/2,$y0,$x-$gap/2,$y2);
-            if ($x>$x1){ $x1=$x; };
-            if ($x<$x0){ $x0=$x; };
+            else
+            {
+                $this->setLineStyle( $inner );
+            }
+            $this->line( $x - $gap / 2, $y0, $x - $gap / 2, $y2 );
+            if ( $x > $x1 )
+            {
+                $x1 = $x;
+            }
+            if ( $x < $x0 )
+            {
+                $x0 = $x;
+            }
         }
-        $this->setLineStyle($outer);
-        $this->line($x0-$gap/2-$outer/2,$y0,$x1-$gap/2+$outer/2,$y0);
+        $this->setLineStyle( $outer );
+        $this->line( $x0 - $gap / 2 - $outer / 2, $y0, $x1 - $gap / 2 + $outer / 2, $y0 );
         // only do the second line if it is different to the first, AND each row does not have
         // a line on it.
-        if ($y0!=$y1 && $opt<2){
-            $this->line($x0-$gap/2,$y1,$x1-$gap/2,$y1);
+        if ( $y0 != $y1 && $opt < 2 )
+        {
+            $this->line( $x0 - $gap / 2, $y1, $x1 - $gap / 2, $y1 );
         }
-        $this->line($x0-$gap/2-$outer/2,$y2,$x1-$gap/2+$outer/2,$y2);
+        $this->line( $x0 - $gap / 2 - $outer / 2, $y2, $x1 - $gap / 2 + $outer / 2, $y2 );
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezPrvtTableColumnHeadings($cols,$pos,$maxWidth,$height,$decender,$gap,$size,&$y,$optionsAll=array()){
+    function ezPrvtTableColumnHeadings( $cols, $pos, $maxWidth, $height, $decender, $gap, $size, &$y, $optionsAll = array() )
+    {
         // uses ezText to add the text, and returns the height taken by the largest heading
         // this page will move the headings to a new page if they will not fit completely on this one
         // transaction support will be used to implement this
 
-        if (isset($optionsAll['cols'])){
+        if ( isset( $optionsAll['cols'] ) )
+        {
             $options = $optionsAll['cols'];
-        } else {
+        }
+        else
+        {
             $options = array();
         }
 
-        $mx=0;
+        $mx = 0;
         $startPage = $this->ezPageCount;
-        $secondGo=0;
+        $secondGo = 0;
 
         // $y is the position at which the top of the table should start, so the base
         // of the first text, is $y-$height-$gap-$decender, but ezText starts by dropping $height
@@ -618,22 +724,28 @@ class Cezpdf extends Cpdf
         // to be the postion of the bottom line
 
         // begin the transaction
-        $this->transaction('start');
-        $ok=0;
+        $this->transaction( 'start' );
+        $ok = 0;
 //  $y-=$gap-$decender;
-        $y-=$gap;
-        while ($ok==0){
-            foreach($cols as $colName=>$colHeading){
-                $this->ezSetY($y);
-                if (isset($options[$colName]) && isset($options[$colName]['justification'])){
+        $y -= $gap;
+        while ( $ok == 0 )
+        {
+            foreach ( $cols as $colName => $colHeading )
+            {
+                $this->ezSetY( $y );
+                if ( isset( $options[$colName] ) && isset( $options[$colName]['justification'] ) )
+                {
                     $justification = $options[$colName]['justification'];
-                } else {
+                }
+                else
+                {
                     $justification = $this->ez['justification'];
                 }
 //                $this->ezText($colHeading,$size,array('aleft'=> $pos[$colName],'aright'=>($maxWidth[$colName]+$pos[$colName]),'justification'=>$justification));
-                $dy = $y-$this->y;
-                if ($dy>$mx){
-                    $mx=$dy;
+                $dy = $y - $this->y;
+                if ( $dy > $mx )
+                {
+                    $mx = $dy;
                 }
             }
             $y = $y - $mx - $gap + $decender;
@@ -641,22 +753,24 @@ class Cezpdf extends Cpdf
 
             // now, if this has moved to a new page, then abort the transaction, move to a new page, and put it there
             // do not check on the second time around, to avoid an infinite loop
-            if ($this->ezPageCount != $startPage && $secondGo==0){
-                $this->transaction('rewind');
+            if ( $this->ezPageCount != $startPage && $secondGo == 0 )
+            {
+                $this->transaction( 'rewind' );
                 $this->ezNewPage();
-                $y = $this->y - $gap-$decender;
-                $ok=0;
-                $secondGo=1;
+                $y = $this->y - $gap - $decender;
+                $ok = 0;
+                $secondGo = 1;
 //      $y = $store_y;
-                $mx=0;
-
-            } else {
-                $this->transaction('commit');
-                $ok=1;
+                $mx = 0;
+            }
+            else
+            {
+                $this->transaction( 'commit' );
+                $ok = 1;
             }
         }
 
-        return $mx+$gap*2-$decender;
+        return $mx + $gap * 2 - $decender;
     }
 
 // ------------------------------------------------------------------------------
@@ -685,15 +799,18 @@ class Cezpdf extends Cpdf
         return $mx;
     }
 
-    function ezPrvtGetTextWidth($size,$text){
+    function ezPrvtGetTextWidth( $size, $text )
+    {
         // will calculate the maximum width, taking into account that the text may be broken
         // by line breaks.
-        $mx=0;
-        $lines = explode("\n",$text);
-        foreach ($lines as $line){
-            $w = $this->getTextWidth($size,$line);
-            if ($w>$mx){
-                $mx=$w;
+        $mx = 0;
+        $lines = explode( "\n", $text );
+        foreach ( $lines as $line )
+        {
+            $w = $this->getTextWidth( $size, $line );
+            if ( $w > $mx )
+            {
+                $mx = $w;
             }
         }
         return $mx;
@@ -724,17 +841,19 @@ class Cezpdf extends Cpdf
     }
 
 // ------------------------------------------------------------------------------
-    function ezProcessText($text){
+    function ezProcessText( $text )
+    {
         // this function will intially be used to implement underlining support, but could be used for a range of other
         // purposes
-        $search = array('<u>','<U>','</u>','</U>');
-        $replace = array('<c:uline>','<c:uline>','</c:uline>','</c:uline>');
-        return str_replace($search,$replace,$text);
+        $search = array( '<u>', '<U>', '</u>', '</U>' );
+        $replace = array( '<c:uline>', '<c:uline>', '</c:uline>', '</c:uline>' );
+        return str_replace( $search, $replace, $text );
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezText($text,$size=0,$options=array(),$test=0){
+    function ezText( $text, $size = 0, $options = array(), $test = 0 )
+    {
         // this will add a string of text to the document, starting at the current drawing
         // position.
         // it will wrap to keep within the margins, including optional offsets from the left
@@ -759,41 +878,55 @@ class Cezpdf extends Cpdf
         if ( strlen( $text ) == 0 )
             return $this->y;
 
-        $text = $this->ezProcessText($text);
+        $text = $this->ezProcessText( $text );
 
-        $newPage=false;
+        $newPage = false;
         $store_y = $this->y;
         $left = $angle = $adjust = 0;
 
-        if (is_array($options) && isset($options['aright'])){
-            $right=$options['aright'];
-        } else {
-            $right = $this->ez['pageWidth'] - $this->rightMargin() - ((is_array($options) && isset($options['right']))?$options['right']:0);
+        if ( is_array( $options ) && isset( $options['aright'] ) )
+        {
+            $right = $options['aright'];
         }
-        if ($size<=0){
+        else
+        {
+            $right = $this->ez['pageWidth'] - $this->rightMargin() - ( ( is_array( $options ) && isset( $options['right'] ) ) ? $options['right'] : 0 );
+        }
+        if ( $size <= 0 )
+        {
             $size = $this->ez['fontSize'];
-        } else {
-            $this->ez['fontSize']=$size;
+        }
+        else
+        {
+            $this->ez['fontSize'] = $size;
         }
 
         if ( is_array( $options ) && isset( $options['top_margin'] ) )
         {
-            $this->y = $this->ez['pageHeight']-$options['top_margin'];
+            $this->y = $this->ez['pageHeight'] - $options['top_margin'];
         }
 
-        if (is_array($options) && isset($options['justification'])){
+        if ( is_array( $options ) && isset( $options['justification'] ) )
+        {
             $just = $options['justification'];
-        } else {
+        }
+        else
+        {
             $just = $this->ez['justification'];
         }
 
         // modifications to give leading and spacing based on those given by Craig Heydenburg 1/1/02
-        if (is_array($options) && isset($options['leading'])) { // use leading instead of spacing
+        if ( is_array( $options ) && isset( $options['leading'] ) )
+        { // use leading instead of spacing
             $height = $options['leading'];
-        } else if (is_array($options) && isset($options['spacing'])) {
-            $height = $this->getFontHeight($size) * $options['spacing'];
-        } else {
-            $height = $this->getFontHeight($size);
+        }
+        else if ( is_array( $options ) && isset( $options['spacing'] ) )
+        {
+            $height = $this->getFontHeight( $size ) * $options['spacing'];
+        }
+        else
+        {
+            $height = $this->getFontHeight( $size );
         }
 
         $lastOnlyDirective = false;
@@ -802,21 +935,23 @@ class Cezpdf extends Cpdf
         {
             $lines = array( "" );
         }
-        foreach ( array_keys( $lines ) as $key ){
+        foreach ( array_keys( $lines ) as $key )
+        {
             $line = $lines[$key];
-            if ( ( $key > 0 || strlen($line) == 0 ) &&
+            if ( ( $key > 0 || strlen( $line ) == 0 ) &&
                  !$lastOnlyDirective )
             {
-                $this->y=$this->y-$height;
+                $this->y = $this->y - $height;
                 $this->ez['xOffset'] = 0;
             }
             $lastOnlyDirective = false;
-            while (strlen($line)){
+            while ( strlen( $line ) )
+            {
                 $noClose = 1;
                 while ( $noClose )
                 {
                     $f = 1;
-                    $directiveArray = $this->PRVTcheckTextDirective($line,0,$f);
+                    $directiveArray = $this->PRVTcheckTextDirective( $line, 0, $f );
                     $noClose = $directiveArray['noClose'];
                     if ( $noClose )
                     {
@@ -826,10 +961,10 @@ class Cezpdf extends Cpdf
                         }
                         else
                         {
-                            $left = $this->leftMargin() + ((is_array($options) && isset($options['left']))?$options['left']:0);
+                            $left = $this->leftMargin() + ( (is_array( $options ) && isset( $options['left'] ) ) ? $options['left'] : 0 );
                         }
 
-                        $textInfo = $this->addText($left,$this->y,$size,substr( $line, 0, $directiveArray['directive'] ) ,$angle,$adjust);
+                        $textInfo = $this->addText( $left, $this->y, $size, substr( $line, 0, $directiveArray['directive'] ), $angle, $adjust );
                         $line = substr( $line, $directiveArray['directive'] );
                         if ( isset( $textInfo['width'] ) && $textInfo['width'] != 0 )
                         {
@@ -838,10 +973,14 @@ class Cezpdf extends Cpdf
                     }
                 }
 
-                if ($this->y < $this->ez['bottomMargin']){
-                    if ($test){
-                        $newPage=true;
-                    } else if ( strlen( trim( $line ) ) ){
+                if ( $this->y < $this->ez['bottomMargin'] )
+                {
+                    if ( $test )
+                    {
+                        $newPage = true;
+                    }
+                    else if ( strlen( trim( $line ) ) )
+                    {
                         $this->ezNewPage();
                         // and then re-calc the left and right, in case they have changed due to columns
                     }
@@ -852,19 +991,23 @@ class Cezpdf extends Cpdf
                 }
                 else
                 {
-                    $left = $this->leftMargin() + ((is_array($options) && isset($options['left']))?$options['left']:0);
+                    $left = $this->leftMargin() + ( ( is_array( $options ) && isset( $options['left'] ) ) ? $options['left'] : 0 );
                 }
 
-                if (is_array($options) && isset($options['aleft'])){
+                if ( is_array( $options ) && isset( $options['aleft'] ) )
+                {
                     $left=$options['aleft'];
                 }
-                if (is_array($options) && isset($options['aright'])){
-                    $right=$options['aright'];
-                } else {
-                    $right = $this->ez['pageWidth'] - $this->rightMargin() - ((is_array($options) && isset($options['right']))?$options['right']:0);
+                if ( is_array( $options ) && isset( $options['aright'] ) )
+                {
+                    $right = $options['aright'];
+                }
+                else
+                {
+                    $right = $this->ez['pageWidth'] - $this->rightMargin() - ( ( is_array( $options ) && isset( $options['right'] ) ) ? $options['right'] : 0 );
                 }
 
-                $textInfo = $this->addTextWrap($left,$this->y,$right-$left,$size,$line,$just,0,$test);
+                $textInfo = $this->addTextWrap( $left, $this->y, $right - $left, $size, $line, $just, 0, $test );
                 if ( isset( $textInfo['only_directive'] ) &&
                      $textInfo['only_directive'] === true )
                 {
@@ -872,10 +1015,10 @@ class Cezpdf extends Cpdf
                     $line = '';
                     continue;
                 }
-                $line=$textInfo['text'];
+                $line = $textInfo['text'];
                 if ( strlen( $line ) || $textInfo['width'] == 0 )
                 {
-                    $this->y=$this->y-$height;
+                    $this->y = $this->y - $height;
                     $this->ez['xOffset'] = 0;
                 }
                 else if ( $textInfo['width'] != 0 )
@@ -885,209 +1028,240 @@ class Cezpdf extends Cpdf
             }
         }
 
-        if ($test){
-            $this->y=$store_y;
+        if ( $test )
+        {
+            $this->y = $store_y;
             return $newPage;
-        } else {
+        }
+        else
+        {
             return $this->y;
         }
     }
 
 // ------------------------------------------------------------------------------
 
-    function ezImage($image,$pad = 5,$width = 0,$resize = 'full',$just = 'center',$border = ''){
-        //beta ezimage function
-        if (stristr($image,'://'))//copy to temp file
+    function ezImage( $image, $pad = 5, $width = 0, $resize = 'full', $just = 'center', $border = '' )
+    {
+        // beta ezimage function
+        if ( stristr( $image, '://' ) ) //copy to temp file
         {
-            $fp = @fopen($image,"rb");
-            while(!feof($fp))
+            $fp = @fopen( $image, "rb" );
+            while( !feof( $fp ) )
             {
-                $cont.= fread($fp,1024);
+                $cont.= fread( $fp, 1024 );
             }
-            fclose($fp);
-            $image = tempnam ("/tmp", "php-pdf");
-            $fp2 = @fopen($image,"w");
-            fwrite($fp2,$cont);
-            fclose($fp2);
+            fclose( $fp );
+            $image = tempnam ( "/tmp", "php-pdf" );
+            $fp2 = @fopen( $image, "w" );
+            fwrite( $fp2, $cont );
+            fclose( $fp2 );
             $temp = true;
         }
 
-        if (!(file_exists($image))) return false; //return immediately if image file does not exist
-        $imageInfo = getimagesize($image);
-        switch ($imageInfo[2]){
+        if ( !( file_exists( $image ) ) )
+            return false; // return immediately if image file does not exist
+        $imageInfo = getimagesize( $image );
+        switch ( $imageInfo[2] )
+        {
             case 2:
                 $type = "jpeg";
-			break;
+                break;
             case 3:
                 $type = "png";
-			break;
+                break;
             default:
-                return false; //return if file is not jpg or png
+                return false; // return if file is not jpg or png
         }
-        if ($width == 0) $width = $imageInfo[0]; //set width
-        $ratio = $imageInfo[0]/$imageInfo[1];
+        if ( $width == 0 )
+            $width = $imageInfo[0]; // set width
+        $ratio = $imageInfo[0] / $imageInfo[1];
 
         //get maximum width of image
-        if (isset($this->ez['columns']) && $this->ez['columns']['on'] == 1)
+        if ( isset( $this->ez['columns'] ) && $this->ez['columns']['on'] == 1 )
         {
-            $bigwidth = $this->ez['columns']['width'] - ($pad * 2);
+            $bigwidth = $this->ez['columns']['width'] - ( $pad * 2 );
         }
         else
         {
-            $bigwidth = $this->ez['pageWidth'] - ($pad * 2);
+            $bigwidth = $this->ez['pageWidth'] - ( $pad * 2 );
         }
         //fix width if larger than maximum or if $resize=full
-        if ($resize == 'full' || $resize == 'width' || $width > $bigwidth)
+        if ( $resize == 'full' || $resize == 'width' || $width > $bigwidth )
         {
             $width = $bigwidth;
-
         }
 
-        $height = ($width/$ratio); //set height
+        $height = ( $width / $ratio ); //set height
 
         //fix size if runs off page
-        if ($height > ($this->y - $this->ez['bottomMargin'] - ($pad * 2)))
+        if ( $height > ( $this->y - $this->ez['bottomMargin'] - ( $pad * 2 ) ) )
         {
-            if ($resize != 'full')
+            if ( $resize != 'full' )
             {
                 $this->ezNewPage();
             }
             else
             {
-                $height = ($this->y - $this->ez['bottomMargin'] - ($pad * 2)); //shrink height
-                $width = ($height*$ratio); //fix width
+                $height = ( $this->y - $this->ez['bottomMargin'] - ( $pad * 2 ) ); // shrink height
+                $width = ( $height * $ratio ); // fix width
             }
         }
 
-        //fix x-offset if image smaller than bigwidth
-        if ($width < $bigwidth)
+        // fix x-offset if image smaller than bigwidth
+        if ( $width < $bigwidth )
         {
-            //center if justification=center
-            if ($just == 'center')
+            // center if justification=center
+            if ( $just == 'center' )
             {
-                $offset = ($bigwidth - $width) / 2;
+                $offset = ( $bigwidth - $width ) / 2;
             }
             //move to right if justification=right
-            if ($just == 'right')
+            if ( $just == 'right' )
             {
-                $offset = ($bigwidth - $width);
+                $offset = ( $bigwidth - $width );
             }
             //leave at left if justification=left
-            if ($just == 'left')
+            if ( $just == 'left' )
             {
                 $offset = 0;
             }
         }
 
 
-        //call appropriate function
-        if ($type == "jpeg"){
-            $this->addJpegFromFile($image,$this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
+        // call appropriate function
+        if ( $type == "jpeg" )
+        {
+            $this->addJpegFromFile( $image, $this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight( $this->ez['fontSize'] ) - $pad - $height, $width );
         }
 
-        if ($type == "png"){
-            $this->addPngFromFile($image,$this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width);
+        if ( $type == "png" )
+        {
+            $this->addPngFromFile( $image, $this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight( $this->ez['fontSize'] ) - $pad - $height, $width );
         }
         //draw border
-        if ($border != '')
+        if ( $border != '' )
         {
-            if (!(isset($border['color'])))
+            if ( !( isset( $border['color'] ) ) )
             {
                 $border['color']['red'] = .5;
                 $border['color']['blue'] = .5;
                 $border['color']['green'] = .5;
             }
-            if (!(isset($border['width']))) $border['width'] = 1;
-            if (!(isset($border['cap']))) $border['cap'] = 'round';
-            if (!(isset($border['join']))) $border['join'] = 'round';
+            if ( !( isset( $border['width'] ) ) )
+                $border['width'] = 1;
+            if ( !( isset( $border['cap'] ) ) )
+                $border['cap'] = 'round';
+            if ( !( isset( $border['join']) ) )
+                $border['join'] = 'round';
 
-
-            $this->setStrokeColorRGB($border['color']['red'],$border['color']['green'],$border['color']['blue']);
-            $this->setLineStyle($border['width'],$border['cap'],$border['join']);
-            $this->rectangle($this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight($this->ez['fontSize']) - $pad - $height,$width,$height);
+            $this->setStrokeColorRGB( $border['color']['red'], $border['color']['green'], $border['color']['blue'] );
+            $this->setLineStyle( $border['width'], $border['cap'], $border['join'] );
+            $this->rectangle( $this->leftMargin() + $pad + $offset, $this->y + $this->getFontHeight( $this->ez['fontSize'] ) - $pad - $height, $width, $height );
 
         }
         // move y below image
         $this->y = $this->y - $pad - $height;
         $this->ez['xOffset'] = 0;
         //remove tempfile for remote images
-        if ($temp == true) unlink($image);
+        if ( $temp == true )
+            unlink( $image );
 
     }
 // ------------------------------------------------------------------------------
 
 // note that templating code is still considered developmental - have not really figured
 // out a good way of doing this yet.
-    function loadTemplate($templateFile){
+    function loadTemplate( $templateFile )
+    {
         // this function will load the requested template ($file includes full or relative pathname)
         // the code for the template will be modified to make it name safe, and then stored in
         // an array for later use
         // The id of the template will be returned for the user to operate on it later
-        if (!file_exists($templateFile)){
+        if ( !file_exists( $templateFile ) )
+        {
             return -1;
         }
 
-        $code = implode('',file($templateFile));
-        if (!strlen($code)){
+        $code = implode( '', file( $templateFile ) );
+        if ( !strlen( $code ) )
+        {
             return;
         }
 
-        $code = trim($code);
-        if (substr($code,0,5)=='<?php'){
-            $code = substr($code,5);
+        $code = trim( $code );
+        if ( substr( $code, 0, 5 ) == '<?php' )
+        {
+            $code = substr( $code, 5 );
         }
-        if (substr($code,-2)=='?>'){
-            $code = substr($code,0,strlen($code)-2);
+        if ( substr( $code, -2 ) == '?>' )
+        {
+            $code = substr( $code, 0, strlen( $code ) - 2 );
         }
-        if (isset($this->ez['numTemplates'])){
+        if ( isset( $this->ez['numTemplates'] ) )
+        {
             $newNum = $this->ez['numTemplates'];
             $this->ez['numTemplates']++;
-        } else {
-            $newNum=0;
-            $this->ez['numTemplates']=1;
-            $this->ez['templates']=array();
+        }
+        else
+        {
+            $newNum = 0;
+            $this->ez['numTemplates'] = 1;
+            $this->ez['templates'] = array();
         }
 
-        $this->ez['templates'][$newNum]['code']=$code;
+        $this->ez['templates'][$newNum]['code'] = $code;
 
         return $newNum;
     }
 
 // ------------------------------------------------------------------------------
 
-    function execTemplate($id,$data=array(),$options=array()){
+    function execTemplate( $id, $data = array(), $options = array() )
+    {
         // execute the given template on the current document.
-        if (!isset($this->ez['templates'][$id])){
+        if ( !isset( $this->ez['templates'][$id] ) )
+        {
             return;
         }
-        eval($this->ez['templates'][$id]['code']);
+        eval( $this->ez['templates'][$id]['code'] );
     }
 
 // ------------------------------------------------------------------------------
-    function ilink($info){
-        return $this->alink($info,1);
+    function ilink( $info )
+    {
+        return $this->alink( $info, 1 );
     }
 
-    function alink($info,$internal=0){
+    function alink( $info, $internal = 0 )
+    {
         // a callback function to support the formation of clickable links within the document
-        $lineFactor=0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
-        switch($info['status']){
+        $lineFactor = 0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
+        switch( $info['status'] )
+        {
             case 'start':
             case 'sol':
                 // the beginning of the link
                 // this should contain the URl for the link as the 'p' entry, and will also contain the value of 'nCallback'
-                if (!isset($this->ez['links'])){
-                    $this->ez['links']=array();
+                if (!isset($this->ez['links']))
+                {
+                    $this->ez['links'] = array();
                 }
                 $i = $info['nCallback'];
 
-                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height'],'url'=>rawurldecode($info['p']));
-                if ($internal==0){
+                $this->ez['links'][$i] = array( 'x' => $info['x'],
+                                                'y' => $info['y'],
+                                                'angle' => $info['angle'],
+                                                'decender' => $info['decender'],
+                                                'height' => $info['height'],
+                                                'url'=>rawurldecode( $info['p'] ) );
+                if ( $internal == 0 )
+                {
                     $this->saveState();
-                    $this->setColorRGB(0,0,1);
-                    $this->setStrokeColorRGB(0,0,1);
-                    $thick = $info['height']*$lineFactor;
-                    $this->setLineStyle($thick);
+                    $this->setColorRGB( 0, 0, 1 );
+                    $this->setStrokeColorRGB( 0, 0, 1 );
+                    $thick = $info['height'] * $lineFactor;
+                    $this->setLineStyle( $thick );
                 }
                 break;
             case 'end':
@@ -1095,56 +1269,66 @@ class Cezpdf extends Cpdf
                 // the end of the link
                 // assume that it is the most recent opening which has closed
                 $i = $info['nCallback'];
-            $start = $this->ez['links'][$i];
-            // add underlining
-            if ($internal){
-                $this->addInternalLink($start['url'],$start['x'],$start['y']+$start['decender'],$info['x'],$start['y']+$start['decender']+$start['height']);
-            } else {
-                $a = deg2rad((float)$start['angle']-90.0);
-                $drop = $start['height']*$lineFactor*1.5;
-                $dropx = cos($a)*$drop;
-                $dropy = -sin($a)*$drop;
-                $this->line($start['x']-$dropx,$start['y']-$dropy,$info['x']-$dropx,$info['y']-$dropy);
-                $this->addLink($start['url'],$start['x'],$start['y']+$start['decender'],$info['x'],$start['y']+$start['decender']+$start['height']);
-                $this->restoreState();
-            }
-            break;
+                $start = $this->ez['links'][$i];
+                // add underlining
+                if ($internal)
+                {
+                    $this->addInternalLink( $start['url'], $start['x'], $start['y'] + $start['decender'], $info['x'], $start['y'] + $start['decender'] + $start['height'] );
+                }
+                else
+                {
+                    $a = deg2rad( (float)$start['angle'] - 90.0 );
+                    $drop = $start['height'] * $lineFactor * 1.5;
+                    $dropx = cos( $a ) * $drop;
+                    $dropy = -sin( $a ) * $drop;
+                    $this->line( $start['x'] - $dropx, $start['y'] - $dropy, $info['x'] - $dropx, $info['y'] - $dropy );
+                    $this->addLink( $start['url'], $start['x'], $start['y'] + $start['decender'], $info['x'], $start['y'] + $start['decender'] + $start['height'] );
+                    $this->restoreState();
+                }
+                break;
         }
     }
 
 // ------------------------------------------------------------------------------
 
-    function uline($info){
+    function uline( $info )
+    {
         // a callback function to support underlining
-        $lineFactor=0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
-        switch($info['status']){
+        $lineFactor = 0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
+        switch ( $info['status'] )
+        {
             case 'start':
             case 'sol':
-
                 // the beginning of the underline zone
-                if (!isset($this->ez['links'])){
-                    $this->ez['links']=array();
+                if ( !isset( $this->ez['links'] ) )
+                {
+                    $this->ez['links'] = array();
                 }
                 $i = $info['nCallback'];
-                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height']);
+                $this->ez['links'][$i] = array( 'x' => $info['x'],
+                                                'y' => $info['y'],
+                                                'angle' => $info['angle'],
+                                                'decender' => $info['decender'],
+                                                'height' => $info['height'] );
                 $this->saveState();
-                $thick = $info['height']*$lineFactor;
-                $this->setLineStyle($thick);
+                $thick = $info['height'] * $lineFactor;
+                $this->setLineStyle( $thick );
                 break;
+
             case 'end':
             case 'eol':
                 // the end of the link
                 // assume that it is the most recent opening which has closed
                 $i = $info['nCallback'];
-            $start = $this->ez['links'][$i];
-            // add underlining
-            $a = deg2rad((float)$start['angle']-90.0);
-            $drop = $start['height']*$lineFactor*1.5;
-            $dropx = cos($a)*$drop;
-            $dropy = -sin($a)*$drop;
-            $this->line($start['x']-$dropx,$start['y']-$dropy,$info['x']-$dropx,$info['y']-$dropy);
-            $this->restoreState();
-            break;
+                $start = $this->ez['links'][$i];
+                // add underlining
+                $a = deg2rad( (float) $start['angle'] - 90.0 );
+                $drop = $start['height'] * $lineFactor * 1.5;
+                $dropx = cos( $a ) * $drop;
+                $dropy = -sin( $a ) * $drop;
+                $this->line( $start['x'] - $dropx, $start['y'] - $dropy, $info['x'] - $dropx, $info['y'] - $dropy );
+                $this->restoreState();
+                break;
         }
     }
 
@@ -1152,46 +1336,53 @@ class Cezpdf extends Cpdf
 // 2003-11-04 Kåre Køhler Høvik ( eZ systems, http://ez.no )
 // Set fontsize
 
-    function strike($info){
+    function strike( $info )
+    {
         // a callback function to support underlining
-        $lineFactor=0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
-        switch($info['status']){
+        $lineFactor = 0.05; // the thickness of the line as a proportion of the height. also the drop of the line.
+        switch ( $info['status'] )
+        {
             case 'start':
             case 'sol':
-
                 // the beginning of the underline zone
-                if (!isset($this->ez['links'])){
-                    $this->ez['links']=array();
+                if ( !isset( $this->ez['links'] ) )
+                {
+                    $this->ez['links'] = array();
                 }
                 $i = $info['nCallback'];
-                $this->ez['links'][$i] = array('x'=>$info['x'],'y'=>$info['y'],'angle'=>$info['angle'],'decender'=>$info['decender'],'height'=>$info['height']);
+                $this->ez['links'][$i] = array( 'x' => $info['x'],
+                                                'y' => $info['y'],
+                                                'angle' => $info['angle'],
+                                                'decender' => $info['decender'],
+                                                'height' => $info['height'] );
                 $this->saveState();
-                $thick = $info['height']*$lineFactor;
-                $this->setLineStyle($thick);
+                $thick = $info['height'] * $lineFactor;
+                $this->setLineStyle( $thick );
                 break;
+
             case 'end':
             case 'eol':
                 // the end of the link
                 // assume that it is the most recent opening which has closed
                 $i = $info['nCallback'];
-            $start = $this->ez['links'][$i];
-            // add underlining
-            $a = deg2rad((float)$start['angle']-90.0);
-            $drop = $start['height']/2;
-            $dropx = cos($a)*$drop;
-            $dropy = -sin($a)*$drop;
-            $this->line($start['x']-$dropx,$start['y']+$dropy,$info['x']-$dropx,$info['y']+$dropy);
-            $this->restoreState();
-            break;
+                $start = $this->ez['links'][$i];
+                // add underlining
+                $a = deg2rad( (float) $start['angle'] - 90.0 );
+                $drop = $start['height'] / 2;
+                $dropx = cos( $a ) * $drop;
+                $dropy = -sin( $a ) * $drop;
+                $this->line( $start['x'] - $dropx, $start['y'] + $dropy, $info['x'] - $dropx, $info['y'] + $dropy );
+                $this->restoreState();
+                break;
         }
     }
 
     /**
      * Get current line height
      */
-    function lineHeight( $options=array() )
+    function lineHeight( $options = array() )
     {
-        if ( is_array($options) && isset($options['size'] ) )
+        if ( is_array( $options ) && isset( $options['size'] ) )
         {
             $size = $options['size'];
         }
@@ -1200,12 +1391,17 @@ class Cezpdf extends Cpdf
             $size = $this->ez['fontSize'];
         }
 
-        if (is_array($options) && isset($options['leading'])) { // use leading instead of spacing
+        if ( is_array( $options ) && isset( $options['leading'] ) )
+        {   // use leading instead of spacing
             $height = $options['leading'];
-        } else if (is_array($options) && isset($options['spacing'])) {
-            $height = $this->getFontHeight($size) * $options['spacing'];
-        } else {
-            $height = $this->getFontHeight($size);
+        }
+        else if ( is_array( $options ) && isset( $options['spacing'] ) )
+        {
+            $height = $this->getFontHeight( $size ) * $options['spacing'];
+        }
+        else
+        {
+            $height = $this->getFontHeight( $size );
         }
 
         return $height;

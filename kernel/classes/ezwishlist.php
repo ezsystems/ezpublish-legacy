@@ -163,12 +163,12 @@ class eZWishList extends eZPersistentObject
                 {
                     $priceExVAT = $price / ( 100 + $vatValue ) * 100;
                     $priceIncVAT = $price;
-				}
+                }
                 else
                 {
                     $priceExVAT = $price;
                     $priceIncVAT = $price * ( 100 + $vatValue ) / 100;
-				}
+                }
 
                 $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;

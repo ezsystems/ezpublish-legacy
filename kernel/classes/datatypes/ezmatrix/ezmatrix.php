@@ -683,7 +683,7 @@ class eZMatrix
 
             }
         }
-	}
+    }
 
     function removeRow( $rowNum )
     {

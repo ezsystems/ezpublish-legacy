@@ -58,15 +58,15 @@ class eZPackageInstallationHandler
     }
 
     /*!
-	 Will go over the steps and make sure that:
-	 - The next and previous links are correct
-	 - Steps that aren't needed are removed
+     Will go over the steps and make sure that:
+     - The next and previous links are correct
+     - Steps that aren't needed are removed
 
- 	 It will also make sure that steps can be looked up by their ID.
-	*/
-	function generateStepMap( &$package, &$persistentData )
-	{
-		$steps = $this->attribute( 'steps' );
+      It will also make sure that steps can be looked up by their ID.
+    */
+    function generateStepMap( &$package, &$persistentData )
+    {
+        $steps = $this->attribute( 'steps' );
         $map = array();
         $lastStep = false;
         $currentSteps = array();
@@ -87,31 +87,31 @@ class eZPackageInstallationHandler
                 else
                     $step['next_step'] = false;
             }
-			if ( isset( $step['methods']['initialize'] ) )
-			    $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
-			if ( isset( $step['methods']['validate'] ) )
-			    $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
-			if ( isset( $step['methods']['commit'] ) )
-			    $this->CommitStepMethodMap[$step['id']] = $step['methods']['commit'];
-			$isStepIncluded = true;
-			if ( isset( $step['methods']['check'] ) )
-			{
-				$checkMethod = $step['methods']['check'];
-				$isStepIncluded = $this->$checkMethod( $package, $persistentData );
-			}
-			if ( $isStepIncluded )
-			{
-	            $map[$step['id']] =& $step;
-    	        $lastStep =& $step;
-    	        $currentSteps[] =& $step;
-			}
+            if ( isset( $step['methods']['initialize'] ) )
+                $this->InitializeStepMethodMap[$step['id']] = $step['methods']['initialize'];
+            if ( isset( $step['methods']['validate'] ) )
+                $this->ValidateStepMethodMap[$step['id']] = $step['methods']['validate'];
+            if ( isset( $step['methods']['commit'] ) )
+                $this->CommitStepMethodMap[$step['id']] = $step['methods']['commit'];
+            $isStepIncluded = true;
+            if ( isset( $step['methods']['check'] ) )
+            {
+                $checkMethod = $step['methods']['check'];
+                $isStepIncluded = $this->$checkMethod( $package, $persistentData );
+            }
+            if ( $isStepIncluded )
+            {
+                $map[$step['id']] =& $step;
+                $lastStep =& $step;
+                $currentSteps[] =& $step;
+            }
         }
         $this->StepMap = array( 'first' => &$steps[0],
                                 'map' => &$map,
                                 'steps' => &$steps );
         $this->Attributes['step_map'] =& $this->StepMap;
         $this->Attributes['current_steps'] = $currentSteps;
-	}
+    }
 
     function attributes()
     {
@@ -146,8 +146,8 @@ class eZPackageInstallationHandler
     }
 
     /*!
-	 \return a process step map which has proper next/previous links,
-	         method maps and allows lookup of steps by ID.
+     \return a process step map which has proper next/previous links,
+             method maps and allows lookup of steps by ID.
     */
     function &stepMap()
     {
@@ -316,14 +316,14 @@ class eZPackageInstallationHandler
 
      \note This function is called from createPackage and checkPackageMaintainer()
     */
-	function packageType( &$package, &$persistentData )
-	{
-		if ( get_class( $package ) == 'ezpackage' )
-		{
-		    return $package->attribute( 'type' );
-		}
-		return false;
-	}
+    function packageType( &$package, &$persistentData )
+    {
+        if ( get_class( $package ) == 'ezpackage' )
+        {
+            return $package->attribute( 'type' );
+        }
+        return false;
+    }
 
     /*!
      \private

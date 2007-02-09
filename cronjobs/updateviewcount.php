@@ -156,8 +156,8 @@ if ( $handle )
                         $pathIdentificationString = $db->escapeString( $firstElement );
 
                         //check in database, if fount, add to contentArray, else add to nonContentArray.
-                        $query = "SELECT node_id FROM ezcontentobject_tree
-	                          WHERE path_identification_string='$pathIdentificationString'";
+                        $query = "SELECT node_id FROM ezcontentobject_tree \n" .
+                                 "WHERE path_identification_string='$pathIdentificationString'";
                         $result = $db->arrayQuery( $query );
                         if ( count($result) != 0 )
                         {
@@ -204,8 +204,8 @@ foreach ( $nodeIDArray as $nodeID )
 foreach ( $pathArray as $path )
 {
     $pathIdentification = $db->escapeString( $path );
-    $nodeIDList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree
-	                                WHERE path_identification_string='$pathIdentification'" );
+    $nodeIDList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree \n" .
+                                   "WHERE path_identification_string='$pathIdentification'" );
 
     if ( $nodeIDList != null )
     {

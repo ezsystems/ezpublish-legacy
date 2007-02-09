@@ -129,9 +129,9 @@ if ( !function_exists( 'checkContentActions' ) )
             $db =& eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezcontentobject_link
-		                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
+                         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
             $db->query( "DELETE FROM eznode_assignment
-		                 WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
+                         WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
             $version->remove();
             foreach ( $contentObjectAttributes as $contentObjectAttribute )
             {
@@ -296,6 +296,5 @@ $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/user', 'User' ) ),
                          array( 'url' => false,
                                 'text' => ezi18n( 'kernel/user', 'Register' ) ) );
-
 
 ?>

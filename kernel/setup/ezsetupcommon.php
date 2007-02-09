@@ -38,7 +38,7 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 */
 function eZSetupCriticalTests()
 {
-	$ini =& eZINI::instance();
+    $ini =& eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'CriticalTests' );
 }
 
@@ -47,7 +47,7 @@ function eZSetupCriticalTests()
 */
 function eZSetupOptionalTests()
 {
-	$ini =& eZINI::instance();
+    $ini =& eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'OptionalTests' );
 }
 
