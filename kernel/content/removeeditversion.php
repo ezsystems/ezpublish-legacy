@@ -60,9 +60,9 @@ if ( $isConfirmed )
     $db =& eZDB::instance();
     $db->begin();
     $db->query( "DELETE FROM ezcontentobject_link
-		         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
+                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
     $db->query( "DELETE FROM eznode_assignment
-	             WHERE contentobject_id=$objectID AND contentobject_version=$version" );
+                 WHERE contentobject_id=$objectID AND contentobject_version=$version" );
 
     $versionObject =& $object->version( $version );
     $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );

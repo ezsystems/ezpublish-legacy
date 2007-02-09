@@ -756,10 +756,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
             }
 
-			if ( !$object )
+            if ( !$object )
             {
                 //eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
-	            break;
+                break;
             }
 
             // fetch attributes

@@ -261,7 +261,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
 
     $workflowgroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
-	for ( $i=0;$i<count(  $workflowgroups );$i++ )
+    for ( $i=0;$i<count(  $workflowgroups );$i++ )
     {
         $workflowgroup =& $workflowgroups[$i];
         $workflowgroup->setAttribute("workflow_version", 0 );

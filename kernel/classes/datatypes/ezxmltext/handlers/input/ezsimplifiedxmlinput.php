@@ -359,13 +359,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $objectID = substr( strrchr( $href, "/" ), 1 );
 
                                 // protection from self-embedding
-	                            if ( $objectID == $contentObjectID )
-	                            {
-	                                $GLOBALS[$isInputValid] = false;
-	                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                     'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
-	                                return false;
-	                            }
+                                if ( $objectID == $contentObjectID )
+                                {
+                                    $GLOBALS[$isInputValid] = false;
+                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                         'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
+                                    return false;
+                                }
 
                                 $embedTag->appendAttribute( $dom->createAttributeNode( 'object_id', $objectID ) );
 
@@ -378,28 +378,28 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                                 if ( ereg( "^[0-9]+$", $nodePath ) )
                                 {
-                                	$nodeID = $nodePath;
+                                    $nodeID = $nodePath;
                                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                                     if ( $node == null)
-	                                {
-	                                    $GLOBALS[$isInputValid] = false;
-	                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                    'Node %1 does not exist.',
-	                                                                                         false, array( $nodeID ) ) );
-	                                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-	                                }
+                                    {
+                                        $GLOBALS[$isInputValid] = false;
+                                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                        'Node %1 does not exist.',
+                                                                                             false, array( $nodeID ) ) );
+                                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                    }
                                 }
-                            	else
+                                else
                                 {
-                                	$node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                                     if ( $node == null)
-	                                {
-	                                    $GLOBALS[$isInputValid] = false;
-	                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                    'Node \'%1\' does not exist.',
-	                                                                                         false, array( $nodePath ) ) );
-	                                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-	                                }
+                                    {
+                                        $GLOBALS[$isInputValid] = false;
+                                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                        'Node \'%1\' does not exist.',
+                                                                                             false, array( $nodePath ) ) );
+                                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                    }
                                     $nodeID = $node->attribute('node_id');
                                     $embedTag->appendAttribute( $dom->createAttributeNode( 'show_path', 'true' ) );
                                 }
@@ -409,13 +409,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $objectID = $node->attribute( 'contentobject_id' );
 
                                 // protection from self-embedding
-	                            if ( $objectID == $contentObjectID )
-	                            {
-	                                $GLOBALS[$isInputValid] = false;
-	                                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                     'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
-	                                return false;
-	                            }
+                                if ( $objectID == $contentObjectID )
+                                {
+                                    $GLOBALS[$isInputValid] = false;
+                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                         'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
+                                    return false;
+                                }
 
                                 if ( !in_array( $objectID, $relatedObjectIDArray ) )
                                      $relatedObjectIDArray[] = $objectID;
@@ -474,7 +474,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $link->appendAttribute( $dom->createAttributeNode( 'object_id', $objectID ) );
 
                                 if ( $anchorName )
-                                	$link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
+                                    $link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
 
                                 if ( !in_array( $objectID, $relatedObjectIDArray ) )
                                      $relatedObjectIDArray[] = $objectID;
@@ -488,28 +488,28 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                                 if ( ereg( "^[0-9]+$", $nodePath ) )
                                 {
-                                	$nodeID = $nodePath;
+                                    $nodeID = $nodePath;
                                     $node = eZContentObjectTreeNode::fetch( $nodeID );
                                     if ( $node == null)
-	                                {
-	                                    $GLOBALS[$isInputValid] = false;
-	                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                    'Node %1 does not exist.',
-	                                                                                         false, array( $nodeID ) ) );
-	                                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-	                                }
+                                    {
+                                        $GLOBALS[$isInputValid] = false;
+                                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                        'Node %1 does not exist.',
+                                                                                             false, array( $nodeID ) ) );
+                                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                    }
                                 }
-                            	else
+                                else
                                 {
-                                	$node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                                     if ( $node == null)
-	                                {
-	                                    $GLOBALS[$isInputValid] = false;
-	                                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-	                                                                                    'Node \'%1\' does not exist.',
-	                                                                                         false, array( $nodePath ) ) );
-	                                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-	                                }
+                                    {
+                                        $GLOBALS[$isInputValid] = false;
+                                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                        'Node \'%1\' does not exist.',
+                                                                                             false, array( $nodePath ) ) );
+                                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                                    }
                                     $nodeID = $node->attribute('node_id');
                                     $link->appendAttribute( $dom->createAttributeNode( 'show_path', 'true' ) );
                                 }
@@ -517,7 +517,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $link->appendAttribute( $dom->createAttributeNode( 'node_id', $nodeID ) );
 
                                 if ( $anchorName )
-                                	$link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
+                                    $link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
 
                                 $objectID = $node->attribute( 'contentobject_id' );
                                 if ( !in_array( $objectID, $relatedObjectIDArray ) )
@@ -532,7 +532,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             else
                             {
                                 // Cache all URL's not converted to relations
-								$url = strtok( $href, '#' );
+                                $url = strtok( $href, '#' );
                                 $anchorName = strtok( '#' );
 
                                 if ( $anchorName )
@@ -752,19 +752,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $TagStack[] = array( "TagName" => $parentNodeTag, "ParentNodeObject" => &$parentNode, "ChildTag" => $parentChildTag );
                 }
                 if ( $parentNodeTag == "section" )
-				{
-					// Add paragraph tag
-					$subNode->Name = "paragraph";
-					$subNode->LocalName = "paragraph";
-					$subNode->Type = EZ_NODE_TYPE_ELEMENT;
-					$domDocument->registerElement( $subNode );
-					$currentNode->appendChild( $subNode );
-					$childTag = $this->SubTagArray['paragraph'];
-					$TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
-					$currentNode =& $subNode;
-					$parentNodeTag = "paragraph";
-					unset( $subNode );
-					$subNode = new eZDOMNode();
+                {
+                    // Add paragraph tag
+                    $subNode->Name = "paragraph";
+                    $subNode->LocalName = "paragraph";
+                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                    $domDocument->registerElement( $subNode );
+                    $currentNode->appendChild( $subNode );
+                    $childTag = $this->SubTagArray['paragraph'];
+                    $TagStack[] = array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                    $currentNode =& $subNode;
+                    $parentNodeTag = "paragraph";
+                    unset( $subNode );
+                    $subNode = new eZDOMNode();
                 }
             }
         }
@@ -2328,14 +2328,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
                 elseif ( $showPath == 'true' )
                 {
-                	$node = eZContentObjectTreeNode::fetch( $nodeID );
+                    $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( $node )
-                    	$href = 'eznode://' . $node->attribute('path_identification_string');
+                        $href = 'eznode://' . $node->attribute('path_identification_string');
                     else
-                    	$href = 'eznode://' . $nodeID;
+                        $href = 'eznode://' . $nodeID;
                 }
                 else
-                	$href = 'eznode://' . $nodeID;
+                    $href = 'eznode://' . $nodeID;
 
                 $objectAttr = " href='$href'";
 
@@ -2448,7 +2448,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'literal' :
             {
                 $className = $tag->attributeValue( 'class' );
-		//		$literalText = '';
+        //        $literalText = '';
         //        foreach ( $tagChildren as $childTag )
         //        {
         //            $literalText .= $childTag->content();
@@ -2542,16 +2542,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
                 elseif ( $nodeID != null )
                 {
-                	if ( $showPath == 'true' )
+                    if ( $showPath == 'true' )
                     {
-                    	$node = eZContentObjectTreeNode::fetch( $nodeID );
-	                    if ( $node )
-	                        $href = 'eznode://' . $node->attribute('path_identification_string');
-	                    else
-	                        $href = 'eznode://' . $nodeID;
-            		}
-                	else
-                    	$href = 'eznode://' . $nodeID;
+                        $node = eZContentObjectTreeNode::fetch( $nodeID );
+                        if ( $node )
+                            $href = 'eznode://' . $node->attribute('path_identification_string');
+                        else
+                            $href = 'eznode://' . $nodeID;
+                    }
+                    else
+                        $href = 'eznode://' . $nodeID;
                 }
                 elseif ( $linkID != null )
                 {

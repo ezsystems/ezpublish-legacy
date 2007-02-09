@@ -648,7 +648,7 @@ class eZContentObjectVersion extends eZPersistentObject
 */
 
     /*!
-	 \return the content object attribute
+     \return the content object attribute
     */
     function &dataMap()
     {
@@ -704,7 +704,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $user =& eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
         }
-		$time = time();
+        $time = time();
         $row = array(
             "contentobject_id" => $contentobjectID,
             "version" => $version,
@@ -797,7 +797,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
-		$time = time();
+        $time = time();
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
         if ( $contentObjectID !== false )
@@ -1116,14 +1116,14 @@ class eZContentObjectVersion extends eZPersistentObject
         foreach( $nodeAssignmentNodeArray as $nodeAssignmentNode )
         {
             $result = eZContentObjectTreeNode::unserialize( $nodeAssignmentNode,
-                                                  $contentObject,
-                                                  $contentObjectVersion->attribute( 'version' ),
-                                                  ( $oldVersion == $activeVersion ? 1 : 0 ),
-                                                  $nodeList,
-                                                  $options );
+                                                            $contentObject,
+                                                            $contentObjectVersion->attribute( 'version' ),
+                                                            ( $oldVersion == $activeVersion ? 1 : 0 ),
+                                                            $nodeList,
+                                                            $options );
             if ( $result === false )
             {
-	        $retValue = false;
+                $retValue = false;
                 return $retValue;
             }
         }
