@@ -128,6 +128,7 @@ class eZXMLText
         }
     }
 
+    /// \static
     function &inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $inputDefinition = array( 'ini-name' => 'ezxml.ini',
@@ -160,6 +161,7 @@ class eZXMLText
         return $inputHandler;
     }
 
+    /// \static
     function &outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $outputDefinition = array( 'ini-name' => 'ezxml.ini',
@@ -192,6 +194,7 @@ class eZXMLText
         return $outputHandler;
     }
 
+    /// \static
     function &fetchHandler( $definition, $classSuffix, &$xmlData, $contentObjectAttribute )
     {
         $handler = null;
