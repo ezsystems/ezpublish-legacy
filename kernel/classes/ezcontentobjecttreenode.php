@@ -6268,6 +6268,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Create javascript array
         $jsArray = array();
+        $db =& eZDB::instance();
         foreach ( $classes as $class )
         {
             if ( is_object( $class ) )
@@ -6280,8 +6281,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $classID = $class['id'];
                 $className = $class['name'];
             }
-            $jsArray[] = "{ classID: '" . $classID .
-                          "', name: '" . $className . "' }";
+            $jsArray[] = "{ classID: '" . $db->escapeString( $classID ) .
+                          "', name: '" . $db->escapeString( $className ) . "' }";
         }
 
         if ( $jsArray )
