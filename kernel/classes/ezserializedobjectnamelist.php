@@ -363,6 +363,26 @@ class eZSerializedObjectNameList
         return $languages;
     }
 
+    function prioritizedLanguagesJsArray()
+    {
+        $languages = $this->prioritizedLanguages();
+
+        $jsArray = array();
+
+        foreach ( $languages as $key => $language )
+        {
+            $jsArray[] = "{ locale: '".$language->attribute( 'locale' ).
+                "', name: '".$language->attribute( 'name' )."' }";
+        }
+
+        if ( count( $jsArray ) > 0 )
+        {
+            $jsArray = '[ '.implode( ', ', $jsArray ).' ]';
+        }
+
+        return $jsArray;
+    }
+
     function languageLocaleList()
     {
         $languageLocaleList = array();

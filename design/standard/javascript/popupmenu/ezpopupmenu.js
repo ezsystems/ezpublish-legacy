@@ -149,10 +149,12 @@ var CurrentSubstituteValues = -1;
 var CurrentDisableID = -1;
 // Which Menu should be disabled
 var CurrentDisableMenuID = -1;
-// Store ClassName
-var DefaultClassName = 'more';
+
+var CurrentDisabledMenusItems = new Array();
 // VisibleMenus is an array that holds the names of the currently visible menus
 var VisibleMenus = new Array();
+
+var DefaultDisabledMenuItemCSSClass = "menu-item-disabled";
 
 /*!
   Controls the popup offsets of the menu relative to the mouse position.
@@ -201,10 +203,7 @@ function ezpopmenu_showTopLevel( event, menuID, substituteValues, menuHeader, di
         CurrentDisableID = disableID;
     }
 
-    if( disableMenuID != -1 )
-    {
-        CurrentDisableMenuID = disableMenuID;
-    }
+    CurrentDisableMenuID = disableMenuID;
 
     ezpopmenu_doItemSubstitution( menuID, menuHeader );
 
@@ -228,7 +227,7 @@ function ezpopmenu_showSubLevel( event, menuID, overItem )
     //    ezpopmenu_showTopLevel( event, menuName, -1 );
     ezpopmenu_doItemSubstitution( menuID );
 
-    ezpopmenu_hideHigher( menuArray[menuID]['depth'] - 1 ); //hide all other submenus 
+    ezpopmenu_hideHigher( menuArray[menuID]['depth'] - 1 ); //hide all other submenus
 
     // make menu visible
     ezpopmenu_moveSubLevelOnScreen( menuID, overItem );
@@ -272,16 +271,8 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
 
         if ( replaceString )
         {
-            // loop though substitute values and substitute for each of them
-	       for ( var substItem in CurrentSubstituteValues )
-            {
-                if ( typeof CurrentSubstituteValues[substItem] != 'object' )
-                {
-                    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
-                }
-            }
-
-	       hrefElement.setAttribute( "href", replaceString );
+            replaceString = ezpopup_substituteString( replaceString, CurrentSubstituteValues );
+            hrefElement.setAttribute( "href", replaceString );
         }
 
         // dynamic generation
@@ -315,19 +306,31 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
             hrefElement.innerHTML = content;
         }
 
-        // enabled/disabled
         if( ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
               ( ( typeof( menuArray[menuID]['elements'][i]['disabled_for'] ) != 'undefined' &&
                   menuArray[menuID]['elements'][i]['disabled_for'][CurrentDisableID] == 'yes' ) ) ||
               ( CurrentDisableMenuID && hrefElement.id == CurrentDisableMenuID ) ) )
         {
+            CurrentDisabledMenusItems[hrefElement.id] = new Array();
+            CurrentDisabledMenusItems[hrefElement.id]['className'] = hrefElement.className;
+            CurrentDisabledMenusItems[hrefElement.id]['href'] = hrefElement.href;
+            CurrentDisabledMenusItems[hrefElement.id]['onmouseover'] = hrefElement.onmouseover;
+
             hrefElement.className = menuArray[menuID]['elements'][i]['disabled_class'];
+            hrefElement.setAttribute( "href", '#' );
+            hrefElement.onmouseover = "";
+
         }
         else if ( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&
                   hrefElement.className == menuArray[menuID]['elements'][i]['disabled_class'] )
         {
-            // Restore className
-            hrefElement.className = DefaultClassName;
+            // Restore(enable) menu item
+            if ( typeof( CurrentDisabledMenusItems[hrefElement.id] ) != 'undefined' )
+            {
+                hrefElement.className = CurrentDisabledMenusItems[hrefElement.id]['className'];
+                hrefElement.href = CurrentDisabledMenusItems[hrefElement.id]['href'];
+                hrefElement.onmouseover = CurrentDisabledMenusItems[hrefElement.id]['onmouseover'];
+            }
         }
     }
 
@@ -337,6 +340,20 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
         var header = document.getElementById( menuArray[menuID]['headerID'] );
         if ( header ) header.innerHTML = menuHeader;
     }
+}
+
+function ezpopup_substituteString( replaceString, substituteValues )
+{
+    // loop though substitute values and substitute for each of them
+    for ( var substItem in substituteValues )
+    {
+        if ( typeof substituteValues[substItem] != 'object' )
+        {
+            replaceString = replaceString.replace( substItem, substituteValues[substItem] );
+        }
+    }
+
+    return replaceString;
 }
 
 /*!
@@ -494,13 +511,16 @@ function ezpopmenu_mouseOver( id )
 function ez_createAArray( flat )
 {
     var resultArray = new Array();
+
     if( flat.length % 2 != 0 ) return resultArray;
 
     var len = flat.length / 2;
-    for ( var i = 0; i <= flat.length; i += 2 )
+    for ( var i = 0; i < flat.length; i += 2 )
+    {
         resultArray[flat[i]] = flat[i+1];
+    }
 
-   return resultArray;
+    return resultArray;
 }
 
 /*

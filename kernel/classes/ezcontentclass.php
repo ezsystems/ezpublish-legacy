@@ -163,6 +163,7 @@ class eZContentClass extends eZPersistentObject
                                                       'nameList' => 'nameList',
                                                       'languages' => 'languages',
                                                       'prioritized_languages' => 'prioritizedLanguages',
+                                                      'prioritized_languages_js_array' => 'prioritizedLanguagesJsArray',
                                                       'can_create_languages' => 'canCreateLanguages',
                                                       'top_priority_language_locale' => 'topPriorityLanguageLocale',
                                                       'always_available_language' => 'alwaysAvailableLanguage' ),
@@ -1687,6 +1688,12 @@ You will need to change the class of the node by using the swap functionality.' 
     function &prioritizedLanguages()
     {
         $languages = $this->NameList->prioritizedLanguages();
+        return $languages;
+    }
+
+    function &prioritizedLanguagesJsArray()
+    {
+        $languages = $this->NameList->prioritizedLanguagesJsArray();
         return $languages;
     }
 
