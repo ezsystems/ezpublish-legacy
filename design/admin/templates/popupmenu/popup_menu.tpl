@@ -15,11 +15,11 @@ menuArray['ContextMenu']['elements']['menu-copy'] = new Array();
 menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
 menuArray['ContextMenu']['elements']['menu-copy-subtree']= new Array();
 menuArray['ContextMenu']['elements']['menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
-
-menuArray['ContextMenu']['elements']['child-menu-create-here'] = new Array();
-menuArray['ContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';
-menuArray['ContextMenu']['elements']['menu-create-here'] = new Array();
+menuArray['ContextMenu']['elements']['menu-create-here']= new Array();
 menuArray['ContextMenu']['elements']['menu-create-here']['disabled_class'] = 'menu-item-disabled';
+
+{*menuArray['ContextMenu']['elements']['child-menu-create-here'] = new Array();
+menuArray['ContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';*}
 
 {* Edit menu *}
 menuArray['EditSubmenu'] = new Array();
@@ -64,11 +64,8 @@ menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
-
 menuArray['SubitemsContextMenu']['elements']['child-menu-create-here'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-create-here']['disabled_class'] = 'menu-item-disabled';
-menuArray['SubitemsContextMenu']['elements']['menu-create-here'] = new Array();
-menuArray['SubitemsContextMenu']['elements']['menu-create-here']['disabled_class'] = 'menu-item-disabled';
 
 menuArray['ClassMenu'] = new Array();
 menuArray['ClassMenu']['depth'] = 0;
@@ -84,6 +81,17 @@ menuArray['ClassMenu']['elements']['recursive-view-cache-delete'] = new Array();
 menuArray['ClassMenu']['elements']['recursive-view-cache-delete']['url'] = {"%currentURL%"|ezurl};
 menuArray['ClassMenu']['elements']['class-history'] = new Array();
 menuArray['ClassMenu']['elements']['class-history']['url'] = {"content/history/%objectID%"|ezurl};
+
+{* Edit Class submenu *}
+menuArray['EditClassSubmenu'] = new Array();
+menuArray['EditClassSubmenu']['depth'] = 1;
+menuArray['EditClassSubmenu']['elements'] = new Array();
+menuArray['EditClassSubmenu']['elements']['edit-class-languages'] = new Array();
+menuArray['EditClassSubmenu']['elements']['edit-class-languages']['variable'] = '%languages%';
+menuArray['EditClassSubmenu']['elements']['edit-class-languages']['content'] = '<a href={"/class/edit/%classID%/(language)/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditClassSubmenu\' )">%name%<\/a>';
+menuArray['EditClassSubmenu']['elements']['edit-class-another-language'] = new Array();
+menuArray['EditClassSubmenu']['elements']['edit-class-another-language']['url'] = {"/class/edit/%classID%"|ezurl};
+menuArray['EditClassSubmenu']['elements']['edit-class-another-language']['disabled_class'] = 'menu-item-disabled';
 
 menuArray['BookmarkMenu'] = new Array();
 menuArray['BookmarkMenu']['depth'] = 0;
@@ -218,7 +226,12 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
         <div class="break"></div>
     </div>
     <a id="class-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"View class"|i18n("design/admin/popupmenu")}</a>
+{if $multilingual_site}
+    <a id="class-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditClassSubmenu', 'class-edit-in' ); return false;">{'Edit class in'|i18n( 'design/admin/popupmenu' )}</a>
+{else}
     <a id="class-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{"Edit class"|i18n("design/admin/popupmenu")}</a>
+{/if}
+
     <hr />
     <a id="view-cache-delete" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-view-cache-delete' ); return false;">{"Delete view cache"|i18n("design/admin/popupmenu")}</a>
 <!--
@@ -231,6 +244,15 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
     <hr />
     <a id="class-history" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage versions'|i18n( 'design/admin/popupmenu' )}</a>
+</div>
+
+<!-- Edit class submenu -->
+<div class="popupmenu" id="EditClassSubmenu">
+    <div id="edit-class-languages"></div>
+    <hr />
+    <!-- <a id="edit-class-another-language" href="#" onmouseover="ezpopmenu_mouseOver( 'EditClassSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a> -->
+    <!-- <div id="edit-class-another-language"></div> -->
+    <a id="edit-class-another-language" href="#" onmouseover="ezpopmenu_mouseOver( 'EditClassSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 <!-- Bookmark popup menu -->

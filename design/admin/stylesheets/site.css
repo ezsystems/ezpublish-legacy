@@ -1709,7 +1709,7 @@ div.popupmenu a.more
 
 div.popupmenu a.menu-item-disabled
 {
-     display:none;
+    color: #CECECE;
 }
 
 div.popupmenu a:hover
