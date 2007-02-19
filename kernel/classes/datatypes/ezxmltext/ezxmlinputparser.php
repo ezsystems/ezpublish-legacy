@@ -34,7 +34,7 @@
     - 1st pass: Parsing input, check for syntax errors, build DOM tree.
     - 2nd pass: Walking through DOM tree, checking validity by XML schema,
                 calling tag handlers to transform the tree.
-
+                
     Both passes are controlled by the arrays described bellow and user handler functions.
 
 */
@@ -44,38 +44,46 @@ include_once( "lib/ezxml/classes/ezxml.php" );
 if ( !class_exists( 'eZXMLSchema' ) )
     include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 
+/// \deprecated (back-compatibility)
 define( 'EZ_XMLINPUTPARSER_SHOW_NO_ERRORS', 0 );
 define( 'EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS', 1 );
 define( 'EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS', 2 );
+
+/// Use these constants for error types
+define( 'EZ_XMLINPUTPARSER_ERROR_NONE', 0 );
+define( 'EZ_XMLINPUTPARSER_ERROR_SYNTAX', 4 );
+define( 'EZ_XMLINPUTPARSER_ERROR_SCHEMA', 8 );
+define( 'EZ_XMLINPUTPARSER_ERROR_DATA', 16 );
+define( 'EZ_XMLINPUTPARSER_ERROR_ALL', 28 ); // 4+8+16
 
 class eZXMLInputParser
 {
 
     /* $InputTags array contains properties of elements that come from the input.
-
+    
     Each array element describes a tag that comes from the input. Arrays index is
     a tag's name. Each element is an array that may contain the following members:
-
+    
     'name'        - a string representing a new name of the tag,
     'nameHandler' - a name of the function that returns new tag name. Function format:
                     function &tagNameHandler( $tagName, &$attributes )
-
+                    
     If no of those elements are defined the original tag's name is used.
-
+                    
     'noChildren'  - boolean value that determines if this tag could have child tags,
                     default value is false.
-
+    
     Example:
-
+    
     var $InputTags = array(
-
-        'old-name' => array( 'name' => 'new-name' ),
-
-        'tagname' => array( 'nameHandler' => 'tagNameHandler',
-                            'noChildren' => true ),
-
+    
+        'original-name' => array( 'name' => 'new-name' ),
+    
+        'original-name2' => array( 'nameHandler' => 'tagNameHandler',
+                                   'noChildren' => true ),
+                            
          ...
-
+         
          );
     */
 
@@ -85,7 +93,7 @@ class eZXMLInputParser
     $OutputTags array contains properties of elements that are produced in the output.
     Each array element describes a tag presented in the output. Arrays index is
     a tag's name. Each element is an array that may contain the following members:
-
+    
     'parsingHandler' - "Parsing handler" called at parse pass 1 before processing tag's children.
     'initHandler'    - "Init handler" called at pass 2 before proccessing tag's children.
     'structHandler'  - "Structure handler" called at pass 2 after proccessing tag's children,
@@ -93,53 +101,69 @@ class eZXMLInputParser
                        transformations.
     'publishHandler' - "Publish handler" called at pass 2 after schema validity check, so it is called
                        in case the element has it's guaranteed place in the DOM tree.
-
+                       
     'attributes'     - an array that describes attributes transformations. Array's index is the
                        original name of an attribute, and the value is the new name.
-
+    
     'requiredInputAttributes' - attributes that are required in the input tag. If they are not presented
                                 it raises invalid input flag.
-
+                       
     Example:
-
+    
     var $OutputTags = array(
-
+    
         'custom'    => array( 'parsingHandler' => 'parsingHandlerCustom',
                               'initHandler' => 'initHandlerCustom',
                               'structHandler' => 'structHandlerCustom',
                               'publishHandler' => 'publishHandlerCustom',
                               'attributes' => array( 'title' => 'name' ) ),
-
+                              
         ...
     );
-
+                     
     */
 
     var $OutputTags = array();
 
     var $Namespaces = array( 'image' => 'http://ez.no/namespaces/ezpublish3/image/',
                              'xhtml' => 'http://ez.no/namespaces/ezpublish3/xhtml/',
-                             'custom' => 'http://ez.no/namespaces/ezpublish3/custom/' );
+                             'custom' => 'http://ez.no/namespaces/ezpublish3/custom/',
+                             'tmp' => 'http://ez.no/namespaces/ezpublish3/temporary/' );
 
     /*!
-
+    
     The constructor.
+       
+    \param $validate   
+    \param $validateErrorLevel : Types of errors that break input processing
+           It's possible to combine any error types, by creating a bitmask of EZ_XMLINPUTPARSER_ERROR_* constants.
 
-    \param $validate   If true, parser quits immediately after validity flag (isInputValid)
-                       set to false and function 'process' returns false.
+           If true, parser quits immediately after validity flag (isInputValid)
+           set to false and function 'process' returns false.
 
-                       If false, parser tries to modify and transform the input automatically
-                       in order to get the valid result.
+           false, parser tries to modify and transform the input automatically
+                  in order to get the valid result. 
     */
 
-    function eZXMLInputParser( $validate = false, $errorLevel = EZ_XMLINPUTPARSER_SHOW_NO_ERRORS, $parseLineBreaks = false,
+    function eZXMLInputParser( $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE, $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE, $parseLineBreaks = false,
                                $removeDefaultAttrs = false )
     {
-        $this->quitIfInvalid = $validate;
-        $this->errorLevel = $errorLevel;
+        // Back-compatibility fixes:
+        if ( $validateErrorLevel === false )
+            $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE;
+        elseif ( $validateErrorLevel === true )
+            $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL;
 
-        $this->removeDefaultAttrs = $removeDefaultAttrs;
-        $this->parseLineBreaks = $parseLineBreaks;
+        if ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS )
+            $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_SCHEMA;
+        elseif ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS )
+            $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL;
+
+        $this->ValidateErrorLevel = $validateErrorLevel;
+        $this->DetectErrorLevel = $detectErrorLevel;
+
+        $this->RemoveDefaultAttrs = $removeDefaultAttrs;
+        $this->ParseLineBreaks = $parseLineBreaks;
 
         $this->XMLSchema =& eZXMLSchema::instance();
         //$this->getClassesList();
@@ -155,7 +179,7 @@ class eZXMLInputParser
                 $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
                 $this->TrimSpaces = $trimSpaces == 'true' ? true : false;
             }
-
+    
             if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
             {
                 $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
@@ -183,29 +207,33 @@ class eZXMLInputParser
 
     }
 
+    /// \public
     function setDOMDocumentClass( $DOMDocumentClass )
     {
         $this->DOMDocumentClass = $DOMDocumentClass;
     }
 
+    /// \public
     function setParseLineBreaks( $value )
     {
-        $this->parseLineBreaks = $value;
+        $this->ParseLineBreaks = $value;
     }
 
+    /// \public
     function setRemoveDefaultAttrs( $value )
     {
-        $this->removeDefaultAttrs = $value;
+        $this->RemoveDefaultAttrs = $value;
     }
 
     /*!
+        \public
         Call this function to process your input
     */
     function process( $text, $createRootNode = true )
     {
         $text = str_replace( "\r", '', $text);
         $text = str_replace( "\t", ' ', $text);
-        if ( !$this->parseLineBreaks )
+        if ( !$this->ParseLineBreaks )
         {
             $text = str_replace( "\n", '', $text);
         }
@@ -216,9 +244,9 @@ class eZXMLInputParser
             $this->Document = new $this->DOMDocumentClass( '', true );
             $mainSection =& $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
-            foreach( $this->Namespaces as $prefix => $value )
+            foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
             {
-                $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $value );
+                $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
             }
         }
 
@@ -226,19 +254,20 @@ class eZXMLInputParser
         // Parsing the source string
         $this->performPass1( $text );
 
-        if ( $this->quitIfInvalid && !$this->isInputValid )
+        if ( $this->QuitProcess )
             return false;
 
         // Perform pass 2
         $this->performPass2();
 
-        if ( $this->quitIfInvalid && !$this->isInputValid )
+        if ( $this->QuitProcess )
             return false;
 
         return $this->Document;
     }
 
     /*
+       \public
        Pass 1: Parsing the source HTML string.
     */
 
@@ -252,7 +281,7 @@ class eZXMLInputParser
             do
             {
                 $this->parseTag( $data, $pos, $this->Document->Root );
-                if ( $this->quitIfInvalid && !$this->isInputValid )
+                if ( $this->QuitProcess )
                 {
                     $ret = false;
                     break;
@@ -265,7 +294,7 @@ class eZXMLInputParser
         {
             $tmp = null;
             $this->parseTag( $data, $pos, $tmp );
-            if ( $this->quitIfInvalid && !$this->isInputValid )
+            if ( $this->QuitProcess )
             {
                 $ret = false;
             }
@@ -291,7 +320,7 @@ class eZXMLInputParser
         }
         $tagBeginPos = strpos( $data, '<', $pos );
 
-        if ( $this->parseLineBreaks )
+        if ( $this->ParseLineBreaks )
         {
             // Regard line break as a start tag position
             $lineBreakPos = strpos( $data, "\n", $pos );
@@ -333,9 +362,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->isInputValid = false;
-                if ( $this->errorLevel >= 2 )
-                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag' );
+                $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, 'Wrong closing tag' );
                 return false;
             }
 
@@ -364,14 +391,12 @@ class eZXMLInputParser
                 $firstLoop = false;
             }
 
-            $this->isInputValid = false;
-            if ( $this->errorLevel >= 2 )
-                $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) );
+            $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, 'Wrong closing tag : &lt;/%1&gt;.', array( $closedTagName ) );
 
             return false;
         }
         // Insert <br/> instead of linebreaks
-        elseif ( $this->parseLineBreaks && $data[$tagBeginPos] == "\n" )
+        elseif ( $this->ParseLineBreaks && $data[$tagBeginPos] == "\n" )
         {
             $newTagName = 'br';
             $noChildren = true;
@@ -385,9 +410,7 @@ class eZXMLInputParser
             {
                 $pos = $tagBeginPos + 1;
 
-                $this->isInputValid = false;
-                if ( $this->errorLevel >= 2 )
-                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong opening tag' );
+                $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, 'Wrong opening tag' );
                 return false;
             }
 
@@ -432,10 +455,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $this->isInputValid = false;
-                    if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Unknown tag: &lt;%1&gt;.", false, array( $tagName ) );
-
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, 'Unknown tag: &lt;%1&gt;.', array( $tagName ) );
                     return false;
                 }
             }
@@ -466,16 +486,11 @@ class eZXMLInputParser
 
             if ( !$newTagName )
             {
+                // If $newTagName is an empty string then it's not a error
                 if ( $newTagName === false )
-                {
-                    $this->isInputValid = false;
-                    if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Can't convert tag's name: &lt;%1&gt;.", false, array( $tagName ) );
-                }
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, "Can't convert tag's name: &lt;%1&gt;.", array( $tagName ) );
+
                 return false;
-                // TODO: return it before and don't append to ParentStack?
-                // (need to skip processing closing tag on empty tagname)
-                // LATER: no.. this is not very good for data consistance
             }
 
             // wordmatch.ini support
@@ -517,7 +532,7 @@ class eZXMLInputParser
             return false;
         }
 
-        if ( $this->quitIfInvalid && !$this->isInputValid )
+        if ( $this->QuitProcess )
             return false;
 
         // Process children
@@ -526,8 +541,7 @@ class eZXMLInputParser
             do
             {
                 $parseResult = $this->parseTag( $data, $pos, $element );
-
-                if ( $this->quitIfInvalid && !$this->isInputValid )
+                if ( $this->QuitProcess )
                     return false;
             }
             while( $parseResult !== true );
@@ -544,32 +558,32 @@ class eZXMLInputParser
     {
         // Convert single quotes to double quotes
         $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\='(.*?)'/e", "' \\1'.'=\"'.'\\2'.'\"'", ' ' . $attributeString );
-
+    
         // Convert no quotes to double quotes and remove extra spaces
         $attributeString = preg_replace( "/ +([a-zA-Z0-9:-_#\-]+) *\= *([^\s'\"]+)/e", "' \\1'.'=\"'.'\\2'.'\" '", $attributeString );
-
+    
         // Split by quotes followed by spaces
         $attributeArray = preg_split( "#(?<=\") +#", $attributeString );
-
+    
         $attributes = array();
         foreach( $attributeArray as $attrStr )
         {
             if ( !$attrStr || strlen( $attrStr ) < 4 )
                 continue;
-
+    
             list( $attrName, $attrValue ) = split( '="', $attrStr );
-
+    
             $attrName = strtolower( trim( $attrName ) );
             if ( !$attrName )
                 continue;
-
+    
             $attrValue = substr( $attrValue, 0, -1 );
             if ( $attrValue === '' || $attrValue === false )
                 continue;
-
+    
             $attributes[$attrName] = $attrValue;
         }
-
+    
         return $attributes;
     }
 
@@ -594,9 +608,9 @@ class eZXMLInputParser
                 $classesList = $this->XMLSchema->getClassesList( $element->nodeName );
                 if ( !in_array( $value, $classesList ) )
                 {
-                    $this->isInputValid = false;
-                    if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $element->nodeName ) );
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA,
+                                        "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).",
+                                        array( $value, $element->nodeName ) );
                     continue;
                 }
             }
@@ -638,10 +652,9 @@ class eZXMLInputParser
                 }
                 if ( !$presented )
                 {
-                    $this->isInputValid = false;
-                    if ( $this->errorLevel >= 2 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
-                                                    false, array( $reqAttrName, $element->nodeName ) );
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA,
+                                        "Required attribute '%1' is not presented in tag &lt;%2&gt;.",
+                                        array( $reqAttrName, $element->nodeName ) );
                 }
             }
         }
@@ -690,9 +703,9 @@ class eZXMLInputParser
             $startPos = $pos;
             while( !( $text[$pos] == '&' && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
                 $pos++;
-
+    
             $domString .= substr( $text, $startPos, $pos - $startPos );
-
+    
             if ( $pos < strlen( $text ) - 1 )
             {
                 $endPos = strpos( $text, ";", $pos + 2 );
@@ -702,10 +715,10 @@ class eZXMLInputParser
                     $pos += 2;
                     continue;
                 }
-
+    
                 $code = substr( $text, $pos + 2, $endPos - ( $pos + 2 ) );
                 $char = $codec->convertString( array( $code ) );
-
+    
                 $pos = $endPos + 1;
                 $domString .= $char;
             }
@@ -757,7 +770,8 @@ class eZXMLInputParser
     }
 
 
-    /*
+    /*!
+        \public
         Pass 2: Process the tree, run handlers, rebuild and validate.
     */
 
@@ -798,8 +812,12 @@ class eZXMLInputParser
             for( $i = 0; $i < $childrenCount; $i++ )
             {
                 $childReturn =& $this->processSubtree( $children[$i], $lastResult );
+
                 if ( isset( $childReturn['result'] ) )
+                {
+                    unset( $lastResult );
                     $lastResult =& $childReturn['result'];
+                }
                 else
                     unset( $lastResult );
 
@@ -807,24 +825,25 @@ class eZXMLInputParser
                     $newElements = array_merge( $newElements, $childReturn['new_elements'] );
 
                 unset( $childReturn );
-                if ( $this->quitIfInvalid && !$this->isInputValid )
-                {
+
+                if ( $this->QuitProcess )
                     return $ret;
-                }
             }
 
             // process elements created in children handlers
             $this->processNewElements( $newElements );
         }
 
+        // Process by schema (check if element is allowed to exist)
+        if ( !$this->processBySchemaPresence( $element ) )
+            return $ret;
+
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
 
-        // Process by schema and fix tree
-        if ( !$this->processElementBySchema( $element ) )
-        {
+        // Process by schema (check place in the tree)
+        if ( !$this->processBySchemaTree( $element ) )
             return $ret;
-        }
 
         $tmp = null;
         // Call "Publish handler"
@@ -848,8 +867,8 @@ class eZXMLInputParser
         Helper functions for pass 2
     */
 
-    // Check element's schema and fix subtree if needed
-    function processElementBySchema( &$element, $verbose = true )
+    // Check if the element is allowed to exist in this document and remove it if not.
+    function processBySchemaPresence( &$element )
     {
         $parent =& $element->parentNode;
         if ( $parent )
@@ -859,9 +878,8 @@ class eZXMLInputParser
             {
                 if ( $element->nodeName == 'custom' )
                 {
-                    $this->isInputValid = false;
-                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Custom tag '%1' is not allowed.",
-                                                false, array( $element->getAttribute( 'name' ) ) );
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "Custom tag '%1' is not allowed.",
+                                        array( $element->getAttribute( 'name' ) ) );
                 }
                 $parent->removeChild( $element );
                 return false;
@@ -871,17 +889,30 @@ class eZXMLInputParser
             if ( ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
                  && !$element->hasChildNodes() )
             {
-                $this->isInputValid = false;
-                if ( $verbose && $this->errorLevel >= 1 )
-                {
-                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; tag can't be empty.",
-                                                false, array( $element->nodeName ) );
-                }
+                // If this is a part of a chopped element, then do not display a error
+                if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'cut' ) )
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "&lt;%1&gt; tag can't be empty.",
+                                        array( $element->nodeName ) );
+
                 $parent->removeChild( $element );
                 return false;
             }
+        }
+        // TODO: break processing of any node that doesn't have parent
+        //       and is not a root node.
+        elseif ( $element->nodeName != 'section' )
+        {
+            return false;
+        }
+        return true;
+    }
 
-            // Check schema and remove wrong elements
+    // Check that element has a correct position in the tree and fix it if not.
+    function processBySchemaTree( &$element )
+    {
+        $parent =& $element->parentNode;
+        if ( $parent )
+        {
             $schemaCheckResult = $this->XMLSchema->check( $parent, $element );
             if ( !$schemaCheckResult )
             {
@@ -894,13 +925,9 @@ class eZXMLInputParser
                         return false;
                     }
 
-                    $this->isInputValid = false;
-                    if ( $verbose && $this->errorLevel >= 1 )
-                    {
-                        $elementName = $element->nodeName == '#text' ? $element->nodeName : '&lt;' . $element->nodeName . '&gt;';
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
-                                                    false, array( $elementName, $parent->nodeName ) );
-                    }
+                    $elementName = $element->nodeName == '#text' ? $element->nodeName : '&lt;' . $element->nodeName . '&gt;';
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "%1 is not allowed to be a child of &lt;%2&gt;.",
+                                        array( $elementName, $parent->nodeName ) );
                 }
                 $this->fixSubtree( $element, $element );
                 return false;
@@ -937,7 +964,7 @@ class eZXMLInputParser
         $parent->removeChild( $element );
     }
 
-    function processAttributesBySchema( &$element, $verbose = true )
+    function processAttributesBySchema( &$element )
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
@@ -949,6 +976,12 @@ class eZXMLInputParser
         $attributes = $element->attributes();
         foreach( $attributes as $attr )
         {
+            if ( $attr->Prefix == 'tmp' )
+            {
+                $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
+                continue;
+            }
+
             $allowed = false;
             $removeAttr = false;
 
@@ -992,14 +1025,11 @@ class eZXMLInputParser
             if ( !$allowed )
             {
                 $removeAttr = true;
-                $this->isInputValid = false;
-                if ( $verbose && $this->errorLevel >= 1 )
-                {
-                    $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
-                                                        false, array( $fullName, $element->nodeName ) );
-                }
+                $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA,
+                                    "Attribute '%1' is not allowed in &lt;%2&gt; element.",
+                                    array( $fullName, $element->nodeName ) );
             }
-            elseif ( $this->removeDefaultAttrs )
+            elseif ( $this->RemoveDefaultAttrs ) 
             {
                 // Remove attributes having default values
                 $default = $this->XMLSchema->attrDefaultValue( $element->nodeName, $fullName );
@@ -1044,6 +1074,7 @@ class eZXMLInputParser
             else
                 eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML input parser' );
         }
+
         return $result;
     }
 
@@ -1056,7 +1087,7 @@ class eZXMLInputParser
         //$element->setAttribute( 'ezparser-new-element', 'true' );
 
         if ( !isset( $ret['new_elements'] ) )
-             $ret['new_elements'] = array();
+     	    $ret['new_elements'] = array();
 
         $ret['new_elements'][] =& $element;
         return $element;
@@ -1064,16 +1095,20 @@ class eZXMLInputParser
 
     function processNewElements( &$createdElements )
     {
-        // Call publish handlers for newly created elements
+        // Call handlers for newly created elements
         foreach( array_keys( $createdElements ) as $key )
         {
             $element =& $createdElements[$key];
 
             $tmp = null;
+
+            if ( !$this->processBySchemaPresence( $element ) )
+                continue;
+
             // Call "Structure handler"
             $this->callOutputHandler( 'structHandler', $element, $tmp );
 
-            if ( !$this->processElementBySchema( $element ) )
+            if ( !$this->processBySchemaTree( $element ) )
                 continue;
 
             $tmp2 = null;
@@ -1083,14 +1118,33 @@ class eZXMLInputParser
         }
     }
 
+    /// \public
     function getMessages()
     {
         return $this->Messages;
     }
 
+    /// \public
     function isValid()
     {
-        return $this->isInputValid;
+        return $this->IsInputValid;
+    }
+
+    function handleError( $type, $message, $params = false )
+    {
+        if ( $type & $this->DetectErrorLevel )
+        {
+            $this->IsInputValid = false;
+            if ( $message )
+                $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', $message,
+                                            false, $params );
+        }
+
+        if ( $type & $this->ValidateErrorLevel )
+        {
+            $this->IsInputValid = false;
+            $this->QuitProcess = true;
+        }
     }
 
     var $DOMDocumentClass = 'eZDOMDocument';
@@ -1101,12 +1155,13 @@ class eZXMLInputParser
     var $eZPublishVersion;
 
     var $ParentStack = array();
+  
+    var $ValidateErrorLevel;
+    var $DetectErrorLevel;
 
-    var $errorLevel = 0;
-
-    var $isInputValid = true;
-    var $quitIfInvalid = false;
-
+    var $IsInputValid = true;
+    var $QuitProcess = false;
+    
     // options that depend on settings
     var $TrimSpaces = true;
     var $AllowMultipleSpaces = false;

@@ -36,7 +36,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
                               'isInline' => false,
-                              'attributes' => array( 'xmlns:image', 'xmlns:xhtml', 'xmlns:custom' ) ),
+                              'attributes' => array( 'xmlns:image', 'xmlns:xhtml', 'xmlns:custom', 'xmlns:tmp' ) ),
     
         'embed'     => array( 'blockChildrenAllowed' => false,
                               'inlineChildrenAllowed' => false,

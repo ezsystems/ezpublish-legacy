@@ -117,15 +117,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         'anchor'    => array( 'structHandler' => 'appendLineParagraph' ),
 
-        'custom'    => array( //'parsingHandler' => 'parsingHandlerCustom',
-                              'structHandler' => 'structHandlerCustom',
+        'custom'    => array( 'structHandler' => 'structHandlerCustom',
                               'publishHandler' => 'publishHandlerCustom',
                               'requiredInputAttributes' => array( 'name' ) ),
 
         '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS,
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_ERROR_ALL,
                                          $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
@@ -159,25 +158,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    /*function &parsingHandlerCustom( &$element, &$param )
-    {
-        $ret = null;
-        $name = $element->getAttribute( 'name' );
-
-        $isInline = false;
-        $ini =& eZINI::instance( 'content.ini' );
-
-        $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-        if ( isset( $isInlineTagList[$name] ) )
-        {
-            if ( $isInlineTagList[$name] == 'true' )
-                $isInline = true;
-        }
-
-        $element->setAttribute( 'inline', $isInline ? 'true' : 'false' );
-        return $ret;
-    }*/
-
     function &breakInlineFlow( &$element, &$param )
     {
         // Breaks the flow of inline tags. Used for non-inline tags caught within inline.
@@ -191,19 +171,18 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $wholeTagString = substr( $data, $tagBeginPos, $pos - $tagBeginPos );
 
         if ( $parent &&
-             //!$this->XMLSchema->isInline( $element ) &&
-             $this->XMLSchema->isInline( $parent ) //&&
-             //!$this->XMLSchema->check( $parent, $element )
-             )
+             $this->XMLSchema->isInline( $parent ) )
         {
             $insertData = '';
             $currentParent =& $parent;
+            // Close all parent tags
             end( $this->ParentStack );
             do
             {
                 $stackData = current( $this->ParentStack );
                 $currentParentName = $stackData[0];
                 $insertData .= "</$currentParentName>";
+                $currentParent->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:cut', 'true' );
                 $currentParent =& $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
@@ -221,6 +200,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $currentParentAttrString = '';
                 if ( $stackData[2] )
                     $currentParentAttrString = ' ' . $stackData[2];
+                $currentParentAttrString .= " tmp:cut='true'";
                 $appendData = "<$currentParentName$currentParentAttrString>" . $appendData;
                 $currentParent =& $currentParent->parentNode;
                 prev( $this->ParentStack );
@@ -436,11 +416,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                        $newParent->insertBefore( $newSection, $element );
                    else
                        $newParent->appendChild( $newSection );
-                   // Schema check
-                   if ( !$this->processElementBySchema( $newSection, false ) )
-                   {
-                       return $ret;
-                   }
+                   
                    $newParent =& $newSection;
                    unset( $newSection );
                 }
