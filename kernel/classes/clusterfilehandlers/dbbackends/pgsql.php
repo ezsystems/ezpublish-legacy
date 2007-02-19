@@ -263,7 +263,7 @@ class eZDBFileHandlerPgsqlBackend
         return $result;
     }
 
-    function _fetch( $filePath )
+    function _fetch( $filePath, $uniqueName = false )
     {
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
@@ -273,7 +273,8 @@ class eZDBFileHandlerPgsqlBackend
         }
 
         // create temporary file
-        $tmpFilePath = $filePath.getmypid().'tmp';
+        $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+//        $tmpFilePath = $filePath.getmypid().'tmp';
         $this->__mkdir_p( dirname( $tmpFilePath ) );
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
         {
@@ -292,9 +293,15 @@ class eZDBFileHandlerPgsqlBackend
 
         // rename temporary file to the target one
         fclose( $fp );
-        rename( $tmpFilePath, $filePath );
-
-        return true;
+        if ( ! $uniqueName === true )
+        {
+            rename( $tmpFilePath, $filePath );
+        }
+        else
+        {
+            $filePath = $tmpFilePath;
+        }
+        return $filePath;
     }
 
     function _fetchContents( $filePath )

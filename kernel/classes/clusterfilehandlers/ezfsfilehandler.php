@@ -91,6 +91,19 @@ class eZFSFileHandler
     }
 
     /**
+     * Fetches file from db and saves it in FS under unique name.
+     *
+     * In case of fetching from filesystem does nothing.
+     * \public
+     */
+    function fetchUnique( )
+    {
+        $filePath = $this->metaData['name'];
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchUnique( '$filePath' )" );
+        return $filePath;
+    }
+
+    /**
      * Store file.
      *
      * In case of storing to filesystem does nothing.
