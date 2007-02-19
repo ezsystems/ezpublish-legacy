@@ -116,9 +116,12 @@ class eZImageVariation extends eZPersistentObject
         {
             if ( function_exists( 'getimagesize' ) )
             {
-                $file->fetch();
-                $info = getimagesize( $fullPath );
-                $file->deleteLocal();
+                $fetchedFilePath = $file->fetchUnique();
+                $info = getimagesize( $fetchedFilePath  );
+                $file->fileDeleteLocal( $fetchedFilePath );
+//                $file->fetch();
+//                $info = getimagesize( $fullPath );
+//                $file->deleteLocal();
                 if ( $info )
                 {
                     $width = $info[0];

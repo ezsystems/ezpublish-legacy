@@ -1339,9 +1339,12 @@ WHERE user_id = '" . $userID . "' AND
 
                 if( $cacheFile->exists() && $cacheFile->mtime() > $expiredTimestamp )
                 {
-                    $cacheFile->fetch();
-                    $accessArray = include( $cacheFilePath );
-                    $cacheFile->deleteLocal();
+                    $fetchedFilePath = $cacheFile->fetchUnique();
+                    include( $fetchedFilePath );
+                    $cacheFile->fileDeleteLocal( $fetchedFilePath );
+//                    $cacheFile->fetch();
+//                    $accessArray = include( $cacheFilePath );
+//                    $cacheFile->deleteLocal();
                 }
             }
         }

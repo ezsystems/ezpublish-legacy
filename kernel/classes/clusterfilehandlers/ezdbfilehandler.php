@@ -163,6 +163,24 @@ class eZDBFileHandler
     }
 
     /**
+     * Fetches file from db and saves it in FS under unique name.
+     *
+     * \public
+     * \static
+     * \return filename with path of a saved file. You can use this filename to get contents of file from filesystem.
+     */
+    function fetchUnique( )
+    {
+        $filePath = $this->metaData['name'];
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fetchUnique( '$filePath' )" );
+
+        $fetchWithUniqueName = true;
+        $fetchedFilePath = $this->backend->_fetch( $filePath, $fetchWithUniqueName );
+        $this->metaData['unique_name'] = $fetchedFilePath;
+        return $fetchedFilePath;
+    }
+
+    /**
      * Fetches file from db and saves it in FS under the same name.
      *
      * \public

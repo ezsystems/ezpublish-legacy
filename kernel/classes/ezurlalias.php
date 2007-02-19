@@ -569,9 +569,9 @@ WHERE
         {
             // VS-DBFILE
 
-            $cacheFile->fetch();
-            include_once( $info['path'] );
-            $cacheFile->deleteLocal();
+            $fetchedFilePath = $cacheFile->fetchUnique();
+            include_once( $fetchedFilePath );
+            $cacheFile->fileDeleteLocal( $fetchedFilePath );
 
             $hasCache = false;
             if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )

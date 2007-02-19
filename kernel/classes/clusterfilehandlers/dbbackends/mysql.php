@@ -378,7 +378,7 @@ class eZDBFileHandlerMysqlBackend
         return $result;
     }
 
-    function _fetch( $filePath )
+    function _fetch( $filePath, $uniqueName = false )
     {
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
@@ -403,7 +403,8 @@ class eZDBFileHandlerMysqlBackend
         }
 
         // create temporary file
-        $tmpFilePath = $filePath.getmypid().'tmp';
+        $tmpFilePath = substr_replace( $filePath, getmypid().'tmp', strrpos( $filePath, '.' ), 0  );
+//        $tmpFilePath = $filePath.getmypid().'tmp';
         $this->__mkdir_p( dirname( $tmpFilePath ) );
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
         {
@@ -415,10 +416,18 @@ class eZDBFileHandlerMysqlBackend
             fwrite( $fp, $row[0] );
 
         fclose( $fp );
-        rename( $tmpFilePath, $filePath );
+
+        if ( ! $uniqueName === true )
+        {
+            rename( $tmpFilePath, $filePath );
+        }
+        else
+        {
+            $filePath = $tmpFilePath;
+        }
         mysql_free_result( $res );
 
-        return true;
+        return $filePath;
     }
 
     function _fetchContents( $filePath )
