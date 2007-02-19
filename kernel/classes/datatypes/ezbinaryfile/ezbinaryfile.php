@@ -232,9 +232,12 @@ class eZBinaryFile extends eZPersistentObject
                 $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
                 if ( $file->exists() )
                 {
-                    $file->fetch();
-                    $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
-                    $file->deleteLocal();
+                    $fetchedFilePath = $file->fetchUnique();
+                    $metaData =& $parserObject->parseFile( $fetchedFilePath );
+                    $file->fileDeleteLocal( $fetchedFilePath );
+//                    $file->fetch();
+//                    $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
+//                    $file->deleteLocal();
                 }
             }
             else

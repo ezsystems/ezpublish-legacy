@@ -895,14 +895,27 @@ class eZImageAliasHandler
 
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $imageFile = eZClusterFileHandler::instance( $filename );
-            $imageFile->fetch();
 
+            $fetchedFilePath = $imageFile->fetchUnique();
+
+            //(Cluster) Get mime data of real file, and fetch info by image analizer.
             include_once( 'lib/ezutils/classes/ezmimetype.php' );
-            $mimeData = eZMimeType::findByFileContents( $filename );
-            $imageManager->analyzeImage( $mimeData );
-            $this->createImageInformationNode( $imageNode, $mimeData );
+            $mimeDataTemp = eZMimeType::findByFileContents( $fetchedFilePath );
+            $imageManager->analyzeImage( $mimeDataTemp );
 
-            $imageFile->deleteLocal();
+            //(Cluster) Get mime data of a file which does not really exist on file system. We need this to build correct imageInformationNode.
+            $mimeData = eZMimeType::findByURL( $filename );
+            if ( isset( $mimeDataTemp['info'] ) )
+                $mimeData['info'] = $mimeDataTemp['info'];
+
+            $this->createImageInformationNode( $imageNode, $mimeData );
+            $imageFile->fileDeleteLocal( $fetchedFilePath );
+//            $imageFile->fetch();
+//            include_once( 'lib/ezutils/classes/ezmimetype.php' );
+//            $mimeData = eZMimeType::findByFileContents( $filename );
+//            $imageManager->analyzeImage( $mimeData );
+//            $this->createImageInformationNode( $imageNode, $mimeData );
+//            $imageFile->deleteLocal();
         }
 
         foreach ( array_keys( $aliasList ) as $aliasName )
