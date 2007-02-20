@@ -135,14 +135,9 @@ class eZXMLInputParser
     The constructor.
        
     \param $validate   
-    \param $validateErrorLevel : Types of errors that break input processing
+    \param $validateErrorLevel Determines types of errors that break input processing
            It's possible to combine any error types, by creating a bitmask of EZ_XMLINPUTPARSER_ERROR_* constants.
-
-           If true, parser quits immediately after validity flag (isInputValid)
-           set to false and function 'process' returns false.
-
-           false, parser tries to modify and transform the input automatically
-                  in order to get the valid result. 
+    \param $detectErrorLevel Determines types of errors that will be detected and added to error log ($Messages).
     */
 
     function eZXMLInputParser( $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE, $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE, $parseLineBreaks = false,
@@ -205,6 +200,9 @@ class eZXMLInputParser
             $this->AllowNumericEntities = false;
         }
 
+        $contentIni =& eZINI::instance( 'content.ini' );
+        $useStrictHeaderRule = $contentIni->variable( 'header', 'UseStrictHeaderRule' );
+        $this->StrictHeaders = $useStrictHeaderRule == 'true' ? true : false;
     }
 
     /// \public
@@ -1166,6 +1164,7 @@ class eZXMLInputParser
     var $TrimSpaces = true;
     var $AllowMultipleSpaces = false;
     var $AllowNumericEntities = false;
+    var $StrictHeaders = false;
 
     // options that depend on parameters passed
     var $parseLineBreaks = false;

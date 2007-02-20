@@ -124,11 +124,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'structHandlerText' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = EZ_XMLINPUTPARSER_ERROR_ALL,
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL, $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL,
                                          $parseLineBreaks = false, $removeDefaultAttrs = false )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->eZXMLInputParser( $validate, $errorLevel, $parseLineBreaks, $removeDefaultAttrs );
+        $this->eZXMLInputParser( $validateErrorLevel, $detectErrorLevel, $parseLineBreaks, $removeDefaultAttrs );
     }
 
     /*
@@ -408,6 +408,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             }
             if ( $level > $sectionLevel )
             {
+                if ( $this->StrictHeaders &&
+                     $level - $sectionLevel > 1 )
+                {
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "Incorrect headers nesting" );
+                }
+
                 $newParent =& $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
@@ -429,9 +435,26 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $newParent->appendChild( $elementToMove );
                     $elementToMove =& $next;
 
-                    if ( $elementToMove->nodeName == 'header' &&
-                         $elementToMove->getAttribute( 'level' ) <= $level ) 
-                        break;
+                    if ( $elementToMove->nodeName == 'header' )
+                    {
+                        // in the case of non-strict headers
+                        $headerLevel = $elementToMove->getAttribute( 'level' );
+                        if ( $level - $sectionLevel > 1 )
+                        {
+                            if ( $headerLevel == $level )
+                            {
+                                $newParent2 =& $this->Document->createElement( 'section' );
+                                $newParent->parentNode->appendChild( $newParent2 );
+                                unset( $newParent );
+                                $newParent =& $newParent2;
+                            }
+                            elseif ( $headerLevel < $level )
+                                break;
+                        }
+                        else
+                            if ( $headerLevel <= $level )
+                                break;
+                    }
                 }
             }
             elseif ( $level < $sectionLevel )
