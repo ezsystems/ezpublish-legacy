@@ -136,7 +136,8 @@ class eZXMLInputParser
        
     \param $validate   
     \param $validateErrorLevel Determines types of errors that break input processing
-           It's possible to combine any error types, by creating a bitmask of EZ_XMLINPUTPARSER_ERROR_* constants.
+                               It's possible to combine any error types, by creating a bitmask of EZ_XMLINPUTPARSER_ERROR_* constants.
+                               \c true value means that all errors defined by $detectErrorLevel parameter will break further processing
     \param $detectErrorLevel Determines types of errors that will be detected and added to error log ($Messages).
     */
 
@@ -144,15 +145,15 @@ class eZXMLInputParser
                                $removeDefaultAttrs = false )
     {
         // Back-compatibility fixes:
-        if ( $validateErrorLevel === false )
-            $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE;
-        elseif ( $validateErrorLevel === true )
-            $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL;
-
         if ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS )
             $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_SCHEMA;
         elseif ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS )
             $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL;
+
+        if ( $validateErrorLevel === false )
+            $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE;
+        elseif ( $validateErrorLevel === true )
+            $validateErrorLevel = $detectErrorLevel;
 
         $this->ValidateErrorLevel = $validateErrorLevel;
         $this->DetectErrorLevel = $detectErrorLevel;
