@@ -36,6 +36,12 @@ class eZContentClassNameList extends eZSerializedObjectNameList
         eZSerializedObjectNameList::eZSerializedObjectNameList( $serializedNameList );
     }
 
+    function create( $serializedNamesString = false )
+    {
+        $object = new eZContentClassNameList( $serializedNamesString );
+        return $object;
+    }
+
     function store( &$contentClass )
     {
         if ( $this->hasDirtyData() && is_object($contentClass ) )

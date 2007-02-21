@@ -34,6 +34,12 @@ class eZContentClassAttributeNameList extends eZSerializedObjectNameList
     {
         eZSerializedObjectNameList::eZSerializedObjectNameList( $serializedNameList );
     }
+
+    function create( $serializedNamesString = false )
+    {
+        $object = new eZContentClassAttributeNameList( $serializedNamesString );
+        return $object;
+    }
 }
 
 ?>
