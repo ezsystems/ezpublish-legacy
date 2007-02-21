@@ -27,7 +27,7 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-// Portions are modifications on patches by Andreas Böckler and Francis Nart
+// Portions are modifications on patches by Andreas Bï¿½ckler and Francis Nart
 //
 
 /*!
@@ -647,6 +647,13 @@ class eZSys
             $sslPort = EZSSLZONE_DEFAULT_SSL_PORT;
         // $nowSSl is true if current access mode is HTTPS.
         $nowSSL = ( eZSys::serverPort() == $sslPort );
+
+        //Check if this request might be driven through a ssl proxy
+        if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
+        {
+            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxySeverName' );
+            $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
+        }
         return $nowSSL;
     }
 

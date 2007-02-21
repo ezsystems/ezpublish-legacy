@@ -1,0 +1,39 @@
+*Title: Support for SSL Proxies
+
+*Documentation:
+Sometimes it is more pratical to just deliver SSL request through a generic proxy. 
+This can be the case for development issues or wildcard mass hosting.
+For determing the usage of a SSL proxy we evaluate a server variable "HTTP_X_FORWARDED_SERVER" set by webserver.
+The value of "HTTP_X_FORWARDED_SERVER" is the value of "ServerName" of the origin virtual host.
+The setting is controlled by [SiteSettings].SSLProxySeverName with default value "localhost".
+
+Examples:
+
+Generic SSL Proxy for Apache
+
+LoadModule ssl_module modules/mod_ssl.so 
+<IfModule mod_ssl.c>
+Listen 443
+NameVirtualHost *:443
+<VirtualHost *:443>
+
+        ServerAdmin webmaster@localhost
+        ServerName localhost
+
+        DocumentRoot /workspace
+
+        SSLEngine on
+        SSLCertificateFile C:\workspace\conf\ssl\certs\ca.cer
+        SSLCertificateKeyFile C:\workspace\conf\ssl\keys\ca.key
+
+        # security
+        SSLProtocol -ALL +SSLv3 +TLSv1
+        SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM
+
+        SetEnvIf User-Agent ".*MSIE.*" \
+        nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
+
+        RewriteEngine on
+        RewriteRule ^/(.*) http://%{HTTP_HOST}/$1 [P,L]
+</VirtualHost>
+</IfModule>
