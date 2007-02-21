@@ -836,9 +836,12 @@ print( $values['MyValue'] );
             $file = eZClusterFileHandler::instance( $path );
             if ( $file->exists() )
             {
-                $file->fetch();
-                include( $path );
-                $file->deleteLocal();
+                $fetchedFilePath = $file->fetchUnique();
+                include( $fetchedFilePath );
+                $file->fileDeleteLocal( $fetchedFilePath );
+//                $file->fetch();
+//                include( $path );
+//                $file->deleteLocal();
             }
         }
 

@@ -63,13 +63,17 @@ class eZExpiryHandler
         $expiryFile = eZClusterFileHandler::instance( $cacheDirectory . '/' . 'expiry.php' );
         if ( $expiryFile->exists() )
         {
-            $expiryFile->fetch();
 
-            include( $cacheDirectory . "/" . 'expiry.php' );
+            $fetchedFilePath = $expiryFile->fetchUnique();
+            include( $fetchedFilePath );
+            $expiryFile->fileDeleteLocal( $fetchedFilePath );
+
+//            $expiryFile->fetch();
+//            include( $cacheDirectory . "/" . 'expiry.php' );
             $this->Timestamps = $Timestamps;
             $this->IsModified = false;
 
-            $expiryFile->deleteLocal();
+//            $expiryFile->deleteLocal();
         }
     }
 
