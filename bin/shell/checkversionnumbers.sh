@@ -18,7 +18,7 @@ MINOR=9
 RELEASE=1
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=6
-STATE=""
+STATE="beta1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
@@ -26,7 +26,7 @@ BRANCH_VERSION=$MAJOR"."$MINOR
 PACKAGE_VERSION="3.5.2"
 PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text, do not modify
-DEVELOPMENT="false"
+DEVELOPMENT="true"
 # Whether the previous release is a development release or not.
 DEVELOPMENT_PREVIOUS="false"
 # Is only true when the release is a final release (ie. the first of the stable ones)
