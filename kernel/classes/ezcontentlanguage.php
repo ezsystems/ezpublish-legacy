@@ -275,7 +275,7 @@ class eZContentLanguage extends eZPersistentObject
      * \param locale Locale of the language to fetch, e. g. 'slk-SK'.
      * \return eZContentLanguage object identified by locale code $locale.
      */
-    function fetchByLocale( $locale )
+    function fetchByLocale( $locale, $createIfNotExist = false )
     {
         $languages = eZContentLanguage::fetchList();
 
@@ -287,7 +287,13 @@ class eZContentLanguage extends eZPersistentObject
             }
         }
 
-        return false;
+        $language = false;
+        if ( $createIfNotExist )
+        {
+            $language = eZContentLanguage::addLanguage( $locale );
+        }
+
+        return $language;
     }
 
     /**

@@ -28,10 +28,14 @@
 
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 
+define( 'EZ_ALWAYS_AVAILABLE_STR', 'always-available' );
+
 class eZSerializedObjectNameList
 {
     function eZSerializedObjectNameList( $serializedNamesString = false )
     {
+        $this->DefaultLanguage = null;
+
         if ( $serializedNamesString )
             $this->initFromSerializedList( $serializedNamesString );
     }
@@ -45,16 +49,44 @@ class eZSerializedObjectNameList
     function initFromString( $nameString, $languageLocale = false )
     {
         if ( !$languageLocale )
-            $languageLocale = eZSerializedObjectNameList::defaultLanguageLocale();
+            $languageLocale = $this->defaultLanguageLocale();
 
         $serializedNameList = serialize( array( $languageLocale => $nameString,
-                                                'always-available' => $languageLocale ) );
+                                                EZ_ALWAYS_AVAILABLE_STR => $languageLocale ) );
         $this->initFromSerializedList( $serializedNameList );
     }
 
     function initDefault()
     {
         $this->initFromString( '' );
+    }
+
+    function create( $serializedNamesString = false )
+    {
+        $object = new eZSerializedObjectNameList( $serializedNamesString );
+        return $object;
+    }
+
+    function clone()
+    {
+        $clone = $this->create();
+        $clone->copy( $this );
+        return $clone;
+    }
+
+    function copy( $serializedObjectNameListObject )
+    {
+        $serializedObjectNameListObject->setNameList( $this->nameList() );
+        $serializedObjectNameListObject->setHasDirtyData( $this->hasDirtyData() );
+        $serializedObjectNameListObject->setDefaultLanguage( $this->defaultLanguage() );
+    }
+
+    function mergeNameList( $inNameList )
+    {
+        foreach ( $inNameList as $languageLocale => $name )
+            $this->setNameByLanguageLocale( $name, $languageLocale );
+
+        $this->setHasDirtyData();
     }
 
     function serializeNames()
@@ -90,15 +122,15 @@ class eZSerializedObjectNameList
 
     function alwaysAvailableLanguageLocale()
     {
-        $languageLocale = isset( $this->NameList['always-available'] ) ? $this->NameList['always-available'] : false;
+        $languageLocale = isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) ? $this->NameList[EZ_ALWAYS_AVAILABLE_STR] : false;
         return $languageLocale;
     }
 
     function alwaysAvailableLanguage()
     {
         $language = false;
-        if ( isset( $this->NameList['always-available'] ) )
-            $language = eZContentLanguage::fetchByLocale( $this->NameList['always-available'] );
+        if ( isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) )
+            $language = eZContentLanguage::fetchByLocale( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
 
         return $language;
     }
@@ -108,7 +140,7 @@ class eZSerializedObjectNameList
         $mask = 0;
         foreach ( $this->NameList as $languageLocale => $name )
         {
-            if ( $languageLocale == 'always-available' )
+            if ( $languageLocale == EZ_ALWAYS_AVAILABLE_STR )
             {
                 $mask += 1;
             }
@@ -155,9 +187,9 @@ class eZSerializedObjectNameList
     function alwaysAvailableName()
     {
         $name = '';
-        if ( isset( $this->NameList['always-available'] ) )
+        if ( isset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] ) )
         {
-            $name = $this->nameByLanguageLocale( $this->NameList['always-available'] );
+            $name = $this->nameByLanguageLocale( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
         }
 
         return $name;
@@ -167,14 +199,28 @@ class eZSerializedObjectNameList
     {
         if ( $languageLocale )
         {
-            $this->NameList['always-available'] = $languageLocale;
+            $this->NameList[EZ_ALWAYS_AVAILABLE_STR] = $languageLocale;
         }
         else
         {
-            unset( $this->NameList['always-available'] );
+            unset( $this->NameList[EZ_ALWAYS_AVAILABLE_STR] );
         }
 
         $this->setHasDirtyData();
+    }
+
+    function updateAlwaysAvailable( $alwaysAvailableLocale = false )
+    {
+        if ( !$alwaysAvailableLocale )
+            $alwaysAvailableLocale = $this->alwaysAvailableLanguageLocale();
+
+        if ( !$this->hasNameInLocale( $alwaysAvailableLocale ) )
+        {
+            $languageLocaleList = array_keys( $this->nameList() );
+            $alwaysAvailableLocale = $languageLocaleList[0];
+        }
+
+        $this->setAlwaysAvailableLanguage( $alwaysAvailableLocale );
     }
 
     function hasNameInLocale( $languageLocale )
@@ -230,7 +276,7 @@ class eZSerializedObjectNameList
     {
         foreach ( array_keys( $this->NameList ) as $languageLocale )
         {
-            if ( $languageLocale != 'always-available' )
+            if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
                 $this->NameList[$languageLocale] .= $appendString;
         }
     }
@@ -267,6 +313,21 @@ class eZSerializedObjectNameList
         return $this->NameList;
     }
 
+    function nameListCount()
+    {
+        return count( $this->nameList );
+    }
+
+    function setNameList( $nameListArray )
+    {
+        $this->NameList = $nameListArray;
+    }
+
+    function resetNameList()
+    {
+        $this->setNameList( array() );
+    }
+
     function removeName( $languageLocale )
     {
         if ( isset( $this->NameList[$languageLocale] ) )
@@ -277,12 +338,11 @@ class eZSerializedObjectNameList
     }
 
     /*!
-     \static
     */
     function defaultLanguageLocale()
     {
         $languageLocale = false;
-        $language = eZSerializedObjectNameList::defaultLanguage();
+        $language = $this->defaultLanguage();
 
         if ( is_object( $language ) )
             $languageLocale = $language->attribute( 'locale' );
@@ -291,11 +351,35 @@ class eZSerializedObjectNameList
     }
 
     /*!
-     \static
     */
     function defaultLanguage()
     {
-        $language = eZContentLanguage::topPriorityLanguage();
+        if ( !is_object( $this->DefaultLanguage ) )
+        {
+            $this->DefaultLanguage = eZContentLanguage::topPriorityLanguage();
+        }
+
+        return $this->DefaultLanguage;
+    }
+
+    function setDefaultLanguage( $language )
+    {
+        $this->DefualtLanguage = $language;
+    }
+
+    function setDefaultLanguageByLocale( $languageLocale, $createIfNotExist = true )
+    {
+        $language = eZContentLanguage::fetchByLocale( $languageLocale, $createIfNotExist );
+
+        if ( is_object( $language ) )
+        {
+            $this->setDefaultLanguage( $language );
+        }
+        else
+        {
+            eZDebug::writeWarning( "Can't set '$languageLocale' as default language. '$languageLocale' language doesn't exist in system", "eZSerializedObjectNameList::setDefaultLanguageByLocale" );
+        }
+
         return $language;
     }
 
@@ -391,7 +475,7 @@ class eZSerializedObjectNameList
         {
             foreach ( array_keys( $this->NameList ) as $languageLocale )
             {
-                if ( $languageLocale != 'always-available' )
+                if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
                     $languageLocaleList[] = $languageLocale;
             }
         }
@@ -438,8 +522,81 @@ class eZSerializedObjectNameList
         return $languages;
     }
 
+    /*!
+     \param $languageInfo. languageInfo = array( 'map_table' => array( [<lang> => <to_lang>],
+                                                                       [<lang> => 'skip_language'],
+                                                                       .... ) );
+
+     Note: it's probably needed to call 'validate' after 'normalize'.
+           'normialize' doesnt' check whether language exist or not, cause you can have names in languages which are not
+           in 'map_table', so you need to call 'validate' anyway.
+    */
+    function normalize( $languageInfo )
+    {
+        if ( is_array( $languageInfo ) && isset( $languageInfo['map_table'] ) )
+        {
+            // do normalization on new 'nameList' to avoid dependence on the order
+            // of <lang>s in 'map_table'. Normailzation on $this->nameList directly
+            // can lead to unwanted behaviour, like
+            //      'map_table' => array( 'ger-DE' => 'skip_language',
+            //                            'eng-GB' => 'ger-DE' )
+            // and
+            //      'map_table' => array( 'eng-GB' => 'get-DE',
+            //                            'ger-DE' => 'skip_language' )
+            // will produce different results.
+            $nameList = $this->clone();
+            $this->resetNameList();
+
+            foreach ( $languageInfo['map_table'] as $fromLanguageLocale => $toLanguageLocale )
+            {
+                $name = $nameList->nameByLanguageLocale( $fromLanguageLocale );
+
+                if ( $tolanguageLocale == 'skip_language' )
+                {
+                    // do nothing;
+                }
+                else
+                {
+                    $this->setNameByLanguageLocale( $name, $toLanguageLocale );
+                }
+
+                // exclude 'processed' name.
+                $nameList->removeName( $fromLanguageLocale );
+            }
+
+            // copy names which were not transformed
+            $this->mergeNameList( $nameList );
+
+            // update always-available(probably original 'always-available' was skiped)
+            $this->updateAlwaysAvailable();
+        }
+    }
+
+    /*!
+     Validates names: removes names if appropriate language doesn't exist and can't be created.
+    */
+    function validate( $createLanguageIfNotExist = true )
+    {
+        $nameList = $this->nameList();
+        foreach ( $nameList as $languageLocale => $name )
+        {
+            if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
+            {
+                $language = eZContentLanguage::fetchByLocale( $languageLocale, $createLanguageIfNotExist );
+                if ( !is_object( $language ) )
+                {
+                    $this->removeName( $languageLocale );
+                }
+            }
+        }
+
+        // update always-available(probably original 'always-available' was skiped)
+        $this->updateAlwaysAvailable();
+    }
+
     var $NameList;
     var $HasDirtyData;
+    var $DefaultLanguage;
 }
 
 ?>
