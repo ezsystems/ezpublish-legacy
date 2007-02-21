@@ -699,13 +699,13 @@ fi
 
 if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
-        if [ -d "doc/features/$VERSION_ONLY" ]; then
+        if [ -d "doc/features" ]; then
             echo -n "Copying `ez_color_em feature docs` framework"
             mkdir -p "$DEST/doc/features"
             if [ "$SVN_EXPORT" == "svn" ]; then
-                svn export "$CURRENT_URL/doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
+                svn export "$CURRENT_URL/doc/features" "$DEST/doc/features" &>.export.log
             else
-                svn export "doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
+                svn export "doc/features" "$DEST/doc/features" &>.export.log
             fi
             ez_result_file $? .export.log || exit 1
             rm .export.log
