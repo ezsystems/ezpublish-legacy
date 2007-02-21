@@ -701,7 +701,7 @@ if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
         if [ -d "doc/features" ]; then
             echo -n "Copying `ez_color_em feature docs` framework"
-            mkdir -p "$DEST/doc/features"
+            mkdir -p "$DEST/doc"
             if [ "$SVN_EXPORT" == "svn" ]; then
                 svn export "$CURRENT_URL/doc/features" "$DEST/doc/features" &>.export.log
             else
