@@ -651,7 +651,7 @@ class eZSys
         //Check if this request might be driven through a ssl proxy
         if ( isset ( $_SERVER['HTTP_X_FORWARDED_SERVER'] ) and !$nowSSL )
         {
-            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxySeverName' );
+            $sslProxyServerName = $ini->variable( 'SiteSettings', 'SSLProxyServerName' );
             $nowSSL = ( $sslProxyServerName == $_SERVER['HTTP_X_FORWARDED_SERVER'] );
         }
         return $nowSSL;

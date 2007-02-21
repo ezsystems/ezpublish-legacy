@@ -5,7 +5,7 @@ Sometimes it is more pratical to just deliver SSL request through a generic prox
 This can be the case for development issues or wildcard mass hosting.
 For determing the usage of a SSL proxy we evaluate a server variable "HTTP_X_FORWARDED_SERVER" set by webserver.
 The value of "HTTP_X_FORWARDED_SERVER" is the value of "ServerName" of the origin virtual host.
-The setting is controlled by [SiteSettings].SSLProxySeverName with default value "localhost".
+The setting is controlled by [SiteSettings].SSLProxyServerName with default value "localhost".
 
 Examples:
 
