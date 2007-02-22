@@ -18,7 +18,7 @@ MINOR=9
 RELEASE=1
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=6
-STATE="beta1"
+STATE="rc1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
