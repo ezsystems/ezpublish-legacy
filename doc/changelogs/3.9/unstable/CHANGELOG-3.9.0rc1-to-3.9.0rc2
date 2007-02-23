@@ -68,3 +68,5 @@ Changes from 3.9.0rc1 to 3.9.0rc2
 - Fixed bug #9537: The image field in the "Site settings" edit interface 
   is not confined to the page width.
 - Fixed bug #9639: eZ publish generates same cache block simultaneously.
+- Fixed bug #10307: Missing variable cheking in template compilation.
+  ( Merged from stable/3.7 rev. 18211, stable/3.8 rev. 18212 )
