@@ -133,3 +133,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9753: [eZ Cluster mode] PHP Warnings in ezphpcreator.php and ezexpiryhandler.php.
 - Fixed bug #10241: Duplicated toc anchors with non-strict headers.
 - Fixed bug #9951: Fatal error - Call to a member function on a non-object
+- Fixed bug #10307: Missing variable cheking in template compilation.
+  ( Merged from stable/3.7 rev. 18211, stable/3.8 rev. 18212, stable/3.9 rev. 18213 )
