@@ -205,3 +205,4 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from trunk (3.10.0alpha1) rev. 18120)
 - Fixed bug #10005: Hardcoded object id
   (Manually merged from trunk (3.10.0alpha1) rev. 18136)
+- Fixed bug #10307: Missing variable cheking in template compilation.
