@@ -505,24 +505,27 @@ class eZObjectForwarder
                         $ifLength = strlen( $code );
                         $conditionCount = 0;
 
-                        foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
+                        if ( is_array( $customMatch['conditions'] ) )
                         {
-                            if ( $conditionCount > 0 )
-                                $code .= " and\n" . str_repeat( ' ', $ifLength );
-                            $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
-                            $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                            if ( $conditionNameText == '"url_alias"' )
+                            foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
                             {
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                         "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
+                                if ( $conditionCount > 0 )
+                                    $code .= " and\n" . str_repeat( ' ', $ifLength );
+                                $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
+                                $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+                                if ( $conditionNameText == '"url_alias"' )
+                                {
+                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
+                                        "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
+                                }
+                                else
+                                {
+                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
+                                        "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
+                                        "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
+                                }
+                                ++$conditionCount;
                             }
-                            else
-                            {
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                         "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
-                                         "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
-                            }
-                            ++$conditionCount;
                         }
                         $code .= " )\n";
                     }
