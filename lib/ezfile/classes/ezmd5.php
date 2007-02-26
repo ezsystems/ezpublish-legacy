@@ -53,19 +53,16 @@ class eZMD5
         $lines = eZFile::splitLines( $file );
         $result = array();
 
-        if ( is_array( $lines ) )
+        foreach ( array_keys( $lines ) as $key )
         {
-            foreach ( array_keys( $lines ) as $key )
+            $line =& $lines[$key];
+            if ( strlen( $line ) > 34 )
             {
-                $line =& $lines[$key];
-                if ( strlen( $line ) > 34 )
+                $md5Key = substr( $line, 0, 32 );
+                $filename = substr( $line, 34 );
+                if ( !file_exists( $filename ) || $md5Key != md5_file( $filename ) )
                 {
-                    $md5Key = substr( $line, 0, 32 );
-                    $filename = substr( $line, 34 );
-                    if ( !file_exists( $filename ) || $md5Key != md5_file( $filename ) )
-                    {
-                        $result[] = $filename;
-                    }
+                    $result[] = $filename;
                 }
             }
         }

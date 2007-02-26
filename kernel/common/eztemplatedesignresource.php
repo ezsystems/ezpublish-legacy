@@ -116,22 +116,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     }
                     $ifLength = strlen( $code );
                     $conditionCount = 0;
-                    if ( is_array( $customMatch['conditions'] ) )
+                    foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
                     {
-                        foreach ( $customMatch['conditions'] as $conditionName => $conditionValue )
+                        if ( $conditionCount > 0 )
+                            $code .= " and\n" . str_repeat( ' ', $ifLength );
+                        $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
+                        $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+                        if ( $conditionName == 'url_alias' )
                         {
-                            if ( $conditionCount > 0 )
-                                $code .= " and\n" . str_repeat( ' ', $ifLength );
-                            $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
-                            $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                            if ( $conditionName == 'url_alias' )
-                            {
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and  strpos( \$" . $designKeysName . "[$conditionNameText], $conditionValueText ) ===0 ";
-                            }
-                            else
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
-                            ++$conditionCount;
+                            $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and  strpos( \$" . $designKeysName . "[$conditionNameText], $conditionValueText ) ===0 ";
                         }
+                        else
+                            $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                        ++$conditionCount;
                     }
                     if ( $matchConditionCount > 0 )
                     {
