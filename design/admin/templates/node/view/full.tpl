@@ -67,7 +67,7 @@
      $languages            = fetch( 'content', 'prioritized_languages' )}
 {section show=$node.can_edit}
     {if and(eq( $languages|count, 1 ), is_set( $languages[0] ) )}
-            <input name="ContentObjectLanguageCode" value="{$languages[0].locale}" type="hidden">
+            <input name="ContentObjectLanguageCode" value="{$languages[0].locale}" type="hidden" />
     {else}
             <select name="ContentObjectLanguageCode">
             {foreach $node.object.can_edit_languages as $language}

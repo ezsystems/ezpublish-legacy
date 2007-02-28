@@ -283,7 +283,7 @@
     </select>
 
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
-        <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden">
+        <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
     {else}
         <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {foreach $can_create_languages as $tmp_language}
