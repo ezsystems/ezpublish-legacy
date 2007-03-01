@@ -181,7 +181,7 @@ class eZContentClassAttribute extends eZPersistentObject
             'data_float3' => $this->attribute( 'data_float3' ),
             'data_float4' => $this->attribute( 'data_float4' ),
             'data_text1' => $this->attribute( 'data_text1' ),
-            'data_text2' => $this->attribute( 'data_text1' ),
+            'data_text2' => $this->attribute( 'data_text2' ),
             'data_text3' => $this->attribute( 'data_text3' ),
             'data_text4' => $this->attribute( 'data_text4' ),
             'data_text5' => $this->attribute( 'data_text5' ) );
