@@ -177,3 +177,4 @@ Changes from 3.6.11 to 3.6.12
   (Manually merged from trunk (3.10.0alpha1) rev. 18136)
 - Fixed bug #9074: Coding standards: tabs in source code.
   (Manually merged from trunk (3.10.0alpha1) rev. 18120)
+- Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
