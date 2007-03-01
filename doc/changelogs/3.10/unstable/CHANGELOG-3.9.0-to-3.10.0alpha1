@@ -138,3 +138,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10352: Current directory lost in callback function eZExecutionUncleanShutdownHandler().
 - Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
   (Manually merged from stable/3.6 (3.6.12) rev. 18229)
+- Fixed bug #10360: Ampersands in URLs are not encoded.
