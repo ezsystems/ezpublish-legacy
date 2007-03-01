@@ -261,7 +261,8 @@ class eZXMLOutputHandler
 
                 foreach ( $linkArray as $linkRow )
                 {
-                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    $url = str_replace( "&", "&amp;", $linkRow['url'] );
+                    $this->LinkArray[$linkRow['id']] = $url;
                 }
             }
         }
