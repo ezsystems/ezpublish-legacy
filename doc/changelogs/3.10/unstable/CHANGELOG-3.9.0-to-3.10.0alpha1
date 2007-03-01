@@ -141,3 +141,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10360: Ampersands in URLs are not encoded.
 - Fixed bug #10130: Editing object with image make 
   very long sql query with out use of index.
+- Fixed bug #10253: PHP warning in ezscript when using ob_end_clean(). 

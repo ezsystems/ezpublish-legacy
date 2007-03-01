@@ -205,7 +205,8 @@ class eZScript
     */
     function initialize()
     {
-        while( @ob_end_clean() );
+        if( ob_get_length() != 0 )
+            ob_end_clean();
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
         $debugINI =& eZINI::instance( 'debug.ini' );
