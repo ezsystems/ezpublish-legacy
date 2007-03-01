@@ -99,13 +99,14 @@ class eZImageFile extends eZPersistentObject
     /*!
       \return An array of ids and versions of ezimage ezcontentobject_attributes have \a $filepath.
     */
-    function fetchImageAttributesByFilepath( $filepath )
+    function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
     {
        $db = eZDB::instance();
        $filepath = $db->escapeString( $filepath );
+       $contentObjectAttributeID =(int) $contentObjectAttributeID;
        $query = "SELECT id, version
                  FROM   ezcontentobject_attribute
-                 WHERE  data_type_string = 'ezimage' and
+                 WHERE  id = $contentObjectAttributeID and
                         data_text like '%url=\"$filepath\"%'";
 
        $rows = $db->arrayQuery( $query );

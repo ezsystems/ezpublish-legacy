@@ -96,7 +96,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #8754: installation wizard test for zlib should be critical, not 
   optional
 - Fixed bug #10048: pdf( set_margin, ... - fails for link text.
-  ( Merged from stable/3.8 rev. 18012, stable/3.8 rev. 18015 )
+  (Merged from stable/3.8 rev. 18012, stable/3.8 rev. 18015)
 - Fixed bug #010097: Plain passwords in debug output.
 - Fixed bug #9043: information_schema table is displayed in db selection list
   of setup wizard.
@@ -134,8 +134,10 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10241: Duplicated toc anchors with non-strict headers.
 - Fixed bug #9951: Fatal error - Call to a member function on a non-object
 - Fixed bug #10307: Missing variable cheking in template compilation.
-  ( Merged from stable/3.7 rev. 18211, stable/3.8 rev. 18212, stable/3.9 rev. 18213 )
+  (Merged from stable/3.7 rev. 18211, stable/3.8 rev. 18212, stable/3.9 rev. 18213)
 - Fixed bug #10352: Current directory lost in callback function eZExecutionUncleanShutdownHandler().
 - Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
   (Manually merged from stable/3.6 (3.6.12) rev. 18229)
 - Fixed bug #10360: Ampersands in URLs are not encoded.
+- Fixed bug #10130: Editing object with image make 
+  very long sql query with out use of index.
