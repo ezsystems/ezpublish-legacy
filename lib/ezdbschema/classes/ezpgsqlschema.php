@@ -458,7 +458,9 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 
     function parseDefault( $default, &$autoinc )
     {
-        if ( preg_match( "@^nextval\('([a-z_]+_s)'::text\)$@", $default ) )
+        // postgresql 7.x: nextval('ezbasket_s'::text)
+        // postgresql 8.x: nextval(('ezbasket_s'::text)::regclass)
+        if ( preg_match( "@^nextval\(\(?'([a-z_]+_s)'::text\)@", $default, $matches ) )
         {
             $autoinc = 1;
             return '';
