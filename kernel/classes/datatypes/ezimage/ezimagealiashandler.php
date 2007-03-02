@@ -704,28 +704,19 @@ class eZImageAliasHandler
 
                 // Fetch ezimage attributes that have $filepath.
                 // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
-                $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath );
+                $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );
                 // Check if there are the attributes.
                 if ( count( $dbResult ) > 1 )
                 {
                     $doNotDelete = true;
                     foreach ( $dbResult as $res )
                     {
-                        $canAppend = true;
                         // If attr is current
                         if ( $res['id'] == $contentObjectAttributeID and
                              $res['version'] == $contentObjectAttributeVersion )
-                            $canAppend = false;
+                            continue;
 
-                        // If the attr is not current we should append $filepath to ezimagefile for $res['id']
-                        if ( $canAppend )
-                        {
-                            eZImageFile::appendFilepath( $res['id'], $filepath, true );
-                            // If $filepath for $contentObjectAttributeID was appended
-                            // we should not delete it from ezimagefile table.
-                            if ( $res['id'] != $contentObjectAttributeID )
-                                eZImageFile::removeFilepath( $contentObjectAttributeID, $filepath );
-                        }
+                        eZImageFile::appendFilepath( $res['id'], $filepath, true );
                     }
                 }
 
@@ -1581,7 +1572,7 @@ class eZImageAliasHandler
     function generateXMLData()
     {
         // VS-DBFILE
-        // VS: I feel we don't need clustering support for the old image system. 
+        // VS: I feel we don't need clustering support for the old image system.
 
         include_once( "lib/ezdb/classes/ezdb.php" );
 
