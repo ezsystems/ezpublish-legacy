@@ -885,16 +885,17 @@ class eZXMLInputParser
             }
 
             // Delete if children required and no children
+            // If this is an auto-added element, then do not throw error
             if ( ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
                  && !$element->hasChildNodes() )
             {
-                // If this is a part of a chopped element, then do not display a error
-                if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'cut' ) )
-                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "&lt;%1&gt; tag can't be empty.",
-                                        array( $element->nodeName ) );
-
                 $parent->removeChild( $element );
-                return false;
+                if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'new-element' ) )
+                {
+                    $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "&lt;%1&gt; tag can't be empty.",
+                                    array( $element->nodeName ) );
+                    return false;
+                }
             }
         }
         // TODO: break processing of any node that doesn't have parent
@@ -973,6 +974,7 @@ class eZXMLInputParser
         }
 
         $attributes = $element->attributes();
+
         foreach( $attributes as $attr )
         {
             if ( $attr->Prefix == 'tmp' )
@@ -1083,7 +1085,7 @@ class eZXMLInputParser
     function &createAndPublishElement( $elementName, &$ret )
     {
         $element =& $this->Document->createElement( $elementName );
-        //$element->setAttribute( 'ezparser-new-element', 'true' );
+        $element->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:new-element', 'true' );
 
         if ( !isset( $ret['new_elements'] ) )
      	    $ret['new_elements'] = array();
@@ -1113,7 +1115,19 @@ class eZXMLInputParser
             $tmp2 = null;
             // Call "Publish handler"
             $this->callOutputHandler( 'publishHandler', $element, $tmp2 );
-            //$element->removeAttribute( 'ezparser-new-element' );
+
+            // Process attributes according to the schema
+            if( $element->hasAttributes() )
+            {
+                if ( !$this->XMLSchema->hasAttributes( $element ) )
+                {
+                    $element->removeAttributes();
+                }
+                else
+                {
+                    $this->processAttributesBySchema( $element );
+                }
+            }
         }
     }
 
