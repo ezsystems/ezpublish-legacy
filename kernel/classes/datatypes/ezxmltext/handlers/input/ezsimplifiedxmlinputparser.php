@@ -182,7 +182,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $stackData = current( $this->ParentStack );
                 $currentParentName = $stackData[0];
                 $insertData .= "</$currentParentName>";
-                $currentParent->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:cut', 'true' );
+                $currentParent->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:new-element', 'true' );
                 $currentParent =& $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
@@ -200,7 +200,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $currentParentAttrString = '';
                 if ( $stackData[2] )
                     $currentParentAttrString = ' ' . $stackData[2];
-                $currentParentAttrString .= " tmp:cut='true'";
+                $currentParentAttrString .= " tmp:new-element='true'";
                 $appendData = "<$currentParentName$currentParentAttrString>" . $appendData;
                 $currentParent =& $currentParent->parentNode;
                 prev( $this->ParentStack );
