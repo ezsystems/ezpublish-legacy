@@ -301,10 +301,17 @@ if ( !is_array( $xmlFieldsArray ) )
 }
 
 // We process the table by parts of QUERY_LIMIT number of records, $pass is the iteration number.
-$pass = 1;
+$pass = 0;
 
 while( count( $xmlFieldsArray ) )
 {
+    if ( !$isQuiet )
+    {
+        $fromNumber = $pass * QUERY_LIMIT;
+        $toNumber = $fromNumber + count( $xmlFieldsArray );
+        $cli->notice( "Processing records #$fromNumber-$toNumber ..." );
+    }
+
     foreach ( $xmlFieldsArray as $xmlField )
     {
         $text = $xmlField['data_text'];
@@ -340,13 +347,14 @@ while( count( $xmlFieldsArray ) )
         }
         unset( $doc );
     }
+
+    $pass++;
     $xmlFieldsArray = $db->arrayQuery( $xmlFieldsQuery, array( "limit" => QUERY_LIMIT, "offset" => $pass * QUERY_LIMIT ) );
     if ( !is_array( $xmlFieldsArray ) )
     {
         $cli->error( "SQL query error: $xmlFieldsQuery" );
         $script->shutdown( 1 );
     }
-    $pass++;
 }
 
 if ( $isIniModified )

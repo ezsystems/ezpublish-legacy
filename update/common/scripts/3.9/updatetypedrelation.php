@@ -181,8 +181,7 @@ $xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
                    WHERE data_type_string = 'ezxmltext'
                    ORDER BY contentobject_id ASC";
 
-// We process the table by parts of QUERY_LIMIT number of records, $pass is the iteration number.
-$pass = 1;
+// We process the table by parts of QUERY_LIMIT number of records
 $relationActionLog = array();
 $relatedObjectIDArray = array();
 $objectID = null;
@@ -196,6 +195,12 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
     if ( count( $xmlFieldsArray ) <= 0 )
     {
         break;
+    }
+
+    if ( !$isQuiet )
+    {
+        $toNumber = $offset + count( $xmlFieldsArray );
+        $cli->notice( "Processing records #$offset-$toNumber ..." );
     }
 
     foreach ( $xmlFieldsArray as $xmlField )

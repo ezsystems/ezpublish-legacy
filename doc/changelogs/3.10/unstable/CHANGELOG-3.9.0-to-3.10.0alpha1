@@ -20,6 +20,11 @@ Changes from 3.9.0 to 3.10.0alpha1
      supported by 'add' command.
   o  Implemented suggestion : Allow ezpm to set vendor.
 
+*Scripts:
+- Implemented enhancement #010347: Progress output for correctxmltext.php and
+  updatetypedrelation.php.
+  (Merged from stable/3.9 (3.9.1) rev.18252)
+
 *Bugfixes:
 - Fixed Bug: Minor issue with SQL transformation.
 - Fixed bug #9461: Wrong site access list used in some templates of the admin
