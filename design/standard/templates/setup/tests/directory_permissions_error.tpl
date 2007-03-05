@@ -8,19 +8,6 @@
 
 <h3>{$result_number}. {'Insufficient directory permissions'|i18n( 'design/standard/setup/tests' )}</h3>
 
-{* Nonexistent directories section *}
-{if and( is_set( $res_elements_by_err.2 ), count( $res_elements_by_err.2 ) )}
-<h3>{'Missed some directories'|i18n( 'design/standard/setup/tests' )}</h3>
-{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}<i>{$res.file}</i>{/foreach}{/set-block}
-<p>{'eZ publish cannot create some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
-{'The nonexistent directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
-
-{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}{$res.file}{/foreach}{/set-block}
-<p>{"You can try the following shell commands to create necessary directories:"|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">cd {$file_results.current_path}
-mkdir {$dir_list}</pre>
-{/if}
-
 {* Insufficient directory permissions section *}
 {if and( is_set( $res_elements_by_err.3 ), count( $res_elements_by_err.3 ) )}
 <h3>{'Insufficient directory permissions'|i18n( 'design/standard/setup/tests' )}</h3>
@@ -62,6 +49,19 @@ chown -R nouser:nouser {$dir_list}</pre>
 <p><b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b> {'The %user_expr must be changed to your webserver username and groupname.'|i18n( 'design/standard/setup/tests',, hash( '%user_expr', '<tt>nouser:nouser</tt>' ) )}</p>
 </blockquote>
 {/if}
+{/if}
+
+{* Nonexistent directories section *}
+{if and( is_set( $res_elements_by_err.2 ), count( $res_elements_by_err.2 ) )}
+<h3>{'Missed some directories'|i18n( 'design/standard/setup/tests' )}</h3>
+{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}<i>{$res.file}</i>{/foreach}{/set-block}
+<p>{'eZ publish cannot create some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
+{'The nonexistent directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
+
+{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}{$res.file}{/foreach}{/set-block}
+<p>{"You can try the following shell commands to create necessary directories:"|i18n( 'design/standard/setup/tests' )}</p>
+<pre class="example">cd {$file_results.current_path}
+mkdir {$dir_list}</pre>
 {/if}
 
 {* Existent directories which are a files *}
