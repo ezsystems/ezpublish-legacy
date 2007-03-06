@@ -48,64 +48,69 @@ TEMP_DATA_FILE="data_schema.dba"
 
 # Check parameters
 for arg in $*; do
-    case $arg in
-	--help|-h)
-	    help
-	    exit 1
-	    ;;
-	--schema)
-	    DUMP_SCHEMA="1"
-	    ;;
-	--data)
-	    DUMP_DATA="yes"
-	    ;;
-	--pause)
-	    USE_PAUSE="yes"
-            PAUSE="--pause"
-	    ;;
-	--clean)
-	    CLEAN="--clean"
-	    ;;
-	--clean-search)
-	    CLEAN="--clean"
-	    CLEAN_SEARCH="--clean-search"
-	    ;;
+   case $arg in
+   --help|-h)
+      help
+      exit 1
+      ;;
 
-	--*)
-	    # Check for DB options
-	    ezdist_mysql_check_options "$arg" && continue
-	    ezdist_postgresql_check_options "$arg" && continue
+   --schema)
+      DUMP_SCHEMA="1"
+      ;;
 
-	    if [ $? -ne 0 ]; then
-		echo "$arg: unknown long option specified"
-		echo
-		echo "Type '$0 --help\` for a list of options to use."
-		exit 1
-	    fi
-	    ;;
+   --data)
+      DUMP_DATA="yes"
+      ;;
+
+   --pause)
+      USE_PAUSE="yes"
+      PAUSE="--pause"
+      ;;
+
+   --clean)
+      CLEAN="--clean"
+      ;;
+
+   --clean-search)
+      CLEAN="--clean"
+      CLEAN_SEARCH="--clean-search"
+      ;;
+
+   --*)
+      # Check for DB options
+      ezdist_mysql_check_options "$arg" && continue
+      ezdist_postgresql_check_options "$arg" && continue
+
+      if [ $? -ne 0 ]; then
+         echo "$arg: unknown long option specified"
+         echo
+         echo "Type '$0 --help\` for a list of options to use."
+         exit 1
+         fi
+      ;;
+
 	-*)
-	    # Check for DB options
-	    ezdist_mysql_check_short_options "$arg" && continue
-	    ezdist_postgresql_check_short_options "$arg" && continue
+      # Check for DB options
+      ezdist_mysql_check_short_options "$arg" && continue
+      ezdist_postgresql_check_short_options "$arg" && continue
 
-	    if [ $? -ne 0 ]; then
-		echo "$arg: unknown option specified"
-		echo
-		echo "Type '$0 --help\` for a list of options to use."
-		exit 1
-	    fi
-	    ;;
-	*)
-	    if [ -z $DBNAME ]; then
-		DBNAME="$arg"
-	    else
-		echo "$arg: unknown argument specified"
-		echo
-		echo "Type '$0 --help\` for a list of options to use."
-		exit 1
-	    fi
-	    ;;
-
+      if [ $? -ne 0 ]; then
+         echo "$arg: unknown option specified"
+         echo
+         echo "Type '$0 --help\` for a list of options to use."
+         exit 1
+      fi
+      ;;
+   *)
+      if [ -z $DBNAME ]; then
+         DBNAME="$arg"
+      else
+         echo "$arg: unknown argument specified"
+         echo
+         echo "Type '$0 --help\` for a list of options to use."
+         exit 1
+      fi
+      ;;
     esac;
 done
 
@@ -158,15 +163,15 @@ if [ -n "$DUMP_SCHEMA" ]; then
     #
 
     if [ ! -f $MYSQL_SCHEMA_UPDATES ]; then
-	echo "Missing `ez_color_file $MYSQL_SCHEMA_UPDATES`"
-	helpUpdateMySQL
-	exit 1
+      echo "Missing `ez_color_file $MYSQL_SCHEMA_UPDATES`"
+      helpUpdateMySQL
+      exit 1
     fi
 
     if [ ! -e $POSTGRESQL_SCHEMA_UPDATES ]; then
-	echo "Missing `ez_color_file $POSTGRESQL_SCHEMA_UPDATES`"
-	helpUpdatePostgreSQL
-	exit 1
+      echo "Missing `ez_color_file $POSTGRESQL_SCHEMA_UPDATES`"
+      helpUpdatePostgreSQL
+      exit 1
     fi
 
     #
@@ -181,8 +186,8 @@ if [ -n "$DUMP_SCHEMA" ]; then
     ./bin/shell/sqlredump.sh --mysql $PARAM_EZ_MYSQL_ALL $PAUSE --sql-schema-file="$TEMP_MYSQL_SCHEMA_FILE" --sql-schema-only "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$MYSQL_SCHEMA_UPDATES"
 
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping schema file `ez_color_file $KERNEL_GENERIC_SCHEMA_FILE`"
-	exit 1
+       echo "Failed re-dumping schema file `ez_color_file $KERNEL_GENERIC_SCHEMA_FILE`"
+       exit 1
     fi
 
 
@@ -197,8 +202,8 @@ if [ -n "$DUMP_SCHEMA" ]; then
     echo "Handling `ez_color_em PostgreSQL` schema"
     ./bin/shell/sqlredump.sh --postgresql $PARAM_EZ_POSTGRESQL_ALL $PAUSE --sql-schema-file="$TEMP_POSTGRESQL_SCHEMA_FILE" --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$POSTGRESQL_SCHEMA_UPDATES"
     if [ $? -ne 0 ]; then
-	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
-	exit 1
+       echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
+       exit 1
     fi
 
     #
@@ -209,9 +214,9 @@ if [ -n "$DUMP_SCHEMA" ]; then
     diff -U3 "$TEMP_MYSQL_SCHEMA_FILE" "$TEMP_POSTGRESQL_SCHEMA_FILE" &>.dump.log
     ez_result_file $? .dump.log
     if [ $? -ne 0 ]; then
-	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
-	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
-	exit 1
+       rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+       rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+       exit 1
     fi
 
     #
@@ -222,9 +227,9 @@ if [ -n "$DUMP_SCHEMA" ]; then
     ./bin/php/ezsqldiff.php --source-type=mysql --match-type=postgresql "$TEMP_MYSQL_SCHEMA_FILE" "$TEMP_POSTGRESQL_SCHEMA_FILE" &>.dump.log
     ez_result_file $? .dump.log
     if [ $? -ne 0 ]; then
-	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
-	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
-	exit 1
+      rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+      rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+      exit 1
     fi
 
     #
@@ -235,9 +240,9 @@ if [ -n "$DUMP_SCHEMA" ]; then
     ./bin/php/ezsqldiff.php --source-type=mysql --lint-check "$TEMP_MYSQL_SCHEMA_FILE" &>.dump.log
     ez_result_file $? .dump.log
     if [ $? -ne 0 ]; then
-	rm -f "$TEMP_MYSQL_SCHEMA_FILE"
-	rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
-	exit 1
+      rm -f "$TEMP_MYSQL_SCHEMA_FILE"
+      rm -f "$TEMP_POSTGRESQL_SCHEMA_FILE"
+      exit 1
     fi
 
     #
