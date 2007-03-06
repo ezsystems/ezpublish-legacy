@@ -798,3 +798,8 @@ Datatype branch:
 - Revision=17704
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.0rc2
 - Date 7-Dec-2006
+
+3.9.1rc1:
+- From revision=18210
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.1rc1
+- Date 22-Feb-2007
