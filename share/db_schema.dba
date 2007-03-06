@@ -1092,9 +1092,8 @@ $schema = array (
       ),
       'serialized_name_list' => 
       array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
+        'type' => 'longtext',
+        'default' => false,
       ),
       'sort_field' => 
       array (
@@ -1279,10 +1278,9 @@ $schema = array (
       ),
       'serialized_name_list' => 
       array (
-        'length' => 255,
-        'type' => 'varchar',
+        'type' => 'longtext',
         'not_null' => '1',
-        'default' => '',
+        'default' => false,
       ),
       'version' => 
       array (

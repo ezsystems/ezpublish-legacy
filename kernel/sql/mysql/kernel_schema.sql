@@ -239,7 +239,7 @@ CREATE TABLE ezcontentclass (
   modified int(11) NOT NULL default '0',
   modifier_id int(11) NOT NULL default '0',
   remote_id varchar(100) NOT NULL default '',
-  serialized_name_list varchar(255) default NULL,
+  serialized_name_list longtext,
   sort_field int(11) NOT NULL default '1',
   sort_order int(11) NOT NULL default '1',
   version int(11) NOT NULL default '0',
@@ -274,7 +274,7 @@ CREATE TABLE ezcontentclass_attribute (
   is_required int(11) NOT NULL default '0',
   is_searchable int(11) NOT NULL default '0',
   placement int(11) NOT NULL default '0',
-  serialized_name_list varchar(255) NOT NULL default '',
+  serialized_name_list longtext NOT NULL,
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_attr_ccid (contentclass_id)
