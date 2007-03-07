@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EXTENSIONS="http://svn.ez.no/svn/extensions/ezpaypal/"
-EXTENSIONS="$EXTENSIONS http://svn.ez.no/svn/commercial/projects/ezdhtml/versions/4.1.4/"
+EXTENSIONS="$EXTENSIONS http://svn.ez.no/svn/extensions/ezdhtml/stable/4.2"
 
 # These are disabled for now
 #EXTENSIONS="$EXTENSIONS http://svn.ez.no/svn/commercial/projects/ezoracle/trunk"
