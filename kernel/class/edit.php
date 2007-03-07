@@ -229,7 +229,8 @@ if ( !$EditLanguage )
     // If there is only one language we choose it for the user.
     if ( count( $languages ) == 1 )
     {
-        $EditLanguage = array_shift( $languages );
+        $language = array_shift( $languages );
+        $EditLanguage = $language->attribute( 'locale' );
     }
     else
     {
