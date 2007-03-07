@@ -1,0 +1,162 @@
+Changes from 3.9.0 to 3.9.1
+
+*Kernel:
+
+*Design:
+- Added Bulgarian flag.
+- Improved enchancement #10023: add only one row into ezmatrix
+
+*Package system:
+- Command line package tool 'ezpm.php' updated:
+  o 'list', 'import', 'install' command have been changed to match admin
+     interface functionality.
+  o  Implemented suggestion #010001: 'ezinstallscript' and 'ezextension' items are
+     supported by 'add' command.
+  o  Implemented suggestion : Allow ezpm to set vendor.
+  (Merged from trunk (3.10.0alpha1) rev. 17983)
+
+*Scripts:
+- Implemented enhancement #010347: Progress output for correctxmltext.php and
+  updatetypedrelation.php.
+
+*Bugfixes:
+- Fixed bug #9461: Wrong site access list used in some templates of the admin
+  interface.
+  (Merged from trunk (3.10.0alpha1) rev. 17791)
+- Fixed bug #9851: Certain table format kills PDF export.
+  (Merged from stable/3.8 (3.8.7) rev.17795)
+- Fixed bug #8763: the class filter for content creation does not use
+  the parentdepth property, assigned in a role
+  (Merged from stable/3.8 (3.8.7) rev.17803)
+- Fixed bug #9846: foreach internals
+  (Merged from stable/3.8 (3.8.7) rev.17808)
+- Fixed bug #9850: Possible image template class problem.
+  (Merged from stable/3.8 (3.8.7) rev. 17811)
+- Fixed bug #9887: Certain sequence in simplified XML input may cause line 
+  removal.
+- Fixed bug #9873: Serious regression: "You do not have permissions to create 
+  an object of the requested class in any language."
+  (Merged from trunk (3.10.0alpha1) rev. 17814,17815,17820)
+- Fixed bug #9610: Unexpected error changing sub-items sorting type when user
+  has limited editing role
+  (Merged from stable/3.8 (3.8.7) rev.17825)
+- Fixed bug #9901: Setup wizard step site_access doesn't work with kickstart.ini
+  properly.
+  (Merged from trunk (3.10.0) rev. 17830)
+- Fixed bug #9790: using single quotes in strings may cause problem with french
+  language in php compiled template
+  (Merged from stable/3.8 rev. 17838)
+- Fixed bug #9867: Publishing from version view interface is broken.
+  (Merged from trunk (3.10.0alpha1) rev. 17846)
+- Fixed bug #9861: foreach does not work recursive
+  (Merged from stable/3.8 rev. 17849)
+- Fixed bug #9839: Wrong total number of pending items in pendinglist view
+  (Merged from stable/3.8 rev. 17857)
+- Fixed bug #9952: correctxmltext.php update script problem.
+  (Merged from trunk (3.10.0alpha1) rev. 17866)
+- Fixed bug #9940: Error in design/base/override/templates/embed/image.tpl
+  (Merged from trunk (3.10.0alpha1) rev. 17868)
+- Fixed bug #9964: Typo in lib/ezlocale/classes/ezdatetime.php
+  (Merged from trunk (3.10.0alpha1) rev. 17873)
+- Fixed bug #9949: Not possible to create template override by class in admin.
+- Fixed bug #8653: Time conversion error when setting Expire-header 
+  in ezhttpheader.php
+- Fixed bug #9900: Sending mail issue.
+  (Merged from trunk (3.10.0alpha1) rev. 17890)
+- Fixed bug #9273: Compare versions functionality is buggy
+  (Merged from stable/3.8 (3.8.7) rev. 17896)
+- Fixed bug #9860: ezp390 setup wizard sets admin password to "publish" without
+  notifying user
+- Fixed bug #10000: Slowdowns in setup wizard caused by string conversions.
+- Fixed bug #010011: No existing "patch" package type.
+  (Merged from trunk (3.10.0alpha1) rev. 17914)
+- Fixed bug #9872: Some problems in updateclasstranslations.php
+  (Merged from trunk (3.10.0alpha1) rev. 17921)
+- Fixed bug #9987: Restoring an object from the trash
+  (Merged from trunk (3.10.0alpha1) rev. 17925)
+- Fixed bug #9683: Section assignment for large subtrees doesn't work with oracle.
+  (Merged from stable/3.8 (3.8.7) rev. 17937)
+- Fixed bug #9925: Nested cache-block in pagelayout.tpl
+- Fixed bug #5516:PDF-on-the-fly-issue with IE: wrong header?
+  ( Merged from stable/3.8 rev. 17942 )
+- Fixed bug #10008: Missing content/edit_conflict.tpl in standard design
+- Fixed bug #9553: user account verification gives misleading information
+  (Merged from stable/3.8 (3.8.7) rev. 17949)
+- Fixed bug #9995: Email addresses with underscores
+  (Merged from stable/3.8 (3.8.7) rev. 17955)
+- Fixed bug #9953: SiteAccessRules example 3 disables website root /
+  (Merged from stable/3.8 (3.8.7) rev. 17960)
+- Fixed bug #10050: row_count and col_count are not set in 'tr' and 'table'
+  tags' templates.
+  (Merged from trunk (3.10.0alpha1) rev. 17981)
+- Fixed bug #10078: 'vendor' field is not kept when exporting package.
+  (Merged from trunk (3.10.0alpha1) rev. 17983)
+- Fixed bug #8718: ezpm.php call to undefined function.
+  (Merged from trunk (3.10.0alpha1) rev. 17980)
+- Fixed bug #9927: ID is not set in embed.tpl.
+  (Merged from trunk (3.10.0alpha1) rev. 17987)
+- Fixed bug #8553: Wrong object embedding by "eznode" if you have more locations.
+  (Merged from trunk (3.10.0alpha1) rev. 17987)
+- Fixed bug #9962: [Workflow] When speciying a section for content approval mechanism,
+  content appears without being approved.
+- Fixed bug #9550: Broken section view.
+  (Manually merged from trunk (3.10.0alpha1) rev. 17895)
+- Fixed bug #8754: installation wizard test for zlib should be critical, not optional.
+  (Merged from trunk (3.10.0alpha1) rev. 18003)
+- Fixed bug #10048: pdf( set_margin, ... - fails for link text.
+  ( Merged from stable/3.8 rev. 18012 )
+- Fixed bug #010097: Plain passwords in debug output.
+  (Merged from trunk (3.10.0alpha1) rev. 18018)
+- Fixed bug #9043: information_schema table is displayed in db selection list 
+  of setup wizard.
+- Fixed bug #9202: Reverse_related_objects fetch results in a query error
+- Fixed bug #9876: setup wizzard, text does not match visual
+- Fixed bug #10105: collectedinfo.php don't include ezcontentobjecttreenode.php.
+  (Manually merged from stable/3.6 (3.6.12) rev. 18053)
+- Fixed bug #10132: Bug in eZDiscount.
+  (Merged from stable/3.8 rev. 18060)
+- Fixed bug #10124: Unneccessary redeclaration of $http.
+  (Merged from trunk (3.10.0alpha1) rev. 18063)
+- Fixed bug #9814: Context menue is gone
+- Fixed bug #10094: Breaking subtrees
+- Fixed bug #010150: anchor tag is not a single tag.
+  (Merged from trunk (3.10.0alpha1) rev. 18080)
+- Fixed bug #9984: Multiple locations and content cache problem.  
+  (Merged from trunk (3.10.0alpha1) rev. 18083)
+- Fixed bug #8966: Impossible to generate documentation with stable release.
+- Fixed bug #9924: SSLSubtrees failure.
+  (Merged from trunk (3.10.0alpha1) rev. 18096)
+- Fixed bug #9050: Links to non-existing stylesheets.
+  (Manually merged from trunk (3.10.0alpha1) rev. 18103)
+- Fixed bug #8498: Missing JavaScript function used in ezobjectrelationlist template.
+  (Merged from trunk (3.10.0alpha1) rev. 18107)
+- Fixed bug #10142: eZXMLText::inputHandler uses $this while it is sometimes
+  called statically.
+  (Merged from trunk (3.10.0alpha1) rev. 18112)
+- Fixed bug #9074: Coding standards: tabs in source code.
+  (Merged from trunk (3.10.0alpha1) rev. 18120)
+- Fixed bug #10005: Hardcoded object id
+  (Merged from trunk (3.10.0alpha1) rev. 18136)
+- Fixed bug #10192: Javascript Error.
+- Fixed bug #009744: Popup menu - edit class leads to new languages interface
+  (Merged from trunk (3.10.0alpha1) rev. 18177)
+- Fixed bug #9908: Linebreaks inside <strong> tag.
+  (Merged from trunk (3.10.0alpha1) rev. 18179)
+- Fixed bug #9753: [eZ Cluster mode] PHP Warnings in ezphpcreator.php and ezexpiryhandler.php.
+  (Merged from trunk (3.10.0alpha1) rev. 18183)
+- Fixed bug #10241: Duplicated toc anchors with non-strict headers.
+  (Merged from trunk (3.10.0alpha1) rev. 18189)
+- Fixed bug #9951: Fatal error - Call to a member function on a non-object
+  (Merged from trunk (3.10.0alpha1) rev. 18197)
+- Fixed bug #10307: Missing variable cheking in template compilation.
+  (Merged from stable/3.7 rev. 18211, stable/3.8 rev. 18212)
+- Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
+  (Manually merged from stable/3.6 (3.6.12) rev. 18229)
+- Fixed bug #10360: Ampersands in URLs are not encoded.
+  (Merged from trunk rev. 18236)
+- Fixed bug #10130: Editing object with image make 
+  very long sql query with out use of index.
+  (Merged from trunk (3.10.0alpha1) rev. 18239)
+- Fixed bug #10323: Class translation breaks after some translations.
+  (Merged from trunk (3.10.0alpha1) rev. 18265)
+- Fixed bug #010379: Class editing crash & issues.
