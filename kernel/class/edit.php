@@ -117,7 +117,19 @@ else
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     if ( !$EditLanguage )
-        $EditLanguage = eZContentClass::defaultLanguage();
+    {
+        $language = eZContentLanguage::topPriorityLanguage();
+        if ( $language )
+        {
+            $EditLanguage = $language->attribute( 'locale' );
+        }
+        else
+        {
+            eZDebug::writeError( 'Undefined default language', 'class/edit.php' );
+            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            return;
+        }
+    }
 
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( 'contentobject_id' );
