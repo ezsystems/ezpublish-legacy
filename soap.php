@@ -37,6 +37,8 @@
 
 ob_start();
 
+ini_set( "display_errors" , "0" );
+
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'lib/ezutils/classes/ezsys.php' );

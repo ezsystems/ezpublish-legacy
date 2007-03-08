@@ -158,3 +158,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10405: Content fetch functions return doublicate nodes
   when group limitation is used.
   (Merged from stable/3.9 (3.9.1) rev. 18326)
+- Fixed bug #6850: Error reporting can harm soap responses
