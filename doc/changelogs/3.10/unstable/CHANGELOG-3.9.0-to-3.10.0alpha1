@@ -153,3 +153,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10193: Cannot remove untouched drafts.
 - Fixed bug #10405: A draft is created in a default translation instead
   of indicated as copy-from when version-limit is reached.
+- Fixed bug #10407: Fatal error: Call to a member function on a non-object
+  in kernel/content/versions.php on line 106.
