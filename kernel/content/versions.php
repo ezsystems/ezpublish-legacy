@@ -101,9 +101,9 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         foreach ( $deleteIDArray as $deleteID )
         {
             $version = eZContentObjectVersion::fetch( $deleteID );
-            $versionArray[] = $version->attribute( 'version' );
-            if ( $version != null )
+            if ( is_object( $version ) )
             {
+                $versionArray[] = $version->attribute( 'version' );
                 if ( $version->attribute( 'can_remove' ) )
                 {
                     $version->remove();
