@@ -1510,7 +1510,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
-        $contentTreeTableAlias = "content_tree_1";
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1550,11 +1549,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            if ( $sqlPermissionCheckingFrom == '' )
-                                $sqlPermissionCheckingFrom = ', ' . $treeTableName . ' as ' . $contentTreeTableAlias;
-
-                            $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
-                                              $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
+                            $sqlPartPart[] = "ezcontentobject.owner_id = ezcontentobject_tree.contentobject_id AND
+                                              ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
 
                         case 'Node':
@@ -2665,7 +2661,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
-        $contentTreeTableAlias = "content_tree_1";
 
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
@@ -2705,11 +2700,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            if ( $sqlPermissionCheckingFrom == '' )
-                                $sqlPermissionCheckingFrom .= ', ezcontentobject_tree as ' . $contentTreeTableAlias;
-
-                            $sqlPartPart[] = "ezcontentobject.owner_id = $contentTreeTableAlias.contentobject_id AND
-                                              $contentTreeTableAlias.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
+                            $sqlPartPart[] = "ezcontentobject.owner_id = ezcontentobject_tree.contentobject_id AND
+                                              ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
                         } break;
 
                         case 'Node':
