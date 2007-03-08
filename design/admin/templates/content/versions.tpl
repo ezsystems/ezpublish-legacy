@@ -116,11 +116,11 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Edited language'i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Modified'|i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Edited language'i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/versions' )}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
 </tr>
@@ -130,24 +130,24 @@
 <tr class="{$Versions.sequence}">
 
     {* Remove. *}
-	<td>
-	    {section show=and($Versions.item.can_remove,or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ))}
+    <td>
+        {section show=and( $Versions.item.can_remove, array( 0, 3, 4, 5 )|contains( $Versions.item.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-	    {section-else}
+        {section-else}
             <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {/section}
     </td>
 
     {* Version/view. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version, '%translation', $initial_language.name ) )}">{$Versions.item.version}</a></td>
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version, '%translation', $initial_language.name ) )}">{$Versions.item.version}</a></td>
 
     {* Status. *}
-	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ), 'Untouched draft'|i18n( 'design/admin/content/versions' ) )}</td>
+    <td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ), 'Untouched draft'|i18n( 'design/admin/content/versions' ) )}</td>
 
     {* Edited language. *}
-	<td>
+    <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $initial_language.name, '%version_number', $Versions.item.version ) )}" >{$initial_language.name|wash}</a>
-	</td>
+    </td>
 
     {* Creator. *}
     <td>{$Versions.item.creator.name|wash}</td>
@@ -160,23 +160,27 @@
 
     {* Copy button. *}
     <td align="right" class="right">
-	{def $can_edit_lang = 0}
-	{section loop=$object.can_edit_languages}
-	    {if eq( $:item.id, $initial_language.id )}
-		{def $can_edit_lang = 1}
-	    {/if}
-	{/section}
-    
-        {section show=and( $can_edit, $can_edit_lang )}
+    {def $can_edit_lang = 0}
+    {section loop=$object.can_edit_languages}
+        {if eq( $:item.id, $initial_language.id )}
+        {set $can_edit_lang = 1}
+        {/if}
+    {/section}
+
+    {section show=and( $can_edit, $can_edit_lang )}
+        {section show=eq( $Versions.item.status, 5 )}
+            <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'There is no need to do a copies of untouched drafts.'|i18n( 'design/admin/content/versions' )}" />
+        {section-else}
         <select name="CopyVersionLanguage[{$Versions.item.version}]">
-    	    {section var=Languages loop=$Versions.item.language_list}
-	            <option value="{$Languages.item.language_code}"{if $Languages.item.language_code|eq($Versions.item.initial_language.locale)} selected="selected"{/if}>{$Languages.item.locale.intl_language_name|wash}</option>
+            {section var=Languages loop=$Versions.item.language_list}
+                <option value="{$Languages.item.language_code}"{if $Languages.item.language_code|eq($Versions.item.initial_language.locale)} selected="selected"{/if}>{$Languages.item.locale.intl_language_name|wash}</option>
             {/section}
         </select>&nbsp;<input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
-        {section-else}
-        <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
-	{undef $can_edit_lang}
+    {section-else}
+        <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
+    {/section}
+    {undef $can_edit_lang}
     </td>
 
     {* Edit button. *}
