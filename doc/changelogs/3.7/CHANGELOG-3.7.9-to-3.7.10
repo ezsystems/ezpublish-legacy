@@ -208,3 +208,6 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #10307: Missing variable cheking in template compilation.
 - Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
   (Manually merged from stable/3.6 (3.6.12) rev. 18229)
+- Fixed bug #10407: Fatal error: Call to a member function on a non-object
+  in kernel/content/versions.php on line 106.
+  (Manually merged from trunk (3.10.0alpha1) rev. 18323)
