@@ -104,7 +104,7 @@ if ( $isConfirmed )
 
     if ( $hasRedirected == false )
     {
-        if ( $nodeID != null )
+        if ( isset( $nodeID ) && $nodeID )
             return $Module->redirectTo( '/content/view/full/' . $nodeID .'/' );
 
         include_once( 'kernel/classes/ezredirectmanager.php' );
