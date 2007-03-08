@@ -151,3 +151,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10379: Class editing crash & issues.
   (Merged from stable/3.9 (3.9.1) rev. 18269)
 - Fixed bug #10193: Cannot remove untouched drafts.
+- Fixed bug #10405: A draft is created in a default translation instead
+  of indicated as copy-from when version-limit is reached.

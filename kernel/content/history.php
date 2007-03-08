@@ -344,12 +344,12 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $db =& eZDB::instance();
             $db->begin();
             $removeVersion->remove();
-            $newVersionID = $object->copyRevertTo( $versionID );
+            $newVersionID = $object->copyRevertTo( $versionID, $language );
             $db->commit();
 
             if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
             {
-                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $version->initialLanguageCode() ) );
+                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $language ) );
             }
         }
         else
