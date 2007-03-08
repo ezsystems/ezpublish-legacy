@@ -148,5 +148,6 @@ Changes from 3.9.0 to 3.10.0alpha1
   very long sql query with out use of index.
 - Fixed bug #10253: PHP warning in ezscript when using ob_end_clean(). 
 - Fixed bug #10323: Class translation breaks after some translations.
-- Fixed bug #010379: Class editing crash & issues.
+- Fixed bug #10379: Class editing crash & issues.
   (Merged from stable/3.9 (3.9.1) rev. 18269)
+- Fixed bug #10193: Cannot remove untouched drafts.

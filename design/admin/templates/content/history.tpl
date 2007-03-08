@@ -56,7 +56,7 @@
 <div id="maincontent-design">
 <!-- Maincontent START -->
 
-{switch match=$edit_warning} 
+{switch match=$edit_warning}
 {case match=1}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version not a draft'|i18n( 'design/admin/content/history' )}</h2>
@@ -108,42 +108,42 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Status'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
-	<th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Created'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Status'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
 
 {foreach $version_list as $version
-	sequence array( bglight, bgdark ) as $seq
+    sequence array( bglight, bgdark ) as $seq
 }
 
 {def $initial_language = $version.initial_language}
 <tr class="{$seq}">
 
     {* Remove. *}
-	<td>
-	    {if and($version.can_remove,or( eq( $version.status, 0 ),eq( $version.status, 3), eq( $version.status, 4 ) ))}
+    <td>
+        {if and( $version.can_remove, array( 0, 3, 4, 5 )|contains( $version.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
-	    {else}
+        {else}
             <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
     {* Version/view. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version, '%translation', $initial_language.name ) )}">{$version.version}</a></td>
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version, '%translation', $initial_language.name ) )}">{$version.version}</a></td>
 
     {* Status. *}
-	<td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ) )}</td>
+    <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ) )}</td>
 
     {* Edited language. *}
-	<td>
+    <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
-	</td>
+    </td>
 
     {* Creator. *}
     <td>{$version.creator.name|wash}</td>
@@ -156,28 +156,32 @@
 
     {* Copy button. *}
     <td align="right" class="right">
-	{def $can_edit_lang = 0}
-	{foreach $object.can_edit_languages as $edit_language}
-	    {if eq( $edit_language.id, $initial_language.id )}
-		{set $can_edit_lang = 1}
-	    {/if}
-	{/foreach}
-    
-        {if and( $can_edit, $can_edit_lang )}
-	        <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
-			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
-        {else}
-			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+    {def $can_edit_lang = 0}
+    {foreach $object.can_edit_languages as $edit_language}
+        {if eq( $edit_language.id, $initial_language.id )}
+        {set $can_edit_lang = 1}
         {/if}
-	{undef $can_edit_lang}
+    {/foreach}
+
+        {if and( $can_edit, $can_edit_lang )}
+          {if eq( $version.status, 5 )}
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to do a copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+          {else}
+            <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
+            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+          {/if}
+        {else}
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+        {/if}
+    {undef $can_edit_lang}
     </td>
 
     {* Edit button. *}
     <td>
         {if and( array(0, 5)|contains($version.status), $version.creator_id|eq( $user_id ), $can_edit ) }
-			<input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-			<input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" disabled="disabled" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" disabled="disabled" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
@@ -275,29 +279,29 @@
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
-	<th>{"Translations"|i18n("design/admin/content/history")}</th>
-	<th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Created'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
+    <th>{"Translations"|i18n("design/admin/content/history")}</th>
+    <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
     <th class="tight">{'Copy translation'|i18n( 'design/admin/content/history' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
 {def $published_item=$object.current
-	 $initial_language = $published_item.initial_language}
+     $initial_language = $published_item.initial_language}
 <tr>
 
     {* Version/view. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $published_item.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $published_item.version, '%translation', $initial_language.name ) )}">{$published_item.version}</a></td>
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $published_item.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $published_item.version, '%translation', $initial_language.name ) )}">{$published_item.version}</a></td>
 
     {* Translations *}
-	<td>
-		{foreach $published_item.language_list as $lang}
+    <td>
+        {foreach $published_item.language_list as $lang}
             {delimiter}<br />{/delimiter}
             <img src="{$lang.language_code|flag_icon}" alt="{$lang.language_code|wash}" />&nbsp;
             <a href={concat("/content/versionview/",$object.id,"/",$published_item.version,"/",$lang.language_code,"/")|ezurl}>{$lang.locale.intl_language_name|wash}</a>
         {/foreach}
-	</td>
+    </td>
 
     {* Creator. *}
     <td>{$published_item.creator.name|wash}</td>
@@ -311,27 +315,27 @@
     {* Copy translation list. *}
     <td align="right" class="right">
         <select name="CopyVersionLanguage[{$published_item.version}]">
-    	    {foreach $published_item.language_list as $lang_list}
-	            <option value="{$lang_list.language_code}"{if $lang_list.language_code|eq($published_item.initial_language.locale)} selected="selected"{/if}>{$lang_list.locale.intl_language_name|wash}</option>
+            {foreach $published_item.language_list as $lang_list}
+                <option value="{$lang_list.language_code}"{if $lang_list.language_code|eq($published_item.initial_language.locale)} selected="selected"{/if}>{$lang_list.locale.intl_language_name|wash}</option>
             {/foreach}
         </select>
     </td>
 
     {* Copy button *}
     <td>
-		{def $can_edit_lang = 0}
-		{foreach $object.can_edit_languages as $edit_language}
-		    {if eq( $edit_language.id, $initial_language.id )}
-			{set $can_edit_lang = 1}
-		    {/if}
-		{/foreach}
+        {def $can_edit_lang = 0}
+        {foreach $object.can_edit_languages as $edit_language}
+            {if eq( $edit_language.id, $initial_language.id )}
+            {set $can_edit_lang = 1}
+            {/if}
+        {/foreach}
 
         {if and( $can_edit, $can_edit_lang )}
-			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" />
+            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" />
         {else}
-			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
-		{undef $can_edit_lang}
+        {undef $can_edit_lang}
     </td>
 
 </tr>
@@ -355,26 +359,26 @@
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
-	<th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Created'|i18n( 'design/admin/content/history' )}</th>
-	<th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
 </tr>
 
 {foreach $newerDraftVersionList as $draft_version
-	sequence array( bglight, bgdark ) as $seq}
+    sequence array( bglight, bgdark ) as $seq}
 {def $initial_language = $draft_version.initial_language}
 <tr class="{$seq}">
 
     {* Version/view. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version, '%translation', $initial_language.name ) )}">{$draft_version.version}</a></td>
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version, '%translation', $initial_language.name ) )}">{$draft_version.version}</a></td>
 
     {* Edited language. *}
-	<td>
+    <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
-	</td>
+    </td>
 
     {* Creator. *}
     <td>{$draft_version.creator.name|wash}</td>
@@ -387,28 +391,28 @@
 
     {* Copy button. *}
     <td align="right" class="right">
-	{def $can_edit_lang = 0}
-	{foreach $object.can_edit_languages as $edit_language}
-	    {if eq( $edit_language.id, $initial_language.id )}
-		{set $can_edit_lang = 1}
-	    {/if}
-	{/foreach}
-    
-        {if and( $can_edit, $can_edit_lang )}
-	        <input type="hidden" name="CopyVersionLanguage[{$draft_version.version}]" value="{$initial_language.locale}" />
-			<input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$draft_version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
-        {else}
-			<input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+    {def $can_edit_lang = 0}
+    {foreach $object.can_edit_languages as $edit_language}
+        {if eq( $edit_language.id, $initial_language.id )}
+        {set $can_edit_lang = 1}
         {/if}
-	{undef $can_edit_lang}
+    {/foreach}
+
+        {if and( $can_edit, $can_edit_lang )}
+            <input type="hidden" name="CopyVersionLanguage[{$draft_version.version}]" value="{$initial_language.locale}" />
+            <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$draft_version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
+        {else}
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+        {/if}
+    {undef $can_edit_lang}
     </td>
 
     {* Edit button. *}
     <td>
         {if and( array(0, 5)|contains($draft_version.status), $draft_version.creator_id|eq( $user_id ), $can_edit ) }
-			<input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
+            <input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {else}
-			<input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" disabled="disabled" value="" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
+            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" disabled="disabled" value="" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {/if}
     </td>
 

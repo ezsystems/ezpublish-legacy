@@ -250,8 +250,6 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
 }
 
-$versions =& $object->versions();
-
 if ( $Module->isCurrentAction( 'CopyVersion' )  )
 {
     if ( !$canEdit )
@@ -269,6 +267,19 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         $versionID = $Module->actionParameter( 'VersionID' );
     }
 
+    $version =& $object->version( $versionID );
+    if ( !$version )
+        $versionID = false;
+
+    // if we cannot fetch version with given versionID or if fetched version is
+    // an internal-draft then just skip copying and redirect back to the history view
+    if ( !$versionID or $version->attribute( 'status' ) == EZ_VERSION_STATUS_INTERNAL_DRAFT )
+    {
+        $currentVersion = $object->attribute( 'current_version' );
+        $Module->redirectToView( 'history', array( $ObjectID, $currentVersion ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
+
     $languages = $Module->actionParameter( 'LanguageArray' );
     if ( $languages && array_key_exists( $versionID, $languages ) )
     {
@@ -276,7 +287,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     }
     else
     {
-        $language = false;
+        $language = $version->initialLanguageCode();
     }
 
     if ( !$object->checkAccess( 'edit', false, false, false, $language ) )
@@ -303,19 +314,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     {
         $db =& eZDB::instance();
         $db->begin();
-        foreach ( array_keys( $versions ) as $versionKey )
-        {
-            $version =& $versions[$versionKey];
-            if ( $version->attribute( 'version' ) == $versionID )
-            {
-                $newVersionID = $object->copyRevertTo( $versionID, $language );
-
-                if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
-                {
-                    break;
-                }
-            }
-        }
+        $newVersionID = $object->copyRevertTo( $versionID, $language );
         $db->commit();
 
         if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
@@ -345,21 +344,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $db =& eZDB::instance();
             $db->begin();
             $removeVersion->remove();
-
-            $versions =& $object->versions();
-            foreach ( array_keys( $versions ) as $versionKey )
-            {
-                $version =& $versions[$versionKey];
-                if ( $version->attribute( 'version' ) == $versionID )
-                {
-                    $newVersionID = $object->copyRevertTo( $versionID );
-
-                    if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
-                    {
-                        break;
-                    }
-                }
-            }
+            $newVersionID = $object->copyRevertTo( $versionID );
             $db->commit();
 
             if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
@@ -410,6 +395,7 @@ $newerDraftVersionListCount =  eZPersistentObject::fetchObjectList( eZContentObj
                                                           false,false,
                                                           array( array( 'operation' => 'count( * )',
                                                                         'name' => 'count' ) ) );
+$versions =& $object->versions();
 
 $tpl->setVariable( 'newerDraftVersionList', $newerDraftVersionList );
 $tpl->setVariable( 'newerDraftVersionListCount', $newerDraftVersionListCount[0]['count'] );
