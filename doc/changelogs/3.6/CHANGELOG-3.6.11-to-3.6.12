@@ -180,3 +180,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
 - Fixed bug #10414: por-BR locale sets incorrect country name
   (Merged from trunk (3.10.0alpha1) rev. 18335)
+- Fixed bug #9851: Certain table format kills PDF export.
+  (Merged from trunk rev. 17796)
