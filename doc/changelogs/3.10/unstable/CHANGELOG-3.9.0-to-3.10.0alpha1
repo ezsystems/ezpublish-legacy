@@ -155,7 +155,7 @@ Changes from 3.9.0 to 3.10.0alpha1
   of indicated as copy-from when version-limit is reached.
 - Fixed bug #10407: Fatal error: Call to a member function on a non-object
   in kernel/content/versions.php on line 106.
-- Fixed bug #10405: Content fetch functions return doublicate nodes
+- Fixed bug #10402: Content fetch functions return doublicate nodes
   when group limitation is used.
   (Merged from stable/3.9 (3.9.1) rev. 18326)
 - Fixed bug #6850: Error reporting can harm soap responses
