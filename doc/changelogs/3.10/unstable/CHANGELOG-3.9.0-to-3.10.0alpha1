@@ -160,3 +160,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.1) rev. 18326)
 - Fixed bug #6850: Error reporting can harm soap responses
 - Fixed bug #10414: por-BR locale sets incorrect country name
+- Fixed bug #8827: Update shipping info when updating values in the basket (rev. 18340).
