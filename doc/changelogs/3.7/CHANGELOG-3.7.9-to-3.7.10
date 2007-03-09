@@ -210,3 +210,5 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from stable/3.6 (3.6.12) rev. 18229)
 - Fixed bug #10414: por-BR locale sets incorrect country name
   (Merged from trunk (3.10.0alpha1) rev. 18335 )
+- Fixed bug #9851: Certain table format kills PDF export.
+  (Merged from trunk rev. 17796)
