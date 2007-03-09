@@ -1549,8 +1549,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id = ezcontentobject_tree.contentobject_id AND
-                                              ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
+                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
+                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
+                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
                         } break;
 
                         case 'Node':
@@ -2700,8 +2701,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id = ezcontentobject_tree.contentobject_id AND
-                                              ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ')';
+                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
+                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
+                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
                         } break;
 
                         case 'Node':
