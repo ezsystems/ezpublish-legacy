@@ -308,7 +308,8 @@ $shippingInfo = eZShippingManager::getShippingInfo( $basket->attribute( 'product
 if ( $shippingInfo !== null )
 {
     // to make backwards compability with old version, allways set the cost inclusive vat.
-    if ( $shippingInfo['is_vat_inc'] == 0 )
+    if ( ( isset( $shippingInfo['is_vat_inc'] ) and $shippingInfo['is_vat_inc'] == 0 ) or
+         !isset( $shippingInfo['is_vat_inc'] ) )
     {
         $additionalShippingValues = eZShippingManager::vatPriceInfo( $shippingInfo );
         $shippingInfo['cost'] = $additionalShippingValues['total_shipping_inc_vat'];
