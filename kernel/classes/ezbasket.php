@@ -442,6 +442,10 @@ class eZBasket extends eZPersistentObject
             $productCollection->setAttribute( 'currency_code', $currencyCode );
             $productCollection->store();
             $db->commit();
+
+            // update prices that are related to shipping values.
+            include_once( 'kernel/classes/ezshippingmanager.php' );
+            eZShippingManager::updateShippingInfo( $productCollection->attribute( 'id' ) );
         }
     }
 
