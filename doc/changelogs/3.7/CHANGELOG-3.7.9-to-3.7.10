@@ -211,3 +211,5 @@ Changes from 3.7.9 to 3.7.10
 - Fixed bug #10407: Fatal error: Call to a member function on a non-object
   in kernel/content/versions.php on line 106.
   (Manually merged from trunk (3.10.0alpha1) rev. 18323)
+- Fixed bug #10427: Typo in eZPHPCreator.
+  (Merged from trunk (3.10.0alpha1) rev. 18347)  
