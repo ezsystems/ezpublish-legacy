@@ -91,7 +91,7 @@ define( 'EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT', 3 );
 define( 'EZ_PHPCREATOR_INCLUDE_ONCE', 1 );
 define( 'EZ_PHPCREATOR_INCLUDE_ALWAYS', 2 );
 
-define( 'EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
+define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE', 1 );
 define( 'EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE', 2 );
 
 class eZPHPCreator
@@ -303,7 +303,7 @@ $php->addText( 'Print me!' );
      \a $methodParameters should be an array with parameter entries where each entry contains:
      - \a 0, The parameter value
      - \a 1 (\em optional), The type of parameter, is one of:
-       - \b EZ_PPCREATOR_METHOD_CALL_PARAMETER_VALUE, Use value directly (default if this entry is missing)
+       - \b EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE, Use value directly (default if this entry is missing)
        - \b EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE, Use value as the name of the variable.
 
      Optionally the \a $returnValue parameter can be used to decide what should be done
