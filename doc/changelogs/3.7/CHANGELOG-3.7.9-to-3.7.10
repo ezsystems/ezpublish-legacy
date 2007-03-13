@@ -210,3 +210,6 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.10.0alpha1) rev. 18335 )
 - Fixed bug #9851: Certain table format kills PDF export.
   (Merged from trunk rev. 17796)
+- Fixed bug: template warning 'variable <foo> already exists' while doing 
+  recursive include in 'foreach'.
+  (Merged from trunk (3.10.0alpha1) rev. 18361)
