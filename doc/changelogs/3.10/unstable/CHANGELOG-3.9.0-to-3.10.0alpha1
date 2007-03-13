@@ -162,3 +162,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10414: por-BR locale sets incorrect country name
 - Fixed bug #8827: Update shipping info when updating values in the basket (rev. 18340).
 - Fixed bug #10427: Typo in eZPHPCreator.
+- Fixed bug #10417: content/edit still redirects to deprecated view (content/versions)

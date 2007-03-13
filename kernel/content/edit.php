@@ -201,7 +201,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
         {
             $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $obj->attribute( 'current_version' );
-            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $EditLanguage ) );
+            $Module->redirectToView( 'history', array( $ObjectID, $currentVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
@@ -483,7 +483,7 @@ elseif ( is_numeric( $EditVersion ) )
            $version->attribute( 'status' ) != EZ_VERSION_STATUS_PENDING ) or
            $version->attribute( 'creator_id' ) != $user->id() )
     {
-        return $Module->redirectToView( 'versions', array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+        return $Module->redirectToView( 'history', array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
     }
 }
 
