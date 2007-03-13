@@ -162,3 +162,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10427: Typo in eZPHPCreator.
 - Fixed bug #10417: content/edit still redirects to deprecated view (content/versions)
 - Fixed bug #10317: Design in the setup is too wide in the setup wizard in the system check.
+- Fixed bug: template warning 'variable <foo> already exists' while doing 
+  recursive include in 'foreach'.
