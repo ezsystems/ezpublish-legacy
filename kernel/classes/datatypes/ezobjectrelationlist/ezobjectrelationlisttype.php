@@ -368,31 +368,80 @@ class eZObjectRelationListType extends eZDataType
 
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
+
+        static $copiedRelatedAccordance;
+        if ( !isset( $copiedRelatedAccordance ) )
+            $copiedRelatedAccordance = array();
+
         if ( $currentVersion != false )
         {
             $dataText = $originalContentObjectAttribute->attribute( 'data_text' );
             $contentObjectAttribute->setAttribute( 'data_text', $dataText );
+            $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
+            $originalContentObjectID = $originalContentObjectAttribute->attribute( 'contentobject_id' );
 
-            if ( $contentObjectAttribute->attribute( 'contentobject_id' ) != $originalContentObjectAttribute->attribute( 'contentobject_id' ) )
+            if ( $contentObjectID != $originalContentObjectID )
             {
                 $classContent =& eZObjectRelationListType::defaultClassAttributeContent();
                 if ( !$classContent['default_placement'] )
                 {
                     $content = $originalContentObjectAttribute->content();
-                    for ( $i = 0; $i < count( $content['relation_list'] ); $i++ )
+                    $contentModified = false;
+
+                    foreach ( array_keys( $content['relation_list'] ) as $key )
                     {
-                        $relationItem =& $content['relation_list'][$i];
+                        $relationItem =& $content['relation_list'][$key];
 
                         // create related object copies only if they are subobjects
-                        if ( !isset( $relationItem['node_id'] ) )
+                        $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
+                        $mainNode = $object->attribute( 'main_node' );
+
+                        if ( is_object( $mainNode ) )
                         {
-                            $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
-                            $newObject =& $object->copy( true );
-                            $relationItem['contentobject_id'] = $newObject->attribute( 'id' );
+                            $node = ( is_numeric( $relationItem['node_id'] ) and $relationItem['node_id'] ) ?
+                                      eZContentObjectTreeNode::fetch( $relationItem['node_id'] ) : null;
+
+                            if ( !$node or $node->attribute( 'contentobject_id' ) != $relationItem['contentobject_id'] )
+                            {
+                                $relationItem['node_id'] = $mainNode->attribute( 'node_id' );
+                                $node = $mainNode;
+                                $contentModified = true;
+                            }
+
+                            $parentNodeID = $node->attribute( 'parent_node_id' );
+                            if ( $relationItem['parent_node_id'] != $parentNodeID )
+                            {
+                                $relationItem['parent_node_id'] = $parentNodeID;
+                                $contentModified = true;
+                            }
+                        }
+                        else
+                        {
+                            if ( !isset( $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] ) )
+                                $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] = array();
+
+                            if ( isset( $copiedRelatedAccordance[ $relationItem['contentobject_id'] ] ) and
+                                 isset( $copiedRelatedAccordance[ $relationItem['contentobject_id'] ][ $contentObjectID ] ) )
+                            {
+                                $newObjectID = $copiedRelatedAccordance[ $relationItem['contentobject_id'] ][ $contentObjectID ][ 'to' ];
+                            }
+                            else
+                            {
+                                $newObject =& $object->copy( true );
+                                $newObjectID = $newObject->attribute( 'id' );
+                                $copiedRelatedAccordance[ $relationItem['contentobject_id'] ][ $contentObjectID ] = array( 'to' => $newObjectID,
+                                                                                                                           'from' => $originalContentObjectID );
+                            }
+                            $relationItem['contentobject_id'] = $newObjectID;
+                            $contentModified = true;
                         }
                     }
-                    $contentObjectAttribute->setContent( $content );
-                    $contentObjectAttribute->store();
+
+                    if ( $contentModified )
+                    {
+                        $contentObjectAttribute->setContent( $content );
+                        $contentObjectAttribute->store();
+                    }
                 }
             }
         }

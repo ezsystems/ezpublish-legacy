@@ -183,3 +183,5 @@ Changes from 3.6.11 to 3.6.12
 - Fixed bug: template warning 'variable <foo> already exists' while doing 
   recursive include in 'foreach'.
   (Merged from trunk (3.10.0alpha1) rev. 18361)
+- Fixed bug #10388: copysubtree.php on line 729
+  (Merged from trunk (3.10.0alpha1) rev.18369)
