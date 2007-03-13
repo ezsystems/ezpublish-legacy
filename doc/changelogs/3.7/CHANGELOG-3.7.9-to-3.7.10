@@ -215,3 +215,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.10.0alpha1) rev. 18361)
 - Fixed bug #10435: Editing object gives fatal error (multilangual site)
   (Merged from trunk (3.10.0alpha1) rev. 18366)
+- Fixed bug #10388: copysubtree.php on line 729
+  (Merged from trunk (3.10.0alpha1) rev.18369)
