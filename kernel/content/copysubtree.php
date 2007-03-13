@@ -719,41 +719,42 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
             $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
             $relationItems = $relationsDom->elementsByName( 'relation-item' );
             $isRelationModified = false;
+
             foreach ( $relationItems as $relationItem )
             {
-                $allAttributes = $relationItem->attributes();
-                $relatedNodeID = $relationItem->attributeValue('node-id');
-                $relatedNode = eZContentObjectTreeNode::fetch( $relatedNodeID );
-                $originalObjectID = $relatedNode->attribute('contentobject_id');
-                $srcKey = array_search( (int) $originalObjectID, $syncObjectIDListSrc );
-                if ( $srcKey !== false )
+                $originalObjectID = $relationItem->attributeValue( 'contentobject-id' );
+
+                $key = array_search( $originalObjectID, $syncObjectIDListSrc );
+                if ( $key !== false )
                 {
+                    $newObjectID = $syncObjectIDListNew[ $key ];
+                    $relationItem->setAttribute( 'contentobject-id', $newObjectID );
                     $isRelationModified = true;
-                    foreach( $allAttributes as $attribute )
+                }
+
+                $originalNodeID = $relationItem->attributeValue( 'node-id' );
+                if ( $originalNodeID )
+                {
+                    $key = array_search( $originalNodeID, $syncNodeIDListSrc );
+                    if ( $key !== false )
                     {
-                        $attrName = $attribute->Name;
-                        if( $attrName == 'contentobject-id' )
-                        {
-                            $attribute->setContent( $syncObjectIDListNew[$srcKey] );
-                        }
-                        if( $attrName == 'node-id' )
-                        {
-                            $attribute->setContent( $syncNodeIDListNew[$srcKey] );
-                        }
-                        if( $attrName == 'parent-node-id' )
-                        {
-                            $attrContent = $attribute->Content;
-                            $newNode = eZContentObjectTreeNode::fetch( $syncNodeIDListNew[$srcKey] );
-                            $attribute->setContent( $newNode->attribute( 'parent_node_id' ) );
-                        }
+                        $newNodeID = $syncNodeIDListNew[ $key ];
+                        $relationItem->setAttribute( 'node-id', $newNodeID );
+
+                        $newNode = eZContentObjectTreeNode::fetch( $newNodeID );
+                        $newParentNodeID = $newNode->attribute( 'parent_node_id' );
+                        $relationItem->setAttribute( 'parent-node-id', $newParentNodeID );
+                        $isRelationModified = true;
                     }
                 }
             }
             if ( $isRelationModified )
             {
                 $attributeID = $relationListAttribute->attribute( 'id' );
+                $attributeVersion = $relationListAttribute->attribute( 'version' );
                 $changedDomString =$db->escapeString( eZObjectRelationListType::domString( $relationsDom ) );
-                $db->query( "UPDATE ezcontentobject_attribute SET data_text='$changedDomString' WHERE id=$attributeID" );
+                $db->query( "UPDATE ezcontentobject_attribute SET data_text='$changedDomString'
+                             WHERE id=$attributeID AND version=$attributeVersion" );
             }
         }
     }
