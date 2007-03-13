@@ -642,7 +642,6 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
             $changedDomString =$db->escapeString( eZObjectRelationListType::domString( $relationsDom ) );
             $db->query( "UPDATE ezcontentobject_attribute SET data_text='$changedDomString'
                          WHERE id=$attributeID AND version=$attributeVersion" );
-            $cli->output( 'opa! ' );
         }
     }
 }
