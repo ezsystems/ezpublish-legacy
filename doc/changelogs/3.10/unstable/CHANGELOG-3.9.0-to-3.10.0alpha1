@@ -167,3 +167,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10435: Editing object gives fatal error (multilangual site)
 - Fixed bug #10388: copysubtree.php on line 729
 - Fixed bug #9643: RequireUniqueEmail is false by default.
+- Fixed bug #10448: Notice: Undefined index: in
+  kernel/classes/datatypes/ezselection/ezselectiontype.php on line 123.
