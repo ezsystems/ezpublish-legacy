@@ -305,28 +305,24 @@ class eZSelectionType extends eZDataType
 
     function toString( $contentObjectAttribute )
     {
-
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
-
         $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
-        $return = '';
-        if ( count( $selected ) == 0)
-        {
-            return '';
-        }
 
-
-        $optionArray = $classContent['options'];
-        foreach ( $selected as $id )
+        if ( count( $selected ) )
         {
-            foreach ( $optionArray as $option )
+            $optionArray = $classContent['options'];
+            foreach ( $selected as $id )
             {
-                $optionID = $option['id'];
-                if ( $optionID == $id )
-                    $returnData[] = $option['name'];
+                foreach ( $optionArray as $option )
+                {
+                    $optionID = $option['id'];
+                    if ( $optionID == $id )
+                        $returnData[] = $option['name'];
+                }
             }
+            return eZStringUtils::implodeStr( $returnData, '|' );
         }
-        return eZStringUtils::implodeStr( $returnData, '|' );
+        return '';
     }
 
 
@@ -359,24 +355,16 @@ class eZSelectionType extends eZDataType
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
         $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
-        $return = "";
-        if ( count( $selected ) == 0)
+        $return = '';
+        if ( count( $selected ) )
         {
-            return "";
-        }
-
-        $count = 0;
-        foreach ( $selected as $id )
-        {
-            /*if ( $id == 0 ) // first object gets id==0, while rest of objects get id with offset from 1
-                $id++;
-            if ( $count++ != 0 )
-                $return .= ', ';
-            $return .= $classContent['options'][$id-1]['name'];*/
-            if ( $count != 0 )
-                $return .= ', ';
-            $return .= $classContent['options'][$id]['name'];
-            $count++;
+            $selectedNames = array();
+            foreach ( $classContent['options'] as $option )
+            {
+                if ( in_array( $option['id'], $selected ) )
+                    $selectedNames[] = $option['name'];
+            }
+            $return = implode( ', ', $selectedNames );
         }
         return $return;
     }
