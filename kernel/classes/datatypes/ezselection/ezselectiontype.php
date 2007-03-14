@@ -120,7 +120,8 @@ class eZSelectionType extends eZDataType
 
                 foreach ( array_keys( $currentOptions ) as $key )
                 {
-                    if ( $removeArray[$currentOptions[$key]['id']] )
+                    if ( isset( $removeArray[$currentOptions[$key]['id']] ) and
+                         $removeArray[$currentOptions[$key]['id']] )
                         unset( $currentOptions[$key] );
                 }
                 $hasPostData = true;
