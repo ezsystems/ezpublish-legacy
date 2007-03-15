@@ -294,7 +294,7 @@ class eZHTTPTool
         $parsedUrl = parse_url( $filename );
         $ip = isset( $parsedUrl[ 'host' ] ) ? gethostbyname( $parsedUrl[ 'host' ] ) : '';
         $checkIP = ip2long( $ip );
-        if ( $checkIP < 0 )
+        if ( $checkIP == -1 or $checkIP === false )
         {
             return false;
         }
