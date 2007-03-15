@@ -170,3 +170,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10448: Notice: Undefined index: in
   kernel/classes/datatypes/ezselection/ezselectiontype.php on line 123.
 - Fixed bug #8996: Wrong title for ezselection.
+- Fixed bug #10452: Not possible to update auto rates (rev. 18396).
