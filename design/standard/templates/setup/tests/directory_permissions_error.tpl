@@ -58,10 +58,10 @@ chown -R nouser:nouser {$dir_list}</pre>
 <p>{'eZ publish cannot create some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
 {'The nonexistent directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
 
-{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} {/delimiter}{$res.file}{/foreach}{/set-block}
+{set-block variable=dir_list scope=root}{foreach $res_elements_by_err.2 as $res}{delimiter} \<br />{/delimiter}{$res.file}{/foreach}{/set-block}
 <p>{"You can try the following shell commands to create necessary directories:"|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
-mkdir {$dir_list}</pre>
+mkdir -p {$dir_list}</pre>
 {/if}
 
 {* Existent directories which are a files *}

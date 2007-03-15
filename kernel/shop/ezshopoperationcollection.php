@@ -258,6 +258,16 @@ class eZShopOperationCollection
             else
             {
                 // Made for backwards compability, if the array order_items are not supplied.
+                if ( !isset( $shippingInfo['vat_value'] ) )
+                {
+                    $shippingInfo['vat_value'] = 0;
+                }
+
+                if ( !isset( $shippingInfo['is_vat_inc'] ) )
+                {
+                    $shippingInfo['is_vat_inc'] = 1;
+                }
+
                 $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                                                      'description' => $shippingInfo['description'],
                                                      'price' => $shippingInfo['cost'],

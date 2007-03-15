@@ -192,7 +192,20 @@ class eZVATManager
         if ( is_object( $countryContent ) )
             $country = $countryContent->attribute( 'value' );
         elseif ( is_array( $countryContent ) )
-            $country = $countryContent['value'];
+        {
+            if ( is_array( $countryContent['value'] ) )
+            {
+                foreach ( $countryContent['value'] as $item )
+                {
+                    $country = $item['Name'];
+                    break;
+                }
+            }
+            else
+            {
+                $country = $countryContent['value'];
+            }
+        }
         else
         {
             if ( $requireUserCountry )
