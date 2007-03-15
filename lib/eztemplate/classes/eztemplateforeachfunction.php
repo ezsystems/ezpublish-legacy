@@ -352,9 +352,14 @@ class eZTemplateForeachFunction
 
         if ( $firstVal < $lastVal )
         {
-            if ( $keyVarName )
+            if ( $keyVarName && !$tpl->hasVariable( $keyVarName, $rootNamespace ) )
+            {
                 $loop->initLoopVariable( $keyVarName );
-            $loop->initLoopVariable( $itemVarName );
+            }
+            if ( !$tpl->hasVariable( $itemVarName, $rootNamespace ) )
+            {
+                $loop->initLoopVariable( $itemVarName );
+            }
         }
 
         for ( $i = $firstVal; $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal ); )

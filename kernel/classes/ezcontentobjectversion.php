@@ -1615,8 +1615,10 @@ class eZContentObjectVersion extends eZPersistentObject
     function initialLanguageCode()
     {
         $initialLanguage = $this->initialLanguage();
+ 
+        $initialLanguageCode = $initialLanguage !== false ?  $initialLanguage->attribute( 'locale' ) : false;
 
-        return $initialLanguage->attribute( 'locale' );
+        return $initialLanguageCode;
     }
 
     function nonTranslatableAttributesToUpdate( )
