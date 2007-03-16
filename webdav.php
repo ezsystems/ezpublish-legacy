@@ -39,6 +39,7 @@ $GLOBALS['eZSiteBasics']['session-required'] = false;
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 
 /*! Reads settings from site.ini and passes them to eZDebug.
  */
@@ -131,7 +132,6 @@ if ( $enable === 'true' )
     include_once( "lib/ezutils/classes/ezsession.php" );
     include_once( "access.php" );
     include_once( "kernel/common/i18n.php" );
-    include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
 
     eZModule::setGlobalPathList( array( "kernel" ) );
     eZWebDAVServer::appendLogEntry( "========================================" );
