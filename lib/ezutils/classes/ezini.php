@@ -487,8 +487,9 @@ class eZINI
                 return false;
             }
         }
+        $tmpCacheFile = $cachedFile . '_' . substr( md5( mt_rand() ), 0, 8 );
         // save the data to a cached file
-        $fp = @fopen( $cachedFile, "w+" );
+        $fp = @fopen( $tmpCacheFile, "w" );
         if ( $fp === false )
         {
             eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
@@ -504,6 +505,7 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
+        rename( $tmpCacheFile, $cachedFile );
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
 

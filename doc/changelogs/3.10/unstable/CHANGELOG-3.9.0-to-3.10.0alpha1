@@ -177,3 +177,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   for content view cache.
   ( Merged from stable/3.9 rev. 18410 )
 - Fixed bug #10460: div block is not closed in edit template for ezprice.tpl (rev. 18412)
+- Fixed bug #10305: race condition in global ini cache generation.
+  ( Merged from stable/3.9 rev. 18420, stable/3.8 rev. 18421 )
