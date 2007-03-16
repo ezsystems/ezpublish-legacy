@@ -9,6 +9,7 @@
 {section-else}
 &nbsp;(+ {$attribute.content.selected_vat_type.name}, {$attribute.content.selected_vat_type.percentage}%)
 {/section}
+</div>
 
 <div class="block">
 <label>{'VAT'|i18n( 'design/standard/class/datatype' )}:</label>
