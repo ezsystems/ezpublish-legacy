@@ -162,7 +162,7 @@ if ( $flatten['contentobject'] )
 {
     include_once( 'kernel/classes/ezcontentobject.php' );
     $cli->output( "Removing non-published content object versions" );
-    eZContentObject::removeVersions();
+    eZContentObjectVersion::removeVersions();
 }
 
 if ( $flatten['contentclass'] )

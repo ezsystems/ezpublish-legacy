@@ -4814,41 +4814,15 @@ class eZContentObject extends eZPersistentObject
         return $count;
     }
 
-    /*!
+     /*!
      \static
-     Will remove all version that match the status set in \a $versionStatus.
-     \param $versionStatus can either be a single value or an array with values,
-                           if \c false the function will remove all status except published.
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
-    function removeVersions( $versionStatus = false )
-    {
-        if ( $versionStatus === false )
-            $versionStatus = array( EZ_VERSION_STATUS_DRAFT,
-                                    EZ_VERSION_STATUS_PENDING,
-                                    EZ_VERSION_STATUS_ARCHIVED,
-                                    EZ_VERSION_STATUS_REJECTED );
-        $max = 20;
-        $offset = 0;
-        $hasVersions = true;
-        while ( $hasVersions )
-        {
-            $versions = eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
-                                                                $offset, $max );
-            $hasVersions = count( $versions ) > 0;
-
-            $db =& eZDB::instance();
-            $db->begin();
-            foreach ( array_keys( $versions ) as $versionKey )
-            {
-                $version =& $versions[$versionKey];
-                $version->remove();
-            }
-            $db->commit();
-            $offset += count( $versions );
-        }
-    }
+      \deprecated This method is left here only for backward compatibility.
+                  Use eZContentObjectVersion::removeVersions() method instead.
+     */
+     function removeVersions( $versionStatus = false )
+     {
+         eZContentObjectVersion::removeVersions( $versionStatus );
+     }
 
     /*!
      Sets the object's name to $newName: tries to find attributes that are in 'object pattern name'
