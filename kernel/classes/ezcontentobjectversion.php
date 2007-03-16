@@ -1047,9 +1047,8 @@ class eZContentObjectVersion extends eZPersistentObject
 
             $db =& eZDB::instance();
             $db->begin();
-            foreach ( array_keys( $versions ) as $versionKey )
+            foreach ( $versions as $version )
             {
-                $version =& $versions[ $versionKey ];
                 $version->remove();
             }
             $db->commit();
