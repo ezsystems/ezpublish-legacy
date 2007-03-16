@@ -1036,9 +1036,8 @@ class eZContentObjectVersion extends eZPersistentObject
 
             $db =& eZDB::instance();
             $db->begin();
-            foreach ( array_keys( $versions ) as $versionKey )
+            foreach ( $versions as $version )
             {
-                $version =& $versions[ $versionKey ];
                 $version->remove();
             }
             $db->commit();
@@ -1686,7 +1685,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function initialLanguageCode()
     {
         $initialLanguage = $this->initialLanguage();
- 
+
         $initialLanguageCode = $initialLanguage !== false ?  $initialLanguage->attribute( 'locale' ) : false;
 
         return $initialLanguageCode;
