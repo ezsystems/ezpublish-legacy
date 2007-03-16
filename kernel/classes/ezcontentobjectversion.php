@@ -1002,7 +1002,6 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $statuses = array( EZ_VERSION_STATUS_DRAFT,
                            EZ_VERSION_STATUS_PENDING,
-                           // EZ_VERSION_STATUS_ARCHIVED
                            EZ_VERSION_STATUS_REJECTED,
                            EZ_VERSION_STATUS_INTERNAL_DRAFT );
         if ( $versionStatus === false )
@@ -1698,7 +1697,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function initialLanguageCode()
     {
         $initialLanguage = $this->initialLanguage();
- 
+
         $initialLanguageCode = $initialLanguage !== false ?  $initialLanguage->attribute( 'locale' ) : false;
 
         return $initialLanguageCode;
