@@ -34,6 +34,8 @@
 
 */
 
+define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
+
 class eZNodeviewfunctions
 {
     function &generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
@@ -108,8 +110,7 @@ class eZNodeviewfunctions
             $path[] = array( 'text' => $parent->attribute( 'name' ),
                              'url' => '/content/view/full/' . $parent->attribute( 'node_id' ),
                              'url_alias' => $parent->attribute( 'url_alias' ),
-                             'node_id' => $parent->attribute( 'node_id' )
-                             );
+                             'node_id' => $parent->attribute( 'node_id' ) );
         }
 
         $titlePath = $path;
