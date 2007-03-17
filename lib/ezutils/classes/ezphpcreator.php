@@ -1145,7 +1145,7 @@ print( $values['MyValue'] );
     {
         $objectName = $element[1];
         $methodName = $element[2];
-        $parameters = $element[3];
+        $methodParameters = $element[3];
         $returnValue = $element[4];
         $parameters = $element[5];
         $text = '';
@@ -1163,7 +1163,7 @@ print( $values['MyValue'] );
         $text .= '$' . $objectName . '->' . $methodName . '(';
         $column = strlen( $text );
         $i = 0;
-        foreach ( $parameters as $parameterData )
+        foreach ( $methodParameters as $parameterData )
         {
             if ( $i > 0 )
                 $text .= ",\n" . str_repeat( ' ', $column );
