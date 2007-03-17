@@ -600,7 +600,7 @@ class eZSys
         if ( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' )
         {
             $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
-            if ( count( $this->AccessPath ) > 0 and $this->AccessPath[0] == $defaultAccess )
+            if ( count( $instance->AccessPath ) > 0 and $instance->AccessPath[0] == $defaultAccess )
                 $withAccessList = false;
         }
 

@@ -182,3 +182,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10430: Method parameters for eZPHPCreator::addMethodCall not processed right
 - Fixed bug #10451: eZContentFunctions::createAndPublishObject does not respect default sort field and order
 - Fixed bug #10313: eZMySQLDB constructor does not exit always if mysql extension is not available
+- Fixed bug #10270: Undefined variable: this in /srv/www/ezprojects/lib/ezutils/classes/ezsys.php on line 605
