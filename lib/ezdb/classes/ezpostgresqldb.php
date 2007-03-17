@@ -61,8 +61,9 @@ class eZPostgreSQLDB extends eZDBInterface
                                                               'number' => EZ_DB_ERROR_MISSING_EXTENSION ),
                                             'text' => 'PostgreSQL extension was not found, the DB handler will not be initialized.' ) );
                 $this->IsConnected = false;
-                return;
             }
+            eZDebug::writeWarning( 'PostgreSQL extension was not found, the DB handler will not be initialized.', 'eZPostgreSQLDB' );
+            return;
         }
 
         $ini =& eZINI::instance();
