@@ -323,7 +323,7 @@ class eZImageType extends eZDataType
             return false;
         }
 
-        $status = $handler->initializeFromFile( $filePath, false, $filePath );
+        $status = $handler->initializeFromFile( $filePath, false, basename( $filePath ) );
         $result['require_storage'] = $handler->isStorageRequired();
         return $status;
     }
