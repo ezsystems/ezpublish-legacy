@@ -59,7 +59,9 @@ class eZContentFunctions
                 $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                    'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                    'parent_node' => $parentNode->attribute( 'node_id' ),
-                                                                   'is_main' => 1 ) );
+                                                                   'is_main' => 1,
+                                                                   'sort_field' => $contentClass->attribute( 'sort_field' ),
+                                                                   'sort_order' => $contentClass->attribute( 'sort_order' ) ) );
                 $nodeAssignment->store();
 
                 $version =& $contentObject->version( 1 );

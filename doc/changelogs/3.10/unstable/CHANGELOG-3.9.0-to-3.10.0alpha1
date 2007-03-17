@@ -180,3 +180,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10305: race condition in global ini cache generation.
   ( Merged from stable/3.9 rev. 18420, stable/3.8 rev. 18421 )
 - Fixed bug #10430: Method parameters for eZPHPCreator::addMethodCall not processed right
+- Fixed bug #10451: eZContentFunctions::createAndPublishObject does not respect default sort field and order
