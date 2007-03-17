@@ -252,6 +252,7 @@ class eZMimeType
         else
             $instance = eZMimeType::instance();
 
+/*
         $protocol = 'file';
         if ( preg_match( "#^([a-zA-Z0-9]+):#", $url, $matches ) )
         {
@@ -261,6 +262,7 @@ class eZMimeType
         {
             return eZMimeType::defaultValue( $url, $returnDefault );
         }
+*/
         $file = $url;
         $dirPosition = strrpos( $url, '/' );
         if ( $dirPosition !== false )
