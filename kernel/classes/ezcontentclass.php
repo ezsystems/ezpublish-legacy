@@ -729,6 +729,8 @@ class eZContentClass extends eZPersistentObject
     */
     function &fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
     {
+        $filterTableSQL = '';
+        $filterSQL = '';
         if ( is_array( $groupList ) )
         {
             $filterTableSQL = ', ezcontentclass_classgroup ccg';
