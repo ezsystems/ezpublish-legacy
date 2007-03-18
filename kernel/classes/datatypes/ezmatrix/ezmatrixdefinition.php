@@ -109,9 +109,11 @@ class eZMatrixDefinition
             $columnNameNode = $doc->createElementNode( 'column-name' );
             $columnNameNode->appendAttribute( $doc->createAttributeNode( 'id', $columnName['identifier'] ) );
             $columnNameNode->appendAttribute( $doc->createAttributeNode( 'idx', $columnName['index'] ) );
-            $columnNameNode->appendChild( $doc->createTextNode( $columnName['name'] ) );
+            $textNode = $doc->createTextNode( $columnName['name'] );
+            $columnNameNode->appendChild( $textNode );
             $root->appendChild( $columnNameNode );
             unset( $columnNameNode );
+            unset( $textNode );
         }
 
         $xml = $doc->toString();
