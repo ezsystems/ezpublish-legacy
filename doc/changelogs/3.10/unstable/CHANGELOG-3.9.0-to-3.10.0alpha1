@@ -186,3 +186,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10165: ezhttp_hasvariable and ezini_hasvariable not registered for autoloading
 - Fixed bug #9736: eZImageType::insertRegularFile should use basename for original file name
 - Fixed bug #009312: eZMimeType checks protocol but PHP does not support protocol wrappers
+- Fixed bug #8821: ezpm Error: (eZFileHandler::copy) Unable to open source file in read mode

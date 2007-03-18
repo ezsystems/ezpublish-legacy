@@ -512,13 +512,17 @@ class eZImageType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $content = $objectAttribute->content();
-        $original = $content->attribute( 'original' );
-        $imageKey = md5( mt_rand() );
+        $hasContent = $objectAttribute->hasContent();
+        if ( $hasContent )
+        {
+            $content = $objectAttribute->content();
+            $original = $content->attribute( 'original' );
+            $imageKey = md5( mt_rand() );
 
-        $package->appendSimpleFile( $imageKey, $original['url'] );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
+            $package->appendSimpleFile( $imageKey, $original['url'] );
+            $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
+            $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
+        }
 
         return $node;
     }
