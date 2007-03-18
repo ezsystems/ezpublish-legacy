@@ -512,17 +512,18 @@ class eZImageType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $hasContent = $objectAttribute->hasContent();
-        if ( $hasContent )
+        $content = $objectAttribute->content();
+        $original = $content->attribute( 'original' );
+
+        if ( $original['url'] )
         {
-            $content = $objectAttribute->content();
-            $original = $content->attribute( 'original' );
             $imageKey = md5( mt_rand() );
 
             $package->appendSimpleFile( $imageKey, $original['url'] );
             $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
-            $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
         }
+
+        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
 
         return $node;
     }
@@ -540,7 +541,15 @@ class eZImageType extends eZDataType
         if ( $alternativeText === false )
             $alternativeText = $attributeNode->attributeValue( 'alternativ-text' );
         $content =& $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile( $package->simpleFilePath( $attributeNode->attributeValue( 'image-file-key' ) ), $alternativeText );
+        $imageFileKey = $attributeNode->attributeValue( 'image-file-key' );
+        if ( $imageFileKey )
+        {
+            $content->initializeFromFile( $package->simpleFilePath( $imageFileKey ), $alternativeText );
+        }
+        else
+        {
+            $content->setAttribute( 'alternative_text', $alternativeText );
+        }
         $content->store( $objectAttribute );
     }
 }
