@@ -5,16 +5,16 @@
 /* "READ MORE" TEXT FOR ALL CHILDREN OBJECTS */
 
 div#maincontent div.content-view-line div.attribute-link p
-{ 
-    background-image: url(../../images/t6/arrow.gif);
+{
+    background-image: url(../../images/t3/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
 
 div#maincontent div.content-view-line div.attribute-link-disabled p
-{ 
+{
     color: #666666;
-    background-image: url(../../images/t6/arrow.gif);
+    background-image: url(../../images/t3/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
@@ -23,14 +23,14 @@ div#maincontent div.content-view-line div.attribute-link-disabled p
 /* CONTENT LINK FOR ALL MAIN OBJECTS, E.G. " AND "THUMBNAIL/SLIDESHOW VIEW" */
 
 div#maincontent div.content-view-full div.attribute-link p, div#maincontent div.view-slideshow div.attribute-link p, div#maincontent div.content-view-full div.attribute-tipafriend p
-{ 
-    background-image: url(../../images/t6/arrow.gif);
+{
+    background-image: url(../../images/t3/arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
 }
 
 div#maincontent div.content-view-full div.attribute-link-disabled p, div#maincontent div.view-slideshow div.attribute-link-disabled p
-{ 
+{
     color: #666666;
 }
 
@@ -38,7 +38,7 @@ div#maincontent div.content-view-full div.attribute-link-disabled p, div#maincon
 /* AUTHOR AND DATE FOR ALL FULL OBJECTS */
 
 div.content-view-full div.attribute-byline p
-{ 
+{
     color: #666666;
 }
 
@@ -46,12 +46,12 @@ div.content-view-full div.attribute-byline p
 /* AUTHOR AND DATE FOR ALL CHILD OBJECTS */
 
 div.content-view-full div.content-view-line div.attribute-byline p
-{ 
+{
     color: #666666;
 }
 
 div.class-product div.content-view-line div.class-review div.attribute-message p
-{ 
+{
     color: #333;
 }
 
@@ -59,7 +59,7 @@ div.class-product div.content-view-line div.class-review div.attribute-message p
 /* FOLDER */
 
 div#maincontent div.class-folder div.attribute-short p
-{ 
+{
     color: #333;
 }
 
@@ -67,12 +67,12 @@ div#maincontent div.class-folder div.attribute-short p
 /* ARTICLE */
 
 div#maincontent div.content-view-full div.class-article div.attribute-short p
-{ 
+{
     color: #333;
 }
 
 div.class-article div.attribute-image div.imagecaption p
-{ 
+{
     color: #666666;
 }
 
@@ -80,32 +80,32 @@ div.class-article div.attribute-image div.imagecaption p
 /* PRODUCT */
 
 div#maincontent div.class-folder div.content-view-line div.class-product div.attribute-short p
-{ 
+{
     color: #333;
 }
 
 div#maincontent div.class-product div.attribute-price p
-{ 
+{
     color: #666666;
 }
 
 div.content-view-listitem div.class-product div.attribute-short p
-{ 
+{
     color: #666666;
 }
 
 div.content-view-listitem div.class-product div.attribute-price p
-{ 
+{
     color: #000000;
 }
 
 div.content-view-listitem div.class-product div.attribute-link a
-{ 
+{
     color: #336699;
 }
 
 div.content-view-listitem div.class-product div.attribute-link-disabled a
-{ 
+{
     color: #666666;
 }
 
@@ -113,96 +113,96 @@ div.content-view-listitem div.class-product div.attribute-link-disabled a
 /* GALLERY */
 
 div#maincontent div.class-folder div.class-gallery div.attribute-short p
-{ 
+{
     color: #333;
 }
 
 div#maincontent div.class-folder div.class-gallery div.attribute-link-disabled p
-{ 
+{
     color: #666666;
 }
 
 div#maincontent div.class-gallery div.attribute-short p
-{ 
+{
     color: #333;
 }
 
 div#maincontent div.class-gallery div.content-view-children table td
-{ 
+{
     background-color: #efefef;
     border-color: #666666;
 }
 
 div#maincontent div.class-gallery div.content-view-children div.attribute-image p
-{ 
+{
     color: #666666;
 }
 
 div#maincontent-design div.class-gallery div.content-view-children div.attribute-caption p
-{ 
+{
     color: #666666;
 }
 
 div#maincontent-design div.attribute-long p
-{ 
+{
     color: #333;
 }
 
 
 /* EMBEDDED TAGS IN XML FIELDS */
 
-div.factbox-design, div.content-view-embed 
-{ 
+div.factbox-design, div.content-view-embed
+{
     background-color: #ffffff;
     border-color: #620052;
 }
 
 div#maincontent div.factbox-design h2, div#maincontent div.content-view-embed h2
-{ 
+{
     color: #ffffff;
     background-color: #620052;
 }
 
 div#maincontent-design div.content-view-embed h3
-{ 
+{
     color: #336699;
 }
 
 div.quote-begin
-{ 
+{
     background-image: url(../../images/quote-up.gif);
     background-repeat: no-repeat;
     background-position: bottom right;
 }
 
 div.quote-end
-{ 
+{
     background-image: url(../../images/quote-down.gif);
     background-repeat: no-repeat;
     background-position: top left;
 }
 
 div.factbox h3
-{ 
+{
     color: #336699;
 }
 
 div.factbox div.attribute-file p
-{ 
+{
     color: #333;
 }
 
 /* LIST ITEM IMAGE */
 
 div.content-view-listitem div.class-image div.attribute-caption p
-{ 
+{
     color: #666666;
 }
 
 /* FILE */
 
 div#maincontent-design div.class-folder div.class-file div.attribute-short p
-{ 
+{
     color: #333;
 }
 
@@ -272,12 +272,12 @@ div.calendar div.selected
 /* POLL RESULT STYLE */
 
 div.poll-result div.chart-bar-resultbox
-{  
+{
     background-color: #eeeeee;
 }
 
 div.poll-result div.chart-bar-resultbar
-{  
+{
     background-color: #333;; /* This could also be a repeating background image */
 }
 
@@ -300,7 +300,7 @@ div.shop-basket table td.product-subtotal, div.shop-confirmorder table td.produc
 }
 
 input.shop-basketbin
-{ 
+{
     background-image: url(../../images/t3/bin.gif);
     background-repeat: no-repeat;
 }
@@ -309,12 +309,12 @@ input.shop-basketbin
 /* RENDERED TABLE */
 
 table.renderedtable td
-{ 
+{
     border-color: #336699;
 }
 
 table.renderedtable
-{ 
+{
     border-color: #336699;
 }
 
