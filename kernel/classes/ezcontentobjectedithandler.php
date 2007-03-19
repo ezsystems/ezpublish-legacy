@@ -81,7 +81,7 @@ class eZContentObjectEditHandler
     function initialize()
     {
         $contentINI = eZINI::instance( 'content.ini' );
-        foreach( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) as $extensionDirectory )
+        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
@@ -109,7 +109,7 @@ class eZContentObjectEditHandler
     {
         $http =& eZHTTPTool::instance();
         $contentINI = eZINI::instance( 'content.ini' );
-        foreach( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) as $extensionDirectory )
+        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
@@ -130,7 +130,7 @@ class eZContentObjectEditHandler
     function executePublish( $contentObjectID, $contentObjectVersion )
     {
         $contentINI = eZINI::instance( 'content.ini' );
-        foreach( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) as $extensionDirectory )
+        foreach( array_unique( $contentINI->variable( 'EditSettings', 'ExtensionDirectories' ) ) as $extensionDirectory )
         {
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
