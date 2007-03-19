@@ -189,3 +189,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #8821: ezpm Error: (eZFileHandler::copy) Unable to open source file in read mode
 - Fixed bug #10103: PHP warnings when eZContentClass::fetchAllClasses is called without $groupList argument
 - Fixed bug #10133: Reference warning in eZMatrixDefinition
+- Fixed bug #10468: objectedithandler triggered multiple times.
+  ( Merged from stable/3.8 rev. 18458, trunk rev. 18459 )
