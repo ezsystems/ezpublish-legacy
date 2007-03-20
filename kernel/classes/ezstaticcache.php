@@ -326,7 +326,8 @@ class eZStaticCache
                         }
                         if ( $content === false )
                         {
-                            eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                            eZDebug::writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
+                                                  'Static Cache' );
                         }
                         else
                         {
