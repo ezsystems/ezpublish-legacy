@@ -195,3 +195,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9953: SiteAccessRules example 3 disables website root
   (Merged from stable/3.8 (3.8.8) rev. 18468)
 - Fixed bug #10469: Useless debug message when grabbing content for static cache fails.
+- Fixed bug #10472: Notice: Only variable references should be returned by reference
+  in kernel/classes/ezcontentclassclassgroup.php on line 103.

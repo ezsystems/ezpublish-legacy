@@ -85,7 +85,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         return new eZContentClassClassGroup( $row );
     }
 
-    function &update( $contentclass_version, $group_id, $group_name )
+    function update( $contentclass_version, $group_id, $group_name )
     {
         if( $contentclass_version == null )
         {
