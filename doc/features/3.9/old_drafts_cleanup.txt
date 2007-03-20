@@ -27,22 +27,22 @@ See section [VersionManagement] in the 'settings/content.ini' file:
 [VersionManagement]
 ........
 
-# Number of days, hours, minuts and seconds before a draft (status 0) is considered old and can be removed
+# Number of days, hours, minutes and seconds before a draft is considered old and can be removed
 # 90 days by default
 DraftsDuration[]
 DraftsDuration[days]=90
 DraftsDuration[hours]=0                              
 DraftsDuration[minutes]=0                            
 DraftsDuration[seconds]=0                            
-# Clean-up limit per one time running of the 'old_drafts_cleanup.php' cronjob script
+# Clean-up limit per one run of the 'old_drafts_cleanup.php' cronjob script
 DraftsCleanUpLimit=100                               
                                                    
-# Number of days, hours, minuts and seconds before an internal draft (status 5) is considered old and can be removed
+# Number of days, hours, minutes and seconds before an internal draft is considered old and can be removed
 # 1 day by default
 InternalDraftsDuration[]
 InternalDraftsDuration[days]=1
 InternalDraftsDuration[hours]=0
 InternalDraftsDuration[minutes]=0
 InternalDraftsDuration[seconds]=0
-# Clean-up limit per one time running of the 'internal_drafts_cleanup.php' cronjob script
+# Clean-up limit per one run of the 'internal_drafts_cleanup.php' cronjob script
 InternalDraftsCleanUpLimit=100
