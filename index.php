@@ -583,7 +583,16 @@ while ( $moduleRunRequired )
         }
     }
 
-    $moduleCheck = accessAllowed( $uri );
+    if ( $uri->isEmpty() )
+    {
+        $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
+        $moduleCheck = accessAllowed( $tmp_uri );
+    }
+    else
+    {
+        $moduleCheck = accessAllowed( $uri );
+    }
+
     if ( !$moduleCheck['result'] )
     {
         if ( $ini->variable( "SiteSettings", "ErrorHandler" ) == "defaultpage" )
@@ -602,7 +611,6 @@ while ( $moduleRunRequired )
 
     if ( $uri->isEmpty() )
     {
-        $tmp_uri = new eZURI( $ini->variable( "SiteSettings", "IndexPage" ) );
         if ( !fetchModule( $tmp_uri, $check, $module, $module_name, $function_name, $params ) )
             $displayMissingModule = true;
     }
