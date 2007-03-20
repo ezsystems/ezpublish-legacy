@@ -156,8 +156,6 @@ Changes from 3.6.11 to 3.6.12
   (Merged from stable/3.8 (3.8.7) rev. 17949)
 - Fixed bug #9995: Email addresses with underscores
   (Merged from stable/3.8 (3.8.7) rev. 17955)
-- Fixed bug #9953: SiteAccessRules example 3 disables website root /
-  (Merged from stable/3.8 (3.8.7) rev. 17960)
 - Fixed bug #10048: pdf( set_margin, ... - fails for link text.
   ( Merged from stable/3.8 rev. 18012, stable/3.7 rev. 18013 )
 - Fixed bug #010097: Plain passwords in debug output.
@@ -183,4 +181,6 @@ Changes from 3.6.11 to 3.6.12
   (Manually merged from trunk (3.10.0alpha1) rev. 18323)
 - Fixed bug #10427: Typo in eZPHPCreator.
   (Merged from trunk (3.10.0alpha1) rev. 18347)
+- Fixed bug #9953: SiteAccessRules example 3 disables website root
+  (Merged from stable/3.8 (3.8.8) rev. 18468)
   
