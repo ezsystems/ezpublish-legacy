@@ -175,8 +175,6 @@ Changes from 3.7.9 to 3.7.10
   (Merged from stable/3.8 (3.8.7) rev. 17949)
 - Fixed bug #9995: Email addresses with underscores
   (Merged from stable/3.8 (3.8.7) rev. 17955)
-- Fixed bug #9953: SiteAccessRules example 3 disables website root /
-  (Merged from stable/3.8 (3.8.7) rev. 17960)
 - Fixed bug #9962: [Workflow] When speciying a section for content approval mechanism,
   content appears without being approved.
   (Merged from stable/3.9 (3.9.1) rev. 17990)
@@ -213,3 +211,5 @@ Changes from 3.7.9 to 3.7.10
   (Manually merged from trunk (3.10.0alpha1) rev. 18323)
 - Fixed bug #10427: Typo in eZPHPCreator.
   (Merged from trunk (3.10.0alpha1) rev. 18347)  
+- Fixed bug #9953: SiteAccessRules example 3 disables website root
+  (Merged from stable/3.8 (3.8.8) rev. 18468)
