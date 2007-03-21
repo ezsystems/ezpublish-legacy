@@ -126,11 +126,11 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $this->UsePersistentConnection == true )
         {
-            $connection = @mysql_pconnect( $server, $user, $password );
+            $connection = mysql_pconnect( $server, $user, $password );
         }
         else
         {
-            $connection = @mysql_connect( $server, $user, $password, true );
+            $connection = mysql_connect( $server, $user, $password, true );
         }
         $dbErrorText = mysql_error();
         $maxAttempts = $this->connectRetryCount();
@@ -141,11 +141,11 @@ class eZMySQLDB extends eZDBInterface
             sleep( $waitTime );
             if ( $this->UsePersistentConnection == true )
             {
-                $connection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+                $connection = mysql_pconnect( $this->Server, $this->User, $this->Password );
             }
             else
             {
-                $connection = @mysql_connect( $this->Server, $this->User, $this->Password );
+                $connection = mysql_connect( $this->Server, $this->User, $this->Password );
             }
             $numAttempts++;
         }
@@ -161,11 +161,11 @@ class eZMySQLDB extends eZDBInterface
 
         if ( $this->IsConnected && $db != null )
         {
-            $ret = @mysql_select_db( $db, $connection );
+            $ret = mysql_select_db( $db, $connection );
             $this->setError();
             if ( !$ret )
             {
-                eZDebug::writeError( "Connection error: " . @mysql_errno( $connection ) . ": " . @mysql_error( $connection ), "eZMySQLDB" );
+                eZDebug::writeError( "Connection error: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
                 $this->IsConnected = false;
             }
         }
@@ -190,12 +190,12 @@ class eZMySQLDB extends eZDBInterface
             if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
             {
                 $query = "SET NAMES '" . $charset . "'";
-                $status = @mysql_query( $query, $connection );
+                $status = mysql_query( $query, $connection );
                 $this->reportQuery( 'eZMySQLDB', $query, false, false );
                 if ( !$status )
                 {
                     $this->setError();
-                    eZDebug::writeWarning( "Connection warning: " . @mysql_errno( $connection ) . ": " . @mysql_error( $connection ), "eZMySQLDB" );
+                    eZDebug::writeWarning( "Connection warning: " . mysql_errno( $connection ) . ": " . mysql_error( $connection ), "eZMySQLDB" );
                 }
             }
         }
@@ -272,12 +272,12 @@ class eZMySQLDB extends eZDBInterface
     function checkCharsetPriv( $charset, &$currentCharset )
     {
         $query = "SHOW CREATE DATABASE `{$this->DB}`";
-        $status = @mysql_query( $query, $this->DBConnection );
+        $status = mysql_query( $query, $this->DBConnection );
         $this->reportQuery( 'eZMySQLDB', $query, false, false );
         if ( !$status )
         {
             $this->setError();
-            eZDebug::writeWarning( "Connection warning: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
+            eZDebug::writeWarning( "Connection warning: " . mysql_errno( $this->DBConnection ) . ": " . mysql_error( $this->DBConnection ), "eZMySQLDB" );
             return false;
         }
 
@@ -825,8 +825,8 @@ class eZMySQLDB extends eZDBInterface
     {
         if ( $this->IsConnected )
         {
-            @mysql_close( $this->DBConnection );
-            @mysql_close( $this->DBWriteConnection );
+            mysql_close( $this->DBConnection );
+            mysql_close( $this->DBWriteConnection );
         }
     }
 

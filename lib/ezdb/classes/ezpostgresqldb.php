@@ -163,7 +163,7 @@ class eZPostgreSQLDB extends eZDBInterface
                 $this->startTimer();
 
             }
-            $result = @pg_exec( $this->DBConnection, $sql );
+            $result = pg_exec( $this->DBConnection, $sql );
             if ( $this->OutputSQL )
             {
                 $this->endTimer();
@@ -530,7 +530,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT currval( '" . $table . "_s')";
-            $result = @pg_exec( $this->DBConnection, $sql );
+            $result = pg_exec( $this->DBConnection, $sql );
             if ( !$result )
             {
                 eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
@@ -581,7 +581,7 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function close()
     {
-        @pg_close();
+        pg_close();
     }
 
     /*!
@@ -600,7 +600,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT version()";
-            $result = @pg_exec( $this->DBConnection, $sql );
+            $result = pg_exec( $this->DBConnection, $sql );
             if ( !$result )
             {
                 eZDebug::writeError( "Error: error executing query: $sql " . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
