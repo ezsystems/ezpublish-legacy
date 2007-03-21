@@ -198,5 +198,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10472: Notice: Only variable references should be returned by reference
   in kernel/classes/ezcontentclassclassgroup.php on line 103.
 - Fixed bug #10475: Hiding of important warnings.
-  (Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492)
+  ( Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492 )
 - Fixed bug #10461: class_group override does not work.
+- Fixed bug #7394: Installation problem on MySQL 5 (Transaction errors with sql-mode STRICT_TRANS_TABLES).
+  ( Merged from stable/3.9 rev. 18500 )
