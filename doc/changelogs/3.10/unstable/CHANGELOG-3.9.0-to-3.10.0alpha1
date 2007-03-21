@@ -197,3 +197,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10469: Useless debug message when grabbing content for static cache fails.
 - Fixed bug #10472: Notice: Only variable references should be returned by reference
   in kernel/classes/ezcontentclassclassgroup.php on line 103.
+- Fixed bug #10475: Hiding of important warnings.
+  ( Merged from stable/3.9 rev. 18491, stable/3.9 rev. 18492 )
