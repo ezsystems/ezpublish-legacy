@@ -343,15 +343,16 @@ class eZObjectForwarder
                                         $code .= " and\n" . str_repeat( ' ', $ifLength );
                                     $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                                     $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+
+                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and ";
                                     if ( $conditionNameText == '"url_alias"' )
                                     {
-                                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                                 "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
+                                        $code .= "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
                                     }
                                     else
                                     {
-                                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                                 "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
+                                        $code .= "( is_array( \$" . $designKeysName . "[$conditionNameText] ) ? " .
+                                                 "in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) : " .
                                                  "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
                                     }
                                     ++$conditionCount;
@@ -498,16 +499,17 @@ class eZObjectForwarder
                                     $code .= " and\n" . str_repeat( ' ', $ifLength );
                                 $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                                 $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+
+                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and ";
                                 if ( $conditionNameText == '"url_alias"' )
                                 {
-                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                        "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
+                                    $code .= "( strpos(\$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
                                 }
                                 else
                                 {
-                                    $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and " .
-                                        "( ( is_array( \$" . $designKeysName . "[$conditionNameText] ) and in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) ) or " .
-                                        "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
+                                    $code .= "( is_array( \$" . $designKeysName . "[$conditionNameText] ) ? " .
+                                             "in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) : " .
+                                             "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
                                 }
                                 ++$conditionCount;
                             }
