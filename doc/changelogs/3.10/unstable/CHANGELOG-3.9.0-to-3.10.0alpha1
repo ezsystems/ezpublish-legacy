@@ -190,7 +190,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10103: PHP warnings when eZContentClass::fetchAllClasses is called without $groupList argument
 - Fixed bug #10133: Reference warning in eZMatrixDefinition
 - Fixed bug #10468: objectedithandler triggered multiple times.
-  ( Merged from stable/3.8 rev. 18458, trunk rev. 18459 )
+  (Merged from stable/3.8 rev. 18458, trunk rev. 18459)
 - Fixed bug #5194: Wrong link to arrow image in CSS file.
 - Fixed bug #9953: SiteAccessRules example 3 disables website root
   (Merged from stable/3.8 (3.8.8) rev. 18468)
@@ -198,4 +198,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10472: Notice: Only variable references should be returned by reference
   in kernel/classes/ezcontentclassclassgroup.php on line 103.
 - Fixed bug #10475: Hiding of important warnings.
-  ( Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492 )
+  (Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492)
+- Fixed bug #10461: class_group override does not work.
