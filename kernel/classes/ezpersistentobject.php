@@ -319,7 +319,7 @@ class eZPersistentObject
                  is_array( $field_def ) &&
                  in_array( $field_def['datatype'], $numericDataTypes  ) &&
                  array_key_exists( 'default', $field_def ) &&
-                 !is_null( $field_def[ 'default' ] ) )
+                 ( is_null( $field_def[ 'default' ] ) || is_numeric( $field_def[ 'default' ] ) ) )
             {
                 $obj->setAttribute( $field_name, $field_def[ 'default' ] );
             }
