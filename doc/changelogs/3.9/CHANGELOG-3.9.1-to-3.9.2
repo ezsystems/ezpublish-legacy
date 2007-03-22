@@ -63,3 +63,6 @@ Changes from 3.9.1 to 3.9.2
 - Fixed bug #7394: Installation problem on MySQL 5 (Transaction errors with sql-mode STRICT_TRANS_TABLES).
 - Fixed bug #10461: class_group override does not work.
   (Merged from trunk (3.10.0alpha1) rev. 18501)
+- Fixed bug #10491: pg_exec(): Query failed: syntax error integer: ""
+  in lib/ezdb/classes/ezpostgresqldb.php on line 166 (called from eZURLAlias::fetchBySourceURL()).
+  (Merged from stable/3.8 (3.8.8) rev. 18514)
