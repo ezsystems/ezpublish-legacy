@@ -515,14 +515,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                     $matchCondition .= " and ";
 
                                 // Have a special substring match for subtree matching
+
                                 $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and ";
                                 if ( $conditionKey == 'url_alias' )
-                                    $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions']['url_alias'] . "\\' ) === 0 )";
+                                {
+                                    $matchCondition .=
+                                        "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions']['url_alias'] . "\\' ) === 0 ) )";
+                                }
                                 else
-                                    $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and " .
+                                {
+                                    $matchCondition .=
                                         "( is_array( \$matchKeys[\\'$conditionKey\\'] ) ? " .
                                         "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) : " .
                                         "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\') )";
+                                }
 
                                 $condCount++;
                             }
