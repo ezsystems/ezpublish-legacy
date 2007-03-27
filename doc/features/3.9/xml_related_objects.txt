@@ -28,6 +28,31 @@ relation will be automatically removed.
 - 'by Attribute'. Relations made by attributes of "Object relation" and
 "Object relation list" datatypes.
 
+*Database changes:
+
+A new field called 'relation_type' has been added to the 'ezcontentobject_link'
+table in order to distinguish between object relations of different types.
+The value of this field is a bit mask where all four types of relations are
+identified by powers of 2: 0 - common, 1 - embedded, 2 - linked,
+3 - by attribute.
+
+Possible values of the 'relation_type' field are:
+1 - common (0001)
+2 - embedded (0010)
+3 - common and embedded (0011)
+4 - linked (0100)
+5 - common and linked (0101)
+6 - embedded and linked (0110)
+7 - common, embedded and linked (0111)
+8 - by attribute (1000)
+
+If an object has several different relations to another content object,
+relations at the object level are grouped together and represented by one
+table row. A relation at the attribute level is always represented by
+a separate row in the 'ezcontentobject_link' table, where 'relation_type'
+is 8 and 'contentclassattribute_id' contains an ID number of an attribute
+that stores information about a relation. (Note that 'contentclassattribute_id'
+is always zero for relations at the attribute level.)
 
 *Template fetch functions:
 
