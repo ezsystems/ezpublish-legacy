@@ -1358,7 +1358,7 @@ showDebug();
 
         if ( $as_html )
         {
-            echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\">";
+            echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\" summary='Layout table for eZ Publish debug output'>";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
 
             echo "<tr><td>";
@@ -1400,7 +1400,7 @@ td.timingpoint2
 -->
 </STYLE>";
             }
-            echo "<table style='border: 1px lightgray;' cellspacing='0'>";
+            echo "<table style='border: 1px lightgray;' cellspacing='0' summary='Table for actual debug output, shows notices, warnings and errors.'>";
         }
 
         $this->printTopReportsList();
@@ -1441,7 +1441,7 @@ td.timingpoint2
                     else
                         $contents = htmlspecialchars( $debug['String'] );
 
-                    echo "<tr><td class='debugheader' valign='top'$identifierText><b><font color=\"$color\">$name:</font> $label</b></td>
+                    echo "<tr><td class='debugheader' valign='top'$identifierText><b><span style='color: $color'>$name:</span> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
                                     <tr><td colspan='2'><pre$pre>" .  $contents . "</pre></td></tr>";
                 }
@@ -1458,7 +1458,7 @@ td.timingpoint2
             echo "</table>";
 
             echo "<h2>Timing points:</h2>";
-            echo "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
+            echo "<table style='border: 1px dashed black;' cellspacing='0' summary='Tabel of timingpoint stats.'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
         }
         $startTime = false;
         $elapsed = 0.00;
@@ -1558,7 +1558,7 @@ td.timingpoint2
         if ( $useIncludedFiles )
         {
             if ( $as_html )
-                echo "<h2>Included files:</h2><table style='border: 1px dashed black;' cellspacing='0'><tr><th>File</th></tr>";
+                echo "<h2>Included files:</h2><table style='border: 1px dashed black;' cellspacing='0' summary='Tabel list of included templates used in the processing of this page.'><tr><th>File</th></tr>";
             else
                 echo $styles['emphasize'] . "Includes" . $styles['emphasize-end'] . "\n";
             $phpFiles = get_included_files();
@@ -1589,7 +1589,7 @@ td.timingpoint2
         if ( $as_html )
         {
             echo "<h2>Time accumulators:</h2>";
-            echo "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
+            echo "<table style='border: 1px dashed black;' cellspacing='0' summary='Table with detailed list of time accumulators'><tr><th>&nbsp;Accumulator</th><th>&nbsp;Elapsed</th><th>&nbsp;Percent</th><th>&nbsp;Count</th><th>&nbsp;Average</th></tr>";
             $i = 0;
         }
 
