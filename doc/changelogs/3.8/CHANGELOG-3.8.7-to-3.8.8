@@ -55,3 +55,6 @@ Changes from 3.8.7 to 3.8.8
   in lib/ezdb/classes/ezpostgresqldb.php on line 166 (called from eZURLAlias::fetchBySourceURL()).
 - Fixed bug #10503: multioption datatype always required.
   (Merged from stable/3.9 (3.9.2) rev. 18521)
+- Fixed bug #18529: SQL with language is not properly build in fetch list template function.
+  (We should use setPrioritizedLanguages() before createSortingSQLStrings())
+  (Merged from trunk (18526,18529)
