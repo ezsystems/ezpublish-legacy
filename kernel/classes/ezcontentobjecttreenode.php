@@ -1746,7 +1746,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
-
+        
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+        
         $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
@@ -1779,15 +1788,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $useVersionName     = true;
-
-        if ( $language )
-        {
-            if ( !is_array( $language ) )
-            {
-                $language = array( $language );
-            }
-            eZContentLanguage::setPrioritizedLanguages( $language );
-        }
 
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
