@@ -1549,8 +1549,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
+                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject
+                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
                                               AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
                         } break;
 
@@ -1747,6 +1747,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
 
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
@@ -1779,15 +1788,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $useVersionName     = true;
-
-        if ( $language )
-        {
-            if ( !is_array( $language ) )
-            {
-                $language = array( $language );
-            }
-            eZContentLanguage::setPrioritizedLanguages( $language );
-        }
 
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
@@ -1923,8 +1923,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $sortBy = $listParams['SortBy'];
 
-        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
-
         $queryNodes = '';
 
         foreach( $nodesParams as $nodeParams )
@@ -1962,6 +1960,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeParams['ClassFilterType'] = false;
             }
 
+            if ( $language )
+            {
+                if ( !is_array( $language ) )
+                {
+                    $language = array( $language );
+                }
+                eZContentLanguage::setPrioritizedLanguages( $language );
+            }
+
+            $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
             $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
             $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
             $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
@@ -1975,15 +1983,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $retValue = null;
                 return $retValue;
-            }
-
-            if ( $language )
-            {
-                if ( !is_array( $language ) )
-                {
-                    $language = array( $language );
-                }
-                eZContentLanguage::setPrioritizedLanguages( $language );
             }
 
             $useVersionName     = true;
@@ -2701,8 +2700,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
+                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject
+                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
                                               AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
                         } break;
 
