@@ -13,9 +13,11 @@
 {tool_bar name='admin_developer' view=full}
 {/set-block}
 
-{def $hide_right_menu = and($admin_right|eq(''), $admin_developer|eq(''))}
 
-{* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu) *}
+{def $hide_right_menu = and($admin_right|eq(''), $admin_developer|eq(''))
+     $admin_left_width = ezpreference( 'admin_left_menu_width' )}
+
+{* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu, $admin_left_width) *}
 {* Cache header for each navigation part *}
 
 <script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
@@ -35,6 +37,14 @@
 
 {if $hide_right_menu}
     div#maincontent {ldelim} margin-right: 0.4em; {rdelim}
+{/if}
+
+{if $admin_left_width}
+    {def $left_menu_widths = ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini')
+         $left_menu_width=$left_menu_widths[$admin_left_width]}
+    div#leftmenu {ldelim} width: {$left_menu_width}em; {rdelim}
+    div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
+    {undef $left_menu_widths $left_menu_width}
 {/if}
 
 </style>
@@ -80,16 +90,6 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <![endif]-->
 {/literal}
 
-{section show=ezpreference( 'admin_left_menu_width' )}
-{let left_menu_widths=ezini( 'LeftMenuSettings', 'MenuWidth', 'menu.ini' )
-     left_menu_width=$left_menu_widths[ezpreference( 'admin_left_menu_width' )]}
-<style type="text/css">
-div#leftmenu {ldelim} width: {$left_menu_width}em; {rdelim}
-div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
-</style>
-{/let}
-{/section}
-
 <!--[if gte IE 5.5000]>
 <script type="text/javascript">
     var emptyIcon16 = {'16x16.gif'|ezimage};
@@ -115,7 +115,6 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 <div id="search">
 <form action={'/content/search/'|ezurl} method="get">
 
-{*{section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}*}
 {section show=eq( $ui_context, 'edit' )}
     <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" disabled="disabled" />
     <input id="searchbutton" class="button-disabled" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" disabled="disabled" />
@@ -131,8 +130,7 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
          nd=1
          left_checked=true()
          current_loc=true()}
-{*    {section show=or( eq( $ui_context, 'edit' ), eq( $ui_context, 'browse' ) )}*}
-    {section show=or( eq( $ui_context, 'edit' ) )}
+    {section show=eq( $ui_context, 'edit' )}
         {set disabled=true()}
     {section-else}
         {section show=is_set($module_result.node_id)}
@@ -221,42 +219,36 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
 <div id="leftmenu">
 <div id="leftmenu-design">
 
-{section show=and( $ui_context|eq( 'edit' ), $ui_component|eq( 'content' ) )}
-    {include uri='design:edit_menu.tpl'}
-{section-else}
+{switch match=$navigation_part.identifier}
+	{case match='ezcontentnavigationpart'}
+	    {include uri='design:parts/content/menu.tpl'}
+	{/case}
+	{case match='ezmedianavigationpart'}
+	    {include uri='design:parts/media/menu.tpl'}
+	{/case}
+	{case match='ezshopnavigationpart'}
+	    {include uri='design:parts/shop/menu.tpl'}
+	{/case}
+	{case match='ezusernavigationpart'}
+	    {include uri='design:parts/user/menu.tpl'}
+	{/case}
+	{case match='ezvisualnavigationpart'}
+	    {include uri='design:parts/visual/menu.tpl'}
+	{/case}
+	{case match='ezsetupnavigationpart'}
+	    {include uri='design:parts/setup/menu.tpl'}
+	{/case}
+	{case match='ezmynavigationpart'}
+	    {include uri='design:parts/my/menu.tpl'}
+	{/case}
+	{case}
+	{/case}
+{/switch}
 
-{section show=eq( $navigation_part.identifier, 'ezcontentnavigationpart' )}
-    {include uri='design:parts/content/menu.tpl'}
-{/section}
 
-{section show=eq( $navigation_part.identifier, 'ezmedianavigationpart' )}
-    {include uri='design:parts/media/menu.tpl'}
-{/section}
-
-{section show=eq( $navigation_part.identifier, 'ezshopnavigationpart' )}
-    {include uri='design:parts/shop/menu.tpl'}
-{/section}
-
-{section show=eq( $navigation_part.identifier, 'ezusernavigationpart' )}
-    {include uri='design:parts/user/menu.tpl'}
-{/section}
-
-{section show=eq( $navigation_part.identifier, 'ezvisualnavigationpart' )}
-    {include uri='design:parts/visual/menu.tpl'}
-{/section}
-
-{section show=eq( $navigation_part.identifier, 'ezsetupnavigationpart' )}
-    {include uri='design:parts/setup/menu.tpl'}
-{/section}
-
-{section show=eq( $navigation_part.identifier, 'ezmynavigationpart' )}
-    {include uri='design:parts/my/menu.tpl'}
-{/section}
 
 {section show=is_set( $module_result.left_menu )}
     {include uri=$module_result.left_menu}
-{/section}
-
 {/section}
 
 </div>
