@@ -53,7 +53,7 @@ $hour = $dt->hour();
 $minute = $dt->minute();
 $second = $dt->second();
 $startTime = $day . "/" . $month . "/" . $year . ":" . $hour . ":" . $minute . ":" . $second;
-//$startTime = "29/Aug/2003:11:31:42";
+
 print( "Started at " . $dt->toString() . "\n\n"  );
 $nodeIDArray = array();
 
@@ -82,19 +82,24 @@ $updateViewLog = "updateview.log";
 
 $startLine = "";
 $hasStartLine = false;
-$fh = fopen( $varDir . "/" . $logDir . "/" . $updateViewLog, "r" );
-if ( $fh )
+
+$updateViewLogPath = $varDir . "/" . $logDir . "/" . $updateViewLog;
+if ( is_file( $updateViewLogPath ) )
 {
-    while ( !feof ( $fh ) )
+    $fh = fopen( $updateViewLogPath, "r" );
+    if ( $fh )
     {
-        $line = fgets( $fh, 1024 );
-        if ( preg_match( "/\[/", $line ) )
+        while ( !feof ( $fh ) )
         {
-             $startLine = $line;
-             $hasStartLine = true;
+            $line = fgets( $fh, 1024 );
+            if ( preg_match( "/\[/", $line ) )
+            {
+                $startLine = $line;
+                $hasStartLine = true;
+            }
         }
+        fclose( $fh );
     }
-    fclose( $fh );
 }
 
 print( "Start line:\n" .$startLine . "\n" );
@@ -184,11 +189,6 @@ if ( $handle )
     fclose($handle);
 }
 
-/*print_r($nonContentArray);
-print_r($contentArray);
-print_r($nodeIDArray );
-print_r($pathArray );*/
-
 foreach ( $nodeIDArray as $nodeID )
 {
     $nodeObject = eZContentObjectTreeNode::fetch( $nodeID );
@@ -219,7 +219,7 @@ foreach ( $pathArray as $path )
 
 $dt = new eZDateTime();
 
-$fh = fopen( $varDir . "/" . $logDir . "/" . $updateViewLog, "w" );
+$fh = fopen( $updateViewLogPath, "w" );
 if ( $fh )
 {
     fwrite( $fh, "# Finished at " . $dt->toString() . "\n" );
