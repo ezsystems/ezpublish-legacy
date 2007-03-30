@@ -700,7 +700,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                             $version = $objectVersion->attribute( 'version' );
                             foreach ( $translations as $translation )
                             {
-                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version, $translation );
                                 $objectAttribute->setAttribute( 'language_code', $translation );
                                 $objectAttribute->initialize();
                                 $objectAttribute->store();
