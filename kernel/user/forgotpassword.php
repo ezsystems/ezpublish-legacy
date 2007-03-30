@@ -41,10 +41,10 @@ $tpl->setVariable( 'wrong_email', false );
 $tpl->setVariable( 'link', false );
 $tpl->setVariable( 'wrong_key', false );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 $hashKey =& $Params["HashKey"];
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 if ( strlen( $hashKey ) == 32 )
 {
@@ -54,7 +54,7 @@ if ( strlen( $hashKey ) == 32 )
         $user = eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
         $email = $user->attribute( 'email' );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
         $password = eZUser::createPassword( $passwordLength );
         $passwordConfirm = $password;
@@ -62,7 +62,7 @@ if ( strlen( $hashKey ) == 32 )
         $userToSendEmail =& $user;
         $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $user->store();
@@ -111,7 +111,7 @@ else if ( strlen( $hashKey ) > 4 )
 
 if ( $module->isCurrentAction( "Generate" ) )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
     $password = eZUser::createPassword( $passwordLength );
     $passwordConfirm = $password;
@@ -155,7 +155,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             $tpl->setVariable( 'link', true );
             $tpl->setVariable( 'hash_key', $hashKey );
             include_once( 'lib/ezutils/classes/ezhttptool.php' );
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $http->UseFullUrl = true;
             $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             $http->UseFullUrl = false;

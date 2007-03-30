@@ -212,7 +212,7 @@ class eZCharTransform
             return $dir;
 
         include_once( 'lib/ezutils/classes/ezsys.php' );
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $dir = $sys->cacheDirectory() . '/trans';
         return $dir;
     }
@@ -233,18 +233,19 @@ class eZCharTransform
         if ( isset( $rules ) )
             return $rules;
 
-        $ini =& eZINI::instance( 'transform.ini' );
+        $ini = eZINI::instance( 'transform.ini' );
+        $debug = eZDebug::instance();
         $groups = $ini->variable( 'Transformation', 'Groups' );
         if ( !in_array( $group, $groups ) )
         {
-            eZDebug::writeError( "Transformation group $group is not part of the active group list Groups in transform.ini",
+            $debug->writeError( "Transformation group $group is not part of the active group list Groups in transform.ini",
                                  'eZCharTransform::groupCommands' );
             return false;
         }
 
         if ( !$ini->hasGroup( $group ) )
         {
-            eZDebug::writeError( "Transformation group $group is missing in transform.ini",
+            $debug->writeError( "Transformation group $group is missing in transform.ini",
                                  'eZCharTransform::groupCommands' );
             return false;
         }
@@ -282,6 +283,10 @@ class eZCharTransform
     */
     function executeCacheFile( &$text, $prefix, $suffix, $key, $timestamp = false, &$filepath )
     {
+        // temporarely hide the cache display problem
+        // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+        //return false;
+
         $path = eZCharTransform::cachedTransformationPath();
         if ( !file_exists( $path ) )
         {
@@ -294,8 +299,11 @@ class eZCharTransform
             $time = filemtime( $filepath );
             if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
+                //var_dump( file_get_contents( $filepath ) );
                 // Execute the PHP file causing $text will be transformed
-                include( $filepath );
+                /*$debug = eZDebug::instance();
+                $debug->writeDebug( 'loading cache from: ' . $filepath, 'eZCharTransform::executeCacheFile' );*/
+                include "$filepath";
                 return true;
             }
         }
@@ -319,6 +327,8 @@ class eZCharTransform
             @fwrite( $fd, "// Cached transformation data\n" );
 
             // The code that does the transformation
+            // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+            // the following line makes the cache file outputting to the browser with PHP5
             @fwrite( $fd, '$data = ' . eZCharTransform::varExport( $transformationData ) . ";\n" );
             @fwrite( $fd, "\$text = strtr( \$text, \$data['table'] );\n" );
 
@@ -327,12 +337,14 @@ class eZCharTransform
                 @fwrite( $fd, $extraCode );
             }
 
-            @fwrite( $fd, "?>" );
+            fwrite( $fd, '?' );
+            fwrite( $fd, '>' );
             @fclose( $fd );
         }
         else
         {
-            eZDebug::writeError( "Failed to store transformation table $filepath" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Failed to store transformation table $filepath" );
         }
     }
 
@@ -354,7 +366,7 @@ class eZCharTransform
      \param $iteration The current iteration, starts at 0 and increases with 1 for each recursive call
 
     */
-    function varExport( $value )
+    static function varExport( $value )
     {
         $ver = phpversion();
         // If we the version used is a PHP version with broken var_export
@@ -378,7 +390,7 @@ class eZCharTransform
      \private
      \static
     */
-    function varExportInternal( $value, $column = 0, $iteration = 0 )
+    static function varExportInternal( $value, $column = 0, $iteration = 0 )
     {
 
         if ( is_bool( $value ) )
@@ -484,7 +496,7 @@ class eZCharTransform
     /*!
      \return The unique instance of the character transformer.
     */
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS['eZCharTransformInstance'];
         if ( !isset( $instance ) )

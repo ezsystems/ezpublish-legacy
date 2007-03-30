@@ -48,7 +48,7 @@ class eZMultiPriceData extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -156,7 +156,7 @@ class eZMultiPriceData extends eZPersistentObject
         if ( $id === false)
             $id = $this->attribute( 'id' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         eZPersistentObject::removeObject( eZMultiPriceData::definition(),
                                           array( 'id' => $id ) );
@@ -169,7 +169,7 @@ class eZMultiPriceData extends eZPersistentObject
     */
     function remove( $objectAttributeID, $objectAttributeVersion = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $objectAttributeVersion == null )
         {
@@ -192,7 +192,7 @@ class eZMultiPriceData extends eZPersistentObject
     */
     function createPriceListForCurrency( $currencyCode )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $dataList = false;
         $insertSql = 'INSERT INTO ezmultipricedata(contentobject_attr_id, contentobject_attr_version, currency_code, type)';
@@ -220,7 +220,7 @@ class eZMultiPriceData extends eZPersistentObject
     */
     function fetchDataListWithoutPriceInCurrency( $currencyCode, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $currencyCode = $db->escapeString( $currencyCode );
 
         $fetchSql = "SELECT DISTINCT m1.contentobject_attr_id,
@@ -249,7 +249,7 @@ class eZMultiPriceData extends eZPersistentObject
 
     function removePriceListForCurrency( $currencyCodeList, $currentVersionOnly = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( !is_array( $currencyCodeList ) || count( $currencyCodeList ) === 0 )
             return;
@@ -305,7 +305,7 @@ class eZMultiPriceData extends eZPersistentObject
 
     function changeCurrency( $oldCurrencyCode, $newCurrencyCode, $currentVersionOnly = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $oldCurrencyCode = $db->escapeString( $oldCurrencyCode );
         $newCurrencyCode = $db->escapeString( $newCurrencyCode );
@@ -372,7 +372,7 @@ class eZMultiPriceData extends eZPersistentObject
             $fromCurrency = false;
             $fromValue = 0;
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             while( $fetchCount === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
             {

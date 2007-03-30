@@ -70,13 +70,13 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     {
         if ( $attr == 'settings' )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $settings =& $this->settings( $user );
             return $settings;
         }
         else if ( $attr == 'all_week_days' )
         {
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
             $nameList =& $locale->attribute( 'weekday_name_list' );
             return $nameList;
         }
@@ -120,7 +120,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
@@ -161,7 +161,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
             {
-                $ini =& eZINI::instance( 'notification.ini' );
+                $ini = eZINI::instance( 'notification.ini' );
                 $countElements = $ini->variable( 'RuleSettings', 'LimitDeleteElements' );
                 if ( !$countElements )
                 {
@@ -190,7 +190,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function fetchHandlersForUser( $time, $address )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $time = (int)$time;
         $address = $db->escapeString( $address );
@@ -214,7 +214,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function fetchItemsForUser( $time, $address, $handler )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $time = (int)$time;
         $address = $db->escapeString( $address );
@@ -240,7 +240,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function storeSettings( &$http, &$module )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
 

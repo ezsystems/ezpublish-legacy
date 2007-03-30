@@ -125,7 +125,7 @@ class eZURLType extends eZDataType
         }
         $urls = array_unique( $urls );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         foreach ( $urls as $urlID )
@@ -223,7 +223,7 @@ class eZURLType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->attribute( 'data_int' ) )
         {
@@ -259,7 +259,7 @@ class eZURLType extends eZDataType
     /*!
      Returns the content of the url for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return  $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -341,8 +341,8 @@ class eZURLType extends eZDataType
                 $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
                 $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );
                 $urlObject->setAttribute( 'last_checked', $urlNode->attributeValue( 'last-checked' ) );
-                $urlObject->setAttribute( 'created', mktime() );
-                $urlObject->setAttribute( 'modified', mktime() );
+                $urlObject->setAttribute( 'created', time() );
+                $urlObject->setAttribute( 'modified', time() );
                 $urlObject->store();
 
                 $objectAttribute->setAttribute( 'data_int', $urlID );

@@ -44,8 +44,8 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
 
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish CSV import script\n\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish CSV import script\n\n" .
                                                          "\n" .
                                                          "\n" .
                                                          "\n" .
@@ -134,7 +134,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
                                                  );
     $nodeAssignment->store();
 
-    $version =& $contentObject->version( 1 );
+    $version = $contentObject->version( 1 );
     $version->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
     $version->store();

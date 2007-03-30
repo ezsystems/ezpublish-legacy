@@ -36,7 +36,7 @@ include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
 $module =& $Params['Module'];
 
-$ini =& eZINI::instance( 'site.ini' );
+$ini = eZINI::instance( 'site.ini' );
 
 $error = false;
 $originalCurrencyCode =& $Params['Currency'];
@@ -84,7 +84,7 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
             $currency->setAttribute( 'custom_rate_value', $currencyParams['custom_rate_value'] );
             $currency->setAttribute( 'rate_factor', $currencyParams['rate_factor'] );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $currency->sync();
             $db->commit();

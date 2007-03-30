@@ -78,7 +78,7 @@ class eZTemplateTextElement
     }
 
     /// The element text
-    var $Text;
+    public $Text;
 }
 
 ?>

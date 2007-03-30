@@ -33,7 +33,7 @@ include_once( "kernel/classes/ezvattype.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $tpl =& templateInit();
 $errors = false;
 
@@ -45,7 +45,7 @@ function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
     if ( $vatTypeArray === false )
         $vatTypeArray = eZVatType::fetchList( true, true );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $vatTypeArray as $vatType )
     {
@@ -228,11 +228,15 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     if ( !$afterConfirmation )
         applyChanges( $module, $http, $errors );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $vatIDsToRemove as $vatID )
     {
-        eZVatType::remove( $vatID );
+        $vatType = eZVatType::fetch( $vatID );
+        if ( is_object( $vatType ) )
+        {
+            $vatType->remove();
+        }
     }
     $db->commit();
 }

@@ -157,13 +157,13 @@ class eZDiff
 
     ///\privatesection
     /// Variable holding the diff engine type
-    var $DiffEngine;
+    public $DiffEngine;
 
     /// The instance of the diff engine class
-    var $DiffEngineInstance;
+    public $DiffEngineInstance;
 
     /// The allowed input on which to diff
-    var $DIFF_TYPE = array( 'text' => 0,
+    public $DIFF_TYPE = array( 'text' => 0,
                             'xml' => 1,
                             'container' => 2 );
 }

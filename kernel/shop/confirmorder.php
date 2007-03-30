@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/classes/ezbasket.php" );
@@ -45,12 +45,12 @@ if ( !is_object( $order ) )
 
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-if ( get_class( $order ) == 'ezorder' )
+if ( strtolower( get_class( $order ) ) == 'ezorder' )
 {
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
         $order->detachProductCollection();
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'ShopSettings', 'ClearBasketOnCheckout' ) == 'enabled' )
         {
             include_once( "kernel/classes/ezbasket.php" );

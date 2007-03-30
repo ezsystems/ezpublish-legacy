@@ -34,7 +34,7 @@ if ( !class_exists( 'eZXMLInputParser' ) )
 
 class eZSimplifiedXMLInputParser extends eZXMLInputParser
 {
-    var $InputTags = array(
+    public $InputTags = array(
         'b'       => array( 'name' => 'strong' ),
         'bold'    => array( 'name' => 'strong' ),
         'i'       => array( 'name' => 'emphasize' ),
@@ -47,7 +47,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         'a'       => array( 'name' => 'link' ),
         );
 
-    var $OutputTags = array(
+    public $OutputTags = array(
         'section'   => array(),
 
         'embed'     => array( //'parsingHandler' => 'breakInlineFlow',
@@ -332,7 +332,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
 
         // Trim spaces used for tag indenting
-        if ( $next && $next->Type == EZ_XML_NODE_TEXT && !trim( $next->content() ) )
+        if ( $next && $next->Type == eZDOMNode::TYPE_TEXT && !trim( $next->content() ) )
         {
             $nextToNext =& $next->nextSibling();
             if ( !$nextToNext || $nextToNext->nodeName != 'br' )
@@ -957,11 +957,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $this->urlIDArray;
     }
 
-    var $urlIDArray = array();
-    var $relatedObjectIDArray = array();
+    public $urlIDArray = array();
+    public $relatedObjectIDArray = array();
     var $linkedObjectIDArray = array();
 
     // needed for self-embedding protection
-    var $contentObjectID = 0;
+    public $contentObjectID = 0;
 }
 ?>

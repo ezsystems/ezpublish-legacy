@@ -69,7 +69,7 @@ class eZEnumType extends eZDataType
             $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
             $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             // Delete stored object attributes when initialize translated attribute.
@@ -98,12 +98,12 @@ class eZEnumType extends eZDataType
         $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
         $oldEnums = eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         foreach ( $oldEnums as $oldEnum )
         {
-            $enum =& $oldEnum->clone();
+            $enum = clone $oldEnum;
             $enum->setAttribute( 'contentclass_attribute_id', $newClassAttribute->attribute( 'id' ) );
             $enum->setAttribute( 'contentclass_attribute_version', $newClassAttribute->attribute( 'version' ) );
             $enum->store();
@@ -123,7 +123,7 @@ class eZEnumType extends eZDataType
         if ( count ( $enums ) == 0 )
         {
             $enums = eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $enums as $enum )
             {
@@ -178,7 +178,7 @@ class eZEnumType extends eZDataType
             else
                 $array_selectedEnumElement = null;
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             // Remove stored enumerations before we store new enumerations
@@ -241,7 +241,7 @@ class eZEnumType extends eZDataType
     /*!
      Returns actual the class attribute content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
@@ -331,7 +331,7 @@ class eZEnumType extends eZDataType
 
     /*!
     */
-    function customClassAttributeHTTPAction( $http, $action, &$contentClassAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
         switch ( $action )
@@ -362,7 +362,7 @@ class eZEnumType extends eZDataType
     /*!
      Returns the object attribute title.
     */
-    function title( &$contentObjectAttribute, $name )
+    function title( $contentObjectAttribute, $name = null )
     {
         $enum = $this->objectAttributeContent( $contentObjectAttribute );
 

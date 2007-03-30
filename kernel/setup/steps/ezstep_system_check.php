@@ -96,7 +96,7 @@ class eZStepSystemCheck extends eZStepInstaller
 
     /*!
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->Result,
                                                 'results' => $this->Results ) );
@@ -120,8 +120,8 @@ class eZStepSystemCheck extends eZStepInstaller
     }
 
     // Variables for storing results from tests
-    var $Result = null;
-    var $Results = null;
+    public $Result = null;
+    public $Results = null;
 }
 
 ?>

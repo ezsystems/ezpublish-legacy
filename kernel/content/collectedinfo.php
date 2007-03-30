@@ -44,13 +44,13 @@ if ( !$object )
 if ( !$object->attribute( 'can_read' ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-// $http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $tpl =& templateInit();
 
 $icMap = array();
-if ( eZHTTPTool::hasSessionVariable( 'InformationCollectionMap' ) )
-    $icMap = eZHTTPTool::sessionVariable( 'InformationCollectionMap' );
+if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )
+    $icMap = $http->sessionVariable( 'InformationCollectionMap' );
 $icID = false;
 if ( isset( $icMap[$object->attribute( 'id' )] ) )
     $icID = $icMap[$object->attribute( 'id' )];
@@ -69,7 +69,7 @@ $section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
     $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       array( 'node', $node->attribute( 'node_id' ) ),
                       array( 'parent_node', $node->attribute( 'parent_node_id' ) ),

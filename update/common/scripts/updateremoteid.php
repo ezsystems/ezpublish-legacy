@@ -44,9 +44,9 @@ $script->startup();
 $options = $script->getOptions();
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );

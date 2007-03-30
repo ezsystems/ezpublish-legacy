@@ -73,7 +73,7 @@
 
   Example:
 \code
-$img =& eZImageManager::instance();
+$img = eZImageManager::instance();
 $img->registerType( "convert", new eZImageShell( '', "convert", array(), array(),
                                                  array( eZImageShell::createRule( "-geometry %wx%h>", // Scale rule
                                                                                   "modify/scale" ),
@@ -123,7 +123,7 @@ class eZImageManager
         $this->QualityValues = array();
         $this->QualityValueMap = array();
 
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $this->TemporaryImageDirPath = eZSys::cacheDirectory() . '/' . $ini->variable( 'FileSettings', 'TemporaryDir' );
     }
 
@@ -318,7 +318,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $aliasNames = $ini->variable( 'AliasSettings', 'AliasList' );
@@ -337,7 +337,7 @@ class eZImageManager
         if ( !in_array( $aliasName, $aliasNames ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'image.ini' );
+            $ini = eZINI::instance( 'image.ini' );
             if ( $ini->hasGroup( $aliasName ) )
             {
                 $alias = $this->createAliasFromINI( $aliasName );
@@ -362,7 +362,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $allowedOutputFormats = $ini->variable( 'OutputSettings', 'AllowedOutputFormat' );
@@ -419,7 +419,7 @@ class eZImageManager
      Calls eZImageHandler::wildcardToRegexp() to generate
      a regular expression out of the wilcard and return it.
     */
-    function wildcardToRegexp( $wildcard, $separatorCharacter = false )
+    static function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
         return eZImageHandler::wildcardToRegexp( $wildcard, $separatorCharacter );
     }
@@ -537,7 +537,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $overrideList = $ini->variable( 'MIMETypeSettings', 'OverrideList' );
@@ -556,7 +556,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( !$ini->hasVariable( 'MIMETypeSettings', 'Quality' ) )
@@ -578,7 +578,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( $ini->hasVariable( 'MIMETypeSettings', 'ConversionRules' ) )
@@ -638,7 +638,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         if ( !$ini->hasGroup( $mimeGroup ) )
@@ -680,7 +680,7 @@ class eZImageManager
     {
         if ( !$iniFile )
             $iniFile = 'image.ini';
-        $ini =& eZINI::instance( $iniFile );
+        $ini = eZINI::instance( $iniFile );
         if ( !$ini )
             return false;
         $handlerList = $ini->variable( 'ImageConverterSettings', 'ImageConverters' );
@@ -792,7 +792,7 @@ class eZImageManager
     function createAliasFromINI( $iniGroup )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
             eZDebug::writeError( "No such group $iniGroup in ini file image.ini",
@@ -829,17 +829,19 @@ class eZImageManager
     */
     function createImageAlias( $aliasName, &$existingAliasList, $parameters = array() )
     {
+        $debug = eZDebug::instance();
+        //$debug->writeDebug( $existingAliasList, 'eZImageManager::createImageAlias existing alias list' );
         $aliasList = $this->aliasList();
         if ( !isset( $aliasList[$aliasName] ) )
         {
-            eZDebug::writeWarning( "Alias name $aliasName does not exist, cannot create it" );
+            $debug->writeWarning( "Alias name $aliasName does not exist, cannot create it" );
             return false;
         }
         $currentAliasInfo = $aliasList[$aliasName];
         $referenceAlias = $currentAliasInfo['reference'];
         if ( $referenceAlias and !$this->hasAlias( $referenceAlias ) )
         {
-            eZDebug::writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
+            $debug->writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
                                  "Will use 'original' alias instead.",
                                  'eZImageManager::createImageAlias' );
             $referenceAlias = false;
@@ -847,6 +849,7 @@ class eZImageManager
         if ( !$referenceAlias )
             $referenceAlias = 'original';
         $hasReference = false;
+        //$debug->writeDebug( 'alias ' . $referenceAlias, 'eZImageManager::createImageAlias' );
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
             // VS-DBFILE
@@ -859,7 +862,11 @@ class eZImageManager
             }
             else
             {
-                eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
+                $debug->writeDebug( 'cluster file handler could not find ' . $existingAliasList[$referenceAlias]['url'], 'eZImageManager::createImageAlias' );
+                //$backtrace = debug_backtrace();
+                /*var_dump( count( $backtrace ) );
+                var_dump( $backtrace[3] );*/
+                $debug->writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
                                      'eZImageManager::createImageAlias' );
             }
         }
@@ -867,12 +874,12 @@ class eZImageManager
         {
             if ( $referenceAlias == 'original' )
             {
-                eZDebug::writeError( "Original alias does not exists, cannot create other aliases without it" );
+                $debug->writeError( "Original alias does not exists, cannot create other aliases without it" );
                 return false;
             }
             if ( !$this->createImageAlias( $referenceAlias, $existingAliasList, $parameters ) )
             {
-                eZDebug::writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName",
+                $debug->writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName",
                                      'eZImageManager::createImageAlias' );
                 return false;
             }
@@ -904,7 +911,7 @@ class eZImageManager
                 {
                     $sourceFile = $sourceMimeData['url'];
                     $destinationDir = $destinationMimeData['dirpath'];
-                    eZDebug::writeError( "Failed converting $sourceFile to alias $referenceAlias in directory $destinationDir",
+                    $debug->writeError( "Failed converting $sourceFile to alias $referenceAlias in directory $destinationDir",
                                          'eZImageManager::createImageAlias' );
                     // VS-DBFILE
                     $aliasFile->deleteLocal();
@@ -957,11 +964,11 @@ class eZImageManager
                     }
                     else
                     {
-                        eZDebug::writeError( "The destination image " . $destinationMimeData['url'] . " does not exist, cannot figure out image size", 'eZImageManager::createImageAlias' );
+                        $debug->writeError( "The destination image " . $destinationMimeData['url'] . " does not exist, cannot figure out image size", 'eZImageManager::createImageAlias' );
                     }
                 }
                 else
-                    eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
+                    $debug->writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
                 $existingAliasList[$aliasName] = $currentAliasData;
                 // VS-DBFILE
                 $aliasFile->deleteLocal();
@@ -977,7 +984,7 @@ class eZImageManager
      \return \c true if the image was succesfully analyzed, \c false otherwise.
      \note It will return \c true if there is no analyzer for the image type.
     */
-    function analyzeImage( &$mimeData, $parameters = array() )
+    static function analyzeImage( &$mimeData, $parameters = array() )
     {
         $file = $mimeData['url'];
         if ( !file_exists( $file ) )
@@ -1282,10 +1289,10 @@ class eZImageManager
     /*!
      Returns the only instance of the image manager.
     */
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS["eZImageManager"];
-        if ( get_class( $instance ) != "ezimagemanager" )
+        if ( strtolower( get_class( $instance ) ) != "ezimagemanager" )
         {
             $instance = new eZImageManager();
         }
@@ -1293,14 +1300,14 @@ class eZImageManager
     }
 
     /// \privatesection
-    var $ImageHandlers;
-    var $OutputMIME;
-    var $OutputMIMEMap;
-    var $Rules;
-    var $DefaultRule;
-    var $RuleMap;
-    var $MIMETypes;
-    var $Types = array();
+    public $ImageHandlers;
+    public $OutputMIME;
+    public $OutputMIMEMap;
+    public $Rules;
+    public $DefaultRule;
+    public $RuleMap;
+    public $MIMETypes;
+    public $Types = array();
 }
 
 ?>

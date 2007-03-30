@@ -56,11 +56,11 @@ class eZCurrencyConverter
         $this->setRoundingTarget( null );
     }
 
-    function &instance()
+    static function instance()
     {
         $impl =& $_GLOBALS["eZCurrencyConverterGlobalInstance"];
 
-        if ( !is_object( $impl ) || get_class( $impl ) !== 'ezcurrencyconverter' )
+        if ( !is_object( $impl ) || strtolower( get_class( $impl ) ) !== 'ezcurrencyconverter' )
         {
             $impl = new eZCurrencyConverter();
         }
@@ -114,7 +114,7 @@ class eZCurrencyConverter
     function convertFromLocaleCurrency( $toCurrency, $value, $applyRounding = true )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $fromCurrency = $locale->currencyShortName();
         $retValue = $this->convert( $fromCurrency, $toCurrency, $value, $applyRounding );
         return $retValue;
@@ -155,7 +155,7 @@ class eZCurrencyConverter
             include_once( 'lib/ezutils/classes/ezini.php' );
             include_once( 'lib/ezmath/classes/mathhandlers/ezphpmath.php' );
 
-            $ini =& eZINI::instance( 'shop.ini' );
+            $ini = eZINI::instance( 'shop.ini' );
 
             $mathType = $ini->variable( 'MathSettings', 'MathHandler' );
             $mathType = strtolower( $mathType );
@@ -186,7 +186,7 @@ class eZCurrencyConverter
         if ( $this->RoundingType === null )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'shop.ini' );
+            $ini = eZINI::instance( 'shop.ini' );
 
             $roundingType = 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_' . strtoupper( $ini->variable( 'MathSettings', 'RoundingType' ) );
             if ( !defined( $roundingType ) )
@@ -208,7 +208,7 @@ class eZCurrencyConverter
         if ( $this->RoundingPrecision === null )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'shop.ini' );
+            $ini = eZINI::instance( 'shop.ini' );
             $this->setRoundingPrecision( $ini->variable( 'MathSettings', 'RoundingPrecision' ) );
         }
 
@@ -225,7 +225,7 @@ class eZCurrencyConverter
         if ( $this->RoundingTarget === null )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'shop.ini' );
+            $ini = eZINI::instance( 'shop.ini' );
             $this->setRoundingTarget( $ini->variable( 'MathSettings', 'RoundingTarget' ) );
         }
         return $this->RoundingTarget;
@@ -237,11 +237,11 @@ class eZCurrencyConverter
     }
 
 
-    var $CurrencyList;
-    var $MathHandler;
-    var $RoundingType;
-    var $RoundingPrecision;
-    var $RoundingTarget;
+    public $CurrencyList;
+    public $MathHandler;
+    public $RoundingType;
+    public $RoundingPrecision;
+    public $RoundingTarget;
 }
 
 ?>

@@ -51,7 +51,7 @@ class eZCodeTemplate
     */
     function eZCodeTemplate()
     {
-        $ini =& eZINI::instance( 'codetemplate.ini' );
+        $ini = eZINI::instance( 'codetemplate.ini' );
         $this->Templates = array();
         $templates = $ini->variable( 'Files', 'Templates' );
         foreach ( $templates as $key => $template )
@@ -383,12 +383,12 @@ class eZCodeTemplate
     */
     function allCodeFiles()
     {
-        $ini =& eZINI::instance( 'codetemplate.ini' );
+        $ini = eZINI::instance( 'codetemplate.ini' );
         return $ini->variable( 'Files', 'PHPFiles' );
     }
 
     /// \privatesection
-    var $Templates;
+    public $Templates;
 }
 
 ?>

@@ -136,7 +136,7 @@ class eZEnum
 
     function setValue( $array_enumid, $array_enumelement, $array_enumvalue, $version )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         for ($i=0;$i<count( $array_enumid );$i++ )
@@ -155,7 +155,7 @@ class eZEnum
         if ( $version == $this->ClassAttributeVersion )
             return;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
@@ -214,12 +214,12 @@ class eZEnum
        $this->Enumerations = eZEnumValue::fetchAllElements( $id, $version );
     }
 
-    var $Enumerations;
-    var $ObjectEnumerations;
-    var $ClassAttributeID;
-    var $ClassAttributeVersion;
-    var $IsmultipleEnum;
-    var $IsoptionEnum;
+    public $Enumerations;
+    public $ObjectEnumerations;
+    public $ClassAttributeID;
+    public $ClassAttributeVersion;
+    public $IsmultipleEnum;
+    public $IsoptionEnum;
 }
 
 ?>

@@ -43,7 +43,7 @@ if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
 
 // fetching ldap users already stored in the database
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $query = "SELECT contentobject_id, login
           FROM ezcontentobject, ezuser
           WHERE remote_id like 'LDAP%'
@@ -51,8 +51,8 @@ $query = "SELECT contentobject_id, login
 $LDAPUsers = $db->arrayQuery( $query );
 
 // get LDAP ini settings
-$ini =& eZINI::instance();
-$LDAPIni =& eZINI::instance( 'ldap.ini' );
+$ini = eZINI::instance();
+$LDAPIni = eZINI::instance( 'ldap.ini' );
 
 $LDAPVersion    = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
 $LDAPServer     = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
@@ -259,7 +259,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
     else
     {
         // Update user information
-        $contentObject =& eZContentObject::fetch( $userID );
+        $contentObject = eZContentObject::fetch( $userID );
 
         $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
         $currentVersion = $contentObject->attribute( 'current_version' );

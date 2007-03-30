@@ -54,7 +54,7 @@ class eZImageVariation extends eZPersistentObject
         $this->IsOriginal = false;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -196,8 +196,8 @@ class eZImageVariation extends eZPersistentObject
         include_once( "lib/ezutils/classes/ezini.php" );
         include_once( "lib/ezfile/classes/ezdir.php" );
 
-        $ini =& eZINI::instance();
-        $sys =& eZSys::instance();
+        $ini = eZINI::instance();
+        $sys = eZSys::instance();
         $StoragePath = $sys->storageDirectory();
         $cat = $ezimageobj->attribute( "mime_type_category" );
 
@@ -214,7 +214,7 @@ class eZImageVariation extends eZPersistentObject
 
         $convertedName = $ezimageobj->attribute( "filename" );
 
-        $imgINI =& eZINI::instance( 'image.ini' );
+        $imgINI = eZINI::instance( 'image.ini' );
         $ruleList = $imgINI->variableArray( 'Rules', 'Rules' );
         foreach ( $ruleList as $items )
         {
@@ -276,8 +276,8 @@ class eZImageVariation extends eZPersistentObject
 
     function &fullPath()
     {
-        $sys =& eZSys::instance();
-        $ini =& eZINI::instance();
+        $sys = eZSys::instance();
+        $ini = eZINI::instance();
         $contentobjectAttributeID = $this->attribute( "contentobject_attribute_id" );
         $version = $this->attribute( "version" );
         $img_obj = eZImage::fetch( $contentobjectAttributeID, $version );
@@ -295,14 +295,14 @@ class eZImageVariation extends eZPersistentObject
         return $retFullPath;
     }
 
-    var $Version;
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $RequestedWidth;
-    var $RequestedHeight;
-    var $Width;
-    var $Height;
-    var $IsOriginal;
+    public $Version;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $RequestedWidth;
+    public $RequestedHeight;
+    public $Width;
+    public $Height;
+    public $IsOriginal;
 }
 
 ?>

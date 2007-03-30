@@ -56,7 +56,7 @@ class eZUserType extends eZDataType
     */
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
 
         $res = $db->arrayQuery( "SELECT COUNT(*) AS version_count FROM ezcontentobject_version WHERE contentobject_id = $userID" );
@@ -130,7 +130,7 @@ class eZUserType extends eZDataType
                         }
                     }
                 }
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )
                 {
@@ -181,7 +181,7 @@ class eZUserType extends eZDataType
                 $user = eZUser::create( $contentObjectID );
             }
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" );
             if (  $password == "" )
             {
@@ -222,7 +222,7 @@ class eZUserType extends eZDataType
     function storeObjectAttribute( &$contentObjectAttribute )
     {
         $user =& $contentObjectAttribute->content();
-        if ( get_class( $user ) != "ezuser" )
+        if ( strtolower( get_class( $user ) ) != "ezuser" )
         {
             // create a default user account
             $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
@@ -238,7 +238,7 @@ class eZUserType extends eZDataType
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute, $name = "login" )
+    function title( $contentObjectAttribute, $name = "login" )
     {
         $user = $this->objectAttributeContent( $contentObjectAttribute );
 
@@ -259,12 +259,12 @@ class eZUserType extends eZDataType
     /*!
      Returns the user object.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
         $user =& $GLOBALS['eZUserObject_' . $userID];
         if ( !isset( $user ) or
-             get_class( $user ) != 'ezuser' )
+             strtolower( get_class( $user ) ) != 'ezuser' )
             $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
         return $user;
@@ -291,12 +291,12 @@ class eZUserType extends eZDataType
                           'list' => array() );
         $reasons =& $result['list'];
 
-        $currentUser =& eZUser::currentUser();
+        $currentUser = eZUser::currentUser();
         $userObject  =& $currentUser->attribute( 'contentobject' );
-        $ini         =& eZINI::instance();
+        $ini         = eZINI::instance();
         $anonID      = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
         $classID     = (int)$contentClassAttribute->attribute( 'contentclass_id' );
-        $db          =& eZDB::instance();
+        $db          = eZDB::instance();
 
         if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
@@ -353,7 +353,7 @@ class eZUserType extends eZDataType
         $metaString = "";
         $user =& $contentObjectAttribute->content();
 
-        if ( get_class( $user ) == "ezuser" )
+        if ( strtolower( get_class( $user ) ) == "ezuser" )
         {
             // create a default user account
             $metaString .= $user->attribute( 'login' ) . " ";
@@ -367,7 +367,7 @@ class eZUserType extends eZDataType
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
         $user =& $GLOBALS['eZUserObject_' . $userID];
         if ( !isset( $user ) or
-             get_class( $user ) != 'ezuser' )
+             strtolower( get_class( $user ) ) != 'ezuser' )
             $user = eZUser::fetch( $userID );
 
         return implode( '|', array( $user->attribute( 'login' ),

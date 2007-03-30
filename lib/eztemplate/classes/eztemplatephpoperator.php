@@ -121,9 +121,9 @@ class eZTemplatePHPOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
     /// The associative array of operator/php function redirection
-    var $PHPNames;
+    public $PHPNames;
 }
 
 ?>

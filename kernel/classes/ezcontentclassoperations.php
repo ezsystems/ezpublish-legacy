@@ -47,7 +47,7 @@ class eZContentClassOperations
      Removes content class and all data associated with it.
      \static
     */
-    function remove( $classID )
+    static function remove( $classID )
     {
         $contentClass = eZContentClass::fetch( $classID );
 

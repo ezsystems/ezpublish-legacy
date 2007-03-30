@@ -76,7 +76,7 @@ class eZMBStringMapper
      \static
      \note This function is duplicated in eZTextCodec::eZTextCodec(), remember to update both places.
     */
-    function &charsetList()
+    static function &charsetList()
     {
         $charsets =& $GLOBALS["eZMBCharsetList"];
         if ( !is_array( $charsets ) )
@@ -109,7 +109,7 @@ class eZMBStringMapper
            mb_substr
      \note This function is duplicated in eZTextCodec::eZTextCodec(), remember to update both places.
     */
-    function hasMBStringExtension()
+    static function hasMBStringExtension()
     {
         return ( function_exists( "mb_convert_encoding" ) and
                  function_exists( "mb_substitute_character" ) and
@@ -187,10 +187,10 @@ class eZMBStringMapper
         return mb_substr( $str, $start, $length, $this->InputCharsetCode );
     }
 
-    function instance( $input_charset_code, $output_charset_code )
+    static function instance( $input_charset_code, $output_charset_code )
     {
         $mb =& $GLOBALS["eZMBStringMapper-$input_charset_code-$output_charset_code"];
-        if ( get_class( $mb ) != "ezmbstringmapper" )
+        if ( strtolower( get_class( $mb ) ) != "ezmbstringmapper" )
         {
             $mb = new eZMBStringMapper( $input_charset_code, $output_charset_code );
         }

@@ -53,7 +53,7 @@ class eZSMTPTransport extends eZMailTransport
     */
     function sendMail( &$mail )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $parameters = array();
         $parameters['host'] = $ini->variable( 'MailSettings', 'TransportServer' );
         $parameters['helo'] = $ini->variable( 'MailSettings', 'TransportServer' );

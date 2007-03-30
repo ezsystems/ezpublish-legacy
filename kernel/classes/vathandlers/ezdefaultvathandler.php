@@ -87,7 +87,7 @@ class eZDefaultVATHandler
      */
     function getProductCategory( $object )
     {
-        $ini =& eZINI::instance( 'shop.ini' );
+        $ini = eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
             eZDebug::writeError( "Cannot find product category: please specify its attribute identifier " .

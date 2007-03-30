@@ -51,7 +51,7 @@ class eZContentFunctionCollection
     function fetchContentObject( $objectID )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
-        $contentObject =& eZContentObject::fetch( $objectID );
+        $contentObject = eZContentObject::fetch( $objectID );
         if ( $contentObject === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -214,7 +214,7 @@ class eZContentFunctionCollection
     function fetchObject( $objectID )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         if ( $object === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -617,14 +617,14 @@ class eZContentFunctionCollection
     function fetchBookmarks( $offset, $limit )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
         return array( 'result' => eZContentBrowseBookmark::fetchListForUser( $user->id(), $offset, $limit ) );
     }
 
     function fetchRecent()
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
         return array( 'result' => eZContentBrowseRecent::fetchListForUser( $user->id() ) );
     }
@@ -796,7 +796,7 @@ class eZContentFunctionCollection
         $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL( $limitationList );
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $alphabet = $db->escapeString( $alphabet );
 
@@ -864,7 +864,7 @@ class eZContentFunctionCollection
         $limitationList = array();
         $sqlPermissionChecking = array( 'from' => '',
                                         'where' => '' );
-        $currentUser =& eZUser::currentUser();
+        $currentUser = eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
 
         if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
@@ -891,7 +891,8 @@ class eZContentFunctionCollection
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $limitationArray['Section'] ) . ')';
                         break;
                     case 'Owner':
-                        eZDebug::writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
+                        $debug = eZDebug::instance();
+                        $debug->writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
                         break;
                     case 'Group':
                         eZDebug::writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
@@ -929,7 +930,7 @@ class eZContentFunctionCollection
         $lastKeyword = "";
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $alphabet = $db->escapeString( $alphabet );
 
@@ -1030,7 +1031,7 @@ class eZContentFunctionCollection
         $keyWords = $db->arrayQuery( $query, $db_params );
 
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         foreach ( array_keys( $keyWords ) as $key )
         {
@@ -1068,11 +1069,12 @@ class eZContentFunctionCollection
              $type = "data_text";
         else
         {
-            eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
             return false;
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $contentclassattributeID =(int) $contentclassattributeID;
         $value = $db->escapeString( $value );
         if ( $datatype != "text" )
@@ -1100,7 +1102,7 @@ class eZContentFunctionCollection
 
     function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID, $languageCode = false )
     {
-        if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
+        if ( strtolower( get_class( $contentObject ) ) == 'ezcontentobjecttreenode' )
             $contentObject =& $contentObject->attribute( 'object' );
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
@@ -1111,7 +1113,7 @@ class eZContentFunctionCollection
                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
             $contentClassID = $class->attribute( 'id' );
         }
-        if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
+        if ( $access and strtolower( get_class( $contentObject ) ) == 'ezcontentobject' )
         {
             $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID, false, $languageCode );
             return array( 'result' => $result );
@@ -1233,9 +1235,10 @@ class eZContentFunctionCollection
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
+        $debug = eZDebug::instance();
         if ( !$objectID )
         {
-            eZDebug::writeError( "ObjectID is missing" );
+            $debug->writeError( "ObjectID is missing" );
             return false;
         }
         $params = array();
@@ -1277,7 +1280,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                $debug->writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1292,9 +1295,10 @@ class eZContentFunctionCollection
         // Fetches count of reverse related objects
     function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
+        $debug = eZDebug::instance();
         if ( !$objectID )
         {
-            eZDebug::writeError( "ObjectID is missing" );
+            $debug->writeError( "ObjectID is missing" );
             return false;
         }
 
@@ -1326,7 +1330,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                $debug->writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1383,7 +1387,8 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1427,7 +1432,8 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }

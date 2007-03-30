@@ -40,7 +40,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 
 $tpl =& templateInit();
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
@@ -62,7 +62,7 @@ if ( $http->hasPostVariable( 'BackButton' )  )
     return $Module->redirectTo( $userRedirectURI );
 }
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 $editWarning = false;
 
 $canEdit = false;
@@ -79,7 +79,7 @@ if ( $object->attribute( 'can_edit' ) )
 
 $canRemove = true;
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
 {
@@ -95,7 +95,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
@@ -116,7 +116,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
@@ -199,7 +199,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    $contentINI =& eZINI::instance( 'content.ini' );
+    $contentINI = eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
     $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
@@ -216,7 +216,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     $versionCount = $object->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $newVersionID = $object->copyRevertTo( $versionID, $language );
         $db->commit();
@@ -245,7 +245,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 }
             }
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $removeVersion->remove();
             $newVersionID = $object->copyRevertTo( $versionID, $language );
@@ -266,7 +266,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     }
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                       array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                       array( 'class_identifier', $object->attribute( 'class_identifier' ) ), // Class identifier

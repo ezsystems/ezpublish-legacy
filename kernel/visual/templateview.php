@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 $parameters =& $Params["Parameters"];
 
@@ -34,7 +34,7 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 $template = "";
@@ -174,7 +174,7 @@ $tpl->setVariable( 'current_siteaccess', $siteAccess );
 $tpl->setVariable( 'not_removed', $notRemoved );
 $tpl->setVariable( 'ini_not_saved', $overrideINISaveFailed );
 
-$siteINI =& eZINI::instance( 'site.ini' );
+$siteINI = eZINI::instance( 'site.ini' );
 if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) == 'enabled' )
 {
     $tpl->setVariable( 'custom_match', $templateSettings['custom_match'] );

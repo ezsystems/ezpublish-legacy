@@ -820,7 +820,7 @@ class eZMatrix
     */
     function domString( &$domDocument )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
         if ( $xmlCharset == 'enabled' )
         {
@@ -915,18 +915,18 @@ class eZMatrix
     }
 
     /// Contains the Matrix name
-    var $Name;
+    public $Name;
 
     /// Contains the Matrix array
-    var $Matrix;
+    public $Matrix;
 
     /// Contains the number of columns
-    var $NumColumns;
+    public $NumColumns;
 
     /// Contains the number of rows
 
-    var $NumRows;
-    var $Cells;
+    public $NumRows;
+    public $Cells;
 
 
 

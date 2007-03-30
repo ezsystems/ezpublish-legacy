@@ -62,7 +62,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -159,7 +159,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "name" => "ezcontentobject_attribute" );
     }
 
-    function fetch( $id, $version, $asObject = true, $field_filters = null )
+    static function fetch( $id, $version, $asObject = true, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
@@ -168,7 +168,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
+    static function &fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
     {
         $conditions = array();
         if ( is_array( $id ) )
@@ -197,7 +197,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $objectList;
     }
 
-    function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
+    static function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 null,
@@ -216,7 +216,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \param $version The version the of contentobject attributes to fetch or all version if \c false.
      \param $contentObjectID The ID the of contentobject to fetch or all objects if \c false.
     */
-    function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false, $contentObjectID = false )
+    static function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false, $contentObjectID = false )
     {
         $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
         if ( $version !== false )
@@ -246,7 +246,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                     $asObject);
     }
 
-    function create( $contentclassAttributeID, $contentobjectID, $version = 1, $languageCode = false )
+    static function create( $contentclassAttributeID, $contentobjectID, $version = 1, $languageCode = false )
     {
         include_once( 'kernel/classes/ezcontentlanguage.php' );
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
@@ -294,7 +294,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
             $this->updateSortKey( false );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             // store the content data for this attribute
@@ -390,7 +390,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
      \return object attribute
     */
-    function fetchByIdentifier( $identifier, $asObject = true )
+    static function fetchByIdentifier( $identifier, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 null,
@@ -425,7 +425,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &object()
     {
         if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
-            $object =& eZContentObject::fetch( $this->ContentObjectID );
+            $object = eZContentObject::fetch( $this->ContentObjectID );
         else
             $object = null;
         return $object;
@@ -443,9 +443,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentClassAttribute()
     {
-        eZDebug::accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
         $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-        eZDebug::accumulatorStop( 'instantiate_class_attribute' );
+        $debug->accumulatorStop( 'instantiate_class_attribute' );
         return $classAttribute;
     }
 
@@ -482,11 +483,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIsRequired === null )
         {
-            eZDebug::accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
+            $debug = eZDebug::instance();
+            $debug->accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsRequired = $classAttribute->attribute( 'is_required' );
-            eZDebug::accumulatorStop( 'class_a_is_req' );
+            $debug->accumulatorStop( 'class_a_is_req' );
         }
 
         return $this->ContentClassAttributeIsRequired;
@@ -501,11 +503,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIsInformationCollector === null )
         {
-            eZDebug::accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
+            $debug = eZDebug::instance();
+            $debug->accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsInformationCollector = $classAttribute->attribute( 'is_information_collector' );
-            eZDebug::accumulatorStop( 'class_a_is_ic' );
+            $debug->accumulatorStop( 'class_a_is_ic' );
         }
 
         return $this->ContentClassAttributeIsInformationCollector;
@@ -520,11 +523,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeName === null )
         {
-            eZDebug::accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
+            $debug = eZDebug::instance();
+            $debug->accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeName = $classAttribute->attribute( 'name' );
-            eZDebug::accumulatorStop( 'class_a_name' );
+            $debug->accumulatorStop( 'class_a_name' );
         }
 
         return $this->ContentClassAttributeName;
@@ -539,7 +543,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeCanTranslate === null )
         {
-            eZDebug::accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
+            $debug = eZDebug::instance();
+            $debug->accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
@@ -551,7 +556,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                 $this->ContentClassAttributeCanTranslate = 1;
             else
                 $this->ContentClassAttributeCanTranslate = 0;
-            eZDebug::accumulatorStop( 'class_a_can_translate' );
+            $debug->accumulatorStop( 'class_a_can_translate' );
         }
 
         return $this->ContentClassAttributeCanTranslate;
@@ -566,11 +571,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
-            eZDebug::accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
+            $debug = eZDebug::instance();
+            $debug->accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
-            eZDebug::accumulatorStop( 'class_a_id' );
+            $debug->accumulatorStop( 'class_a_id' );
         }
 
         return $this->ContentClassAttributeIdentifier;
@@ -942,9 +948,9 @@ class eZContentObjectAttribute extends eZPersistentObject
      Clones the attribute with new version \a $newVersionNumber and old version \a $currentVersionNumber.
      \note The cloned attribute is not stored.
     */
-    function clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false, $newLanguageCode = false )
+    function cloneContentObjectAttribute( $newVersionNumber, $currentVersionNumber, $contentObjectID = false, $newLanguageCode = false )
     {
-        $tmp = $this;
+        $tmp = clone $this;
         $tmp->setAttribute( "version", $newVersionNumber );
         if ( $contentObjectID != false )
         {
@@ -998,7 +1004,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $tmp->setAttribute( 'language_id', eZContentLanguage::idByLocale( $newLanguageCode ) );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $tmp->sync();
         $tmp->initialize( $currentVersionNumber, $this );
@@ -1020,12 +1026,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         $languageID = eZContentLanguage::idByLocale( $languageCode );
 
-        $tmp = $this;
+        $tmp = clone $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
         $tmp->setAttribute( 'language_id', $languageID );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $tmp->sync();
         $currentVersionNumber = $this->attribute( 'version' );
@@ -1118,7 +1124,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $dataType = $this->dataType();
             if ( $dataType )
-                $this->Content =& $dataType->objectAttributeContent( $this );
+                $this->Content = $dataType->objectAttributeContent( $this );
         }
         return $this->Content;
     }
@@ -1214,9 +1220,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Sets the content for the current attribute
     */
-    function setContent( &$content )
+    function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
     /*!
@@ -1262,7 +1268,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         $result = false;
 
         if ( $dataType )
+        {
             $result = $dataType->contentActionList( $this->contentClassAttribute() );
+        }
 
         return $result;
     }
@@ -1295,7 +1303,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $this->HasValidationError;
     }
 
-    function generateValidationErrorText( $numargs, $argList )
+    static function generateValidationErrorText( $numargs, $argList )
     {
         $text = $argList[0];
         for ( $i = 1; $i < $numargs; ++$i )
@@ -1493,31 +1501,31 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /// Contains the value(s) submitted in HTTP form
-    var $HTTPValue;
+    public $HTTPValue;
 
     /// Contains the content for this attribute
-    var $Content;
+    public $Content;
 
     /// Contains information on how to display the current attribute in various viewmodes
-    var $DisplayInfo;
+    public $DisplayInfo;
 
     /// Stores the is valid
-    var $IsValid;
+    public $IsValid;
 
-    var $ContentClassAttributeID;
-
-    /// Contains the last validation error
-    var $ValidationError;
+    public $ContentClassAttributeID;
 
     /// Contains the last validation error
-    var $ValidationLog;
+    public $ValidationError;
+
+    /// Contains the last validation error
+    public $ValidationLog;
 
     ///
-    var $ContentClassAttributeIdentifier;
-    var $ContentClassAttributeCanTranslate;
-    var $ContentClassAttributeName;
-    var $ContentClassAttributeIsInformationCollector;
-    var $ContentClassAttributeIsRequired;
+    public $ContentClassAttributeIdentifier;
+    public $ContentClassAttributeCanTranslate;
+    public $ContentClassAttributeName;
+    public $ContentClassAttributeIsInformationCollector;
+    public $ContentClassAttributeIsRequired;
 }
 
 ?>

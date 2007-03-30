@@ -50,9 +50,10 @@ class eZFilePackageHandler extends eZPackageHandler
         $this->eZPackageHandler( 'ezfile' );
     }
 
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters )
+                      $content, &$installParameters,
+                      &$installData )
     {
         $collectionName = $parameters['collection'];
         $installVariables = array();
@@ -113,7 +114,7 @@ class eZFilePackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, &$cli, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
         $collections = array();
         foreach ( $parameters['file-list'] as $fileItem )
@@ -450,7 +451,7 @@ class eZFilePackageHandler extends eZPackageHandler
                 }
                 $designDirectories = array( 'design' );
                 $extensionBaseDirectory = eZExtension::baseDirectory();
-                $ini =& eZINI::instance( 'design.ini' );
+                $ini = eZINI::instance( 'design.ini' );
                 $extensionDesigns = $ini->variable( 'ExtensionSettings', 'DesignExtensions' );
                 foreach ( $extensionDesigns as $extensionDesign )
                 {

@@ -77,9 +77,9 @@ class eZImageAnalyzer
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function createForMIME( $mimeData )
+    static function createForMIME( $mimeData )
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
+        $analyzerData = eZImageAnalyzer::analyzerData();
         $mimeType = $mimeData['name'];
         if ( !isset( $analyzerData['analyzer_map'][$mimeType] ) )
             return false;
@@ -91,9 +91,9 @@ class eZImageAnalyzer
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function create( $analyzerName )
+    static function create( $analyzerName )
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
+        $analyzerData = eZImageAnalyzer::analyzerData();
         if ( !isset( $analyzerData['handlers'][$analyzerName] ) )
         {
             include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -143,13 +143,13 @@ class eZImageAnalyzer
      \static
      \private
     */
-    function &analyzerData()
+    static function analyzerData()
     {
         $analyzerData =& $GLOBALS['eZImageAnalyzer'];
         if ( isset( $analyzerData ) )
             return $analyzerData;
 
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $analyzerData['analyzers'] = $ini->variable( 'AnalyzerSettings', 'ImageAnalyzers' );
         $analyzerData['mime_list'] = $ini->variable( 'AnalyzerSettings', 'AnalyzerMIMEList' );
         $analyzerData['analyzer_map'] = array();
@@ -160,10 +160,10 @@ class eZImageAnalyzer
     /*!
      \static
     */
-    function readAnalyzerSettingsFromINI()
+    static function readAnalyzerSettingsFromINI()
     {
-        $analyzerData =& eZImageAnalyzer::analyzerData();
-        $ini =& eZINI::instance( 'image.ini' );
+        $analyzerData = eZImageAnalyzer::analyzerData();
+        $ini = eZINI::instance( 'image.ini' );
         foreach ( $analyzerData['analyzers'] as $analyzerName )
         {
             $iniGroup = $analyzerName . 'Analyzer';
@@ -186,8 +186,8 @@ class eZImageAnalyzer
 
     /// \privatesection
 
-    var $MIMEList;
-    var $Name;
+    public $MIMEList;
+    public $Name;
 }
 
 ?>

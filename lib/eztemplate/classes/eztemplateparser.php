@@ -49,7 +49,7 @@ class eZTemplateParser
     /*!
      Parses the template file $txt. The actual parsing implementation is done by inheriting classes.
     */
-    function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, $relation )
+    function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, &$relation )
     {
     }
 

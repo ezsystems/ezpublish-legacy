@@ -126,7 +126,7 @@ class eZBCMath extends eZPHPMath
 
 
     /// \privatesection
-    var $Scale;
+    public $Scale;
 };
 
 ?>

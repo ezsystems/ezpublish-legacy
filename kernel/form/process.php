@@ -33,7 +33,7 @@ include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
 $Module =& $Params['Module'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $isEnabled = $ini->variable( 'FormProcessSettings', 'Module' ) == 'enabled';
 if ( !$isEnabled )
 {
@@ -47,7 +47,7 @@ $tpl =& templateInit();
 // Parse HTTP POST variables and generate Mail message
 $formProcessed = false;
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $postVariables =& $http->attribute( 'post' );
 
 if ( count( $postVariables ) > 0 )

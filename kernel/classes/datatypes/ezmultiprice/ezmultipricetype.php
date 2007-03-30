@@ -205,7 +205,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $multiprice = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
@@ -231,7 +231,7 @@ class eZMultiPriceType extends eZDataType
         return $multiprice;
     }
 
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -276,7 +276,7 @@ class eZMultiPriceType extends eZDataType
         }
     }
 
-    function contentActionList( )
+    function contentActionList( $classAttribute )
     {
         return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to basket' ),
                              'action' => 'ActionAddToBasket'
@@ -295,7 +295,7 @@ class eZMultiPriceType extends eZDataType
         $multiprice->remove( $objectAttribute->attribute( 'id' ), $version );
     }
 
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return '';
     }

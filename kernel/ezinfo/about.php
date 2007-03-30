@@ -177,7 +177,7 @@ $tpl->setVariable( 'third_party_software', $thirdPartySoftware );
 $tpl->setVariable( 'extensions', $extensions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:ezinfo/about.tpl" );
+$Result['content'] = $tpl->fetch( "design:ezinfo/about.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/ezinfo', 'Info' ) ),
                          array( 'url' => false,

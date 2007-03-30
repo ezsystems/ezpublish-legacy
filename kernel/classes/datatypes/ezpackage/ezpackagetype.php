@@ -113,7 +113,7 @@ class eZPackageType extends eZDataType
                         $iniPath = 'settings/siteaccess/' . $currentSiteAccess;
                     }
 
-                    $designINI =& eZIni::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
+                    $designINI = eZINI::instance( 'design.ini.append.php', $iniPath, null, false, null, true );
                     $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
                     $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                     $designINI->save();
@@ -130,7 +130,7 @@ class eZPackageType extends eZDataType
     */
     function storeObjectAttribute( &$attribute )
     {
-        $ini =& eZIni::instance();
+        $ini = eZINI::instance();
         // Delete compiled template
         $siteINI = eZINI::instance();
         if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
@@ -190,7 +190,7 @@ class eZPackageType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $packageName = $contentObjectAttribute->attribute( "data_text" );
         $package = eZPackage::fetch( $packageName );
@@ -200,7 +200,7 @@ class eZPackageType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -208,7 +208,7 @@ class eZPackageType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }

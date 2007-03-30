@@ -100,7 +100,7 @@ class eZClassFunctionCollection
 
         $result = array ();
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $siteAccessArray = $ini->variable('SiteAccessSettings', 'AvailableSiteAccessList' );
 

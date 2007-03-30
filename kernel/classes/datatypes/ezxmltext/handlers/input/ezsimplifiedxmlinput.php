@@ -39,7 +39,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
         // Initialize size array for image.
-        /*$imageIni =& eZINI::instance( 'image.ini' );
+        /*$imageIni = eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'AliasSettings', 'AliasList' ) )
         {
             $sizeArray = $imageIni->variable( 'AliasSettings', 'AliasList' );
@@ -54,7 +54,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->IsInputValid = true;
         $this->ContentObjectAttribute = $contentObjectAttribute;
 
-        $contentIni =& eZINI::instance( 'content.ini' );
+        $contentIni = eZINI::instance( 'content.ini' );
 
         /*
         if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) )
@@ -178,7 +178,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         else
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'TrimWhiteSpace' => false, 'SetParentNode' => true ) );
+            $dom = $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'TrimWhiteSpace' => false, 'SetParentNode' => true ) );
 
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
@@ -192,10 +192,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         return $output;
     }
 
-    //var $ContentObjectAttribute;
+    //public $ContentObjectAttribute;
 
-    var $IsInputValid;
+    public $IsInputValid;
 
-    //var $IsStrictHeader = false;
+    //public $IsStrictHeader = false;
 }
 ?>

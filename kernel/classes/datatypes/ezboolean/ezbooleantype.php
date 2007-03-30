@@ -182,7 +182,7 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -235,7 +235,7 @@ class eZBooleanType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -243,7 +243,7 @@ class eZBooleanType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }

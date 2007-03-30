@@ -154,7 +154,7 @@ class eZDOMDocument
       Sets the document root node to \a $node.
       If the parameter is not an eZDOMNode it will not be set.
     */
-    function setRoot( &$node )
+    function setRoot( $node )
     {
         $this->appendChild( $node );
     }
@@ -164,13 +164,13 @@ class eZDOMDocument
       If the parameter is not an eZDOMNode it will not be set.
       \sa setRoot()
     */
-    function appendChild( &$node )
+    function appendChild( $node )
     {
-        if ( get_class( $node ) == "ezdomnode" )
+        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
         {
             if ( $this->setParentNode !== false )
                 $this->updateParentNodeProperty( $node );
-            $this->Root =& $node;
+            $this->Root = $node;
         }
     }
 
@@ -254,7 +254,7 @@ class eZDOMDocument
       Edge
       \endcode
     */
-    function createTextNode( $text )
+    static function createTextNode( $text )
     {
         /* We remove all control chars from the text, although they
          * should have not be there in the first place. This is
@@ -289,7 +289,7 @@ class eZDOMDocument
       <![CDATA[http://ez.no]]>
       \endcode
     */
-    function createCDATANode( $text )
+    static function createCDATANode( $text )
     {
         $node = new eZDOMNode();
         $node->setName( "#cdata-section" );
@@ -305,7 +305,7 @@ class eZDOMDocument
       \static
       Creates DOMNodeElement recursivly from recursive array
     */
-    function createElementNodeFromArray( $name, $array )
+    static function createElementNodeFromArray( $name, $array )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -343,7 +343,7 @@ class eZDOMDocument
       \static
       Creates recursive array from DOMNodeElement
     */
-    function createArrayFromDOMNode( $domNode )
+    static function createArrayFromDOMNode( $domNode )
     {
         if ( !$domNode )
         {
@@ -402,7 +402,7 @@ class eZDOMDocument
       <song name='Shine On You Crazy Diamond' track='1' />
       \endcode
     */
-    function createElementNode( $name, $attributes = array() )
+    static function createElementNode( $name, $attributes = array() )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -448,7 +448,7 @@ class eZDOMDocument
 
       \sa createTextNode, createElementNode
     */
-    function createElementTextNode( $name, $text, $attributes = array() )
+    static function createElementTextNode( $name, $text, $attributes = array() )
     {
         $node = eZDOMDocument::createElementNode( $name, $attributes );
         $textNode = eZDOMDocument::createTextNode( $text );
@@ -482,7 +482,7 @@ class eZDOMDocument
 
       \sa createCDATANode, createElementNode
     */
-    function createElementCDATANode( $name, $text, $attributes = array() )
+    static function createElementCDATANode( $name, $text, $attributes = array() )
     {
         $node = eZDOMDocument::createElementNode( $name, $attributes );
         $cdataNode = eZDOMDocument::createCDATANode( $text );
@@ -512,7 +512,7 @@ class eZDOMDocument
 
       \sa createElementNode
     */
-    function createElementNodeNS( $uri, $name )
+    static function createElementNodeNS( $uri, $name )
     {
         $node = new eZDOMNode();
         $node->setNamespaceURI( $uri );
@@ -543,7 +543,7 @@ class eZDOMDocument
       music-group:name="Pink Floyd"
       \endcode
     */
-    function createAttributeNode( $name, $content, $prefix = false )
+    static function createAttributeNode( $name, $content, $prefix = false )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -574,7 +574,7 @@ class eZDOMDocument
       xmlns:music-group="http://music.org/groups"
       \endcode
     */
-    function createAttributeNamespaceDefNode( $prefix, $uri )
+    static function createAttributeNamespaceDefNode( $prefix, $uri )
     {
         $node = new eZDOMNode();
         $node->setName( $prefix );
@@ -606,7 +606,7 @@ class eZDOMDocument
       name="Pink Floyd"
       \endcode
     */
-    function createAttributeNodeNS( $uri, $name, $content )
+    static function createAttributeNodeNS( $uri, $name, $content )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -674,7 +674,7 @@ class eZDOMDocument
             $charsetText = " encoding=\"$charset\"";
         $text = "<?xml version=\"1.0\"$charsetText?>\n";
 
-        if ( get_class( $this->Root ) == "ezdomnode" )
+        if ( strtolower( get_class( $this->Root ) ) == "ezdomnode" )
         {
             if ( isset( $this->dtd ) )
             {
@@ -703,7 +703,7 @@ class eZDOMDocument
         if ( $charsetConversion )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( false, $charset, false );
+            $codec = eZTextCodec::instance( false, $charset, false );
             if ( $codec )
             {
                 $text = $codec->convertString( $text );
@@ -768,7 +768,7 @@ class eZDOMDocument
 
     // \note W3C DOM function
 
-    function createElementNS(  $namespaceURI, $qualifiedName )
+    static function createElementNS(  $namespaceURI, $qualifiedName )
     {
         list( $prefix, $name ) = explode( ':', $qualifiedName );
 
@@ -782,7 +782,7 @@ class eZDOMDocument
 
     // \note W3C DOM function
 
-    function createAttributeNS( $namespaceURI, $qualifiedName )
+    static function createAttributeNS( $namespaceURI, $qualifiedName )
     {
         list( $prefix, $name ) = explode( ':', $qualifiedName );
 
@@ -796,7 +796,7 @@ class eZDOMDocument
 
     // \note W3C DOM function
 
-    function createAttribute( $name )
+    static function createAttribute( $name )
     {
         $attr = new eZDOMNode();
         $attr->setName( $name );
@@ -807,26 +807,26 @@ class eZDOMDocument
     /// \privatesection
 
     /// Document name
-    var $Name;
+    public $Name;
 
     /// XML version
-    var $Version;
+    public $Version;
 
     /// Contains an array of reference to the named nodes
-    var $NamedNodes = array();
+    public $NamedNodes = array();
 
     /// Contains an array of references to the named nodes with namespace
-    var $NamedNodesNS = array();
+    public $NamedNodesNS = array();
 
     /// Contains an array of the registered namespaces and their aliases
-    var $Namespaces = array();
+    public $Namespaces = array();
 
     /// Reference to the first child of the DOM document
-    var $Root;
+    public $Root;
 
     /// If false eZDOMNode::parentNode will be not set.
     // This can is used to prevent memory cleanup problems when using mutual references in php.
-    var $setParentNode = false;
+    public $setParentNode = false;
 }
 
 ?>

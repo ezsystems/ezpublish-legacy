@@ -42,13 +42,13 @@ if ( isset( $Params["GroupID"] ) )
 
 $class = eZContentClass::fetch( $ClassID );
 $ClassName = $class->attribute( 'name' );
-$classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
+$classObjects = eZContentObject::fetchSameClassList( $ClassID );
 $ClassObjectsCount = count( $classObjects );
 if ( $ClassObjectsCount == 0 )
     $ClassObjectsCount .= " object";
 else
     $ClassObjectsCount .= " objects";
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     $class->remove( true );

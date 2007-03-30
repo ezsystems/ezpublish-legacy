@@ -58,7 +58,7 @@ class eZTrigger extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -155,7 +155,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
+    static function runTrigger( $name, $moduleName, $function, $parameters, $keys = null )
     {
         $trigger = eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                     null,
@@ -179,7 +179,7 @@ class eZTrigger extends eZPersistentObject
             if ( !isset( $parameters['user_id'] ) or
                  $parameters['user_id'] == 0 )
             {
-                $user =& eZUser::currentUser();
+                $user = eZUser::currentUser();
                 $parameters['user_id'] = $user->attribute( 'contentobject_id' );
             }
             $processKey = eZWorkflowProcess::createKey( $parameters, $keys );
@@ -261,7 +261,7 @@ class eZTrigger extends eZPersistentObject
 
         $workflowStatus = $workflowProcess->run( $workflow, $workflowEvent, $eventLog );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $workflowProcess->store();
 
@@ -379,7 +379,7 @@ class eZTrigger extends eZPersistentObject
     */
     function removeTriggerForWorkflow( $workFlowID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $workFlowID = (int)$workFlowID;
         $db->query( "DELETE FROM eztrigger WHERE workflow_id=$workFlowID" );
     }

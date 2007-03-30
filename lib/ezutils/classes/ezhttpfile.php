@@ -71,7 +71,7 @@ class eZHTTPFile
     */
     function storageDir( $sub_dir = false )
     {
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if ( $sub_dir !== false )
             $dir = $storage_dir . "/$sub_dir/" . $this->MimeCategory;
@@ -94,7 +94,7 @@ class eZHTTPFile
         }
         $this->IsTemporary = false;
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 //         $storage_dir = $ini->variable( "FileSettings", "VarDir" ) . '/' . $ini->variable( "FileSettings", "StorageDir" );
         $storage_dir = eZSys::storageDirectory();
         if ( $sub_dir !== false )
@@ -164,7 +164,7 @@ class eZHTTPFile
             umask( $oldumask );
 
             // Write log message to storage.log
-            include_once( 'lib/ezutils/classes/ezlog.php' );
+            include_once( 'lib/ezfile/classes/ezlog.php' );
             $storageDir = $dir . "/";
             eZLog::writeStorageLog( basename( $this->Filename ), $storageDir );
         }
@@ -233,10 +233,10 @@ class eZHTTPFile
        -3 (EZ_UPLOADEDFILE_EXCEEDS_MAX_SIZE) if the file was uploaded but size
           exceeds $maxSize or MAX_FILE_SIZE variable in the form.
     */
-    function canFetch( $http_name, $maxSize = false )
+    static function canFetch( $http_name, $maxSize = false )
     {
         $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( get_class( $file ) != "ezhttpfile" )
+        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
         {
             if ( $maxSize === false )
             {
@@ -284,10 +284,10 @@ class eZHTTPFile
      Fetches the HTTP file named $http_name and returns a eZHTTPFile object,
      or null if the file could not be fetched.
     */
-    function &fetch( $http_name )
+    static function &fetch( $http_name )
     {
         $file =& $GLOBALS["eZHTTPFile-$http_name"];
-        if ( get_class( $file ) != "ezhttpfile" )
+        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
         {
             $file = null;
 
@@ -317,21 +317,21 @@ class eZHTTPFile
     }
 
     /// The name of the HTTP file
-    var $HTTPName;
+    public $HTTPName;
     /// The original name of the file from the client
-    var $OriginalFilename;
+    public $OriginalFilename;
     /// The mime type of the file
-    var $Type;
+    public $Type;
     /// The mimetype category (first part)
-    var $MimeCategory;
+    public $MimeCategory;
     /// The mimetype type (second part)
-    var $MimePart;
+    public $MimePart;
     /// The local filename
-    var $Filename;
+    public $Filename;
     /// The size of the local file
-    var $Size;
+    public $Size;
     /// Whether the file is a temporary file or if it has been moved(stored).
-    var $IsTemporary;
+    public $IsTemporary;
 }
 
 ?>

@@ -153,7 +153,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 
-        $ini =& eZINI::instance('ezxml.ini');
+        $ini = eZINI::instance('ezxml.ini');
         if ( $ini->variable( 'ezxhtml', 'RenderParagraphInTableCells' ) == 'disabled' )
             $this->RenderParagraphInTableCells = false;
     }
@@ -191,7 +191,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             if ( $i > 1 )
                 $headerAutoName .= "_";
-            
+
             $headerAutoName .= $this->HeaderCount[$i];
             $i++;
         }
@@ -308,7 +308,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
         }
 
-        if ( !isset( $object ) || !$object || get_class( $object ) != "ezcontentobject" )
+        if ( !isset( $object ) || !$object || strtolower( get_class( $object ) ) != "ezcontentobject" )
         {
             eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
             return $ret;
@@ -543,7 +543,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $tagText .= $childOutput[1];
         }
-        
+
         return array( false, $tagText );
     }
 
@@ -554,7 +554,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $text = htmlspecialchars( $element->Content );
             // Get rid of linebreak and spaces stored in xml file
             $text = preg_replace( "#[\n]+#", "", $text );
-    
+
             if ( $this->AllowMultipleSpaces )
                 $text = preg_replace( "#  #", " &nbsp;", $text );
             else
@@ -573,11 +573,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
 
     /// Array of parameters for rendering tags that are children of 'link' tag
-    var $LinkParameters = array();
+    public $LinkParameters = array();
 
-    var $HeaderCount = array();
+    public $HeaderCount = array();
 
-    var $RenderParagraphInTableCells = true;
+    public $RenderParagraphInTableCells = true;
 }
 
 ?>

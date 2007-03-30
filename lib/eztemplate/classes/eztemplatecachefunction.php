@@ -68,7 +68,7 @@ class eZTemplateCacheFunction
     function templateNodeTransformation( $functionName, &$node,
                                          &$tpl, $parameters, $privateData )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
         {
@@ -203,7 +203,7 @@ class eZTemplateCacheFunction
         {
             $code .= <<<ENDADDCODE
 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-\$handler =& eZExpiryHandler::instance();
+\$handler = eZExpiryHandler::instance();
 \$globalExpiryTime = -1;
 if ( \$handler->hasTimestamp( 'template-block-cache' ) )
 {
@@ -286,7 +286,7 @@ ENDADDCODE;
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "list( \$cacheDir, \$cachePath, \$keyString, \$subtreeExpiry ) = array_pop( \$cacheStack );" );
         $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
         $newNodes[] = eZTemplateNodeTool::createAssignFromOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
         $code = ( "include_once( 'lib/ezfile/classes/ezdir.php' );\n" .
                   "\$uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );\n" .
@@ -330,7 +330,7 @@ ENDADDCODE;
             case $this->BlockName:
             {
                 // Check for disabled cache.
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
                 {
                     $children = $functionChildren;
@@ -420,7 +420,7 @@ ENDADDCODE;
                     if ( $ignoreContentExpiry == false )
                     {
                         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                        $handler =& eZExpiryHandler::instance();
+                        $handler = eZExpiryHandler::instance();
                         if ( $handler->hasTimestamp( 'template-block-cache' ) )
                         {
                             $globalExpiryTime = $handler->timestamp( 'template-block-cache' );
@@ -476,7 +476,7 @@ ENDADDCODE;
                     $textElements[] = $text;
 
                     include_once( 'lib/ezfile/classes/ezfile.php' );
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                     $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
                     eZDir::mkdir( $phpDir, $perm, true );
@@ -509,7 +509,7 @@ ENDADDCODE;
      \static
      Returns base directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheBaseSubDir()
+    static function subtreeCacheBaseSubDir()
     {
         return 'subtree';
     }
@@ -518,7 +518,7 @@ ENDADDCODE;
      \static
      Returns base directory where expired 'subtree_expiry' caches are stored.
     */
-    function expiryTemplateBlockCacheDir()
+    static function expiryTemplateBlockCacheDir()
     {
         $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
         return $expiryCacheDir;
@@ -528,7 +528,7 @@ ENDADDCODE;
      \static
      Returns base directory where template block caches are stored.
     */
-    function templateBlockCacheDir()
+    static function templateBlockCacheDir()
     {
         $cacheDir = eZSys::cacheDirectory() . '/template-block/' ;
         return $cacheDir;
@@ -538,12 +538,12 @@ ENDADDCODE;
      \static
      Returns path of the directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
+    static function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
     {
         $nodePathString = '';
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         // clean up $subtreeExpiryParameter
         $subtreeExpiryParameter = trim( $subtreeExpiryParameter, '/' );
@@ -592,7 +592,7 @@ ENDADDCODE;
      \static
      Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
     */
-    function subtreeCacheSubDirForNode( $nodeID )
+    static function subtreeCacheSubDirForNode( $nodeID )
     {
         $cacheDir = eZTemplateCacheFunction::subtreeCacheBaseSubDir();
 
@@ -618,7 +618,7 @@ ENDADDCODE;
 
     /// \privatesection
     /// Name of the function
-    var $BlockName;
+    public $BlockName;
 }
 
 ?>

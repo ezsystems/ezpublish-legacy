@@ -32,7 +32,7 @@ include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params['Module'];
 $LanguageCode = $Params['Language'];
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $ClassID = null;
 $validation = array( 'processed' => false,
                      'groups' => array() );
@@ -104,7 +104,7 @@ $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( "id" ) ),
                       array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
 

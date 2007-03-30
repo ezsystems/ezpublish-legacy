@@ -205,7 +205,7 @@ class eZDateType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $date = new eZDate( );
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
@@ -238,7 +238,7 @@ class eZDateType extends eZDataType
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
             if ( $defaultType == 1 )
-                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+                $contentObjectAttribute->setAttribute( "data_int", time() );
         }
     }
 
@@ -294,9 +294,9 @@ class eZDateType extends eZDataType
     /*!
      Returns the date.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $retVal = $contentObjectAttribute->attribute( "data_int" ) == 0 ? '' : $locale->formatDate( $contentObjectAttribute->attribute( "data_int" ) );
         return $retVal;
     }

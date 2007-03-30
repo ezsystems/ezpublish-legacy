@@ -34,7 +34,7 @@ $Module =& $Params["Module"];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $user = eZUser::fetch( $UserID );
 if ( !$user )

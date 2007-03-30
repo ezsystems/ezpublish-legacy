@@ -52,7 +52,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
 
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -112,15 +112,10 @@ class eZWaitUntilDateValue extends eZPersistentObject
         return $this->ClassAttributeName;
     }
 
-    function &clone()
+    function __clone()
     {
-        $row = array( "id" => null,
-                      "workflow_event_id" => $this->attribute( 'workflow_event_id' ),
-                      "workflow_event_version" => $this->attribute( 'workflow_event_version' ),
-                      "contentclass_id" => $this->attribute( "contentclass_id" ),
-                      "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ) );
-        $newWaitUntilDateValue = new eZWaitUntilDateValue( $row );
-        return $newWaitUntilDateValue;
+        unset( $this->ClassName );
+        unset( $this->ClassAttributeName );
     }
 
     function create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
@@ -181,8 +176,8 @@ class eZWaitUntilDateValue extends eZPersistentObject
         return $objectList;
     }
 
-    var $ClassName;
-    var $ClassAttributeName;
+    public $ClassName;
+    public $ClassAttributeName;
 }
 
 ?>

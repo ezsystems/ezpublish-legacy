@@ -58,7 +58,7 @@ class eZRSSExport extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -152,7 +152,7 @@ class eZRSSExport extends eZPersistentObject
     */
     function create( $user_id )
     {
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
         $row = array( 'id' => null,
                       'title' => ezi18n( 'kernel/classes', 'New RSS Export' ),
@@ -179,14 +179,14 @@ class eZRSSExport extends eZPersistentObject
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         if (  $this->ID == null )
         {
             eZPersistentObject::store();
             return;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $storeAsValid )
         {
@@ -212,7 +212,7 @@ class eZRSSExport extends eZPersistentObject
     {
         $exportItems = $this->fetchItems();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $exportItems as $item )
         {
@@ -408,7 +408,7 @@ class eZRSSExport extends eZPersistentObject
         $locale = eZLocale::instance();
 
         // Get URL Translation settings.
-        $config =& eZINI::instance();
+        $config = eZINI::instance();
         if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
             $useURLAlias = true;
@@ -513,7 +513,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemTitle );
             $itemTitle = $doc->createElementNode( 'title' );
             $titleContent =  $title->attribute( 'content' );
-            if ( get_class( $titleContent ) == 'ezxmltext' )
+            if ( strtolower( get_class( $titleContent ) ) == 'ezxmltext' )
             {
                 $outputHandler =  $titleContent->attribute( 'output' );
                 unset( $itemTitleText );
@@ -531,7 +531,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemDescription );
             $itemDescription = $doc->createElementNode( 'description' );
             $descriptionContent =  $description->attribute( 'content' );
-            if ( get_class( $descriptionContent ) == 'ezxmltext' )
+            if ( strtolower( get_class( $descriptionContent ) ) == 'ezxmltext' )
             {
                 $outputHandler =  $descriptionContent->attribute( 'output' );
                 unset( $itemDescriptionText );
@@ -589,7 +589,7 @@ class eZRSSExport extends eZPersistentObject
         $imageURL = $this->fetchImageURL();
 
         // Get URL Translation settings.
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
             $useURLAlias = true;
@@ -706,7 +706,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemTitle );
             $itemTitle = $doc->createElementNode( 'title' );
             $titleContent =  $title->attribute( 'content' );
-            if ( get_class( $titleContent ) == 'ezxmltext' )
+            if ( strtolower( get_class( $titleContent ) ) == 'ezxmltext' )
             {
                 $outputHandler =  $titleContent->attribute( 'output' );
 
@@ -725,7 +725,7 @@ class eZRSSExport extends eZPersistentObject
             unset( $itemDescription );
             $itemDescription = $doc->createElementNode( 'description' );
             $descriptionContent =  $description->attribute( 'content' );
-            if ( get_class( $descriptionContent ) == 'ezxmltext' )
+            if ( strtolower( get_class( $descriptionContent ) ) == 'ezxmltext' )
             {
                 $outputHandler =  $descriptionContent->attribute( 'output' );
 

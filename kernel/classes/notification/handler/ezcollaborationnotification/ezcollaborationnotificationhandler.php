@@ -69,7 +69,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'collaboration_handlers' )
         {
@@ -86,7 +86,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     /*!
      Returns the available collaboration handlers.
     */
-    function &collaborationHandlers()
+    function collaborationHandlers()
     {
         return eZCollaborationItemHandler::fetchList();
     }
@@ -158,7 +158,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $email = $user->attribute( 'email' );
 

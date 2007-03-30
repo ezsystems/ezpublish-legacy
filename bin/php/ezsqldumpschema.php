@@ -30,8 +30,8 @@
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema dump\n\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish SQL Schema dump\n\n" .
                                                          "Dump sql schema to specified file or standard output\n".
                                                          "ezsqldumpschema.php --type=mysql --user=root stable33 schema.sql" ),
                                       'use-session' => false,
@@ -250,7 +250,7 @@ else
         $parameters['socket'] = $socket;
     if ( $port )
         $parameters['port'] = $port;
-    $db =& eZDB::instance( $type,
+    $db = eZDB::instance( $type,
                            $parameters,
                            true );
 

@@ -80,9 +80,9 @@ class eZCollaborationViewHandler
      \static
      \return the ini object for collaboration.ini
     */
-    function &ini()
+    static function &ini()
     {
-        $iniInstance =& eZINI::instance( 'collaboration.ini' );
+        $iniInstance = eZINI::instance( 'collaboration.ini' );
         return $iniInstance;
     }
 
@@ -90,7 +90,7 @@ class eZCollaborationViewHandler
      \static
      \return true if the viewmode \a $viewMode exists with the current configuration
     */
-    function exists( $viewMode )
+    static function exists( $viewMode )
     {
         $list = eZCollaborationViewHandler::fetchList();
         return in_array( $viewMode, $list );
@@ -100,7 +100,7 @@ class eZCollaborationViewHandler
      \static
      \return true if the viewmode \a $viewMode exists for groups with the current configuration
     */
-    function groupExists( $viewMode )
+    static function groupExists( $viewMode )
     {
         $list = eZCollaborationViewHandler::fetchGroupList();
         return in_array( $viewMode, $list );
@@ -110,7 +110,7 @@ class eZCollaborationViewHandler
      \static
      \return a list of active viewmodes.
     */
-    function fetchList()
+    static function fetchList()
     {
         $ini =& eZCollaborationViewHandler::ini();
         return $ini->variable( 'ViewSettings', 'ViewList' );
@@ -120,7 +120,7 @@ class eZCollaborationViewHandler
      \static
      \return a list of active viewmodes for groups.
     */
-    function fetchGroupList()
+    static function fetchGroupList()
     {
         $ini =& eZCollaborationViewHandler::ini();
         return $ini->variable( 'ViewSettings', 'GroupViewList' );
@@ -130,7 +130,7 @@ class eZCollaborationViewHandler
      \static
      \return the single instance of the viewmode \a $viewMode.
     */
-    function &instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+    static function instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
     {
         if ( $type == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
             $instance =& $GLOBALS["eZCollaborationView"][$viewMode];
@@ -150,10 +150,10 @@ class eZCollaborationViewHandler
 
     /// \privatesection
     /// The viewmode
-    var $ViewMode;
-    var $ViewType;
-    var $TemplateName;
-    var $TemplatePrefix;
+    public $ViewMode;
+    public $ViewType;
+    public $TemplateName;
+    public $TemplatePrefix;
 }
 
 ?>

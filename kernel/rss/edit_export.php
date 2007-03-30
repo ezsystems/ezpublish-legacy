@@ -36,7 +36,7 @@ include_once( 'kernel/classes/ezrssexport.php' );
 include_once( 'kernel/classes/ezrssexportitem.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $validated = false;
 if ( isset( $Params['RSSExportID'] ) )
@@ -95,7 +95,7 @@ else if ( $Module->isCurrentAction( 'RemoveImage' ) )
 if ( $http->hasPostVariable( 'Item_Count' ) )
 {
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )
     {
@@ -138,8 +138,8 @@ if ( is_numeric( $RSSExportID ) )
     if ( $rssExport )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-        $user =& eZUser::currentUser();
-        $contentIni =& eZIni::instance( 'content.ini' );
+        $user = eZUser::currentUser();
+        $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'RSSExportSettings', 'DraftTimeout' );
         if ( $rssExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $rssExport->attribute( 'modified' ) + $timeOut > time() )
@@ -168,7 +168,7 @@ if ( is_numeric( $RSSExportID ) )
         $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_VALID );
         if ( $rssExport )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $rssItems = $rssExport->fetchItems();
             $rssExport->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
@@ -215,11 +215,11 @@ if ( is_numeric( $RSSExportID ) )
 else // New RSSExport
 {
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
 
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
 
     // Create default rssExport object to use
@@ -235,7 +235,7 @@ else // New RSSExport
 }
 
 $tpl =& templateInit();
-$config =& eZINI::instance( 'site.ini' );
+$config = eZINI::instance( 'site.ini' );
 
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );
 $rssDefaultVersion = $config->variable( 'RSSSettings', 'DefaultVersion' );

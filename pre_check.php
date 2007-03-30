@@ -34,7 +34,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 function eZCheckValidity( &$siteBasics, &$uri )
 {
 //     eZDebug::writeDebug( "Checking validity" );
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
     if ( $checkValidity )
@@ -87,8 +87,8 @@ function eZCheckUser( &$siteBasics, &$uri )
     if( !include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' ) )
         return null;
 
-    $http =& eZHTTPTool::instance();
-    $ini =& eZINI::instance();
+    $http = eZHTTPTool::instance();
+    $ini = eZINI::instance();
     $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
     $forceLogin = $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
     if ( !$requireUserLogin &&

@@ -50,7 +50,7 @@ class eZPaymentCallbackChecker
     function eZPaymentCallbackChecker( $iniFile )
     {
         $this->logger   =& eZPaymentLogger::CreateForAdd( 'var/log/eZPaymentChecker.log' );
-        $this->ini      =& eZINI::instance( $iniFile );
+        $this->ini      = eZINI::instance( $iniFile );
     }
 
     /*!
@@ -264,7 +264,7 @@ class eZPaymentCallbackChecker
     function checkCurrency( $currency )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale         =& eZLocale::instance();
+        $locale         = eZLocale::instance();
         $orderCurrency  =  $locale->currencyShortName();
 
         if ( $orderCurrency == $currency )
@@ -321,11 +321,11 @@ class eZPaymentCallbackChecker
         return $retResponse;
     }
 
-    var $logger;
-    var $ini;
-    var $callbackData;
-    var $paymentObject;
-    var $order;
+    public $logger;
+    public $ini;
+    public $callbackData;
+    public $paymentObject;
+    public $order;
 }
 
 ?>

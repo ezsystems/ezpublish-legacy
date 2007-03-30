@@ -66,8 +66,8 @@ class eZTextFileUser extends eZUser
     */
     function &loginUser( $login, $password, $authenticationMatch = false )
     {
-        $http =& eZHTTPTool::instance();
-        $db =& eZDB::instance();
+        $http = eZHTTPTool::instance();
+        $db = eZDB::instance();
 
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
@@ -86,8 +86,8 @@ class eZTextFileUser extends eZUser
 
         $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
 
-        $ini =& eZINI::instance();
-        $textFileIni =& eZINI::instance( 'textfile.ini' );
+        $ini = eZINI::instance();
+        $textFileIni = eZINI::instance( 'textfile.ini' );
         $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         // if mysql
         if ( $databaseImplementation == "ezmysql" )
@@ -316,7 +316,7 @@ class eZTextFileUser extends eZUser
                         {
                             // Update user information
                             $userID = $existUser->attribute( 'contentobject_id' );
-                            $contentObject =& eZContentObject::fetch( $userID );
+                            $contentObject = eZContentObject::fetch( $userID );
 
                             $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
                             $currentVersion = $contentObject->attribute( 'current_version' );

@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );

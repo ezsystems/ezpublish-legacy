@@ -36,7 +36,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/common/template.php' );
 
 $tpl =& templateInit();
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $browse = new eZContentBrowse();
 
@@ -90,7 +90,7 @@ if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
     $cancelAction = false;
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $keyArray = array();
 if ( $browse->hasAttribute( 'keys' ) )
@@ -148,7 +148,7 @@ if (isset( $GLOBALS['eZDesignKeys']['section'] ))
 
 
 //setting keys for override
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $Result = array();
 

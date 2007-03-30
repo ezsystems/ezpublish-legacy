@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 $parameters =& $Params["Parameters"];
 
@@ -38,7 +38,7 @@ include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( "kernel/classes/ezcontentclass.php" );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 // Todo: read from siteaccess settings
@@ -232,7 +232,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
             {
                 $attributes =& $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
@@ -267,7 +267,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$node.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
             {
                 $attributes =& $class->fetchAttributes();
                 foreach ( $attributes as $attribute )
@@ -328,7 +328,7 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
             $templateCode = "<h1>{\$object.name}</h1>\n\n";
 
             // Append attribute view
-            if ( get_class( $class ) == "ezcontentclass" )
+            if ( strtolower( get_class( $class ) ) == "ezcontentclass" )
             {
                 $attributes =& $class->fetchAttributes();
                 foreach ( $attributes as $attribute )

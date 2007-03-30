@@ -821,7 +821,7 @@ class eZObjectForwarder
         return false;
     }
 
-    var $Rules;
+    public $Rules;
 };
 
 ?>

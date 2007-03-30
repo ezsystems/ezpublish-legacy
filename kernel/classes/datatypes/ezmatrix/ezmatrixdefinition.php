@@ -53,7 +53,7 @@ class eZMatrixDefinition
     function decodeClassAttribute( $xmlString )
     {
         $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
         if ( strlen ( $xmlString ) != 0 )
         {
             $columns = $dom->elementsByName( "column-name" );
@@ -132,7 +132,7 @@ class eZMatrixDefinition
         {
             // Initialize transformation system
             include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
+            $trans = eZCharTransform::instance();
             $id = $trans->transformByGroup( $name, 'identifier' );
         }
 
@@ -153,7 +153,7 @@ class eZMatrixDefinition
         }
     }
 
-    var $ColumnNames;
+    public $ColumnNames;
 
 }
 

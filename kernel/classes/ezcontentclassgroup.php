@@ -43,7 +43,7 @@ class eZContentClassGroup extends eZPersistentObject
        $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -84,7 +84,7 @@ class eZContentClassGroup extends eZPersistentObject
                       "name" => "ezcontentclassgroup" );
     }
 
-    function create( $userID = false )
+    static function create( $userID = false )
     {
         $dateTime = time();
         if ( !$userID )
@@ -127,7 +127,7 @@ class eZContentClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeSelected( $id )
+    static function removeSelected( $id )
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),
                                           array( "id" => $id ) );
@@ -139,7 +139,7 @@ class eZContentClassGroup extends eZPersistentObject
      \param name
      \param asObject
     */
-    function fetchByName( $name, $asObject = true )
+    static function fetchByName( $name, $asObject = true )
     {
         $conds = array( 'name' => $name );
         return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
@@ -148,7 +148,7 @@ class eZContentClassGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetch( $id, $user_id = false, $asObject = true )
+    static function fetch( $id, $user_id = false, $asObject = true )
     {
         $conds = array( "id" => $id );
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -159,7 +159,7 @@ class eZContentClassGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $user_id = false, $asObject = true )
+    static function fetchList( $user_id = false, $asObject = true )
     {
         $conds = array();
         if ( $user_id !== false and is_numeric( $user_id ) )
@@ -177,7 +177,7 @@ class eZContentClassGroup extends eZPersistentObject
     */
     function &appendClass( &$class, $version = false )
     {
-        if ( get_class( $class ) == 'ezcontentclass' )
+        if ( strtolower( get_class( $class ) ) == 'ezcontentclass' )
         {
             $classID = $class->attribute( 'id' );
             $version = $class->attribute( 'version' );
@@ -191,12 +191,12 @@ class eZContentClassGroup extends eZPersistentObject
         return $classGroupLink;
     }
 
-    var $ID;
-    var $Name;
-    var $CreatorID;
-    var $ModifierID;
-    var $Created;
-    var $Modified;
+    public $ID;
+    public $Name;
+    public $CreatorID;
+    public $ModifierID;
+    public $Created;
+    public $Modified;
 }
 
 ?>

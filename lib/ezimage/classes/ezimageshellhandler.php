@@ -139,14 +139,14 @@ class eZImageShellHandler extends eZImageHandler
      The INI settings are read from ini file \a $iniFilename and group \a $iniGroup.
      If \a $iniFilename is not supplied \c image.ini is used.
     */
-    function &createFromINI( $iniGroup, $iniFilename = false )
+    static function &createFromINI( $iniGroup, $iniFilename = false )
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
         $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( $iniFilename );
+        $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
@@ -267,10 +267,10 @@ class eZImageShellHandler extends eZImageHandler
     }
 
     /// \privatesection
-    var $Path;
-    var $Executable;
-    var $PreParameters;
-    var $PostParameters;
+    public $Path;
+    public $Executable;
+    public $PreParameters;
+    public $PostParameters;
 }
 
 class eZImageShellFactory extends eZImageFactory
@@ -287,7 +287,7 @@ class eZImageShellFactory extends eZImageFactory
      \reimp
      Creates eZImageShellHandler objects and returns them.
     */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function &produceFromINI( $iniGroup, $iniFilename = false )
     {
         $convertHandler =& eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
         return $convertHandler;

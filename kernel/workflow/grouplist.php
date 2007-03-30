@@ -78,7 +78,7 @@ function removeSelectedGroups( &$http, &$groups, $base )
 
 $Module =& $Params["Module"];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "EditGroupButton" ) && $http->hasPostVariable( "EditGroupID" ) )
 {
@@ -109,7 +109,7 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];

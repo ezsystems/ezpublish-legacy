@@ -118,7 +118,7 @@ if ( strlen( trim( $matchType ) ) == 0 )
     }
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cli )
 {
@@ -141,7 +141,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
                              'database' => $db );
         if ( $socket )
             $parameters['socket'] = $socket;
-        $dbInstance =& eZDB::instance( 'ez' . $type,
+        $dbInstance = eZDB::instance( 'ez' . $type,
                                        $parameters,
                                        true );
 

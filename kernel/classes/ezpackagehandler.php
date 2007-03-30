@@ -64,9 +64,10 @@ class eZPackageHandler
      \pure
      Installs the package item
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters, &$installData )
+                      $content, &$installParameters,
+                      &$installData )
     {
     }
 
@@ -74,9 +75,10 @@ class eZPackageHandler
      \pure
      Uninstalls the package item
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                         $name, $os, $filename, $subdirectory,
-                        $installParameters, &$installData )
+                        $content, &$installParameters,
+                        &$installData )
     {
     }
 
@@ -112,7 +114,7 @@ class eZPackageHandler
      \pure
      Adds items defined in \a $parameters to the package \a $package.
     */
-    function add( $packageType, &$package, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
     }
 
@@ -228,11 +230,12 @@ class eZPackageHandler
 
     function errorChoosenAction( $errorCode, &$installParameters, $description = false, $handlerType = false, $resetError = true )
     {
+        $debug = eZDebug::instance();
         if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] )
         {
             if ( $description )
             {
-                eZDebug::writeNotice( $description, 'Package installation conflict' );
+                $debug->writeNotice( $description, 'Package installation conflict' );
             }
             return EZ_PACKAGE_NON_INTERACTIVE;
         }

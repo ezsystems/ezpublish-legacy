@@ -93,7 +93,7 @@ class eZCodePageCodec extends eZTextCodec
     */
     function isValid()
     {
-        return get_class( $this->CodePage ) == "ezcodepage";
+        return strtolower( get_class( $this->CodePage ) ) == "ezcodepage";
     }
 
     /*!
@@ -112,7 +112,7 @@ class eZCodePageCodec extends eZTextCodec
         $this->CodePage =& $cp;
     }
 
-    var $CodePage;
+    public $CodePage;
 }
 
 ?>

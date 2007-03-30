@@ -122,6 +122,6 @@ class eZKernelOperator
             }break;
         }
     }
-    var $Operators;
+    public $Operators;
 }
 ?>

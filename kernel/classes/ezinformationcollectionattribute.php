@@ -46,7 +46,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZInformationCollectionAttribute class.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -170,7 +170,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function &contentObject()
     {
-        $contentObject =& eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
+        $contentObject = eZContentObject::fetch( $this->attribute( 'contentobject_id' ) );
         return $contentObject;
     }
 
@@ -205,7 +205,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function &contentClassAttributeName()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nameArray = $db->arrayQuery( "SELECT serialized_name_list FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
         return eZContentClassAttributeNameList::nameFromSerializedString( $nameArray[0]['serialized_name_list'] );
@@ -241,12 +241,12 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezinfocollection_attribute" );
     }
 
     // Contains the content for this attribute
-    var $Content;
+    public $Content;
 }
 
 ?>

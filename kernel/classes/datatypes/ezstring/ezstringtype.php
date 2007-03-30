@@ -94,7 +94,7 @@ class eZStringType extends eZDataType
     function validateStringHTTPInput( $data, &$contentObjectAttribute, &$classAttribute )
     {
         $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
-        $textCodec =& eZTextCodec::instance( false );
+        $textCodec = eZTextCodec::instance( false );
         if ( $textCodec->strlen( $data ) > $maxLen and
              $maxLen > 0 )
         {
@@ -297,7 +297,7 @@ class eZStringType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -305,7 +305,7 @@ class eZStringType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -327,7 +327,7 @@ class eZStringType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( 'data_text' );
     }
@@ -359,7 +359,7 @@ class eZStringType extends eZDataType
     function sortKey( &$contentObjectAttribute )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
         return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
@@ -411,7 +411,7 @@ class eZStringType extends eZDataType
 
     /// \privatesection
     /// The max len validator
-    var $MaxLenValidator;
+    public $MaxLenValidator;
 }
 
 eZDataType::register( EZ_DATATYPESTRING_STRING, 'ezstringtype' );

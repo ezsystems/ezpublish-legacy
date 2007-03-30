@@ -61,7 +61,7 @@ class eZTemplateImageOperator
                                   $imagefileName );
 
         include_once( "lib/ezutils/classes/ezsys.php" );
-        $ini =& eZINI::instance( 'texttoimage.ini' );
+        $ini = eZINI::instance( 'texttoimage.ini' );
         $fontDirs = $ini->variable( "PathSettings", "FontDir" );
         $this->FontDir = array();
         foreach ( $fontDirs as $fontDir )
@@ -146,7 +146,7 @@ class eZTemplateImageOperator
             $bgcol = $this->color( "bgcolor" );
             $textcol = $this->color( "textcolor" );
 
-            $ini =& eZINI::instance( 'texttoimage.ini' );
+            $ini = eZINI::instance( 'texttoimage.ini' );
             $family = $ini->variable( 'DefaultSettings', 'Family' );
             $size = $ini->variable( 'DefaultSettings', 'PointSize' );
             $angle = $ini->variable( 'DefaultSettings', 'Angle' );
@@ -650,7 +650,7 @@ class eZTemplateImageOperator
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
         if ( !file_exists( $dirPath ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $mod = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
             eZDir::mkdir( $dirPath, octdec( $mod ), true );
         }
@@ -834,33 +834,33 @@ class eZTemplateImageOperator
 
     /// \privatesection
     /// The operator array
-    var $Operators;
+    public $Operators;
     /// The default class to use for text to image conversion
-    var $DefaultClass;
+    public $DefaultClass;
     /// the directory were fonts are found, default is ""
-    var $FontDir;
+    public $FontDir;
     /// the directory were cache files are created, default is ""
-    var $CacheDir;
+    public $CacheDir;
     /// the directory were html code finds the images, default is ""
-    var $HTMLDir;
+    public $HTMLDir;
     /// the default font family, default is "arial"
-    var $Family;
+    public $Family;
     /// the default font point size, default is 12
-    var $PointSize;
+    public $PointSize;
     /// the default font angle, default is 0
-    var $Angle;
+    public $Angle;
     /// the default font x adjustment, default is 0
-    var $XAdjust;
+    public $XAdjust;
     /// the default font y adjustment, default is 0
-    var $YAdjust;
+    public $YAdjust;
     /// whether to reuse cache files or not
-    var $UseCache;
+    public $UseCache;
     /// the color array, default is bgcolor=white and textcolor=black
-    var $Colors;
+    public $Colors;
     /// Whether image GD is supported
-    var $ImageGDSupported;
+    public $ImageGDSupported;
     /// Storage Format, default is "png"
-    var $StoreAs = 'png';
+    public $StoreAs = 'png';
 }
 
 ?>

@@ -53,7 +53,7 @@ class eZSOAPHeader
     }
 
     /// Contains an array over all the headers
-    var $Headers = array();
+    public $Headers = array();
 }
 
 ?>

@@ -46,7 +46,7 @@ class eZWorkflowEvent extends eZPersistentObject
         $this->Content = null;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -252,7 +252,7 @@ class eZWorkflowEvent extends eZPersistentObject
      */
     function store()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $stored = eZPersistentObject::store();
 
@@ -264,21 +264,21 @@ class eZWorkflowEvent extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $Version;
-    var $WorkflowID;
-    var $TypeString;
-    var $Description;
-    var $Placement;
-    var $DataInt1;
-    var $DataInt2;
-    var $DataInt3;
-    var $DataInt4;
-    var $DataText1;
-    var $DataText2;
-    var $DataText3;
-    var $DataText4;
-    var $Content;
+    public $ID;
+    public $Version;
+    public $WorkflowID;
+    public $TypeString;
+    public $Description;
+    public $Placement;
+    public $DataInt1;
+    public $DataInt2;
+    public $DataInt3;
+    public $DataInt4;
+    public $DataText1;
+    public $DataText2;
+    public $DataText3;
+    public $DataText4;
+    public $Content;
 }
 
 ?>

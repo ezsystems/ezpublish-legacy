@@ -25,7 +25,7 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
-function &makeTriggerArray( &$triggerList )
+function makeTriggerArray( $triggerList )
 {
     $triggerArray = array();
     foreach ( array_keys( $triggerList ) as $key )
@@ -44,19 +44,19 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/eztrigger.php' );
 include_once( "kernel/classes/ezmodulemanager.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 
 $moduleName= & $Params['ModuleName1'];
 $functionName= & $Params['FunctionName1'];
 
-$wfINI =& eZINI::instance( 'workflow.ini' );
+$wfINI = eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 $possibleTriggers = array();
 
-$triggers =& makeTriggerArray( eZTrigger::fetchList() );
+$triggers = makeTriggerArray( eZTrigger::fetchList() );
 
 foreach ( $operations as $operation )
 {
@@ -108,7 +108,7 @@ foreach ( $operations as $operation )
 
 if ( $http->hasPostVariable( 'StoreButton' )  )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $possibleTriggers ) as $key )
     {
@@ -175,7 +175,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -208,7 +208,7 @@ if ( $moduleName == '*' )
 }
 elseif( $functionName == '*' )
 {
-    $mod =& eZModule::exists( $moduleName );
+    $mod = eZModule::exists( $moduleName );
     $functionList = array_keys( $mod->attribute( 'available_functions' ) );
     eZDebug::writeNotice( $functionList, "functions" );
     $showFunctionList = true;

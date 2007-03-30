@@ -75,7 +75,7 @@ class eZFloatValidator extends eZRegExpValidator
         return $state;
     }
 
-    function &fixup( $text )
+    function fixup( $text )
     {
         if ( preg_match( $this->RegExpRule["intermediate"], $text, $regs ) )
             $text = $regs[1];
@@ -87,8 +87,8 @@ class eZFloatValidator extends eZRegExpValidator
     }
 
     /// \privatesection
-    var $MinValue;
-    var $MaxValue;
+    public $MinValue;
+    public $MaxValue;
 }
 
 ?>

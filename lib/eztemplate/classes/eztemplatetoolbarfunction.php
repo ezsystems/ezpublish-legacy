@@ -78,7 +78,7 @@ class eZTemplateToolbarFunction
             return false;
 
         // Read ini file
-        $toolbarIni =& eZINI::instance( "toolbar.ini" );
+        $toolbarIni = eZINI::instance( "toolbar.ini" );
 
         if ( isset( $parameters["view"] ) )
         {
@@ -239,7 +239,7 @@ class eZTemplateToolbarFunction
                 $viewMode = "full";
                 $name = $currentNamespace;
                 // Read ini file
-                $toolbarIni =& eZINI::instance( "toolbar.ini" );
+                $toolbarIni = eZINI::instance( "toolbar.ini" );
 
                 if ( isset( $functionParameters["view"] ) )
                 {

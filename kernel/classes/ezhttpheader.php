@@ -44,14 +44,14 @@ class eZHTTPHeader
      * Returns true if the custom HTTP headers are enabled, false otherwise.
      * The result is cached in memory to save time on multiple invocations.
      */
-    function enabled()
+    static function enabled()
     {
         if ( isset( $GLOBALS['eZHTTPHeaderCustom'] ) )
         {
             return $GLOBALS['eZHTTPHeaderCustom'];
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( !$ini->hasVariable( 'HTTPHeaderSettings', 'CustomHeader' ) )
         {
             $GLOBALS['eZHTTPHeaderCustom'] = false;
@@ -68,7 +68,7 @@ class eZHTTPHeader
      \static
      Get Header override array by requested URI
     */
-    function headerOverrideArray( $uri )
+    static function headerOverrideArray( $uri )
     {
         $headerArray = array();
 
@@ -136,7 +136,7 @@ class eZHTTPHeader
 
                     if ( $header == 'Expires' )
                     {
-                        $headerValue = gmdate( 'D, d M Y H:i:s', mktime() + $headerValue ) . ' GMT';
+                        $headerValue = gmdate( 'D, d M Y H:i:s', time() + $headerValue ) . ' GMT';
                     }
 
                     if ( $depth === null )

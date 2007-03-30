@@ -58,7 +58,7 @@ function pageLimit( $searchPageLimit )
     }
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Module =& $Params["Module"];
 $Offset = $Params['Offset'];
@@ -68,7 +68,7 @@ if ( !is_numeric( $Offset ) )
 
 $tpl =& templateInit();
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';
 $logSearchStats = $ini->variable( 'SearchSettings', 'LogSearchStats' ) == 'enabled';
 
@@ -139,7 +139,7 @@ if ( $useSearchCode )
 if ( $searchSectionID != -1 )
 {
     include_once( 'kernel/common/eztemplatedesignresource.php' );
-    $res =& eZTemplateDesignResource::instance();
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'section', $searchSectionID ) ) );
 }
 

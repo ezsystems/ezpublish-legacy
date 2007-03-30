@@ -289,14 +289,15 @@ class eZTemplateFileResource
                     setlocale( LC_CTYPE, $locales );
                 }
 
+                $debug = eZDebug::instance();
                 if ( eZTemplate::isDebugEnabled() )
-                    eZDebug::writeNotice( "$path, $charset" );
-                $codec =& eZTextCodec::instance( $charset, false, false );
+                    $debug->writeNotice( "$path, $charset" );
+                $codec = eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
-                    eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    $debug->accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                     $text = $codec->convertString( $text );
-                    eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    $debug->accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                 }
                 $result = true;
             }
@@ -308,11 +309,11 @@ class eZTemplateFileResource
 
     /// \privatesection
     /// The name of the resource
-    var $Name;
+    public $Name;
     /// True if the data served from this resource is static, ie it can be cached properly
-    var $ServesStaticData;
+    public $ServesStaticData;
     /// The cache for templates
-    var $TemplateCache;
+    public $TemplateCache;
 }
 
 ?>

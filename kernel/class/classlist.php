@@ -36,7 +36,7 @@ $GroupID = false;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $http->setSessionVariable( 'FromGroupID', $GroupID );
 if ( $http->hasPostVariable( "RemoveButton" ) )
 {
@@ -78,7 +78,7 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
@@ -91,7 +91,7 @@ foreach( $TemplateData as $tpldata )
     }
 
     $list = eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
-    $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
+    $groupModifier = eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
     $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "class_count", count( $list ) );
     $tpl->setVariable( "GroupID", $GroupID );

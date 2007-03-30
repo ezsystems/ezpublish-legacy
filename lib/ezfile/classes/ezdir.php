@@ -46,14 +46,6 @@ define( 'EZ_DIR_SEPARATOR_DOS', 3 );
 class eZDir
 {
     /*!
-     Constructor
-    */
-    function eZDir()
-    {
-    }
-
-
-    /*!
      \return a multi-level path from a specific key. For example:
      \code
      echo createMultiLevelPath( "42abce", 3 );
@@ -65,16 +57,16 @@ class eZDir
      $maxDepth: the maximum number of path elements to be created (-1 is unlimited)
      \static
     */
-    function createMultiLevelPath( $key, $maxDepth = -1 )
+    static function createMultiLevelPath( $key, $maxDepth = -1 )
     {
         $parts = preg_split("//", (string) $key, $maxDepth, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         $sep = eZDir::separator( EZ_DIR_SEPARATOR_LOCAL );
         return $sep . join($sep, $parts);
     }
 
-    function getPathFromFilename( $filename )
+    static function getPathFromFilename( $filename )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $dirDepth = $ini->variable( "FileSettings" , "DirDepth" );
         $pathArray = array();
         for ( $i = 0; $i < $dirDepth and $i < strlen( $filename ); $i++ )
@@ -86,7 +78,7 @@ class eZDir
         return $path;
     }
 
-    function filenamePath( $filename, $maxCharLen = 2 )
+    static function filenamePath( $filename, $maxCharLen = 2 )
     {
         $path = '';
         for ( $i = 0; $i < strlen( $filename ) and ( strlen( $filename ) - $i ) > $maxCharLen;
@@ -104,7 +96,7 @@ class eZDir
      If \a $parents is true it will create any missing parent directories,
      just like 'mkdir -p'.
     */
-    function mkdir( $dir, $perm = false, $parents = false )
+    static function mkdir( $dir, $perm = false, $parents = false )
     {
         if ( $perm === false )
         {
@@ -146,7 +138,7 @@ class eZDir
      Goes trough the directory path \a $dir and removes empty directories.
      \note This is just the opposite of mkdir() with \a $parents set to \c true.
     */
-    function cleanupEmptyDirectories( $dir )
+    static function cleanupEmptyDirectories( $dir )
     {
         $dir = eZDir::cleanPath( $dir, EZ_DIR_SEPARATOR_UNIX );
         $dirElements = explode( '/', $dir );
@@ -180,7 +172,7 @@ class eZDir
      print( $dirpath ); // prints out path/to/some
      \endcode
     */
-    function dirpath( $filepath )
+    static function dirpath( $filepath )
     {
         $filepath = eZDir::cleanPath( $filepath, EZ_DIR_SEPARATOR_UNIX );
         $dirPosition = strrpos( $filepath, '/' );
@@ -193,9 +185,9 @@ class eZDir
      \return the default permissions to use for directories.
      \note The permission is converted from octal text to decimal value.
     */
-     function directoryPermission()
+    static function directoryPermission()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         return octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
     }
 
@@ -204,7 +196,7 @@ class eZDir
      \private
      Creates the directory \a $dir with permission \a $perm.
     */
-    function doMkdir( $dir, $perm )
+    static function doMkdir( $dir, $perm )
     {
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
@@ -229,7 +221,7 @@ class eZDir
      - EZ_DIR_SEPARATOR_UNIX  - Returns a /
      - EZ_DIR_SEPARATOR_DOS   - Returns a \
     */
-    function separator( $type )
+    static function separator( $type )
     {
         switch ( $type )
         {
@@ -248,7 +240,7 @@ class eZDir
      Converts any directory separators found in \a $path, in both unix and dos style, into
      the separator type specified by \a $toType and returns it.
     */
-    function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    static function convertSeparators( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $toType );
         return str_replace( array( '/', '\\' ), $separator, $path );
@@ -262,7 +254,7 @@ class eZDir
      \note Will also convert separators
      \sa convertSeparators.
     */
-    function cleanPath( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
+    static function cleanPath( $path, $toType = EZ_DIR_SEPARATOR_UNIX )
     {
         $path = eZDir::convertSeparators( $path, $toType );
         $separator = eZDir::separator( $toType );
@@ -294,7 +286,7 @@ class eZDir
      If \a $includeEndSeparator is true then it will make sure that the path ends with a
      separator if false it make sure there are no end separator.
     */
-    function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_UNIX )
+    static function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_UNIX )
     {
         $separator = eZDir::separator( $type );
         $path = implode( $separator, $names );
@@ -316,7 +308,7 @@ class eZDir
      \static
      Removes the directory and all it's contents, recursive.
     */
-    function recursiveDelete( $dir )
+    static function recursiveDelete( $dir )
     {
         if ( $handle = @opendir( $dir ) )
         {
@@ -344,7 +336,7 @@ class eZDir
      \static
      Creates a list of all files and dirs in the directory.
     */
-    function recursiveList( $dir, $path, &$fileList )
+    static function recursiveList( $dir, $path, &$fileList )
     {
         if ( $handle = @opendir( $dir ) )
         {
@@ -373,7 +365,7 @@ class eZDir
      Recurses through the directory and returns the files that matches the given suffix
      \note This function will not traverse . (hidden) folders
     */
-    function recursiveFind( $dir, $suffix )
+    static function recursiveFind( $dir, $suffix )
     {
         $returnFiles = array();
         if ( $handle = @opendir( $dir ) )
@@ -407,7 +399,7 @@ class eZDir
      \static
       Unlink files match the given pattern in the given directory.
     */
-    function unlinkWildcard( $dir, $pattern )
+    static function unlinkWildcard( $dir, $pattern )
     {
         $availableFiles = array();
         if ( $handle = @opendir( $dir ) )
@@ -483,7 +475,7 @@ class eZDir
      This function will store the relative path from the given base only.
      Note: this function will not traverse . (hidden) folders
     */
-    function recursiveFindRelative( $baseDir, $subDir, $suffix )
+    static function recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
         $returnFiles = array();
         $dir = $baseDir;
@@ -525,7 +517,7 @@ class eZDir
      \static
      Returns all subdirectories in a folder
     */
-    function findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
+    static function findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
     {
         return eZDir::findSubitems( $dir, 'd', false, $includeHidden, $excludeItems );
     }
@@ -534,7 +526,7 @@ class eZDir
      \static
      Returns all subdirectories in a folder
     */
-    function findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
+    static function findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
     {
         if ( !$types )
             $types = 'dfl';
@@ -583,7 +575,7 @@ class eZDir
 
      \note The parameter \a $recursive is currently unused, it will always copy recursively.
     */
-    function copy( $sourceDirectory, &$destinationDirectory,
+    static function copy( $sourceDirectory, &$destinationDirectory,
                    $asChild = true, $recursive = true, $includeHidden = false, $excludeItems = false )
     {
         if ( !is_dir( $sourceDirectory ) )
@@ -637,7 +629,7 @@ class eZDir
     /*!
      \return a regexp which will match certain temporary files.
     */
-    function temporaryFileRegexp( $standalone = true )
+    static function temporaryFileRegexp( $standalone = true )
     {
         $preg = '';
         if ( $standalone )
@@ -654,7 +646,7 @@ class eZDir
 
     \return TRUE/FALSE
     */
-    function isWriteable( $dirname )
+    static function isWriteable( $dirname )
     {
         if ( eZSys::osType() != 'win32' )
             return is_writable( $dirname );

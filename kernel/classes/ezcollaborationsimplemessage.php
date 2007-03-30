@@ -49,7 +49,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -123,7 +123,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
         if ( $creatorID === false )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $creatorID =& $user->attribute( 'contentobject_id' );
         }
         $row = array( 'message_type' => $type,
@@ -151,19 +151,19 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $ParticipantID;
-    var $Created;
-    var $Modified;
-    var $DataText1;
-    var $DataText2;
-    var $DataText3;
-    var $DataInt1;
-    var $DataInt2;
-    var $DataInt3;
-    var $DataFloat1;
-    var $DataFloat2;
-    var $DataFloat3;
+    public $ID;
+    public $ParticipantID;
+    public $Created;
+    public $Modified;
+    public $DataText1;
+    public $DataText2;
+    public $DataText3;
+    public $DataInt1;
+    public $DataInt2;
+    public $DataInt3;
+    public $DataFloat1;
+    public $DataFloat2;
+    public $DataFloat3;
 }
 
 ?>

@@ -34,7 +34,7 @@ include_once( 'kernel/rss/edit_functions.php' );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 //Get RSSImport id if it is accessable
 $step = (int)$http->hasPostVariable( 'Step' ) ? $http->postVariable( 'step' ) : 1;
@@ -211,7 +211,7 @@ function storeRSSImport( &$rssImport, $http, $publish = false )
 
     if ( $publish )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_VALID );
         $rssImport->store();
@@ -229,8 +229,8 @@ function storeRSSImport( &$rssImport, $http, $publish = false )
 function checkTimeout( &$rssImport )
 {
     include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-    $user =& eZUser::currentUser();
-    $contentIni =& eZIni::instance( 'content.ini' );
+    $user = eZUser::currentUser();
+    $contentIni = eZINI::instance( 'content.ini' );
     $timeOut = $contentIni->variable( 'RSSImportSettings', 'DraftTimeout' );
     if ( $rssImport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
          $rssImport->attribute( 'modified' ) + $timeOut > time() )

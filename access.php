@@ -42,7 +42,7 @@ define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
 */
 function accessType( &$uri, $host, $port, $file )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
     {
         $match = $ini->variable( 'SiteAccessSettings', 'StaticMatch' );
@@ -279,7 +279,7 @@ function accessType( &$uri, $host, $port, $file )
 
 function changeAccess( $access )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $name = $access['name'];
     if ( isset( $access['type'] ) &&
@@ -351,7 +351,7 @@ function accessAllowed( $uri )
                     'view' => $viewName,
                     'view_checked' => false );
 
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $access = true;
     $currentAccess = true;
@@ -408,7 +408,7 @@ function accessAllowed( $uri )
 
 function precheckAllowed( &$prechecks )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SitePrecheckRules' ) )
@@ -449,13 +449,13 @@ function precheckAllowed( &$prechecks )
 
 function accessDebugEnabled()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variable( 'SiteAccessSettings', 'DebugAccess' ) == 'enabled';
 }
 
 function accessExtraDebugEnabled()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variable( 'SiteAccessSettings', 'DebugExtraAccess' ) == 'enabled';
 }
 

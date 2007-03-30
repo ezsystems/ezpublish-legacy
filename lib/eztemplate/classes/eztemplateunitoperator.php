@@ -111,7 +111,7 @@ class eZTemplateUnitOperator
             return false;
 
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
@@ -140,7 +140,7 @@ class eZTemplateUnitOperator
 
         $unit = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $prefix == "auto" )
         {
             $prefixes = $ini->variableArray( "UnitSettings", "BinaryUnits" );
@@ -150,7 +150,7 @@ class eZTemplateUnitOperator
                 $prefix = "decimal";
         }
 
-        $unit_ini =& eZINI::instance( "units.ini" );
+        $unit_ini = eZINI::instance( "units.ini" );
         $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
         $fake = $use_si ? "" : "Fake";
         if ( $unit_ini->hasVariable( "Base", $unit ) )
@@ -392,7 +392,7 @@ class eZTemplateUnitOperator
         $prefix = $namedParameters["prefix"];
 
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
@@ -407,7 +407,7 @@ class eZTemplateUnitOperator
         if ( strlen( $namedParameters['thousands_separator'] ) > 0 )
             $decimalThousandsSeparator = $namedParameters['thousands_separator'];
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $prefix == "auto" )
         {
             $prefixes = $ini->variableArray( "UnitSettings", "BinaryUnits" );
@@ -416,7 +416,7 @@ class eZTemplateUnitOperator
             else
                 $prefix = "decimal";
         }
-        $unit_ini =& eZINI::instance( "units.ini" );
+        $unit_ini = eZINI::instance( "units.ini" );
         $use_si = $ini->variable( "UnitSettings", "UseSIUnits" ) == "true";
         $fake = $use_si ? "" : "Fake";
         if ( $unit_ini->hasVariable( "Base", $unit ) )

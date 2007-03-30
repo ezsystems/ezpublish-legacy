@@ -61,12 +61,12 @@ class eZCurrentTimeType extends eZNotificationEventType
         }
         else
         {
-            $time = mktime();
+            $time = time();
         }
         $event->setAttribute( 'data_int1', $time );
     }
 
-    function &eventContent( &$event )
+    function eventContent( $event )
     {
         $date = new eZDate( );
         $stamp = $event->attribute( 'data_int1' );

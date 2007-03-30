@@ -164,7 +164,7 @@ function compareVatRules($a, $b)
 }
 
 $module =& $Params["Module"];
-$http   =& eZHttpTool::instance();
+$http   = eZHTTPTool::instance();
 $tpl =& templateInit();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
@@ -179,7 +179,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     else
         $ruleIDList = $http->postVariable( "RuleIDList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $ruleIDList as $ruleID )
         eZVatRule::remove( $ruleID );
@@ -188,7 +188,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 
 if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $productCategories as $cat )
     {

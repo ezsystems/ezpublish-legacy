@@ -32,7 +32,7 @@ include_once( "lib/ezutils/classes/ezmail.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
 
 if ( isset( $Params['UserParameters'] ) )
@@ -60,13 +60,13 @@ $Params['TemplateObject'] =& $tpl;
 // Create new user object if user is not logged in
 if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable( "UserID" ) )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $errMsg = '';
     $checkErrNodeId = false;
 
     $defaultUserPlacement = (int)$ini->variable( "UserSettings", "DefaultUserPlacement" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
     $rows = $db->arrayQuery( $sql );
     $count = $rows[0]['count'];
@@ -123,7 +123,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $EditVersion = (int)$EditVersion;
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezcontentobject_link
                          WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
@@ -144,16 +144,16 @@ if ( !function_exists( 'checkContentActions' ) )
                 $object->purge();
             }
             $db->commit();
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $http->removeSessionVariable( "RegisterUserID" );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
 
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version') ) );
@@ -173,7 +173,7 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( "kernel/common/template.php" );
             include_once( 'lib/ezutils/classes/ezmail.php' );
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $tpl =& templateInit();
             $tpl->setVariable( 'user', $user );
             $tpl->setVariable( 'object', $object );
@@ -197,9 +197,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 eZUser::logoutCurrent();
 
                 // Create enable account hash and send it to the newly registered user
-                $hash = md5( mktime( ) . $user->attribute( 'contentobject_id' ) );
+                $hash = md5( time() . $user->attribute( 'contentobject_id' ) );
                 include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
-                $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, mktime() );
+                $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, time() );
                 $accountKey->store();
 
                 $tpl->setVariable( 'hash', $hash );
@@ -260,10 +260,10 @@ if ( !function_exists( 'checkContentActions' ) )
             $http->removeSessionVariable( "RegisterUserID" );
 
             // check for redirectionvariable
-            if ( eZHTTPTool::hasSessionVariable( 'RedirectAfterUserRegister' ) )
+            if ( $http->hasSessionVariable( 'RedirectAfterUserRegister' ) )
             {
-                $module->redirectTo( eZHTTPTool::sessionVariable( 'RedirectAfterUserRegister' ) );
-                eZHTTPTool::removeSessionVariable( 'RedirectAfterUserRegister' );
+                $module->redirectTo( $http->sessionVariable( 'RedirectAfterUserRegister' ) );
+                $http->removeSessionVariable( 'RedirectAfterUserRegister' );
             }
             else if ( $http->hasPostVariable( 'RedirectAfterUserRegister' ) )
             {
@@ -285,7 +285,7 @@ if ( $includeResult != 1 )
 {
     return $includeResult;
 }
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 //eZDebug::writeDebug( $includeResult );
 
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )

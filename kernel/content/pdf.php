@@ -67,7 +67,7 @@ if ( $NodeID < 2 )
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 if ( isset( $Params['ViewCache'] ) )
     $viewCacheEnabled = $Params['ViewCache'];
@@ -82,7 +82,7 @@ if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
-$workflowINI =& eZINI::instance( 'workflow.ini' );
+$workflowINI = eZINI::instance( 'workflow.ini' );
 $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 if ( in_array( 'content_read', $operationList ) )
@@ -94,7 +94,7 @@ else
     $useTriggers = false;
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $keys =& $res->keys();
 if ( isset( $keys['layout'] ) )
     $layout = $keys['layout'];
@@ -129,7 +129,7 @@ if ( $viewCacheEnabled && ( $useTriggers == false ) )
 }
 
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-pdf', 'Operation start' );
 
@@ -169,7 +169,7 @@ switch( $operationResult['status'] )
 
             $object = $operationResult[ 'object' ];
 
-            if ( !get_class( $object ) == 'ezcontentobject' )
+            if ( !strtolower( get_class( $object ) ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
             $node =& $operationResult[ 'node' ];
@@ -279,7 +279,7 @@ function contentPDFGenerate( $cacheFile,
         $object =& $node->attribute( 'object' );
     }
 
-    $res =& eZTemplateDesignResource::instance();
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object', $node->attribute( 'contentobject_id' ) ),
                           array( 'section', $object->attribute( 'section_id' ) ),
                           array( 'node', $node->attribute( 'node_id' ) ),

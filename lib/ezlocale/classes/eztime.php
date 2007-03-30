@@ -60,7 +60,7 @@ Example:
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 include_once( 'lib/ezlocale/classes/eztime.php' );
 
-$us_locale =& eZLocale::instance( 'us' );
+$us_locale = eZLocale::instance( 'us' );
 
 $time1 = new eZTime();
 $time2 = eZTime::create();
@@ -112,7 +112,7 @@ class eZTime
         else
             $this->setTimeOfDay( $timestamp );
 
-        $this->Locale =& eZLocale::instance();
+        $this->Locale = eZLocale::instance();
     }
 
     function attributes()
@@ -324,7 +324,7 @@ class eZTime
     function isGreaterThan( &$time, $equal = false )
     {
         $t1 =& $this->Time;
-        if ( get_class( $time ) == 'eztime' )
+        if ( strtolower( get_class( $time ) ) == 'eztime' )
             $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
@@ -343,7 +343,7 @@ class eZTime
     function isEqualTo( &$time )
     {
         $t1 =& $this->Time;
-        if ( get_class( $time ) == 'eztime' )
+        if ( strtolower( get_class( $time ) ) == 'eztime' )
             $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
@@ -373,9 +373,9 @@ class eZTime
     }
 
     /// Locale object, is just a reference to minimize memory usage.
-    var $Locale;
+    public $Locale;
     /// The current time as a clamped timestamp
-    var $Time;
+    public $Time;
 }
 
 ?>

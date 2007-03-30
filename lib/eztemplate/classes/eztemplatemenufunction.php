@@ -80,7 +80,7 @@ class eZTemplateMenuFunction
         $newNodes = array();
         if ( isset( $parameters["name"] ) )
         {
-            $menuIni =& eZINI::instance( "menu.ini" );
+            $menuIni = eZINI::instance( "menu.ini" );
             $nameData = $parameters["name"];
             if ( !eZTemplateNodeTool::isStaticElement( $nameData ) )
                 return false;
@@ -148,7 +148,7 @@ class eZTemplateMenuFunction
             case $this->BlockName:
             {
                 $name ="";
-                $menuIni =& eZINI::instance( "menu.ini" );
+                $menuIni = eZINI::instance( "menu.ini" );
 
                 if ( isset( $functionParameters["name"] ) )
                 {

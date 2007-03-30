@@ -34,7 +34,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezrole.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 
 $Module =& $Params['Module'];
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {

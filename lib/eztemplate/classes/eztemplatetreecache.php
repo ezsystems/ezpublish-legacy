@@ -47,7 +47,7 @@ class eZTemplateTreeCache
      \static
      \return the cache table which has cache keys and cache data.
     */
-    function &cacheTable()
+    static function cacheTable()
     {
         $templateCache =& $GLOBALS['eZTemplateTreeCacheTable'];
         if ( !is_array( $templateCache ) )
@@ -60,10 +60,10 @@ class eZTemplateTreeCache
      \static
      \return a new key from \a $key which has some additional info.
     */
-    function internalKey( $key )
+    static function internalKey( $key )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
         if ( $debug )
             $key = $key . '-debug';
@@ -77,9 +77,9 @@ class eZTemplateTreeCache
      \return the cache node tree which is stored with the cache key \a $key.
              Returns \c null if no cache data was found.
     */
-    function cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
+    static function cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
     {
-        $templateCache =& eZTemplateTreeCache::cacheTable();
+        $templateCache = eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         $root = null;
         if ( isset( $templateCache[$key] ) )
@@ -97,11 +97,11 @@ class eZTemplateTreeCache
      Sets the template tree node \a $root to be cached with the cache key $root.
      \note Trying to overwrite and existing cache key will give a warning and fail.
     */
-    function setCachedTree( $originalKey, $uri, $res, $templatePath, &$extraParameters, &$root )
+    static function setCachedTree( $originalKey, $uri, $res, $templatePath, &$extraParameters, &$root )
     {
         if ( $root === null )
             return;
-        $templateCache =& eZTemplateTreeCache::cacheTable();
+        $templateCache = eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $originalKey );
         if ( isset( $templateCache[$key] ) )
         {
@@ -112,7 +112,7 @@ class eZTemplateTreeCache
             $templateCache[$key] = array();
         }
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $debug = $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled';
         $templateCache[$key]['root'] =& $root;
         $templateCache[$key]['info'] = array( 'original_key' => $originalKey,
@@ -129,7 +129,7 @@ class eZTemplateTreeCache
      \return true if template tree node caching is enabled.
      \note To change this setting edit settings/site.ini and locate the group TemplateSettings and the entry NodeTreeCaching.
     */
-    function isCacheEnabled()
+    static function isCacheEnabled()
     {
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
@@ -142,7 +142,7 @@ class eZTemplateTreeCache
         }
 
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $cacheEnabled = $ini->variable( 'TemplateSettings', 'NodeTreeCaching' ) == 'enabled';
         return $cacheEnabled;
     }
@@ -151,7 +151,7 @@ class eZTemplateTreeCache
      \static
      \return the cache directory for tree node cache files.
     */
-    function cacheDirectory()
+    static function cacheDirectory()
     {
         $cacheDirectory =& $GLOBALS['eZTemplateTreeCacheDirectory'];
         if ( !isset( $cacheDirectory ) )
@@ -167,7 +167,7 @@ class eZTemplateTreeCache
      Creates the name for the tree cache file and returns it.
      The name conists of the md5 of the key and charset with the original filename appended.
     */
-    function treeCacheFilename( $key, $templateFilepath )
+    static function treeCacheFilename( $key, $templateFilepath )
     {
         $internalCharset = eZTextCodec::internalCharset();
         $extraName = '';
@@ -186,12 +186,12 @@ class eZTemplateTreeCache
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
     */
-    function canRestoreCache( $key, $timestamp, $templateFilepath )
+    static function canRestoreCache( $key, $timestamp, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
 
-        $templateCache =& eZTemplateTreeCache::cacheTable();
+        $templateCache = eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
@@ -210,12 +210,12 @@ class eZTemplateTreeCache
      Loads the cache with the key \a $key from a file and sets the result in the cache table.
      \return true if the cache was successfully restored.
     */
-    function restoreCache( $key, $templateFilepath )
+    static function restoreCache( $key, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
 
-        $templateCache =& eZTemplateTreeCache::cacheTable();
+        $templateCache = eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( isset( $templateCache[$key] ) )
         {
@@ -243,11 +243,11 @@ class eZTemplateTreeCache
      Stores the data of the cache with the key \a $key to a file.
      \return false if the cache does not exist.
     */
-    function storeCache( $key, $templateFilepath )
+    static function storeCache( $key, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
-        $templateCache =& eZTemplateTreeCache::cacheTable();
+        $templateCache = eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
         if ( !isset( $templateCache[$key] ) )
         {

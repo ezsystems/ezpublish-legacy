@@ -53,7 +53,7 @@ class eZPDF
     function eZPDF( $name = "pdf" )
     {
         $this->Operators = array( $name );
-        $this->Config =& eZINI::instance( 'pdf.ini' );
+        $this->Config = eZINI::instance( 'pdf.ini' );
     }
 
     /*!
@@ -309,7 +309,7 @@ class eZPDF
             /* usage : execute/add text to pdf file, pdf(execute,<text>) */
             case 'execute':
             {
-                $config =& eZINI::instance( 'pdf.ini' );
+                $config = eZINI::instance( 'pdf.ini' );
 
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
@@ -1043,9 +1043,9 @@ class eZPDF
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
-    var $PDF;
-    var $Config;
+    public $Operators;
+    public $PDF;
+    public $Config;
 }
 
 

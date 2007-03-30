@@ -172,7 +172,7 @@ class eZApproveType extends eZWorkflowEventType
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'eZApproveType::execute' );
         $parameters = $process->attribute( 'parameter_list' );
         $versionID =& $parameters['version'];
-        $object =& eZContentObject::fetch( $parameters['object_id'] );
+        $object = eZContentObject::fetch( $parameters['object_id'] );
 
         if ( !$object )
         {
@@ -195,12 +195,12 @@ class eZApproveType extends eZWorkflowEventType
          */
         if ( $process->attribute( 'user_id' ) == 0 )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $process->setAttribute( 'user_id', $user->id() );
         }
         else
         {
-            $user =& eZUser::instance( $process->attribute( 'user_id' ) );
+            $user = eZUser::instance( $process->attribute( 'user_id' ) );
         }
 
         $userGroups = array_merge( $user->attribute( 'groups' ), $user->attribute( 'contentobject_id' ) );
@@ -267,14 +267,14 @@ class eZApproveType extends eZWorkflowEventType
         {
 
             /* Get user IDs from approve user groups */
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $userClassIDArray = array( $ini->variable( 'UserSettings', 'UserClassID' ) );
             $approveUserIDArray = array();
             foreach( $approveGroups as $approveUserGroupID )
             {
                 if (  $approveUserGroupID != false )
                 {
-                    $approveUserGroup =& eZContentObject::fetch( $approveUserGroupID );
+                    $approveUserGroup = eZContentObject::fetch( $approveUserGroupID );
                     if ( isset( $approveUserGroup ) )
                         foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
                         {
@@ -362,7 +362,7 @@ class eZApproveType extends eZWorkflowEventType
             foreach( $userGroupIDList as $userGroupID )
             {
                 if ( !is_numeric( $userGroupID ) or
-                     !is_object( $userGroup =& eZContentObject::fetch( $userGroupID ) ) or
+                     !is_object( $userGroup = eZContentObject::fetch( $userGroupID ) ) or
                      !in_array( $userGroup->attribute( 'class_identifier' ), $groupClassNames ) )
                 {
                     $returnState = EZ_INPUT_VALIDATOR_STATE_INVALID;
@@ -435,7 +435,7 @@ class eZApproveType extends eZWorkflowEventType
         }
         else
         {
-            $browseParameters =& $http->sessionVariable( 'BrowseParameters' );
+            $browseParameters = $http->sessionVariable( 'BrowseParameters' );
             if ( isset( $browseParameters['custom_action_data'] ) )
             {
                 $customData = $browseParameters['custom_action_data'];
@@ -610,7 +610,7 @@ class eZApproveType extends eZWorkflowEventType
     {
         $eventID = $workflowEvent->attribute( "id" );
         $module =& $GLOBALS['eZRequestedModule'];
-        //$siteIni =& eZINI::instance();
+        //$siteIni = eZINI::instance();
         include_once( 'kernel/classes/ezcontentclass.php' );
 
         switch ( $action )
@@ -699,7 +699,7 @@ class eZApproveType extends eZWorkflowEventType
               case 'DeleteContentObject':
               {
                      $contentObjectID = (int)$attr[ $attrKey ];
-                     $db = & eZDb::instance();
+                     $db = eZDb::instance();
                      // Cleanup "User who approves content"
                      $db->query( 'UPDATE ezworkflow_event
                                   SET    data_int1 = \'0\'

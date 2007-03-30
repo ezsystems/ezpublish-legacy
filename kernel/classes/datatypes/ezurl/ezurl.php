@@ -50,7 +50,7 @@ class eZURL extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -86,7 +86,7 @@ class eZURL extends eZPersistentObject
                       'name' => 'ezurl' );
     }
 
-    function create( $url )
+    static function create( $url )
     {
         $dateTime = time();
         $row = array(
@@ -104,7 +104,7 @@ class eZURL extends eZPersistentObject
      \static
      Removes the URL with ID \a $urlID.
     */
-    function removeByID( $urlID )
+    static function removeByID( $urlID )
     {
         eZPersistentObject::removeObject( eZURL::definition(),
                                           array( 'id' => $urlID ) );
@@ -115,10 +115,10 @@ class eZURL extends eZPersistentObject
      Registers a URL to the URL database. The URL id is
      returned if successful. False is returned if not.
     */
-    function registerURL( $url )
+    static function registerURL( $url )
     {
         $urlID = false;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         // check if URL already exists
         $checkURLQuery = "SELECT id FROM ezurl WHERE url='" . $db->escapeString( $url ) . "'";
@@ -143,9 +143,9 @@ class eZURL extends eZPersistentObject
      Registers an array of URLs to the URL database. A hash of array( url -> id )
      is returned.
     */
-    function registerURLArray( $urlArray )
+    static function registerURLArray( $urlArray )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         foreach( $urlArray as $key => $url )
         {
@@ -183,7 +183,7 @@ class eZURL extends eZPersistentObject
      Updates the is_valid field of urls passed in \a $id.
      \param $id Can either be an array with ids or just one id value.
     */
-    function setIsValid( $id, $isValid )
+    static function setIsValid( $id, $isValid )
     {
         $dateTime = time();
         $isValid = (int) $isValid;
@@ -210,7 +210,7 @@ class eZURL extends eZPersistentObject
      Sets the last checked date to \a $dateTime or the current
      date if it's \c false.
     */
-    function setLastChecked( $id, $dateTime = false )
+    static function setLastChecked( $id, $dateTime = false )
     {
         if ( $dateTime === false )
         {
@@ -224,7 +224,7 @@ class eZURL extends eZPersistentObject
     /*!
      \return the url object for id \a $id.
     */
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZURL::definition(),
                                                 null, array( 'id' => $id ),
@@ -234,7 +234,7 @@ class eZURL extends eZPersistentObject
     /*!
      \return the number of registered URLs.
     */
-    function fetchListCount( $parameters = array() )
+    static function fetchListCount( $parameters = array() )
     {
         return eZURL::handleList( $parameters, true );
     }
@@ -242,7 +242,7 @@ class eZURL extends eZPersistentObject
     /*!
      \return all registered URLs.
     */
-    function fetchList( $parameters = array() )
+    static function fetchList( $parameters = array() )
     {
         return eZURL::handleList( $parameters, false );
     }
@@ -250,7 +250,7 @@ class eZURL extends eZPersistentObject
     /*!
      \return all registered URLs.
     */
-    function handleList( $parameters = array(), $asCount = false )
+    static function handleList( $parameters = array(), $asCount = false )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'is_valid' => null,
@@ -285,7 +285,7 @@ class eZURL extends eZPersistentObject
                 $conditionQuery = " AND ezurl.is_valid=$isValid ";
             }
             include_once( "lib/ezdb/classes/ezdb.php" );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
             $cObjAttrVersionColumn = eZPersistentObject::getShortAttributeName( $db, eZURLObjectLink::definition(), 'contentobject_attribute_version' );
 
@@ -372,7 +372,7 @@ class eZURL extends eZPersistentObject
      Returns the URL with the given ID. False is returned if the ID
      does not exits.
     */
-    function url( $id, $onlyValid = false )
+    static function url( $id, $onlyValid = false )
     {
         $url = false;
 
@@ -382,7 +382,7 @@ class eZURL extends eZPersistentObject
         }
 
         $id = (int) $id;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $checkURLQuery = "SELECT url, is_valid FROM ezurl WHERE id='$id'";
         $urlArray = $db->arrayQuery( $checkURLQuery );
 
@@ -404,9 +404,9 @@ class eZURL extends eZPersistentObject
      Returns the URL with the given ID. False is returned if the ID
      does not exits.
     */
-    function urlByMD5( $urlMD5 )
+    static function urlByMD5( $urlMD5 )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $url = false;
         $urlMD5 = $db->escapeString( $urlMD5 );
@@ -424,9 +424,9 @@ class eZURL extends eZPersistentObject
      \static
      Returns the URL with the given URL. Returns false if the URL does not exists.
     */
-    function urlByURL( $urlText )
+    static function urlByURL( $urlText )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $url = false;
         $checkURLQuery = "SELECT * FROM ezurl WHERE url='" . $db->escapeString( $urlText ) . "'";

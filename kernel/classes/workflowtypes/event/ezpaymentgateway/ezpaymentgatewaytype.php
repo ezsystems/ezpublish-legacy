@@ -179,7 +179,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     */
     function loadAndRegisterBuiltInGateways()
     {
-        $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
+        $gatewaysINI        = eZINI::instance( 'paymentgateways.ini' );
         $gatewaysTypes      = $gatewaysINI->variable( 'GatewaysSettings', 'AvailableGateways' );
         $gatewaysDir        = false;
 
@@ -211,8 +211,8 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     */
     function loadAndRegisterExtensionGateways()
     {
-        $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
-        $siteINI            =& eZINI::instance( 'site.ini' );
+        $gatewaysINI        = eZINI::instance( 'paymentgateways.ini' );
+        $siteINI            = eZINI::instance( 'site.ini' );
         $extensionDirectory = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         $activeExtensions   = eZExtension::activeExtensions();
 
@@ -316,7 +316,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     function &getCurrentGatewayType( &$event )
     {
         $gateway =  null;
-        $http    =& eZHTTPTool::instance();
+        $http    = eZHTTPTool::instance();
 
         if ( $http->hasPostVariable( 'SelectButton' ) && $http->hasPostVariable( 'SelectedGateway' ) )
         {
@@ -402,7 +402,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         }
     }
 
-    var $logger;
+    public $logger;
 }
 
 eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID, 'ezpaymentgatewaytype' );

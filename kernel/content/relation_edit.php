@@ -42,12 +42,12 @@ include_once( 'kernel/common/template.php' );
 
 function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     // Add object relations
     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     {
         $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
-        $relatedObjects =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+        $relatedObjects = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
         $relatedObjectIDArray = array();
         $objectID = $object->attribute( 'id' );
 
@@ -56,7 +56,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
 
         if ( is_array( $selectedObjectIDArray ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $selectedObjectIDArray as $selectedObjectID )
             {
@@ -76,7 +76,7 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         $relatedObjectID = eZContentUpload::result( 'RelatedObjectUpload' );
         if ( $relatedObjectID )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $object->addContentObjectRelation( $relatedObjectID, $editVersion );
             $db->commit();
@@ -96,7 +96,7 @@ function storeRelationAssignments( &$module, &$class, &$object, &$version, &$con
 
 function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
     {
         $objectID = $object->attribute( 'id' );
@@ -150,7 +150,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $relatedObjectID = $result['contentobject_id'];
                 if ( $relatedObjectID )
                 {
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
                     $object->addContentObjectRelation( $relatedObjectID, $editVersion );
                     $db->commit();
@@ -189,7 +189,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $relationObjectIDs = array();
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $relationObjectIDs as $relationObjectID )
         {
@@ -203,7 +203,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         if ( $http->hasPostVariable( 'ClassID' ) )
         {
             include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userID =& $user->attribute( 'contentobject_id' );
             if ( $http->hasPostVariable( 'SectionID' ) )
             {
@@ -215,7 +215,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             }
             $contentClassID = $http->postVariable( 'ClassID' );
             $class = eZContentClass::fetch( $contentClassID );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $relatedContentObject = $class->instantiate( $userID, $sectionID );
             $db->commit();
@@ -224,7 +224,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
 
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
                 $sectionID = (int) $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
@@ -245,7 +245,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             }
             else
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 $relatedContentObject->purge();
                 $db->commit();
@@ -258,15 +258,15 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
 
 function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
-    $relatedObjects =& $object->relatedContentObjectArray( $editVersion );
+    $relatedObjects = $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );
 
     $relatedObjectsTyped = array();
-    $relatedObjectsTyped['common'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
-    $relatedObjectsTyped['xml_embed'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
+    $relatedObjectsTyped['common'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_COMMON ) );
+    $relatedObjectsTyped['xml_embed'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
     if ( eZContentObject::isObjectRelationTyped() )
     {
-        $relatedObjectsTyped['xml_link'] =& $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
+        $relatedObjectsTyped['xml_link'] = $object->relatedContentObjectArray( $editVersion, false, 0, array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
     }
 
     $relatedObjectsTypedIDArray = array();
@@ -280,7 +280,7 @@ function handleRelationTemplate( &$module, &$class, &$object, &$version, &$conte
     }
     unset( $relatedObjectsTyped );
 
-    $ini =& eZINI::instance( 'content.ini' );
+    $ini = eZINI::instance( 'content.ini' );
 
     $groups = $ini->variable( 'RelationGroupSettings', 'Groups' );
     $defaultGroup = $ini->variable( 'RelationGroupSettings', 'DefaultGroup' );

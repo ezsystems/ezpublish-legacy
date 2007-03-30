@@ -36,7 +36,7 @@
   eZDateTime handles 24 hour time values in hours, minutes and seconds
   and date values.
   The datetime stored as a timestamp with the number of seconds since the epoch.
-  See PHP function date() and mktime() for more information.
+  See PHP function date() and time() for more information.
 
   A new instance of eZDateTime will automaticly use the current locale and current datetime,
   if you however want a different locale use the setLocale() function. The current locale can be
@@ -63,7 +63,7 @@ Example:
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
-$us_locale =& eZLocale::instance( 'us' );
+$us_locale = eZLocale::instance( 'us' );
 
 $dt1 = new eZDateTime();
 $dt2 = eZDateTime::create();
@@ -92,14 +92,14 @@ class eZDateTime
     */
     function eZDateTime( $datetime = false )
     {
-        if ( get_class( $datetime ) == 'ezdate' )
+        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
         {
             $arr = getdate( $datetime->timeStamp() );
             $arr2 = getdate( $this->DateTime );
             $datetime = mktime( $arr2['hours'], $arr2['minutes'], $arr2['seconds'],
                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
-        else if ( get_class( $datetime ) == 'eztime' )
+        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
         {
             $arr2 = getdate( $datetime->timeStamp() );
             $arr = getdate( $this->DateTime );
@@ -108,7 +108,7 @@ class eZDateTime
         }
         else if ( $datetime === false )
         {
-            $datetime = mktime();
+            $datetime = time();
         }
         else
         {
@@ -117,7 +117,7 @@ class eZDateTime
                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->DateTime =& $datetime;
-        $this->Locale =& eZLocale::instance();
+        $this->Locale = eZLocale::instance();
         $this->IsValid = $datetime > 0;
     }
 
@@ -233,7 +233,7 @@ class eZDateTime
      \static
      Returns the current date and time as a UNIX timestamp
     */
-    function currentTimeStamp()
+    static function currentTimeStamp()
     {
         return time();
     }
@@ -426,12 +426,12 @@ class eZDateTime
     */
     function isGreaterThan( &$datetime, $equal = false )
     {
-        if ( get_class( $datetime ) == 'ezdate' )
+        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
         {
             $d1 = $this->toDate();
             return $d1->isGreaterThan( $datetime, $equal );
         }
-        else if ( get_class( $datetime ) == 'eztime' )
+        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
         {
             $t1 = $this->toTime();
             return $t1->isGreaterThan( $datetime, $equal );
@@ -439,7 +439,7 @@ class eZDateTime
         else
         {
             $dt1 = $this->timeStamp();
-            if ( get_class( $datetime ) == 'ezdatetime' )
+            if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
                 $dt2 = $datetime->timeStamp();
             else
                 $dt2 =& $datetime;
@@ -459,12 +459,12 @@ class eZDateTime
     */
     function isEqualTo( &$datetime )
     {
-        if ( get_class( $datetime ) == 'ezdate' )
+        if ( strtolower( get_class( $datetime ) ) == 'ezdate' )
         {
             $d1 = $this->toDate();
             return $d1->isEqualTo( $datetime );
         }
-        else if ( get_class( $datetime ) == 'eztime' )
+        else if ( strtolower( get_class( $datetime ) ) == 'eztime' )
         {
             $t1 = $this->toTime();
             return $t1->isEqualTo( $datetime );
@@ -472,7 +472,7 @@ class eZDateTime
         else
         {
             $dt1 = $this->timeStamp();
-            if ( get_class( $datetime ) == 'ezdatetime' )
+            if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
                 $dt2 = $datetime->timeStamp();
             else
                 $dt2 =& $datetime;
@@ -500,7 +500,7 @@ class eZDateTime
         else if ( $hour != -1 )
             $datetime = mktime( $hour );
         else
-            $datetime = mktime();
+            $datetime = time();
         return new eZDateTime( $datetime );
     }
 
@@ -530,10 +530,10 @@ class eZDateTime
     }
 
     /// Locale object, is just a reference to minimize memory usage.
-    var $Locale;
+    public $Locale;
     /// The current datetime as a timestamp
-    var $DateTime;
-    var $IsValid;
+    public $DateTime;
+    public $IsValid;
 }
 
 ?>

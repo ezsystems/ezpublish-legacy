@@ -129,7 +129,7 @@ class eZRangeOptionType extends eZDataType
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $option = new eZRangeOption( "" );
         $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
@@ -195,7 +195,7 @@ class eZRangeOptionType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $option = new eZRangeOption( "" );
         $option->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );

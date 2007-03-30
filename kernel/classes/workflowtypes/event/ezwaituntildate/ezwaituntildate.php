@@ -164,9 +164,9 @@ class eZWaitUntilDate
     }
 
 
-    var $WorkflowEventID;
-    var $WorkflowEventVersion;
-    var $Entries;
+    public $WorkflowEventID;
+    public $WorkflowEventVersion;
+    public $Entries;
 
 }
 

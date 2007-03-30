@@ -35,7 +35,7 @@ $Module =& $Params["Module"];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
 $DeleteResult = array();
 $alreadyRemoved = array();

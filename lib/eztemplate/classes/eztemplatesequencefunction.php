@@ -196,7 +196,7 @@ class eZTemplateSequenceFunction
     }
 
     /// Name of sequence function
-    var $SequenceName;
+    public $SequenceName;
 }
 
 ?>

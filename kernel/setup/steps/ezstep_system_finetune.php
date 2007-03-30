@@ -103,7 +103,7 @@ class eZStepSystemFinetune extends eZStepInstaller
 
     /*!
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
@@ -125,8 +125,8 @@ class eZStepSystemFinetune extends eZStepInstaller
     }
 
     // Variables for storing results from tests
-    var $Result = null;
-    var $Results = null;
+    public $Result = null;
+    public $Results = null;
 }
 
 ?>

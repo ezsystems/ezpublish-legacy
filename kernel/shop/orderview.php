@@ -32,9 +32,9 @@ include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
-$ini =& eZINI::instance();
-$http =& eZHTTPTool::instance();
-$user =& eZUser::currentUser();
+$ini = eZINI::instance();
+$http = eZHTTPTool::instance();
+$user = eZUser::currentUser();
 $access = false;
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )

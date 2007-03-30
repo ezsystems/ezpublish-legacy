@@ -75,7 +75,7 @@ class eZSimplePrice
         $this->setPrice( $price );
 
         $discountPercent = 0.0;
-        if ( get_class( $contentObjectAttribute ) == 'ezcontentobjectattribute' )
+        if ( strtolower( get_class( $contentObjectAttribute ) ) == 'ezcontentobjectattribute' )
         {
             $object =& $contentObjectAttribute->object();
             $this->ContentObject = $object;
@@ -437,11 +437,11 @@ class eZSimplePrice
     }
 
     /// \privatesection
-    var $Price;
-    var $VATType;
-    var $IsVATIncluded;
-    var $DiscountPercent;
-    var $ContentObject;
+    public $Price;
+    public $VATType;
+    public $IsVATIncluded;
+    public $DiscountPercent;
+    public $ContentObject;
 }
 
 

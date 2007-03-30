@@ -61,19 +61,19 @@ function eZSetupTestTable()
 
 function eZSetupConfigVariable( $type, $name )
 {
-    $config =& eZINI::instance( 'setup.ini' );
+    $config = eZINI::instance( 'setup.ini' );
     return $config->variable( $type, $name );
 }
 
 function eZSetupImageConfigVariableArray( $type, $name )
 {
-    $config =& eZINI::instance( 'image.ini' );
+    $config = eZINI::instance( 'image.ini' );
     return $config->variableArray( $type, $name );
 }
 
 function eZSetupConfigVariableArray( $type, $name )
 {
-    $config =& eZINI::instance( 'setup.ini' );
+    $config = eZINI::instance( 'setup.ini' );
     return $config->variableArray( $type, $name );
 }
 
@@ -88,7 +88,7 @@ function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList
     $testResult = EZ_SETUP_TEST_SUCCESS;
     $successCount = 0;
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     foreach ( $testList as $testItem )
     {
         $testName = $testItem;
@@ -139,7 +139,8 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
     $testList = eZSetupConfigVariableArray( $type, 'TestList' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
 
-    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy = null );
+    $dummy = null;
+    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy );
     $testResults = $runResult['results'];
     $testResult = $runResult['result'];
     $successCount = $runResult['success_count'];
@@ -449,7 +450,7 @@ function eZSetupTestDirectoryPermissions( $type, &$arguments )
 
     $dirList = eZSetupConfigVariableArray( $type, 'CheckList' );
 
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
 
     $result = true;
@@ -524,7 +525,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
     include_once( 'lib/ezfile/classes/ezdir.php' );
 
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
     $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
 
@@ -617,7 +618,7 @@ function eZSetupCheckExecutable( $type, &$arguments )
     include_once( 'lib/ezutils/classes/ezsys.php' );
     include_once( 'lib/ezfile/classes/ezdir.php' );
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     $filesystemType = eZSys::filesystemType();
     $envSeparator = eZSys::envSeparator();

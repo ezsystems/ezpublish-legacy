@@ -843,7 +843,7 @@ class eZDBSchemaInterface
      \pure
      \protected
      */
-    function generateAlterFieldSql( $table_name, $field_name, $def )
+    function generateAlterFieldSql( $table_name, $field_name, $def, $params )
     {
     }
 
@@ -851,7 +851,7 @@ class eZDBSchemaInterface
      \pure
      \protected
      */
-    function generateAddFieldSql( $table_name, $field_name, $def )
+    function generateAddFieldSql( $table_name, $field_name, $def, $params )
     {
     }
 
@@ -929,7 +929,7 @@ class eZDBSchemaInterface
     function loadSchemaTransformationRules( $schemaType )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'dbschema.ini' );
+        $ini = eZINI::instance( 'dbschema.ini' );
 
         if ( !$ini )
         {
@@ -1385,9 +1385,9 @@ class eZDBSchemaInterface
     }
 
     /// eZDB instance
-    var $DBInstance;
-    var $Schema;
-    var $Data;
+    public $DBInstance;
+    public $Schema;
+    public $Data;
 }
 
 ?>

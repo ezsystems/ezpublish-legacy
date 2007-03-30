@@ -141,7 +141,7 @@ class eZSearchEngine
 
         $wordIDArray = $this->buildWordIDArray( $indexArrayOnlyWords );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         for( $arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 1000 )
         {
@@ -161,11 +161,11 @@ class eZSearchEngine
     */
     function buildWordIDArray( &$indexArrayOnlyWords )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         $wordCount = count( $indexArrayOnlyWords );
         $wordIDArray = array();
@@ -262,9 +262,9 @@ class eZSearchEngine
       \return last placement
       Index wordIndex
     */
-    function indexWords( &$contentObject, &$indexArray, &$wordIDArray, $placement = 0 )
+    function indexWords( $contentObject, $indexArray, &$wordIDArray, $placement = 0 )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $contentObjectID = $contentObject->attribute( 'id' );
 
@@ -285,7 +285,7 @@ class eZSearchEngine
 
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         $prevWordID = 0;
         $nextWordID = 0;
@@ -375,7 +375,7 @@ class eZSearchEngine
     */
     function removeObject( $contentObject )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $objectID = $contentObject->attribute( "id" );
         $doDelete = false;
         $db->begin();
@@ -460,7 +460,7 @@ class eZSearchEngine
         $allowSearch = true;
         if ( trim( $searchText ) == '' )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->variable( 'SearchSettings', 'AllowEmptySearch' ) != 'enabled' )
                 $allowSearch = false;
             if ( isset( $params['AllowEmptySearch'] ) )
@@ -469,7 +469,7 @@ class eZSearchEngine
         if ( $allowSearch )
         {
             $searchText = $this->normalizeText( $searchText, false );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
 
             $nonExistingWordArray = array();
             $searchTypeMap = array( 'class' => 'SearchContentClassID',
@@ -799,7 +799,7 @@ class eZSearchEngine
             $searchWordCount = count( $searchWordArray );
             $fullTextSQL = "";
             $stopWordArray = array( );
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
 
             $tmpTableCount = 0;
             $i = 0;
@@ -1345,7 +1345,7 @@ class eZSearchEngine
     function normalizeText( $text, $isMetaData = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
         $text = $trans->transformByGroup( $text, 'search' );
 
         // Remove quotes and asterix when not handling search text by end-user
@@ -1663,7 +1663,7 @@ class eZSearchEngine
 //        $searchPartText = $this->GeneralFilter['searchPartText'];
         $subTreeSQL = $this->GeneralFilter['subTreeSQL'];
         $sqlPermissionChecking = $this->GeneralFilter['sqlPermissionChecking'];
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $i = $this->TempTablesCount;
         if ( $i == 0 )
         {
@@ -1740,7 +1740,7 @@ class eZSearchEngine
     function buildTempTablesForFullTextSearch( $searchPartsArray, $generalFilterList = array() )
     {
         $ini = eZINI::instance();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $i = $this->TempTablesCount;
         $generalFilterList = $this->GeneralFilter;
@@ -2012,7 +2012,7 @@ class eZSearchEngine
 
     function prepareWordIDArraysForPattern( $searchText )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 
 
@@ -2076,13 +2076,13 @@ class eZSearchEngine
     {
         if ( trim( $searchText ) == "" )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->hasVariable( 'SearchSettings', 'AllowEmptySearch' ) and
                  $ini->variable( 'SearchSettings', 'AllowEmptySearch' ) != 'enabled' )
                 return array();
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         //extend search words for urls, by extracting parts without www. and add to the end of search text
         $matches = array();
@@ -2101,7 +2101,7 @@ class eZSearchEngine
         $wildCardQueryString = array();
         $wordQueryString = '';
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $wildSearchEnabled = ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) == 'true' );
         if ( $wildSearchEnabled )
         {
@@ -2175,7 +2175,7 @@ class eZSearchEngine
     function fetchTotalObjectCount()
     {
         // Get the total number of objects
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $objectCount = array();
         $objectCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
         $totalObjectCount = $objectCount[0]["count"];
@@ -2213,7 +2213,7 @@ class eZSearchEngine
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $db->query( "DELETE FROM ezsearch_word" );
         $db->query( "DELETE FROM ezsearch_object_word_link" );
@@ -2300,9 +2300,9 @@ class eZSearchEngine
     }
 
 
-    var $UseOldCall = false;
-    var $TempTablesCount = 0;
-    var $CreatedTempTablesNames = array();
+    public $UseOldCall = false;
+    public $TempTablesCount = 0;
+    public $CreatedTempTablesNames = array();
 }
 
 ?>

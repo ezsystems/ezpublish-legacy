@@ -40,9 +40,9 @@
 
 class eZXMLText
 {
-    function eZXMLText( &$xmlData, $contentObjectAttribute )
+    function eZXMLText( $xmlData, $contentObjectAttribute )
     {
-        $this->XMLData =& $xmlData;
+        $this->XMLData = $xmlData;
         $this->ContentObjectAttribute = $contentObjectAttribute;
         $this->XMLInputHandler = null;
         $this->XMLOutputHandler = null;
@@ -102,14 +102,14 @@ class eZXMLText
             {
                 $isEmpty = true;
                 $xml = new eZXML();
-                $dom =& $xml->domTree( $this->XMLData, array(), true );
+                $dom = $xml->domTree( $this->XMLData, array(), true );
                 if ( $dom )
                 {
                     $node = $dom->get_elements_by_tagname( "section" );
 
                     $sectionNode = $node[0];
-                    if ( ( get_class( $sectionNode ) == "ezdomnode" ) or
-                         ( get_class( $sectionNode ) == "domelement" ) )
+                    if ( ( strtolower( get_class( $sectionNode ) ) == "ezdomnode" ) or
+                         ( strtolower( get_class( $sectionNode ) ) == "domelement" ) )
                     {
                         $children = $sectionNode->children();
                         if ( count( $children ) > 0 )
@@ -251,12 +251,12 @@ class eZXMLText
     }
 
     /// Contains the XML data
-    var $XMLData;
+    public $XMLData;
 
-    var $XMLInputHandler;
-    var $XMLOutputHandler;
-    var $XMLAttributeID;
-    var $ContentObjectAttribute;
+    public $XMLInputHandler;
+    public $XMLOutputHandler;
+    public $XMLAttributeID;
+    public $ContentObjectAttribute;
 }
 
 ?>

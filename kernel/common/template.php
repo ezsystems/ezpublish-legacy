@@ -33,7 +33,7 @@ function &templateInit( $name = false )
         $tpl =& $GLOBALS["eZPublishTemplate"];
     else
         $tpl =& $GLOBALS["eZPublishTemplate_$name"];
-    if ( get_class( $tpl ) == "eztemplate" )
+    if ( strtolower( get_class( $tpl ) ) == "eztemplate" )
         return $tpl;
     include_once( "lib/eztemplate/classes/eztemplate.php" );
     include_once( 'kernel/common/eztemplatedesignresource.php' );
@@ -42,7 +42,7 @@ function &templateInit( $name = false )
     $tpl = eZTemplate::instance();
 
     include_once( 'lib/ezutils/classes/ezini.php' );
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
         eZTemplate::setIsDebugEnabled( true );
 

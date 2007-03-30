@@ -48,7 +48,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
     {
         eZExchangeRatesUpdateHandler::initialize( $params );
 
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
         if ( !isset( $params['ServerName'] ) )
         {
             $params['ServerName'] = '';
@@ -107,7 +107,7 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                     // parse xml
                     include_once( 'lib/ezxml/classes/ezxml.php' );
                     $xml = new eZXML();
-                    $domDocument =& $xml->domTree( $body );
+                    $domDocument = $xml->domTree( $body );
 
                     $rootNode =& $domDocument->root();
                     $cubeNode = $rootNode->elementFirstChildByName( 'Cube' );
@@ -174,9 +174,9 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
         return $this->RatesURI;
     }
 
-    var $ServerName;
-    var $ServerPort;
-    var $RatesURI;
+    public $ServerName;
+    public $ServerPort;
+    public $RatesURI;
 }
 
 ?>

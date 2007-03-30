@@ -102,7 +102,7 @@ class eZStepEmailSettings extends eZStepInstaller
     /*!
      \reimp
      */
-    function &display()
+    function display()
     {
         $emailInfo = array( 'type' => 1,
                             'server' => false,

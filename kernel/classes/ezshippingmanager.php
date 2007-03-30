@@ -39,13 +39,6 @@
 class eZShippingManager
 {
     /*!
-     Constructor
-    */
-    function eZShippingManager()
-    {
-    }
-
-    /*!
      \public
      \static
 
@@ -94,7 +87,7 @@ class eZShippingManager
      - management_link - Example of an additional parameter that can be used
        in a template. Ex: basket.tpl
      */
-    function getShippingInfo( $productCollectionID )
+    static function getShippingInfo( $productCollectionID )
     {
         if ( !is_object( $handler = eZShippingManager::loadShippingHandler() ) )
             return null;
@@ -112,7 +105,7 @@ class eZShippingManager
      \return true if all updates are ok.
              false if the update went wrong.
      */
-    function updateShippingInfo( $productCollectionID )
+    static function updateShippingInfo( $productCollectionID )
     {
         if ( is_object( $handler = eZShippingManager::loadShippingHandler() ) )
             return $handler->updateShippingInfo( $productCollectionID );
@@ -130,7 +123,7 @@ class eZShippingManager
      \return true if everything went ok.
              false if an error occurred.
      */
-    function purgeShippingInfo( $productCollectionID )
+    static function purgeShippingInfo( $productCollectionID )
     {
         if ( is_object( $handler = eZShippingManager::loadShippingHandler() ) )
             return $handler->purgeShippingInfo( $productCollectionID );
@@ -145,9 +138,9 @@ class eZShippingManager
              false if a handler specified but could not be loaded,
              handler object if handler specified and found.
      */
-    function loadShippingHandler()
+    static function loadShippingHandler()
     {
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
 
         if ( !$shopINI->hasVariable( 'ShippingSettings', 'Handler' ) )
             return true;
@@ -208,7 +201,7 @@ class eZShippingManager
      */
     function loadBasketInfoHandler()
     {
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
 
         if ( !$shopINI->hasVariable( 'BasketInfoSettings', 'Handler' ) )
             return true;

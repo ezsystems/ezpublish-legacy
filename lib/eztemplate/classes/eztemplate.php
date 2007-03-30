@@ -112,7 +112,7 @@
   Example of usage:
 \code
 // Init template
-$tpl =& eZTemplate::instance();
+$tpl = eZTemplate::instance();
 
 $tpl->registerOperators( new eZTemplatePHPOperator( array( "upcase" => "strtoupper",
                                                            "reverse" => "strrev" ) ) );
@@ -160,7 +160,7 @@ $tpl->setVariable( "multidim_obj", array( new mytest( "jan", 200 ),
                                           new mytest( "feb", 200 ),
                                           new mytest( "john", 200 ),
                                           new mytest( "doe", 50 ) ) );
-$tpl->setVariable( "curdate", mktime() );
+$tpl->setVariable( "curdate", time() );
 
 $tpl->display( "lib/eztemplate/example/test.tpl" );
 
@@ -374,7 +374,8 @@ class eZTemplate
         include_once('kernel/common/i18n.php');
         $this->MaxLevelWarning = ezi18n( 'lib/template',
                                          'The maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
-        eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
+        $debug = eZDebug::instance();
+        $debug->createAccumulatorGroup( 'template_total', 'Template Total' );
 
         $this->TemplatesUsageStatistics = array();
         // Array of templates which are used in a single fetch()
@@ -538,8 +539,9 @@ class eZTemplate
         // Reset fetch list when a new fetch is started
         $this->TemplateFetchList = array();
 
-        eZDebug::accumulatorStart( 'template_total' );
-        eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStart( 'template_total' );
+        $debug->accumulatorStart( 'template_load', 'template_total', 'Template load' );
         $root = null;
         if ( is_string( $template ) )
         {
@@ -548,7 +550,7 @@ class eZTemplate
                  $resourceData['root-node'] !== null )
                 $root =& $resourceData['root-node'];
         }
-        eZDebug::accumulatorStop( 'template_load' );
+        $debug->accumulatorStop( 'template_load' );
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $savedLocale = setlocale( LC_CTYPE, null );
@@ -561,8 +563,8 @@ class eZTemplate
              $resourceData['compiled-template'] )
         {
             if ( $this->ShowDetails )
-                eZDebug::addTimingPoint( "Process" );
-            eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
+                $debug->addTimingPoint( "Process" );
+            $debug->accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
 
             $templateCompilationUsed = false;
             if ( $resourceData['compiled-template'] )
@@ -579,19 +581,19 @@ class eZTemplate
                 if ( eZTemplate::isDebugEnabled() )
                 {
                     $fname = $resourceData['template-filename'];
-                    eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
+                    $debug->writeDebug( "FETCH START URI: $template, $fname" );
                 }
                 $this->process( $root, $text, "", "" );
                 if ( eZTemplate::isDebugEnabled() )
-                    eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
+                    $debug->writeDebug( "FETCH END URI: $template, $fname" );
             }
 
-            eZDebug::accumulatorStop( 'template_processing' );
+            $debug->accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
-                eZDebug::addTimingPoint( "Process done" );
+                $debug->addTimingPoint( "Process done" );
         }
 
-        eZDebug::accumulatorStop( 'template_total' );
+        $debug->accumulatorStop( 'template_total' );
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
@@ -623,6 +625,7 @@ class eZTemplate
 
     function processNode( &$node, &$textElements, $rootNamespace, $currentNamespace )
     {
+        $debug = eZDebug::instance();
         $rslt = null;
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -634,7 +637,7 @@ class eZTemplate
                 {
                     $this->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
                     if ( !is_array( $textElements ) )
-                        eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                        $debug->writeError( "Textelements is no longer array: '$textElements'",
                                              'eztemplate::processNode::root' );
                 }
             }
@@ -649,7 +652,7 @@ class eZTemplate
             $variablePlacement = $node[3];
             $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                $debug->writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
         }
         else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
@@ -660,7 +663,7 @@ class eZTemplate
             $functionPlacement = $node[4];
             $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
+                $debug->writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
         }
 
@@ -678,6 +681,7 @@ class eZTemplate
         // Note: This code piece is replicated in the eZTemplateCompiler,
         //       if this code is changed the replicated code must be updated as well.
         $func =& $this->Functions[$functionName];
+        $debug = eZDebug::instance();
         if ( is_array( $func ) )
         {
             $this->loadAndRegisterFunctions( $this->Functions[$functionName] );
@@ -687,10 +691,10 @@ class eZTemplate
              is_object( $func ) )
         {
             if ( eZTemplate::isMethodDebugEnabled() )
-                eZDebug::writeDebug( "START FUNCTION: $functionName" );
+                $debug->writeDebug( "START FUNCTION: $functionName" );
             $value = $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isMethodDebugEnabled() )
-                eZDebug::writeDebug( "END FUNCTION: $functionName" );
+                $debug->writeDebug( "END FUNCTION: $functionName" );
             return $value;
         }
         else
@@ -731,7 +735,7 @@ class eZTemplate
     function parse( &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
         include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
-        $parser =& eZTemplateMultiPassParser::instance();
+        $parser = eZTemplateMultiPassParser::instance();
         $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $resourceData );
     }
 
@@ -844,10 +848,11 @@ class eZTemplate
     function processURI( $uri, $displayErrors = true, &$extraParameters,
                          &$textElements, $rootNamespace, $currentNamespace )
     {
+        $debug = eZDebug::instance();
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
         {
-            eZDebug::writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
+            $debug->writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
             $textElements[] = $this->MaxLevelWarning;
             $this->Level--;
             return;
@@ -881,11 +886,11 @@ class eZTemplate
             if ( eZTemplate::isDebugEnabled() )
             {
                 $fname = $resourceData['template-filename'];
-                eZDebug::writeDebug( "START URI: $uri, $fname" );
+                $debug->writeDebug( "START URI: $uri, $fname" );
             }
             $this->process( $root, $text, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isDebugEnabled() )
-                eZDebug::writeDebug( "END URI: $uri, $fname" );
+                $debug->writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
         }
@@ -1054,7 +1059,10 @@ class eZTemplate
         else
             $template = $uri;
         if ( eZTemplate::isDebugEnabled() )
-            eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
+        }
         $resobj =& $this->DefaultResource;
         if ( isset( $this->Resources[$res] ) and is_object( $this->Resources[$res] ) )
         {
@@ -1251,7 +1259,7 @@ class eZTemplate
                                         $objectAttributeList = array();
                                         if ( method_exists( $value, 'attributes' ) )
                                             $objectAttributeList = $value->attributes();
-                                        $objectClass= get_class( $value );
+                                        $objectClass= strtolower( get_class( $value ) );
                                         $errorMessage = "No such attribute for object($objectClass): $attributeValue";
                                         $chooseText = "Choose one of following: ";
                                         $errorMessage .= "\n$chooseText";
@@ -1267,7 +1275,7 @@ class eZTemplate
                             {
                                 if ( !$checkExistance )
                                     $this->error( "",
-                                                  "Cannot retrieve attribute of object(" . get_class( $value ) .
+                                                  "Cannot retrieve attribute of object(" . strtolower( get_class( $value ) ) .
                                                   "), no attribute functions available",
                                                   $placement );
                                 $retVal = null;
@@ -1406,13 +1414,14 @@ class eZTemplate
         {
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
             {
+                $debug = eZDebug::instance();
                 $value = $valueData['value'];
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    eZDebug::writeDebug( "START OPERATOR: $operatorName" );
+                    $debug->writeDebug( "START OPERATOR: $operatorName" );
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters,
                              $placement );
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    eZDebug::writeDebug( "END OPERATOR: $operatorName" );
+                    $debug->writeDebug( "END OPERATOR: $operatorName" );
                 $valueData['value'] = $value;
             }
             else
@@ -1844,7 +1853,7 @@ class eZTemplate
                 }
             }
             if ( !$hasTemplateData )
-                $textElements[] = 'Object(' . get_class( $item ) . ')';
+                $textElements[] = 'Object(' . strtolower( get_class( $item ) ) . ')';
         }
         else
             $textElements[] = "$item";
@@ -1926,7 +1935,8 @@ class eZTemplate
 
     function loadAndRegisterFunctions( $functionDefinition )
     {
-        eZDebug::accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
         $functionObject = null;
         if ( isset( $functionDefinition['function'] ) )
         {
@@ -1944,7 +1954,7 @@ class eZTemplate
             if ( class_exists( $class ) )
                 $functionObject = new $class();
         }
-        eZDebug::accumulatorStop( 'template_register_function' );
+        $debug->accumulatorStop( 'template_register_function' );
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );
@@ -2137,7 +2147,7 @@ class eZTemplate
      Registers a new resource object $res.
      The resource object take care of fetching templates using an URI.
     */
-    function registerResource( &$res )
+    function registerResource( $res )
     {
         if ( is_object( $res ) )
             $this->Resources[$res->resourceName()] =& $res;
@@ -2248,10 +2258,11 @@ class eZTemplate
         else
             $placementText = $placement;
         $placementText = $this->placementText( $placement );
+        $debug = eZDebug::instance();
         if ( $name != "" )
-            eZDebug::writeWarning( $txt, "eZTemplate:$name" . $placementText );
+            $debug->writeWarning( $txt, "eZTemplate:$name" . $placementText );
         else
-            eZDebug::writeWarning( $txt, "eZTemplate" . $placementText );
+            $debug->writeWarning( $txt, "eZTemplate" . $placementText );
     }
 
     /*!
@@ -2271,7 +2282,8 @@ class eZTemplate
             $nameText = "eZTemplate:$name";
         else
             $nameText = "eZTemplate";
-        eZDebug::writeError( $txt, $nameText . $placementText );
+        $debug = eZDebug::instance();
+        $debug->writeError( $txt, $nameText . $placementText );
         $hasAppendWarning =& $GLOBALS['eZTemplateHasAppendWarning'];
         $ini =& $this->ini();
         if ( $ini->variable( 'ControlSettings', 'DisplayWarnings' ) == 'enabled' )
@@ -2469,10 +2481,10 @@ class eZTemplate
     /*!
      Returns the globale template instance, creating it if it does not exist.
     */
-    function &instance()
+    static function instance()
     {
         $tpl =& $GLOBALS["eZTemplateInstance"];
-        if ( get_class( $tpl ) != "eztemplate" )
+        if ( strtolower( get_class( $tpl ) ) != "eztemplate" )
         {
             $tpl = new eZTemplate();
         }
@@ -2486,7 +2498,7 @@ class eZTemplate
     function &ini()
     {
         include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance( "template.ini" );
+        $ini = eZINI::instance( "template.ini" );
         return $ini;
     }
 
@@ -2496,11 +2508,11 @@ class eZTemplate
              This code will display the template filename in the browser but will eventually
              break the design.
     */
-    function isXHTMLCodeIncluded()
+    static function isXHTMLCodeIncluded()
     {
         if ( !isset( $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'] = $ini->variable( 'TemplateSettings', 'ShowXHTMLCode' ) == 'enabled';
         }
         return $GLOBALS['eZTemplateDebugXHTMLCodeEnabled'];
@@ -2510,11 +2522,11 @@ class eZTemplate
      \static
      \return \c true if debug output of template functions and operators should be enabled.
     */
-    function isMethodDebugEnabled()
+    static function isMethodDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZTemplateDebugMethodEnabled'] ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $GLOBALS['eZTemplateDebugMethodEnabled'] = $ini->variable( 'TemplateSettings', 'ShowMethodDebug' ) == 'enabled';
         }
         return $GLOBALS['eZTemplateDebugMethodEnabled'];
@@ -2526,7 +2538,7 @@ class eZTemplate
      which files are loaded and when cache files are created.
       Set the option with setIsDebugEnabled().
     */
-    function isDebugEnabled()
+    static function isDebugEnabled()
     {
         if ( !isset( $GLOBALS['eZTemplateDebugInternalsEnabled'] ) )
              $GLOBALS['eZTemplateDebugInternalsEnabled'] = EZ_TEMPLATE_DEBUG_INTERNALS;
@@ -2537,7 +2549,7 @@ class eZTemplate
      \static
      Sets whether internal debugging is enabled or not.
     */
-    function setIsDebugEnabled( $debug )
+    static function setIsDebugEnabled( $debug )
     {
         $GLOBALS['eZTemplateDebugInternalsEnabled'] = $debug;
     }
@@ -2568,11 +2580,11 @@ class eZTemplate
      \static
      \return \c true if templates usage statistics should be enabled.
     */
-    function isTemplatesUsageStatisticsEnabled()
+    static function isTemplatesUsageStatisticsEnabled()
     {
         if ( !isset( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] = $ini->variable( 'TemplateSettings', 'ShowUsedTemplates' ) == 'enabled';
         }
         return ( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] );
@@ -2612,7 +2624,7 @@ class eZTemplate
         $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
         $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );
 
-        $tpl =& eZTemplate::instance();
+        $tpl = eZTemplate::instance();
         $needToAppend = true;
 
         // don't add template info if it is a duplicate of previous.
@@ -2660,9 +2672,9 @@ class eZTemplate
      \static
      Returns template usage statistics
     */
-    function &templatesUsageStatistics()
+    static function templatesUsageStatistics()
     {
-        $tpl =& eZTemplate::instance();
+        $tpl = eZTemplate::instance();
         return $tpl->TemplatesUsageStatistics;
     }
 
@@ -2695,72 +2707,72 @@ class eZTemplate
 
     /// \privatesection
     /// Associative array of resource objects
-    var $Resources;
+    public $Resources;
     /// Reference to the default resource object
-    var $DefaultResource;
+    public $DefaultResource;
     /// The original template text
-    var $Text;
+    public $Text;
     /// Included texts, usually performed by custom functions
-    var $IncludeText;
+    public $IncludeText;
     /// Included outputs, usually performed by custom functions
-    var $IncludeOutput;
+    public $IncludeOutput;
     /// The timestamp of the template when it was last modified
-    var $TimeStamp;
+    public $TimeStamp;
     /// The left delimiter used for parsing
-    var $LDelim;
+    public $LDelim;
     /// The right delimiter used for parsing
-    var $RDelim;
+    public $RDelim;
 
     /// The resulting object tree of the template
-    var $Tree;
+    public $Tree;
     /// An associative array of template variables
-    var $Variables;
+    public $Variables;
     /*!
      Last element of this stack contains names of
      all variables created in the innermost template, for them
      to be destroyed after the template execution finishes.
      */
-    var $LocalVariablesNamesStack;
+    public $LocalVariablesNamesStack;
     // Reference to the last element of $LocalVariablesNamesStack.
-    var $CurrentLocalVariablesNames;
+    public $CurrentLocalVariablesNames;
     /// An associative array of operators
-    var $Operators;
+    public $Operators;
     /// An associative array of functions
-    var $Functions;
+    public $Functions;
     /// An associative array of function attributes
-    var $FunctionAttributes;
+    public $FunctionAttributes;
     /// An associative array of literal tags
-    var $Literals;
+    public $Literals;
     /// True if output details is to be shown
-    var $ShowDetails = false;
+    public $ShowDetails = false;
     /// \c true if caching is allowed
-    var $IsCachingAllowed;
+    public $IsCachingAllowed;
 
     /// Array containing all errors occured during a fetch
-    var $ErrorLog;
+    public $ErrorLog;
     /// Array containing all warnings occured during a fetch
-    var $WarningLog;
+    public $WarningLog;
 
-    var $AutoloadPathList;
+    public $AutoloadPathList;
     /// include level
-    var $Level = 0;
-    var $MaxLevel = 40;
+    public $Level = 0;
+    public $MaxLevel = 40;
 
     /// A list of templates used by a rendered page
-    var $TemplatesUsageStatistics;
+    public $TemplatesUsageStatistics;
 
     // counter to make unique names for {foreach} loop variables in com
-    var $ForeachCounter;
-    var $ForCounter;
-    var $WhileCounter;
-    var $DoCounter;
-    var $ElseifCounter;
+    public $ForeachCounter;
+    public $ForCounter;
+    public $WhileCounter;
+    public $DoCounter;
+    public $ElseifCounter;
 
     // Flag for setting compilation in test mode
-    var $TestCompile;
+    public $TestCompile;
 
-//     var $CurrentRelatedResource;
-//     var $CurrentRelatedTemplateName;
+//     public $CurrentRelatedResource;
+//     public $CurrentRelatedTemplateName;
 }
 
 ?>

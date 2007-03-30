@@ -208,7 +208,7 @@ class eZImageType extends eZDataType
         $hasImageAltText = false;
         if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $imageAltText = eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+            $imageAltText = $http->postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
             $hasImageAltText = true;
         }
 
@@ -243,12 +243,17 @@ class eZImageType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
+        $debug = eZDebug::instance();
+        //$debug->writeDebug( 'storing ezimage attribute' , 'eZImageType::storeObjectAttribute' );
         $imageHandler =& $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
+            //$debug->writeDebug( 'image handler class: ' . get_class( $imageHandler ), 'eZImageType::storeObjectAttribute' );
             $httpFile =& $imageHandler->httpFile( true );
             if ( $httpFile )
             {
+                //$debug->writeDebug( 'type of http file: ' . gettype( $httpFile ), 'eZImageType::storeObjectAttribute' );
+
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
 
                 $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );
@@ -417,7 +422,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         if( $action == "delete_image" )
         {
@@ -436,7 +441,7 @@ class eZImageType extends eZDataType
      - Default paramater in \a $name if it exists
      - original_filename, this is the default fallback.
     */
-    function title( &$contentObjectAttribute, $name = 'original_filename' )
+    function title( $contentObjectAttribute, $name = 'original_filename' )
     {
         $content =& $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
@@ -463,7 +468,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         include_once( "kernel/classes/datatypes/ezimage/ezimagealiashandler.php" );
         $imageHandler = new eZImageAliasHandler( $contentObjectAttribute );

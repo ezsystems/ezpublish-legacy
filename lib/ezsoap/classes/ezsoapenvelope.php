@@ -68,10 +68,10 @@ class eZSOAPEnvelope
     }
 
     /// Contains the header object
-    var $Header;
+    public $Header;
 
     /// Contains the body object
-    var $Body;
+    public $Body;
 }
 
 ?>

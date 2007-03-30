@@ -50,9 +50,9 @@ class eZSearch
      \static
      Will remove the index from the given object from the search engine
     */
-    function removeObject( $contentObject )
+    static function removeObject( $contentObject )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -71,9 +71,9 @@ class eZSearch
      \static
      Will index the content object to the search engine.
     */
-    function addObject( $contentObject )
+    static function addObject( $contentObject )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -92,9 +92,9 @@ class eZSearch
      \static
      Runs a query to the search engine.
     */
-    function search( $searchText, $params, $searchTypes = array() )
+    static function search( $searchText, $params, $searchTypes = array() )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -111,9 +111,9 @@ class eZSearch
     /*!
      \static
     */
-    function &normalizeText( $text )
+    static function &normalizeText( $text )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -131,9 +131,9 @@ class eZSearch
      \static
       returns search parameters in array based on supported search types and post variables
      */
-    function &buildSearchArray()
+    static function &buildSearchArray()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -157,7 +157,7 @@ class eZSearch
         $searchArray = array();
         $andSearchParts = array();
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         foreach ( $searchTypesDefinition['types'] as $searchType )
         {
@@ -421,9 +421,9 @@ class eZSearch
      \static
      Tells the current search engine to cleanup up all data.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )

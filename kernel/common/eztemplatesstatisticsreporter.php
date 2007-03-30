@@ -43,14 +43,10 @@ include_once( 'lib/ezutils/classes/ezsys.php' );
 
 class eZTemplatesStatisticsReporter
 {
-    function eZTemplatesStatisticsReporter()
-    {
-    }
-
     /*!
      static
     */
-    function &generateStatistics( $as_html = true )
+    static function &generateStatistics( $as_html = true )
     {
         $stats = '';
 
@@ -93,7 +89,7 @@ class eZTemplatesStatisticsReporter
             $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
         }
 
-        $templatesUsageStatistics =& eZTemplate::templatesUsageStatistics();
+        $templatesUsageStatistics = eZTemplate::templatesUsageStatistics();
         foreach( $templatesUsageStatistics as $templateInfo )
         {
             $actualTemplateName =& $templateInfo['actual-template-name'];

@@ -160,7 +160,7 @@ class eZSOAPClient
         }
         else //SOAP With SSL
         {
-            if ( get_class( $request ) == "ezsoaprequest" )
+            if ( strtolower( get_class( $request ) ) == "ezsoaprequest" )
             {
                 $URL = "https://" . $this->Server . ":" . $this->Port . $this->Path;
                 $ch = curl_init ( $URL );
@@ -255,17 +255,17 @@ class eZSOAPClient
     }
 
     /// The name or IP of the server to communicate with
-    var $Server;
+    public $Server;
     /// The path to the SOAP server
-    var $Path;
+    public $Path;
     /// The port of the server to communicate with.
-    var $Port;
+    public $Port;
     /// How long to wait for the call.
-    var $Timeout = 0;
+    public $Timeout = 0;
     /// HTTP login for HTTP authentification
-    var $Login;
+    public $Login;
     /// HTTP password for HTTP authentification
-    var $Password;
+    public $Password;
 }
 
 ?>

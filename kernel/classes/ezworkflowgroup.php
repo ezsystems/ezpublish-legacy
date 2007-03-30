@@ -43,7 +43,7 @@ class eZWorkflowGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -126,7 +126,7 @@ class eZWorkflowGroup extends eZPersistentObject
     {
         if ( $id === false )
             $id = $this->attribute( "id" );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $asObject )
         {
             $def = eZWorkflowGroup::definition();
@@ -190,12 +190,12 @@ ORDER BY ezworkflow.name ASC";
     }
 
     /// \privatesection
-    var $ID;
-    var $Name;
-    var $CreatorID;
-    var $ModifierID;
-    var $Created;
-    var $Modified;
+    public $ID;
+    public $Name;
+    public $CreatorID;
+    public $ModifierID;
+    public $Created;
+    public $Modified;
 }
 
 ?>

@@ -274,7 +274,7 @@ class eZISBNType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $data = $contentObjectAttribute->attribute( "data_text" );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
@@ -337,7 +337,7 @@ class eZISBNType extends eZDataType
     /*!
      Returns the text.
     */
-    function title( &$data_instance )
+    function title( $data_instance, $name = null )
     {
         return $data_instance->attribute( "data_text" );
     }

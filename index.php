@@ -30,10 +30,10 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
-if ( version_compare( phpversion(), '5.0' ) >= 0 )
+if ( version_compare( phpversion(), '5.0' ) < 0 )
 {
     print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
-    print( "<p>eZ publish 3.x does not run with PHP 5.</p>".
+    print( "<p>eZ publish 3.x does not run with PHP 4.</p>".
            "<p>For more information about supported software please visit ".
            "<a href=\"http://ez.no/download/ez_publish\" >eZ publish download page</a></p>" );
     exit;
@@ -102,14 +102,14 @@ $GLOBALS['eZSiteBasics'] =& $siteBasics;
 
 $GLOBALS['eZRedirection'] = false;
 
-error_reporting ( E_ALL );
+error_reporting ( E_ALL | E_STRICT );
 
 // include standard libs
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-$debugINI =& eZINI::instance( 'debug.ini' );
+$debugINI = eZINI::instance( 'debug.ini' );
 eZDebugSetting::setDebugINI( $debugINI );
 
 
@@ -118,7 +118,7 @@ eZDebugSetting::setDebugINI( $debugINI );
 */
 function eZUpdateDebugSettings()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     $settings = array();
     list( $settings['debug-enabled'], $settings['debug-by-ip'], $settings['log-only'], $settings['debug-by-user'], $settings['debug-ip-list'], $logList, $settings['debug-user-list'] ) =
@@ -134,7 +134,8 @@ function eZUpdateDebugSettings()
     {
         $settings['always-log'][$level] = in_array( $name, $logList );
     }
-    eZDebug::updateSettings( $settings );
+    $debug = eZDebug::instance();
+    $debug->updateSettings( $settings );
 }
 
 /*!
@@ -142,7 +143,7 @@ function eZUpdateDebugSettings()
 */
 function eZUpdateTextCodecSettings()
 {
-    $ini =& eZINI::instance( 'i18n.ini' );
+    $ini = eZINI::instance( 'i18n.ini' );
 
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
@@ -159,7 +160,7 @@ eZUpdateDebugSettings();
 
 
 // Set the different permissions/settings.
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 // Set correct site timezone
 $timezone = $ini->variable( "TimeZoneSettings", "TimeZone");
@@ -206,13 +207,20 @@ function eZAppendWarningItem( $parameters = array() )
 // the callback function eZExecutionUncleanShutdownHandler is called.
 $GLOBALS['eZDocumentRoot'] = dirname( __FILE__ );
 include_once( 'lib/ezutils/classes/ezexecution.php' );
+/*
+    see:
+    - http://www.php.net/manual/en/function.session-set-save-handler.php
+    - http://bugs.php.net/bug.php?id=33635
+    - http://bugs.php.net/bug.php?id=33772
+*/
+register_shutdown_function( 'session_write_close' );
 
 function eZDBCleanup()
 {
-    if ( class_exists( 'ezdb' )
+    if ( class_exists( 'eZDB' )
          and eZDB::hasInstance() )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->setIsSQLOutputEnabled( false );
     }
 //     session_write_close();
@@ -220,7 +228,7 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    //eZDebug::setHandleType( EZ_HANDLE_NONE );
     print( "<b>Fatal error</b>: eZ publish did not finish its request<br/>" );
     print( "<p>The execution of eZ publish was abruptly ended, the debug output is present below.</p>" );
     $templateResult = null;
@@ -230,7 +238,8 @@ function eZFatalError()
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
-eZDebug::setScriptStart( $scriptStartTime );
+$debug = eZDebug::instance();
+$debug->setScriptStart( $scriptStartTime );
 
 // Enable this line to get eZINI debug output
 // eZINI::setIsDebugEnabled( true );
@@ -239,13 +248,13 @@ eZDebug::setScriptStart( $scriptStartTime );
 
 function eZDisplayDebug()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) != 'enabled' )
         return null;
 
     $type = $ini->variable( "DebugSettings", "Debug" );
-    eZDebug::setHandleType( EZ_HANDLE_NONE );
+    //eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
     {
         $as_html = true;
@@ -253,7 +262,7 @@ function eZDisplayDebug()
         if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true && !$GLOBALS['eZRedirection'] )
         {
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
@@ -301,7 +310,7 @@ function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, 
 
     // Try to fetch the module object
     $module = eZModule::exists( $module_name );
-    if ( get_class( $module ) != "ezmodule" )
+    if ( strtolower( get_class( $module ) ) != "ezmodule" )
         return false;
 
     $uri->increase();
@@ -322,7 +331,7 @@ function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, 
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 $httpCharset = eZTextCodec::httpCharset();
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
     eZLocale::setIsDebugEnabled( true );
 
@@ -337,14 +346,12 @@ $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 
-eZSys::initIni( $ini );
-
-eZDebug::addTimingPoint( "Script start" );
+$debug->addTimingPoint( "Script start" );
 
 include_once( "lib/ezutils/classes/ezuri.php" );
 
-$uri =& eZURI::instance( eZSys::requestURI() );
-$GLOBALS['eZRequestedURI'] =& $uri;
+$uri = eZURI::instance( eZSys::requestURI() );
+$GLOBALS['eZRequestedURI'] = $uri;
 include_once( "pre_check.php" );
 
 // Shall we start the eZ setup module?
@@ -378,7 +385,7 @@ $access = accessType( $uri,
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
-$GLOBALS['eZCurrentAccess'] =& $access;
+$GLOBALS['eZCurrentAccess'] = $access;
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
 eZDebug::checkDebugByUser();
@@ -389,7 +396,7 @@ eZExtension::activateExtensions( 'access' );
 
 // Make sure template.ini reloads its cache incase
 // siteaccess or extensions override it
-$tplINI =& eZINI::instance( 'template.ini' );
+$tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
@@ -405,7 +412,7 @@ $db = false;
 if ( $dbRequired )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( $sessionRequired and
          $db->isConnected() )
     {
@@ -420,7 +427,7 @@ if ( $dbRequired )
 
 // Initialize with locale settings
 include_once( "lib/ezlocale/classes/ezlocale.php" );
-$locale =& eZLocale::instance();
+$locale = eZLocale::instance();
 $languageCode = $locale->httpLocaleCode();
 $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
 if ( $phpLocale != '' )
@@ -477,7 +484,7 @@ foreach ( $policyCheckOmitList as $omitItem )
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-$moduleINI =& eZINI::instance( 'module.ini' );
+$moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
 $extensionDirectory = eZExtension::baseDirectory();
@@ -493,19 +500,19 @@ foreach ( $extensionRepositories as $extensionRepository )
     }
     else if ( !file_exists( $extPath ) )
     {
-        eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
+        $debug->writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
                                "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
                                "You should probably remove this extension from the list." );
     }
     else if ( !in_array( $extensionRepository, $activeExtensions ) )
     {
-        eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
+        $debug->writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
                                "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
                                "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
     }
     else
     {
-        eZDebug::writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
+        $debug->writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
                                "Looked for directory '" . $modulePath . "'\n" .
                                "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
     }
@@ -523,7 +530,7 @@ if ( !$useCronjob )
     function eZSessionBasketDestroy( &$db, $key, $escapedKey )
     {
         include_once( 'kernel/classes/ezbasket.php' );
-        $basket =& eZBasket::fetch( $key );
+        $basket = eZBasket::fetch( $key );
         if ( is_object( $basket ) )
             $basket->remove();
     }
@@ -573,14 +580,14 @@ while ( $moduleRunRequired )
             $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
             if ( $useWildcardTranslation )
             {
-                $translateResult =& eZURLAlias::translateByWildcard( $uri );
+                $translateResult = eZURLAlias::translateByWildcard( $uri );
             }
         }
 
         // Check if the URL has moved
-        if ( get_class( $translateResult ) == 'ezurlalias' )
+        if ( strtolower( get_class( $translateResult ) ) == 'ezurlalias' )
         {
-            $objectHasMovedURI =& $translateResult->attribute( 'source_url' );
+            $objectHasMovedURI = $translateResult->attribute( 'source_url' );
             $objectHasMovedError = true;
         }
         else if ( is_string( $translateResult ) )
@@ -611,7 +618,7 @@ while ( $moduleRunRequired )
     }
 
     include_once( "lib/ezutils/classes/ezhttptool.php" );
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     $displayMissingModule = false;
     $oldURI = $uri;
@@ -635,10 +642,10 @@ while ( $moduleRunRequired )
 
     if ( !$displayMissingModule and
          $moduleCheck['result'] and
-         get_class( $module ) == "ezmodule" )
+         strtolower( get_class( $module ) ) == "ezmodule" )
     {
         // Run the module/function
-        eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
+        $debug->addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
 
         $moduleAccessAllowed = true;
         $omitPolicyCheck = true;
@@ -658,7 +665,7 @@ while ( $moduleRunRequired )
         {
             if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
             {
-                $currentUser =& eZUser::currentUser();
+                $currentUser = eZUser::currentUser();
 
                 $availableViewsInModule = $module->attribute( 'views' );
                 $runningFunctions = false;
@@ -672,7 +679,7 @@ while ( $moduleRunRequired )
                     $policyChecked = false;
                     foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                     {
-                        $policy =& $siteAccessResult['policies'][$key];
+                        $policy = $siteAccessResult['policies'][$key];
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
@@ -712,8 +719,8 @@ while ( $moduleRunRequired )
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
                     $moduleName = $module->attribute( 'name' );
-                    $params['Limitation'] =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list'][$moduleName][$functionName] =& $params['Limitation'];
+                    $params['Limitation'] = $accessResult['policies'];
+                    $GLOBALS['ezpolicylimitation_list'][$moduleName][$functionName] = $params['Limitation'];
                 }
                 if ( $accessResult['accessWord'] == 'no' )
                 {
@@ -729,9 +736,9 @@ while ( $moduleRunRequired )
                 if ( $requireUserLogin )
                 {
                     $module = eZModule::exists( 'user' );
-                    if ( get_class( $module ) == "ezmodule" )
+                    if ( strtolower( get_class( $module ) ) == "ezmodule" )
                     {
-                        $moduleResult =& $module->run( 'login', array(),
+                        $moduleResult = $module->run( 'login', array(),
                                                        array( 'SiteAccessAllowed' => false,
                                                               'SiteAccessName' => $access['name'] ) );
                         $runModuleView = false;
@@ -740,13 +747,13 @@ while ( $moduleRunRequired )
             }
         }
 
-        $GLOBALS['eZRequestedModule'] =& $module;
+        $GLOBALS['eZRequestedModule'] = $module;
 
         if ( $runModuleView )
         {
             if ( $objectHasMovedError == true )
             {
-                $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MOVED, 'kernel', array( 'new_location' => $objectHasMovedURI ) );
+                $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MOVED, 'kernel', array( 'new_location' => $objectHasMovedURI ) );
             }
             else if ( !$moduleAccessAllowed )
             {
@@ -757,9 +764,9 @@ while ( $moduleRunRequired )
                 }
 
                 if ( isset( $accessList ) )
-                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
+                    $moduleResult = $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $accessList ) );
                 else
-                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+                    $moduleResult = $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
                 if ( isset( $defaultNavigationPart ) )
                 {
@@ -778,31 +785,31 @@ while ( $moduleRunRequired )
                 include_once( 'kernel/classes/ezsslzone.php' );
                 eZSSLZone::checkModuleView( $module->attribute( 'name' ), $function_name );
 
-                $moduleResult =& $module->run( $function_name, $params, false, $userParameters );
+                $moduleResult = $module->run( $function_name, $params, false, $userParameters );
 
                 if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and
                      $moduleResult == null )
-                    $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
+                    $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MODULE_VIEW_NOT_FOUND, 'kernel', array( 'module' => $module_name,
                                                                                                                    'view' => $function_name ) );
             }
         }
     }
     else if ( $moduleCheck['result'] )
     {
-        eZDebug::writeError( "Undefined module: $module_name", "index" );
+        $debug->writeError( "Undefined module: $module_name", "index" );
         $module = new eZModule( "", "", $module_name );
-        $GLOBALS['eZRequestedModule'] =& $module;
-        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $module_name ) );
+        $GLOBALS['eZRequestedModule'] = $module;
+        $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $module_name ) );
     }
     else
     {
         if ( $moduleCheck['view_checked'] )
-            eZDebug::writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
+            $debug->writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
         else
-            eZDebug::writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
+            $debug->writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
         $module = new eZModule( "", "", $moduleCheck['module'] );
-        $GLOBALS['eZRequestedModule'] =& $module;
-        $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
+        $GLOBALS['eZRequestedModule'] = $module;
+        $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
     }
     $moduleRunRequired = false;
     if ( $module->exitStatus() == EZ_MODULE_STATUS_RERUN )
@@ -813,26 +820,26 @@ while ( $moduleRunRequired )
             $moduleRunRequired = true;
         }
         else
-            eZDebug::writeError( 'No rerun URI specified, cannot continue', 'index.php' );
+            $debug->writeError( 'No rerun URI specified, cannot continue', 'index.php' );
     }
 
     if ( is_array( $moduleResult ) )
     {
         if ( isset( $moduleResult["pagelayout"] ) )
         {
-            $show_page_layout =& $moduleResult["pagelayout"];
+            $show_page_layout = $moduleResult["pagelayout"];
             $GLOBALS['eZCustomPageLayout'] = $moduleResult["pagelayout"];
         }
         if ( isset( $moduleResult["external_css"] ) )
-            $use_external_css =& $moduleResult["external_css"];
+            $use_external_css = $moduleResult["external_css"];
     }
 }
 
 if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 {
     $GLOBALS['eZRedirection'] = true;
-    $ini =& eZINI::instance();
-    $uri =& eZURI::instance( eZSys::requestURI() );
+    $ini = eZINI::instance();
+    $uri = eZURI::instance( eZSys::requestURI() );
 
     list( $redirUri, $debugByIP, $debugIPList ) =
         $ini->variableMulti( "DebugSettings", array( 'DebugRedirection', 'DebugByIP', 'DebugIPList' ) );
@@ -899,7 +906,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $automatic_redir = true;
     }
 
-    $redirectURI =& eZSys::indexDir();
+    $redirectURI = eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
@@ -983,7 +990,8 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $tpl->setVariable( 'redirect_uri', $redirectURI );
         $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
 
-        eZDebug::addTimingPoint( "End" );
+        $debug = eZDebug::instance();
+        $debug->addTimingPoint( "End" );
 
         eZDisplayResult( $templateResult );
     }
@@ -1003,7 +1011,7 @@ if ( is_object( $db ) and $db->isConnected() and
     $lastAccessedURI = "";
     $lastAccessedViewURI = "";
 
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     // Fetched stored session variables
     if ( $http->hasSessionVariable( "LastAccessesURI" ) )
@@ -1030,10 +1038,10 @@ if ( is_object( $db ) and $db->isConnected() and
 }
 
 
-eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
+$debug->addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
 if ( !is_array( $moduleResult ) )
 {
-    eZDebug::writeError( 'Module did not return proper result: ' . $module->attribute( 'name' ), 'index.php' );
+    $debug->writeError( 'Module did not return proper result: ' . $module->attribute( 'name' ), 'index.php' );
     $moduleResult = array();
     $moduleResult['content'] = false;
 }
@@ -1046,11 +1054,11 @@ $moduleResult['ui_component'] = $module->uiComponentName();
 
 $templateResult = null;
 
-eZDebug::setUseExternalCSS( $use_external_css );
+$debug->setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
     include_once( "kernel/common/template.php" );
-    $tpl =& templateInit();
+    $tpl = templateInit();
     if ( $tpl->hasVariable( 'node' ) )
         $tpl->unsetVariable( 'node' );
 
@@ -1130,7 +1138,7 @@ if ( $show_page_layout )
         {
             // include user class
             if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
-                $currentUser =& eZUser::currentUser();
+                $currentUser = eZUser::currentUser();
 
             $tpl->setVariable( "current_user", $currentUser );
             $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
@@ -1142,7 +1150,7 @@ if ( $show_page_layout )
         }
 
 //         include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-//         $execStack =& eZExecutionStack::instance();
+//         $execStack = eZExecutionStack::instance();
 //         $tpl->setVariable( "execution_entries", $execStack->entries() );
 
         $tpl->setVariable( "access_type", $access );
@@ -1190,16 +1198,16 @@ if ( $show_page_layout )
         $tpl->setVariable( 'ui_context', $moduleResult['ui_context'] );
         $tpl->setVariable( 'ui_component', $moduleResult['ui_component'] );
 
-        $templateResult =& $tpl->fetch( $resource . $show_page_layout );
+        $templateResult = $tpl->fetch( $resource . $show_page_layout );
     }
 }
 else
 {
-    $templateResult =& $moduleResult['content'];
+    $templateResult = $moduleResult['content'];
 }
 
 
-eZDebug::addTimingPoint( "End" );
+$debug->addTimingPoint( "End" );
 
 ob_end_flush();
 

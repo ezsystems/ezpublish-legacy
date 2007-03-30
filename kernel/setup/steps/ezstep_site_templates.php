@@ -56,7 +56,7 @@ class eZStepSiteTemplates extends eZStepInstaller
     function processPostData()
     {
         // set template and template thumbnail
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
@@ -104,10 +104,10 @@ class eZStepSiteTemplates extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         // Get site templates from setup.ini
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         $thumbnailBase = $config->variable( 'SiteTemplates', 'ThumbnailBase' );
         $thumbnailExtension = $config->variable( 'SiteTemplates', 'ThumbnailExtension' );
 
@@ -142,7 +142,7 @@ class eZStepSiteTemplates extends eZStepInstaller
 
     }
 
-    var $Error = 0;
+    public $Error = 0;
 }
 
 ?>

@@ -44,7 +44,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 function checkNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
@@ -124,7 +124,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                     if ( $setMainNode )
                         $isMain = 1;
                     $setMainNode = false;
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
                     $version->assignToNode( $nodeID, $isMain );
                     $db->commit();
@@ -136,7 +136,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
 function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
@@ -214,7 +214,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 
                         $realNode = eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
 
-                        $db =& eZDB::instance();
+                        $db = eZDB::instance();
                         $db->begin();
                         // No longer remove then add assignment, instead change the existing one
                         if ( is_null( $realNode ) )
@@ -248,7 +248,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 
 function storeNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
@@ -310,7 +310,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     if ( $http->hasPostVariable( 'SetRemoteIDOrderMap' ) )
         $remoteIDOrderMap = $http->postVariable( 'SetRemoteIDOrderMap' );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( count( $setPlacementNodeIDArray ) > 0 )
     {
@@ -405,7 +405,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         }
     }
 
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
 
     if ( $module->isCurrentAction( 'BrowseForNodes' ) ||
          $module->isCurrentAction( 'BrowseForPrimaryNodes' ) )
@@ -488,7 +488,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
     {
         $nodeID = $http->postVariable( 'RemoveNodeID' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $version->removeAssignment( $nodeID );
         $db->commit();
@@ -521,7 +521,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     }
                     else
                     {
-                        $db =& eZDB::instance();
+                        $db = eZDB::instance();
                         $db->begin();
                         $version->removeAssignment( $nodeID );
                         $db->commit();
@@ -543,7 +543,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
                     }
                 }
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 $version->removeAssignment( $nodeID );
                 $db->commit();
@@ -604,7 +604,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             {
                 // Just remove all the selected locations.
                 $mainNodeChanged = false;
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 foreach ( $assignments as $assignment )
                 {
@@ -746,7 +746,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
     {

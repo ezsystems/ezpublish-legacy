@@ -58,13 +58,13 @@ class eZINIAddonPackageHandler extends eZPackageHandler
      \param installParameters - optional value
             array( 'site_access_map' => array( <package site access> => <install site access> ) )
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      $content, $installParameters,
                       &$installData )
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $siteAccess = $content->attributeValue( 'site-access' );
         if ( isset( $installParameters['site_access_map'] ) &&

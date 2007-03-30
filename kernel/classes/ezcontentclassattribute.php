@@ -52,7 +52,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -167,34 +167,9 @@ class eZContentClassAttribute extends eZPersistentObject
                       'name' => 'ezcontentclass_attribute' );
     }
 
-    function clone()
+    function __clone()
     {
-        $row = array(
-            'id' => null,
-            'version' => $this->attribute( 'version' ),
-            'contentclass_id' => $this->attribute( 'contentclass_id' ),
-            'identifier' => $this->attribute( 'identifier' ),
-            'serialized_name_list' => $this->attribute( 'serialized_name_list' ),
-            'is_searchable' => $this->attribute( 'is_searchable' ),
-            'is_required' => $this->attribute( 'is_required' ),
-            'can_translate' => $this->attribute( 'can_translate' ),
-            'is_information_collector' => $this->attribute( 'is_information_collector' ),
-            'data_type_string' => $this->attribute( 'data_type_string' ),
-            'placement' => $this->attribute( 'placement' ),
-            'data_int1' => $this->attribute( 'data_int1' ),
-            'data_int2' => $this->attribute( 'data_int2' ),
-            'data_int3' => $this->attribute( 'data_int3' ),
-            'data_int4' => $this->attribute( 'data_int4' ),
-            'data_float1' => $this->attribute( 'data_float1' ),
-            'data_float2' => $this->attribute( 'data_float2' ),
-            'data_float3' => $this->attribute( 'data_float3' ),
-            'data_float4' => $this->attribute( 'data_float4' ),
-            'data_text1' => $this->attribute( 'data_text1' ),
-            'data_text2' => $this->attribute( 'data_text2' ),
-            'data_text3' => $this->attribute( 'data_text3' ),
-            'data_text4' => $this->attribute( 'data_text4' ),
-            'data_text5' => $this->attribute( 'data_text5' ) );
-        return new eZContentClassAttribute( $row );
+        unset( $this->ID );
     }
 
     /*!
@@ -216,7 +191,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
      \return 'eZContentClassAttribute' object.
     */
-    function create( $class_id, $data_type_string, $optionalValues = array(), $languageLocale = false )
+    static function create( $class_id, $data_type_string, $optionalValues = array(), $languageLocale = false )
     {
         $nameList = new eZContentClassAttributeNameList();
         if ( isset( $optionalValues['serialized_name_list'] ) )
@@ -294,7 +269,7 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         $dataType = $this->dataType();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $dataType->preStoreDefinedClassAttribute( $this );
 
@@ -320,7 +295,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $version = $this->Version;
         if ( $dataType->isClassAttributeRemovable( $this ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $version );
             eZPersistentObject::remove();
@@ -332,7 +307,7 @@ class eZContentClassAttribute extends eZPersistentObject
         }
     }
 
-    function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
+    static function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
         if ( $field_filters === null and $asObject and
@@ -351,7 +326,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $object;
     }
 
-    function &fetchList( $asObject = true, $parameters = array() )
+    static function &fetchList( $asObject = true, $parameters = array() )
     {
         $parameters = array_merge( array( 'data_type' => false,
                                           'version' => false ),
@@ -391,7 +366,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
-    function &fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
+    static function &fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
     {
         $objects = null;
         if ( $asObject )
@@ -419,7 +394,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
-    function &fetchFilteredList( $cond, $asObject = true )
+    static function &fetchFilteredList( $cond, $asObject = true )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                            null, $cond, null, null,
@@ -531,18 +506,18 @@ class eZContentClassAttribute extends eZPersistentObject
         return $this->Module;
     }
 
-    function cachedInfo()
+    static function cachedInfo()
     {
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 
         $info = array();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $dbName = $db->DB;
 
         $cacheDir = eZSys::cacheDirectory();
         $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php", '', array( 'clustering' => 'sortkey' ) );
-        $handler =& eZExpiryHandler::instance();
+        $handler = eZExpiryHandler::instance();
         $expiryTime = 0;
 
         if ( $handler->hasTimestamp( 'content-view-cache' ) )
@@ -596,7 +571,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      \static
     */
-    function sortKeyTypeByID( $classAttributeID )
+    static function sortKeyTypeByID( $classAttributeID )
     {
         $sortKeyType = false;
 
@@ -613,7 +588,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      \static
     */
-    function dataTypeByID( $classAttributeID )
+    static function dataTypeByID( $classAttributeID )
     {
         $dataTypeString = false;
         $info = eZContentClassAttribute::cachedInfo();
@@ -637,7 +612,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      \static
     */
-    function nameFromSerializedString( $serailizedNameList, $languageLocale = false )
+    static function nameFromSerializedString( $serailizedNameList, $languageLocale = false )
     {
         return eZContentClassAttributeNameList::nameFromSerializedString( $serailizedNameList, $languageLocale );
     }
@@ -679,23 +654,23 @@ class eZContentClassAttribute extends eZPersistentObject
 
     /// \privatesection
     /// Contains the content for this attribute
-    var $Content;
+    public $Content;
     /// Contains information on how to display the current attribute in various viewmodes
-    var $DisplayInfo;
-    var $ID;
-    var $Version;
-    var $ContentClassID;
-    var $Identifier;
+    public $DisplayInfo;
+    public $ID;
+    public $Version;
+    public $ContentClassID;
+    public $Identifier;
     // serialized array of translated names
-    var $SerializedNameList;
+    public $SerializedNameList;
     // unserialized attribute names
-    var $NameList;
-    var $DataTypeString;
-    var $Position;
-    var $IsSearchable;
-    var $IsRequired;
-    var $IsInformationCollector;
-    var $Module;
+    public $NameList;
+    public $DataTypeString;
+    public $Position;
+    public $IsSearchable;
+    public $IsRequired;
+    public $IsInformationCollector;
+    public $Module;
 }
 
 ?>

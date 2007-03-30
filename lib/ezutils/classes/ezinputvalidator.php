@@ -126,7 +126,7 @@ class eZInputValidator
      Tries to fix the text \a $text which was previously marked as EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE
      so that it can be seen as EZ_INPUT_VALIDATOR_STATE_ACCEPTED.
     */
-    function fixup( &$text )
+    function fixup( $text )
     {
     }
 }

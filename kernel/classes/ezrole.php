@@ -77,7 +77,7 @@ class eZRole extends eZPersistentObject
             $this->UserRoleID = $row['user_role_id'];
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -143,7 +143,7 @@ class eZRole extends eZPersistentObject
     */
     function copy()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $newRole = eZRole::createNew();
@@ -161,7 +161,7 @@ class eZRole extends eZPersistentObject
     */
     function createTemporaryVersion()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $newRole = eZRole::createNew();
@@ -180,7 +180,7 @@ class eZRole extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNew()
+    static function createNew()
     {
         $role = new eZRole( array() );
         $role->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'New role' ) );
@@ -194,7 +194,7 @@ class eZRole extends eZPersistentObject
      Creates a new role with the name \a $roleName and version \a $version and returns it.
      \note The role is not stored.
     */
-    function create( $roleName, $version = 0 )
+    static function create( $roleName, $version = 0 )
     {
         $row = array( 'id' => null,
                       'name' => $roleName,
@@ -227,7 +227,7 @@ class eZRole extends eZPersistentObject
         include_once( 'kernel/classes/ezpolicy.php' );
         $policy = eZPolicy::create( $this->ID, $module, $function );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $policy->store();
         if ( count( $limitations ) > 0 )
@@ -255,7 +255,7 @@ class eZRole extends eZPersistentObject
     */
     function copyPolicies( $roleID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $this->attribute( 'policies' ) as $policy )
         {
@@ -277,7 +277,7 @@ class eZRole extends eZPersistentObject
         $this->setAttribute( 'name', $temporaryVersion->attribute( 'name') );
         $this->setAttribute( 'is_new', 0 );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $this->store();
 
@@ -291,10 +291,10 @@ class eZRole extends eZPersistentObject
 
         // Expire role cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
-        $handler->setTimestamp( 'user-info-cache', mktime() );
-        $handler->setTimestamp( 'user-class-cache', mktime() );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-access-cache', time() );
+        $handler->setTimestamp( 'user-info-cache', time() );
+        $handler->setTimestamp( 'user-class-cache', time() );
         $handler->store();
     }
 
@@ -304,11 +304,11 @@ class eZRole extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeTemporary()
+    static function removeTemporary()
     {
         $temporaryRoles = eZRole::fetchList( true );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $temporaryRoles as $role )
         {
@@ -340,7 +340,7 @@ class eZRole extends eZPersistentObject
             return 0;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $role->attribute( 'policies' ) as $policy )
         {
@@ -359,7 +359,7 @@ class eZRole extends eZPersistentObject
     */
     function removePolicies( $fromDB = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $fromDB )
         {
@@ -385,7 +385,7 @@ class eZRole extends eZPersistentObject
         $policyList =& $this->policyList();
         if ( is_array( $policyList ) && count( $policyList ) > 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             foreach( array_keys( $policyList ) as $policyKey )
@@ -414,10 +414,10 @@ class eZRole extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupByNode( $node )
+    static function cleanupByNode( $node )
     {
         // Clean up role assignments with limitations related to this object
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $pathString = $node->attribute( 'path_string' );
         $nodeID = $node->attribute( 'node_id' );
@@ -492,9 +492,9 @@ class eZRole extends eZPersistentObject
 
      \param recursive, default false
     */
-    function fetchByUser( $idArray, $recursive = false )
+    static function fetchByUser( $idArray, $recursive = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( !$recursive )
         {
@@ -549,9 +549,9 @@ class eZRole extends eZPersistentObject
     /*!
       Expires all roles, policies and limitations cache.
     */
-    function expireCache()
+    static function expireCache()
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         $http->removeSessionVariable( 'UserPolicies' );
         $http->removeSessionVariable( 'UserLimitations' );
@@ -562,8 +562,8 @@ class eZRole extends eZPersistentObject
 
         // Expire role cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
     }
 
@@ -577,38 +577,35 @@ class eZRole extends eZPersistentObject
 
       Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
     */
-    function &accessArrayByUserID( $userIDArray )
+    static function &accessArrayByUserID( $userIDArray )
     {
-        if ( isset( $this->AccessArray ) )
-            return $this->AccessArray;
-
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
 
         $accessArray = array();
 
         if ( $enableCaching == 'true' )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
 
             if ( $http->hasSessionVariable( 'AccessArray' ) )
             {
                 $expiredTimeStamp = 0;
-                $handler =& eZExpiryHandler::instance();
+                $handler = eZExpiryHandler::instance();
                 if ( $handler->hasTimestamp( 'user-access-cache' ) )
                 {
                     $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
                 }
                 else
                 {
-                    $handler->setTimestamp( 'user-access-cache', mktime() );
+                    $handler->setTimestamp( 'user-access-cache', time() );
                 }
 
                 $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
 
                 if ( $userAccessTimestamp > $expiredTimeStamp )
                 {
-                    $this->AccessArray =& $http->sessionVariable( 'AccessArray' );
+                    $this->AccessArray = $http->sessionVariable( 'AccessArray' );
                     return $this->AccessArray;
                 }
             }
@@ -652,14 +649,12 @@ class eZRole extends eZPersistentObject
 
         if ( $enableCaching == 'true' )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $http->setSessionVariable( 'AccessArray', $accessArray );
-            $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
+            $http->setSessionVariable( 'AccessArrayTimestamp', time() );
         }
 
-        $this->AccessArray =& $accessArray;
-
-        return $this->AccessArray;
+        return $accessArray;
     }
 
     /*!
@@ -705,9 +700,9 @@ class eZRole extends eZPersistentObject
     /*!
      Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
     */
-    function &fetchIDListByUser( $idArray )
+    static function &fetchIDListByUser( $idArray )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
         $query = "SELECT DISTINCT ezrole.id
@@ -736,7 +731,7 @@ class eZRole extends eZPersistentObject
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $limitIdent = $db->escapeString( $limitIdent );
         $limitValue = $db->escapeString( $limitValue );
         $userID =(int) $userID;
@@ -795,7 +790,7 @@ class eZRole extends eZPersistentObject
     */
     function &fetchUserID()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $query = "SELECT contentobject_id FROM  ezuser_role WHERE role_id='$this->ID'";
 
@@ -816,7 +811,7 @@ class eZRole extends eZPersistentObject
     */
     function removeUserAssignment( $userID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $userID =(int) $userID;
         $query = "DELETE FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID'";
 
@@ -834,7 +829,7 @@ class eZRole extends eZPersistentObject
     function removeUserAssignmentByID( $id )
     {
         // Remove the assignment.
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $id =(int) $id;
         $query = "DELETE FROM ezuser_role WHERE id='$id'";
         $db->query( $query );
@@ -845,7 +840,7 @@ class eZRole extends eZPersistentObject
     */
     function &fetchUserByRole( )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $query = "SELECT
                      ezuser_role.contentobject_id as user_id,
@@ -872,9 +867,9 @@ class eZRole extends eZPersistentObject
         return $userRoles;
     }
 
-    function &fetchRolesByLimitation( $limit_identifier, $limit_value )
+    static function &fetchRolesByLimitation( $limit_identifier, $limit_value )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $limit_identifier = $db->escapeString( $limit_identifier );
         $limit_value = $db->escapeString( $limit_value );
         $query = "SELECT DISTINCT
@@ -903,7 +898,7 @@ class eZRole extends eZPersistentObject
      \param $version Which version to fetch, 0 is the published one. Temporary versions get
       the id of the role.
     */
-    function fetch( $roleID, $version = 0 )
+    static function fetch( $roleID, $version = 0 )
     {
         if ( $version != 0 )
         {
@@ -918,14 +913,14 @@ class eZRole extends eZPersistentObject
      Fetches the role identified by the role name \a $roleName and returns it.
      \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
     */
-    function fetchByName( $roleName, $version = 0 )
+    static function fetchByName( $roleName, $version = 0 )
     {
         return eZPersistentObject::fetchObject( eZRole::definition(),
                                                 null, array( 'name' => $roleName,
                                                              'version' => $version ), true );
     }
 
-    function fetchList( $tempVersions = false )
+    static function fetchList( $tempVersions = false )
     {
         if ( !$tempVersions )
         {
@@ -941,7 +936,7 @@ class eZRole extends eZPersistentObject
         }
     }
 
-    function fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
+    static function fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
     {
 
         if ( $ignoreTemp && $ignoreNew )
@@ -966,9 +961,9 @@ class eZRole extends eZPersistentObject
      \static
      \return the number of roles in the database.
     */
-    function roleCount()
+    static function roleCount()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezrole WHERE version=0" );
         return $countArray[0]['count'];
@@ -992,18 +987,18 @@ class eZRole extends eZPersistentObject
 
 
     /// \privatesection
-    var $ID;
-    var $Name;
-    var $Modules;
-    var $Functions;
-    var $LimitValue;
-    var $LimitIdentifier;
-    var $UserRoleID;
-    var $PolicyArray;
-    var $Sets;
-    var $Policies;
-    var $AccessArray;
-    var $CachePolicies = true;
+    public $ID;
+    public $Name;
+    public $Modules;
+    public $Functions;
+    public $LimitValue;
+    public $LimitIdentifier;
+    public $UserRoleID;
+    public $PolicyArray;
+    public $Sets;
+    public $Policies;
+    public $AccessArray;
+    public $CachePolicies = true;
 }
 
 ?>

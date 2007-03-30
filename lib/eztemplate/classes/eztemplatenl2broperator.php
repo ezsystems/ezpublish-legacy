@@ -105,7 +105,7 @@ class eZTemplateNl2BrOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

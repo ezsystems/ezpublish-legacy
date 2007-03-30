@@ -31,7 +31,7 @@ include_once( 'kernel/classes/ezinformationcollection.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params['Module'];
 $objectID = $Params['ObjectID'];
 $offset = $Params['Offset'];
@@ -99,7 +99,7 @@ $object = false;
 
 if( is_numeric( $objectID ) )
 {
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
 }
 
 if( !$object )

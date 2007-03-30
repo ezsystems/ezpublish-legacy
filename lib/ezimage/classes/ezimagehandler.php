@@ -136,7 +136,7 @@ class eZImageHandler
      Parses the filter text \a $filterText which is taken from an INI file
      and returns a filter definition structure for it.
     */
-    function createFilterDefinitionFromINI( $filterText )
+    static function createFilterDefinitionFromINI( $filterText )
     {
         $equalPosition = strpos( $filterText, '=' );
         $filterData = false;
@@ -155,7 +155,7 @@ class eZImageHandler
      Converts a filter definition and filter data into a text string.
      This string is usually the commandline parameter.
     */
-    function convertFilterToText( $filterDefinition, $filterData )
+    static function convertFilterToText( $filterDefinition, $filterData )
     {
         $replaceList = array();
         if ( $filterData['data'] )
@@ -195,7 +195,7 @@ class eZImageHandler
      - EZ_IMAGE_HANDLER_PREPEND_TAG_REPLACE_SUFFIX - Prepends the tag name and replaces the suffix of the url
      The new url is placed in the \a $destinationMimeData.
     */
-    function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
+    static function rewriteURL( $originalMimeData, &$destinationMimeData, $rewriteType, $aliasName = false )
     {
         $extraText = false;
         if ( $aliasName and
@@ -268,11 +268,11 @@ class eZImageHandler
      defines in image.ini. It uses the group FileSettings and variable ImagePermissions.
      \return \c true on success, \c false otherwise
     */
-    function changeFilePermissions( $filepath )
+    static function changeFilePermissions( $filepath )
     {
         if ( !file_exists( $filepath ) )
             return false;
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $perm = $ini->variable( "FileSettings", "ImagePermissions" );
         $success = false;
         $oldmask = umask( 0 );
@@ -289,7 +289,7 @@ class eZImageHandler
      \static
      Creats a regexp string out of the wildcard \a $wilcard and returns it.
     */
-    function wildcardToRegexp( $wildcard, $separatorCharacter = false )
+    static function wildcardToRegexp( $wildcard, $separatorCharacter = false )
     {
         if ( !$separatorCharacter )
             $separatorCharacter = '#';
@@ -375,7 +375,14 @@ class eZImageHandler
     */
     function outputMIMEType( &$manager, $currentMimeData, $wantedMimeData, $supportedFormatsOriginal, $aliasName = false )
     {
-        $conversionRules = array_merge( $manager->conversionRules(), $this->conversionRules() );
+        if ( is_array( $this->conversionRules() ) )
+        {
+            $conversionRules = array_merge( $manager->conversionRules(), $this->conversionRules() );
+        }
+        else
+        {
+            $conversionRules = $manager->conversionRules();
+        }
         $mimeData = false;
         $mimeType = false;
         if ( !$this->isInputMIMETypeSupported( $currentMimeData ) )
@@ -505,14 +512,14 @@ class eZImageFactory
      Creates a new image handler from the INI group \a $iniGroup and optionally INI file \a $iniFilename.
      \note The default implementation returns \c null.
     */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function &produceFromINI( $iniGroup, $iniFilename = false )
     {
         $imageHandler = null;
         return $imageHandler;
     }
 
     /// \privatesection
-    var $Name;
+    public $Name;
 }
 
 ?>

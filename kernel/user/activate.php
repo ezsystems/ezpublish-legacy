@@ -33,7 +33,7 @@ include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
 $Module =& $Params['Module'];
-//$http =& eZHTTPTool::instance();
+//$http = eZHTTPTool::instance();
 $hash =& $Params['Hash'];
 $mainNodeID =& $Params['MainNodeID'];
 
@@ -88,12 +88,12 @@ $tpl->setVariable( 'already_active', $alreadyActive );
 $tpl->setVariable( 'account_avtivated', $accountActivated );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:user/activate.tpl' );
+$Result['content'] = $tpl->fetch( 'design:user/activate.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Activate' ),
                                 'url' => false ) );
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
     $Result['pagelayout'] = 'loginpagelayout.tpl';
 

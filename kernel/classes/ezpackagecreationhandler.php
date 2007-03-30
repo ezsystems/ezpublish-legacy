@@ -317,7 +317,7 @@ class eZPackageCreationHandler
         $allowedCreators = false;
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $currentUser =& eZUser::currentUser();
+        $currentUser = eZUser::currentUser();
         $accessResult = $currentUser->hasAccessTo( 'package', 'create' );
         $limitationList = array();
         $canCreate = false;
@@ -349,15 +349,15 @@ class eZPackageCreationHandler
         if ( !isset( $creators ) )
         {
             $creators = array();
-            $ini =& eZINI::instance( 'package.ini' );
+            $ini = eZINI::instance( 'package.ini' );
             $list = $ini->variable( 'CreationSettings', 'HandlerList' );
             foreach ( $list as $name )
             {
                 if ( is_array( $allowedCreators ) and
                      !in_array( $name, $allowedCreators ) )
                      continue;
-                $handler =& eZPackageCreationHandler::instance( $name );
-                $creators[] =& $handler;
+                $handler = eZPackageCreationHandler::instance( $name );
+                $creators[] = $handler;
             }
         }
         return $creators;
@@ -366,7 +366,7 @@ class eZPackageCreationHandler
     /*!
      \return the package creation handler object for the handler named \a $handlerName.
     */
-    function &instance( $handlerName )
+    static function instance( $handlerName )
     {
         $handlers =& $GLOBALS['eZPackageCreationHandlers'];
         if ( !isset( $handlers ) )
@@ -398,7 +398,7 @@ class eZPackageCreationHandler
                 }
                 else
                 {
-                    $handler =& new $handlerClassName( $handlerName );
+                    $handler = new $handlerClassName( $handlerName );
                     $handlers[$result['type']] =& $handler;
                 }
             }
@@ -515,7 +515,7 @@ class eZPackageCreationHandler
     */
     function packageType( &$package, &$persistentData )
     {
-        if ( get_class( $package ) == 'ezpackage' )
+        if ( strtolower( get_class( $package ) ) == 'ezpackage' )
         {
             return $package->attribute( 'type' );
         }
@@ -532,7 +532,7 @@ class eZPackageCreationHandler
     function createPackage( &$package, &$http, &$persistentData, &$cleanupFiles, $storePackage = true )
     {
         $createdPackage = false;
-        if ( get_class( $package ) != 'ezpackage' )
+        if ( strtolower( get_class( $package ) ) != 'ezpackage' )
         {
             $package = eZPackage::create( $persistentData['name'],
                                           array( 'summary' => $persistentData['summary'] ) );
@@ -660,7 +660,7 @@ class eZPackageCreationHandler
         else
             $host = $_SERVER['HTTP_HOST'];
         $persistentData['host'] = $host;
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userObject =& $user->attribute( 'contentobject' );
         $packager = false;
         if ( $userObject )
@@ -670,7 +670,7 @@ class eZPackageCreationHandler
 
         // Make sure the package name contains only valid characters
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
         $persistentData['name'] = $trans->transformByGroup( $persistentData['name'], 'urlalias' );
     }
 
@@ -733,7 +733,7 @@ class eZPackageCreationHandler
             {
                 // Make sure the package name contains only valid characters
                 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                $trans =& eZCharTransform::instance();
+                $trans = eZCharTransform::instance();
                 $validPackageName = $trans->transformByGroup( $packageName, 'urlalias' );
                 if ( strcmp( $validPackageName, $packageName ) != 0 )
                 {
@@ -771,7 +771,7 @@ class eZPackageCreationHandler
     */
     function initializePackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userObject =& $user->attribute( 'contentobject' );
         if ( $userObject )
             $changelogPerson = $userObject->attribute( 'name' );
@@ -780,7 +780,7 @@ class eZPackageCreationHandler
 
         $persistentData['changelog_person'] = $changelogPerson;
         $persistentData['changelog_email'] = $changelogEmail;
-        if ( get_class( $package ) != 'ezpackage' )
+        if ( strtolower( get_class( $package ) ) != 'ezpackage' )
         {
             $changelogText = $this->initialChangelogEntry( $package, $http, $step, $persistentData, $tpl );
         }
@@ -874,7 +874,7 @@ class eZPackageCreationHandler
     {
         $maintainerPerson = false;
         $maintainerEmail = false;
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
            $userObject =& $user->attribute( 'contentobject' );
         if ( $userObject )
             $maintainerPerson = $userObject->attribute( 'name' );
@@ -937,10 +937,10 @@ class eZPackageCreationHandler
         $roleList = eZPackage::fetchMaintainerRoleIDList( $this->packageType( $package, $persistentData ), true );
         if ( count( $roleList ) > 0 )
         {
-            if ( get_class( $package ) == 'ezpackage' )
+            if ( strtolower( get_class( $package ) ) == 'ezpackage' )
             {
                 $maintainerPerson = false;
-                $user =& eZUser::currentUser();
+                $user = eZUser::currentUser();
                    $userObject =& $user->attribute( 'contentobject' );
                 if ( $userObject )
                     $maintainerPerson = $userObject->attribute( 'name' );
@@ -977,7 +977,7 @@ class eZPackageCreationHandler
         if ( !eZHTTPFile::canFetch( 'PackageThumbnail' ) )
             return true;
 
-        $file =& eZHTTPFile::fetch( 'PackageThumbnail' );
+        $file = eZHTTPFile::fetch( 'PackageThumbnail' );
 
         $result = true;
         if ( $file )

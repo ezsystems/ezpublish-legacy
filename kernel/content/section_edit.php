@@ -43,7 +43,7 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
         // Check access
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $access = $user->hasAccessTo( 'section' );
         if ( !( $access['accessWord'] == 'yes' ) )
         {
@@ -51,9 +51,9 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
             return;
         }
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $selectedSectionID = $http->hasPostVariable( 'SelectedSectionId' ) ? (int) $http->postVariable( 'SelectedSectionId' ) : 1;

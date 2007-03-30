@@ -47,7 +47,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -116,11 +116,9 @@ class eZProductCollectionItem extends eZPersistentObject
     /*!
      Clones the collection item object and returns it. The ID of the clone is erased.
     */
-    function clone()
+    function __clone()
     {
-        $item = $this;
-        $item->setAttribute( 'id', null );
-        return $item;
+        $this->setAttribute( 'id', null );
     }
 
     /*!
@@ -133,7 +131,7 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function &copy( $collectionID )
     {
-        $item = $this->clone();
+        $item = clone $this;
         $item->setAttribute( 'productcollection_id', $collectionID );
         $item->store();
         $oldItemOptionList =& $this->optionList();
@@ -188,7 +186,7 @@ class eZProductCollectionItem extends eZPersistentObject
                 $retValue = null;
                 return $retValue;
             }
-            $this->ContentObject =& eZContentObject::fetch( $this->ContentObjectID );
+            $this->ContentObject = eZContentObject::fetch( $this->ContentObjectID );
         }
         return $this->ContentObject;
     }
@@ -207,7 +205,7 @@ class eZProductCollectionItem extends eZPersistentObject
     {
         $itemOptionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach( array_keys( $itemOptionList ) as $key )
         {
@@ -233,7 +231,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $optionsPrice = 0.0;
         if ( count( $optionList ) > 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach( $optionList as $option )
             {
@@ -318,7 +316,7 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function cleanupList( $productCollectionIDList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
@@ -338,7 +336,7 @@ class eZProductCollectionItem extends eZPersistentObject
     }
 
     /// Stores the content object
-    var $ContentObject = null;
+    public $ContentObject = null;
 }
 
 ?>

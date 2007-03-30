@@ -160,7 +160,7 @@ class eZStepData
 
     /// \privatesection
     /// Array contain all steps in the setup wizard
-    var $StepTable = array( array( 'file' => 'welcome',
+    public $StepTable = array( array( 'file' => 'welcome',
                                    'class' => 'Welcome' ),
                             array( 'file' => 'system_check',
                                    'class' => 'SystemCheck' ),

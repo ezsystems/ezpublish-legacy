@@ -140,12 +140,12 @@ class eZDiffContent
 
     /// \privatesection
     /// The set of detected changes
-    var $Changeset;
+    public $Changeset;
 
     /// Old Object
-    var $OldContent;
+    public $OldContent;
 
     /// New Object
-    var $NewContent;
+    public $NewContent;
 }
 ?>

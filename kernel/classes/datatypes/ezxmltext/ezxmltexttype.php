@@ -159,7 +159,7 @@ class eZXMLTextType extends eZDataType
     {
         /// Get object for input validation
         // To do: only validate, not save data
-        $xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
+        $xmlText = $this->objectAttributeContent( $contentObjectAttribute );
         $input =& $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );
 
@@ -184,7 +184,7 @@ class eZXMLTextType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         // To do: Data should be saved here.
-        /*$xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
+        /*$xmlText = $this->objectAttributeContent( $contentObjectAttribute );
         $input =& $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );*/
         return true;
@@ -248,7 +248,7 @@ class eZXMLTextType extends eZDataType
     */
     function &viewTemplateSuffix( &$contentobjectAttribute )
     {
-        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $content = $this->objectAttributeContent( $contentobjectAttribute );
         $outputHandler =& $content->attribute( 'output' );
         $suffix = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
         return $suffix;
@@ -259,7 +259,7 @@ class eZXMLTextType extends eZDataType
     */
     function &editTemplateSuffix( &$contentobjectAttribute )
     {
-        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $content = $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
         $suffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
         return $suffix;
@@ -270,7 +270,7 @@ class eZXMLTextType extends eZDataType
     */
     function &informationTemplateSuffix( &$contentobjectAttribute )
     {
-        $content =& $this->objectAttributeContent( $contentobjectAttribute );
+        $content = $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
         $suffix =& $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
         return $suffix;
@@ -281,7 +281,7 @@ class eZXMLTextType extends eZDataType
              If the XML format is older than the current one it will
              be upgraded to the current before being returned.
     */
-    function rawXMLText( &$contentObjectAttribute )
+    static function rawXMLText( $contentObjectAttribute )
     {
         $text = $contentObjectAttribute->attribute( 'data_text' );
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
@@ -289,7 +289,7 @@ class eZXMLTextType extends eZDataType
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
-            $codec =& eZTextCodec::instance( false, $charset );
+            $codec = eZTextCodec::instance( false, $charset );
             $text = $codec->convertString( $text );
             $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
         }
@@ -302,9 +302,9 @@ class eZXMLTextType extends eZDataType
              It will take of care of the necessary charset conversions
              for content storage.
     */
-    function domString( &$domDocument )
+    static function domString( &$domDocument )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
         if ( $xmlCharset == 'enabled' )
         {
@@ -322,7 +322,7 @@ class eZXMLTextType extends eZDataType
         }
         $domString = $domDocument->toString( $charset );
 
-        $eZXMLini =& eZINI::instance( 'ezxml.ini' );
+        $eZXMLini = eZINI::instance( 'ezxml.ini' );
         if ( $eZXMLini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
         {
             if ( $eZXMLini->variable( 'InputSettings', 'AllowNumericEntities' ) == 'true' )
@@ -337,7 +337,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltext.php' );
         $xmlText = new eZXMLText( eZXMLTextType::rawXMLText( $contentObjectAttribute ), $contentObjectAttribute );
@@ -352,7 +352,7 @@ class eZXMLTextType extends eZDataType
         $metaData = "";
 
         $xml = new eZXML();
-        $dom =& $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
+        $dom = $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
 
         if ( $dom )
         {
@@ -385,13 +385,13 @@ class eZXMLTextType extends eZDataType
     /*!
      Returns the text.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $value = null )
     {
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
         // parse xml
         include_once( 'lib/ezxml/classes/ezxml.php' );
         $xml = new eZXML();
-        $document =& $xml->domTree( $text );
+        $document = $xml->domTree( $text );
 
         // Get first text element of xml
         if ( !$document )
@@ -471,9 +471,9 @@ class eZXMLTextType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
-        $content =& $this->objectAttributeContent( $contentObjectAttribute );
+        $content = $this->objectAttributeContent( $contentObjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
         $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
@@ -489,7 +489,7 @@ class eZXMLTextType extends eZDataType
         $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $xml = new eZXML();
-        $doc =& $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $doc = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
 
         if ( $doc )
         {
@@ -579,7 +579,7 @@ class eZXMLTextType extends eZDataType
             include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
             $xml = new eZXML();
-            $domDocument =& $xml->domTree( $rootNode->toString( 0 ), array ( 'CharsetConversion' => false ) );
+            $domDocument = $xml->domTree( $rootNode->toString( 0 ), array ( 'CharsetConversion' => false ) );
 
             if ( $domDocument )
             {
@@ -619,7 +619,7 @@ class eZXMLTextType extends eZDataType
     {
         $xmlString = $objectAttribute->attribute( 'data_text' );
         $xml = new eZXML();
-        $doc =& $xml->domTree( $xmlString );
+        $doc = $xml->domTree( $xmlString );
 
         if ( !is_object( $doc ) )
             return false;
@@ -707,7 +707,7 @@ class eZXMLTextType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         /* First we remove the link between the keyword and the object
          * attribute to be removed */

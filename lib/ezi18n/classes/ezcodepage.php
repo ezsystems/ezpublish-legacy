@@ -61,7 +61,7 @@ class eZCodePage
     {
         $len = strlen( $str );
         $chars = '';
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
         for ( $i = 0; $i < $len; )
         {
             $charLen = 1;
@@ -249,7 +249,7 @@ class eZCodePage
 
     function strlenFromUTF8( &$str )
     {
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
         return $utf8_codec->strlen( $str );
     }
 
@@ -351,7 +351,7 @@ class eZCodePage
      \static
      Returns true if the codepage $charset_code exists.
     */
-    function exists( $charset_code )
+    static function exists( $charset_code )
     {
         $file = eZCodePage::fileName( $charset_code );
         return file_exists( $file );
@@ -361,7 +361,7 @@ class eZCodePage
      \static
      Returns the filename of the charset code \a $charset_code.
     */
-    function fileName( $charset_code )
+    static function fileName( $charset_code )
     {
         $charset_code = eZCharsetInfo::realCharsetCode( $charset_code );
         $file = "share/codepages/" . $charset_code;
@@ -534,6 +534,9 @@ $str
     */
     function load( $use_cache = true )
     {
+        // temporarely hide the cache display problem
+        // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
+        //$use_cache = false;
         $file = "share/codepages/" . $this->CharsetCode;
 //         eZDebug::writeDebug( "ezcodepage::load was called for $file..." );
 
@@ -569,6 +572,8 @@ $str
                 $min_char =& $this->MinCharValue;
                 $max_char =& $this->MaxCharValue;
                 $read_extra =& $this->ReadExtraMap;
+                /*$debug = eZDebug::instance();
+                $debug->writeDebug( 'loading cache from: ' . $cache, 'eZCodePage::load' );*/
                 include( $cache );
                 unset( $umap );
                 unset( $utf8map );
@@ -586,7 +591,7 @@ $str
             }
         }
 
-        $utf8_codec =& eZUTF8Codec::instance();
+        $utf8_codec = eZUTF8Codec::instance();
 
         $this->UnicodeMap = array();
         $this->UTF8Map = array();
@@ -732,10 +737,10 @@ $str
     /*!
      Returns the only instance of the codepage for $charset_code.
     */
-    function &instance( $charset_code, $use_cache = true )
+    static function instance( $charset_code, $use_cache = true )
     {
         $cp =& $GLOBALS["eZCodePage-$charset_code"];
-        if ( get_class( $cp ) != "ezcodepage" )
+        if ( strtolower( get_class( $cp ) ) != "ezcodepage" )
         {
             $cp = new eZCodePage( $charset_code, $use_cache );
         }
@@ -782,7 +787,7 @@ $str
     /*!
      \private
     */
-    function flushCacheObject()
+    static function flushCacheObject()
     {
 //         eZDebug::writeDebug("flushCacheObject is called... ","");
         if ( !isset( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) )
@@ -824,27 +829,27 @@ $str
 
     /// \privatesection
     /// The charset code which was requested, may differ from $CharsetCode
-    var $RequestedCharsetCode;
+    public $RequestedCharsetCode;
     /// The read charset code, may differ from $RequestedCharsetCode
-    var $CharsetCode;
+    public $CharsetCode;
     /// Encoding scheme for current charset, for instance utf-8, singlebyte, multibyte
-    var $CharsetEncodingScheme;
+    public $CharsetEncodingScheme;
     /// Maps normal codes to unicode
-    var $UnicodeMap;
+    public $UnicodeMap;
     /// Maps normal codes to utf8
-    var $UTF8Map;
+    public $UTF8Map;
     /// Maps unicode to normal codes
-    var $CodeMap;
+    public $CodeMap;
     /// Maps utf8 to normal codes
-    var $UTF8CodeMap;
+    public $UTF8CodeMap;
     /// The minimum key value for the mapping tables
-    var $MinCharValue;
+    public $MinCharValue;
     /// The maximum key value for the mapping tables
-    var $MaxCharValue;
+    public $MaxCharValue;
     /// Whether the codepage is valid or not
-    var $Valid;
+    public $Valid;
     /// The character to use when an alternative doesn't exist
-    var $SubstituteChar;
+    public $SubstituteChar;
 }
 
 // Checks if index.php or any other script has set any codepage permissions

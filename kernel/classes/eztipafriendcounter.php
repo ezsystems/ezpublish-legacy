@@ -44,7 +44,7 @@ class eZTipafriendCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
                                                              'datatype' => 'integer',
@@ -120,13 +120,13 @@ class eZTipafriendCounter extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM eztipafriend_counter" );
     }
 
     /// \privatesection
-    var $NodeID;
-    var $Count;
+    public $NodeID;
+    public $Count;
 }
 
 ?>

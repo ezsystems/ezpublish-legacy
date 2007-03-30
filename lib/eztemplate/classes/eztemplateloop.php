@@ -52,8 +52,8 @@ class eZTemplateLoopSequence
         }
     }
 
-    var $ArrayRef;
-    var $CurVal;
+    public $ArrayRef;
+    public $CurVal;
 }
 
 /*!
@@ -370,29 +370,29 @@ class eZTemplateLoop
     /// \privatesection
     ///
 
-    var $FunctionName;
-    var $FunctionParameters;
-    var $FunctionChildren;
-    var $FunctionPlacement;
+    public $FunctionName;
+    public $FunctionParameters;
+    public $FunctionChildren;
+    public $FunctionPlacement;
 
-    var $SkipDelimiter;
-    var $SkipSequenceIncrement;
-    var $delimiter;
+    public $SkipDelimiter;
+    public $SkipSequenceIncrement;
+    public $delimiter;
 
-    var $Tpl;
-    var $TextElements;
-    var $RootNamespace;
-    var $CurrentNamespace;
+    public $Tpl;
+    public $TextElements;
+    public $RootNamespace;
+    public $CurrentNamespace;
 
-    var $Initialized;
-    var $Sequence;
-    var $SequenceVarName;
+    public $Initialized;
+    public $Sequence;
+    public $SequenceVarName;
     /*!
      * Before we create a new loop variable, we check if it already exists.
      * If it doesn't, we store its name in this array, so that we know
      * which variables to destroy after the loop execution finishes.
      */
-    var $LoopVariablesNames;
+    public $LoopVariablesNames;
 }
 
 ?>

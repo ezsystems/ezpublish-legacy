@@ -72,7 +72,7 @@ if ( !isset( $FromLanguage ) or
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage, &$FromLanguage ) ) )
     return;
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -107,7 +107,7 @@ if ( $FromLanguage !== false )
     }
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $validation = array( 'processed' => false,
                      'attributes' => array(),
@@ -287,7 +287,7 @@ if ( $storingAllowed && $hasObjectInput)
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $version->store();
 //         print( "storing<br/>" );
@@ -300,7 +300,7 @@ if ( $storingAllowed && $hasObjectInput)
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
     $db->commit();
@@ -327,7 +327,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
 {
     $mainFound = false;
     $assignments =& $version->attribute( 'parent_nodes' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $assignments ) as $key )
     {
@@ -380,7 +380,7 @@ if ( $inputValidated == true )
 if ( isset( $Params['TemplateObject'] ) )
     $tpl =& $Params['TemplateObject'];
 
-if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
+if ( !isset( $tpl ) || strtolower( get_class( $tpl ) ) != 'eztemplate' )
     $tpl =& templateInit();
 
 $tpl->setVariable( 'validation', $validation );
@@ -389,7 +389,7 @@ $tpl->setVariable( 'validation_log', $validatedAttributes );
 $tpl->setVariable( 'invalid_node_assignment_list', $invalidNodeAssignmentList );
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $assignments =& $version->attribute( 'parent_nodes' );
 $mainAssignment = false;

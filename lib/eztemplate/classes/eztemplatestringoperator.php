@@ -68,11 +68,11 @@ class eZTemplateStringOperator
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
                                                         ),
                                    'chr' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( "unicode", false );' . "\n" .
+                                                   'code' => '$codec = eZTextCodec::instance( "unicode", false );' . "\n" .
                                                              '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'ord' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( false, "unicode" );' . "\n" .
+                                                   'code' => '$codec = eZTextCodec::instance( false, "unicode" );' . "\n" .
                                                              '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'pad' => array( 'return' => 'string',
@@ -643,7 +643,7 @@ class eZTemplateStringOperator
             // Ord (translate a unicode string to actual unicode id/numbers):
             case $this->OrdName:
             {
-                $codec =& eZTextCodec::instance( false, 'unicode' );
+                $codec = eZTextCodec::instance( false, 'unicode' );
                 $output = $codec->convertString( $operatorValue );
                 $operatorValue = $output;
             }break;
@@ -651,7 +651,7 @@ class eZTemplateStringOperator
             // Chr (generate unicode characters based on input):
             case $this->ChrName:
             {
-                $codec =& eZTextCodec::instance( 'unicode', false );
+                $codec = eZTextCodec::instance( 'unicode', false );
                 $output = $codec->convertString( $operatorValue );
                 $operatorValue = $output;
             }break;
@@ -665,7 +665,7 @@ class eZTemplateStringOperator
     }
 
     /// The array of operators, used for registering operators
-    var $Operators;
+    public $Operators;
 }
 
 ?>

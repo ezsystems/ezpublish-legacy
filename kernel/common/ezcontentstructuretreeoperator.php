@@ -214,7 +214,7 @@ class eZContentStructureTreeOperator
 
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
 
         if ( $countChildren )
@@ -456,6 +456,6 @@ class eZContentStructureTreeOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 }
 ?>

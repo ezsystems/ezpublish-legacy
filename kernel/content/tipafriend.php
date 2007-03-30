@@ -37,7 +37,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/common/template.php" );
 
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $NodeID = (int)$Params['NodeID'];
 $Module =& $Params['Module'];
@@ -49,7 +49,7 @@ $error_strings = array();
 $yourName = '';
 $yourEmail = '';
 $user = eZUser::currentUser();
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 // Get name and email from current user, unless it is the anonymous user
 if ( is_object( $user ) && $user->id() != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
 {

@@ -290,7 +290,7 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -306,7 +306,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 

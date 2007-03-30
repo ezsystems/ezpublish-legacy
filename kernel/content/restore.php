@@ -38,7 +38,7 @@ include_once( 'kernel/common/template.php' );
 $objectID = $Params['ObjectID'];
 $module =& $Params['Module'];
 
-$object =& eZContentObject::fetch( $objectID );
+$object = eZContentObject::fetch( $objectID );
 if ( !is_object( $object ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -49,7 +49,7 @@ if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
     return $module->redirectToView( 'trash' );
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $userClassID = $ini->variable( "UserSettings", "UserClassID" );
 
 if ( $module->isCurrentAction( 'Cancel' ) )
@@ -148,7 +148,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
         }
     }
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $locationAdded = false;
     $mainNodeID = false;
@@ -202,7 +202,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
     $version->store();
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID,
                                                                                  'version' => $version->attribute( 'version' ) ) );
@@ -238,7 +238,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
 
 $tpl =& templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $designKeys = array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                      array( 'class', $class->attribute( 'id' ) ), // Class ID

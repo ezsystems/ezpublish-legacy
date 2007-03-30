@@ -179,7 +179,7 @@ class eZEmailType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_text" );
     }
@@ -214,7 +214,7 @@ class eZEmailType extends eZDataType
     /*!
      Returns the text.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_text" );
     }

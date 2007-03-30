@@ -57,10 +57,10 @@ class eZWeb
      Returns the only legal instance of the eZWeb class.
      \static
     */
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS["eZWebInstance"];
-        if ( get_class( $instance ) != "ezweb" )
+        if ( strtolower( get_class( $instance ) ) != "ezweb" )
         {
             $instance = new eZWeb();
         }

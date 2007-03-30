@@ -47,7 +47,7 @@ class eZMD5
 
      \return array of missmatching files.
     */
-    function checkMD5Sums( $file )
+    static function checkMD5Sums( $file )
     {
         include_once( 'lib/ezfile/classes/ezfile.php' );
         $lines = eZFile::splitLines( $file );

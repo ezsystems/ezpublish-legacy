@@ -101,7 +101,7 @@ class eZAutoLinkOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

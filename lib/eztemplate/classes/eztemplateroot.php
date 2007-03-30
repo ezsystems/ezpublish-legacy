@@ -103,7 +103,7 @@ class eZTemplateRoot
     }
 
     /// The child array
-    var $Children = array();
+    public $Children = array();
 }
 
 ?>

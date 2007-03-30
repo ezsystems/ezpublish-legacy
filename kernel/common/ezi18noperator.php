@@ -133,18 +133,18 @@ class eZi18nOperator
 
         $values = array();
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
             $language = ezcurrentLanguage();
             if ( $language != "eng-GB" ) // eng-GB does not need translation
             {
                 $file = 'translation.ts';
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
                 eZTSTranslator::initialize( $context, $language, $file, $useCache );
 
-                $man =& eZTranslatorManager::instance();
+                $man = eZTranslatorManager::instance();
                 $newValue = $man->translate( $context, $value, $comment );
                 if ( $newValue )
                 {
@@ -196,9 +196,9 @@ class eZi18nOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $Name;
-    var $ExtensionName;
+    public $Operators;
+    public $Name;
+    public $ExtensionName;
 };
 
 ?>

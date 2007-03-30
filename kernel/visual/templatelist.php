@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 $offset = $Params['Offset'];
@@ -48,7 +48,7 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );

@@ -54,7 +54,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
 
     function execute( &$process, &$event )
     {
-        $ini =& eZINI::instance( 'workflow.ini' );
+        $ini = eZINI::instance( 'workflow.ini' );
 
         $cost = $ini->variable( "SimpleShippingWorkflow", "ShippingCost" );
         $description = $ini->variable( "SimpleShippingWorkflow", "ShippingDescription" );

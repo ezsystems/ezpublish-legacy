@@ -37,12 +37,12 @@ include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $userID = $user->id();
 
 if ( $Module->isCurrentAction( 'Remove' )  )
@@ -77,7 +77,7 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
     $nodeList = eZContentBrowse::result( 'AddBookmark' );
     if ( $nodeList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $nodeList as $nodeID )
         {

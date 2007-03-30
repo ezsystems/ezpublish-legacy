@@ -79,18 +79,18 @@ class eZMail
                                     'boundary' => false );
         $this->UserAgent = "eZ publish, Version $version";
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         if ( $ini->hasVariable( 'MailSettings', 'ContentType' ) )
             $this->setContentType( $ini->variable( 'MailSettings', 'ContentType' ) );
 
         if (! defined( 'EZ_MAIL_LINE_SEPARATOR' ) )
         {
-            $ini =& eZINI::instance( 'site.ini' );
+            $ini = eZINI::instance( 'site.ini' );
             $ending = $ini->variable( 'MailSettings', 'HeaderLineEnding' );
             if ( $ending == 'auto' )
             {
-                $sys =& eZSys::instance();
+                $sys = eZSys::instance();
                 // For windows we use \r\n which is the endline defined in RFC 2045
                 if ( $sys->osType() == 'win32' )
                 {
@@ -526,7 +526,7 @@ class eZMail
       \static
       Splits a list of email addresses into an array where each entry is an email address.
     */
-    function &splitList( $emails )
+    static function &splitList( $emails )
     {
         $emails = preg_split( "/[,;]/", $emails );
         return $emails;
@@ -538,7 +538,7 @@ class eZMail
 
       Returns true if successful, false if not.
     */
-    function validate( $address )
+    static function validate( $address )
     {
         $pos = ( ereg( '^' . EZ_MAIL_REGEXP . '$', $address) );
         return $pos;
@@ -564,7 +564,7 @@ class eZMail
 
       Returns the first valid e-mail in address, returns false if no e-mail addresses found
     */
-    function stripEmail( $address )
+    static function stripEmail( $address )
     {
         $res = ereg( EZ_MAIL_REGEXP, $address, $email );
         if ( $res )
@@ -577,7 +577,7 @@ class eZMail
      \static
      \returns a text which does not contain newlines, newlines are converted to spaces.
     */
-    function blankNewlines( $text )
+    static function blankNewlines( $text )
     {
         return preg_replace( "/\r\n|\r|\n/", ' ', $text );
     }
@@ -587,7 +587,7 @@ class eZMail
      \returns the header content as a simple string, will deflate arrays.
      \sa blankNewLines
     */
-    function contentString( $content )
+    static function contentString( $content )
     {
         if ( is_array( $content ) )
             return implode( '; ', $content );
@@ -596,12 +596,11 @@ class eZMail
     }
 
     /*!
-     \static
      Composes a text out of the email and name and returns it.
 
      Example: John Doe <john@doe.com> or just john@doe.com
     */
-    function composeEmailName( $item, $key = false, $convert = true )
+    function composeEmailName( $item, $key = false )
     {
         if ( $key !== false and
              isset( $item[$key] ) )
@@ -618,7 +617,6 @@ class eZMail
     }
 
     /*!
-     \static
      Composes an email text out of all items in \a $items and returns it.
      All items are comma separated.
     */
@@ -872,7 +870,7 @@ class eZMail
         $outputCharset = $this->outputCharset();
         if ( !$this->TextCodec )
         {
-            $this->TextCodec =& eZTextCodec::instance( $charset, $outputCharset );
+            $this->TextCodec = eZTextCodec::instance( $charset, $outputCharset );
         }
         $newText = $this->TextCodec->convertString( $text );
         return $newText;
@@ -901,7 +899,7 @@ class eZMail
     */
     function allowedCharsets()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $charsets = $ini->variable( 'MailSettings', 'AllowedCharsets' );
         return $charsets;
     }
@@ -922,7 +920,7 @@ class eZMail
     */
     function outputCharset()
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $outputCharset = $ini->variable( 'MailSettings', 'OutputCharset' );
         return $outputCharset;
     }
@@ -932,18 +930,18 @@ class eZMail
 */
 
     /// \privatesection
-    var $ReceiverElements;
-    var $From;
-    var $CcElements;
-    var $BccElements;
-    var $ContentType;
-    var $UserAgent;
-    var $ReplyTo;
-    var $Subject;
-    var $BodyText;
-    var $ExtraHeaders;
-    var $TextCodec;
-    var $MessageID;
+    public $ReceiverElements;
+    public $From;
+    public $CcElements;
+    public $BccElements;
+    public $ContentType;
+    public $UserAgent;
+    public $ReplyTo;
+    public $Subject;
+    public $BodyText;
+    public $ExtraHeaders;
+    public $TextCodec;
+    public $MessageID;
 }
 
 ?>

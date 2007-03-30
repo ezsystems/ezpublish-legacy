@@ -85,7 +85,7 @@ class eZContentObjectTranslation
         if ( $this->Locale !== null )
             return $this->Locale;
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $this->Locale =& eZLocale::instance( $this->LanguageCode );
+        $this->Locale = eZLocale::instance( $this->LanguageCode );
         return $this->Locale;
     }
 
@@ -99,11 +99,11 @@ class eZContentObjectTranslation
     }
 
     /// The content object identifier
-    var $ContentObjectID;
+    public $ContentObjectID;
     /// Contains the content object
-    var $Version;
+    public $Version;
 
     /// Contains the language code for the current translation
-    var $LanguageCode;
+    public $LanguageCode;
 }
 ?>

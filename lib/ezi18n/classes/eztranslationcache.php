@@ -50,7 +50,7 @@ class eZTranslationCache
      \static
      \return the cache table which has cache keys and cache data.
     */
-    function &cacheTable()
+    static function &cacheTable()
     {
         $translationCache =& $GLOBALS['eZTranslationCacheTable'];
         if ( !is_array( $translationCache ) )
@@ -63,7 +63,7 @@ class eZTranslationCache
      \return the cache translation context which is stored with the cache key \a $contextName.
              Returns \c null if no cache data was found.
     */
-    function contextCache( $contextName )
+    static function contextCache( $contextName )
     {
         $translationCache =& eZTranslationCache::cacheTable();
         $context = null;
@@ -84,7 +84,7 @@ class eZTranslationCache
      Sets the translation context \a $context to be cached with the cache key $contextName.
      \note Trying to overwrite and existing cache key will give a warning and fail.
     */
-    function setContextCache( $contextName, $context )
+    static function setContextCache( $contextName, $context )
     {
         if ( $context === null )
             return;
@@ -106,7 +106,7 @@ class eZTranslationCache
      \static
      \return the cache directory for translation cache files.
     */
-    function cacheDirectory()
+    static function cacheDirectory()
     {
         $cacheDirectory =& $GLOBALS['eZTranslationCacheDirectory'];
         if ( !isset( $cacheDirectory ) )
@@ -115,7 +115,7 @@ class eZTranslationCache
             include_once( 'lib/ezfile/classes/ezdir.php' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $locale = $ini->variable( 'RegionalSettings', 'Locale' );
             $internalCharset = eZTextCodec::internalCharset();
             $rootName = 'root-' . md5( $internalCharset );
@@ -130,7 +130,7 @@ class eZTranslationCache
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
     */
-    function canRestoreCache( $key, $timestamp )
+    static function canRestoreCache( $key, $timestamp )
     {
         $translationCache =& eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$key] ) )
@@ -153,7 +153,7 @@ class eZTranslationCache
      Loads the cache with the key \a $key from a file and sets the result in the cache table.
      \return true if the cache was successfully restored.
     */
-    function restoreCache( $key )
+    static function restoreCache( $key )
     {
         $translationCache =& eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$key] ) )
@@ -185,7 +185,7 @@ class eZTranslationCache
      Stores the data of the cache with the key \a $key to a file.
      \return false if the cache does not exist.
     */
-    function storeCache( $key )
+    static function storeCache( $key )
     {
         $translationCache =& eZTranslationCache::cacheTable();
         if ( !isset( $translationCache[$key] ) )

@@ -109,7 +109,7 @@ class eZObjectRelationListType extends eZDataType
                 $subObjectID = $relationItem['contentobject_id'];
                 $subObjectVersion = $relationItem['contentobject_version'];
                 $attributeBase = $base . '_ezorl_edit_object_' . $subObjectID;
-                $object =& eZContentObject::fetch( $subObjectID );
+                $object = eZContentObject::fetch( $subObjectID );
                 if ( $object )
                 {
                     $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
@@ -447,7 +447,7 @@ class eZObjectRelationListType extends eZDataType
             {
                 $subObjectID = $relationItem['contentobject_id'];
                 $subObjectVersion = $relationItem['contentobject_version'];
-                $object =& eZContentObject::fetch( $subObjectID );
+                $object = eZContentObject::fetch( $subObjectID );
 
                 if ( $object )
                 {
@@ -713,7 +713,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function domString( &$domDocument )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
         if ( $xmlCharset == 'enabled' )
         {
@@ -803,7 +803,7 @@ class eZObjectRelationListType extends eZDataType
         if ( is_array( $content ) and
              is_array( $content['relation_list'] ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $content['relation_list'] as $deletionItem )
             {
@@ -816,7 +816,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $contentobjectID = false;
         if ( eZDataType::fetchActionValue( $action, 'new_class', $classID ) or
@@ -910,7 +910,7 @@ class eZObjectRelationListType extends eZDataType
             $base = $parameters['base_name'];
             $selectionBase = $base . '_selection';
             $selections = array();
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             if ( $http->hasPostVariable( $selectionBase ) )
             {
                 $selectionMap = $http->postVariable( $selectionBase );
@@ -929,7 +929,7 @@ class eZObjectRelationListType extends eZDataType
                     if ( !$relationItem['is_modified'] and
                          in_array( $relationItem['contentobject_id'], $selections ) )
                     {
-                        $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
+                        $object = eZContentObject::fetch( $relationItem['contentobject_id'] );
                         if ( $object->attribute( 'can_edit' ) )
                         {
                             $relationItem['is_modified'] = true;
@@ -1084,7 +1084,7 @@ class eZObjectRelationListType extends eZDataType
             if ( eZContentObject::recursionProtect( $subObjectID ) )
             {
                 if ( !$object )
-                    $object =& eZContentObject::fetch( $subObjectID );
+                    $object = eZContentObject::fetch( $subObjectID );
                 if ( $object )
                     $object->handleAllCustomHTTPActions( $attributeBase,
                                                          $customActionAttributeArray,
@@ -1156,7 +1156,7 @@ class eZObjectRelationListType extends eZDataType
         {
             $subObjectVersion = eZContentObjectVersion::fetchVersion( $deletionItem['contentobject_version'],
                                                                        $deletionItem['contentobject_id'] );
-            if ( get_class( $subObjectVersion ) == 'ezcontentobjectversion' )
+            if ( strtolower( get_class( $subObjectVersion ) ) == 'ezcontentobjectversion' )
             {
                 $subObjectVersion->remove();
             }
@@ -1194,7 +1194,7 @@ class eZObjectRelationListType extends eZDataType
 
     function appendObject( $objectID, $priority, &$contentObjectAttribute )
     {
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         $class =& $object->attribute( 'content_class' );
         $sectionID = $object->attribute( 'section_id' );
         $relationItem = array( 'identifier' => false,
@@ -1213,7 +1213,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $xmlText = $contentObjectAttribute->attribute( 'data_text' );
         if ( trim( $xmlText ) == '' )
@@ -1246,7 +1246,7 @@ class eZObjectRelationListType extends eZDataType
     function &parseXML( $xmlText )
     {
         $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlText );
+        $dom = $xml->domTree( $xmlText );
         return $dom;
     }
 
@@ -1323,7 +1323,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
         {
@@ -1386,7 +1386,7 @@ class eZObjectRelationListType extends eZDataType
             if ( !$attributes )
             {
                 $subObjectVersion = $relationItem['contentobject_version'];
-                $object =& eZContentObject::fetch( $subObjectID );
+                $object = eZContentObject::fetch( $subObjectID );
                 if ( eZContentObject::recursionProtect( $subObjectID ) )
                 {
                     if ( !$object )
@@ -1458,7 +1458,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return false;
     }

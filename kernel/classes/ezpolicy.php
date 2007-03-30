@@ -52,7 +52,7 @@ class eZPolicy extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -141,7 +141,7 @@ class eZPolicy extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNew( $roleID , $params = array() )
+    static function createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
         $policy->setAttribute( 'role_id', $roleID );
@@ -166,7 +166,7 @@ class eZPolicy extends eZPersistentObject
      \param $function Which function to give access to or \c true to give access to all functions.
      \param $limitations An associative array with limitations and their values, use an empty array for no limitations.
     */
-    function create( $roleID, $module, $function )
+    static function create( $roleID, $module, $function )
     {
         if ( $module === true )
             $module = '*';
@@ -194,7 +194,7 @@ class eZPolicy extends eZPersistentObject
         include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
         $limitation = eZPolicyLimitation::create( $this->ID, $identifier );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $limitation->store();
         $limitationID = $limitation->attribute( 'id' );
@@ -227,7 +227,7 @@ class eZPolicy extends eZPersistentObject
         $params['ModuleName'] = $this->attribute( 'module_name' );
         $params['FunctionName'] = $this->attribute( 'function_name' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $newPolicy = eZPolicy::createNew( $roleID, $params  );
         foreach ( $this->attribute( 'limitations' ) as $limitation )
@@ -258,7 +258,7 @@ class eZPolicy extends eZPersistentObject
             return;
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $policy->attribute( 'limitations' ) as $limitation )
         {
@@ -398,17 +398,17 @@ class eZPolicy extends eZPersistentObject
         return $role;
     }
 
-    function fetch( $policyID )
+    static function fetch( $policyID )
     {
         return eZPersistentObject::fetchObject( eZPolicy::definition(),
                                                 null, array('id' => $policyID ), true);
     }
 
     // Used for assign based limitations.
-    var $Disabled = false;
-    var $LimitValue;
-    var $LimitIdentifier;
-    var $UserRoleID;
+    public $Disabled = false;
+    public $LimitValue;
+    public $LimitIdentifier;
+    public $UserRoleID;
 
 }
 

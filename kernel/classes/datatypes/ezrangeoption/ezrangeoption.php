@@ -133,7 +133,7 @@ class eZRangeOption
         $xml = new eZXML();
 
 
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
 
         if ( $xmlString != "" )
         {
@@ -212,16 +212,16 @@ class eZRangeOption
 
 
         /// Contains the Option name
-    var $Name;
+    public $Name;
 
     /// Contains the Options
-    var $Options;
+    public $Options;
 
     /// Contains the option counter value
-    var $OptionCount;
-    var $StartValue;
-    var $StopValue;
-    var $StepValue;
+    public $OptionCount;
+    public $StartValue;
+    public $StopValue;
+    public $StepValue;
 }
 
 ?>

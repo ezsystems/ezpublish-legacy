@@ -32,9 +32,9 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
@@ -44,7 +44,7 @@ $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 $requestedURI = '';
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
+if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 $RemoveAction = $contentINI->hasVariable( 'RemoveSettings', 'DefaultRemoveAction' ) ?
                    $contentINI->variable( 'RemoveSettings', 'DefaultRemoveAction' ) : 'trash';
@@ -160,7 +160,7 @@ if ( $totalChildCount == 0 )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'reverse_related'        , $info['reverse_related_count'] );
 $tpl->setVariable( 'module'                 , $Module );
@@ -176,7 +176,7 @@ $tpl->setVariable( 'delete_items_exist'     , $deleteItemsExist );
 $tpl->setVariable( 'move_to_trash'          , $moveToTrash );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
+$Result['content'] = $tpl->fetch( "design:node/removeobject.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', 'Remove object' ) ) );
 ?>

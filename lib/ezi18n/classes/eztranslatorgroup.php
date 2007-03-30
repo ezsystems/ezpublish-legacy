@@ -169,7 +169,7 @@ class eZTranslatorGroup extends eZTranslatorHandler
 
     /// \privatesection
     /// The array of grouped handlers
-    var $Handlers;
+    public $Handlers;
 }
 
 ?>

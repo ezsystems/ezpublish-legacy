@@ -272,7 +272,7 @@ class eZPackageInstallationHandler
      \param handler name'
      \param install Item
     */
-    function &instance( &$package, $handlerName, $installItem )
+    static function instance( &$package, $handlerName, $installItem )
     {
         // if no installItem is given, then this is the whole package installer
         /*if ( $installItem == null )
@@ -346,7 +346,7 @@ class eZPackageInstallationHandler
     */
     function packageType( &$package, &$persistentData )
     {
-        if ( get_class( $package ) == 'ezpackage' )
+        if ( strtolower( get_class( $package ) ) == 'ezpackage' )
         {
             return $package->attribute( 'type' );
         }

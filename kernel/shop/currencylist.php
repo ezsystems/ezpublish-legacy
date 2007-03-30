@@ -62,7 +62,7 @@ else if ( $module->isCurrentAction( 'ApplyChanges' ) )
     $updateDataList = $module->hasActionParameter( 'CurrencyList' ) ? $module->actionParameter( 'CurrencyList' ) : array();
 
     $currencyList = eZCurrencyData::fetchList();
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $currencyList as $currency )
     {

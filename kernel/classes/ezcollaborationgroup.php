@@ -50,7 +50,7 @@ class eZCollaborationGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -128,7 +128,7 @@ class eZCollaborationGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
+    static function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
     {
         $depth = 0;
         $pathString = '';
@@ -140,7 +140,7 @@ class eZCollaborationGroup extends eZPersistentObject
         }
         $group = eZCollaborationGroup::create( $userID, $title, '', $depth, $parentGroupID, $isOpen );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $group->store();
@@ -155,7 +155,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return $group;
     }
 
-    function create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
+    static function create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
     {
         $date_time = time();
         $row = array(
@@ -171,7 +171,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return new eZCollaborationGroup( $row );
     }
 
-    function fetch( $id, $userID = false, $asObject = true )
+    static function fetch( $id, $userID = false, $asObject = true )
     {
         $conditions = array( "id" => $id );
         if ( $userID !== false )
@@ -192,7 +192,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return $itemList;
     }
 
-    function &subTree( $parameters = array() )
+    static function &subTree( $parameters = array() )
     {
         $parameters = array_merge( array( 'parent_group_id' => false,
                                           'depth' => false,
@@ -288,7 +288,7 @@ class eZCollaborationGroup extends eZPersistentObject
         if ( $pathString != '' )
             $pathSQL = "path_string like '$pathString%' AND";
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
         $sql = "SELECT *
@@ -301,7 +301,7 @@ class eZCollaborationGroup extends eZPersistentObject
                       user_id = '$userID'
                 ORDER BY $sortingFields";
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sqlParameters = array();
         if ( $offset !== false and $limit !== false )
         {
@@ -320,12 +320,12 @@ class eZCollaborationGroup extends eZPersistentObject
                                    $parameters );
         $asObject = $parameters['as_object'];
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
         $groupID = $this->ID;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "SELECT   count( collaboration_id ) as count
                 FROM     ezcollab_item_group_link
                 WHERE    user_id = '$userID' AND
@@ -356,12 +356,12 @@ class eZCollaborationGroup extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $ParentGroupID;
-    var $UserID;
-    var $Title;
-    var $Created;
-    var $Modified;
+    public $ID;
+    public $ParentGroupID;
+    public $UserID;
+    public $Title;
+    public $Created;
+    public $Modified;
 }
 
 ?>

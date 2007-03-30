@@ -240,7 +240,7 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the selected options by id.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $idString = explode( '-', $contentObjectAttribute->attribute( 'data_text' ) );
         return $idString;
@@ -253,7 +253,7 @@ class eZSelectionType extends eZDataType
     {
         $xml = new eZXML();
         $xmlString =& $classAttribute->attribute( 'data_text5' );
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
         if ( $dom )
         {
             $options =& $dom->elementsByName( 'option' );
@@ -351,7 +351,7 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the value as it will be shown if this attribute is used in the object name pattern.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $selected = $this->objectAttributeContent( $contentObjectAttribute );
         $classContent = $this->classAttributeContent( $contentObjectAttribute->attribute( 'contentclass_attribute' ) );
@@ -416,7 +416,7 @@ class eZSelectionType extends eZDataType
         $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
         $xmlString           =& $classAttribute->attribute( 'data_text5' );
 
-        $dom                 =& $xml->domTree( $xmlString );
+        $dom                 = $xml->domTree( $xmlString );
         $domRoot             =& $dom->root();
         $options             =& $domRoot->elementByName( 'options' );
 

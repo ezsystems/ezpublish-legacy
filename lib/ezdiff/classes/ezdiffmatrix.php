@@ -94,7 +94,7 @@ class eZDiffMatrix
 
     ///\privatesection
     /// Internal array, holding necessary values.
-    var $Matrix = array();
+    public $Matrix = array();
 
     /// Internal variable, width of the matrix.
     var $Cols;

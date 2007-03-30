@@ -12,23 +12,23 @@
     class smtp
     {
 
-        var $authenticated;
-        var $connection;
-        var $recipients;
-        var $CcRecipients;
-        var $BccRecipients;
-        var $headers;
-        var $timeout;
-        var $errors;
-        var $status;
-        var $body;
-        var $from;
-        var $host;
-        var $port;
-        var $helo;
-        var $auth;
-        var $user;
-        var $pass;
+        public $authenticated;
+        public $connection;
+        public $recipients;
+        public $CcRecipients;
+        public $BccRecipients;
+        public $headers;
+        public $timeout;
+        public $errors;
+        public $status;
+        public $body;
+        public $from;
+        public $host;
+        public $port;
+        public $helo;
+        public $auth;
+        public $user;
+        public $pass;
 
         /***************************************
         ** Constructor function. Arguments:

@@ -161,7 +161,7 @@ class eZBorkTranslator extends eZTranslatorHandler
     function &initialize()
     {
         $translator =& $GLOBALS["eZBorkTranslator"];
-        if ( isset( $translator ) and get_class( $translator ) == "ezborktranslator" )
+        if ( isset( $translator ) and strtolower( get_class( $translator ) ) == "ezborktranslator" )
             return $translator;
         $translator = new eZBorkTranslator();
         $man =& eZTranslatorManager::instance();
@@ -171,7 +171,7 @@ class eZBorkTranslator extends eZTranslatorHandler
 
     /// \privatesection
     /// Contains the hash table with cached bork translations
-    var $Messages;
+    public $Messages;
 }
 
 ?>

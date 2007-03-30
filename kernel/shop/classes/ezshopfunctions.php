@@ -40,7 +40,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function isProductClass( &$contentClass )
+    static function isProductClass( &$contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return ( $type !== false );
@@ -49,31 +49,31 @@ class eZShopFunctions
     /*!
      \static
     */
-    function isProductObject( &$contentObject )
+    static function isProductObject( &$contentObject )
     {
         $type = eZShopFunctions::productTypeByObject( $contentObject );
         return ( $type !== false );
     }
 
-    function isSimplePriceClass( &$contentClass )
+    static function isSimplePriceClass( &$contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return eZShopFunctions::isSimplePriceProductType( $type );
 
     }
 
-    function isSimplePriceProductType( $type )
+    static function isSimplePriceProductType( $type )
     {
         return ( $type === 'ezprice' );
     }
 
-    function isMultiPriceClass( &$contentClass )
+    static function isMultiPriceClass( &$contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return eZShopFunctions::isMultiPriceProductType( $type );
     }
 
-    function isMultiPriceProductType( $type )
+    static function isMultiPriceProductType( $type )
     {
         return ( $type === 'ezmultiprice' );
     }
@@ -81,7 +81,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function productTypeByClass( &$contentClass )
+    static function productTypeByClass( &$contentClass )
     {
         $type = false;
 
@@ -107,7 +107,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function productTypeByObject( &$contentObject )
+    static function productTypeByObject( &$contentObject )
     {
         $type = false;
 
@@ -133,7 +133,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function isProductDatatype( $dataTypeString )
+    static function isProductDatatype( $dataTypeString )
     {
         return in_array( $dataTypeString, eZShopFunctions::productDatatypeStringList() );
     }
@@ -141,13 +141,13 @@ class eZShopFunctions
     /*!
      \static
     */
-    function productDatatypeStringList()
+    static function productDatatypeStringList()
     {
         return array( 'ezprice',
                       'ezmultiprice' );
     }
 
-    function productClassList()
+    static function productClassList()
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
         $productClassList = array();
@@ -165,7 +165,7 @@ class eZShopFunctions
         return $productClassList;
     }
 
-    function priceAttributeIdentifier( &$productClass )
+    static function priceAttributeIdentifier( &$productClass )
     {
         $identifier = '';
         $classAttribute = eZShopFunctions::priceAttribute( $productClass );
@@ -175,7 +175,7 @@ class eZShopFunctions
         return $identifier;
     }
 
-    function priceAttribute( &$productClass )
+    static function priceAttribute( &$productClass )
     {
         if ( is_object( $productClass ) )
         {
@@ -198,13 +198,13 @@ class eZShopFunctions
     /*!
      \static
     */
-    function preferredCurrencyCode()
+    static function preferredCurrencyCode()
     {
         include_once( 'kernel/classes/ezpreferences.php' );
         if( !$currencyCode = eZPreferences::value( 'user_preferred_currency' ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'shop.ini' );
+            $ini = eZINI::instance( 'shop.ini' );
             $currencyCode = $ini->variable( 'CurrencySettings', 'PreferredCurrency' );
         }
         return $currencyCode;
@@ -213,7 +213,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function setPreferredCurrencyCode( $currencyCode )
+    static function setPreferredCurrencyCode( $currencyCode )
     {
         include_once( 'kernel/shop/errors.php' );
 
@@ -231,7 +231,7 @@ class eZShopFunctions
      Get country stored in user object.
      \static
     */
-    function getUserCountry()
+    static function getUserCountry()
     {
         require_once( 'kernel/classes/ezvatmanager.php' );
         return eZVATManager::getUserCountry( false, false );
@@ -242,7 +242,7 @@ class eZShopFunctions
      Get country stored in user preferences.
      \static
     */
-    function getPreferredUserCountry()
+    static function getPreferredUserCountry()
     {
         include_once( 'kernel/classes/ezpreferences.php' );
         return eZPreferences::value( 'user_preferred_country' );
@@ -252,7 +252,7 @@ class eZShopFunctions
      Store country to user preferences.
      \static
     */
-    function setPreferredUserCountry( $country )
+    static function setPreferredUserCountry( $country )
     {
         include_once( 'kernel/classes/ezpreferences.php' );
         eZPreferences::setValue( 'user_preferred_country', $country );
@@ -264,7 +264,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function isPreferredCurrencyValid( $currencyCode = false )
+    static function isPreferredCurrencyValid( $currencyCode = false )
     {
         include_once( 'kernel/shop/errors.php' );
 
@@ -294,7 +294,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function createCurrency( $currencyParams )
+    static function createCurrency( $currencyParams )
     {
         include_once( 'kernel/shop/classes/ezcurrencydata.php' );
         include_once( 'kernel/shop/classes/ezmultipricedata.php' );
@@ -307,7 +307,7 @@ class eZShopFunctions
                                             $currencyParams['rate_factor'] );
         if ( is_object( $currency ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
 
             $currency->store();
@@ -317,12 +317,12 @@ class eZShopFunctions
         }
     }
 
-    function removeCurrency( $currencyCodeList )
+    static function removeCurrency( $currencyCodeList )
     {
         include_once( 'kernel/shop/classes/ezcurrencydata.php' );
         include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         eZCurrencyData::removeCurrencyList( $currencyCodeList );
@@ -331,7 +331,7 @@ class eZShopFunctions
         $db->commit();
     }
 
-    function changeCurrency( $oldCurrencyCode, $newCurrencyCode )
+    static function changeCurrency( $oldCurrencyCode, $newCurrencyCode )
     {
         $errCode = EZ_CURRENCYDATA_ERROR_OK;
 
@@ -346,7 +346,7 @@ class eZShopFunctions
                 $currency = eZCurrencyData::fetch( $oldCurrencyCode );
                 if ( is_object( $currency ) )
                 {
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
 
                     $currency->setAttribute( 'code', $newCurrencyCode );
@@ -366,13 +366,13 @@ class eZShopFunctions
         return $errCode;
     }
 
-    function updateAutoprices()
+    static function updateAutoprices()
     {
         include_once( 'kernel/shop/classes/ezmultipricedata.php' );
         return eZMultiPriceData::updateAutoprices();
     }
 
-    function convertAdditionalPrice( $toCurrency, $value )
+    static function convertAdditionalPrice( $toCurrency, $value )
     {
         if ( $toCurrency == false )
             return $value;
@@ -386,7 +386,7 @@ class eZShopFunctions
         return $converter->convertFromLocaleCurrency( $toCurrency, $value, true );
     }
 
-    function updateAutoRates()
+    static function updateAutoRates()
     {
         include_once( 'kernel/shop/errors.php' );
         include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
@@ -407,7 +407,7 @@ class eZShopFunctions
                     if ( $handlerBaseCurrency )
                     {
                         $shopBaseCurrency = false;
-                        $shopINI =& eZINI::instance( 'shop.ini' );
+                        $shopINI = eZINI::instance( 'shop.ini' );
                         if ( $shopINI->hasVariable( 'ExchangeRatesSettings', 'BaseCurrency' ) )
                             $shopBaseCurrency = $shopINI->variable( 'ExchangeRatesSettings', 'BaseCurrency' );
 

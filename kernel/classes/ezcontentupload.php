@@ -82,7 +82,7 @@ class eZContentUpload
     */
     function eZContentUpload( $params = false )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( !$params && $http->hasSessionVariable( 'ContentUploadParameters' ) )
         {
             $this->Parameters =& $http->sessionVariable( 'ContentUploadParameters' );
@@ -133,7 +133,7 @@ class eZContentUpload
     */
     function upload( $parameters = array(), &$module )
     {
-        $ini =& eZINI::instance( 'upload.ini' );
+        $ini = eZINI::instance( 'upload.ini' );
 
         if ( !isset( $parameters['action_name'] ) )
             $parameters['action_name'] = $ini->variable( 'UploadSettings', 'DefaultActionName' );
@@ -202,7 +202,7 @@ class eZContentUpload
 
         $parameters['result'] = false;
 
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'ContentUploadParameters', $parameters );
 
         if ( is_null( $module ) )
@@ -324,7 +324,7 @@ class eZContentUpload
             }
         }
 
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
         $iniGroup = $classIdentifier . '_ClassSettings';
         if ( !$uploadINI->hasGroup( $iniGroup ) )
         {
@@ -541,7 +541,7 @@ class eZContentUpload
             }
         }
 
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
         $iniGroup = $classIdentifier . '_ClassSettings';
         if ( !$uploadINI->hasGroup( $iniGroup ) )
         {
@@ -598,7 +598,7 @@ class eZContentUpload
             $nameString = $this->processNamePattern( $variables, $namePattern );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // If we have an existing node we need to create
@@ -706,7 +706,7 @@ class eZContentUpload
 
         $objectID = $object->attribute( 'id' );
         unset( $object );
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         $result['contentobject'] =& $object;
         $result['contentobject_id'] = $object->attribute( 'id' );
         $result['contentobject_version'] = $publishVersion;
@@ -764,7 +764,7 @@ class eZContentUpload
     */
     function objectFileInfo( &$contentObject )
     {
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
 
         $class =& $contentObject->contentClass();
         $classIdentifier = $class->attribute( 'identifier' );
@@ -809,7 +809,7 @@ class eZContentUpload
         }
 
         $file = eZHTTPFile::fetch( $httpFileIdentifier );
-        if ( get_class( $file ) != "ezhttpfile" )
+        if ( strtolower( get_class( $file ) ) != "ezhttpfile" )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'Expected a eZHTTPFile object but got nothing.' ) );
@@ -930,7 +930,7 @@ class eZContentUpload
     */
     function detectClassIdentifier( $mime )
     {
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
 
         $mimeClassMap = $uploadINI->variable( 'CreateSettings', 'MimeClassMap' );
         $defaultClass = $uploadINI->variable( 'CreateSettings', 'DefaultClass' );
@@ -988,7 +988,7 @@ class eZContentUpload
         {
             if ( $location == 'auto' or !is_numeric( $location ) )
             {
-                $contentINI =& eZINI::instance( 'content.ini' );
+                $contentINI = eZINI::instance( 'content.ini' );
 
                 $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
                 $defaultPlacement = $contentINI->variable( 'RelationAssignmentSettings', 'DefaultAssignment' );
@@ -1188,11 +1188,11 @@ class eZContentUpload
             }
         }
 
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
         $aliasList = $uploadINI->variable( 'UploadSettings', 'AliasList' );
         if ( isset( $aliasList[$nodeName] ) )
             return $aliasList[$nodeName];
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         if ( $nodeName == 'content' or $nodeName == 'root' )
             return $contentINI->variable( 'NodeSettings', 'RootNode' );
         else if ( $nodeName == 'users' )
@@ -1221,7 +1221,7 @@ class eZContentUpload
     function setResult( $result )
     {
         $this->Parameters['result'] = $result;
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'ContentUploadParameters', $this->Parameters );
     }
 
@@ -1234,7 +1234,7 @@ class eZContentUpload
     function result( $actionName, $cleanup = true )
     {
         if ( isset( $this ) and
-             get_class( $this) == 'ezcontentupload' )
+             strtolower( get_class( $this) ) == 'ezcontentupload' )
             $upload =& $this;
         else
             $upload = new eZContentUpload();
@@ -1261,7 +1261,7 @@ class eZContentUpload
     */
     function cleanup( $actionName )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->removeSessionVariable( 'ContentUploadParameters' );
     }
 
@@ -1271,7 +1271,7 @@ class eZContentUpload
     */
     function cleanupAll()
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->removeSessionVariable( 'ContentUploadParameters' );
     }
 
@@ -1288,7 +1288,7 @@ class eZContentUpload
         $notices =& $result['notices'];
 
         // Check for specific mime handler plugin
-        $uploadINI =& eZINI::instance( 'upload.ini' );
+        $uploadINI = eZINI::instance( 'upload.ini' );
         $uploadSettings = $uploadINI->variable( 'CreateSettings', 'MimeUploadHandlerMap' );
 
         $mime = $mimeInfo['name'];
@@ -1345,7 +1345,7 @@ class eZContentUpload
 
     /// \privatesection
     /// The upload parameters.
-    var $Parameters = false;
+    public $Parameters = false;
 }
 
 ?>

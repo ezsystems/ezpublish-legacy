@@ -48,7 +48,7 @@ class eZNotificationCollection extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -150,7 +150,7 @@ class eZNotificationCollection extends eZPersistentObject
      */
     function removeEmpty()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $db->databaseName() == 'oracle' ) // fix for compatibility with Oracle versions prior to 9
             $query = 'SELECT eznotificationcollection.id FROM eznotificationcollection, eznotificationcollection_item
                       WHERE  eznotificationcollection.id = eznotificationcollection_item.collection_id(+) AND
@@ -178,7 +178,7 @@ class eZNotificationCollection extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         eZNotificationCollectionItem::cleanup();
         $db->query( "DELETE FROM eznotificationcollection" );

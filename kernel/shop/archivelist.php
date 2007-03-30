@@ -59,7 +59,7 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
     $sortOrder = 'asc';
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 // Unarchive options.
 if ( $http->hasPostVariable( 'UnarchiveButton' ) )

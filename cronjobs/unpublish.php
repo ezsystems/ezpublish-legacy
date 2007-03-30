@@ -40,7 +40,7 @@ eZExtension::activateExtensions();
 // Extension check end
 
 include_once( "lib/ezutils/classes/ezini.php" );
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $unpublishClasses = $ini->variable( 'UnpublishSettings','ClassList' );
 
 $rootNodeIDList = $ini->variable( 'UnpublishSettings','RootNodeList' );

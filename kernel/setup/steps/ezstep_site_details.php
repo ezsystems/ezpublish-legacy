@@ -344,7 +344,7 @@ class eZStepSiteDetails extends eZStepInstaller
                                'socket' => $dbSocket,
                                'database' => false,
                                'charset' => $dbCharset );
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $db = eZDB::instance( $dbDriver, $dbParameters, true );
         $availDatabases = $db->availableDatabases();
 
         if ( count( $availDatabases ) > 0 ) // login succeded, and at least one database available
@@ -358,9 +358,9 @@ class eZStepSiteDetails extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
 
         $siteType = $this->chosenSiteType();
 
@@ -480,7 +480,7 @@ class eZStepSiteDetails extends eZStepInstaller
         return $result;
     }
 
-    var $Error = array();
+    public $Error = array();
 }
 
 ?>

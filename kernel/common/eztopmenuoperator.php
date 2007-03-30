@@ -101,7 +101,7 @@ class eZTopMenuOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
 
-        $ini =& eZINI::instance( 'menu.ini' );
+        $ini = eZINI::instance( 'menu.ini' );
 
         if ( !$ini->hasVariable( 'TopAdminMenu', 'Tabs' ) )
         {
@@ -179,8 +179,8 @@ class eZTopMenuOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $DefaultNames;
+    public $Operators;
+    public $DefaultNames;
 }
 
 

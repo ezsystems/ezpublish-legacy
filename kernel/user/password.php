@@ -30,10 +30,10 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'lib/ezutils/classes/ezini.php' );
 
-$ini =& eZINI::instance();
-$currentUser =& eZUser::currentUser();
+$ini = eZINI::instance();
+$currentUser = eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $message = 0;
 $oldPasswordNotValid = 0;
@@ -67,7 +67,7 @@ else
 $user = eZUser::fetch( $UserID );
 if ( !$user )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-$currentUser =& eZUser::currentUser();
+$currentUser = eZUser::currentUser();
 if ( $currentUser->attribute( 'contentobject_id' ) != $user->attribute( 'contentobject_id' ) or
      !$currentUser->isLoggedIn() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );

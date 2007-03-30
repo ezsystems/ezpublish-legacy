@@ -1159,7 +1159,7 @@ class eZTemplateSectionFunction
 
     /// \privatesection
     /// Name of the function
-    var $Name;
+    public $Name;
 }
 
 ?>

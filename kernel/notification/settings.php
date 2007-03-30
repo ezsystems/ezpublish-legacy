@@ -36,17 +36,17 @@ include_once( 'kernel/common/template.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
 $availableHandlers =& eZNotificationEventFilter::availableHandlers();
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 if ( $http->hasPostVariable( 'Store' ) )
 {

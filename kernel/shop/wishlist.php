@@ -28,11 +28,11 @@
 
 include_once( "kernel/classes/ezwishlist.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 $offset = $Params['Offset'];
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 if ( !$user->isLoggedIn() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
         //$item->setAttribute( "price", $price );
 
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $item->store();
@@ -194,7 +194,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 
     $wishList =& eZWishList::currentWishList();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $itemList as $item )
     {
@@ -226,7 +226,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
             if ( isset( $productItemCountList[$key] ) )
                 $productItemsCount[$productItemID] = $productItemCountList[$key];
         }
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $collectionItems as $item )
         {

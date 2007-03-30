@@ -36,7 +36,7 @@ if ( !$isQuiet )
     $cli->output( "Cleaning up internal drafts..." );
 
 // Remove all temporary internal drafts
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $internalDraftsCleanUpLimit = $ini->hasVariable( 'VersionManagement', 'InternalDraftsCleanUpLimit' ) ?
                                  $ini->variable( 'VersionManagement', 'InternalDraftsCleanUpLimit' ) : 0;
 $durationSetting = $ini->hasVariable( 'VersionManagement', 'InternalDraftsDuration' ) ?

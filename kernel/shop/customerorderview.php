@@ -38,7 +38,7 @@ include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $tpl =& templateInit();
 

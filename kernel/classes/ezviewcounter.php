@@ -44,7 +44,7 @@ class eZViewCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
                                                              'datatype' => 'integer',
@@ -142,7 +142,7 @@ class eZViewCounter extends eZPersistentObject
             $queryPart .= "ezcontentobject.section_id=$sectionID AND ";
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "SELECT ezview_counter.*
                   FROM
                          ezcontentobject_tree,
@@ -167,8 +167,8 @@ class eZViewCounter extends eZPersistentObject
     }
 
     /// \privatesection
-    var $NodeID;
-    var $Count;
+    public $NodeID;
+    public $Count;
 }
 
 ?>

@@ -57,7 +57,7 @@ function copyBinaryfilesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing binary files to database:");
     $rows = $db->arrayQuery('select filename, mime_type from ezbinaryfile' );
@@ -94,7 +94,7 @@ function copyImagesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing images and imagealiases files to database:");
     $rows = $db->arrayQuery('select filepath from ezimagefile' );
@@ -171,7 +171,7 @@ if ( $wait )
 }
 
 $dbFileHandler = eZClusterFileHandler::instance();
-if ( !is_object( $dbFileHandler ) || get_class( $dbFileHandler ) != 'ezdbfilehandler' )
+if ( !is_object( $dbFileHandler ) || strtolower( get_class( $dbFileHandler ) ) != 'ezdbfilehandler' )
 {
     $cli->error( "Clustering settings specified incorrectly or the chosen file handler is ezfs." );
     $script->shutdown( 1 );

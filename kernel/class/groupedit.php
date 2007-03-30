@@ -44,7 +44,7 @@ if ( is_numeric( $GroupID ) )
 else
 {
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup = eZContentClassGroup::create( $user_id );
     $classgroup->setAttribute( "name", ezi18n( 'kernel/class/groupedit', "New Group" ) );
@@ -54,7 +54,7 @@ else
     return;
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $date_time = time();
     $classgroup->setAttribute( "modified", $date_time );
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup->setAttribute( "modifier_id", $user_id );
     $classgroup->store();
@@ -89,7 +89,7 @@ $Module->setTitle( "Edit class group " . $classgroup->attribute( "name" ) );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "classgroup", $classgroup->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "http", $http );

@@ -63,7 +63,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     function eZWebDAVContentServer()
     {
         $this->eZWebDAVServer();
-        $this->User =& eZUser::currentUser();
+        $this->User = eZUser::currentUser();
         $this->FolderClasses = null;
     }
 
@@ -74,7 +74,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     */
     function processClientRequest()
     {
-        $this->User =& eZUser::currentUser();
+        $this->User = eZUser::currentUser();
         eZWebDAVServer::processClientRequest();
     }
 
@@ -411,7 +411,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $mimeInfo = eZMimeType::findByURL( $nodePath );
         $mime = $mimeInfo['name'];
 
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( WEBDAV_INI_FILE );
         $defaultObjectType = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
         $existingNode = $this->fetchNodeByTranslation( $nodePath );
@@ -1399,7 +1399,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $classIdentifier = $class->attribute( 'identifier' );
         if ( $this->FolderClasses === null )
         {
-            $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+            $webdavINI = eZINI::instance( WEBDAV_INI_FILE );
             $folderClasses = array();
             if ( $webdavINI->hasGroup( 'GeneralSettings' ) and
                  $webdavINI->hasVariable( 'GeneralSettings', 'FolderClasses' ) )
@@ -1420,7 +1420,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $entry = array();
 
         // Grab settings from the ini file:
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( WEBDAV_INI_FILE );
         $iniSettings = $webdavINI->variable( 'DisplaySettings', 'FileAttribute' );
 
         $classIdentifier = $node->attribute( 'class_identifier' );
@@ -1520,7 +1520,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $parentNodeID = $node->attribute( 'node_id' );
 
         // Grab settings from the ini file:
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $webdavINI = eZINI::instance( WEBDAV_INI_FILE );
         $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
 
         // Fetch the folder class.
@@ -1579,7 +1579,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $siteList = array();
 
         // Grab the sitelist from the ini file.
-        $webdavINI =& eZINI::instance();
+        $webdavINI = eZINI::instance();
         $siteList = $webdavINI->variable( 'SiteSettings', 'SiteList' );
 
         // Return the site list.
@@ -1588,6 +1588,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
     /// \privatesection
     /// Contains an array with classes that are considered folder
-    var $FolderClasses;
+    public $FolderClasses;
 }
 ?>

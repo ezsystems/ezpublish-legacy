@@ -45,7 +45,7 @@ class eZWorkflowProcess extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -299,18 +299,18 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 //eZDebugSetting::writeDebug( 'workflow-process', $workflowEvent ,"workflowEvent  is  null" );
             }
-            if ( get_class( $workflowEvent ) == "ezworkflowevent")
+            if ( strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent")
             {
-                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent )  ,"workflowEvent class  is ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', strtolower( get_class( $workflowEvent ) )  ,"workflowEvent class  is ezworkflowevent " );
             }
             else
             {
-                eZDebugSetting::writeDebug( 'workflow-process', get_class( $workflowEvent )  ,"workflowEvent class  is not ezworkflowevent " );
+                eZDebugSetting::writeDebug( 'workflow-process', strtolower( get_class( $workflowEvent ) )  ,"workflowEvent class  is not ezworkflowevent " );
             }
             eZDebugSetting::writeDebug( 'workflow-process', $done , "in while" );
             if ( $runCurrentEvent and
                  $workflowEvent !== null and
-                 get_class( $workflowEvent ) == "ezworkflowevent" )
+                 strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent" )
             {
                 $eventType =& $workflowEvent->eventType();
 
@@ -588,7 +588,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::instance( $this->UserID );
+            $user = eZUser::instance( $this->UserID );
         }
         else
             $user = null;
@@ -600,7 +600,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->ContentID ) and $this->ContentID )
         {
             include_once( 'kernel/classes/ezcontentobject.php' );
-            $content =& eZContentObject::fetch( $this->ContentID );
+            $content = eZContentObject::fetch( $this->ContentID );
         }
         else
             $content = null;
@@ -673,7 +673,7 @@ class eZWorkflowProcess extends eZPersistentObject
         $workflowParameters = $this->attribute( 'parameter_list' );
         $cleanupList = array();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( isset( $workflowParameters['cleanup_list'] ) && is_array( $workflowParameters['cleanup_list'] ) )
         {
@@ -698,25 +698,25 @@ class eZWorkflowProcess extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezworkflow_process" );
     }
 
     /// \privatesection
-    var $ID;
-    var $WorkflowID;
-    var $UserID;
-    var $ContentID;
-    var $NodeID;
-    var $EventID;
-    var $EventPosition;
-    var $LastEventID;
-    var $LastEventPosition;
-    var $LastEventStatus;
-    var $EventStatus;
-    var $Created;
-    var $Modified;
-    var $ActivationDate;
+    public $ID;
+    public $WorkflowID;
+    public $UserID;
+    public $ContentID;
+    public $NodeID;
+    public $EventID;
+    public $EventPosition;
+    public $LastEventID;
+    public $LastEventPosition;
+    public $LastEventStatus;
+    public $EventStatus;
+    public $Created;
+    public $Modified;
+    public $ActivationDate;
 }
 
 ?>

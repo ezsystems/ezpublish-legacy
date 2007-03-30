@@ -165,7 +165,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$attribute )
+    function objectAttributeContent( $attribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
@@ -176,7 +176,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$attribute )
+    function metaData( $attribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
@@ -188,7 +188,7 @@ class eZKeywordType extends eZDataType
     /*!
      \reuturn the collect information action if enabled
     */
-    function contentActionList( &$classAttribute )
+    function contentActionList( $classAttribute )
     {
         return array();
     }
@@ -205,7 +205,7 @@ class eZKeywordType extends eZDataType
 
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         /* First we retrieve all the keyword ID related to this object attribute */
         $res = $db->arrayQuery( "SELECT keyword_id
@@ -247,7 +247,7 @@ class eZKeywordType extends eZDataType
     /*!
      Returns the content of the keyword for use as a title
     */
-    function title( &$attribute )
+    function title( $attribute, $name = null )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );

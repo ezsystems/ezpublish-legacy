@@ -44,7 +44,7 @@ class eZConfirmOrderHandler
     /*!
      returns the current order confirmation instance
     */
-    function &instance()
+    function instance()
     {
         $confirmOrderHandler = null;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'shopaccount.ini',

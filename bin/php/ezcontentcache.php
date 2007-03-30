@@ -52,7 +52,7 @@ $options = $script->getOptions( "[clear-node:][clear-subtree:]",
                                        'clear-subtree' => ( "Clears all content caches related to a given node subtree,\n" .
                                                             "subtree expects a nice url as input.\n" .
                                                             "Separate multiple subtrees with a comma" ) ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 

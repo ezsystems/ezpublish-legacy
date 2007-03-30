@@ -39,7 +39,7 @@ $module =& $Params["Module"];
 $year = $Params['Year'];
 $month = $Params['Month'];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "Year" ) )
 {
     $year = $http->postVariable( "Year" );
@@ -64,7 +64,7 @@ for ( $index = 0; $index < 10; $index++ )
     $yearList[] = $currentYear - $index;
 }
 
-$locale =& eZLocale::instance();
+$locale = eZLocale::instance();
 $monthList = array();
 for ( $monthIndex = 1; $monthIndex <= 12; $monthIndex++ )
 {

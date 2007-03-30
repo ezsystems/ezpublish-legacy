@@ -123,14 +123,14 @@ function &connectToDatabase( $cli, $script, $host, $user, $password, $database )
 
     if ( $user )
     {
-        $db =& eZDB::instance( "mysql",
+        $db = eZDB::instance( "mysql",
                            array( 'server' => $host,
                                   'user' => $user,
                                   'password' => $password,
                                   'database' => $database ) );
     } else
     {
-         $db =& eZDB::instance();
+         $db = eZDB::instance();
          if ( $db->databaseName() != "mysql" )
          {
             $cli->error( 'This script can only show and convert mysql databases.' );

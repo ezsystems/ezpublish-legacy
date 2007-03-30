@@ -96,7 +96,7 @@ class eZMediaType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if ( $version == null )
         {
@@ -250,6 +250,8 @@ class eZMediaType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $debug = eZDebug::instance();
+
         eZMediaType::checkFileUploads();
 
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
@@ -294,10 +296,10 @@ class eZMediaType extends eZDataType
 
         $mediaFilePostVarName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
         if ( eZHTTPFile::canFetch( $mediaFilePostVarName ) )
-            $mediaFile =& eZHTTPFile::fetch( $mediaFilePostVarName );
+            $mediaFile = eZHTTPFile::fetch( $mediaFilePostVarName );
         else
             $mediaFile = null;
-        if ( get_class( $mediaFile ) == "ezhttpfile" )
+        if ( strtolower( get_class( $mediaFile ) ) == "ezhttpfile" )
         {
             $mimeData = eZMimeType::findByFileContents( $mediaFile->attribute( "original_filename" ) );
             $mime = $mimeData['name'];
@@ -310,13 +312,13 @@ class eZMediaType extends eZDataType
             $mediaFile->setMimeType( $mime );
             if ( !$mediaFile->store( "original", $extension ) )
             {
-                eZDebug::writeError( "Failed to store http-file: " . $mediaFile->attribute( "original_filename" ),
+                $debug->writeError( "Failed to store http-file: " . $mediaFile->attribute( "original_filename" ),
                                      "eZMediaType" );
                 return false;
             }
 
             $orig_dir = $mediaFile->storageDir( "original" );
-            eZDebug::writeNotice( "dir=$orig_dir" );
+            $debug->writeNotice( "dir=$orig_dir" );
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
@@ -339,7 +341,7 @@ class eZMediaType extends eZDataType
     {
     }
 
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         if ( $action == "delete_media" )
         {
@@ -588,7 +590,7 @@ class eZMediaType extends eZDataType
     /*!
      Returns the object title.
     */
-    function title( &$contentObjectAttribute,  $name = "original_filename" )
+    function title( $contentObjectAttribute,  $name = "original_filename" )
     {
         $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
@@ -609,7 +611,7 @@ class eZMediaType extends eZDataType
        return true;
     }
 
-    function &objectAttributeContent( $contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
@@ -746,7 +748,7 @@ class eZMediaType extends eZDataType
         $sourcePath = $package->simpleFilePath( $mediaNode->attributeValue( 'filekey' ) );
 
         include_once( 'lib/ezfile/classes/ezdir.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $mimeType = $mediaNode->attributeValue( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
         $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
@@ -769,7 +771,8 @@ class eZMediaType extends eZDataType
 
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
-        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
+        $debug = eZDebug::instance();
+        $debug->writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZMediaType::unserializeContentObjectAttribute()' );
 
         $mediaFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );

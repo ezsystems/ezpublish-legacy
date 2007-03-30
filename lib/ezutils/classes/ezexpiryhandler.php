@@ -103,7 +103,7 @@ class eZExpiryHandler
 
             fwrite( $fp, $storeString );
             fclose( $fp );
-            include_once( 'lib/ezutils/classes/ezfile.php' );
+            include_once( 'lib/ezfile/classes/ezfile.php' );
             eZFile::rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
 
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -148,7 +148,7 @@ class eZExpiryHandler
      \static
      \return the unique instance of the expiry handler.
     */
-    function &instance()
+    static function instance()
     {
         $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
         if ( !isset( $expiryInstance ) )
@@ -167,8 +167,8 @@ class eZExpiryHandler
     }
 
     /// \privatesection
-    var $Timestamps;
-    var $IsModified;
+    public $Timestamps;
+    public $IsModified;
 }
 
 /*!
@@ -178,9 +178,9 @@ function eZExpiryHandlerShutdownHandler()
 {
     $expiryInstance =& $GLOBALS['eZExpiryHandlerInstance'];
     if ( isset( $expiryInstance ) and
-         get_class( $expiryInstance ) == 'ezexpiryhandler' )
+         strtolower( get_class( $expiryInstance ) ) == 'ezexpiryhandler' )
     {
-        $instance =& eZExpiryHandler::instance();
+        $instance = eZExpiryHandler::instance();
         if ( $instance->isModified() )
         {
             $instance->store();

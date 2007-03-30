@@ -183,7 +183,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             return true;
         }*/
 
-        $config =& eZINI::instance( 'setup.ini' );
+        $config = eZINI::instance( 'setup.ini' );
         if ( !isset( $this->PersistenceList['database_info']['server'] ) or
              !$this->PersistenceList['database_info']['server'] )
             $this->PersistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
@@ -210,7 +210,7 @@ class eZStepDatabaseInit extends eZStepInstaller
     /*!
      \reimp
      */
-    function &display()
+    function display()
     {
         $databaseMap = eZSetupDatabaseMap();
 
@@ -248,8 +248,8 @@ class eZStepDatabaseInit extends eZStepInstaller
         return $result;
     }
 
-    var $Error = 0;
-    var $DBEmpty = true;
+    public $Error = 0;
+    public $DBEmpty = true;
 }
 
 ?>

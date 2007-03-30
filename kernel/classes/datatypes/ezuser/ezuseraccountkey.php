@@ -50,7 +50,7 @@ class eZUserAccountKey extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => "ID",
                                          "user_id" => "UserID",

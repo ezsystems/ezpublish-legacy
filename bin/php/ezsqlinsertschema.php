@@ -30,8 +30,8 @@
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema insert\n\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish SQL Schema insert\n\n" .
                                                          "Insert database schema and data to specified database\n".
                                                          "ezsqlinsertschema.php --type=mysql --user=root share/db_schema.dba ezp35stable" ),
                                       'use-session' => false,
@@ -206,7 +206,7 @@ if ( $socket )
     $parameters['socket'] = $socket;
 if ( $port )
     $parameters['port'] = $port;
-$db =& eZDB::instance( $type,
+$db = eZDB::instance( $type,
                        $parameters,
                        true );
 

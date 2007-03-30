@@ -27,7 +27,7 @@
 //
 
 $module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $function =& $Params['Function'];
 $key =& $Params['Key'];
 $value =& $Params['Value'];

@@ -32,7 +32,7 @@
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $rootNodeIDList = $ini->variable( 'HideSettings','RootNodeList' );
 $hideAttributeArray = $ini->variable( 'HideSettings', 'HideDateAttributeList' );
 $hideClasses = array_keys( $hideAttributeArray );

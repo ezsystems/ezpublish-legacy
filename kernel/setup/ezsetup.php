@@ -44,14 +44,14 @@ include_once( 'kernel/setup/steps/ezstep_data.php' );
 include_once( 'kernel/setup/ezsetup_summary.php' );
 
 // Initialize template
-$tpl =& eZTemplate::instance();
+$tpl = eZTemplate::instance();
 //$tpl->registerFunction( "section", new eZTemplateSectionFunction( "section" ) );
 //$tpl->registerFunction( "include", new eZTemplateIncludeFunction() );
 
 include_once( 'kernel/common/eztemplatedesignresource.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( "lib/ezutils/classes/ezdebug.php" );
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
     eZTemplate::setIsDebugEnabled( true );
 //eZDebug::setLogOnly( true );
@@ -67,7 +67,7 @@ $tpl->autoload();
 $tpl->registerResource( eZTemplateDesignResource::instance() );
 
 // Initialize HTTP variables
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 $baseDir = 'kernel/setup/';
 
@@ -240,7 +240,8 @@ $result['summary'] = $summary->summary();
 $result['progress'] = $stepData->progress( $step );
 
 // Print debug information and exit.
-eZDebug::addTimingPoint( "End" );
+$debug = eZDebug::instance();
+$debug->addTimingPoint( "End" );
 
 return $result;
 

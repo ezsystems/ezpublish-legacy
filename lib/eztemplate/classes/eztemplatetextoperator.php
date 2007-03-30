@@ -275,8 +275,8 @@ class eZTemplateTextOperator
     }
 
     /// \privatesection
-    var $ConcatName;
-    var $Operators;
+    public $ConcatName;
+    public $Operators;
 }
 
 ?>

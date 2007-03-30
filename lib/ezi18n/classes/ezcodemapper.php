@@ -139,7 +139,7 @@ class eZCodeMapper
     */
     function loadTransformationFiles( $currentCharset, $transformationGroup )
     {
-        $ini =& eZINI::instance( 'transform.ini' );
+        $ini = eZINI::instance( 'transform.ini' );
         $repositoryList = array( $ini->variable( 'Transformation', 'Repository' ) );
         $files = $ini->variable( 'Transformation', 'Files' );
         include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -218,7 +218,7 @@ class eZCodeMapper
 
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-        $this->ISOUnicodeCodec =& eZTextCodec::instance( 'iso-8859-1', 'unicode' );
+        $this->ISOUnicodeCodec = eZTextCodec::instance( 'iso-8859-1', 'unicode' );
 
         $buffer = '';
         $lineNum = 1;
@@ -1112,7 +1112,7 @@ class eZCodeMapper
                 {
                     if ( $ordinal == $fromCode )
                     {
-                        $newTo = array_merge( $newTo, $toCode );
+                        $newTo = array_merge( $newTo, array( $toCode ) );
                     }
                     else
                     {
@@ -1425,7 +1425,7 @@ class eZCodeMapper
     {
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-        $codec =& eZTextCodec::instance( 'unicode', $charset );
+        $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
             eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
@@ -1563,7 +1563,7 @@ class eZCodeMapper
             {
                 $code .= ( '// Add spaces after chinese / japanese / korean multibyte characters' . "\n" .
                            'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
-                           '$codec =& eZTextCodec::instance( false, \'unicode\' );' . "\n" .
+                           '$codec = eZTextCodec::instance( false, \'unicode\' );' . "\n" .
                            "\n" .
                            '$unicodeValueArray = $codec->convertString( $text );' . "\n" .
                            "\n" .
@@ -1584,7 +1584,7 @@ class eZCodeMapper
                            '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
                            '    }' . "\n" .
                            '}' . "\n" .
-                           '$revCodec =& eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
+                           '$revCodec = eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
                            '$text = $revCodec->convertString( $normalizedTextArray );' . "\n" );
             }
             $code .= ( '$text = preg_replace( array( "#(\.){2,}#",' . "\n" .
@@ -1600,7 +1600,7 @@ class eZCodeMapper
                        '                             " ",' . "\n" .
                        '                             " " ),' . "\n" .
                        '                      $text );' . "\n" .
-                       '$ini =& eZINI::instance();' . "\n" .
+                       '$ini = eZINI::instance();' . "\n" .
                        'if ( $ini->variable( \'SearchSettings\', \'EnableWildcard\' ) != \'true\' )' . "\n" .
                        '{' . "\n" .
                        '    $text = str_replace( "*", " ", $text );' . "\n" .
@@ -1641,7 +1641,7 @@ class eZCodeMapper
             {
                 // Add spaces after chinese / japanese / korean multibyte characters
                 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-                $codec =& eZTextCodec::instance( false, 'unicode' );
+                $codec = eZTextCodec::instance( false, 'unicode' );
 
                 $unicodeValueArray = $codec->convertString( $text );
 
@@ -1663,7 +1663,7 @@ class eZCodeMapper
                     }
                 }
 
-                $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
+                $revCodec = eZTextCodec::instance( 'unicode', false ); // false means use internal charset
                 $text = $revCodec->convertString( $normalizedTextArray );
             }
 
@@ -1681,7 +1681,7 @@ class eZCodeMapper
                                          " ",
                                          "$1 " ),
                                   $text );
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
             {
                 $text = str_replace( "*", " ", $text );
@@ -1712,9 +1712,9 @@ class eZCodeMapper
     }
 
     /// \privatesection
-    var $TransformationTables;
-    var $TransformationFiles;
-    var $ISOUnicodeCodec;
+    public $TransformationTables;
+    public $TransformationFiles;
+    public $ISOUnicodeCodec;
 }
 
 ?>

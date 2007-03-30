@@ -160,7 +160,7 @@ class eZImageTextLayer extends eZImageLayer
                              $absoluteWidth = false, $absoluteHeight = false )
     {
         $Return = false;
-        if ( get_class( $font ) != 'ezimagefont' )
+        if ( strtolower( get_class( $font ) ) != 'ezimagefont' )
             return $Return;
         if ( !function_exists( 'ImageTTFBBox' ) )
         {
@@ -194,9 +194,9 @@ class eZImageTextLayer extends eZImageLayer
     }
 
     /// \privatesection
-    var $TextBoundingBox;
-    var $Text;
-    var $Angle;
+    public $TextBoundingBox;
+    public $Text;
+    public $Angle;
 }
 
 ?>

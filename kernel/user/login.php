@@ -36,8 +36,8 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
 $Module =& $Params['Module'];
 
-$ini =& eZINI::instance();
-$http =& eZHTTPTool::instance();
+$ini = eZINI::instance();
+$http = eZHTTPTool::instance();
 
 $userLogin = '';
 $userPassword = '';
@@ -104,7 +104,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
     {
         $http->removeSessionVariable( 'RedirectAfterLogin' );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
         {
             $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
@@ -117,11 +117,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
-            $userClass =& eZUserLoginHandler::instance( $loginHandler );
+            $userClass = eZUserLoginHandler::instance( $loginHandler );
             $user = $userClass->loginUser( $userLogin, $userPassword );
-            if ( get_class( $user ) == 'ezuser' )
+            if ( strtolower( get_class( $user ) ) == 'ezuser' )
             {
-                $uri =& eZURI::instance( eZSys::requestURI() );
+                $uri = eZURI::instance( eZSys::requestURI() );
                 $access = accessType( $uri,
                                       eZSys::hostname(),
                                       eZSys::serverPort(),
@@ -167,7 +167,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 break;
             }
         }
-        if ( ( get_class( $user ) != 'ezuser' ) and $hasAccessToSite )
+        if ( ( strtolower( get_class( $user ) ) != 'ezuser' ) and $hasAccessToSite )
             $loginWarning = true;
     }
     else
@@ -202,7 +202,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
         // First, let's determine which attributes we should search redirection URI in.
         $userUriAttrName  = '';
         $groupUriAttrName = '';
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'UserSettings', 'LoginRedirectionUriAttribute' ) )
         {
             $uriAttrNames = $ini->variable( 'UserSettings', 'LoginRedirectionUriAttribute' );
@@ -283,13 +283,13 @@ if ( $Module->isCurrentAction( 'Login' ) and
     }
 
     $userID = 0;
-    if ( get_class( $user ) == 'ezuser' )
+    if ( strtolower( get_class( $user ) ) == 'ezuser' )
         $userID = $user->id();
     if ( $userID > 0 )
     {
         if ( $http->hasPostVariable( 'Cookie' ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $rememberMeTimeout = $ini->hasVariable( 'Session', 'RememberMeTimeout' )
                                  ? $ini->variable( 'Session', 'RememberMeTimeout' )
                                  : false;
@@ -315,7 +315,7 @@ else
 {
     // called from outside of a template (?)
     $requestedURI =& $GLOBALS['eZRequestedURI'];
-    if ( get_class( $requestedURI ) == 'ezuri' )
+    if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
     {
         $requestedModule = $requestedURI->element( 0, false );
         $requestedView = $requestedURI->element( 1, false );
@@ -337,7 +337,7 @@ $maxNumOfFailedLogin = !eZUser::isTrusted() ? eZUser::maxNumberOfFailedLogin() :
 // Should we show message about failed login attempt and max number of failed login
 if ( $loginWarning and isset( $GLOBALS['eZFailedLoginAttemptUserID'] ) )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $showMessageIfExceeded = $ini->hasVariable( 'UserSettings', 'ShowMessageIfExceeded' ) ? $ini->variable( 'UserSettings', 'ShowMessageIfExceeded' ) == 'true' : false;
 
     $failedUserID = $GLOBALS['eZFailedLoginAttemptUserID'];
@@ -364,7 +364,7 @@ $tpl->setVariable( 'max_num_of_failed_login', $maxNumOfFailedLogin, 'User' );
 
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:user/login.tpl' );
+$Result['content'] = $tpl->fetch( 'design:user/login.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Login' ),

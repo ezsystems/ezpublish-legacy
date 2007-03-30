@@ -49,14 +49,14 @@ include_once( 'lib/ezutils/classes/ezexecution.php' );
 */
 function eZUpdateDebugSettings()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     list( $debugSettings['debug-enabled'], $debugSettings['debug-by-ip'], $debugSettings['debug-by-user'], $debugSettings['debug-ip-list'], $debugSettings['debug-user-list'] ) =
         $ini->variableMulti( 'DebugSettings', array( 'DebugOutput', 'DebugByIP', 'DebugByUser', 'DebugIPList', 'DebugUserIDList' ), array ( 'enabled', 'enabled', 'enabled' ) );
     eZDebug::updateSettings( $debugSettings );
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 // Initialize/set the index file.
 eZSys::init( 'soap.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
@@ -89,7 +89,7 @@ eZDebug::checkDebugByUser();
 */
 function eZUpdateTextCodecSettings()
 {
-    $ini =& eZINI::instance( 'i18n.ini' );
+    $ini = eZINI::instance( 'i18n.ini' );
 
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
@@ -102,12 +102,12 @@ function eZUpdateTextCodecSettings()
 eZUpdateTextCodecSettings();
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-$moduleINI =& eZINI::instance( 'module.ini' );
+$moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
 $extensionDirectory = eZExtension::baseDirectory();
@@ -145,7 +145,7 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 
 // Load soap extensions
-$soapINI =& eZINI::instance( 'soap.ini' );
+$soapINI = eZINI::instance( 'soap.ini' );
 $enableSOAP = $soapINI->variable( 'GeneralSettings', 'EnableSOAP' );
 
 if ( $enableSOAP == 'true' )

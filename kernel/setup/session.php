@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezsession.php' );
 
 $tpl =& templateInit();
 $sessionsRemoved = false;
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $module =& $Params["Module"];
 $param['limit'] = 50;
@@ -83,9 +83,9 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
 {
     if ( $userID )
     {
-        if ( eZHTTPTool::hasPostVariable( 'SessionKeyArray' ) )
+        if ( $http->hasPostVariable( 'SessionKeyArray' ) )
         {
-            $sessionKeyArray = eZHTTPTool::postVariable( 'SessionKeyArray' );
+            $sessionKeyArray = $http->postVariable( 'SessionKeyArray' );
             foreach ( $sessionKeyArray as $sessionKeyItem )
             {
                 eZSessionDestroy( $sessionKeyItem );
@@ -94,13 +94,13 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
     }
     else
     {
-        if ( eZHTTPTool::hasPostVariable( 'UserIDArray' ) )
+        if ( $http->hasPostVariable( 'UserIDArray' ) )
         {
-            $userIDArray = eZHTTPTool::postVariable( 'UserIDArray' );
+            $userIDArray = $http->postVariable( 'UserIDArray' );
             if ( count( $userIDArray ) > 0 )
             {
                 include_once( 'lib/ezdb/classes/ezdb.php' );
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $userIDArrayString = $db->implodeWithTypeCast( ',', $userIDArray, 'int' );
                 $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . $userIDArrayString . " )" );
                 foreach ( $rows as $row )
@@ -189,8 +189,8 @@ function &eZFetchActiveSessions( $params = array() )
     {
         case 'active':
         {
-            $ini =& eZINI::instance();
-            $time = mktime();
+            $ini = eZINI::instance();
+            $time = time();
             $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
             $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
             $time = $time + $sessionTimeout - $activityTimeout;
@@ -219,7 +219,7 @@ function &eZFetchActiveSessions( $params = array() )
     }
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $query = "SELECT ezsession.user_id, $expirationSQL, max(session_key) as session_key  $countField
 FROM ezsession, ezuser, ezcontentobject
 WHERE ezsession.user_id=ezuser.contentobject_id AND
@@ -231,8 +231,8 @@ ORDER BY $orderBy";
 
     $rows = $db->arrayQuery( $query, array( 'offset' => $offset, 'limit' => $limit ) );
 
-    $time = mktime();
-    $ini =& eZINI::instance();
+    $time = time();
+    $ini = eZINI::instance();
     $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
     $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
     $sessionTimeoutValue = $time - $sessionTimeout;
@@ -306,8 +306,8 @@ function &eZFetchActiveSessionCount( $params = array() )
     {
         case 'active':
         {
-            $ini =& eZINI::instance();
-            $time = mktime();
+            $ini = eZINI::instance();
+            $time = time();
             $activityTimeout = $ini->variable( 'Session', 'ActivityTimeout' );
             $sessionTimeout = $ini->variable( 'Session', 'SessionTimeout' );
             $time = $time + $sessionTimeout - $activityTimeout;
@@ -329,7 +329,7 @@ function &eZFetchActiveSessionCount( $params = array() )
         $whereSQL = 'WHERE';
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $query = "SELECT count( * ) AS count
 FROM ezsession
 $whereSQL

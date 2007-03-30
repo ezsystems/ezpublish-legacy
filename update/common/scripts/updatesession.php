@@ -46,13 +46,13 @@ $options = $script->getOptions( "", "",
                                 array() );
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 include_once( 'lib/ezutils/classes/ezsession.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $sql = "SELECT count( session_key ) as count FROM ezsession";
 $rows = $db->arrayQuery( $sql );

@@ -33,7 +33,7 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/ezcontentbrowse.php" );
 include_once( "kernel/common/template.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $SectionID =& $Params["SectionID"];
 $Module =& $Params["Module"];
 
@@ -54,7 +54,7 @@ if ( $Module->isCurrentAction( 'AssignSection' ) )
 {
     $selectedNodeIDArray = eZContentBrowse::result( 'AssignSection' );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $selectedNodeIDArray as $nodeID )
     {

@@ -29,9 +29,9 @@
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$user =& eZUser::instance();
+$user = eZUser::instance();
 
 // Remove all temporary drafts
 include_once( 'kernel/classes/ezcontentobject.php' );
@@ -41,7 +41,7 @@ $user->logoutCurrent();
 
 $http->setSessionVariable( 'force_logout', 1 );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $redirectURL = $ini->variable( 'UserSettings', 'LogoutRedirect' );
 
 return $Module->redirectTo( $redirectURL );

@@ -137,11 +137,11 @@ class eZTemplateOperatorElement
     }
 
     /// The operator name
-    var $Name;
+    public $Name;
     /// The paramer array
-    var $Params;
-    var $Resource;
-    var $TemplateName;
+    public $Params;
+    public $Resource;
+    public $TemplateName;
 }
 
 ?>

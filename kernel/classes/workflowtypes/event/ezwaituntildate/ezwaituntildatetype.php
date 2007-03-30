@@ -54,7 +54,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     function execute( &$process, &$event )
     {
         $parameters = $process->attribute( 'parameter_list' );
-        $object =& eZContentObject::fetch( $parameters['object_id'] );
+        $object = eZContentObject::fetch( $parameters['object_id'] );
         $version =& $object->version( $parameters['version'] );
         $objectAttributes = $version->attribute( 'contentobject_attributes' );
         $waitUntilDateObject =& $this->workflowEventContent( $event );
@@ -72,9 +72,9 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
                 $dateTime =& $objectAttribute->attribute( 'content' );
-                if ( get_class( $dateTime ) == 'ezdatetime' or
-                     get_class( $dateTime ) == 'eztime' or
-                     get_class( $dateTime ) == 'ezdate' )
+                if ( strtolower( get_class( $dateTime ) ) == 'ezdatetime' or
+                     strtolower( get_class( $dateTime ) ) == 'eztime' or
+                     strtolower( get_class( $dateTime ) ) == 'ezdate' )
                 {
                     if ( time() < $dateTime->timeStamp() )
                     {

@@ -38,7 +38,7 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 */
 function eZSetupCriticalTests()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'CriticalTests' );
 }
 
@@ -47,7 +47,7 @@ function eZSetupCriticalTests()
 */
 function eZSetupOptionalTests()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     return $ini->variableArray( 'SetupSettings', 'OptionalTests' );
 }
 
@@ -71,7 +71,7 @@ function eZSetupFetchPersistenceList()
 {
     $persistenceList = array();
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $postVariables = $http->attribute( 'post' );
 
     foreach ( $postVariables as $name => $value )
@@ -90,7 +90,7 @@ function eZSetupFetchPersistenceList()
 function eZSetupSetPersistencePostVariable( $var, $value )
 {
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     if ( is_array( $value ) )
     {
         foreach ( $value as $valueKey => $valueItem )

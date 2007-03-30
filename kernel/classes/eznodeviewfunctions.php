@@ -38,7 +38,7 @@ define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
 
 class eZNodeviewfunctions
 {
-    function &generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
+    static function generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
                                 $cacheDir, $cachePath, $viewCacheEnabled,
                                 $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                 $collectionAttributes = false, $validation = false )
@@ -84,7 +84,7 @@ class eZNodeviewfunctions
             }
         }
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
 
         if ( $languageCode )
@@ -186,13 +186,13 @@ class eZNodeviewfunctions
             if ( !file_exists( $cacheDir ) )
             {
                 include_once( 'lib/ezfile/classes/ezdir.php' );
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $cacheDir, $perm, true );
             }
             $oldumask = umask( 0 );
             $pathExisted = file_exists( $cachePath );
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $fp = @fopen( $cachePath, "w" );
             if ( !$fp )
@@ -223,7 +223,7 @@ class eZNodeviewfunctions
         return $Result;
     }
 
-    function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
+    static function generateViewCacheFile( $user, $nodeID, $offset, $layout, $language, $viewMode, $viewParameters = false, $cachedViewPreferences = false )
     {
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
         include_once( 'kernel/classes/ezpreferences.php' );
@@ -265,7 +265,7 @@ class eZNodeviewfunctions
         // Make the cache unique for every case of the preferences
         if ( $cachedViewPreferences === false )
         {
-            $siteIni =& eZINI::instance( );
+            $siteIni = eZINI::instance( );
             $depPreferences = $siteIni->variable( 'ContentSettings', 'CachedViewPreferences' );
         }
         else
@@ -292,7 +292,7 @@ class eZNodeviewfunctions
             $cacheHashArray[] = $pString;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
         $extraPath = eZDir::filenamePath( $nodeID );

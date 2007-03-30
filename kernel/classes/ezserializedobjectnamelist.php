@@ -67,11 +67,8 @@ class eZSerializedObjectNameList
         return $object;
     }
 
-    function clone()
+    function __clone()
     {
-        $clone = $this->create();
-        $clone->copy( $this );
-        return $clone;
     }
 
     function copy( $serializedObjectNameListObject )
@@ -284,7 +281,7 @@ class eZSerializedObjectNameList
     /*!
      \static
     */
-    function nameFromSerializedString( $serializedNames, $languageLocale = false )
+    static function nameFromSerializedString( $serializedNames, $languageLocale = false )
     {
         $nameList = new eZSerializedObjectNameList( $serializedNames );
         return $nameList->name( $languageLocale );
@@ -544,7 +541,7 @@ class eZSerializedObjectNameList
             //      'map_table' => array( 'eng-GB' => 'get-DE',
             //                            'ger-DE' => 'skip_language' )
             // will produce different results.
-            $nameList = $this->clone();
+            $nameList = clone $this;
             $this->resetNameList();
 
             foreach ( $languageInfo['map_table'] as $fromLanguageLocale => $toLanguageLocale )
@@ -594,9 +591,9 @@ class eZSerializedObjectNameList
         $this->updateAlwaysAvailable();
     }
 
-    var $NameList;
-    var $HasDirtyData;
-    var $DefaultLanguage;
+    public $NameList;
+    public $HasDirtyData;
+    public $DefaultLanguage;
 }
 
 ?>

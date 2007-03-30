@@ -51,7 +51,7 @@ if ( !is_numeric( $offset ) )
     $offset = 0;
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 if ( $module->isCurrentAction( 'ResetSearchStats' ) )
@@ -62,7 +62,7 @@ if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 $tpl =& templateInit();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $query = "SELECT count(*) as count FROM ezsearch_search_phrase";
 $searchListCount = $db->arrayQuery( $query );
 

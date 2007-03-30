@@ -81,7 +81,7 @@ class eZStepSecurity extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'setup_previous_step', 'Security' );
         $this->Tpl->setVariable( 'setup_next_step', 'Registration' );

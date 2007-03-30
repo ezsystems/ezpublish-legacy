@@ -268,7 +268,7 @@ class eZTemplateControlOperator
     }
 
     /// The array of operators
-    var $Operators;
+    public $Operators;
 };
 
 ?>

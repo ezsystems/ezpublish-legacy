@@ -48,7 +48,7 @@ if ( !$RSSExport )
 
 include_once( 'kernel/classes/ezrssexportitem.php' );
 
-$config =& eZINI::instance( 'site.ini' );
+$config = eZINI::instance( 'site.ini' );
 $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
 if($cacheTime <= 0)

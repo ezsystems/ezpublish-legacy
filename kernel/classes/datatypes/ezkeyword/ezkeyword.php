@@ -108,7 +108,7 @@ class eZKeyword
     */
     function store( &$attribute )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $object =& $attribute->attribute( 'object' );
         $classID = $object->attribute( 'contentclass_id' );
@@ -252,7 +252,7 @@ class eZKeyword
         if ( $attribute->attribute( 'id' ) === null )
             return;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $wordArray = $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
                                     WHERE ezkeyword_attribute_link.keyword_id=ezkeyword.id AND
                                     ezkeyword_attribute_link.objectattribute_id='" . $attribute->attribute( 'id' ) ."' " );
@@ -297,7 +297,7 @@ class eZKeyword
         if ( $this->ObjectAttributeID )
         {
             // Fetch words
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
 
             $wordArray = $db->arrayQuery( "SELECT * FROM ezkeyword_attribute_link
                                     WHERE objectattribute_id='" . $this->ObjectAttributeID ."' " );
@@ -339,10 +339,10 @@ class eZKeyword
     }
 
     /// Contains the keywords
-    var $KeywordArray = array();
+    public $KeywordArray = array();
 
     /// Contains the ID attribute if fetched
-    var $ObjectAttributeID = false;
+    public $ObjectAttributeID = false;
 }
 
 ?>

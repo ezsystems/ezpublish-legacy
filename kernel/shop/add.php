@@ -42,7 +42,7 @@ if ( !eZContentObject::exists( $ObjectID ) )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 // Check if the user can read the object
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 if ( !$object->canRead() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
 

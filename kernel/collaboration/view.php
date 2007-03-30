@@ -41,7 +41,7 @@ include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
 if ( !eZCollaborationViewHandler::exists( $ViewMode ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$view =& eZCollaborationViewHandler::instance( $ViewMode );
+$view = eZCollaborationViewHandler::instance( $ViewMode );
 
 $template = $view->template();
 

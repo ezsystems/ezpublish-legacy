@@ -49,7 +49,7 @@ class eZShopFunctionCollection
     function fetchBasket( )
     {
         include_once( 'kernel/classes/ezbasket.php' );
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $sessionID = $http->sessionID();
 
         $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
@@ -143,7 +143,7 @@ class eZShopFunctionCollection
                  $sqlOrderString";
 
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $topList = $db->arrayQuery( $query, array( 'limit' => $limit, 'offset' => $offset ) );
 
         include_once( 'kernel/classes/ezcontentobject.php' );
@@ -152,7 +152,7 @@ class eZShopFunctionCollection
         {
             foreach ( array_keys ( $topList ) as $key )
             {
-                $contentObject =& eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
+                $contentObject = eZContentObject::fetch( $topList[ $key ][ 'contentobject_id' ] );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
                                                     'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -166,7 +166,7 @@ class eZShopFunctionCollection
             foreach ( array_keys ( $topList ) as $key )
             {
                 $objectID = $topList[$key]['contentobject_id'];
-                $contentObject =& eZContentObject::fetch( $objectID );
+                $contentObject = eZContentObject::fetch( $objectID );
                 if ( $contentObject === null )
                     return array( 'error' => array( 'error_type' => 'kernel',
                                                     'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -182,7 +182,7 @@ class eZShopFunctionCollection
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $contentObjectID = (int)$contentObjectID;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $tmpTableName = $db->generateUniqueTempTableName( 'ezproductcoll_tmp_%' );
         $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName( productcollection_id int )" );
         $db->query( "INSERT INTO $tmpTableName SELECT ezorder.productcollection_id
@@ -196,7 +196,7 @@ class eZShopFunctionCollection
               GROUP BY ezproductcollection_item.contentobject_id
               ORDER BY count desc";
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $objectList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $db->dropTempTable( "DROP TABLE $tmpTableName" );
@@ -204,7 +204,7 @@ class eZShopFunctionCollection
         foreach ( array_keys ( $objectList ) as $key )
         {
             $objectID = $objectList[$key]['contentobject_id'];
-            $contentObject =& eZContentObject::fetch( $objectID );
+            $contentObject = eZContentObject::fetch( $objectID );
             if ( $contentObject === null )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -217,7 +217,7 @@ class eZShopFunctionCollection
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $wishList =& eZWishList::items( true, $production_id, $offset, $limit );
+        $wishList = eZWishList::items( true, $production_id, $offset, $limit );
         return array ( 'result' => &$wishList );
     }
 

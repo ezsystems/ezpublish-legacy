@@ -69,7 +69,7 @@ class eZSimpleTagsOperator
             return;
 
         $init = true;
-        $ini =& eZINI::instance( 'template.ini' );
+        $ini = eZINI::instance( 'template.ini' );
         $extensions = $ini->variable( 'SimpleTagsOperator', 'Extensions' );
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $pathList = eZExtension::expandedPathList( $extensions, 'simpletags' );
@@ -124,7 +124,7 @@ class eZSimpleTagsOperator
         $this->initializeIncludes();
 
         $tagMap = array();
-        $ini =& eZINI::instance( 'template.ini' );
+        $ini = eZINI::instance( 'template.ini' );
         $tagList = $ini->variable( 'SimpleTagsOperator', $tagListName );
         foreach ( $tagList as $tag => $tagItem )
         {
@@ -226,7 +226,7 @@ class eZSimpleTagsOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

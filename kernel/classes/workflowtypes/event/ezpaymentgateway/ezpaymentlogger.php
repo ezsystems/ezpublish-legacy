@@ -42,13 +42,13 @@ class eZPaymentLogger
         $this->file = fopen( $fileName, $mode );
     }
 
-    function &CreateNew($fileName)
+    static function CreateNew($fileName)
     {
         $theLogger = new eZPaymentLogger( $fileName, "wt" );
         return $theLogger;
     }
 
-    function &CreateForAdd($fileName)
+    static function CreateForAdd($fileName)
     {
         $theLogger = new eZPaymentLogger( $fileName, "a+t" );
         return $theLogger;
@@ -84,12 +84,12 @@ class eZPaymentLogger
         }
     }
 
-    function getTime()
+    static function getTime()
     {
         $time = strftime( "%d-%m-%Y %H-%M" );
         return $time;
     }
 
-    var $file;
+    public $file;
 }
 ?>

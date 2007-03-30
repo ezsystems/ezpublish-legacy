@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( 'kernel/common/template.php' );
@@ -43,7 +43,7 @@ if ( $module->isCurrentAction( 'Cancel' ) )
     return;
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $firstName = '';
 $lastName = '';
@@ -111,7 +111,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         // Check for validation
         $basket =& eZBasket::currentBasket();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $order = $basket->createOrder();
 

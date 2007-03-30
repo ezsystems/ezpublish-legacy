@@ -96,7 +96,7 @@ class eZFloatType extends eZDataType
             $contentObjectAttribute->setHTTPValue( $data );
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
             $contentObjectAttribute->setAttribute( "data_float", $data );
@@ -126,7 +126,7 @@ class eZFloatType extends eZDataType
             }
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
             $data = $locale->internalNumber( $data );
 
             switch( $input_state )
@@ -197,7 +197,7 @@ class eZFloatType extends eZDataType
              $http->hasPostVariable( $defaultValueName ) )
         {
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = str_replace(" ", "", $minValueValue );
@@ -248,7 +248,7 @@ class eZFloatType extends eZDataType
              $http->hasPostVariable( $defaultValueName ) )
         {
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = str_replace(" ", "", $minValueValue );
@@ -307,7 +307,7 @@ class eZFloatType extends eZDataType
         if ( $http->hasPostVariable( $minValueName ) and $http->hasPostVariable( $maxValueName ) )
         {
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
 
             $minValueValue = $http->postVariable( $minValueName );
             $minValueValue = str_replace(" ", "", $minValueValue );
@@ -337,7 +337,7 @@ class eZFloatType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_float' );
     }
@@ -346,7 +346,7 @@ class eZFloatType extends eZDataType
      Returns the float value.
     */
 
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_float" );
     }
@@ -411,7 +411,7 @@ class eZFloatType extends eZDataType
 
     /// \privatesection
     /// The float value validator
-    var $FloatValidator;
+    public $FloatValidator;
 }
 
 eZDataType::register( EZ_DATATYPESTRING_FLOAT, "ezfloattype" );

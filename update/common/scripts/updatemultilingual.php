@@ -138,8 +138,8 @@ $script->initialize();
 
 $cli->warning( "Have you backed up your database? If not, press Ctrl-C and back up your data!" );
 
-$db =& eZDB::instance();
-$ini =& eZINI::instance();
+$db = eZDB::instance();
+$ini = eZINI::instance();
 
 $defaultLanguageCode = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
 

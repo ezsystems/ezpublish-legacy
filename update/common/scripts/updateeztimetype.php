@@ -36,8 +36,8 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish eZTimeType update script\n\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish eZTimeType update script\n\n" .
                                                          "This script will transform all eZTimeType attributes value\n" .
                                                          "from GMT to the server local time.\n Please backup your database" .
                                                          "before to restore your old values if results will something else" .
@@ -68,7 +68,7 @@ if ( !$script->validateVersion() )
 include_once( 'lib/ezlocale/classes/eztime.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( !is_object( $db ) )
 {

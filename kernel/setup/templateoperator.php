@@ -32,7 +32,7 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 /*
@@ -59,7 +59,7 @@ $steps = array( 'basic' => array( 'template' => 'templateoperator_basic.tpl',
 
 $template = 'templateoperator.tpl';
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $persistentData = array();
 if ( $http->hasPostVariable( 'PersistentData' ) )
@@ -119,7 +119,7 @@ function templateOperatorBasic( &$tpl, &$persistentData, $stepData )
 
 function templateOperatorBasicFetchData( &$tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $operatorName = false;
     if ( $http->hasPostVariable( 'Name' ) )
         $operatorName = $http->postVariable( 'Name' );
@@ -184,7 +184,7 @@ function templateOperatorDescribe( &$tpl, &$persistentData, $stepData )
 
 function templateOperatorDescribeFetchData( &$tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $className = false;
     if ( $http->hasPostVariable( 'ClassName' ) )
         $className = $http->postVariable( 'ClassName' );

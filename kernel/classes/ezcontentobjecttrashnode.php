@@ -49,7 +49,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'node_id' => array( 'name' => 'NodeID',
                                                              'datatype' => 'integer',
@@ -141,7 +141,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
     }
 
 
-    function createFromNode( $node )
+    static function createFromNode( $node )
     {
         $row = array( 'node_id' => $node->attribute( 'node_id' ),
                       'parent_node_id' => $node->attribute( 'parent_node_id' ),
@@ -169,17 +169,17 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         $this->store();
     }
 
-    function purgeForObject( $contentObjectID )
+    static function purgeForObject( $contentObjectID )
     {
         if ( !is_numeric( $contentObjectID ) )
             return false;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $db->query( "DELETE FROM ezcontentobject_trash WHERE contentobject_id='$contentObjectID'" );
         $db->commit();
     }
 
-    function fetchListForObject( $objectID, $asObject = true, $offset = false, $limit = false )
+    static function fetchListForObject( $objectID, $asObject = true, $offset = false, $limit = false )
     {
         return false;
     }
@@ -187,7 +187,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
     /*
       Analog of eZContentObjectTreeNode::subTree(Count)() method, see it for extending this method
     */
-    function &trashList( $params = false, $asCount = false )
+    static function trashList( $params = false, $asCount = false )
     {
         if ( $params === false )
         {
@@ -260,7 +260,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                         $sqlSorting
                         ";
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( !$offset && !$limit )
             $trashRowsArray = $db->arrayQuery( $query );
         else
@@ -286,12 +286,12 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         }
     }
 
-    function trashListCount( $params = false )
+    static function trashListCount( $params = false )
     {
         return eZContentObjectTrashNode::trashList( $params, true );
     }
 
-    function &originalParent()
+    function originalParent()
     {
         $parent = $this->fetch( $this->attribute( 'parent_node_id' ) );
         $thisPathArray = $this->attribute( 'path_array' );
@@ -315,9 +315,9 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         return $ret;
     }
 
-    function &originalParentPathIdentificationString()
+    function originalParentPathIdentificationString()
     {
-        $originalParent =& $this->originalParent();
+        $originalParent = $this->originalParent();
         if ( $originalParent )
         {
             return $originalParent->attribute( 'path_identification_string' );

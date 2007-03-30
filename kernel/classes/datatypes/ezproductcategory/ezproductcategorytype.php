@@ -128,7 +128,7 @@ class eZProductCategoryType extends eZDataType
         return true;
     }
 
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -168,7 +168,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         require_once( 'kernel/classes/ezproductcategory.php' );
         $category = eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
@@ -226,7 +226,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $categoryID = $contentObjectAttribute->attribute( "data_int" );
         $category = $categoryID > 0 ? eZProductCategory::fetch( $categoryID ) : false;

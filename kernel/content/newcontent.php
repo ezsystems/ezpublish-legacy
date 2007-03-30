@@ -30,7 +30,7 @@
 include_once( 'kernel/common/template.php' );
 
 $tpl =& templateInit();
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $tpl->setVariable( "view_parameters", $Params['UserParameters'] );
 $tpl->setVariable( 'last_visit_timestamp', $user->lastVisit() );

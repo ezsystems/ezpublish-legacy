@@ -53,9 +53,10 @@ class eZDBPackageHandler extends eZPackageHandler
     /*!
      Installs the package type
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters )
+                      $content, $installParameters,
+                      &$installData )
     {
         if ( $installType == 'sql' )
         {
@@ -68,7 +69,7 @@ class eZDBPackageHandler extends eZPackageHandler
                 $path .= '/' . $databaseType;
             if ( file_exists( $path ) )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $canInsert = true;
                 if ( $databaseType and
                      $databaseType != $db->databaseName() )
@@ -91,7 +92,7 @@ class eZDBPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, &$cli, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
         if ( isset( $parameters['sql-file-list'] ) )
         {

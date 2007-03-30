@@ -44,7 +44,7 @@ class eZDiscount
                      'section_id' => sectionID );
 
     */
-    function discountPercent( $user, $params )
+    static function discountPercent( $user, $params )
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
@@ -54,7 +54,7 @@ class eZDiscount
 
         if ( is_object( $user ) )
         {
-            $groups =& $user->groups();
+            $groups = $user->groups();
             $idArray = array_merge( $groups, array( $user->attribute( 'contentobject_id' ) ) );
 
             // Fetch discount rules for the current user
@@ -62,7 +62,7 @@ class eZDiscount
 
             if ( count( $rules ) > 0 )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
 
                 $i = 1;
                 $subRuleStr = '';

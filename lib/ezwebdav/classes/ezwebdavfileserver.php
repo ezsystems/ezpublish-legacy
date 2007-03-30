@@ -457,7 +457,7 @@ class eZWebDAVFileServer extends eZWebDAVServer
     */
     function getCollectionContent( $dir )
     {
-        $directory = dirname( $_SERVER["PATH_TRANSLATED"] ) . $dir;
+        $directory = dirname( $_SERVER['SCRIPT_FILENAME'] ) . $dir;
 
         $files  = array();
 

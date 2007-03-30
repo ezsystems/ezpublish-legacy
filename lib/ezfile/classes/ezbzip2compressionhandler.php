@@ -122,9 +122,9 @@ class eZBZIP2Handler extends eZCompressionHandler
     }
 
     /// \privatesection
-    var $WorkFactor;
-    var $BlockSize;
-    var $SmallDecompress;
+    public $WorkFactor;
+    public $BlockSize;
+    public $SmallDecompress;
 }
 
 ?>

@@ -42,7 +42,7 @@ $limit = 15;
 
 $tpl =& templateInit();
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 $customerArray =& eZOrder::customerList( $offset, $limit );
 

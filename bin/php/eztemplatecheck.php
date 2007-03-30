@@ -43,7 +43,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Template Sy
 $script->startup();
 
 $options = $script->getOptions( "", "[FILE*]", array() );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 
@@ -51,7 +51,7 @@ $result = true;
 
 if ( count( $options['arguments'] ) > 0 )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     include_once( 'kernel/common/template.php' );
     $tpl =& templateInit();
@@ -106,7 +106,7 @@ if ( count( $options['arguments'] ) > 0 )
 }
 else
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
     $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );

@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "kernel/common/template.php" );
 
 $Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $validation = array( 'processed' => false,
                      'groups' => array() );
 
@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 $event_list =& $workflow->fetchEvents();
 
 $tpl =& templateInit();
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
 $tpl->setVariable( "workflow", $workflow );

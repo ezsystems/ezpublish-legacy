@@ -88,7 +88,7 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZOrderStatus class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -230,7 +230,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function fetchPolicyList( $showInactive = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $conditionText = '';
         if ( !$showInactive )
@@ -268,7 +268,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function orderStatusCount( $showInactive = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $condText = '';
         if ( !$showInactive )
@@ -284,7 +284,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function remove()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         // Set all elements using this status to 0 (undefined).
@@ -350,7 +350,7 @@ class eZOrderStatus extends eZPersistentObject
         else
         {
             // Lock the table while we find the highest number
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->lock( 'ezorder_status' );
 
             $rows = $db->arrayQuery( "SELECT max( status_id ) as status_id FROM ezorder_status" );

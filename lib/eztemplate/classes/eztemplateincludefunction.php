@@ -218,7 +218,7 @@ class eZTemplateIncludeFunction
      \static
      Takes care of loading the template file and set it in the \a $text parameter.
     */
-    function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
+    static function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
     {
         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
     }
@@ -233,7 +233,7 @@ class eZTemplateIncludeFunction
 
     /// \privatesection
     /// The name of the include function
-    var $IncludeName;
+    public $IncludeName;
 }
 
 ?>

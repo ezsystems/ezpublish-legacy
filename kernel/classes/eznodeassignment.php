@@ -68,7 +68,7 @@ class eZNodeAssignment extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -212,7 +212,7 @@ class eZNodeAssignment extends eZPersistentObject
         return $isSetOperation;
     }
 
-    function create( $parameters = array() )
+    static function create( $parameters = array() )
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
@@ -273,7 +273,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function remove( $parentNodeID = false, $contentObjectID = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $parentNodeID == false and $contentObjectID == false )
         {
             $nodeAssignment =& $this;
@@ -303,9 +303,9 @@ class eZNodeAssignment extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeByID( $assignmentID )
+    static function removeByID( $assignmentID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( is_array( $assignmentID ) )
         {
             if ( count( $assignmentID ) == 0 )
@@ -342,7 +342,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function purge( $parentNodeID = false, $contentObjectID = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $parentNodeID == false and $contentObjectID == false )
         {
             $nodeAssignment =& $this;
@@ -369,9 +369,9 @@ class eZNodeAssignment extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function purgeByID( $assignmentID )
+    static function purgeByID( $assignmentID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( is_array( $assignmentID ) )
         {
             if ( count( $assignmentID ) == 0 )
@@ -397,7 +397,7 @@ class eZNodeAssignment extends eZPersistentObject
         return true;
     }
 
-    function fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
+    static function fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version );
@@ -414,7 +414,7 @@ class eZNodeAssignment extends eZPersistentObject
         return $objectList;
     }
 
-    function fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
+    static function fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version,
@@ -440,7 +440,7 @@ class eZNodeAssignment extends eZPersistentObject
      Fetches the node assignment which has id \a $id and returns it.
      \sa fetchListByID
     */
-    function fetchByID( $id ,$asObject = true )
+    static function fetchByID( $id ,$asObject = true )
     {
         $cond = array( 'id' => $id );
         return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
@@ -452,7 +452,7 @@ class eZNodeAssignment extends eZPersistentObject
      Fetches all node assignments which is mentioned in array \a $ID and returns it.
      \sa fetchByID
     */
-    function fetchListByID( $idList ,$asObject = true )
+    static function fetchListByID( $idList ,$asObject = true )
     {
         $cond = array( 'id' => array( $idList ) );
         return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
@@ -460,7 +460,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                     $asObject );
     }
 
-    function clone( $nextVersionNumber = 1, $contentObjectID = false )
+    function cloneNodeAssignment( $nextVersionNumber = 1, $contentObjectID = false )
     {
         $assignmentRow = array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                 'contentobject_version' => $nextVersionNumber,
@@ -486,7 +486,7 @@ class eZNodeAssignment extends eZPersistentObject
     */
     function &getParentObject( )
     {
-        $parentObject =& eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
+        $parentObject = eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
         return $parentObject;
     }
 
@@ -497,7 +497,7 @@ class eZNodeAssignment extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function setNewMainAssignment( $objectID, $version )
+    static function setNewMainAssignment( $objectID, $version )
     {
 
         $assignments = eZNodeAssignment::fetchForObject( $objectID, $version );
@@ -514,7 +514,7 @@ class eZNodeAssignment extends eZPersistentObject
             {
                 if ( $newMainAssignment === null )
                 {
-                    $newMainAssignment =& $assignment;
+                    $newMainAssignment = $assignment;
                 }
                 if ( $assignment->attribute( 'is_main' ) )
                 {
@@ -523,7 +523,7 @@ class eZNodeAssignment extends eZPersistentObject
             }
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $newMainAssignment === null )
         {
@@ -542,18 +542,18 @@ class eZNodeAssignment extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
+    public $ID;
     /// Used for giving unique values to an assignment which can later be checked.
     /// This is often used in templates to provide limited choices for assignments.
-    var $RemoteID;
-    var $ParentRemoteID;
-    var $ContentobjectID;
-    var $ContentObjectVersion;
-    var $ParentNode;
-    var $SortField;
-    var $SortOrder;
-    var $Main;
-    var $FromNodeID;
+    public $RemoteID;
+    public $ParentRemoteID;
+    public $ContentobjectID;
+    public $ContentObjectVersion;
+    public $ParentNode;
+    public $SortField;
+    public $SortOrder;
+    public $Main;
+    public $FromNodeID;
 }
 
 ?>

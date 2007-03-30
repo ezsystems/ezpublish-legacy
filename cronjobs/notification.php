@@ -35,7 +35,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 
 $event->store();

@@ -34,7 +34,7 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 function ezcurrentLanguage()
 {
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
-    $locale =& eZLocale::instance();
+    $locale = eZLocale::instance();
     return $locale->translationCode();
 }
 
@@ -70,13 +70,13 @@ function ezinsertarguments( $text, $arguments )
  If the site.ini settings RegionalSettings/TextTranslation is set to disabled this function
  will only return the source text.
 */
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $useTextTranslation = false;
 $hasFallback = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     $language = ezcurrentLanguage();
-    $iniI18N =& eZINI::instance( "i18n.ini" );
+    $iniI18N = eZINI::instance( "i18n.ini" );
     $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
 
     include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -148,7 +148,7 @@ if ( $useTextTranslation )
         $file = 'translation.ts';
 
         // translation.ts translation
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
         eZTSTranslator::initialize( $context, $language, $file, $useCache );
 
@@ -162,14 +162,15 @@ if ( $useTextTranslation )
             eZBorkTranslator::initialize();
         }
 
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $trans = $man->translate( $context, $source, $comment );
         if ( $trans !== null ) {
             $text = ezinsertarguments( $trans, $arguments );
             return $text;
         }
 
-        eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
         $text = ezinsertarguments( $source, $arguments );
         return $text;
     }

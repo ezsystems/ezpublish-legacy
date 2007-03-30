@@ -79,7 +79,7 @@ class eZTemplateVariableElement
     }
 
     /// The variable array
-    var $Variable;
+    public $Variable;
 }
 
 ?>

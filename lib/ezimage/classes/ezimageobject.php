@@ -186,7 +186,7 @@ class eZImageObject extends eZImageInterface
     */
     function appendLayer( &$imageLayer, $parameters = array() )
     {
-        if ( get_class( $imageLayer ) != 'ezimagelayer' and
+        if ( strtolower( get_class( $imageLayer ) ) != 'ezimagelayer' and
              !is_subclass_of( $imageLayer, 'ezimagelayer' ) )
         {
             eZDebug::writeWarning( 'Only eZImageLayer objects may be added as layer items',
@@ -208,7 +208,7 @@ class eZImageObject extends eZImageInterface
     */
     function prependLayer( &$imageLayer, $parameters = array() )
     {
-        if ( get_class( $imageLayer ) != 'ezimagelayer' and
+        if ( strtolower( get_class( $imageLayer ) ) != 'ezimagelayer' and
              !is_subclass_of( $imageLayer, 'ezimagelayer' ) )
         {
             eZDebug::writeWarning( 'Only eZImageLayer objects may be added as layer items',
@@ -242,7 +242,7 @@ class eZImageObject extends eZImageInterface
         {
             foreach( $this->ImageLayers as $item )
             {
-                if ( get_class( $this->ImageLayerIndex[$item]['image'] ) == 'ezimagelayer' or
+                if ( strtolower( get_class( $this->ImageLayerIndex[$item]['image'] ) ) == 'ezimagelayer' or
                      is_subclass_of( $this->ImageLayerIndex[$item]['image'], 'ezimagelayer' ) )
                     $this->ImageLayerIndex[$item]['image']->destroy();
             }
@@ -298,7 +298,7 @@ class eZImageObject extends eZImageInterface
             $layerID = $this->ImageLayers[$i];
             $layerData =& $this->ImageLayerIndex[$layerID];
             $layer =& $layerData['image'];
-            if ( get_class( $layer ) == 'ezimagelayer' or
+            if ( strtolower( get_class( $layer ) ) == 'ezimagelayer' or
                  is_subclass_of( $layer, 'ezimagelayer' ) )
             {
                 $firstImageLayerData =& $layerData;
@@ -330,7 +330,7 @@ class eZImageObject extends eZImageInterface
                 $layerData =& $this->ImageLayerIndex[$layerID];
                 $layer =& $layerData['image'];
                 unset( $imageObject );
-                if ( get_class( $layer ) == 'ezimagelayer' or
+                if ( strtolower( get_class( $layer ) ) == 'ezimagelayer' or
                      is_subclass_of( $layer, 'ezimagelayer' ) )
                 {
                     $layer->mergeLayer( $this,
@@ -350,9 +350,9 @@ class eZImageObject extends eZImageInterface
     }
 
     /// \privatesection
-    var $ImageLayers;
-    var $TemplateURI;
-    var $ImageLayerIndex;
+    public $ImageLayers;
+    public $TemplateURI;
+    public $ImageLayerIndex;
 }
 
 ?>

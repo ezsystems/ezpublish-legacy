@@ -53,7 +53,7 @@ class eZMailTransport
     */
     function sendMail( &$mail )
     {
-        if ( get_class( $mail ) != 'ezmail' )
+        if ( strtolower( get_class( $mail ) ) != 'ezmail' )
         {
             eZDebug::writeError( 'Can only handle objects of type eZMail.', 'eZMailTransport::sendMail' );
             return false;
@@ -67,12 +67,12 @@ class eZMailTransport
     */
     function send( &$mail )
     {
-        if ( get_class( $mail ) != 'ezmail' )
+        if ( strtolower( get_class( $mail ) ) != 'ezmail' )
         {
             eZDebug::writeError( 'Can only handle objects of type eZMail.', 'eZMailTransport::send' );
             return false;
         }
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
         $transportObject =& $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )];

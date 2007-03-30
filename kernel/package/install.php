@@ -31,7 +31,7 @@ include_once( 'kernel/classes/ezpackage.php' );
 include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $module =& $Params['Module'];
 $packageName =& $Params['PackageName'];

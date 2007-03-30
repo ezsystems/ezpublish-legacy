@@ -56,7 +56,7 @@ class eZWorkflow extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -170,7 +170,7 @@ class eZWorkflow extends eZPersistentObject
      */
     function remove( $remove_childs = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( is_array( $remove_childs ) or $remove_childs )
         {
@@ -205,7 +205,7 @@ class eZWorkflow extends eZPersistentObject
         $version = 1;
         $temporaryWorkflows = eZWorkflow::fetchList( $version, null, true );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $temporaryWorkflows as $workflow )
         {
@@ -224,7 +224,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( is_array( $events ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             for ( $i = 0; $i < count( $events ); ++$i )
             {
@@ -263,7 +263,7 @@ class eZWorkflow extends eZPersistentObject
     function store( $store_childs = false )
     {
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( is_array( $store_childs ) or $store_childs )
         {
@@ -298,7 +298,7 @@ class eZWorkflow extends eZPersistentObject
         eZPersistentObject::setAttribute( "version", $version );
     }
 
-    function fetch( $id, $asObject = true, $version = 0 )
+    static function fetch( $id, $asObject = true, $version = 0 )
     {
         return eZPersistentObject::fetchObject( eZWorkflow::definition(),
                                                 null,
@@ -317,7 +317,7 @@ class eZWorkflow extends eZPersistentObject
 
       \returns array of allowed workflows limited by trigger
     */
-    function &fetchLimited( $moduleName, $functionName, $connectType )
+    static function &fetchLimited( $moduleName, $functionName, $connectType )
     {
         $workflowArray = eZWorkflow::fetchList();
         $returnArray = array();
@@ -360,7 +360,7 @@ class eZWorkflow extends eZPersistentObject
         return true;
     }
 
-    function fetchList( $version = 0, $enabled = 1, $asObject = true )
+    static function fetchList( $version = 0, $enabled = 1, $asObject = true )
     {
         $conds = array( 'version' => $version );
         if ( $enabled !== null )
@@ -370,7 +370,7 @@ class eZWorkflow extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchListCount( $version = 0, $enabled = 1 )
+    static function &fetchListCount( $version = 0, $enabled = 1 )
     {
         $custom = array( array( "name" => "count",
                                 "operation" => "count( id )" ) );
@@ -407,7 +407,7 @@ class eZWorkflow extends eZPersistentObject
         if ( $id === false )
         {
             if ( isset( $this ) and
-                 get_class( $this ) == "ezworkflow" )
+                 strtolower( get_class( $this ) ) == "ezworkflow" )
             {
                 $id = $this->ID;
                 $version = $this->Version;
@@ -428,7 +428,7 @@ class eZWorkflow extends eZPersistentObject
         if ( $id === false )
         {
             if ( isset( $this ) and
-                 get_class( $this ) == "ezworkflow" )
+                 strtolower( get_class( $this ) ) == "ezworkflow" )
             {
                 $id = $this->ID;
                 $version = $this->Version;
@@ -517,7 +517,7 @@ class eZWorkflow extends eZPersistentObject
     {
         if ( isset( $this ) )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $workflowID = $this->attribute( 'id' );
             $event_list =& $this->fetchEvents();
             if ( $event_list != null )
@@ -543,18 +543,18 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $Name;
-    var $WorkflowTypeString;
-    var $Version;
-    var $IsEnabled;
-    var $CreatorID;
-    var $ModifierID;
-    var $Created;
-    var $Modified;
-    var $InGroups;
-    var $InGroupIDs;
-    var $AllGroups;
+    public $ID;
+    public $Name;
+    public $WorkflowTypeString;
+    public $Version;
+    public $IsEnabled;
+    public $CreatorID;
+    public $ModifierID;
+    public $Created;
+    public $Modified;
+    public $InGroups;
+    public $InGroupIDs;
+    public $AllGroups;
 }
 
 ?>

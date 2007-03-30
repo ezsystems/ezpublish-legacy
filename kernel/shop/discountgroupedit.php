@@ -47,7 +47,7 @@ else
     $discountGroupID = $discountGroup->attribute( "id" );
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $module->redirectTo( $module->functionURI( "discountgroup" ) . "/" );

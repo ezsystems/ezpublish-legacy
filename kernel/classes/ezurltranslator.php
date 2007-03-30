@@ -71,7 +71,7 @@ class eZURLTranslator
     {
         $newURI = false;
         $functionList = array();
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'URLTranslator', 'NodeTranslation' ) == 'enabled' )
             $functionList[] = 'translateNodeTree';
         foreach ( $functionList as $functionName )
@@ -102,7 +102,7 @@ class eZURLTranslator
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
 
         $uriResult = false;
-        if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+        if ( strtolower( get_class( $node ) ) == 'ezcontentobjecttreenode' )
         {
             $uriResult= 'content/view/full/' . $node->attribute( 'node_id' ) . '/';
         }
@@ -112,10 +112,10 @@ class eZURLTranslator
     /*!
      \return The only instance of the translator.
     */
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS['eZURLTranslatorInstance'];
-        if ( get_class( $instance ) != 'ezurltranslator' )
+        if ( strtolower( get_class( $instance ) ) != 'ezurltranslator' )
         {
             $instance = new eZURLTranslator();
         }

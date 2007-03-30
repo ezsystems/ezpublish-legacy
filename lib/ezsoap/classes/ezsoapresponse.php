@@ -69,7 +69,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
         $dom = $xml->domTree( $stream );
         $this->DOMDocument = $dom;
 
-        if ( get_class( $dom ) == "ezdomdocument" )
+        if ( strtolower( get_class( $dom ) ) == "ezdomdocument" )
         {
             // check for fault
             $response = $dom->elementsByNameNS( 'Fault', EZ_SOAP_ENV );
@@ -90,7 +90,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
 
             $response = $response[0];
 
-            if ( get_class( $response ) == "ezdomnode" )
+            if ( strtolower( get_class( $response ) ) == "ezdomnode" )
             {
                 /* Cut from the SOAP spec:
                 The method response is viewed as a single struct containing an accessor
@@ -251,7 +251,7 @@ TODO: add encoding checks with schema validation.
         $root->appendChild( $body );
 
         // Check if it's a fault
-        if ( get_class( $this->Value ) == 'ezsoapfault' )
+        if ( strtolower( get_class( $this->Value ) ) == 'ezsoapfault' )
         {
             $fault = $doc->createElementNode( "Fault" );
             $fault->setPrefix( EZ_SOAP_ENV_PREFIX );
@@ -358,22 +358,22 @@ TODO: add encoding checks with schema validation.
     }
 
     /// Contains the response value
-    var $Value = false;
+    public $Value = false;
     /// Contains the response type
-    var $Type = false;
+    public $Type = false;
     /// Contains fault string
-    var $FaultString = false;
+    public $FaultString = false;
     /// Contains the fault code
-    var $FaultCode = false;
+    public $FaultCode = false;
     /// Contains true if the response was an fault
-    var $IsFault = false;
+    public $IsFault = false;
     /// Contains the name of the response, i.e. function call name
-    var $Name;
+    public $Name;
     /// Contains the target namespace for the response
-    var $Namespace;
+    public $Namespace;
 
     /// Contains the DOM document for the current SOAP response
-    var $DOMDocument = false;
+    public $DOMDocument = false;
 }
 
 ?>

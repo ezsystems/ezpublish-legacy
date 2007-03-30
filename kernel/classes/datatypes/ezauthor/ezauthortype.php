@@ -150,7 +150,7 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $author = new eZAuthor( );
 
@@ -161,7 +161,7 @@ class eZAuthorType extends eZDataType
         }
         else
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userobject =& $user->attribute( 'contentobject' );
             if ( $userobject )
             {
@@ -181,7 +181,7 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         $author =& $contentObjectAttribute->content();
         if ( !$author )
@@ -244,7 +244,7 @@ class eZAuthorType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -283,7 +283,7 @@ class eZAuthorType extends eZDataType
     /*!
      Returns the string value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $author =& $contentObjectAttribute->content( );
         $name = $author->attribute( 'name' );

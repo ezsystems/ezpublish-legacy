@@ -94,9 +94,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
      \reimp
      Uninstalls all previously installed content classes.
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         $classRemoteID = $content->elementTextContentByName( 'remote-id' );
@@ -149,9 +149,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
      \reimp
      Creates a new contentclass as defined in the xml structure.
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         $classNameList = new eZContentClassNameList( $content->elementTextContentByName( 'serialized-name-list' ) );
@@ -206,7 +206,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 return true;
 
             case EZ_PACKAGE_CONTENTCLASS_NEW:
-                $class->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+                $class->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)time() ) );
                 $class->store();
                 $classNameList->appendGroupName( " (imported)" );
                 break;
@@ -339,7 +339,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, &$cli, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
         foreach ( $parameters['class-list'] as $classItem )
         {
@@ -492,7 +492,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $remoteNode = eZDOMDocument::createElementNode( 'remote' );
         $classNode->appendChild( $remoteNode );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $siteName = $ini->variable( 'SiteSettings', 'SiteURL' );
 
         $classURL = 'http://' . $siteName . '/class/view/' . $class->attribute( 'id' );

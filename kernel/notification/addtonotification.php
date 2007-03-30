@@ -34,14 +34,14 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
 
 $module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 //$Offset = $Params['Offset'];
 //$viewParameters = array( 'offset' => $Offset );
 
 //$nodeID = $http->postVariable( 'ContentNodeID' );
 $nodeID =& $Params['ContentNodeID'];
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $redirectURI = '';
 if ( $http->hasSessionVariable( "LastAccessesURI" ) )

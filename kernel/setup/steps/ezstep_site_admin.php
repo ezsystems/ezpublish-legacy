@@ -159,7 +159,7 @@ class eZStepSiteAdmin extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $this->Tpl->setVariable( 'first_name_missing', 0 );
         $this->Tpl->setVariable( 'last_name_missing', 0 );
@@ -231,7 +231,7 @@ class eZStepSiteAdmin extends eZStepInstaller
         return $result;
     }
 
-    var $Error = array();
+    public $Error = array();
 }
 
 ?>

@@ -53,7 +53,7 @@
 
   A typical usage:
 \code
-$script =& eZScript::instance();
+$script = eZScript::instance();
 
 $script->startup();
 
@@ -179,7 +179,7 @@ class eZScript
 
         if ( php_sapi_name() != 'cli' )
         {
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
             $cli->output( "PHP is currently using the '" . php_sapi_name() . "' interface. Make sure it is using the 'cli' interface." );
             exit( 1 );
         }
@@ -188,7 +188,7 @@ class eZScript
         require_once( 'lib/compat.php' );
 
         include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
         if ( $phpLocale != '' )
         {
@@ -209,7 +209,7 @@ class eZScript
             ob_end_clean();
         include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-        $debugINI =& eZINI::instance( 'debug.ini' );
+        $debugINI = eZINI::instance( 'debug.ini' );
         eZDebugSetting::setDebugINI( $debugINI );
 
         // Initialize text codec settings
@@ -220,7 +220,7 @@ class eZScript
 
         // Set the different permissions/settings.
         include_once( 'lib/ezi18n/classes/ezcodepage.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $iniFilePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
         $iniDirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
         $iniVarDirectory = eZSys::cacheDirectory() ;
@@ -254,7 +254,7 @@ class eZScript
         }
         else
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $siteaccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
             $access = array( 'name' => $siteaccess,
                              'type' => EZ_ACCESS_TYPE_DEFAULT );
@@ -278,7 +278,7 @@ class eZScript
             // include ezsession override implementation
             include_once( "lib/ezutils/classes/ezsession.php" );
             include_once( 'lib/ezdb/classes/ezdb.php' );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             if ( $db->isConnected() )
             {
                 eZSessionStart();
@@ -302,7 +302,7 @@ class eZScript
                 $userID = eZUser::loginUser( $userLogin, $userPassword );
                 if ( !$userID )
                 {
-                    $cli =& eZCLI::instance();
+                    $cli = eZCLI::instance();
                     if ( $this->isLoud() )
                         $cli->warning( 'Failed to login with user ' . $userLogin );
                     include_once( 'lib/ezutils/classes/ezexecution.php' );
@@ -316,7 +316,7 @@ class eZScript
         if ( $this->UseModules )
         {
             $moduleRepositories = array();
-            $moduleINI =& eZINI::instance( 'module.ini' );
+            $moduleINI = eZINI::instance( 'module.ini' );
             $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
             $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
 
@@ -363,11 +363,11 @@ class eZScript
     */
     function shutdown( $exitCode = false, $exitText = false )
     {
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         if ( class_exists( 'ezdb' )
              and eZDB::hasInstance() )
         {
-            $db =& eZDB::instance( false, array( 'show_errors' => false ) );
+            $db = eZDB::instance( false, array( 'show_errors' => false ) );
             // Perform transaction check
             $transactionCounterCheck = eZDB::checkTransactionCounter();
             if ( isset( $transactionCounterCheck['error'] ) )
@@ -575,7 +575,7 @@ class eZScript
     */
     function setIsQuiet( $isQuiet )
     {
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         $this->IsQuiet = $isQuiet;
         $cli->setIsQuiet( $isQuiet );
     }
@@ -735,7 +735,7 @@ class eZScript
             $arguments = $_SERVER['argv'];
             $program = $arguments[0];
         }
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         $generalOptionList = array();
         $generalOptionList = array();
         if ( $useStandardOptions )
@@ -934,7 +934,7 @@ class eZScript
             }
             $config = eZCLI::parseOptionString( $optionString, $optionConfig );
         }
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         $options = $cli->getOptions( $config, $argumentConfig, $arguments );
         $this->CurrentOptionConfig = $config;
         $this->CurrentOptions = $options;
@@ -1034,11 +1034,11 @@ class eZScript
         return $options;
     }
 
-    function &instance( $settings = array() )
+    static function instance( $settings = array() )
     {
         $implementation =& $GLOBALS['eZScriptInstance'];
         if ( !isset( $implementation ) or
-             get_class( $implementation ) != 'ezscript' )
+             strtolower( get_class( $implementation ) ) != 'ezscript' )
         {
             $implementation = new eZScript( $settings );
         }
@@ -1053,8 +1053,8 @@ class eZScript
     {
         global $debugOutput;
         global $useLogFiles;
-        $ini =& eZINI::instance();
-        $cli =& eZCLI::instance();
+        $ini = eZINI::instance();
+        $cli = eZCLI::instance();
         $debugSettings = array();
         $debugSettings['debug-enabled'] = ( $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled' and
                                             $ini->variable( 'DebugSettings', 'ScriptDebugOutput' ) == 'enabled' );
@@ -1089,7 +1089,7 @@ class eZScript
     */
     function updateTextCodecSettings()
     {
-        $ini =& eZINI::instance( 'i18n.ini' );
+        $ini = eZINI::instance( 'i18n.ini' );
         $i18nSettings = array();
         $i18nSettings['internal-charset'] = $ini->variable( 'CharacterSettings', 'Charset' );
         $i18nSettings['http-charset'] = $ini->variable( 'CharacterSettings', 'HTTPCharset' );
@@ -1099,17 +1099,17 @@ class eZScript
     }
 
     /// \privatesection
-    var $InitializationErrorMessage;
-    var $DebugMessage;
-    var $UseDebugOutput;
-    var $UseSession;
-    var $UseExtensions;
-    var $UseModules;
-    var $User;
-    var $SiteAccess;
-    var $ExitCode;
-    var $IsQuiet;
-    var $ShowVerbose;
+    public $InitializationErrorMessage;
+    public $DebugMessage;
+    public $UseDebugOutput;
+    public $UseSession;
+    public $UseExtensions;
+    public $UseModules;
+    public $User;
+    public $SiteAccess;
+    public $ExitCode;
+    public $IsQuiet;
+    public $ShowVerbose;
 }
 
 function eZDBCleanup()
@@ -1117,7 +1117,7 @@ function eZDBCleanup()
     if ( class_exists( 'ezdb' )
          and eZDB::hasInstance() )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->setIsSQLOutputEnabled( false );
     }
 //     session_write_close();
@@ -1125,7 +1125,7 @@ function eZDBCleanup()
 
 function eZFatalError()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $endl = $cli->endlineString();
     $webOutput = $cli->isWebOutput();
     $bold = $cli->style( 'bold' );

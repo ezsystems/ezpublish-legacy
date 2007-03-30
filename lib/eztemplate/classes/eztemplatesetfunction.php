@@ -455,9 +455,9 @@ class eZTemplateSetFunction
     }
 
     /// The name of the set function
-    var $SetName;
-    var $LetName;
-    var $DefaultName;
+    public $SetName;
+    public $LetName;
+    public $DefaultName;
 }
 
 ?>

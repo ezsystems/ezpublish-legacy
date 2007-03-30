@@ -48,7 +48,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -79,7 +79,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         return $user;
     }
 
-    function create( $collaborationIdentifier, $userID = false )
+    static function create( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
             $userID = eZUser::currentUserID();
@@ -88,7 +88,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         return $rule;
     }
 
-    function fetchList( $userID = false, $asObject = true )
+    static function fetchList( $userID = false, $asObject = true )
     {
         if ( !$userID )
             $userID = eZUser::currentUserID();
@@ -97,7 +97,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
                                                     null, null, $asObject );
     }
 
-    function &fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )
+    static function &fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )
     {
         if ( is_array( $collaborationIdentifier ) )
             $collaborationIdentifier = array( $collaborationIdentifier );
@@ -126,7 +126,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 //         return $this->Node;
 //     }
 
-    function removeByIdentifier( $collaborationIdentifier, $userID = false )
+    static function removeByIdentifier( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
             $userID = eZUser::currentUserID();
@@ -140,15 +140,15 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 //         eZPersistentObject::removeObject( eZCollaborationNotificationRule::definition(), array( 'address' => $address,
 //                                                                                                 'node_id' => $nodeID ) );
 //     }
-//     var $Node = null;
+//     public $Node = null;
 
     /*!
      \static
      Removes all notification rules for all collaboration items for all users.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezcollab_notification_rule" );
     }
 }

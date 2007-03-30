@@ -123,7 +123,7 @@ class eZ1337Translator extends eZTranslatorHandler
     function &initialize()
     {
         $translator =& $GLOBALS["eZ1337Translator"];
-        if ( isset( $translator ) and get_class( $translator ) == "ez1337translator" )
+        if ( isset( $translator ) and strtolower( get_class( $translator ) ) == "ez1337translator" )
             return $translator;
         $translator = new eZ1337Translator();
         $man =& eZTranslatorManager::instance();
@@ -133,7 +133,7 @@ class eZ1337Translator extends eZTranslatorHandler
 
     /// \privatesection
     /// Contains the hash table with cached 1337 translations
-    var $Messages;
+    public $Messages;
 }
 
 ?>

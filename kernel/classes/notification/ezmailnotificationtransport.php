@@ -51,7 +51,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
     {
         include_once( 'lib/ezutils/classes/ezmail.php' );
         include_once( 'lib/ezutils/classes/ezmailtransport.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $mail = new eZMail();
         $addressList = $this->prepareAddressString( $addressList, $mail );
 
@@ -61,7 +61,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
             return false;
         }
 
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $emailSender = $notificationINI->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );

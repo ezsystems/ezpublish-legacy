@@ -403,7 +403,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         foreach( array_keys( $this->TemplateFileArray ) as $siteAccess )
         {
-            $aliasINI =& eZINI::instance( 'fetchalias.ini', 'settings', null, null, true );
+            $aliasINI = eZINI::instance( 'fetchalias.ini', 'settings', null, null, true );
             $aliasINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             $aliasINI->loadCache();
 
@@ -554,7 +554,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $regexpMatchList = array();
         foreach ( $siteAccessArray as $siteAccess )
         {
-            $overrideINI =& eZINI::instance( 'override.ini', 'settings', null, null, true );
+            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
             $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             $overrideINI->loadCache();
 
@@ -791,9 +791,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \reimp
      Uninstalls all previously installed content objects.
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                         $name, $os, $filename, $subdirectory,
-                        &$content, &$installParameters,
+                        $content, &$installParameters,
                         &$installData )
     {
         $this->Package =& $package;
@@ -913,9 +913,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \reimp
      Creates a new contentobject as defined in the xml structure.
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         $this->Package =& $package;
@@ -1019,7 +1019,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $remoteID = substr( $objectNode->getAttribute( 'filename' ), 7, 32 );
             }
 
-            $object =& eZContentObject::fetchByRemoteID( $remoteID );
+            $object = eZContentObject::fetchByRemoteID( $remoteID );
             $object->postUnserialize( $package );
             eZContentObject::clearCache( $object->attribute( 'id' ) );
             unset( $object );
@@ -1156,7 +1156,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $siteAccessDesignPathArray[$newSiteAccess] ) )
             {
-                $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
+                $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
                 $ini->prependOverrideDir( "siteaccess/$newSiteAccess", false, 'siteaccess' );
                 $ini->loadCache();
 
@@ -1223,7 +1223,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $overrideINIArray[$newSiteAccess] ) )
             {
-                $overrideINIArray[$newSiteAccess] =& eZINI::instance( 'override.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
+                $overrideINIArray[$newSiteAccess] = eZINI::instance( 'override.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
             }
 
             $blockArray = array();
@@ -1232,7 +1232,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( isset( $blockArray[$blockName][$this->OverrideObjectRemoteID] ) )
             {
-                $contentObject =& eZContentObject::fetchByRemoteID( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
+                $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
                 $blockArray[$blockName]['Match']['object'] = $contentObject->attribute( 'id' );
                 unset( $blockArray[$blockName][$this->OverrideObjectRemoteID] );
 //                 eZDebug::writeNotice( 'Found object id: "' . $blockArray[$blockName]['Match']['object'] . '" for matchblock "[' . $blockName . '][Match][object]"',
@@ -1309,7 +1309,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
             {
-                $fetchAliasINIArray[$newSiteAccess] =& eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
+                $fetchAliasINIArray[$newSiteAccess] = eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
             }
 
             $blockArray = array();
@@ -1346,7 +1346,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if( strpos( $matchKey, 'object_' ) === 0 &&
                         is_int( $value ) )
                     {
-                        $contentObject =& eZContentObject::fetchByRemoteID( $blockArray[$blockName]['Constant']['object_remote_id'] );
+                        $contentObject = eZContentObject::fetchByRemoteID( $blockArray[$blockName]['Constant']['object_remote_id'] );
                         $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'id' );
                         unset( $blockArray[$blockName]['Constant']['object_remote_id'] );
                     }
@@ -1367,7 +1367,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, &$cli, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
         $options = array();
         foreach ( $parameters['node-list'] as $nodeItem )
@@ -1570,7 +1570,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         }
         if ( count( $siteAccessList ) == 0 )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $siteAccessList[] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
         }
         return array( 'node-list' => $nodeList,
@@ -1631,20 +1631,20 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     }
     */
 
-    var $NodeIDArray = array();
-    var $RootNodeIDArray = array();
-    var $NodeObjectArray = array();
-    var $ObjectArray = array();
-    var $RootNodeObjectArray = array();
-    var $OverrideSettingsArray = array();
-    var $TemplateFileArray = array();
-    var $Package = null;
+    public $NodeIDArray = array();
+    public $RootNodeIDArray = array();
+    public $NodeObjectArray = array();
+    public $ObjectArray = array();
+    public $RootNodeObjectArray = array();
+    public $OverrideSettingsArray = array();
+    public $TemplateFileArray = array();
+    public $Package = null;
 
     // Static class variables - replacing match values in override.ini
-    var $OverrideObjectRemoteID = 'content_object_remote_id';
-    var $OverrideNodeRemoteID = 'content_node_remote_id';
-    var $OverrideParentNodeRemoteID = 'parent_content_node_remote_id';
-    var $OverrideClassRemoteID = 'content_class_remote_id';
+    public $OverrideObjectRemoteID = 'content_object_remote_id';
+    public $OverrideNodeRemoteID = 'content_node_remote_id';
+    public $OverrideParentNodeRemoteID = 'parent_content_node_remote_id';
+    public $OverrideClassRemoteID = 'content_class_remote_id';
 }
 
 ?>

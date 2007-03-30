@@ -53,7 +53,7 @@ class eZNotificationEvent extends eZPersistentObject
         $this->TypeString = $this->attribute( 'event_type_string' );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -107,7 +107,7 @@ class eZNotificationEvent extends eZPersistentObject
                       "name" => "eznotificationevent" );
     }
 
-    function create( $type, $params = array() )
+    static function create( $type, $params = array() )
     {
         $row = array(
             "id" => null,
@@ -137,7 +137,7 @@ class eZNotificationEvent extends eZPersistentObject
     {
         if ( ! isset (  $this->EventType ) )
         {
-            $this->EventType =& eZNotificationEventType::create( $this->TypeString );
+            $this->EventType = eZNotificationEventType::create( $this->TypeString );
         }
         return $this->EventType;
     }
@@ -164,21 +164,21 @@ class eZNotificationEvent extends eZPersistentObject
         $this->Content =& $content;
     }
 
-    function fetchList()
+    static function fetchList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                     null,  null, null,null,
                                                     true );
     }
 
-    function fetch( $eventID )
+    static function fetch( $eventID )
     {
         return eZPersistentObject::fetchObject( eZNotificationEvent::definition(),
                                                 null,
                                                 array( 'id' => $eventID ) );
     }
 
-    function fetchUnhandledList()
+    static function fetchUnhandledList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                     null, array( 'status' => EZ_NOTIFICATIONEVENT_STATUS_CREATED ), null,null,
@@ -189,13 +189,13 @@ class eZNotificationEvent extends eZPersistentObject
      \static
      Removes all notification events.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM eznotificationevent" );
     }
 
-    var $Content = null;
+    public $Content = null;
 }
 
 ?>

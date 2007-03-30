@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezorderstatus.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $messages = array();
 
 if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or

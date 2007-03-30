@@ -70,7 +70,7 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 
     // Create DomDocumnt from http data
     $xmlObject = new eZXML();
-    $domDocument =& $xmlObject->domTree( $xmlData );
+    $domDocument = $xmlObject->domTree( $xmlData );
 
     if ( $domDocument == null or $domDocument === false )
     {
@@ -252,7 +252,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
     $contentObject = $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $contentObject->store();
     $contentObjectID = $contentObject->attribute( 'id' );
@@ -411,7 +411,7 @@ function getCDATA( $xmlDomNode )
         $elementChildren = $xmlDomNode->children();
         foreach ( $elementChildren as $children )
         {
-            if ( $children->type() == EZ_NODE_TYPE_CDATASECTION )
+            if ( $children->type() == eZDOMNode::TYPE_CDATASECTION )
                 $textCDATA .= $children->content() ;
         }
     }

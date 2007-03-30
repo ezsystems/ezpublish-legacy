@@ -154,7 +154,7 @@ class eZOptionType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $option = new eZOption( "" );
 
@@ -223,7 +223,7 @@ class eZOptionType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -294,7 +294,7 @@ class eZOptionType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute, $name = "name" )
+    function title( $contentObjectAttribute, $name = "name" )
     {
         $option =& $contentObjectAttribute->content( );
 

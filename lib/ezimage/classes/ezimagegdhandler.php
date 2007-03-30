@@ -235,7 +235,7 @@ class eZImageGDHandler extends eZImageHandler
         }
     }
 
-    function setImageBorderColor( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    static function setImageBorderColor( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $filterVariables['border-color'] = $filterData['data'];
         return false;
@@ -253,7 +253,7 @@ class eZImageGDHandler extends eZImageHandler
         return $this->createImageBorder( $imageObject, $filterData, $filterVariables, $sourceMimeData, $destinationMimeData );
     }
 
-    function &createImageBorder( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
+    static function &createImageBorder( &$imageObject, $filterData, &$filterVariables, $sourceMimeData, $destinationMimeData )
     {
         $width = ImageSX( $imageObject );
         $height = ImageSY( $imageObject );
@@ -383,7 +383,7 @@ class eZImageGDHandler extends eZImageHandler
      Changes the colors of the image based on threshold values. The luminance will be calculated and if it is
      in a threshold range it will use the specified color for the range.
     */
-    function &setImageColorThreshold( &$imageObject, $filterData, $sourceMimeData, $destinationMimeData,
+    static function &setImageColorThreshold( &$imageObject, $filterData, $sourceMimeData, $destinationMimeData,
                                       $thresholdList )
     {
         foreach ( array_keys( $thresholdList ) as $thresholdKey )
@@ -658,7 +658,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Scales the image \a $imageObject to the size specified in \a $filterData.
     */
-    function &scaleImageCopy( &$imageObject,
+    static function &scaleImageCopy( &$imageObject,
                               $geometry,
                               $sourceMimeData, $destinationMimeData )
     {
@@ -667,7 +667,7 @@ class eZImageGDHandler extends eZImageHandler
         $sourceWidth = ImageSX( $imageObject );
         $sourceHeight = ImageSY( $imageObject );
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopyResampled( $temporaryImageObject, $imageObject,
                             0, 0, 0, 0,
                             $destinationWidth, $destinationHeight, $sourceWidth, $sourceHeight );
@@ -677,13 +677,13 @@ class eZImageGDHandler extends eZImageHandler
     /*!
       Copies a portion of the source image \a $imageObject to a new image.
     */
-    function &imageCopy( &$imageObject, $destinationGeometry, $sourceGeometry,
+    static function &imageCopy( &$imageObject, $destinationGeometry, $sourceGeometry,
                          $sourceMimeData, $destinationMimeData )
     {
         $destinationWidth = $destinationGeometry['width'];
         $destinationHeight = $destinationGeometry['height'];
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject = eZImageGDHandler::imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopy( $temporaryImageObject, $imageObject,
                    $destinationGeometry['x'], $destinationGeometry['y'],
                    $sourceGeometry['x'], $sourceGeometry['y'], $sourceGeometry['width'], $sourceGeometry['height'] );
@@ -694,7 +694,7 @@ class eZImageGDHandler extends eZImageHandler
      \static
      \return \c true if the image object \a $imageObject is in true color format.
     */
-    function isImageTrueColor( &$imageObject, $mimeData )
+    static function isImageTrueColor( &$imageObject, $mimeData )
     {
         if ( eZSys::isPHPVersionSufficient( array( 4, 3, 2 ) ) )
             return ImageIsTrueColor( $imageObject );
@@ -708,7 +708,7 @@ class eZImageGDHandler extends eZImageHandler
      Creates a new GD image and returns it.
      \param $isTrueColor determines if a true color image is created, if false an indexed image is created.
     */
-    function imageCreate( $width, $height, $isTrueColor = true )
+    static function imageCreate( $width, $height, $isTrueColor = true )
     {
         if ( $isTrueColor )
             return ImageCreateTrueColor( $width, $height );
@@ -719,7 +719,7 @@ class eZImageGDHandler extends eZImageHandler
     /*!
      Creates a geometry array with width \a $width, height \a $height, x position \a $x and y position \a $y and returns it.
     */
-    function createGeometry( $width, $height, $x = 0, $y = 0 )
+    static function createGeometry( $width, $height, $x = 0, $y = 0 )
     {
         return array( 'x' => $x,
                       'y' => $y,
@@ -732,14 +732,14 @@ class eZImageGDHandler extends eZImageHandler
      The INI settings are read from ini file \a $iniFilename and group \a $iniGroup.
      If \a $iniFilename is not supplied \c image.ini is used.
     */
-    function &createFromINI( $iniGroup, $iniFilename = false )
+    static function &createFromINI( $iniGroup, $iniFilename = false )
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
         $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( $iniFilename );
+        $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
@@ -778,10 +778,10 @@ class eZImageGDHandler extends eZImageHandler
     }
 
     /// \privatesection
-    var $Path;
-    var $Executable;
-    var $PreParameters;
-    var $PostParameters;
+    public $Path;
+    public $Executable;
+    public $PreParameters;
+    public $PostParameters;
 }
 
 class eZImageGDFactory extends eZImageFactory
@@ -798,7 +798,7 @@ class eZImageGDFactory extends eZImageFactory
      \reimp
      Creates eZImageGDHandler objects and returns them.
     */
-    function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function &produceFromINI( $iniGroup, $iniFilename = false )
     {
         $convertHandler =& eZImageGDHandler::createFromINI( $iniGroup, $iniFilename );
         return $convertHandler;

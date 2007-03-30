@@ -72,9 +72,9 @@ $options = $script->getOptions( "[class-identifier:]", "",
                                 array( 'class-identifier' => "Which class to create top level nodes from, default is 'folder'" ) );
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 

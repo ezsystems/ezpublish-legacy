@@ -32,7 +32,7 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
@@ -45,7 +45,7 @@ $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
 
 $template = 'datatype.tpl';
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $persistentData = array();
 if ( $http->hasPostVariable( 'PersistentData' ) )
@@ -105,7 +105,7 @@ function datatypeBasic( &$tpl, &$persistentData, $stepData )
 
 function datatypeBasicFetchData( &$tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $datatypeName = false;
     if ( $http->hasPostVariable( 'Name' ) )
         $datatypeName = $http->postVariable( 'Name' );
@@ -159,7 +159,7 @@ function datatypeDescribe( &$tpl, &$persistentData, $stepData )
 
 function datatypeDescribeFetchData( &$tpl, &$persistentData )
 {
-    $http =& eZHTTPTool::instance();
+    $http = eZHTTPTool::instance();
     $className = false;
     if ( $http->hasPostVariable( 'ClassName' ) )
         $className = $http->postVariable( 'ClassName' );

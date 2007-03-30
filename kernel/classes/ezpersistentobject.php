@@ -105,7 +105,7 @@ class eZPersistentObject
     values (for non-associative array) as table fields names and replaces them
     with short names (aliases) found in \a fieldDefs.
     */
-    function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
+    static function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -146,8 +146,8 @@ class eZPersistentObject
 
      See fetchObjectList() for a full description of the input parameters.
     */
-    function fetchObject( /*! The definition structure */
-                               &$def,
+    static function fetchObject( /*! The definition structure */
+                               $def,
                                /*! If defined determines the fields which are extracted, if not all fields are fetched */
                                $field_filters,
                                /*! An array of conditions which determines which rows are fetched*/
@@ -199,9 +199,9 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeObject( &$def, $conditions = null, $extraConditions = null )
+    static function removeObject( $def, $conditions = null, $extraConditions = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $table =& $def["name"];
         if ( is_array( $extraConditions ) )
@@ -253,9 +253,9 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function storeObject( &$obj, $fieldFilters = null )
+    static function storeObject( &$obj, $fieldFilters = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
         $def = $obj->definition();
@@ -519,7 +519,7 @@ class eZPersistentObject
     /*!
      Calls conditionTextByRow with an empty row and \a $conditions.
     */
-    function conditionText( &$conditions )
+    static function conditionText( &$conditions )
     {
         $row = null;
         return eZPersistentObject::conditionTextByRow( $conditions, $row );
@@ -529,9 +529,9 @@ class eZPersistentObject
      Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
      If \a $row is empty (null) it uses the condition data instead of row data.
     */
-    function &conditionTextByRow( &$conditions, &$row )
+    static function &conditionTextByRow( &$conditions, &$row )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $where_text = "";
         if ( is_array( $conditions ) and
@@ -672,7 +672,7 @@ class eZPersistentObject
      return $rows[0]['count'];
      \endcode
     */
-    function fetchObjectList( &$def,
+    static function fetchObjectList( $def,
                               $field_filters = null,
                               $conds = null,
                               $sorts = null,
@@ -683,7 +683,7 @@ class eZPersistentObject
                               $custom_tables = null,
                               $custom_conds = null )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $fields =& $def["fields"];
         $tables =& $def["name"];
         $class_name =& $def["class_name"];
@@ -820,7 +820,7 @@ class eZPersistentObject
      \param $asObject If \c true then objects will be created,
                       if not it just returns \a $rows as it is.
     */
-    function handleRows( &$rows, $class_name, $asObject )
+    static function handleRows( &$rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
@@ -843,9 +843,9 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
+    static function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
         $i = 0;
         foreach ( $keys as $key )
@@ -863,9 +863,9 @@ class eZPersistentObject
      Uses \a $def, \a $orderField and \a $conditions to figure out the currently maximum order value
      and returns one that is larger.
     */
-    function newObjectOrder( &$def, $orderField, $conditions )
+    static function newObjectOrder( $def, $orderField, $conditions )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $table =& $def["name"];
         $keys =& $def["keys"];
         $cond_text = eZPersistentObject::conditionText( $conditions );
@@ -888,13 +888,13 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function reorderObject( &$def,
+    static function reorderObject( $def,
                             /*! Associative array with one element, the key is the order id and values is order value. */
                             $orderField,
                             $conditions,
                             $down = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $table =& $def["name"];
         $keys =& $def["keys"];
 
@@ -965,7 +965,7 @@ class eZPersistentObject
 
      Example:
 \code
-function definition()
+static function definition()
 {
     return array( "fields" => array( "id" => "ID",
                                      "version" => "Version",
@@ -980,14 +980,14 @@ function definition()
 }
 \endcode
     */
-    function definition()
+    static function definition()
     {
         return array();
     }
 
-    function &escapeArray( &$array )
+    static function &escapeArray( &$array )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $out = array();
         foreach( $array as $key => $value )
         {
@@ -1011,9 +1011,9 @@ function definition()
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function updateObjectList( $parameters )
+    static function updateObjectList( $parameters )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $def =& $parameters['definition'];
         $table =& $def['name'];
         $fields =& $def['fields'];
@@ -1131,11 +1131,11 @@ function definition()
             $retVal = null;
             if ( method_exists( $this, $functionName ) )
             {
-                $retVal =& $this->$functionName();
+                $retVal = $this->$functionName();
             }
             else
             {
-                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".',
+                eZDebug::writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
                                      'eZPersistentObject::attribute()' );
             }
             return $retVal;
@@ -1221,7 +1221,7 @@ function definition()
     /*!
      \return short attribute name (alias) if it's defined, given attribute name otherwise
     */
-    function getShortAttributeName( &$db, &$def, $attrName )
+    static function getShortAttributeName( &$db, $def, $attrName )
     {
         $fields =& $def['fields'];
 
@@ -1233,7 +1233,7 @@ function definition()
 
     /// \privatesection
     /// Whether the data is dirty, ie needs to be stored, or not.
-    var $PersistentDataDirty;
+    public $PersistentDataDirty;
 }
 
 ?>

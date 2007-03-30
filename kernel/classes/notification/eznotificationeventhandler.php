@@ -106,8 +106,8 @@ class eZNotificationEventHandler
         return true;
     }
 
-    var $IDString = false;
-    var $Name = false;
+    public $IDString = false;
+    public $Name = false;
 }
 
 ?>

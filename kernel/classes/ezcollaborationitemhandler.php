@@ -136,7 +136,7 @@ class eZCollaborationItemHandler
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function handleCollaborationEvent( &$event, &$item, &$parameters )
+    static function handleCollaborationEvent( &$event, &$item, &$parameters )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $participantList =& eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
@@ -162,7 +162,7 @@ class eZCollaborationItemHandler
         $userList = array();
         if ( count( $userIDList ) > 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $userIDListText = implode( "', '", $userIDList );
             $userIDListText = "'$userIDListText'";
             $userList = $db->arrayQuery( "SELECT contentobject_id, email FROM ezuser WHERE contentobject_id IN ( $userIDListText )" );
@@ -173,7 +173,7 @@ class eZCollaborationItemHandler
         $itemHandler =& $item->attribute( 'handler' );
         $collectionHandling = $itemHandler->notificationCollectionHandling();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $collectionHandling == EZ_COLLABORATION_NOTIFICATION_COLLECTION_ONE_FOR_ALL )
         {
@@ -386,7 +386,7 @@ class eZCollaborationItemHandler
      \static
      \return the ini object which handles collaboration settings.
     */
-    function &ini()
+    static function ini()
     {
         return eZINI::instance( 'collaboration.ini' );
     }
@@ -442,7 +442,7 @@ class eZCollaborationItemHandler
     */
     function isCustomAction( $name )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $postVariable = 'CollaborationAction_' . $name;
         return $http->hasPostVariable( $postVariable );
     }
@@ -452,7 +452,7 @@ class eZCollaborationItemHandler
     */
     function hasCustomInput( $name )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $postVariable = 'Collaboration_' . $name;
         return $http->hasPostVariable( $postVariable );
     }
@@ -462,7 +462,7 @@ class eZCollaborationItemHandler
     */
     function customInput( $name )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $postVariable = 'Collaboration_' . $name;
         return $http->postVariable( $postVariable );
     }
@@ -472,9 +472,9 @@ class eZCollaborationItemHandler
      \return an array with directories which acts as default collaboration repositories.
      \sa handlerRepositories
     */
-    function defaultRepositories()
+    static function defaultRepositories()
     {
-        $collabINI =& eZCollaborationItemHandler::ini();
+        $collabINI = eZCollaborationItemHandler::ini();
         return $collabINI->variable( 'HandlerSettings', 'Repositories' );
     }
 
@@ -483,9 +483,9 @@ class eZCollaborationItemHandler
      \return an array with directories which acts as collaboration extension repositories.
      \sa handlerRepositories
     */
-    function extensionRepositories()
+    static function extensionRepositories()
     {
-        $collabINI =& eZCollaborationItemHandler::ini();
+        $collabINI = eZCollaborationItemHandler::ini();
         return $collabINI->variable( 'HandlerSettings', 'Extensions' );
     }
 
@@ -494,7 +494,7 @@ class eZCollaborationItemHandler
      \return an array with directories which acts as collaboration repositories.
      \sa defaultRepositories, extensionRepositories
     */
-    function handlerRepositories()
+    static function handlerRepositories()
     {
         $extensions = eZCollaborationItemHandler::extensionRepositories();
         $repositories = eZCollaborationItemHandler::defaultRepositories();
@@ -512,9 +512,9 @@ class eZCollaborationItemHandler
      \static
      \return an array with handler identifiers that are considered active.
     */
-    function activeHandlers()
+    static function activeHandlers()
     {
-        $collabINI =& eZCollaborationItemHandler::ini();
+        $collabINI = eZCollaborationItemHandler::ini();
         return $collabINI->variable( 'HandlerSettings', 'Active' );
     }
 
@@ -523,7 +523,7 @@ class eZCollaborationItemHandler
      \return a unique instance of the handler for the identifier \a $handler.
      If \a $repositories is left out it will use the handlerRepositories.
     */
-    function &instantiate( $handler, $repositories = false )
+    static function instantiate( $handler, $repositories = false )
     {
         $objectCache =& $GLOBALS["eZCollaborationHandlerObjectCache"];
         if ( !isset( $objectCache ) )
@@ -570,7 +570,7 @@ class eZCollaborationItemHandler
      \return a list of collaboration handler objects.
      \sa instantiate, activeHandlers
     */
-    function &fetchList()
+    static function fetchList()
     {
         $list =& $GLOBALS['eZCollaborationList'];
         if ( isset( $list ) )
@@ -580,7 +580,7 @@ class eZCollaborationItemHandler
         $repositories = eZCollaborationItemHandler::handlerRepositories();
         foreach ( $activeHandlers as $handler )
         {
-            $handlerInstance =& eZCollaborationItemHandler::instantiate( $handler, $repositories );
+            $handlerInstance = eZCollaborationItemHandler::instantiate( $handler, $repositories );
             if ( $handlerInstance !== null )
                 $list[] =& $handlerInstance;
         }
@@ -588,7 +588,7 @@ class eZCollaborationItemHandler
     }
 
     /// \privatesection
-    var $Info;
+    public $Info;
 }
 
 ?>

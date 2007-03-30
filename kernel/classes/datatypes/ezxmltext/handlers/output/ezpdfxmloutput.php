@@ -69,7 +69,7 @@ class eZPDFXMLOutput extends eZXHTMLXMLOutput
         return $ret;
     }
 
-    var $TemplatesPath = 'design:content/datatype/pdf/ezxmltags/';
+    public $TemplatesPath = 'design:content/datatype/pdf/ezxmltags/';
 }
 
 ?>

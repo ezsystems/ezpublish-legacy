@@ -51,7 +51,7 @@ class eZOrderItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -153,7 +153,7 @@ class eZOrderItem extends eZPersistentObject
     */
     function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezorder_item" );
     }
 }

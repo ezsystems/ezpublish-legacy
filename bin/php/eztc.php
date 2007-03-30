@@ -49,7 +49,7 @@ $options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][acc
                                        'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
                                        'index-file' => "The name of your index.php if you are running in non-virtualhost mode",
                                        'access-path' => "Extra access path" ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $forceCompile = false;
 $useFullURL = false;
@@ -82,13 +82,13 @@ if ( $options['no-full-url'] )
 $script->initialize();
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $http->UseFullUrl = $useFullURL;
 
 
 if ( count( $options['arguments'] ) > 0 )
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
 
     include_once( 'kernel/common/template.php' );
     include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
@@ -131,7 +131,7 @@ if ( count( $options['arguments'] ) > 0 )
 }
 else
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
     $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );

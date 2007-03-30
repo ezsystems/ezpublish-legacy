@@ -37,7 +37,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
 $tpl =& templateInit();
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params['Module'];
 
 $tpl->setVariable( 'module', $Module );
@@ -65,7 +65,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
          $localeID != -1 )
     {
         $translationLocale = $localeID;
-        $localeInstance =& eZLocale::instance( $translationLocale );
+        $localeInstance = eZLocale::instance( $translationLocale );
         $translationName = $localeInstance->internationalLanguageName();
     }
     else
@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
 
     if ( !eZContentLanguage::fetchByLocale( $translationLocale ) )
     {
-        $locale =& eZLocale::instance( $translationLocale );
+        $locale = eZLocale::instance( $translationLocale );
         if ( $locale->isValid() )
         {
             $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $translationName );
@@ -122,7 +122,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
 {
     $seletedIDList = $Module->actionParameter( 'SelectedTranslationList' );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $db->begin();
     foreach ( $seletedIDList as $translationID )

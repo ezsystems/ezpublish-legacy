@@ -884,33 +884,33 @@ class eZTemplateLogicOperator
 
     /// \privatesection
     /// The array of operators
-    var $Operators;
+    public $Operators;
     /// The "less than" name
-    var $LtName;
+    public $LtName;
     /// The "greater than" name
-    var $GtName;
+    public $GtName;
     /// The "less than or equal" name
-    var $LeName;
+    public $LeName;
     /// The "greater than or equal" name
-    var $GeName;
+    public $GeName;
     /// The "equal" name
-    var $EqName;
+    public $EqName;
     /// The "not equal" name
-    var $NeName;
+    public $NeName;
     /// The "null" name
-    var $NullName;
+    public $NullName;
     /// The "not" name
-    var $NotName;
+    public $NotName;
     /// The "or" name
-    var $OrName;
+    public $OrName;
     /// The "and" name
-    var $AndName;
+    public $AndName;
     /// The "true" name
-    var $TrueName;
+    public $TrueName;
     /// The "false" name
-    var $FalseName;
+    public $FalseName;
     /// The "choose" name
-    var $ChooseName;
+    public $ChooseName;
 };
 
 ?>

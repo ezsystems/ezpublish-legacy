@@ -74,7 +74,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZOrderStatusHistory class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -124,7 +124,7 @@ class eZOrderStatusHistory extends eZPersistentObject
         if ( $this->Modifier === null )
         {
             include_once( 'kernel/classes/ezcontentobject.php' );
-            $this->Modifier =& eZContentObject::fetch( $this->ModifierID );
+            $this->Modifier = eZContentObject::fetch( $this->ModifierID );
         }
         return $this->Modifier;
     }
@@ -176,7 +176,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     */
     function fetchListByOrder( $orderID, $asObject = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $orderID = (int)$orderID;
         $rows = $db->arrayQuery(  "SELECT ezorder_status_history.*, ezorder_status.name AS status_name\n" .
@@ -195,7 +195,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     */
     function fetchCount( $orderID, $asObject = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $orderID = (int)$orderID;
         $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezorder_status_history WHERE order_id = $orderID" );
@@ -209,7 +209,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     function create( $orderID, $statusID, $userID = false, $timestamp = false )
     {
         if ( $timestamp === false )
-            $timestamp = mktime();
+            $timestamp = time();
         if ( $userID === false )
             $userID = eZUser::currentUserID();
         $row = array( 'id' => null,
@@ -224,7 +224,7 @@ class eZOrderStatusHistory extends eZPersistentObject
     /// \privatesection
     /// This is used for caching the current modifier,
     /// it will either contain \c null (uncached) or a content object (cached).
-    var $Modifier;
+    public $Modifier;
 }
 
 ?>

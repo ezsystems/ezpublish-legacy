@@ -51,7 +51,7 @@ class eZEnumObjectValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -137,11 +137,11 @@ class eZEnumObjectValue extends eZPersistentObject
                                                     $asObject );
     }
 
-    var $ContentObjectAttributeID;
-    var $ContentObjectAttributeVersion;
-    var $EnumID;
-    var $EnumElement;
-    var $EnumValue;
+    public $ContentObjectAttributeID;
+    public $ContentObjectAttributeVersion;
+    public $EnumID;
+    public $EnumElement;
+    public $EnumValue;
 }
 
 ?>

@@ -72,7 +72,7 @@ class {$full_class_name} extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {literal}{{/literal}
         return "";
     {literal}}{/literal}
@@ -88,7 +88,7 @@ class {$full_class_name} extends eZDataType
     /*!
      Returns the value as it will be shown if this attribute is used in the object name pattern.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {literal}{{/literal}
         return "";
     {literal}}{/literal}

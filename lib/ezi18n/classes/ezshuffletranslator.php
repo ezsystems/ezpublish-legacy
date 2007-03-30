@@ -110,7 +110,7 @@ class eZShuffleTranslator extends eZTranslatorHandler
 
     /// \privatesection
     /// Contains the hash table with cached 1337 translations
-    var $Messages;
+    public $Messages;
 }
 
 ?>

@@ -45,7 +45,7 @@ class eZImageFile extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'id',
                                                         'datatype' => 'integer',
@@ -67,14 +67,14 @@ class eZImageFile extends eZPersistentObject
                       'name' => 'ezimagefile' );
     }
 
-    function create( $contentObjectAttributeID, $filepath  )
+    static function create( $contentObjectAttributeID, $filepath  )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "filepath" => $filepath );
         return new eZImageFile( $row );
     }
 
-    function &fetchForContentObjectAttribute( $contentObjectAttributeID, $asObject = false )
+    static function &fetchForContentObjectAttribute( $contentObjectAttributeID, $asObject = false )
     {
         $rows = eZPersistentObject::fetchObjectList( eZImageFile::definition(),
                                                       null,
@@ -99,7 +99,7 @@ class eZImageFile extends eZPersistentObject
     /*!
       \return An array of ids and versions of ezimage ezcontentobject_attributes have \a $filepath.
     */
-    function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
+    static function fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID )
     {
        $db = eZDB::instance();
        $filepath = $db->escapeString( $filepath );
@@ -113,7 +113,7 @@ class eZImageFile extends eZPersistentObject
        return $rows;
     }
 
-    function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
+    static function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
         // Fetch by file path without $contentObjectAttributeID
         if ( $contentObjectAttributeID === false )
@@ -129,9 +129,9 @@ class eZImageFile extends eZPersistentObject
                                                 $asObject );
     }
 
-    function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
+    static function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         eZImageFile::removeFilepath( $contentObjectAttributeID, $oldFilepath );
@@ -141,7 +141,7 @@ class eZImageFile extends eZPersistentObject
         return $result;
     }
 
-    function appendFilepath( $contentObjectAttributeID, $filepath, $ignoreUnique = false )
+    static function appendFilepath( $contentObjectAttributeID, $filepath, $ignoreUnique = false )
     {
         if ( empty( $filepath ) )
             return false;
@@ -162,7 +162,7 @@ class eZImageFile extends eZPersistentObject
         return true;
     }
 
-    function removeFilepath( $contentObjectAttributeID, $filepath )
+    static function removeFilepath( $contentObjectAttributeID, $filepath )
     {
         if ( empty( $filepath ) )
             return false;
@@ -173,31 +173,16 @@ class eZImageFile extends eZPersistentObject
         return true;
     }
 
-    function removeForContentObjectAttribute( $contentObjectAttributeID )
+    static function removeForContentObjectAttribute( $contentObjectAttributeID )
     {
-        if ( isset( $this ) and
-             get_class( $this ) == 'ezimagefile' )
-            $instance =& $this;
-        else
-            $instance =& eZImageFile::instance();
-        $instance->remove( array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
-    }
-
-    function &instance()
-    {
-        $instance =& $GLOBALS['eZImageFileInstance'];
-        if ( !isset( $instance ) )
-        {
-            $instance = new eZImageFile( array() );
-        }
-        return $instance;
+        eZPersistentObject::removeObject( eZImageFile::definition(), array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
     }
 
 
     /// \privatesection
-    var $ID;
-    var $ContentObjectAttributeID;
-    var $Filepath;
+    public $ID;
+    public $ContentObjectAttributeID;
+    public $Filepath;
 }
 
 ?>

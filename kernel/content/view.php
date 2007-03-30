@@ -35,7 +35,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $tpl =& templateInit();
 
@@ -76,7 +76,7 @@ if ( $NodeID < 2 )
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
 
 if ( isset( $Params['ViewCache'] ) )
@@ -98,7 +98,7 @@ if ( isset( $Params['AttributeValidation'] ) )
     $validation = $Params['AttributeValidation'];
 
 // Check if read operations should be used
-$workflowINI =& eZINI::instance( 'workflow.ini' );
+$workflowINI = eZINI::instance( 'workflow.ini' );
 $operationList = $workflowINI->variableArray( 'OperationSettings', 'AvailableOperations' );
 $operationList = array_unique( array_merge( $operationList, $workflowINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 if ( in_array( 'content_read', $operationList ) )
@@ -110,7 +110,7 @@ else
     $useTriggers = false;
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $keys =& $res->keys();
 if ( isset( $keys['layout'] ) )
     $layout = $keys['layout'];
@@ -124,7 +124,7 @@ $viewParameters = array( 'offset' => $Offset,
                          'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-view', 'Operation start' );
 
@@ -183,7 +183,7 @@ $cacheGenFile = false;
 if ( $viewCacheEnabled )
 {
     $cacheExpired = false;
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
 
     $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters );
 
@@ -304,7 +304,7 @@ if ( $viewCacheEnabled )
             if ( isset( $Result['content_info']['class_identifier'] ) )
                 $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
 
-            $res =& eZTemplateDesignResource::instance();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( $keyArray );
 
             // set section id
@@ -334,7 +334,7 @@ if ( !is_object( $object ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-if ( !get_class( $object ) == 'ezcontentobject' )
+if ( !strtolower( get_class( $object ) ) == 'ezcontentobject' )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
@@ -364,7 +364,7 @@ if ( $cacheGenFile )
     $cacheGenFile->storeContents( '1' );
 }
 
-$Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
+$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
                                                   $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                   $collectionAttributes, $validation );
 

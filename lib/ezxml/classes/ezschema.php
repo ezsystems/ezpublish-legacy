@@ -72,7 +72,7 @@ class eZSchema
     function setSchema( &$schemaDocument )
     {
         $xml = new eZXML();
-        $schemaDom =& $xml->domTree( $schemaDocument );
+        $schemaDom = $xml->domTree( $schemaDocument );
 
         $schemaRoot = $schemaDom->root();
 
@@ -91,7 +91,7 @@ class eZSchema
                 // register types
                 $element =& $this->parseElement( $schemaNode );
 
-                if ( get_class( $element ) == "ezschemaelement" )
+                if ( strtolower( get_class( $element ) ) == "ezschemaelement" )
                 {
                     if ( $i == 0 )
                     {
@@ -120,7 +120,7 @@ class eZSchema
             $element->setName( $schemaNode->attributeValue( "name" ) );
 
             // set the next reference in the parent element
-            if ( get_class( $parentElement ) == "ezelement" )
+            if ( strtolower( get_class( $parentElement ) ) == "ezelement" )
                 $parentElement->setNext( $element );
 
             $minOccurs = $schemaNode->attributeValue( "minOccurs" );
@@ -376,16 +376,16 @@ class eZSchema
     }
 
     /// Contains the validation root
-    var $ValidationRoot = false;
+    public $ValidationRoot = false;
 
     /// Contains the schema elements, elements are indexed by their name.
-    var $Elements = array();
+    public $Elements = array();
 
     /// Description or the schema
-    var $Annotation = "";
+    public $Annotation = "";
 
     /// Contains the schema root namespace prefix
-    var $RootPrefix;
+    public $RootPrefix;
 
 }
 

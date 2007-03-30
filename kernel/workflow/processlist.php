@@ -27,7 +27,7 @@
 //
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
 
 include_once( "kernel/classes/eztrigger.php" );
@@ -88,7 +88,7 @@ $tpl->setVariable( "total_process_count", $totalProcessCount );
 
 $Module->setTitle( "Workflow processes list" );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/processlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/processlist.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'Process list' ),

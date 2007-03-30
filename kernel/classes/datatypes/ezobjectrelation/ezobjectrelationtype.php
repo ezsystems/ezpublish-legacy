@@ -106,7 +106,7 @@ class eZObjectRelationType extends eZDataType
         if ( $http->hasPostVariable( $fuzzyMatchVariableName ) )
         {
             include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-            $trans =& eZCharTransform::instance();
+            $trans = eZCharTransform::instance();
 
             $fuzzyMatchText = trim( $http->postVariable( $fuzzyMatchVariableName ) );
             if ( $fuzzyMatchText != '' )
@@ -296,7 +296,7 @@ class eZObjectRelationType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -367,11 +367,11 @@ class eZObjectRelationType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $objectID = $contentObjectAttribute->attribute( "data_int" );
         if ( $objectID != 0 )
-            $object =& eZContentObject::fetch( $objectID );
+            $object = eZContentObject::fetch( $objectID );
         else
             $object = null;
         return $object;
@@ -421,7 +421,7 @@ class eZObjectRelationType extends eZDataType
         return $content;
     }
 
-    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
         {
@@ -513,7 +513,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Returns the content of the string for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )

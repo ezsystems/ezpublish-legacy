@@ -36,7 +36,7 @@ include_once( 'kernel/classes/ezpdfexport.php' );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
 {
@@ -58,8 +58,8 @@ if ( isset( $Params['PDFExportID'] ) )
     {
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
-        $user =& eZUser::currentUser();
-        $contentIni =& eZIni::instance( 'content.ini' );
+        $user = eZUser::currentUser();
+        $contentIni = eZINI::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
         if ( $pdfExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $pdfExport->attribute( 'modified' ) + $timeOut > time() )
@@ -94,7 +94,7 @@ else
 {
     include_once( 'kernel/classes/ezpdfexport.php' );
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
 
     $pdfExport = eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
     $pdfExport->store();
@@ -248,7 +248,7 @@ function generatePDF( &$pdfExport, $toFile = false )
             $tpl->setVariable( 'filename', $toFile );
         }
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),

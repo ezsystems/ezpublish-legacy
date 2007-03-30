@@ -52,7 +52,7 @@ class eZDiffEngine
     }
 
     /// \privatesection
-    var $DiffMode;
+    public $DiffMode;
 }
 
 ?>

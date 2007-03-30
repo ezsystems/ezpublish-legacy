@@ -121,7 +121,7 @@ class eZStepSiteAccess extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $siteType = $this->chosenSiteType();
         $this->Tpl->setVariable( 'site_type', $siteType );

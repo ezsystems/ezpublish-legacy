@@ -58,7 +58,7 @@ class eZStaticCache
     */
     function eZStaticCache()
     {
-        $ini =& eZINI::instance( 'staticcache.ini');
+        $ini = eZINI::instance( 'staticcache.ini');
         $this->HostName = $ini->variable( 'CacheSettings', 'HostName' );
         $this->StaticStorageDir = $ini->variable( 'CacheSettings', 'StaticStorageDir' );
         $this->MaxCacheDepth = $ini->variable( 'CacheSettings', 'MaxCacheDepth' );
@@ -148,7 +148,7 @@ class eZStaticCache
 
             /* Fetch all url aliases with the same node */
             /* 1. request content/view/full/* style url */
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $srcURL = $db->escapeString( $uri['path_identification_string'] );
             $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '$srcURL'" );
             /* 2. get all other elements linked to the same destination URL */
@@ -171,7 +171,7 @@ class eZStaticCache
     function generateCache( $force = false, $quiet = false, $cli = false, $delay = true )
     {
         $staticURLArray = $this->cachedURLArray();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $configSettingCount = count( $staticURLArray );
         $currentSetting = 0;
         foreach ( $staticURLArray as $url )
@@ -331,7 +331,7 @@ class eZStaticCache
                         }
                         else
                         {
-                            $this->storeCachedFile( $file, $content );
+                            eZStaticCache::storeCachedFile( $file, $content );
                         }
                     }
                 }
@@ -358,7 +358,7 @@ class eZStaticCache
      Stores the cache file \a $file with contents \a $content.
      Takes care of setting proper permissions on the new file.
     */
-    function storeCachedFile( $file, $content )
+    static function storeCachedFile( $file, $content )
     {
         $dir = dirname( $file );
         if ( !is_dir( $dir ) )
@@ -427,7 +427,7 @@ class eZStaticCache
      \static
      This function goes over the list of recorded actions and excecutes them.
     */
-    function executeActions()
+    static function executeActions()
     {
         if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
             return;
@@ -462,13 +462,13 @@ class eZStaticCache
 
     /// \privatesection
     /// The name of the host to fetch HTML data from.
-    var $HostName;
+    public $HostName;
     /// The base path for the directory where static files are placed.
-    var $StaticStorage;
+    public $StaticStorage;
     /// The maximum depth of URLs that will be cached.
-    var $MaxCacheDepth;
+    public $MaxCacheDepth;
     /// Array of URLs to cache.
-    var $CachedURLArray;
+    public $CachedURLArray;
 }
 
 ?>

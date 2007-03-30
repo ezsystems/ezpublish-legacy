@@ -43,9 +43,9 @@ $tpl =& templateInit();
 // incase the user decides to continue editing.
 $FromLanguage = $Params['FromLanguage'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
-$contentObject =& eZContentObject::fetch( $ObjectID );
+$contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -63,7 +63,7 @@ if ( !$LanguageCode )
     $LanguageCode = $versionObject->initialLanguageCode();
 }
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $isCreator = ( $versionObject->attribute( 'creator_id' ) == $user->id() );
 
@@ -76,7 +76,7 @@ $sectionID = false;
 $placementID = false;
 $assignment = false;
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     $LanguageCode = $http->postVariable( 'ContentObjectLanguageCode' );
@@ -110,7 +110,7 @@ else if ( !$placementID && count( $nodeAssignments ) )
                     WHERE contentobject_id=$ObjectID
                     AND parent_node_id=$parentNodeID";
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $nodeListArray = $db->arrayQuery( $query );
             $virtualNodeID = $nodeListArray[0]['node_id'];
             break;
@@ -129,7 +129,7 @@ foreach ( array_keys( $nodeAssignments ) as $key )
     }
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 {
@@ -169,7 +169,7 @@ if ( $versionAttributes === null or
     $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 if ( $assignment )
 {
@@ -239,7 +239,7 @@ else
     return;
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 if ( !$siteAccess )
 {
     if ( $contentINI->hasVariable( 'VersionView', 'DefaultPreviewDesign' ) )
@@ -272,7 +272,7 @@ eZContentLanguage::expireCache();
 
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setDesignSetting( $ini->variable( 'DesignSettings', 'SiteDesign' ), 'site' );
 $res->setOverrideAccess( $siteAccess );
 
@@ -285,7 +285,7 @@ $designKeys = array( array( 'object', $contentObject->attribute( 'id' ) ), // Ob
 if ( $assignment )
 {
     $designKeys[] = array( 'parent_node', $assignment->attribute( 'parent_node' ) );
-    if ( get_class( $parentNodeObject ) == 'ezcontentobjecttreenode' )
+    if ( strtolower( get_class( $parentNodeObject ) ) == 'ezcontentobjecttreenode' )
         $designKeys[] = array( 'depth', $parentNodeObject->attribute( 'depth' ) + 1 );
 }
 

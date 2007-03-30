@@ -125,7 +125,7 @@ class eZBinaryFileHandler
 
         $origDir = eZSys::storageDirectory() . '/original';
 
-        $class = get_class( $binary );
+        $class = strtolower( get_class( $binary ) );
         $fileName = false;
         $originalFilename = false;
         if ( in_array( $class, array( 'ezbinaryfile', 'ezmedia' ) ) )
@@ -258,11 +258,11 @@ class eZBinaryFileHandler
         return array( 'kernel/classes/binaryhandlers' );
     }
 
-    function &instance( $identifier = false )
+    static function instance( $identifier = false )
     {
         if ( $identifier === false )
         {
-            $fileINI =& eZINI::instance( 'file.ini' );
+            $fileINI = eZINI::instance( 'file.ini' );
             $identifier = $fileINI->variable( 'BinaryFileSettings', 'Handler' );
         }
         $instance =& $GLOBALS['eZBinaryFileHandlerInstance-' . $identifier];
@@ -293,7 +293,7 @@ class eZBinaryFileHandler
     }
 
     /// \privatesection
-    var $Info;
+    public $Info;
 }
 
 ?>

@@ -48,7 +48,7 @@ include_once( 'kernel/classes/ezcollaborationviewhandler.php' );
 if ( !eZCollaborationViewHandler::groupExists( $ViewMode ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$view =& eZCollaborationViewHandler::instance( $ViewMode, EZ_COLLABORATION_VIEW_TYPE_GROUP );
+$view = eZCollaborationViewHandler::instance( $ViewMode, EZ_COLLABORATION_VIEW_TYPE_GROUP );
 
 $template = $view->template();
 
@@ -59,7 +59,7 @@ include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 $viewParameters = array( 'offset' => $Offset );
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'collab_group', $collabGroup );

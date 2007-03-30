@@ -64,7 +64,7 @@ class eZWorkflowFunctions
         }
         else
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach(  $selectedGroup as $group_id )
             {

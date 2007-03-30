@@ -116,7 +116,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
@@ -126,7 +126,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db )
     {
         $cli->notice( "Can't initialize database connection.\n" );
@@ -220,7 +220,7 @@ while( count( $result ) )
         if ( $attr->attribute( 'data_text' ) )
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $attr->attribute( 'data_text' ) );
+            $dom = $xml->domTree( $attr->attribute( 'data_text' ) );
 
             $root =& $dom->root();
             $relationList =& $root->elementByName( 'relation-list' );

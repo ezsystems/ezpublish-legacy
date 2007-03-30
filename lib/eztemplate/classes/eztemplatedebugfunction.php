@@ -433,9 +433,9 @@ class eZTemplateDebugFunction
 
     /// \privatesection
     /// Name of the function
-    var $DebugName;
-    var $AppendDebugName;
-    var $OnceName;
+    public $DebugName;
+    public $AppendDebugName;
+    public $OnceName;
 }
 
 ?>

@@ -237,17 +237,17 @@ class eZImageFont
 
     /// \privatesection
     /// The current font family
-    var $FontFamily;
+    public $FontFamily;
     /// The path or path array to the fonts
-    var $FontPath;
+    public $FontPath;
     /// The path to the font file one was found
-    var $FontFile;
+    public $FontFile;
     /// The size of the font in points.
-    var $PointSize;
+    public $PointSize;
     /// Adjustment in the x direction
-    var $XAdjustment;
+    public $XAdjustment;
     /// Adjustment in the y direction
-    var $YAdjustment;
+    public $YAdjustment;
 }
 
 ?>

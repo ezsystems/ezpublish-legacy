@@ -87,9 +87,9 @@ class eZLog
      \private
      Writes file name $name and storage directory $dir to storage log
     */
-    function writeStorageLog( $name, $dir = false )
+    static function writeStorageLog( $name, $dir = false )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $varDir = $ini->variable( 'FileSettings', 'VarDir' );
         $logDir = $ini->variable( 'FileSettings', 'LogDir' );
         $logName = 'storage.log';
@@ -136,7 +136,7 @@ class eZLog
      \static
      \return the maxium size for a log file in bytes.
     */
-    function maxLogSize()
+    static function maxLogSize()
     {
         $maxLogSize =& $GLOBALS['eZMaxLogSize'];
         if ( isset( $maxLogSize ) )
@@ -148,7 +148,7 @@ class eZLog
      \static
      Sets the maxium size for a log file to \a $size.
     */
-    function setMaxLogSize( $size )
+    static function setMaxLogSize( $size )
     {
         $GLOBALS['eZMaxLogSize'] = $size;
     }
@@ -157,7 +157,7 @@ class eZLog
      \static
      \return the maxium number of logrotate files to keep.
     */
-    function maxLogrotateFiles()
+    static function maxLogrotateFiles()
     {
         $maxLogrotateFiles =& $GLOBALS['eZMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
@@ -172,7 +172,7 @@ class eZLog
      exceed maxLogrotateFiles() will be removed.
      Rotated files will get the extension .1, .2 etc.
     */
-    function rotateLog( $fileName )
+    static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
@@ -204,7 +204,7 @@ class eZLog
      \static
      Sets the maxium number of logrotate files to keep to \a $files.
     */
-    function setLogrotateFiles( $files )
+    static function setLogrotateFiles( $files )
     {
         $GLOBALS['eZMaxLogrotateFiles'] = $files;
     }

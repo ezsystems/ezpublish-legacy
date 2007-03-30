@@ -55,7 +55,7 @@ class eZPublishType extends eZNotificationEventType
         $event->setAttribute( 'data_int2', $params['version'] );
     }
 
-    function eventContent( &$event )
+    function eventContent( $event )
     {
         return eZContentObjectVersion::fetchVersion( $event->attribute( 'data_int2' ), $event->attribute( 'data_int1' ) );
     }

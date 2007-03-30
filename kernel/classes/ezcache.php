@@ -57,12 +57,12 @@ class eZCache
      \static
      \return a list of all cache items in the system.
     */
-    function fetchList()
+    static function fetchList()
     {
         $cacheList =& $GLOBALS['eZCacheList'];
         if ( !isset( $cacheList ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $cacheList = array( array( 'name' => ezi18n( 'kernel/cache', 'Content view cache' ),
                                        'id' => 'content',
                                        'tag' => array( 'content' ),
@@ -156,7 +156,7 @@ class eZCache
                            eZCache functions are called it is a good idea to call
                            fetchList() yourself and pass it as a parameter.
     */
-    function fetchTagList( $cacheInfoList = false )
+    static function fetchTagList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -179,7 +179,7 @@ class eZCache
                            eZCache functions are called it is a good idea to call
                            fetchList() yourself and pass it as a parameter.
     */
-    function fetchIDList( $cacheInfoList = false )
+    static function fetchIDList( $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -197,7 +197,7 @@ class eZCache
      Finds all cache entries using tag \a $tagName.
      \return An array with cache items.
     */
-    function fetchByTag( $tagName, $cacheInfoList = false )
+    static function fetchByTag( $tagName, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -217,7 +217,7 @@ class eZCache
      Finds the first entry with the ID \a $id.
      \return The cache info structure.
     */
-    function fetchByID( $id, $cacheInfoList = false )
+    static function fetchByID( $id, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -235,7 +235,7 @@ class eZCache
      Finds the entries matching and ID in the list \a $idList.
      \return An array with cache info structures.
     */
-    function fetchByIDList( $idList, $cacheInfoList = false )
+    static function fetchByIDList( $idList, $cacheInfoList = false )
     {
         if ( !$cacheInfoList )
             $cacheInfoList = eZCache::fetchList();
@@ -253,7 +253,7 @@ class eZCache
      \static
      Clears all cache items.
     */
-    function clearAll( $cacheList = false )
+    static function clearAll( $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -269,7 +269,7 @@ class eZCache
      \static
      Finds all cache item which has the tag \a $tagName and clears them.
     */
-    function clearByTag( $tagName, $cacheList = false )
+    static function clearByTag( $tagName, $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -292,7 +292,7 @@ class eZCache
      Finds all cache item which has ID equal to one of the IDs in \a $idList.
      You can also submit a single id to \a $idList.
     */
-    function clearByID( $idList, $cacheList = false )
+    static function clearByID( $idList, $cacheList = false )
     {
         if ( !$cacheList )
             $cacheList = eZCache::fetchList();
@@ -317,7 +317,7 @@ class eZCache
      \static
      Clears the cache item \a $cacheItem.
     */
-    function clearItem( $cacheItem )
+    static function clearItem( $cacheItem )
     {
         if ( isset( $cacheItem['function'] ) )
         {
@@ -369,7 +369,7 @@ class eZCache
      Sets the image alias timestamp to the current timestamp,
      this causes all image aliases to be recreated on viewing.
     */
-    function clearImageAlias( $cacheItem )
+    static function clearImageAlias( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
@@ -381,7 +381,7 @@ class eZCache
      \private
      Removes all template block cache files and subtree entries.
     */
-    function clearTemplateBlockCache( $cacheItem )
+    static function clearTemplateBlockCache( $cacheItem )
     {
         // remove existing cache
         $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
@@ -401,7 +401,7 @@ class eZCache
      \private
      Clears all content class identifier cache files from var/cache.
     */
-    function clearClassID( $cacheItem )
+    static function clearClassID( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
 
@@ -416,7 +416,7 @@ class eZCache
      \private
      Clears all datatype sortkey cache files from var/cache.
     */
-    function clearSortKey( $cacheItem )
+    static function clearSortKey( $cacheItem )
     {
         $cachePath = eZSys::cacheDirectory();
 
@@ -431,7 +431,7 @@ class eZCache
      \static
      Clear global ini cache
     */
-    function clearGlobalINICache()
+    static function clearGlobalINICache()
     {
         eZDir::recursiveDelete( 'var/cache/ini' );
     }

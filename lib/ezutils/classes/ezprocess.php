@@ -39,17 +39,13 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 
 class eZProcess
 {
-    function eZProcess()
-    {
-    }
-
-    function run( $file, $Params = array(), $params_as_var = false )
+    static function run( $file, $Params = array(), $params_as_var = false )
     {
         if ( isset( $this ) and
-             get_class( $this ) == "ezprocess" )
+             strtolower( get_class( $this ) ) == "ezprocess" )
             $instance =& $this;
         else
-            $instance =& eZProcess::instance();
+            $instance = eZProcess::instance();
         return $instance->runFile( $Params, $file, $params_as_var );
     }
 
@@ -83,10 +79,10 @@ class eZProcess
         return $Result;
     }
 
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS["eZProcessInstance"];
-        if ( get_class( $instance ) != "ezprocess" )
+        if ( strtolower( get_class( $instance ) ) != "ezprocess" )
         {
             $instance = new eZProcess();
         }

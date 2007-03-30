@@ -117,7 +117,7 @@ class eZStepSitePackages extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $siteTypes = $this->chosenSiteTypes();
         $siteType = $siteTypes[0]['identifier'];
@@ -176,7 +176,7 @@ class eZStepSitePackages extends eZStepInstaller
 
     }
 
-    var $Error = 0;
+    public $Error = 0;
 }
 
 ?>

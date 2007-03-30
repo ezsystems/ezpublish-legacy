@@ -78,7 +78,7 @@ else
     $protocol = 'http';
 
     // Check if SSL port is defined in site.ini
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $sslPort = 443;
     if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
     {
@@ -98,7 +98,7 @@ else
 }
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
 $urlViewCount= eZURLObjectLink::fetchObjectVersionCount( $urlID );
 

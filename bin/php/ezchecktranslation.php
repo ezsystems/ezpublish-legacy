@@ -70,7 +70,7 @@ include_once( "lib/ezxml/classes/ezxml.php" );
 $xml = new eZXML();
 
 $cli->output( " parsing", false );
-$tree =& $xml->domTree( $transXML );
+$tree = $xml->domTree( $transXML );
 
 $cli->output( " validating", false );
 include_once( 'lib/ezi18n/classes/eztstranslator.php' );

@@ -34,7 +34,7 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 $discountGroupArray = eZDiscountRule::fetchList();
 
@@ -55,7 +55,7 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "discountGroupIDList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {

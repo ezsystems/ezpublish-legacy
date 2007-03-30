@@ -215,7 +215,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         if ( isset( $processParameters['object_id'] ) )
         {
             $objectID = $processParameters['object_id'];
-            $object =& eZContentObject::fetch( $objectID );
+            $object = eZContentObject::fetch( $objectID );
             if ( $object )
             {
                 // Examine if the published version contains one of the languages we
@@ -253,7 +253,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
         if ( !isset( $processParameters['user_id'] ) )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userID = $user->id();
             $processParameters['user_id'] = $userID;
             $storeProcessParameters = true;
@@ -262,9 +262,9 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             $userID = $processParameters['user_id'];
             $user = eZUser::fetch( $userID );
-            if ( get_class( $user ) != 'ezuser' )
+            if ( strtolower( get_class( $user ) ) != 'ezuser' )
             {
-                $user =& eZUser::currentUser();
+                $user = eZUser::currentUser();
                 $userID = $user->id();
                 $processParameters['user_id'] = $userID;
                 $storeProcessParameters = true;

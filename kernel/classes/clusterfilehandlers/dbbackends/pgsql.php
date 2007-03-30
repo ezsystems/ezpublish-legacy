@@ -649,7 +649,7 @@ class eZDBFileHandlerPgsqlBackend
         }
     }
 
-    var $db   = null;
+    public $db   = null;
 }
 
 ?>

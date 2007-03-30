@@ -32,9 +32,9 @@ include_once( 'kernel/common/template.php' );
 
 $Module =& $Params['Module'];
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
-$contentIni =& eZINI::instance( 'content.ini' );
+$contentIni = eZINI::instance( 'content.ini' );
 
 $Module->setTitle( ezi18n( 'kernel/setup', 'Setup menu' ) );
 $tpl =& templateInit();

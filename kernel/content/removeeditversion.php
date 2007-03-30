@@ -33,7 +33,7 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 $Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );
 $version = (int) $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
@@ -51,7 +51,7 @@ if ( $http->hasSessionVariable( "DiscardConfirm" ) )
 
 if ( $isConfirmed )
 {
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -75,7 +75,7 @@ if ( $isConfirmed )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );

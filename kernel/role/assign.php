@@ -30,7 +30,7 @@
 include_once( 'kernel/classes/ezrole.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 $roleID =& $Params['RoleID'];
@@ -71,7 +71,7 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
     $role = eZRole::fetch( $roleID );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {

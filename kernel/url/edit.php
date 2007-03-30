@@ -50,7 +50,7 @@ else
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $Module->isCurrentAction( 'Cancel' ) )
 {
     $Module->redirectToView( 'list' );

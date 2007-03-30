@@ -49,7 +49,7 @@ if( is_null( $discountGroup ) )
 }
 
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {
@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 {
     $discountRuleIDList = $http->postVariable( "removeRuleList" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
@@ -93,7 +93,7 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
     $selectedObjectIDArray = eZContentBrowse::result( 'AddCustomer' );
     $userIDArray = eZUserDiscountRule::fetchUserID( $discountGroupID );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
@@ -115,7 +115,7 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
     {
         $customerIDArray = $http->postVariable( "CustomerIDArray" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $customerIDArray as $customerID )
         {
@@ -211,7 +211,7 @@ foreach ( $ruleList as $rule )
             foreach ( $productRuleValues as $productRuleValue )
             {
                 $objectID = $productRuleValue->attribute( 'value' );
-                $product =& eZContentObject::fetch( $objectID );
+                $product = eZContentObject::fetch( $objectID );
                 if ( $product )
                 {
                     if ( !$firstLoop )

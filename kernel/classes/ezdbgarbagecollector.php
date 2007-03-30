@@ -84,7 +84,7 @@ class eZDBGarbageCollector
     */
     function collectBaskets( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -179,7 +179,7 @@ WHERE ezsession.session_key IS NULL";
     */
     function collectProductCollections( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         // Create a temporary table for filling in collection ids
         // that are in use
@@ -296,7 +296,7 @@ WHERE ezproductcollection_used.id IS NULL";
     */
     function collectProductCollectionItems( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -383,7 +383,7 @@ WHERE ezproductcollection.id IS NULL";
     */
     function collectProductCollectionItemOptions( $maxTime = false, $sleepTime = false, $limit = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $maxTime === false and $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {

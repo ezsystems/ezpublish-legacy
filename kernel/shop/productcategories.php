@@ -38,7 +38,7 @@ function applyChanges( $module, $http, &$errors, $productCategories = false )
     if ( $productCategories === false )
         $productCategories = eZProductCategory::fetchList();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $productCategories as $cat )
     {
@@ -88,7 +88,7 @@ function generateUniqueCategoryName( $productCategories )
 }
 
 $module =& $Params["Module"];
-$http   =& eZHttpTool::instance();
+$http   = eZHTTPTool::instance();
 $tpl =& templateInit();
 $errors = false;
 
@@ -168,7 +168,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
             $catIDList = explode( ',', $catIDList );
     }
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $catIDList as $catID )
         eZProductCategory::remove( (int) $catID );

@@ -457,7 +457,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \param $variableParameters Optional parameters for the statement
             - \a is-reference, whether to do the assignment with reference or not (default is not)
     */
-    function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
+    static function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
     {
         $variableParameters = array_merge( array( 'is-reference' => false ),
                                            $variableParameters );
@@ -505,9 +505,9 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
      \note This function can be called statically if \a $maxIterations is set to \c false
     */
-    function variableText( $value, $column = 0, $iteration = 0, $maxIterations = 2 )
+    function thisVariableText( $value, $column = 0, $iteration = 0, $maxIterations = 2 )
     {
-        if ( isset( $this->Spacing) and !$this->Spacing )
+        if ( isset( $this->Spacing ) and !$this->Spacing )
         {
             return var_export( $value, true );
         }
@@ -563,16 +563,9 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                         $variableName = $variables[$parameter];
                         $variableValue = $value->$variableName;
                         $keyText = " ";
-                        /* It is also used statically sometimes, so we need to
-                         * do this ugly hack */
-                        if ( $this and ( get_class( $this ) == 'ezphpcreator' ) )
-                        {
-                            $text .= $keyText . $this->variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
-                        }
-                        else
-                        {
-                            $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
-                        }
+
+                        $text .= $keyText . $this->thisVariableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+
                         ++$i;
                     }
                     if ( $i > 0 )
@@ -628,22 +621,123 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                                                            $key ) . "\"";
                         $keyText = " $keyText => ";
                     }
-                    /* It is also used statically sometimes, so we need to do
-                     * this ugly hack */
-                    if ( $this and ( get_class( $this ) == 'ezphpcreator' ) )
-                    {
-                        $text .= $keyText . $this->variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
-                    }
-                    else
-                    {
-                        $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
-                    }
+
+                    $text .= $keyText . $this->thisVariableText( $element, $column + strlen( $keyText  ), $iteration + 1, $maxIterations );
+
                     ++$i;
                 }
                 if ( $i > 0 )
                     $text .= ' ';
                 $text .= ')';
             }
+        }
+        else
+            $text = 'null';
+        return $text;
+    }
+
+    static function variableText( $value, $column = 0, $iteration = 0, $maxIterations = false )
+    {
+        // the last parameter will always be ignored
+        $maxIterations = false;
+
+        if ( is_bool( $value ) )
+            $text = ( $value ? 'true' : 'false' );
+        else if ( is_null( $value ) )
+            $text = 'null';
+        else if ( is_string( $value ) )
+        {
+            $valueText = str_replace( array( "\\",
+                                             "\"",
+                                             "\$",
+                                             "\n" ),
+                                      array( "\\\\",
+                                             "\\\"",
+                                             "\\$",
+                                             "\\n" ),
+                                      $value );
+            $text = "\"$valueText\"";
+        }
+        else if ( is_numeric( $value ) )
+            $text = $value;
+        else if ( is_object( $value ) )
+        {
+            $text = '';
+            if ( method_exists( $value, 'serializedata' ) )
+            {
+                $serializeData = $value->serializeData();
+                $className = $serializeData['class_name'];
+                $text = "new $className(";
+
+                $column += strlen( $text );
+                $parameters = $serializeData['parameters'];
+                $variables = $serializeData['variables'];
+
+                $i = 0;
+                foreach ( $parameters as $parameter )
+                {
+                    if ( $i > 0 )
+                    {
+                        $text .= ",\n" . str_repeat( ' ', $column );
+                    }
+                    $variableName = $variables[$parameter];
+                    $variableValue = $value->$variableName;
+                    $keyText = " ";
+
+                    $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1 );
+                    ++$i;
+                }
+                if ( $i > 0 )
+                    $text .= ' ';
+
+                $text .= ')';
+            }
+        }
+        else if ( is_array( $value ) )
+        {
+            $text = 'array(';
+            $column += strlen( $text );
+            $valueKeys = array_keys( $value );
+            $isIndexed = true;
+            for ( $i = 0; $i < count( $valueKeys ); ++$i )
+            {
+                if ( $i !== $valueKeys[$i] )
+                {
+                    $isIndexed = false;
+                    break;
+                }
+            }
+            $i = 0;
+            foreach ( $valueKeys as $key )
+            {
+                if ( $i > 0 )
+                {
+                    $text .= ",\n" . str_repeat( ' ', $column );
+                }
+                $element =& $value[$key];
+                $keyText = ' ';
+                if ( !$isIndexed )
+                {
+                    if ( is_int( $key ) )
+                        $keyText = $key;
+                    else
+                        $keyText = "\"" . str_replace( array( "\\",
+                                                              "\"",
+                                                              "\n" ),
+                                                       array( "\\\\",
+                                                              "\\\"",
+                                                              "\\n" ),
+                                                       $key ) . "\"";
+                    $keyText = " $keyText => ";
+                }
+
+                $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1 );
+
+                ++$i;
+            }
+            if ( $i > 0 )
+                $text .= ' ';
+            $text .= ')';
         }
         else
             $text = 'null';
@@ -660,15 +754,15 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
      \param $skipEmptyLines If \c true it will not prepend the string for empty lines.
      \param $spacing Must be a positive number, \c 0 means to not prepend anything.
     */
-    function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = " ", $splitString = "\n" )
+    static function prependSpacing( $text, $spacing, $skipEmptyLines = true, $spacingString = " ", $splitString = "\n" )
     {
-        if ( $spacing == 0 or !$this->Spacing )
+        if ( $spacing == 0 )
             return $text;
         $textArray = explode( $splitString, $text );
         $newTextArray = array();
         foreach ( $textArray as $text )
         {
-            if ( trim( $text ) != '' and $this->Spacing )
+            if ( trim( $text ) != '' )
                 $textLine = str_repeat( $spacingString, $spacing ) . $text;
             else
                 $textLine = $text;
@@ -697,7 +791,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             if ( !file_exists( $this->PHPDir ) )
             {
                 include_once( 'lib/ezfile/classes/ezdir.php' );
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $this->PHPDir, $perm, true );
             }
@@ -712,7 +806,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                 $path .= ".$uniqid";
                 $this->tmpFilename = $path;
             }
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $this->FileResource = @fopen( $this->FilePrefix . $path, "w" );
             if ( !$this->FileResource )
@@ -888,7 +982,7 @@ print( $values['MyValue'] );
             $this->close();
 
             // Write log message to storage.log
-            include_once( 'lib/ezutils/classes/ezlog.php' );
+            include_once( 'lib/ezfile/classes/ezlog.php' );
             eZLog::writeStorageLog( $this->PHPFile, $this->PHPDir . '/' );
             return true;
         }
@@ -1041,8 +1135,8 @@ print( $values['MyValue'] );
                 $spacing = $parameters['spacing'];
             $text = str_repeat( ' ', $spacing );
         }
-        $nameText = $this->variableText( $name, 0 );
-        $valueText = $this->variableText( $value, 0 );
+        $nameText = $this->thisVariableText( $name, 0 );
+        $valueText = $this->thisVariableText( $value, 0 );
         $text .= "define( $nameText, $valueText";
         if ( !$caseSensitive )
             $text .= ", true";
@@ -1062,7 +1156,7 @@ print( $values['MyValue'] );
             $includeName = 'include_once';
         else if ( $includeType == EZ_PHPCREATOR_INCLUDE_ALWAYS )
             $includeName = 'include';
-        $includeFileText = $this->variableText( $includeFile, 0 );
+        $includeFileText = $this->thisVariableText( $includeFile, 0 );
         $text = "$includeName( $includeFileText );\n";
         if ( $this->Spacing )
         {
@@ -1172,7 +1266,7 @@ print( $values['MyValue'] );
             if ( isset( $parameterData[1] ) )
                 $parameterType = $parameterData[1];
             if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VALUE )
-                 $text .= ' ' . $this->variableText( $parameterValue, $column + 1 );
+                 $text .= ' ' . $this->thisVariableText( $parameterValue, $column + 1 );
             else if ( $parameterType == EZ_PHPCREATOR_METHOD_CALL_PARAMETER_VARIABLE )
                 $text .= ' $' . $parameterValue;
             ++$i;
@@ -1244,7 +1338,7 @@ print( $values['MyValue'] );
         $maxIterations = 2;
         if ( $fullTree )
             $maxIterations = false;
-        $text .= $this->variableText( $variableValue, strlen( $text ), 0, $maxIterations );
+        $text .= $this->thisVariableText( $variableValue, strlen( $text ), 0, $maxIterations );
         $text .= ";\n";
         $text = eZPHPCreator::prependSpacing( $text, $spacing );
         $this->write( $text );
@@ -1262,16 +1356,16 @@ print( $values['MyValue'] );
     }
 
     /// \privatesection
-    var $PHPDir;
-    var $PHPFile;
-    var $FileResource;
-    var $Elements;
-    var $TextChunks;
-    var $isAtomic;
-    var $tmpFilename;
-    var $requestedFilename;
-    var $Spacing = true;
-    var $ClusteringEnabled = false;
-    var $ClusterFileScope  = false;
+    public $PHPDir;
+    public $PHPFile;
+    public $FileResource;
+    public $Elements;
+    public $TextChunks;
+    public $isAtomic;
+    public $tmpFilename;
+    public $requestedFilename;
+    public $Spacing = true;
+    public $ClusteringEnabled = false;
+    public $ClusterFileScope  = false;
 }
 ?>

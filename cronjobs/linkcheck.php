@@ -41,7 +41,7 @@ eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking link ..." );
 
-$cronjobIni =& eZINI::instance( 'cronjob.ini' );
+$cronjobIni = eZINI::instance( 'cronjob.ini' );
 $siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
 $linkList = eZURL::fetchList( array( 'only_published' => true ) );
 foreach ( array_keys( $linkList ) as $key )
@@ -107,7 +107,7 @@ foreach ( array_keys( $linkList ) as $key )
         include_once( 'kernel/classes/ezurlalias.php' );
         $translateResult = eZURLAlias::translate( $url );
         if ( !$translateResult )
-            $translateResult =& eZURLAlias::translateByWildcard( $url );
+            $translateResult = eZURLAlias::translateByWildcard( $url );
 
         if ( !$translateResult )
         {

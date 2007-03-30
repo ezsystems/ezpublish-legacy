@@ -66,7 +66,7 @@ class eZURLOperator
         $this->ININame = $iniName;
         $this->ININameHasVariable = $iniNameHasVariable;
         $this->HTTPNameHasVariable = $httpNameHasVariable;
-        $this->Sys =& eZSys::instance();
+        $this->Sys = eZSys::instance();
     }
 
     function operatorTemplateHints()
@@ -178,15 +178,15 @@ class eZURLOperator
                     {
                         $values[] = $parameters[2];
                         $values[] = $parameters[3];
-                        $code .= '%tmp1% =& eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
+                        $code .= '%tmp1% = eZINI::instance( %3%, %4%, null, null, null, true );' . "\n";
                     }
                     elseif ( $iniName !== false )
                     {
                         $values[] = $parameters[2];
-                        $code .= '%tmp1% =& eZINI::instance( %3% );' . "\n";
+                        $code .= '%tmp1% = eZINI::instance( %3% );' . "\n";
                     }
                     else
-                        $code .= '%tmp1% =& eZINI::instance();' . "\n";
+                        $code .= '%tmp1% = eZINI::instance();' . "\n";
 
                     $checkExist = $checkExistence ? 'true' : 'false';
 
@@ -202,11 +202,11 @@ class eZURLOperator
             include_once( 'lib/ezutils/classes/ezini.php' );
 
             if ( $iniPath !== false )
-                $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+                $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
             elseif ( $iniName !== false )
-                $ini =& eZINI::instance( $iniName );
+                $ini = eZINI::instance( $iniName );
             else
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
 
             $value = '';
             if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
@@ -327,7 +327,7 @@ CODEPIECE;
 
                     $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
 
-                    $designResource =& eZTemplateDesignResource::instance();
+                    $designResource = eZTemplateDesignResource::instance();
                     $matchKeys = $designResource->keys();
                     $matchedKeys = array();
 
@@ -347,7 +347,7 @@ CODEPIECE;
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
                 }
 
-                $code = ( '%tmp1% =& eZTemplateDesignResource::instance();' . "\n" .
+                $code = ( '%tmp1% = eZTemplateDesignResource::instance();' . "\n" .
                           'include_once( \'kernel/common/ezoverride.php\' );' . "\n" .
                           '%tmp2% = array();' . "\n" .
                           '%tmp3% = eZOverride::selectFile( eZTemplateDesignResource::fileMatchingRules( false, %1% ), %tmp1%->keys(), %tmp2%, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );' . "\n" .
@@ -417,7 +417,7 @@ CODEPIECE;
                         }
                     }
 
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
                     $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
                     $code = 'foreach ( %3% as %tmp1% )'."\n{\n";
@@ -477,13 +477,13 @@ CODEPIECE;
         }
 
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
             ++$tmpCount;
             $code .= 'include_once( \'lib/ezutils/classes/ezhttptool.php\' );' . "\n" .
-                 '%tmp' . $tmpCount . '% =& eZHTTPTool::instance();' . "\n" .
+                 '%tmp' . $tmpCount . '% = eZHTTPTool::instance();' . "\n" .
                  'if ( isset( %tmp' . $tmpCount . '%->UseFullUrl ) and %tmp' . $tmpCount . '%->UseFullUrl )' . "\n" .
                  '{' . "\n" .
                  ' %1% = %tmp' . $tmpCount . '%->createRedirectUrl( %1%, array( \'pre_url\' => false ) );' . "\n" .
@@ -541,7 +541,7 @@ CODEPIECE;
         }
 
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
@@ -610,11 +610,11 @@ CODEPIECE;
                     include_once( 'lib/ezutils/classes/ezini.php' );
 
                     if ( $iniPath !== false )
-                        $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
+                        $ini = eZINI::instance( $iniName, $iniPath, null, null, null, true );
                     elseif ( $iniName !== false )
-                        $ini =& eZINI::instance( $iniName );
+                        $ini = eZINI::instance( $iniName );
                     else
-                        $ini =& eZINI::instance();
+                        $ini = eZINI::instance();
 
                     if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
                     {
@@ -650,7 +650,7 @@ CODEPIECE;
             case $this->HTTPName:
             {
                 include_once( 'lib/ezutils/classes/ezhttptool.php' );
-                $http =& eZHTTPTool::instance();
+                $http = eZHTTPTool::instance();
                 if ( count( $operatorParameters ) > 0 )
                 {
                     $httpType = EZ_HTTP_OPERATOR_TYPE_POST;
@@ -776,7 +776,7 @@ CODEPIECE;
 
             case $this->ImageName:
             {
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $std_base = eZTemplateDesignResource::designSetting( 'standard' );
                 $site_base = eZTemplateDesignResource::designSetting( 'site' );
                 $std_file = "design/$std_base/images/$operatorValue";
@@ -827,7 +827,7 @@ CODEPIECE;
                 $path = $operatorValue;
                 $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
 
-                $designResource =& eZTemplateDesignResource::instance();
+                $designResource = eZTemplateDesignResource::instance();
                 $matchKeys = $designResource->keys();
                 $matchedKeys = array();
 
@@ -853,7 +853,7 @@ CODEPIECE;
             $quote = false;
 
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
 
         if ( isset( $http->UseFullUrl ) and $http->UseFullUrl )
         {
@@ -863,9 +863,9 @@ CODEPIECE;
             $operatorValue = $quote . $operatorValue . $quote;
     }
 
-    var $Operators;
-    var $URLName, $URLRootName, $DesignName, $ImageName;
-    var $Sys;
+    public $Operators;
+    public $URLName, $URLRootName, $DesignName, $ImageName;
+    public $Sys;
 };
 
 ?>

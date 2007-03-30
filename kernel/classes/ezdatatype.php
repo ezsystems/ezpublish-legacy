@@ -155,7 +155,7 @@ class eZDataType
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
     */
-    function create( $dataTypeString )
+    static function create( $dataTypeString )
     {
         $def = null;
         if ( !isset( $GLOBALS["eZDataTypes"][$dataTypeString] ) )
@@ -183,7 +183,7 @@ class eZDataType
      \return a list of datatypes which has been registered.
      \note This will instantiate all datatypes.
     */
-    function &registeredDataTypes()
+    static function &registeredDataTypes()
     {
         $types =& $GLOBALS["eZDataTypes"];
         $type_objects =& $GLOBALS["eZDataTypeObjects"];
@@ -192,7 +192,7 @@ class eZDataType
             foreach ( $types as $dataTypeString => $className )
             {
                 $def =& $type_objects[$dataTypeString];
-                if ( get_class( $def ) != $className )
+                if ( strtolower( get_class( $def ) ) != $className )
                     $def = new $className();
             }
             uasort( $type_objects,
@@ -208,7 +208,7 @@ class eZDataType
      class name \a $className. The class name is used for instantiating
      the class and should be in lowercase letters.
     */
-    function register( $dataTypeString, $className )
+    static function register( $dataTypeString, $className )
     {
         $types =& $GLOBALS["eZDataTypes"];
         if ( !is_array( $types ) )
@@ -310,7 +310,7 @@ class eZDataType
                              &$objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
+        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
                                'eZDataType::insertHTTPFile' );
         return null;
     }
@@ -338,7 +338,7 @@ class eZDataType
                                 &$objectAttribute, $filePath,
                                 &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
+        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
                                'eZDataType::insertRegularFile' );
         return null;
     }
@@ -366,7 +366,7 @@ class eZDataType
                                  &$objectAttribute, $string,
                                  &$result )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
+        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
                                'eZDataType::insertSimplestring' );
         return null;
     }
@@ -452,7 +452,7 @@ class eZDataType
     */
     function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
     {
-        eZDebug::writeWarning( "The datatype " . get_class( $this ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
+        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
                                'eZDataType::productOptionInformation' );
         return null;
     }
@@ -488,7 +488,7 @@ class eZDataType
     function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
     {
         $datatype = $objectAttribute->attribute( 'data_type_string' );
-        $ini =& eZINI::instance( 'datatype.ini' );
+        $ini = eZINI::instance( 'datatype.ini' );
         $editGrouped = in_array( $datatype, $ini->variable( 'EditSettings', 'GroupedInput' ) );
         $viewGrouped = in_array( $datatype, $ini->variable( 'ViewSettings', 'GroupedInput' ) );
         $resultGrouped = in_array( $datatype, $ini->variable( 'ResultSettings', 'GroupedInput' ) );
@@ -555,7 +555,7 @@ class eZDataType
     function &classDisplayInformation( &$classAttribute, $mergeInfo = false )
     {
         $datatype = $classAttribute->attribute( 'data_type_string' );
-        $ini =& eZINI::instance( 'datatype.ini' );
+        $ini = eZINI::instance( 'datatype.ini' );
         $editGrouped = in_array( $datatype, $ini->variable( 'ClassEditSettings', 'GroupedInput' ) );
 
         $info = array( 'edit' => array( 'grouped_input' => false ),
@@ -590,7 +590,7 @@ class eZDataType
     /*!
      Returns the content data for the given content object attribute.
     */
-    function &objectAttributeContent( &$objectAttribute )
+    function objectAttributeContent( $objectAttribute )
     {
         $retValue = '';
         return $retValue;
@@ -714,7 +714,7 @@ class eZDataType
      Executes a custom action for a class attribute which was defined on the web page.
      \note Default implementation does nothing.
     */
-    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
     }
 
@@ -795,7 +795,7 @@ class eZDataType
      Executes a custom action for an object attribute which was defined on the web page.
      \note Default implementation does nothing.
     */
-    function customObjectAttributeHTTPAction( &$http, $action, &$objectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $objectAttribute, $parameters )
     {
     }
 
@@ -878,7 +878,7 @@ class eZDataType
      \return the content action(s) which can be performed on object containing
      the current datatype.
     */
-    function contentActionList( &$classAttribute )
+    function contentActionList( $classAttribute )
     {
         $actionList = array();
         if ( is_object( $classAttribute ) )
@@ -908,7 +908,7 @@ class eZDataType
      Returns the title of the current type, this is to form
      the title of the object.
     */
-    function title( &$objectAttribute, $name = null )
+    function title( $objectAttribute, $name = null )
     {
         return "";
     }
@@ -998,7 +998,7 @@ class eZDataType
       be returned to enable searching in specific parts of the data. E.g. array( 'first_column' => "foo",
      'second_column' => "bar" );
     */
-    function metaData()
+    function metaData( $contentObjectAttribute )
     {
         return '';
     }
@@ -1144,19 +1144,19 @@ class eZDataType
         return false;
     }
 
-    function allowedTypes()
+    static function allowedTypes()
     {
         $allowedTypes =& $GLOBALS["eZDataTypeAllowedTypes"];
         if ( !is_array( $allowedTypes ) )
         {
-            $contentINI =& eZINI::instance( 'content.ini' );
+            $contentINI = eZINI::instance( 'content.ini' );
             $dataTypes = $contentINI->variable( 'DataTypeSettings', 'AvailableDataTypes' );
             $allowedTypes = array_unique( $dataTypes );
         }
         return $allowedTypes;
     }
 
-    function loadAndRegisterAllTypes()
+    static function loadAndRegisterAllTypes()
     {
         $allowedTypes = eZDataType::allowedTypes();
         foreach( $allowedTypes as $type )
@@ -1165,7 +1165,7 @@ class eZDataType
         }
     }
 
-    function loadAndRegisterType( $type )
+    static function loadAndRegisterType( $type )
     {
         $types =& $GLOBALS["eZDataTypes"];
         if ( isset( $types[$type] ) )
@@ -1175,7 +1175,7 @@ class eZDataType
 
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
 
         $extensionDirectories = $contentINI->variable( 'DataTypeSettings', 'ExtensionDirectories' );
         $extensionDirectories = array_unique( $extensionDirectories );
@@ -1264,9 +1264,9 @@ class eZDataType
 
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
-    var $DataTypeString;
+    public $DataTypeString;
     /// The descriptive name of the datatype, usually used for displaying to the user
-    var $Name;
+    public $Name;
 }
 
 ?>

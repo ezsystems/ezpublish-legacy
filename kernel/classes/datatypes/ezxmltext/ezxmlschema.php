@@ -31,7 +31,7 @@ include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZXMLSchema
 {
-    var $Schema = array(
+    public $Schema = array(
         'section'   => array( 'blockChildrenAllowed' => array( 'header', 'paragraph', 'section' ),
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => false,
@@ -171,8 +171,8 @@ class eZXMLSchema
     function eZXMLSchema()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'content.ini' );
-                
+        $ini = eZINI::instance( 'content.ini' );
+
         // Get inline custom tags list
         $this->Schema['custom']['isInline'] = $ini->variable( 'CustomTagSettings', 'IsInline' );
         if ( !is_array( $this->Schema['custom']['isInline'] ) )
@@ -218,7 +218,7 @@ class eZXMLSchema
             unset( $this->Schema['object'] );
 
             // Get all tags custom attributes list
-            $ini =& eZINI::instance( 'content.ini' );
+            $ini = eZINI::instance( 'content.ini' );
             foreach( array_keys( $this->Schema ) as $tagName )
             {
                 if ( $tagName == 'custom' ) 
@@ -265,11 +265,11 @@ class eZXMLSchema
         }
     }
 
-    function &instance()
+    function instance()
     {
         $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
         
-        $class = get_class( $impl );
+        $class = strtolower( get_class( $impl ) );
         if ( $class != "ezxmlschema" )
         {
             unset( $impl );

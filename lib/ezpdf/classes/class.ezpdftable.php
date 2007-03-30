@@ -77,7 +77,7 @@ class eZPDFTable extends Cezpdf
     {
         $this->ezFrame = array();
 
-        $config =& eZINI::instance( 'pdf.ini' );
+        $config = eZINI::instance( 'pdf.ini' );
 
         $this->ezFrame['header'] = array( 'y0' => $this->ez['pageHeight'],
                                           'leftMargin' => $config->variable( 'Header', 'LeftMargin' ),
@@ -3038,20 +3038,20 @@ class eZPDFTable extends Cezpdf
         return ( $headerIndex != 0 ? $headerIndex : '' );
     }
 
-    var $TOC; // Table of content array
-    var $KeywordArray; // keyword array
-    var $PageCounter;
+    public $TOC; // Table of content array
+    public $KeywordArray; // keyword array
+    public $PageCounter;
 
-    var $FrontpageID; // Variable used to store reference to frontpage
+    public $FrontpageID; // Variable used to store reference to frontpage
 
-    var $ezFrame; // array containing frame definitions
+    public $ezFrame; // array containing frame definitions
 
     /* Stack and array used for preprocessing document */
-    var $PreStack;
-    var $DocSpecification;
+    public $PreStack;
+    public $DocSpecification;
 
     /* Stack array for recursive ezText calls */
-    var $DocSpecStack = array();
+    public $DocSpecStack = array();
 }
 
 

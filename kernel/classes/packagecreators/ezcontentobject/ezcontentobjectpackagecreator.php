@@ -199,7 +199,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
                                                    'embed_objects' => 'selected' );
 
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $persistentData['object_options']['site_access_array'] = array( $ini->variable( 'SiteSettings', 'DefaultAccess' ) );
 
         include_once( 'kernel/classes/ezcontentobject.php' );
@@ -213,7 +213,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     function loadObjectLimits( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $availableSiteAccesses = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         include_once( 'kernel/classes/ezcontentobject.php' );

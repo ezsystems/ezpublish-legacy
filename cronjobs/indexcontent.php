@@ -39,7 +39,7 @@ if ( !$isQuiet )
 }
 
 $contentObjects = array();
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $offset = 0;
 $limit = 50;

@@ -395,7 +395,7 @@ class eZIntegerType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -425,7 +425,7 @@ class eZIntegerType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_int" );
     }
@@ -509,7 +509,7 @@ class eZIntegerType extends eZDataType
 
     /// \privatesection
     /// The integer value validator
-    var $IntegerValidator;
+    public $IntegerValidator;
 }
 
 eZDataType::register( EZ_DATATYPESTRING_INTEGER, "ezintegertype" );

@@ -39,21 +39,14 @@
 
 class eZModuleManager
 {
-    /*!
-     Constructor
-    */
-    function eZModuleManager()
+    static function aviableModules()
     {
-
-    }
-
-    function aviableModules()
-    {
-        eZDebug::writeWarning( 'The function eZModuleManager::aviableModules is deprecated, use eZModuleManager::availableModules instead' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( 'The function eZModuleManager::aviableModules is deprecated, use eZModuleManager::availableModules instead' );
         return eZModuleManager::availableModules();
     }
 
-    function availableModules()
+    static function availableModules()
     {
         include_once( 'lib/ezutils/classes/ezmodule.php' );
         $pathList = eZModule::globalPathList();

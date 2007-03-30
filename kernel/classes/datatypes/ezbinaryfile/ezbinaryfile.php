@@ -47,7 +47,7 @@ class eZBinaryFile extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
                                                                                 'datatype' => 'integer',
@@ -124,7 +124,7 @@ class eZBinaryFile extends eZPersistentObject
         return $types[1];
     }
 
-    function create( $contentObjectAttributeID, $version )
+    static function create( $contentObjectAttributeID, $version )
     {
         $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
                       'version' => $version,
@@ -135,7 +135,7 @@ class eZBinaryFile extends eZPersistentObject
         return new eZBinaryFile( $row );
     }
 
-    function fetch( $id, $version = null, $asObject = true )
+    static function fetch( $id, $version = null, $asObject = true )
     {
         if ( $version == null )
         {
@@ -156,7 +156,7 @@ class eZBinaryFile extends eZPersistentObject
         }
     }
 
-    function fetchByFileName( $filename, $version = null, $asObject = true )
+    static function fetchByFileName( $filename, $version = null, $asObject = true )
     {
         if ( $version == null )
         {
@@ -199,8 +199,9 @@ class eZBinaryFile extends eZPersistentObject
     */
     function &metaData()
     {
+        $debug = eZDebug::instance();
         $metaData = "";
-        $binaryINI =& eZINI::instance( 'binaryfile.ini' );
+        $binaryINI = eZINI::instance( 'binaryfile.ini' );
 
         $handlerSettings = $binaryINI->variable( 'HandlerSettings', 'MetaDataExtractor' );
 
@@ -242,12 +243,12 @@ class eZBinaryFile extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
+                $debug->writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
             }
         }
         else
         {
-            eZDebug::writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
+            $debug->writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
         }
 
         return $metaData;
@@ -267,10 +268,10 @@ class eZBinaryFile extends eZPersistentObject
                       'mime_type' => $mimeType );
     }
 
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $OriginalFilename;
-    var $MimeType;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $OriginalFilename;
+    public $MimeType;
 }
 
 ?>

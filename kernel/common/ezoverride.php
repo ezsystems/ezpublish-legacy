@@ -39,14 +39,7 @@
 
 class eZOverride
 {
-    /*!
-     Constructor
-    */
-    function eZOverride()
-    {
-    }
-
-    function selectFile( $matches, $matchKeys, &$matchedKeys, $regexpMatch )
+    static function selectFile( $matches, $matchKeys, &$matchedKeys, $regexpMatch )
     {
         $match = null;
         foreach ( $matches as $templateMatch )

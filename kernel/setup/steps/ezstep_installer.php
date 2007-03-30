@@ -71,7 +71,7 @@ class eZStepInstaller
         $this->PersistenceList =& $persistenceList;
         $this->Identifier = $identifier;
         $this->Name = $name;
-        $this->INI =& eZINI::instance( 'kickstart.ini', '.' );
+        $this->INI = eZINI::instance( 'kickstart.ini', '.' );
         $this->KickstartData = false;
 
         $this->PersistenceList['use_kickstart'][$identifier] = true;
@@ -120,7 +120,7 @@ class eZStepInstaller
     Display information and forms needed to pass this step.
     \return result to use in template
     */
-    function &display()
+    function display()
     {
         $result = array();
         return $result;
@@ -364,7 +364,7 @@ class eZStepInstaller
         if( $dbParameters['database'] == '' and $this->PersistenceList['database_info']['type'] == 'pgsql' )
             $dbParameters['database'] = 'template1';
 
-        $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        $db = eZDB::instance( $dbDriver, $dbParameters, true );
         $result['db_instance'] =& $db;
         $result['connected'] = $db->isConnected();
         if ( $db->isConnected() == false )
@@ -660,7 +660,7 @@ See the requirements page for more information.",
 
         if ( $siteType['access_type'] == 'url' )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             if ( $ini->hasVariable( 'SiteSettings', 'DefaultAccess' ) )
             {
                 $siteType['access_type_value'] = $ini->variable( 'SiteSettings', 'DefaultAccess' );
@@ -696,18 +696,18 @@ See the requirements page for more information.",
         return $siteaccessURL;
     }
 
-    var $Tpl;
-    var $Http;
-    var $Ini;
-    var $PersistenceList;
+    public $Tpl;
+    public $Http;
+    public $Ini;
+    public $PersistenceList;
     // The identifier of the current step
-    var $Identifier;
+    public $Identifier;
     // The name of the current step
-    var $Name;
+    public $Name;
     /// Kickstart INI file, if one is found
-    var $INI;
+    public $INI;
     /// The kickstart data as an associative array or \c false if no data available
-    var $KickstartData;
+    public $KickstartData;
 }
 
 ?>

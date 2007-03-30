@@ -58,7 +58,7 @@ class eZWizardBase
 
         $this->TPL =& $tpl;
         $this->Module =& $module;
-        $this->HTTP =& eZHTTPTool::instance();
+        $this->HTTP = eZHTTPTool::instance();
         $this->VariableList = $this->HTTP->sessionVariable( $this->StorageName . $this->VariableListName );
         $this->MetaData = $this->HTTP->sessionVariable( $this->StorageName . $this->MetaDataName );
 
@@ -397,29 +397,29 @@ class eZWizardBase
     }
 
     /* Private messages */
-    var $ErrorList = array();
-    var $WarningList = array();
+    public $ErrorList = array();
+    public $WarningList = array();
 
     /* Step list, used to determine wizard steps */
-    var $StepList = array();
+    public $StepList = array();
 
-    var $HTTP;
-    var $Tpl;
-    var $Module;
-    var $WizardURL = ''; /* url to wizard */
+    public $HTTP;
+    public $Tpl;
+    public $Module;
+    public $WizardURL = ''; /* url to wizard */
 
     /* Array used to store wizzard values */
-    var $VariableList = array();
-    var $MetaData = array();
-    var $StorageName = 'eZWizard';
-    var $MetaDataName = '_meta';
-    var $VariableListName = '_data';
+    public $VariableList = array();
+    public $MetaData = array();
+    public $StorageName = 'eZWizard';
+    public $MetaDataName = '_meta';
+    public $VariableListName = '_data';
 
     /* Step templates */
-    var $StepTemplateBase = 'design:wizard/step';
+    public $StepTemplateBase = 'design:wizard/step';
 
     /* Array containing the wizard steps */
-    var $StepArray = array();
+    public $StepArray = array();
 }
 
 class eZWizardBaseClassLoader
@@ -442,7 +442,7 @@ class eZWizardBaseClassLoader
 
         if ( !$metaData )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $metaData = $http->sessionVariable( $storageName . '_meta' );
         }
 

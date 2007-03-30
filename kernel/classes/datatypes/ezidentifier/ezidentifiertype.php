@@ -96,7 +96,7 @@ class eZIdentifierType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( "data_text" );
         if ( trim( $content ) == '' )
@@ -232,7 +232,7 @@ class eZIdentifierType extends eZDataType
     /*!
      Returns the text.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return  $contentObjectAttribute->attribute( "data_text" );
     }
@@ -288,7 +288,7 @@ class eZIdentifierType extends eZDataType
         $objectID = (int)$contentObjectAttribute->attribute( 'contentobject_id' );
         $classAttributeID = (int)$contentObjectAttribute->attribute( 'contentclassattribute_id' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $existingIDs = $db->arrayQuery( "SELECT data_int\n" .
                                         "FROM   ezcontentobject_attribute\n" .
@@ -328,7 +328,7 @@ class eZIdentifierType extends eZDataType
                 $dataInt = (int)$contentObjectAttribute->attribute( 'data_int' );
 
                 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                $trans =& eZCharTransform::instance();
+                $trans = eZCharTransform::instance();
                 $sortText = $db->escapeString( $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ),
                                                                          'lowercase' ) );
 
@@ -359,7 +359,7 @@ class eZIdentifierType extends eZDataType
     function sortKey( &$contentObjectAttribute )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
         return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
     }
 
@@ -398,7 +398,7 @@ class eZIdentifierType extends eZDataType
         return $value;
     }
 
-    function customClassAttributeHTTPAction( &$http, $action, &$contentClassAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
     }
 
@@ -455,7 +455,7 @@ class eZIdentifierType extends eZDataType
             $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,  $identifier );
     }
 
-    var $IntegerValidator;
+    public $IntegerValidator;
 }
 
 eZDataType::register( EZ_DATATYPESTRING_IDENTIFIER, "ezidentifiertype" );

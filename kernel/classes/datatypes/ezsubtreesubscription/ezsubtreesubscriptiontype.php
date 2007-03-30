@@ -60,7 +60,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     function onPublish( &$attribute, &$contentObject, &$publishedNodes )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );
         $userID = $user->attribute( 'contentobject_id' );
 

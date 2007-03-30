@@ -147,8 +147,8 @@ class eZSetupSummary
         return $this->Tpl->fetch( 'design:setup/summary.tpl' );
     }
 
-    var $Tpl;
-    var $PersistenceList;
+    public $Tpl;
+    public $PersistenceList;
 }
 
 ?>

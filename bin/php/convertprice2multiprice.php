@@ -79,7 +79,7 @@ $convertedObjectsCount = 0;
 
 $classList = eZContentClass::fetchList();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 foreach ( array_keys( $classList ) as $classListKey )
 {
@@ -196,7 +196,7 @@ function currencyForLocale( $localeString = false )
         $currencyList = eZCurrencyData::fetchList();
     }
 
-    $locale =& eZLocale::instance( $localeString );
+    $locale = eZLocale::instance( $localeString );
     if ( is_object( $locale ) )
     {
         // get currency

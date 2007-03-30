@@ -62,7 +62,7 @@ class eZCountryType extends eZDataType
         if ( isset( $GLOBALS['CountryList'] ) )
             return $GLOBALS['CountryList'];
 
-        $ini =& eZINI::instance( 'country.ini' );
+        $ini = eZINI::instance( 'country.ini' );
         $countries = $ini->getNamedArray();
         eZCountryType::fetchTranslatedNames( $countries );
         $GLOBALS['CountryList'] = $countries;
@@ -76,7 +76,7 @@ class eZCountryType extends eZDataType
     function fetchTranslatedNames( &$countries )
     {
         include_once( "lib/ezlocale/classes/ezlocale.php" );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $translatedCountryNames = $locale->translatedCountryNames();
         foreach ( array_keys( $countries ) as $countryKey )
         {
@@ -335,7 +335,7 @@ class eZCountryType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $value = $contentObjectAttribute->attribute( 'data_text' );
 
@@ -379,7 +379,7 @@ class eZCountryType extends eZDataType
     /*!
      Returns the meta data used for storing search indeces.
     */
-    function metaData( &$contentObjectAttribute )
+    function metaData( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         if ( is_array( $content['value'] ) )
@@ -414,7 +414,7 @@ class eZCountryType extends eZDataType
     /*!
      Returns the country for use as a title
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $content = $contentObjectAttribute->content();
         if ( is_array( $content['value'] ) )
@@ -462,7 +462,7 @@ class eZCountryType extends eZDataType
     function sortKey( &$contentObjectAttribute )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
         $content = $contentObjectAttribute->content();
         if ( is_array( $content['value'] ) )
         {

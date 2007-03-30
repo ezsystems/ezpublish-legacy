@@ -44,7 +44,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "workflow_id" => array( 'name' => "WorkflowID",
                                                                  'datatype' => 'integer',
@@ -151,10 +151,10 @@ class eZWorkflowGroupLink extends eZPersistentObject
     }
 
     /// \privatesection
-    var $WorkflowID;
-    var $WorkflowVersion;
-    var $GroupID;
-    var $GroupName;
+    public $WorkflowID;
+    public $WorkflowVersion;
+    public $GroupID;
+    public $GroupName;
 }
 
 ?>

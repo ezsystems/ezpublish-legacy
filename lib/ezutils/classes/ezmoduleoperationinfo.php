@@ -170,7 +170,8 @@ class eZModuleOperationInfo
             if ( $mementoData === null )
             {
                 $keyArray = $this->makeOperationKeyArray( $operationDefinition, $operationParameters );
-                $keyArray['session_key'] = eZHTTPTool::getSessionKey();
+                $http = eZHTTPTool::instance();
+                $keyArray['session_key'] = $http->getSessionKey();
                 $mainMemento = null;
                 if ( $this->UseTriggers )
                     $mainMemento = eZOperationMemento::fetchMain( $keyArray );
@@ -593,7 +594,8 @@ class eZModuleOperationInfo
         if ( $this->Memento === null )
         {
             $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
-            $keyArray['session_key'] = eZHTTPTool::getSessionKey();
+            $http = eZHTTPTool::instance();
+            $keyArray['session_key'] = $http->getSessionKey();
             $mementoData['loop_run'] = $bodyCallCount['loop_run'];
             $memento = eZOperationMemento::create( $keyArray, $mementoData, true );
             $this->Memento =& $memento;
@@ -619,7 +621,8 @@ class eZModuleOperationInfo
         $this->storeOperationMemento( $operationKeys, $operationParameterDefinitions, $operationParameters, $bodyCallCount, $operationName );
 
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
-        $keyArray['session_key'] = eZHTTPTool::getSessionKey();
+        $http = eZHTTPTool::instance();
+        $keyArray['session_key'] = $http->getSessionKey();
         $mementoData = array();
         $mementoData['name'] = $bodyName;
         $mementoData['parameters'] = $operationParameters;
@@ -751,11 +754,11 @@ class eZModuleOperationInfo
 
 
     /// \privatesection
-    var $ModuleName;
-    var $FunctionList;
-    var $IsValid;
-    var $UseOldCall;
-    var $UseTriggers = false;
+    public $ModuleName;
+    public $FunctionList;
+    public $IsValid;
+    public $UseOldCall;
+    public $UseTriggers = false;
 }
 
 ?>

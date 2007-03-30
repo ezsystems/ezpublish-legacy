@@ -98,14 +98,14 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
     }
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "DeleteNodeButton" ) )
 {
     if ( $http->hasPostVariable( "DeleteNodeIDArray" ) )
     {
         $deletedIDList = $http->postVariable( "DeleteNodeIDArray" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deletedIDList as $deletedID )
         {
@@ -125,7 +125,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
     {
         $deletedIDList = $http->postVariable( "DeleteSubtreeIDArray" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deletedIDList as $deletedID )
         {
@@ -194,7 +194,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
 
     $hasNodeLimitation = false;
     $hasLimitation = false;
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
     foreach ( array_keys( $limitationList ) as $key )
@@ -282,7 +282,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
      $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" and
      !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
 
@@ -335,7 +335,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
 {
     $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $subtreeLimitation == null )
         $subtreeLimitation = eZPolicyLimitation::createNew( $policyID, "Subtree", $currentModule, $currentFunction);

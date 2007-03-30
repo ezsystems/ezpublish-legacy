@@ -37,17 +37,19 @@ $extraErrorParameters = $Params['ExtraParameters'];
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
+$debug = eZDebug::instance();
+
 $siteBasics = $GLOBALS['eZSiteBasics'];
 $userObjectRequired = $siteBasics['user-object-required'];
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 if ( $userObjectRequired )
 {
     // include user class
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-    $currentUser =& eZUser::currentUser();
+    $currentUser = eZUser::currentUser();
     $tpl->setVariable( "current_user", $currentUser );
     $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 }
@@ -60,11 +62,11 @@ else
 $embedContent = false;
 
 $GLOBALS["eZRequestError"] = true;
-eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
+$debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
 
 // if ( $errorType == 'kernel' )
 {
-    $errorINI =& eZINI::instance( 'error.ini' );
+    $errorINI = eZINI::instance( 'error.ini' );
 
     // Redirect if error.ini tells us to
     $errorHandlerList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'ErrorHandler' );
@@ -129,7 +131,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
         $uri = new eZURI( $errorEmbedURL );
         $moduleName = $uri->element();
         $embedModule = eZModule::exists( $moduleName );
-        if ( get_class( $module ) == "ezmodule" )
+        if ( strtolower( get_class( $module ) ) == "ezmodule" )
         {
             $uri->increase();
             $viewName = false;
@@ -170,7 +172,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                 }
             }
 
-            eZDebug::writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
+            $debug->writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
         }
 
     }
@@ -179,7 +181,7 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
 
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
+if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
@@ -192,7 +194,7 @@ if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable(
     $tpl->setVariable( 'function_required', $Params['ExtraParameters']['AccessList']['FunctionRequired']['Function'] );
 }
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
 $Result = array();

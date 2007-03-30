@@ -78,9 +78,9 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
      \reimp
      Do nothing
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         return true;
@@ -90,9 +90,9 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
      \reimp
      Do nothing
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         return true;

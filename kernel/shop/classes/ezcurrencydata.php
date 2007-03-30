@@ -53,7 +53,7 @@ class eZCurrencyData extends eZPersistentObject
         $this->RateValue = false;
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -100,7 +100,7 @@ class eZCurrencyData extends eZPersistentObject
      \params codeList can be a single code like 'USD' or an array like array( 'USD', 'NOK' )
      or 'false' (means all currencies).
     */
-    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false, $asHash = true )
+    static function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false, $asHash = true )
     {
         $currencyList = array();
         $sort = null;
@@ -140,7 +140,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function fetchListCount( $conditions = null )
+    static function fetchListCount( $conditions = null )
     {
         $rows = eZPersistentObject::fetchObjectList( eZCurrencyData::definition(),
                                                      array(),
@@ -157,7 +157,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function fetch( $currencyCode, $asObject = true )
+    static function fetch( $currencyCode, $asObject = true )
     {
         if ( $currencyCode )
         {
@@ -215,7 +215,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function create( $code, $symbol, $locale, $autoRateValue, $customRateValue, $rateFactor, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
+    static function create( $code, $symbol, $locale, $autoRateValue, $customRateValue, $rateFactor, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
     {
         $code = strtoupper( $code );
         $errCode = eZCurrencyData::canCreate( $code );
@@ -238,7 +238,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
    */
-    function canCreate( $code )
+    static function canCreate( $code )
     {
         $errCode = eZCurrencyData::validateCurrencyCode( $code );
         if ( $errCode === EZ_CURRENCYDATA_ERROR_OK && eZCurrencyData::currencyExists( $code ) )
@@ -250,7 +250,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function validateCurrencyCode( $code )
+    static function validateCurrencyCode( $code )
     {
         if ( !preg_match( "/^[A-Z]{3}$/", $code ) )
             return EZ_CURRENCYDATA_ERROR_INVALID_CURRENCY_CODE;
@@ -261,7 +261,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function currencyExists( $code )
+    static function currencyExists( $code )
     {
         return ( eZCurrencyData::fetch( $code ) !== null );
     }
@@ -269,11 +269,11 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function removeCurrencyList( $currencyCodeList )
+    static function removeCurrencyList( $currencyCodeList )
     {
         if ( is_array( $currencyCodeList ) && count( $currencyCodeList ) > 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
                 eZPersistentObject::removeObject( eZCurrencyData::definition(),
                                                   array( 'code' => array( $currencyCodeList ) ) );
@@ -290,7 +290,7 @@ class eZCurrencyData extends eZPersistentObject
             eZDebug::writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
     }
 
-    function statusStringToNumeric( $statusString )
+    static function statusStringToNumeric( $statusString )
     {
         $status = false;
         if ( is_numeric( $statusString ) )
@@ -310,7 +310,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      \static
     */
-    function errorMessage( $errorCode )
+    static function errorMessage( $errorCode )
     {
         switch ( $errorCode )
         {
@@ -338,7 +338,7 @@ class eZCurrencyData extends eZPersistentObject
         return ( $this->attribute( 'status' ) == EZ_CURRENCYDATA_STATUS_ACTIVE );
     }
 
-    var $RateValue;
+    public $RateValue;
 }
 
 ?>

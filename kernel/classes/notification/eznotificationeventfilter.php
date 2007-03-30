@@ -50,7 +50,7 @@ class eZNotificationEventFilter
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function process()
+    static function process()
     {
         $eventList = eZNotificationEvent::fetchUnhandledList();
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
@@ -83,11 +83,11 @@ class eZNotificationEventFilter
         eZNotificationCollection::removeEmpty();
     }
 
-    function &availableHandlers()
+    static function &availableHandlers()
     {
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
         $repositoryDirectories = array();
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
@@ -107,7 +107,7 @@ class eZNotificationEventFilter
         return $handlers;
     }
 
-    function loadHandler( $directories, $handlerString )
+    static function loadHandler( $directories, $handlerString )
     {
         $foundHandler = false;
         $includeFile = '';
@@ -115,7 +115,7 @@ class eZNotificationEventFilter
 
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
@@ -151,11 +151,11 @@ class eZNotificationEventFilter
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach( array_keys( $availableHandlers ) as $handlerKey )
         {

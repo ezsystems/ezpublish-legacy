@@ -36,12 +36,12 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 /* We retrieve the class ID for users as this is used in many places in this
  * code in order to be able to cleanup the user-policy cache. */
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $userClassID = $ini->variable( "UserSettings", "UserClassID" );
 
 if ( $module->hasActionParameter( 'LanguageCode' ) )
@@ -153,7 +153,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             $parentContentObject =& $node->attribute( 'object' );
             if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), false, $languageCode ) == '1' )
             {
-                $user =& eZUser::currentUser();
+                $user = eZUser::currentUser();
                 $userID =& $user->attribute( 'contentobject_id' );
                 // We should set sectionID to 0 because when publishing eZContentOperationCollection::updateSectionID() will be called
                 // and sectionID will be updated
@@ -163,7 +163,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                     $class = eZContentClass::fetch( $contentClassID );
                 if ( is_object( $class ) )
                 {
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     $db->begin();
                     $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
                     $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
@@ -227,9 +227,9 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $sortingField    = $http->postVariable( 'SortingField' );
     $sortingOrder    = $http->postVariable( 'SortingOrder' );
     $node = eZContentObjectTreeNode::fetch( $nodeID );
-    $contentObject =& eZContentObject::fetch( $contentObjectID );
+    $contentObject = eZContentObject::fetch( $contentObjectID );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $node->setAttribute( 'sort_field', $sortingField );
     $node->setAttribute( 'sort_order', $sortingOrder );
@@ -474,7 +474,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $node->setAttribute( 'contentobject_id', $selectedObjectID );
     $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $node->store();
     $selectedNode->setAttribute( 'contentobject_id', $objectID );
@@ -606,7 +606,7 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
     {
         $mainAssignmentID = $module->actionParameter( 'MainAssignmentID' );
 
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         if ( !$object )
         {
             return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -670,13 +670,13 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
 
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     if ( !$object->checkAccess( 'edit' ) &&
          !$user->attribute( 'has_manage_locations' ) )
     {
@@ -727,7 +727,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $mainNodeID = $existingNode->attribute( 'main_node_id' );
         $objectName = $object->attribute( 'name' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $locationAdded = false;
         $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -848,13 +848,13 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     $nodeID = $module->actionParameter( 'NodeID' );
     $redirectNodeID = $nodeID;
 
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     if ( !$object->checkAccess( 'edit' ) &&
          !$user->hasManageLocations() )
     {
@@ -923,7 +923,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $nodeAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
         $nodeAssignmentIDList = array();
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $nodeRemoveList as $key => $node )
         {
@@ -1056,7 +1056,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
             include_once( 'kernel/classes/ezsection.php' );
-            $object =& eZContentObject::fetch( $contentObjectID );
+            $object = eZContentObject::fetch( $contentObjectID );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
@@ -1120,7 +1120,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $priorityArray = $http->postVariable( 'Priority' );
         $priorityIDArray = $http->postVariable( 'PriorityID' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         for ( $i=0; $i<count( $priorityArray );$i++ )
         {
@@ -1143,7 +1143,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 }
 else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
 {
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $nodeID = false;
     if ( $http->hasPostVariable( 'ContentNodeID' ) )
     {
@@ -1153,7 +1153,7 @@ else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
     }
     if ( !$nodeID )
     {
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         $nodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
     }
     if ( $http->hasPostVariable( 'ViewMode' ) )
@@ -1182,7 +1182,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     // Check which action to perform
     if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     {
-        $shopModule =& eZModule::exists( "shop" );
+        $shopModule = eZModule::exists( "shop" );
         $result =& $shopModule->run( "basket", array() );
         if ( isset( $result['content'] ) && $result['content'] )
         {
@@ -1197,19 +1197,19 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         if ( !$user->isLoggedIn() )
             return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-        $shopModule =& eZModule::exists( "shop" );
+        $shopModule = eZModule::exists( "shop" );
         $result =& $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
     }
     else if ( $http->hasPostVariable( "ActionPreview" ) )
     {
-        $user =& eZUser::currentUser();
-        $object =& eZContentObject::fetch(  $objectID );
+        $user = eZUser::currentUser();
+        $object = eZContentObject::fetch(  $objectID );
         $module->redirectTo( $module->functionURI( 'versionview' ) . '/' . $objectID . '/' . $object->attribute( 'current_version' ) . '/' );
         return;
 
@@ -1242,7 +1242,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'ContentNodeID', $parentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
-            $object =& eZContentObject::fetchByNodeID( $contentNodeID);
+            $object = eZContentObject::fetchByNodeID( $contentNodeID);
             include_once( 'kernel/classes/ezsection.php' );
             eZSection::setGlobalID( $object->attribute( 'section_id' ) );
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
@@ -1275,7 +1275,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
         {
@@ -1348,13 +1348,13 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
 
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( !$object )
     {
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $result = $user->hasAccessTo( 'setup', 'managecache' );
     if ( $result['accessWord'] != 'yes' )
     {
@@ -1421,7 +1421,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
         return;
     }
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $result = $user->hasAccessTo( 'content', 'create' );
     if ( $result['accessWord'] != 'yes' )
     {

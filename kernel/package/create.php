@@ -33,7 +33,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $module =& $Params['Module'];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $creator = false;
 $initializeStep = false;

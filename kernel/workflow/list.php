@@ -39,7 +39,7 @@ $Module =& $Params['Module'];
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewGroupButton' ) )
     return $Module->run( 'groupedit', array() );

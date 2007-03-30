@@ -66,7 +66,7 @@ class eZPostgreSQLDB extends eZDBInterface
             return;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $server = $this->Server;
         $db = $this->DB;
@@ -145,7 +145,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function bindVariable( &$value, $fieldDef = false )
+    function bindVariable( $value, $fieldDef = false )
     {
         return $value;
     }
@@ -525,7 +525,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function lastSerialID( $table, $column = 'id' )
+    function lastSerialID( $table = false, $column = 'id' )
     {
         if ( $this->isConnected() )
         {

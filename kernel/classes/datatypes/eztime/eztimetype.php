@@ -186,7 +186,7 @@ class eZTimeType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
 
@@ -321,10 +321,10 @@ class eZTimeType extends eZDataType
     /*!
      Returns the date.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
 
         if ( !is_null( $timestamp ) )
         {

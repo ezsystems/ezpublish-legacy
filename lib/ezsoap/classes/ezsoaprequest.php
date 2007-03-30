@@ -152,16 +152,16 @@ class eZSOAPRequest extends eZSOAPEnvelope
     }
 
     /// The request name
-    var $Name;
+    public $Name;
 
     /// The request target namespace
-    var $Namespace;
+    public $Namespace;
 
     /// Additional body element attributes.
-    var $BodyAttributes = array();
+    public $BodyAttributes = array();
 
     /// Contains the request parameters
-    var $Parameters = array();
+    public $Parameters = array();
 }
 
 ?>

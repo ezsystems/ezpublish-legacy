@@ -122,13 +122,13 @@ class eZTextInputParser
     }
 
     /// Contains the tags found
-    var $TagStack = array();
+    public $TagStack = array();
 
     /// The tags that don't break the text
-    var $InlineTags = array( "emphasize", "strong" );
+    public $InlineTags = array( "emphasize", "strong" );
 
     /// The tags that break the paragraph
-    var $BreakTags = array();
+    public $BreakTags = array();
 }
 
 ?>

@@ -94,7 +94,7 @@ function eZSessionClose( )
 function &eZSessionRead( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $key = $db->escapeString( $key );
 
@@ -102,7 +102,7 @@ function &eZSessionRead( $key )
 
     if ( $sessionRes !== false and count( $sessionRes ) == 1 )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $sessionUpdatesTime = $sessionRes[0]['expiration_time'] - $ini->variable( 'Session', 'SessionTimeout' );
         $sessionIdle = time() - $sessionUpdatesTime;
@@ -139,8 +139,8 @@ function eZSessionWrite( $key, $value )
         return;
     }
 
-    $db =& eZDB::instance();
-    $ini =& eZIni::instance();
+    $db = eZDB::instance();
+    $ini = eZINI::instance();
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
 
     if ( $db->bindingType() != EZ_DB_BINDING_NO )
@@ -219,7 +219,7 @@ function eZSessionWrite( $key, $value )
 function eZSessionDestroy( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $escKey = $db->escapeString( $key );
     if ( isset( $GLOBALS['eZSessionFunctions']['destroy_pre'] ) )
@@ -248,7 +248,7 @@ function eZSessionDestroy( $key )
 function eZSessionGarbageCollector()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $time = time();
 
     if ( isset( $GLOBALS['eZSessionFunctions']['gc_pre'] ) )
@@ -278,7 +278,7 @@ function eZSessionGarbageCollector()
 function eZSessionEmpty()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     if ( isset( $GLOBALS['eZSessionFunctions']['empty_pre'] ) )
     {
@@ -307,7 +307,7 @@ function eZSessionEmpty()
 function eZSessionCountActive()
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $query = "SELECT count( * ) AS count FROM ezsession";
 
     $rows = $db->arrayQuery( $query );
@@ -321,7 +321,7 @@ function eZSessionCountActive()
 function eZRegisterSessionFunctions()
 {
     session_module_name( 'user' );
-    $ini =& eZIni::instance();
+    $ini = eZIni::instance();
     if ( $ini->variable( 'Session', 'SessionNameHandler' ) == 'custom' )
     {
         $sessionName = $ini->variable( 'Session', 'SessionNamePrefix' );
@@ -357,11 +357,11 @@ function eZSessionStart()
          $hasStarted )
          return false;
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db->isConnected() )
         return false;
     eZRegisterSessionFunctions();
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $cookieTimeout = isset( $GLOBALS['RememberMeTimeout'] ) ? $GLOBALS['RememberMeTimeout'] : $ini->variable( 'Session', 'CookieTimeout' );
 
     if ( is_numeric( $cookieTimeout ) )
@@ -383,7 +383,7 @@ function eZSessionStop()
          !$hasStarted )
          return false;
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db->isConnected() )
         return false;
     session_write_close();
@@ -420,7 +420,7 @@ function eZSessionRemove()
          !$hasStarted )
          return false;
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db->isConnected() )
         return false;
     $_SESSION = array();

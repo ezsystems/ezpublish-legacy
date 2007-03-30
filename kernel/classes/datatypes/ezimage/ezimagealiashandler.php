@@ -73,7 +73,8 @@ class eZImageAliasHandler
         }
         else
         {
-            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
         }
     }
 
@@ -364,21 +365,21 @@ class eZImageAliasHandler
             $mainNode =& $contentObject->attribute( 'main_node' );
             if ( !$mainNode )
             {
-                $ini =& eZINI::instance( 'image.ini' );
+                $ini = eZINI::instance( 'image.ini' );
                 $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
                 $pathString = $contentImageSubtree;
                 $useVersion = true;
             }
             else
             {
-                $ini =& eZINI::instance( 'image.ini' );
+                $ini = eZINI::instance( 'image.ini' );
                 $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
                 $pathString = $contentImageSubtree . '/' . $mainNode->attribute( 'path_identification_string' );
             }
         }
         else
         {
-            $ini =& eZINI::instance( 'image.ini' );
+            $ini = eZINI::instance( 'image.ini' );
             $contentImageSubtree = $ini->variable( 'FileSettings', 'VersionedImages' );
             $pathString = $contentImageSubtree;
             $useVersion = true;
@@ -403,7 +404,7 @@ class eZImageAliasHandler
     function imagePathByNode( &$contentObjectAttribute, &$mainNode )
     {
         $pathString = $mainNode->attribute( 'path_identification_string' );
-        $ini =& eZINI::instance( 'image.ini' );
+        $ini = eZINI::instance( 'image.ini' );
         $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
         $attributeData = $this->originalAttributeData();
         $attributeID = $attributeData['attribute_id'];
@@ -494,15 +495,16 @@ class eZImageAliasHandler
             return $aliasList;
         }
 
-        eZDebug::AccumulatorStart('imageparse', 'XML', 'Image XML parsing' );
+        $debug = eZDebug::instance();
+        $debug->AccumulatorStart('imageparse', 'XML', 'Image XML parsing' );
         $xml = new eZXML();
         $xmlString =& $contentObjectAttributeData['data_text'];
-        $domTree =& $xml->domTree( $xmlString, array(), true );
+        $domTree = $xml->domTree( $xmlString, array(), true );
 
         if ( $domTree == false )
         {
             $this->generateXMLData();
-            $domTree =& $xml->domTree( $xmlString, array(), false );
+            $domTree = $xml->domTree( $xmlString, array(), false );
         }
 
         $contentObjectAttributeData['DataTypeCustom']['dom_tree'] =& $domTree;
@@ -514,6 +516,15 @@ class eZImageAliasHandler
         $aliasList = array();
 
         $aliasEntry = array();
+
+        // I think this is a bug in the plain package or related to the bug I filed
+        // about the image datatype serialization
+        // http://ez.no/bugs/view/8821 ezpm Error: (eZFileHandler::copy) Unable to open source file in read mode
+        if ( count( $imageNodeArray ) == 0 )
+        {
+            return $aliasList;
+        }
+
         $alternativeText = $imageNodeArray[0]->get_attribute( 'alternative_text' );
         $originalFilename = $imageNodeArray[0]->get_attribute( 'original_filename' );
         $basename = $imageNodeArray[0]->get_attribute( 'basename' );
@@ -626,7 +637,7 @@ class eZImageAliasHandler
             }
         }
         $contentObjectAttributeData['DataTypeCustom']['alias_list'] =& $aliasList;
-        eZDebug::AccumulatorStop( 'imageparse' );
+        $debug->AccumulatorStop( 'imageparse' );
         return $aliasList;
     }
 
@@ -732,7 +743,8 @@ class eZImageAliasHandler
                     }
                     else
                     {
-                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
+                        $debug = eZDebug::instance();
+                        $debug->writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
                                              'eZImageAliasHandler::removeAliases' );
                     }
                 }
@@ -933,11 +945,11 @@ class eZImageAliasHandler
 
         $xml = new eZXML();
         $xmlString =& $contentObjectAttributeData['data_text'];
-        $domTree =& $xml->domTree( $xmlString );
+        $domTree = $xml->domTree( $xmlString );
         if ( $domTree == false )
         {
             $this->generateXMLData();
-            $domTree =& $xml->domTree( $xmlString );
+            $domTree = $xml->domTree( $xmlString );
         }
 
         $contentObjectAttributeData['DataTypeCustom']['dom_tree'] =& $domTree;
@@ -1013,7 +1025,7 @@ class eZImageAliasHandler
     {
         // Initialize transformation system
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         $imageName = $trans->transformByGroup( $imageName, 'identifier' );
         return $imageName;
@@ -1097,7 +1109,8 @@ class eZImageAliasHandler
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
         if ( !file_exists( $filename ) )
         {
-            eZDebug::writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
+            $debug = eZDebug::instance();
+            $debug->writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
                                  'eZImageAliasHandler::initializeFromFile' );
             return false;
         }
@@ -1292,7 +1305,7 @@ class eZImageAliasHandler
     */
     function addImageAliases( &$imageAliasList )
     {
-        $domTree =& $this->domTree();
+        $domTree = $this->domTree();
         foreach ( array_keys( $imageAliasList ) as $imageAliasName )
         {
             $imageAlias =& $imageAliasList[$imageAliasName];
@@ -1311,7 +1324,7 @@ class eZImageAliasHandler
     */
     function addImageAlias( $imageAlias )
     {
-        $domTree =& $this->domTree();
+        $domTree = $this->domTree();
         $this->addImageAliasToXML( $domTree, $imageAlias );
         $attr = false;
         $this->storeDOMTree( $domTree, true, $attr );
@@ -1340,14 +1353,7 @@ class eZImageAliasHandler
         }
         if ( !$imageNode )
         {
-            if ( is_a( $domTree, 'domdocument' ) )
-            {
-                $rootNode = $domTree->root();
-            }
-            else
-            {
-                $rootNode =& $domTree->root();
-            }
+            $rootNode = $domTree->root();
 
             $imageNode = $domTree->create_element( "alias" );
             $rootNode->append_child( $imageNode );
@@ -1418,7 +1424,8 @@ class eZImageAliasHandler
             }
             else
             {
-                eZDebug::writeError( "Invalid objectAttribute: id = " . $contentObjectAttributeData['id'] . " version = " . $contentObjectAttributeData['version'] , "eZImageAliasHandler::storeDOMTree" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Invalid objectAttribute: id = " . $contentObjectAttributeData['id'] . " version = " . $contentObjectAttributeData['version'] , "eZImageAliasHandler::storeDOMTree" );
             }
         }
 
@@ -1433,7 +1440,7 @@ class eZImageAliasHandler
     {
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
 
-        $domTree =& $this->domTree();
+        $domTree = $this->domTree();
         if ( $domTree )
         {
             if ( is_object( $contentObjectAttribute ) )
@@ -1504,7 +1511,7 @@ class eZImageAliasHandler
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
         $contentObjectAttributeData['DataTypeCustom']['original_data'] =& $originalData;
 
-        $domTree =& $this->domTree();
+        $domTree = $this->domTree();
         $imageOriginalArray = $domTree->get_elements_by_tagname( "original" );
         if ( isset( $imageOriginalArray[0] ) )
             $this->createOriginalAttributeXMLData( $imageOriginalArray[0], $originalData );
@@ -1520,7 +1527,7 @@ class eZImageAliasHandler
     {
         $originalImageHandler =& $contentObjectAttribute->attribute( 'content' );
         $originalAttributeData =& $originalImageHandler->originalAttributeData();
-        $domTree =& $originalImageHandler->domTree();
+        $domTree = $originalImageHandler->domTree();
         $this->setDOMTree( $domTree );
         if ( $originalAttributeData['attribute_id'] )
         {
@@ -1576,7 +1583,7 @@ class eZImageAliasHandler
 
         include_once( "lib/ezdb/classes/ezdb.php" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $contentObjectAttributeData =& $this->ContentObjectAttributeData;
         $attributeID = $contentObjectAttributeData['id'];
@@ -1759,9 +1766,9 @@ class eZImageAliasHandler
 
     /// \privatesection
     /// Contains a some eZContentObjectAttribute's attributes.
-    var $ContentObjectAttributeData;
+    public $ContentObjectAttributeData;
     /// Deprecated. Contains a reference to the object attribute
-    var $ContentObjectAttribute;
+    public $ContentObjectAttribute;
 
 }
 ?>

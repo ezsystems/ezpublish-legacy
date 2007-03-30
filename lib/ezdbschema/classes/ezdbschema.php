@@ -42,7 +42,7 @@ class eZDbSchema
      \param eZDB instance (optional), if none provided, eZDB::instance() will be used.
      \return new Instance of eZDBSchema, false if failed
     */
-    function instance( $params = false )
+    static function instance( $params = false )
     {
         if ( is_object( $params ) )
         {
@@ -70,7 +70,7 @@ class eZDbSchema
 
         /* Load the database schema handler INI stuff */
         require_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'dbschema.ini' );
+        $ini = eZINI::instance( 'dbschema.ini' );
         $schemaPaths = $ini->variable( 'SchemaSettings', 'SchemaPaths' );
         $schemaHandlerClasses = $ini->variable( 'SchemaSettings', 'SchemaHandlerClasses' );
 
@@ -89,7 +89,7 @@ class eZDbSchema
     /*!
      \static
     */
-    function read( $filename, $returnArray = false )
+    static function read( $filename, $returnArray = false )
     {
         $fd = @fopen( $filename, 'rb' );
         if ( $fd )
@@ -129,7 +129,7 @@ class eZDbSchema
     /*!
      \static
     */
-    function readArray( $filename )
+    static function readArray( $filename )
     {
         $schema = false;
         include( $filename );
@@ -139,7 +139,7 @@ class eZDbSchema
     /*!
      \static
     */
-    function generateUpgradeFile( $differences )
+    static function generateUpgradeFile( $differences )
     {
         $diff = var_export( $differences, true );
         return ( "<?php \n\$diff = \n" . $diff . ";\nreturn \$diff;\n?>\n" );
@@ -148,7 +148,7 @@ class eZDbSchema
     /*!
      \static
     */
-    function writeUpgradeFile( $differences, $filename )
+    static function writeUpgradeFile( $differences, $filename )
     {
         $fp = @fopen( $filename, 'w' );
         if ( $fp )

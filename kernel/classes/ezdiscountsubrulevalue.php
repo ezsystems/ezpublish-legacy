@@ -47,7 +47,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "discountsubrule_id" => array( 'name' => "DiscountSubRuleID",
                                                                         'datatype' => 'integer',

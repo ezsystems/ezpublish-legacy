@@ -610,10 +610,10 @@ class eZMultiPrice extends eZSimplePrice
     }
 
     /// \privatesection
-    var $PriceList;
-    var $CurrencyList;
-    var $HasDataDirty;
-    var $ContentObjectAttribute;
+    public $PriceList;
+    public $CurrencyList;
+    public $HasDataDirty;
+    public $ContentObjectAttribute;
 }
 
 ?>

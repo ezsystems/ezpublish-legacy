@@ -67,7 +67,7 @@ if ( is_null( $role ) )
     }
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $tpl->setVariable( 'module', $Module );
 
@@ -229,7 +229,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $currentFunctionLimitations as $functionLimitation )
         {
@@ -263,7 +263,7 @@ if ( $http->hasPostVariable( 'RemovePolicy' ) )
 if ( $http->hasPostVariable( 'RemovePolicies' ) and
      $http->hasPostVariable( 'DeleteIDArray' ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach( $http->postVariable( 'DeleteIDArray' ) as $deleteID)
     {
@@ -331,7 +331,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
      $http->hasPostVariable( 'BrowseLimitationSubtreeButton' ) or
      $http->hasPostVariable( 'DeleteSubtreeButton' ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $http->hasPostVariable( 'DeleteNodeButton' ) and $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {

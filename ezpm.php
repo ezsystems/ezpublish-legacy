@@ -732,7 +732,7 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
                      'socket' => $dbSocket,
                      'password' => $dbPassword,
                      'database' => $dbName );
-    $db =& eZDB::instance( $dbType,
+    $db = eZDB::instance( $dbType,
                            $params,
                            true );
 
@@ -1054,7 +1054,7 @@ foreach ( $commandList as $commandItem )
                                       false, $repositoryID );
 
         require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );
 
         $commandItem['licence'] = 'GPL';

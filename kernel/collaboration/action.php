@@ -28,7 +28,7 @@
 
 $Module =& $Params['Module'];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 eZDebug::writeDebug( $http->attribute( 'post' ) );
 
 if ( $Module->isCurrentAction( 'Custom' ) )

@@ -48,7 +48,7 @@ class eZOperationHandler
     {
     }
 
-    function &moduleOperationInfo( $moduleName, $useTriggers = true )
+    static function moduleOperationInfo( $moduleName, $useTriggers = true )
     {
         $globalModuleOperationList =& $GLOBALS['eZGlobalModuleOperationList'];
         if ( !isset( $globalModuleOperationList ) )
@@ -61,9 +61,9 @@ class eZOperationHandler
         return $moduleOperationInfo;
     }
 
-    function execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )
+    static function execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )
     {
-        $moduleOperationInfo =& eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
+        $moduleOperationInfo = eZOperationHandler::moduleOperationInfo( $moduleName, $useTriggers );
         if ( !$moduleOperationInfo->isValid() )
         {
             eZDebug::writeError( "Cannot execute operation '$operationName' in module '$moduleName', no valid data",

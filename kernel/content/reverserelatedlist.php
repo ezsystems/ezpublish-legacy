@@ -31,7 +31,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 $NodeID =& $Params['NodeID'];
@@ -73,13 +73,13 @@ if ( $Offset < $pageLimit )
 $requestedURI = '';
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
+if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
 $http->setSessionVariable( 'userRedirectURIReverseObjects', $userRedirectURI );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $deleteIDArray = array();
 

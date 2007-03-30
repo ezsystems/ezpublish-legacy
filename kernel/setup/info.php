@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
@@ -35,10 +35,10 @@ include_once( 'lib/ezutils/classes/ezextension.php' );
 include_once( 'lib/ezutils/classes/ezsysinfo.php' );
 include_once( 'lib/version.php' );
 
-$ini =& eZINI::instance( );
+$ini = eZINI::instance( );
 $tpl =& templateInit();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $phpAcceleratorInfo = false;
 if ( isset( $GLOBALS['_PHPA'] ) )

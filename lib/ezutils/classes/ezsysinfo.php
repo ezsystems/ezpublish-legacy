@@ -163,7 +163,7 @@ class eZSysInfo
         $this->CPUUnit = false;
         $this->MemorySize = false;
 
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $osType = $sys->osType();
 
         if ( $osType == 'win32' )
@@ -341,11 +341,11 @@ class eZSysInfo
     }
 
     /// \privatesection
-    var $IsValid = false;
-    var $CPUSpeed = false;
-    var $CPUType = false;
-    var $CPUUnit = false;
-    var $MemorySize = false;
+    public $IsValid = false;
+    public $CPUSpeed = false;
+    public $CPUType = false;
+    public $CPUUnit = false;
+    public $MemorySize = false;
 }
 
 ?>

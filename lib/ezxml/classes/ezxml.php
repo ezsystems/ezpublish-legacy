@@ -50,11 +50,6 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezxml/classes/ezdomnode.php" );
 include_once( "lib/ezxml/classes/ezdomdocument.php" );
 
-define( "EZ_NODE_TYPE_ELEMENT", 1 );
-define( "EZ_NODE_TYPE_ATTRIBUTE", 2 );
-define( "EZ_NODE_TYPE_TEXT", 3 );
-define( "EZ_NODE_TYPE_CDATASECTION", 4 );
-
 class eZXML
 {
     /*!
@@ -73,7 +68,7 @@ class eZXML
       $params["CharsetConversion"] = false/true : Whether charset conversion is done or not, default is true.
       $params["ConvertSpecialChars"] = false/true: whether to convert &lt; &gt; &amp; etc into < > &; default is true.
     */
-    function &domTree( $xmlDoc, $params = array(), $native = false )
+    function domTree( $xmlDoc, $params = array(), $native = false )
     {
         /* We remove all control chars from the text, although they
          * should have not be there in the first place. This is
@@ -136,7 +131,7 @@ class eZXML
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( $charset, false, false );
+            $codec = eZTextCodec::instance( $charset, false, false );
             if ( $codec )
             {
                 $xmlDoc = $codec->convertString( $xmlDoc );
@@ -319,7 +314,7 @@ class eZXML
                         // new CDATA node
                         $subNode->Name = $subNode->LocalName = "#cdata-section";
                         $subNode->Content = $cdataSection;
-                        $subNode->Type = EZ_NODE_TYPE_CDATASECTION;
+                        $subNode->Type = eZDOMNode::TYPE_CDATASECTION;
 
                         $pos = $endTagPos;
                         $endTagPos += 2;
@@ -329,7 +324,7 @@ class eZXML
                         // element start tag
                         //$subNode->Name = $justName;
                         //$subNode->LocalName = $justName;
-                        //$subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                        //$subNode->Type = eZDOMNode::TYPE_ELEMENT;
 
                         $domDocument->registerElement( $subNode );
                     }
@@ -501,7 +496,7 @@ class eZXML
                     $attrNode->Prefix = false;
                 }
 
-                $attrNode->Type = EZ_NODE_TYPE_ATTRIBUTE;
+                $attrNode->Type = eZDOMNode::TYPE_ATTRIBUTE;
                 $attrNode->Content = $attributeValue;
 
 
@@ -513,16 +508,16 @@ class eZXML
     }
 
     /// Contains the namespaces
-    var $NamespaceStack = array();
+    public $NamespaceStack = array();
 
     /// Contains the available namespaces
-    var $NamespaceArray = array();
+    public $NamespaceArray = array();
 
     /// Contains the current namespace
-    var $CurrentNameSpace;
+    public $CurrentNameSpace;
 
     /// Contains a reference to the DOM document object
-    var $DOMDocument;
+    public $DOMDocument;
 }
 
 ?>

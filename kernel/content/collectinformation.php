@@ -34,7 +34,7 @@ include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 include_once( 'kernel/common/template.php' );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $Module->isCurrentAction( 'CollectInformation' ) )
 {
@@ -44,7 +44,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     if ( $Module->hasActionParameter( 'ViewMode' ) )
         $ViewMode = $Module->actionParameter( 'ViewMode' );
 
-    $object =& eZContentObject::fetch( $ObjectID );
+    $object = eZContentObject::fetch( $ObjectID );
     if ( !$object )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->attribute( 'can_read' ) )
@@ -52,7 +52,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $version =& $object->currentVersion();
     $contentObjectAttributes =& $version->contentObjectAttributes();
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $isLoggedIn = $user->attribute( 'is_logged_in' );
     $allowAnonymous = true;
     if ( !$isLoggedIn )
@@ -96,7 +96,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                               array( 'node', $node->attribute( 'node_id' ) ),
                               array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
@@ -199,7 +199,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     }
     $collectionAttributes = array();
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
 
     foreach ( array_keys( $contentObjectAttributes ) as $key )
@@ -249,7 +249,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             if ( $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
-            $res =& eZTemplateDesignResource::instance();
+            $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                                   array( 'node', $node->attribute( 'node_id' ) ),
                                   array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
@@ -278,7 +278,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $sender =& $tpl->variable( 'email_sender' );
             $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $mail = new eZMail();
 
             if ( !$mail->validate( $receiver ) )
@@ -327,10 +327,10 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         }
 
         $icMap = array();
-        if ( eZHTTPTool::hasSessionVariable( 'InformationCollectionMap' ) )
-            $icMap = eZHTTPTool::sessionVariable( 'InformationCollectionMap' );
+        if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )
+            $icMap = $http->sessionVariable( 'InformationCollectionMap' );
         $icMap[$object->attribute( 'id' )] = $collection->attribute( 'id' );
-        eZHTTPTool::setSessionVariable( 'InformationCollectionMap', $icMap );
+        $http->setSessionVariable( 'InformationCollectionMap', $icMap );
 
         if ( is_numeric( $redirectToNodeID ) )
         {

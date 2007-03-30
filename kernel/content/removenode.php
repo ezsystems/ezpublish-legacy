@@ -37,7 +37,7 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $tpl =& templateInit();
 
@@ -48,7 +48,7 @@ $NodeID = $Params['NodeID'];
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

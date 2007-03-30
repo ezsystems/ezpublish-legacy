@@ -128,14 +128,14 @@ class eZTemplateFunctionElement
     }
 
     /// The name of the function
-    var $Name;
+    public $Name;
     /// The parameter list
-    var $Params;
+    public $Params;
     /// The child elements
-    var $Children = array();
+    public $Children = array();
 
-    var $Resource;
-    var $TemplateName;
+    public $Resource;
+    public $TemplateName;
 }
 
 ?>

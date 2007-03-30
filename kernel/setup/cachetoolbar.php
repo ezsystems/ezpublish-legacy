@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( 'kernel/classes/ezcache.php' );
@@ -75,7 +75,7 @@ elseif ( $cacheType == 'Static' )
 elseif ( $cacheType == 'ContentNode' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( get_class( $contentModule ) == "ezmodule" )
+    if ( strtolower( get_class( $contentModule ) ) == "ezmodule" )
     {
         $contentModule->setCurrentAction( 'ClearViewCache', 'action' );
 
@@ -88,7 +88,7 @@ elseif ( $cacheType == 'ContentNode' )
 elseif ( $cacheType == 'ContentSubtree' )
 {
     $contentModule = eZModule::exists( 'content' );
-    if ( get_class( $contentModule ) == "ezmodule" )
+    if ( strtolower( get_class( $contentModule ) ) == "ezmodule" )
     {
         $contentModule->setCurrentAction( 'ClearViewCacheSubtree', 'action' );
 

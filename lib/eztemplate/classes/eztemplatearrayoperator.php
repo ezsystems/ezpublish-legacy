@@ -2124,9 +2124,9 @@ class eZTemplateArrayOperator
     }
 
     /// \privatesection
-    var $Operators;
-    var $ArrayName;
-    var $HashName;
+    public $Operators;
+    public $ArrayName;
+    public $HashName;
 }
 
 ?>

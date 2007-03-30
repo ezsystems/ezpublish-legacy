@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 include_once( "kernel/common/template.php" );
@@ -34,7 +34,7 @@ include_once( "kernel/classes/ezcache.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
-$ini =& eZINI::instance( );
+$ini = eZINI::instance( );
 $tpl =& templateInit();
 
 $cacheList = eZCache::fetchList();

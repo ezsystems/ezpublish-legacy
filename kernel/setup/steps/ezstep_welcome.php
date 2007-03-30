@@ -95,7 +95,7 @@ class eZStepWelcome extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $result = array();
         $this->Tpl->setVariable( 'optional_test', array( 'result' => $this->OptionalResult,

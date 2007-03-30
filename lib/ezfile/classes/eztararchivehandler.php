@@ -33,26 +33,26 @@ class eZTARArchiveHandler extends eZArchiveHandler
     /**
     * @var string Name of the Tar
     */
-    var $_tarname='';
+    public $_tarname='';
 
     /**
     * @var boolean if true, the Tar file will be gzipped
     */
-    var $_compress=false;
+    public $_compress=false;
 
 //     /**
 //     * @var file descriptor
 //     */
-//     var $_file=0;
+//     public $_file=0;
     /**
     * @var string Type of compression : 'none', 'gz' or 'bz2'
     */
-    var $_compress_type='none';
+    public $_compress_type='none';
 
     /**
     * @var string Local Tar name of a remote Tar (http:// or ftp://)
     */
-    var $_temp_tarname='';
+    public $_temp_tarname='';
 
     // {{{ constructor
     /**

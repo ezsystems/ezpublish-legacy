@@ -88,7 +88,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     function initializeSiteAccess( &$package, &$http, $step, &$persistentData, &$tpl )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
 
         if ( !isset( $persistentData['site_access_map'] ) )
@@ -145,7 +145,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
             $rootDOMNode = $this->rootDOMNode();
             $topNodeListNode = $rootDOMNode->elementByName( 'top-node-list' );
 
-            $ini =& eZINI::instance( 'content.ini' );
+            $ini = eZINI::instance( 'content.ini' );
             $defaultPlacementNodeID = $ini->variable( 'NodeSettings', 'RootNode' );
             $defaultPlacementNode = eZContentObjectTreeNode::fetch( $defaultPlacementNodeID );
             $defaultPlacementName = $defaultPlacementNode->attribute( 'name' );

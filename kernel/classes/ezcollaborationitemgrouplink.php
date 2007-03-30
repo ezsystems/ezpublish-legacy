@@ -51,7 +51,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',
@@ -122,7 +122,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
     {
         $groupLink = eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $groupLink->store();
         $itemStatus = eZCollaborationItemStatus::create( $collaborationID, $userID );
@@ -194,11 +194,11 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
 
 
     /// \privatesection
-    var $CollaborationID;
-    var $GroupID;
-    var $UserID;
-    var $Created;
-    var $Modified;
+    public $CollaborationID;
+    public $GroupID;
+    public $UserID;
+    public $Created;
+    public $Modified;
 }
 
 ?>

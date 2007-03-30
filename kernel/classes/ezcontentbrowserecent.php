@@ -71,7 +71,7 @@ class eZContentBrowseRecent extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -113,7 +113,7 @@ class eZContentBrowseRecent extends eZPersistentObject
      \static
      \return the recent item \a $recentID
     */
-    function fetch( $recentID )
+    static function fetch( $recentID )
     {
         return eZPersistentObject::fetchObject( eZContentBrowseRecent::definition(),
                                                 null, array( 'id' => $recentID ), true );
@@ -123,7 +123,7 @@ class eZContentBrowseRecent extends eZPersistentObject
      \static
      \return the recent list for the user identifier by \a $userID.
     */
-    function fetchListForUser( $userID )
+    static function fetchListForUser( $userID )
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                     null, array( 'user_id' => $userID ),
@@ -136,10 +136,10 @@ class eZContentBrowseRecent extends eZPersistentObject
      The default value is read from MaximumRecentItems from group BrowseSettings in browse.ini.
      \note Currently all users get the same default maximum amount
     */
-    function maximumRecentItems( $userID )
+    static function maximumRecentItems( $userID )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance( 'browse.ini' );
+        $ini = eZINI::instance( 'browse.ini' );
         $maximum = $ini->variable( 'BrowseSettings', 'MaximumRecentItems' );
         return $maximum;
     }
@@ -154,7 +154,7 @@ class eZContentBrowseRecent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &createNew( $userID, $nodeID, $nodeName )
+    static function &createNew( $userID, $nodeID, $nodeName )
     {
         $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                                 array(),
@@ -176,7 +176,7 @@ class eZContentBrowseRecent extends eZPersistentObject
         if ( count( $matchingRecentList ) > 0 )
         {
             $oldItem =& $matchingRecentList[0];
-            $oldItem->setAttribute( 'created', mktime() );
+            $oldItem->setAttribute( 'created', time() );
             $oldItem->store();
             return $oldItem;
         }
@@ -186,7 +186,7 @@ class eZContentBrowseRecent extends eZPersistentObject
         $maximumCount = eZContentBrowseRecent::maximumRecentItems( $userID );
         // Remove oldest item
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $recentCount > $maximumCount )
         {
@@ -239,9 +239,9 @@ class eZContentBrowseRecent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeRecentByNodeID( $nodeID )
+    static function removeRecentByNodeID( $nodeID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowserecent WHERE node_id=$nodeID" );
     }
@@ -250,9 +250,9 @@ class eZContentBrowseRecent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function updateNodeID( $oldNodeID, $newNodeID )
+    static function updateNodeID( $oldNodeID, $newNodeID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $oldNodeID =(int) $oldNodeID;
         $newNodeID =(int) $newNodeID;
         $db->query( "UPDATE ezcontentbrowserecent SET node_id=$newNodeID WHERE node_id=$oldNodeID" );
@@ -264,9 +264,9 @@ class eZContentBrowseRecent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezcontentbrowserecent" );
     }
 }

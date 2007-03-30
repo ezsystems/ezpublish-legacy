@@ -87,7 +87,7 @@ include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $attributeList =& eZContentClassAttribute::fetchList( true, array( 'version' => 0 ) );
@@ -151,7 +151,7 @@ foreach ( $simpleTypes as $simpleType )
     {
         $sortField = $simpleType['sort_field'];
         $field = $simpleType['field'];
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "UPDATE ezcontentobject_attribute SET $sortField=$field WHERE contentclassattribute_id IN (" . implode( ",", $simpleType['id_list'] ) . ")";
         $db->query( $sql );
     }

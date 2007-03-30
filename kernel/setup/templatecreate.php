@@ -30,7 +30,7 @@
 $module =& $Params['Module'];
 $parameters =& $Params["Parameters"];
 
-$visualModule =& eZModule::exists( 'visual' );
+$visualModule = eZModule::exists( 'visual' );
 if( $visualModule )
 {
     return $module->forward( $visualModule, 'templatecreate', $parameters );

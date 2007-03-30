@@ -43,16 +43,9 @@ include_once( 'lib/eztemplate/classes/eztemplate.php' );
 class eZTemplateOptimizer
 {
     /*!
-     Constructor
-    */
-    function eZTemplateOptimizer()
-    {
-    }
-
-    /*!
      Optimizes a resource acquisition node and the variable data before it
     */
-    function optimizeResourceAcquisition( $useComments, &$php, &$tpl, &$var, &$node, &$resourceData )
+    static function optimizeResourceAcquisition( $useComments, &$php, &$tpl, &$var, &$node, &$resourceData )
     {
         $data = $var[2];
         /* Check if the variable node has the correct format */
@@ -101,7 +94,7 @@ class eZTemplateOptimizer
     /*!
      Analyses function nodes and tries to optimize them
     */
-    function optimizeFunction( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    static function optimizeFunction( $useComments, &$php, &$tpl, &$node, &$resourceData )
     {
         $ret = 0;
         /* Just run the optimizer over all parameters */
@@ -118,7 +111,7 @@ class eZTemplateOptimizer
     /*!
      Analyses variables and tries to optimize them
     */
-    function optimizeVariable( $useComments, &$php, &$tpl, &$data, &$resourceData )
+    static function optimizeVariable( $useComments, &$php, &$tpl, &$data, &$resourceData )
     {
         $ret = 0;
         /* node.object.data_map optimization */
@@ -167,7 +160,7 @@ class eZTemplateOptimizer
     /*!
      Runs the optimizer
     */
-    function optimize( $useComments, &$php, &$tpl, &$tree, &$resourceData )
+    static function optimize( $useComments, &$php, &$tpl, &$tree, &$resourceData )
     {
         /* If for some reason we don't have elements, simply return */
         if (! is_array( $tree[1] ) )
@@ -218,7 +211,7 @@ class eZTemplateOptimizer
         }
     }
 
-    function fetchClassDeclaration( $classID )
+    static function fetchClassDeclaration( $classID )
     {
         include_once "kernel/classes/ezcontentclass.php";
         $attributes = eZContentClass::fetchAttributes( $classID );

@@ -32,7 +32,7 @@ $ObjectID =& $Params['ObjectID'];
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -48,7 +48,7 @@ if ( $ObjectID === null )
     $ObjectID = $http->postVariable( 'ObjectID' );
 }
 
-$object =& eZContentObject::fetch( $ObjectID );
+$object = eZContentObject::fetch( $ObjectID );
 
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -62,7 +62,7 @@ if ( $Module->isCurrentAction( 'Cancel' ) )
     return $Module->redirectToView( 'view', array( 'full', $mainParentNodeID ) );
 }
 
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 /*!
  Copy the specified object to a given node
@@ -87,7 +87,7 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $newObject =& $object->copy( $allVersions );
     // We should reset section that will be updated in updateSectionID().

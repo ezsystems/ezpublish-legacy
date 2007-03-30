@@ -52,7 +52,7 @@ class eZSiteAccess
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $siteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
         $siteAccessList = array();
@@ -80,7 +80,7 @@ class eZSiteAccess
     function findPathToSiteAccess( $siteAccess )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
         if ( !in_array( $siteAccess, $siteAccessList )  )
             return false;

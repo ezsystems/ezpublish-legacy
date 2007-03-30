@@ -608,10 +608,10 @@ class eZTemplateElementParser
         return preg_match( "/[ \t\r\n]/", $text[$startPosition] );
     }
 
-    function &instance()
+    static function instance()
     {
         $instance =& $GLOBALS['eZTemplateElementParserInstance'];
-        if ( get_class( $instance ) != 'eztemplateelementparser' )
+        if ( strtolower( get_class( $instance ) ) != 'eztemplateelementparser' )
         {
             $instance = new eZTemplateElementParser();
         }

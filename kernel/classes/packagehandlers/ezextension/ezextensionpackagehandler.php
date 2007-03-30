@@ -90,9 +90,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
      \reimp
      Uninstalls extensions.
     */
-    function uninstall( &$package, $installType, $parameters,
+    function uninstall( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         $extensionName = $content->getAttribute( 'name' );
@@ -127,9 +127,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
      \reimp
      Copy extension from the package to extension repository.
     */
-    function install( &$package, $installType, $parameters,
+    function install( $package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, &$installParameters,
+                      $content, &$installParameters,
                       &$installData )
     {
         //$this->Package =& $package;
@@ -300,7 +300,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
         return $extensionsToAdd;
     }
 
-    var $Package = null;
+    public $Package = null;
 }
 
 ?>

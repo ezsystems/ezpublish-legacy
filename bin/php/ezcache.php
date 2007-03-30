@@ -48,7 +48,7 @@ $options = $script->getOptions( "[clear-tag:][clear-id:][clear-all][list-tags][l
                                        'clear-all' => 'Clears all caches',
                                        'list-tags' => 'Lists all available tags',
                                        'list-ids' => 'Lists all available ids' ) );
-$sys =& eZSys::instance();
+$sys = eZSys::instance();
 
 $script->initialize();
 

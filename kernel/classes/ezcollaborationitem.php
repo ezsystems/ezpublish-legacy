@@ -54,7 +54,7 @@ class eZCollaborationItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -136,7 +136,7 @@ class eZCollaborationItem extends eZPersistentObject
                       'name' => 'ezcollab_item' );
     }
 
-    function create( $typeIdentifier, $creatorID, $status = EZ_COLLABORATION_STATUS_ACTIVE )
+    static function create( $typeIdentifier, $creatorID, $status = EZ_COLLABORATION_STATUS_ACTIVE )
     {
         $date_time = time();
         $row = array(
@@ -167,7 +167,7 @@ class eZCollaborationItem extends eZPersistentObject
         return $event;
     }
 
-    function fetch( $id, $creatorID = false, $asObject = true )
+    static function fetch( $id, $creatorID = false, $asObject = true )
     {
         $conditions = array( 'id' => $id );
         if ( $creatorID !== false )
@@ -220,7 +220,7 @@ class eZCollaborationItem extends eZPersistentObject
     function &handler()
     {
         include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-        $handler =& eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
+        $handler = eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
         return $handler;
     }
 
@@ -308,16 +308,13 @@ class eZCollaborationItem extends eZPersistentObject
         return $contentAttribute;
     }
 
-    /*!
-     \static
-    */
     function setIsActive( $active, $userID = false )
     {
         $active = intval($active);
         eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), $userID, array( 'is_active' => $active ) );
     }
 
-    function fetchListCount( $parameters = array() )
+    static function fetchListCount( $parameters = array() )
     {
         return eZCollaborationItem::fetchListTool( $parameters, true );
 //         $parameters = array_merge( array( 'status' => false
@@ -328,7 +325,7 @@ class eZCollaborationItem extends eZPersistentObject
 //         $isRead = $parameters['is_read'];
 //         $isActive = $parameters['is_active'];
 
-//         $user =& eZUser::currentUser();
+//         $user = eZUser::currentUser();
 //         $userID =& $user->attribute( 'contentobject_id' );
 
 //         $isReadText = '';
@@ -361,7 +358,7 @@ class eZCollaborationItem extends eZPersistentObject
 //                        ezcollab_item.id = ezcollab_item_group_link.collaboration_id AND
 //                        ezcollab_item_group_link.user_id=$userID";
 
-//         $db =& eZDB::instance();
+//         $db = eZDB::instance();
 //         $itemCount = $db->arrayQuery( $sql );
 //         return $itemCount[0]['count'];
     }
@@ -378,12 +375,12 @@ class eZCollaborationItem extends eZPersistentObject
         eZCollaborationItemParticipantLink::setLastRead( $collaborationID, $userID, $timestamp );
     }
 
-    function fetchList( $parameters = array() )
+    static function fetchList( $parameters = array() )
     {
         return eZCollaborationItem::fetchListTool( $parameters, false );
     }
 
-    function &fetchListTool( $parameters = array(), $asCount )
+    static function &fetchListTool( $parameters = array(), $asCount )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'offset' => false,
@@ -505,7 +502,7 @@ class eZCollaborationItem extends eZPersistentObject
                        ezcollab_item_group_link.user_id = '$userID'
                 $sortText";
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( !$asCount )
         {
             $sqlParameters = array();
@@ -549,9 +546,9 @@ class eZCollaborationItem extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $db->query( "DELETE FROM ezcollab_item" );
         $db->query( "DELETE FROM ezcollab_item_group_link" );
@@ -565,21 +562,21 @@ class eZCollaborationItem extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ID;
-    var $TypeIdentifier;
-    var $CreatorID;
-    var $Status;
-    var $Created;
-    var $Modified;
-    var $DataText1;
-    var $DataText2;
-    var $DataText3;
-    var $DataInt1;
-    var $DataInt2;
-    var $DataInt3;
-    var $DataFloat1;
-    var $DataFloat2;
-    var $DataFloat3;
+    public $ID;
+    public $TypeIdentifier;
+    public $CreatorID;
+    public $Status;
+    public $Created;
+    public $Modified;
+    public $DataText1;
+    public $DataText2;
+    public $DataText3;
+    public $DataInt1;
+    public $DataInt2;
+    public $DataInt3;
+    public $DataFloat1;
+    public $DataFloat2;
+    public $DataFloat3;
 }
 
 ?>

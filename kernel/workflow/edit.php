@@ -93,7 +93,7 @@ if ( is_numeric( $WorkflowID ) )
         {
             $workflowGroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $workflowGroups as $workflowGroup )
             {
@@ -116,14 +116,14 @@ else
 {
     // if WorkflowID was not given then create new workflow
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflow = eZWorkflow::create( $user_id );
     $workflowCount = eZWorkflow::fetchListCount();
     ++$workflowCount;
     $workflow->setAttribute( "name", ezi18n( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $workflow->store();
     $WorkflowID = $workflow->attribute( "id" );
@@ -134,14 +134,14 @@ else
     return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHTTPTool::instance();
 $WorkflowVersion = $workflow->attribute( "version" );
 
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $workflow->setVersion( 1 );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     $workflow->remove( true );
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
@@ -185,12 +185,12 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 }
 
 // Fetch events and types
-$event_list =& $workflow->fetchEvents();
-$type_list =& eZWorkflowType::fetchRegisteredTypes();
+$event_list = $workflow->fetchEvents();
+$type_list = eZWorkflowType::fetchRegisteredTypes();
 
 if ( $http->hasPostVariable( "DeleteButton" ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
 
     if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
@@ -206,7 +206,7 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
     }
     $db->commit();
 
-    $event_list =& $workflow->fetchEvents();
+    $event_list = $workflow->fetchEvents();
 }
 
 // Validate input
@@ -252,7 +252,7 @@ $workflow->setVersion( 1, $event_list );
 $date_time = time();
 $workflow->setAttribute( "modified", $date_time );
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflow->setAttribute( "modifier_id", $user_id );
 
@@ -288,7 +288,7 @@ foreach( array_keys( $event_list ) as $key )
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 {
     // Discard existing events, workflow version 1 and store version 0
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
 
     $workflow->store( $event_list ); // store changes.
@@ -334,8 +334,8 @@ else if ( $http->hasPostVariable( "DeleteButton" ) )
 else if ( $http->hasPostVariable( "NewButton" ) )
 {
     $new_event = eZWorkflowEvent::create( $WorkflowID, $cur_type );
-    $new_event_type =& $new_event->eventType();
-    $db =& eZDB::instance();
+    $new_event_type = $new_event->eventType();
+    $db = eZDB::instance();
     $db->begin();
 
     if ($canStore)
@@ -358,7 +358,7 @@ $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflo
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
@@ -380,7 +380,7 @@ if ( isset( $GroupID ) )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/edit.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'Edit' ),

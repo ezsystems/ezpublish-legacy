@@ -67,7 +67,7 @@ class eZRegExpValidator extends eZInputValidator
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
-    function &fixup( $text )
+    function fixup( $text )
     {
         if ( !is_array( $this->RegExpRule ) )
             return $text;
@@ -75,15 +75,15 @@ class eZRegExpValidator extends eZInputValidator
         $fixup =& $this->RegExpRule["fixup"];
         if ( is_array( $fixup ) )
         {
-            $intermediate =& $fixup["match"];
-            $fixup =& $fixup["replace"];
+            $intermediate = $fixup["match"];
+            $fixup = $fixup["replace"];
         }
         $text = preg_replace( $intermediate, $fixup, $text );
         return $text;
     }
 
     /// \privatesection
-    var $RegExpRule;
+    public $RegExpRule;
 }
 
 ?>

@@ -102,7 +102,7 @@ class eZTemplateExecuteOperator
             $functionName = eZTemplateNodeTool::elementStaticValue( $parameters[1] );
 
             include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
-            $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $moduleName );
+            $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $moduleName );
             if ( !$moduleFunctionInfo->isValid() )
             {
                 eZDebug::writeError( "Cannot execute  module '$moduleName', no module found",
@@ -122,11 +122,11 @@ class eZTemplateExecuteOperator
 
             $aliasFunctionName = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
-            $aliasSettings =& eZINI::instance( 'fetchalias.ini' );
+            $aliasSettings = eZINI::instance( 'fetchalias.ini' );
             if ( $aliasSettings->hasSection( $aliasFunctionName ) )
             {
                 include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
-                $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
+                $moduleFunctionInfo = eZFunctionHandler::moduleFunctionInfo( $aliasSettings->variable( $aliasFunctionName, 'Module' ) );
                 if ( !$moduleFunctionInfo->isValid() )
                 {
                     eZDebug::writeError( "Cannot execute function '$aliasFunctionName' in module '$moduleName', no valid data",
@@ -366,10 +366,10 @@ class eZTemplateExecuteOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 
-    var $Fetch;
-    var $FetchAlias;
+    public $Fetch;
+    public $FetchAlias;
 }
 
 ?>

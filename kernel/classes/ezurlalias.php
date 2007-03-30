@@ -67,7 +67,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -137,7 +137,7 @@ class eZURLAlias extends eZPersistentObject
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
     */
-    function create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
+    static function create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
     {
         if ( !$forwardToID )
             $forwardToID = 0;
@@ -188,7 +188,7 @@ class eZURLAlias extends eZPersistentObject
     function cleanup()
     {
         $id = $this->attribute( 'id' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $sql = "DELETE FROM ezurlalias WHERE forward_to_id = '" . $db->escapeString( $id ) . "'";
         $db->query( $sql );
@@ -203,10 +203,10 @@ class eZURLAlias extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function updateChildAliases( $newPathString, $oldPathString )
+    static function updateChildAliases( $newPathString, $oldPathString )
     {
         $oldPathStringLength = strlen( $oldPathString );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $newPathStringText = $db->escapeString( $newPathString );
         $oldPathStringText = $db->escapeString( $oldPathString );
         $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
@@ -251,9 +251,9 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupWildcards( $baseURL )
+    static function cleanupWildcards( $baseURL )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $baseURLText = $db->escapeString( $baseURL . "/*" );
         $sql = "DELETE FROM ezurlalias
 WHERE
@@ -267,9 +267,9 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupForwardingURLs( $oldURL )
+    static function cleanupForwardingURLs( $oldURL )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $oldURLText = $db->escapeString( $oldURL );
         $sql = "DELETE FROM ezurlalias
 WHERE
@@ -284,9 +284,9 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function updateForwardID( $newForwardID, $oldForwardID )
+    static function updateForwardID( $newForwardID, $oldForwardID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $oldForwardIDText = $db->escapeString( $oldForwardID );
         $newForwardIDText = $db->escapeString( $newForwardID );
         $sql = "UPDATE ezurlalias
@@ -302,7 +302,7 @@ WHERE
      \static
       Fetches the URL alias by ID.
     */
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
@@ -318,7 +318,7 @@ WHERE
                           or if forward id it should be ignored.
       \return the URL alias object or \c null
     */
-    function fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
+    static function fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
     {
         $url = eZURLAlias::cleanURL( $url );
         $conditions = array( "source_url" => $url,
@@ -338,7 +338,7 @@ WHERE
       \param $isInternal boolean which controls whether internal or external urls are fetched.
       \return the URL alias object or \c null
     */
-    function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
+    static function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
         $url = eZURLAlias::cleanURL( $url );
         $isInternal = $isInternal ? 1 : 0;
@@ -355,7 +355,7 @@ WHERE
      \static
       Fetches non-internal URL alias by offset and limit
     */
-    function fetchByOffset( $offset, $limit, $asObject = true )
+    static function fetchByOffset( $offset, $limit, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
                                                     null,
@@ -369,7 +369,7 @@ WHERE
      \static
       Fetches all wildcards from DB.
     */
-    function fetchWildcards( $asObject = true )
+    static function fetchWildcards( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
                                                     null,
@@ -388,10 +388,10 @@ WHERE
      - path - The entire path (including filename) for the cache
      - keys - Array with key values which is used to uniquely identify the cache
     */
-    function cacheInfo()
+    static function cacheInfo()
     {
         $cacheDir = eZSys::cacheDirectory();
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $keys = array( 'implementation' => $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' ),
                        'server' => $ini->variable( 'DatabaseSettings', 'Server' ),
                        'database' => $ini->variable( 'DatabaseSettings', 'Database' ) );
@@ -409,7 +409,7 @@ WHERE
      Sets the various cache information to the parameters.
      \sa cacheInfo
     */
-    function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
+    static function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
     {
         $info = eZURLAlias::cacheInfo();
         $wildcardCacheDir = $info['dir'];
@@ -422,7 +422,7 @@ WHERE
      Goes trough all wildcards in the database and creates the wildcard match cache.
      \sa cacheInfo
     */
-    function createWildcardMatches()
+    static function createWildcardMatches()
     {
         eZURLAlias::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
         if ( !file_exists( $wildcardCacheDir ) )
@@ -468,7 +468,7 @@ WHERE
                     $replaceCode .= " . ";
                 if ( ( $replaceCounter % 2 ) == 0 )
                 {
-                    $replaceWildcardItemText = $phpCache->variableText( $replaceWildcardItem, 0 );
+                    $replaceWildcardItemText = $phpCache->thisVariableText( $replaceWildcardItem, 0 );
                     $replaceCode .= "$replaceWildcardItemText";
                 }
                 else
@@ -484,7 +484,7 @@ WHERE
             $phpCode .= "    ";
             $phpCode .= "if ( preg_match( \"#^$matchRegexp#\", \$uri, \$matches ) )\n    {\n";
             $phpCode .= "        $replaceCode;\n";
-            $phpCode .= "        \$urlAlias = " . $phpCache->variableText( $wildcardArray, 8 + 12, 0, false ) . ";\n";
+            $phpCode .= "        \$urlAlias = " . $phpCache->thisVariableText( $wildcardArray, 8 + 12, 0, false ) . ";\n";
             $phpCode .= "        return true;\n";
             $phpCode .= "    }\n";
 
@@ -501,11 +501,11 @@ WHERE
     /*!
      \return true if the wildcard cache is expired.
     */
-    function &isWildcardExpired( $timestamp )
+    static function isWildcardExpired( $timestamp )
     {
         $retVal = false;
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
+        $handler = eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'urlalias-wildcard' ) )
             return $retVal;
         $expiryTime = $handler->timestamp( 'urlalias-wildcard' );
@@ -518,11 +518,11 @@ WHERE
      Expires the wildcard cache. This causes the wildcard cache to be
      regenerated on the next page load.
     */
-    function expireWildcards()
+    static function expireWildcards()
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'urlalias-wildcard', mktime() );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'urlalias-wildcard', time() );
         $handler->store();
     }
 
@@ -532,9 +532,9 @@ WHERE
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
     */
-    function &translateByWildcard( &$uri, $reverse = false )
+    static function translateByWildcard( &$uri, $reverse = false )
     {
-        if ( get_class( $uri ) == "ezuri" )
+        if ( strtolower( get_class( $uri ) ) == "ezuri" )
         {
             $uriString = $uri->elements();
         }
@@ -580,7 +580,7 @@ WHERE
                 $function = EZURLALIAS_CACHE_FUNCTION;
                 $hasTranslated = false;
                 $url = false;
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $maxIterationCount = $ini->variable( 'URLTranslator', 'MaximumWildcardIterations' );
                 $iteration = 0;
                 while ( $function( $uriString, $urlAlias ) )
@@ -639,7 +639,7 @@ WHERE
             return $return;
         }
 
-        if ( get_class( $uri ) == "ezuri" )
+        if ( strtolower( get_class( $uri ) ) == "ezuri" )
         {
             $uri->setURIString( $uriString, false );
         }
@@ -654,9 +654,9 @@ WHERE
      \static
       Counts the non-internal URL alias
     */
-    function &totalCount( )
+    static function totalCount( )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "SELECT count(id) AS count
  FROM ezurlalias
  WHERE is_internal = 0";
@@ -679,10 +679,10 @@ WHERE
      'רזו' => 'oeaeaa'
      \endexample
     */
-    function convertToAlias( $urlElement, $defaultValue = false )
+    static function convertToAlias( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
         if ( strlen( $urlElement ) == 0 )
@@ -705,7 +705,7 @@ WHERE
      \note each element in the path (separated by / (slash) ) is converted separately.
      \return the converted path
     */
-    function convertPathToAlias( $pathURL )
+    static function convertPathToAlias( $pathURL )
     {
         $result = array();
 
@@ -726,9 +726,9 @@ WHERE
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
     */
-    function translate( &$uri, $reverse = false )
+    static function translate( &$uri, $reverse = false )
     {
-        if ( get_class( $uri ) == "ezuri" )
+        if ( strtolower( get_class( $uri ) ) == "ezuri" )
         {
             $uriString = $uri->elements();
         }
@@ -747,7 +747,7 @@ WHERE
 
         $originalURIString = $uriString;
 
-        $ini =& eZIni::instance();
+        $ini = eZINI::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
              $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
         {
@@ -778,7 +778,7 @@ WHERE
             }
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $reverse )
         {
             $query = "SELECT source_url as destination_url, forward_to_id
@@ -823,7 +823,7 @@ ORDER BY forward_to_id ASC, is_internal ASC";
             }
         }
 
-        if ( get_class( $uri ) == "ezuri" )
+        if ( strtolower( get_class( $uri ) ) == "ezuri" )
         {
             $uri->setURIString( $uriString, false );
         }
@@ -843,7 +843,7 @@ ORDER BY forward_to_id ASC, is_internal ASC";
      Makes sure the URL \a $url does not contain leading and trailing slashes (/).
      \return the clean URL
     */
-    function cleanURL( $url )
+    static function cleanURL( $url )
     {
         return trim( $url, '/ ' );
     }

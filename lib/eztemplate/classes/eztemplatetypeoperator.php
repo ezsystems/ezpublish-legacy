@@ -46,7 +46,7 @@ $var|is_null or is_null( $var )
 is_set( $var )
 is_unset( $var )
 $var|get_type or get_type( $var )
-$var|get_class or get_class( $var )
+$var|get_class or strtolower( get_class( $var ) )
 
 
 */
@@ -259,7 +259,7 @@ class eZTemplateTypeOperator
 
             case $this->IsClassName:
             {
-                $code .= '( get_class( %1% ) == strtolower( %2% ) );';
+                $code .= '( strtolower( get_class( %1% ) ) == strtolower( %2% ) );';
                 $values[] = $parameters[1];
             } break;
 
@@ -285,7 +285,7 @@ class eZTemplateTypeOperator
 
             case $this->GetClassName:
             {
-                $code .= 'get_class( %1% );';
+                $code .= 'strtolower( get_class( %1% ) );';
             } break;
         }
 
@@ -326,12 +326,12 @@ class eZTemplateTypeOperator
                 if ( count( $operatorParameters ) == 1 )
                 {
                     $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
-                    $value = get_class( $value ) == strtolower( $className );
+                    $value = strtolower( get_class( $value ) ) == strtolower( $className );
                 }
                 else
                 {
                     $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
-                    $value = get_class( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace, $placement ) ) == strtolower( $className );
+                    $value = strtolower( get_class( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace, $placement ) ) ) == strtolower( $className );
                 }
             } break;
             case $this->IsSetName:
@@ -383,7 +383,7 @@ class eZTemplateTypeOperator
                 else if ( is_bool( $operand ) )
                     $value = 'boolean[' . ( $operand ? 'true' : 'false' ) . ']';
                 else if ( is_object( $operand ) )
-                    $value = 'object[' . get_class( $operand ) . ']';
+                    $value = 'object[' . strtolower( get_class( $operand ) ) . ']';
                 else if ( is_array( $operand ) )
                     $value = 'array[' . count( $operand ) . ']';
                 else if ( is_string( $operand ) )
@@ -400,11 +400,11 @@ class eZTemplateTypeOperator
                                                count( $operatorParameters ),
                                                1 );
                     $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
-                    $value = get_class( $operand );
+                    $value = strtolower( get_class( $operand ) );
                 }
                 else
                 {
-                    $value = get_class( $value );
+                    $value = strtolower( get_class( $value ) );
                 }
             } break;
         }
@@ -429,9 +429,9 @@ class eZTemplateTypeOperator
     }
 
     /// The array of operators
-    var $Operators;
+    public $Operators;
     /// The "less than" name
-    var $IsArrayName;
+    public $IsArrayName;
 };
 
 ?>

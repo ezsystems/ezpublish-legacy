@@ -32,7 +32,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 $Module =& $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -257,7 +257,7 @@ function copyPublishContentObject( &$sourceObject,
                                                                         'version'   => $curVersion ) );
     // Refetch the object data since it might change in the database.
     $newObjectID = $newObject->attribute( 'id' );
-    $newObject =& eZContentObject::fetch( $newObjectID );
+    $newObject = eZContentObject::fetch( $newObjectID );
     $newNodeList =& $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {
@@ -312,7 +312,7 @@ function copyPublishContentObject( &$sourceObject,
                                  "Subtree Copy Error!" );
         }
         // Create unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $newRemoteID = md5( (string)mt_rand() . (string)time() );
         $oldRemoteID = $newNode->attribute( 'remote_id' );
         $newNode->setAttribute( 'remote_id', $newRemoteID );
         // Change parent_remote_id for object assignments
@@ -559,7 +559,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     eZDebug::writeDebug( "Fixing global and local links...",
                          "Subtree copy:" );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     if ( !$db )
     {
         eZDebug::writeError( "Cannot create instance of eZDB for fixing local links (related objects).",
@@ -894,7 +894,7 @@ $Result = array();
 $notifications = array( 'Notifications' => array(),
                         'Warnings' => array(),
                         'Errors' => array() );
-$contentINI =& eZINI::instance( 'content.ini' );
+$contentINI = eZINI::instance( 'content.ini' );
 
 // check if number of nodes being copied not more then MaxNodesCopySubtree setting
 $maxNodesCopySubtree = $contentINI->variable( 'CopySettings', 'MaxNodesCopySubtree' );

@@ -965,7 +965,7 @@ class eZWebDAVServer
         $useLogging =& $GLOBALS['eZWebDavLogging'];
         if ( !isset( $useLogging ) )
         {
-            $ini =& eZINI::instance( 'webdav.ini' );
+            $ini = eZINI::instance( 'webdav.ini' );
             $useLogging = $ini->variable( 'GeneralSettings', 'Logging' ) == 'enabled';
         }
         return $useLogging;
@@ -1022,7 +1022,7 @@ class eZWebDAVServer
     */
     function dataCharset()
     {
-        $ini =& eZINI::instance( 'i18n.ini' );
+        $ini = eZINI::instance( 'i18n.ini' );
         $charset = $ini->variable('CharacterSettings', 'Charset' );
         return $charset;
     }
@@ -1067,7 +1067,7 @@ class eZWebDAVServer
     function recode( $string, $fromCharset, $toCharset, $stop = false )
     {
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        $codec =& eZTextCodec::instance( $fromCharset, $toCharset, false );
+        $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
         if ( $codec )
             $string = $codec->convertString( $string );
 
@@ -1075,8 +1075,8 @@ class eZWebDAVServer
     }
 
     /// \privatesection
-    var $ServerRootDir = "";
-    var $XMLBodyRead = false;
-    var $XMLOutputCharset = 'utf-8';
+    public $ServerRootDir = "";
+    public $XMLBodyRead = false;
+    public $XMLOutputCharset = 'utf-8';
 }
 ?>

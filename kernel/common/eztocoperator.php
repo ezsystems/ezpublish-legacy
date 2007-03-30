@@ -78,14 +78,14 @@ class eZTOCOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $dom = $namedParameters['dom'];
-        if ( get_class( $dom ) == 'ezcontentobjectattribute' )
+        if ( strtolower( get_class( $dom ) ) == 'ezcontentobjectattribute' )
         {
             $this->ObjectAttributeId = $dom->attribute( 'id' );
             $content = $dom->attribute( 'content' );
             $xmlData = $content->attribute( 'xml_data' );
 
             $xml = new eZXML();
-            $domTree =& $xml->domTree( $xmlData );
+            $domTree = $xml->domTree( $xmlData );
 
             $tocText = '';
             if ( is_object( $domTree ) )
@@ -165,10 +165,10 @@ class eZTOCOperator
         return $tocText;
     }
 
-    var $HeaderCounter = array();
-    var $LastHeaderLevel = 0;
+    public $HeaderCounter = array();
+    public $LastHeaderLevel = 0;
 
-    var $ObjectAttributeId;
+    public $ObjectAttributeId;
 }
 
 ?>

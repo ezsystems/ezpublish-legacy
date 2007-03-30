@@ -48,7 +48,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
 
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -107,11 +107,9 @@ class eZProductCollectionItemOption extends eZPersistentObject
     /*!
      Clones the collection item option object and returns it. The ID of the clone is erased.
     */
-    function clone()
+    function __clone()
     {
-        $item = $this;
-        $item->setAttribute( 'id', null );
-        return $item;
+        $this->setAttribute( 'id', null );
     }
 
     /*!
@@ -122,9 +120,9 @@ class eZProductCollectionItemOption extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy( $collectionItemID )
+    function copy( $collectionItemID )
     {
-        $item = $this->clone();
+        $item = clone $this;
         $item->setAttribute( 'item_id', $collectionItemID );
         $item->store();
         return $item;
@@ -147,7 +145,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
     */
     function cleanupList( $itemIDList )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $idText = $db->implodeWithTypeCast( ', ', $itemIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection_item_opt WHERE item_id IN ( $idText )" );
     }

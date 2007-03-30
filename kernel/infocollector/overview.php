@@ -30,7 +30,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/classes/ezinformationcollection.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params['Module'];
 $offset = $Params['Offset'];
 
@@ -95,7 +95,7 @@ else
 }
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id,
                                     ezcontentobject.name,
                                     ezcontentobject_tree.main_node_id,

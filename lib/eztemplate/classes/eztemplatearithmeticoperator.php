@@ -897,32 +897,32 @@ class eZTemplateArithmeticOperator
         return '';
     }
 
-    var $Operators;
-    var $SumName;
-    var $SubName;
-    var $IncName;
-    var $DecName;
+    public $Operators;
+    public $SumName;
+    public $SubName;
+    public $IncName;
+    public $DecName;
 
-    var $DivName;
-    var $ModName;
-    var $MulName;
+    public $DivName;
+    public $ModName;
+    public $MulName;
 
-    var $MaxName;
-    var $MinName;
+    public $MaxName;
+    public $MinName;
 
-    var $AbsName;
-    var $CeilName;
-    var $FloorName;
-    var $RoundName;
+    public $AbsName;
+    public $CeilName;
+    public $FloorName;
+    public $RoundName;
 
-    var $IntName;
-    var $FloatName;
+    public $IntName;
+    public $FloatName;
 
-    var $CountName;
+    public $CountName;
 
-    var $RomanName;
+    public $RomanName;
 
-    var $RandName;
+    public $RandName;
 }
 
 ?>

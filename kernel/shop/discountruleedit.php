@@ -56,7 +56,7 @@ if ( isset( $Params['DiscountRuleID'] ) )
     $discountRuleID = $Params['DiscountRuleID'];
 }
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
 {
     // if it has post variables, the values will be taken from POST variables instead of object itself
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
-    $locale =& eZLocale::instance();
+    $locale = eZLocale::instance();
 
     $discountRuleName = $http->postVariable( 'discountrule_name' );
     $discountRulePercent = $locale->internalNumber( $http->postVariable( 'discountrule_percent' ) );
@@ -212,7 +212,7 @@ if ( $http->hasPostVariable( 'DeleteProductButton' ) )
 $productList = array();
 foreach ( $discountRuleSelectedProducts as $productID )
 {
-    $object =& eZContentObject::fetch( $productID );
+    $object = eZContentObject::fetch( $productID );
     if ( eZShopFunctions::isProductObject( $object ) )
         $productList[] = $object;
 }
@@ -220,7 +220,7 @@ foreach ( $discountRuleSelectedProducts as $productID )
 if ( $http->hasPostVariable( 'StoreButton' ) )
 {
     // remove products stored in the database and store them again
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $discountRuleID )
     {

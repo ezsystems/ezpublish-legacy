@@ -73,7 +73,7 @@ class PEAR
      * @var     bool
      * @access  private
      */
-    var $_debug = false;
+    public $_debug = false;
 
     /**
      * Default error mode for this object.
@@ -81,7 +81,7 @@ class PEAR
      * @var     int
      * @access  private
      */
-    var $_default_error_mode = null;
+    public $_default_error_mode = null;
 
     /**
      * Default error options used for this object when error mode
@@ -90,7 +90,7 @@ class PEAR
      * @var     int
      * @access  private
      */
-    var $_default_error_options = null;
+    public $_default_error_options = null;
 
     /**
      * Default error handler (callback) for this object, if error mode is
@@ -99,7 +99,7 @@ class PEAR
      * @var     string
      * @access  private
      */
-    var $_default_error_handler = '';
+    public $_default_error_handler = '';
 
     /**
      * Which class to use for error objects.
@@ -107,7 +107,7 @@ class PEAR
      * @var     string
      * @access  private
      */
-    var $_error_class = 'PEAR_Error';
+    public $_error_class = 'PEAR_Error';
 
     /**
      * An array of expected errors.
@@ -115,7 +115,7 @@ class PEAR
      * @var     array
      * @access  private
      */
-    var $_expected_errors = array();
+    public $_expected_errors = array();
 
     // }}}
 
@@ -133,7 +133,7 @@ class PEAR
      */
     function PEAR($error_class = null)
     {
-        $classname = get_class($this);
+        $classname = strtolower( get_class($this) );
         if ($this->_debug) {
             print "PEAR constructor called, class=$classname\n";
         }
@@ -168,7 +168,7 @@ class PEAR
      */
     function _PEAR() {
         if ($this->_debug) {
-            printf("PEAR destructor called, class=%s\n", get_class($this));
+            printf("PEAR destructor called, class=%s\n", strtolower( get_class($this) ));
         }
     }
 
@@ -184,7 +184,7 @@ class PEAR
      */
     function isError($data) {
         return (bool)(is_object($data) &&
-                      (get_class($data) == 'pear_error' ||
+                      (strtolower( get_class($data) ) == 'pear_error' ||
                       is_subclass_of($data, 'pear_error')));
     }
 
@@ -505,7 +505,7 @@ function _PEAR_call_destructors()
     {
         reset($_PEAR_destructor_object_list);
         while (list($k, $objref) = each($_PEAR_destructor_object_list)) {
-            $classname = get_class($objref);
+            $classname = strtolower( get_class($objref) );
             while ($classname) {
                 $destructor = "_$classname";
                 if (method_exists($objref, $destructor)) {
@@ -528,16 +528,16 @@ class PEAR_Error
 {
     // {{{ properties
 
-    var $error_message_prefix = '';
-    var $mode                 = PEAR_ERROR_RETURN;
-    var $level                = E_USER_NOTICE;
-    var $code                 = -1;
-    var $message              = '';
-    var $userinfo             = '';
+    public $error_message_prefix = '';
+    public $mode                 = PEAR_ERROR_RETURN;
+    public $level                = E_USER_NOTICE;
+    public $code                 = -1;
+    public $message              = '';
+    public $userinfo             = '';
 
     // Wait until we have a stack-groping function in PHP.
-    //var $file    = '';
-    //var $line    = 0;
+    //public $file    = '';
+    //public $line    = 0;
 
 
     // }}}
@@ -685,7 +685,7 @@ class PEAR_Error
      */
     function getType ()
     {
-        return get_class($this);
+        return strtolower( get_class($this) );
     }
 
     // }}}
@@ -744,14 +744,14 @@ class PEAR_Error
                         E_USER_ERROR   => 'error');
         if ($this->mode & PEAR_ERROR_CALLBACK) {
             if (is_array($this->callback)) {
-                $callback = get_class($this->callback[0]) . '::' .
+                $callback = strtolower( get_class($this->callback[0]) ) . '::' .
                     $this->callback[1];
             } else {
                 $callback = $this->callback;
             }
             return sprintf('[%s: message="%s" code=%d mode=callback '.
                            'callback=%s prefix="%s" info="%s"]',
-                           get_class($this), $this->message, $this->code,
+                           strtolower( get_class($this) ), $this->message, $this->code,
                            $callback, $this->error_message_prefix,
                            $this->userinfo);
         }
@@ -772,7 +772,7 @@ class PEAR_Error
         }
         return sprintf('[%s: message="%s" code=%d mode=%s level=%s '.
                        'prefix="%s" info="%s"]',
-                       get_class($this), $this->message, $this->code,
+                       strtolower( get_class($this) ), $this->message, $this->code,
                        implode("|", $modes), $levels[$this->level],
                        $this->error_message_prefix,
                        $this->userinfo);

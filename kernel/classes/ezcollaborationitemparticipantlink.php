@@ -64,7 +64,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',
@@ -111,7 +111,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                       'name' => 'ezcollab_item_participant_link' );
     }
 
-    function &create( $collaborationID, $participantID,
+    static function &create( $collaborationID, $participantID,
                       $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
     {
         $dateTime = time();
@@ -128,7 +128,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     /*!
      \note transaction unsafe
      */
-    function setLastRead( $collaborationID, $userID = false, $timestamp = false )
+    static function setLastRead( $collaborationID, $userID = false, $timestamp = false )
     {
         if ( $userID === false )
         {
@@ -140,7 +140,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
             $timestamp = time();
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $userID = (int) $userID;
         $timestamp = (int) $timestamp;
         $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
@@ -151,7 +151,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
             $collabLink->setAttribute( 'last_read', $timestamp );
     }
 
-    function &fetch( $collaborationID, $participantID, $asObject = true )
+    static function &fetch( $collaborationID, $participantID, $asObject = true )
     {
         $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
         if ( isset( $collabLink ) )
@@ -164,7 +164,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return $collabLink;
     }
 
-    function &fetchParticipantList( $parameters = array() )
+    static function &fetchParticipantList( $parameters = array() )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,
@@ -204,7 +204,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return $linkList;
     }
 
-    function &fetchParticipantMap( $originalParameters = array() )
+    static function &fetchParticipantMap( $originalParameters = array() )
     {
         $parameters = array_merge( array( 'sort_field' => 'role' ),
                                    $originalParameters );
@@ -244,7 +244,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return $listMap;
     }
 
-    function &typeString( $participantType )
+    static function &typeString( $participantType )
     {
         $typeMap =& $GLOBALS['eZCollaborationParticipantTypeMap'];
         if ( !isset( $typeMap ) )
@@ -259,7 +259,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return $retString;
     }
 
-    function &roleString( $participantRole )
+    static function &roleString( $participantRole )
     {
         $roleMap =& $GLOBALS['eZCollaborationParticipantRoleMap'];
         if ( !isset( $roleMap ) )
@@ -277,7 +277,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         return $retString;
     }
 
-    function &roleName( $collaborationID, $roleID )
+    static function &roleName( $collaborationID, $roleID )
     {
         if ( $roleID < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
         {
@@ -322,7 +322,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
         {
             include_once( 'kernel/classes/ezcontentobject.php' );
-            $participant =& eZContentObject::fetch( $this->ParticipantID );
+            $participant = eZContentObject::fetch( $this->ParticipantID );
         }
         else
         {
@@ -374,13 +374,13 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     }
 
     /// \privatesection
-    var $CollaborationID;
-    var $ParticipantID;
-    var $ParticipantType;
-    var $IsRead;
-    var $IsActive;
-    var $Created;
-    var $Modified;
+    public $CollaborationID;
+    public $ParticipantID;
+    public $ParticipantType;
+    public $IsRead;
+    public $IsActive;
+    public $Created;
+    public $Modified;
 }
 
 ?>

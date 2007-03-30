@@ -77,7 +77,7 @@ class eZPriceType extends eZDataType
             $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale =& eZLocale::instance();
+            $locale = eZLocale::instance();
             $data = $locale->internalCurrency( $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
@@ -156,7 +156,7 @@ class eZPriceType extends eZDataType
         $vatExInc = $http->postVariable( $base . '_ezprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
 
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $data = $locale->internalCurrency( $data );
 
         $data_text = $vatType . ',' . $vatExInc;
@@ -170,7 +170,7 @@ class eZPriceType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $storedPrice = $contentObjectAttribute->attribute( "data_float" );
@@ -197,7 +197,7 @@ class eZPriceType extends eZDataType
         return $price;
     }
 
-    function contentActionList( )
+    function contentActionList( $classAttribute )
     {
         return array( array( 'name' => ezi18n( 'kernel/classes/datatypes', 'Add to basket' ),
                              'action' => 'ActionAddToBasket'
@@ -207,7 +207,7 @@ class eZPriceType extends eZDataType
                              ) );
     }
 
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
         return $contentObjectAttribute->attribute( "data_float" );
     }

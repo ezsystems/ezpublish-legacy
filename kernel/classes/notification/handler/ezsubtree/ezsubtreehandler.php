@@ -71,12 +71,12 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     {
         if ( $attr == 'subscribed_nodes' )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             return $this->subscribedNodes( $user );
         }
         else if ( $attr == 'rules' )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             return $this->rules( $user );
         }
         return eZNotificationEventHandler::attribute( $attr );
@@ -128,7 +128,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $parentContentObject =& $parentNode->attribute( 'object' );
         $parentContentClass =& $parentContentObject->attribute( 'content_class' );
 
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
                               array( 'node', $contentNode->attribute( 'node_id' ) ),
                               array( 'class', $contentObject->attribute( 'contentclass_id' ) ),
@@ -142,9 +142,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $tpl->setVariable( 'object', $contentObject );
 
-        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $notificationINI = eZINI::instance( 'notification.ini' );
         $emailSender = $notificationINI->variable( 'MailSettings', 'EmailSender' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
@@ -188,7 +188,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         $userList = eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $weekDayNames = $locale->attribute( 'weekday_name_list' );
         $weekDaysByName = array_flip( $weekDayNames );
 
@@ -266,7 +266,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $userID = $user->attribute( 'contentobject_id' );
 
@@ -274,11 +274,11 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return $nodeList;
     }
 
-    function &rules( $user = false, $offset = false, $limit = false )
+    static function &rules( $user = false, $offset = false, $limit = false )
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $userID = $user->attribute( 'contentobject_id' );
 
@@ -286,11 +286,11 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return $ruleList;
     }
 
-    function rulesCount( $user = false )
+    static function rulesCount( $user = false )
     {
         if ( $user === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $userID = $user->attribute( 'contentobject_id' );
 
@@ -310,7 +310,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         else if ( $http->hasPostVariable( 'RemoveRule_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) and
                   $http->hasPostVariable( 'SelectedRuleIDArray_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID ) )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userList = eZSubtreeNotificationRule::fetchList( $user->attribute( 'contentobject_id' ), false );
             foreach ( $userList as $userRow )
             {
@@ -328,7 +328,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                   !$http->hasPostVariable( 'BrowseCancelButton' ) )
         {
             $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
 
             $existingNodes = eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 

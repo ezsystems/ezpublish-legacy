@@ -108,7 +108,7 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $matrix = new eZMatrix( '' );
 
@@ -176,7 +176,7 @@ class eZMatrixType extends eZDataType
 
     /*!
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         switch ( $action )
         {
@@ -235,7 +235,7 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the integer value.
     */
-    function title( &$contentObjectAttribute, $name = 'name' )
+    function title( $contentObjectAttribute, $name = 'name' )
     {
         $matrix =& $contentObjectAttribute->content( );
 
@@ -341,7 +341,7 @@ class eZMatrixType extends eZDataType
                         $columnID = $name;
                         // Initialize transformation system
                         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                        $trans =& eZCharTransform::instance();
+                        $trans = eZCharTransform::instance();
                         $columnID = $trans->transformByGroup( $columnID, 'identifier' );
                     }
                 }
@@ -380,7 +380,7 @@ class eZMatrixType extends eZDataType
 
     /*!
     */
-    function customClassAttributeHTTPAction( &$http, $action, &$contentClassAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
         switch ( $action )

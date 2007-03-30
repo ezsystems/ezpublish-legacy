@@ -153,7 +153,7 @@ class eZOption
         $xml = new eZXML();
 
 
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
 
         if ( $xmlString != "" )
         {
@@ -220,13 +220,13 @@ class eZOption
     }
 
     /// Contains the Option name
-    var $Name;
+    public $Name;
 
     /// Contains the Options
-    var $Options;
+    public $Options;
 
     /// Contains the option counter value
-    var $OptionCount;
+    public $OptionCount;
 }
 
 ?>

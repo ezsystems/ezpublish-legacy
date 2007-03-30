@@ -87,7 +87,7 @@ include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $attributeList =& eZContentClassAttribute::fetchList( true, array( 'version' => 0 ) );

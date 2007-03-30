@@ -46,25 +46,25 @@
   \sa eZXML eZDOMDocument
 */
 
-/*!
- Element node, defines a node which contains attributes and children
-*/
-define( "EZ_XML_NODE_ELEMENT", 1 );
-/*!
- Attribute node, defines a node which contains an attribute name and it's value
-*/
-define( "EZ_XML_NODE_ATTRIBUTE", 2 );
-/*!
- Text node, defines a node which contains a text string encoded by escaping some characters.
-*/
-define( "EZ_XML_NODE_TEXT", 3 );
-/*!
- CDATA node, defines a node which contains a text string encoding in a CDATA structure.
-*/
-define( "EZ_XML_NODE_CDATASECTION", 4 );
-
 class eZDOMNode
 {
+    /*!
+     Element node, defines a node which contains attributes and children
+    */
+    const TYPE_ELEMENT = 1;
+    /*!
+     Attribute node, defines a node which contains an attribute name and it's value
+    */
+    const TYPE_ATTRIBUTE = 2;
+    /*!
+     Text node, defines a node which contains a text string encoded by escaping some characters.
+    */
+    const TYPE_TEXT = 3;
+    /*!
+     CDATA node, defines a node which contains a text string encoding in a CDATA structure.
+    */
+    const TYPE_CDATASECTION = 4;
+
     /*!
       Initializes the DOM node.
     */
@@ -77,27 +77,26 @@ class eZDOMNode
         $this->nodeName =& $this->Name;
     }
 
-    /*!
-     Makes a copy of the current node and returns a reference to it.
-    */
-    function clone()
+    function __clone()
     {
-        $tmp = new eZDOMNode();
-        $tmp->Name = $this->Name;
-        $tmp->Type = $this->Type;
-        $tmp->Content = $this->Content;
-        $tmp->Children = $this->Children;
-        $tmp->Attributes = $this->Attributes;
-        $tmp->NamespaceURI = $this->NamespaceURI;
-        $tmp->LocalName = $this->LocalName;
-        $tmp->Prefix = $this->Prefix;
-        return $tmp;
+        $children = $this->Children;
+        $this->children = array();
+        foreach( $children as $child )
+        {
+            $this->children[] = clone $child;
+        }
+        $attributes = $this->attributes;
+        $this->attributes = array();
+        foreach ( $attributes as $attribute )
+        {
+            $this->attributes[] = clone $attribute;
+        }
     }
 
     /*!
       Subtree destructor. Needed to clean memory properly.
     */
-    function cleanup( &$node )
+    static function cleanup( $node )
     {
         if ( $node->hasChildren() )
         {
@@ -192,10 +191,10 @@ class eZDOMNode
       Sets the node type to \a $type.
 
       Use one of the following defines for the type:
-      - EZ_XML_NODE_ELEMENT - Element nodes
-      - EZ_XML_NODE_ATTRIBUTE - Attribute nodes
-      - EZ_XML_NODE_TEXT - Text nodes
-      - EZ_XML_NODE_CDATASECTION - CDATA nodes
+      - eZDOMNode::TYPE_ELEMENT - Element nodes
+      - eZDOMNode::TYPE_ATTRIBUTE - Attribute nodes
+      - eZDOMNode::TYPE_TEXT - Text nodes
+      - eZDOMNode::TYPE_CDATASECTION - CDATA nodes
     */
     function setType( $type )
     {
@@ -656,7 +655,7 @@ class eZDOMNode
     */
     function appendChild( &$node )
     {
-        if ( get_class( $node ) == "ezdomnode" )
+        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
         {
             if ( $this->parentNode !== false )
                 $node->parentNode =& $this;
@@ -682,9 +681,9 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function appendAttribute( &$node )
+    function appendAttribute( $node )
     {
-        if ( get_class( $node ) == "ezdomnode" )
+        if ( strtolower( get_class( $node ) ) == "ezdomnode" )
         {
             $this->Attributes[] =& $node;
             return $node;
@@ -847,7 +846,7 @@ class eZDOMNode
 
     /*!
       Removes child by the given child object.
-      
+
       \note W3C DOM function
     */
     function removeChild( &$childToRemove )
@@ -884,7 +883,7 @@ class eZDOMNode
     function collectTextContent( &$element )
     {
         $ret = '';
-        if ( $element->Type == EZ_XML_NODE_TEXT )
+        if ( $element->Type == eZDOMNode::TYPE_TEXT )
         {
             $ret = $element->content();
         }
@@ -1358,7 +1357,7 @@ class eZDOMNode
 
     /*!
       Outputs DOM subtree to the debug output in the easy readable form.
-      
+
       \param node  subtree root node
     */
 
@@ -1369,7 +1368,7 @@ class eZDOMNode
 
         if ( $node )
         {
-            if ( get_class( $node ) == 'ezdomnode' )
+            if ( strtolower( get_class( $node ) ) == 'ezdomnode' )
             {
                 $d = eZDOMNode::debugNode( $node, $showAttributes, $showParent );
                 eZDebug::writeDebug( $d, $text );
@@ -1417,10 +1416,10 @@ class eZDOMNode
 
     /*!
       Outputs XML from DOM as a string.
-      
+
       \param node  subtree root node
     */
-    function writeDebugStr( &$node, $text )
+    static function writeDebugStr( $node, $text )
     {
         if ( is_object( $node ) )
             eZDebug::writeDebug( $node->toString( 0 ), $text );
@@ -1431,45 +1430,45 @@ class eZDOMNode
     /// \privatesection
 
     /// Name of the node
-    var $Name = false;
+    public $Name = false;
 
     /// tagname, added for DOM XML compatibility.
-    var $tagname = null;
-    
+    public $tagname = null;
+
     /// DOM W3C compatibility
-    var $nodeName = null;
+    public $nodeName = null;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
-    var $type;
-    var $Type = EZ_XML_NODE_ELEMENT;
+    public $type;
+    public $Type = eZDOMNode::TYPE_ELEMENT;
 
     /// Content of the node
-    var $content = "";
-    var $Content = "";
-    var $value = '';
+    public $content = "";
+    public $Content = "";
+    public $value = '';
 
     /// Subnodes
-    var $Children = array();
+    public $Children = array();
 
     /// Attributes
-    var $Attributes = array();
+    public $Attributes = array();
 
     /// Contains the namespace URI. E.g. xmlns="http://ez.no/article/", http://ez.no/article/ would be the namespace URI
-    var $NamespaceURI = false;
+    public $NamespaceURI = false;
 
     /// The local part of a name. E.g: book:title, title is the local part
-    var $LocalName = false;
+    public $LocalName = false;
 
     /// contains the namespace prefix. E.g: book:title, book is the prefix
-    var $Prefix = false;
+    public $Prefix = false;
 
     /// Reference to the parent node.
     ///  Available only if Document has been created with parameter $setParentNode = true
     ///  or parsed with eZXML::domTree function with $params["SetParentNode"] = true
-    var $parentNode = false;
+    public $parentNode = false;
 
     // temporary flag to mark node
-    var $flag = false;
+    public $flag = false;
 }
 
 ?>

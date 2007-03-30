@@ -374,10 +374,10 @@ class eZModuleFunctionInfo
 
 
     /// \privatesection
-    var $ModuleName;
-    var $FunctionList;
-    var $IsValid;
-    var $UseOldCall;
+    public $ModuleName;
+    public $FunctionList;
+    public $IsValid;
+    public $UseOldCall;
 }
 
 ?>

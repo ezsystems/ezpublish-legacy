@@ -44,7 +44,7 @@ class eZDefaultShopAccountHandler
     function verifyAccountInformation()
     {
         // Check login
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         if ( !$user->isLoggedIn() )
             return false;
         else
@@ -57,7 +57,7 @@ class eZDefaultShopAccountHandler
     function email( $order = false )
     {
         if ( $order === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else
             $user =& $order->attribute( 'user' );
 
@@ -73,7 +73,7 @@ class eZDefaultShopAccountHandler
     function accountName( $order = false )
     {
         if ( $order === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else
             $user =& $order->attribute( 'user' );
 

@@ -180,7 +180,7 @@ function copyPublishContentObject( &$sourceObject,
     // JB start
     // Refetch the object data since it might change in the database.
     $newObjectID = $newObject->attribute( 'id' );
-    $newObject =& eZContentObject::fetch( $newObjectID );
+    $newObject = eZContentObject::fetch( $newObjectID );
     // JB end
     $newNodeList =& $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
@@ -223,7 +223,7 @@ function copyPublishContentObject( &$sourceObject,
             die( "Copy Subtree Error: Algoritm ERROR! Cannot find source parent node ID in source parent node ID's list of contentobject being copied." );
         }
         // Create unique remote_id
-        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $newRemoteID = md5( (string)mt_rand() . (string)time() );
         $oldRemoteID = $newNode->attribute( 'remote_id' );
         $newNode->setAttribute( 'remote_id', $newRemoteID );
         // Change parent_remote_id for object assignments
@@ -428,7 +428,7 @@ $cli->output( "Fixing global and local links..." );
 
 // 3. fix local links (in ezcontentobject_link)
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 if ( !$db )
 {

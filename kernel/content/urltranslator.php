@@ -33,7 +33,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezurlalias.php' );
 
 $module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
@@ -176,7 +176,7 @@ if ( $module->isCurrentAction( 'NewWildcardURLAlias' ) )
 }
 
 $aliasList = eZURLAlias::fetchByOffset( $Offset, $limit, true );
-$aliasCount =& eZURLAlias::totalCount();
+$aliasCount = eZURLAlias::totalCount();
 
 $tpl->setVariable( 'alias_limit', $limit );
 $tpl->setVariable( 'alias_list', $aliasList );

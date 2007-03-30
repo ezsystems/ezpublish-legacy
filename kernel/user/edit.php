@@ -34,9 +34,9 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjectattribute.php" );
 
 
-$currentUser =& eZUser::currentUser();
+$currentUser = eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
 
 if ( isset( $Params["UserID"] ) )

@@ -120,7 +120,7 @@ class eZStepDatabaseChoice extends eZStepInstaller
     /*!
      \reimp
      */
-    function &display()
+    function display()
     {
         $databaseMap = eZSetupDatabaseMap();
         $databaseList = array();

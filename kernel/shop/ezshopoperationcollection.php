@@ -61,7 +61,7 @@ class eZShopOperationCollection
         if ( !eZVATManager::isDynamicVatChargingEnabled() || !eZVATManager::isUserCountryRequired() )
             return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         // Get order's account information and extract user country from it.
         $order = eZOrder::fetch( $orderID );
@@ -127,7 +127,7 @@ class eZShopOperationCollection
         require_once( 'kernel/classes/ezproductcollectionitem.php' );
         $items = eZProductCollectionItem::fetchList( array( 'productcollection_id' => $productCollection->attribute( 'id' ) ) );
         $vatIsKnown = true;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         foreach( array_keys( $items ) as $key )
@@ -480,7 +480,7 @@ class eZShopOperationCollection
                     }
                 }
 
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
                 foreach ( $optionIDList as $optionIDItem )
                 {
@@ -519,7 +519,7 @@ class eZShopOperationCollection
 
         $order = eZOrder::fetch( $orderID );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $order->activate();
 
@@ -545,7 +545,7 @@ class eZShopOperationCollection
 
         // Fetch the confirm order handler
         include_once( 'kernel/classes/ezconfirmorderhandler.php' );
-        $confirmOrderHandler =& eZConfirmOrderHandler::instance();
+        $confirmOrderHandler = eZConfirmOrderHandler::instance();
         $params = array( 'email' => $email,
                          'order' => $order );
         $confirmOrderStatus = $confirmOrderHandler->execute( $params );

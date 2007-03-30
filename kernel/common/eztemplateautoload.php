@@ -124,7 +124,7 @@ if ( !function_exists( 'eZPHPOperatorInit' ) )
     function &eZPHPOperatorInit()
         {
             include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
-            $ini =& eZINI::instance( 'template.ini' );
+            $ini = eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
             $templatePHPOperator = new eZTemplatePHPOperator( $operatorList );
             return $templatePHPOperator;
@@ -135,7 +135,7 @@ if ( !function_exists( 'eZPHPOperatorNameInit' ) )
 {
     function eZPHPOperatorNameInit()
         {
-            $ini =& eZINI::instance( 'template.ini' );
+            $ini = eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
             return array_keys( $operatorList );
         }

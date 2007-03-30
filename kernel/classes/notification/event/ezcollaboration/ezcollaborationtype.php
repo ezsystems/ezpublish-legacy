@@ -80,7 +80,7 @@ class eZCollaborationEventType extends eZNotificationEventType
             return eZNotificationEventType::attribute( $attributeName );
     }
 
-    function eventContent( &$event )
+    function eventContent( $event )
     {
         return eZCollaborationItem::fetch( $event->attribute( 'data_int1' ) );
     }

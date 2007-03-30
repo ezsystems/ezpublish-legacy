@@ -127,9 +127,9 @@ class eZTemplateDelimitFunction
     }
 
     /// The name of the left delimiter tag
-    var $LName;
+    public $LName;
     /// The name of the right delimiter tag
-    var $RName;
+    public $RName;
 }
 
 ?>

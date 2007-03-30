@@ -65,7 +65,7 @@ if ( !$module->hasActionParameter( 'ObjectID' ) )
 $objectID = $module->actionParameter( 'ObjectID' );
 
 
-$object =& eZContentObject::fetch( $objectID );
+$object = eZContentObject::fetch( $objectID );
 
 if ( !$object )
 {

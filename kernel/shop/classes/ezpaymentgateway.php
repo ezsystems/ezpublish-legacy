@@ -96,6 +96,6 @@ class eZPaymentGateway
         return $descText;
     }
 
-    var $logger;
+    public $logger;
 }
 ?>

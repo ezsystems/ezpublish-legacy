@@ -39,18 +39,11 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 class eZSearchLog
 {
     /*!
-    */
-    function eZSearchLog()
-    {
-
-    }
-
-    /*!
      Logs a search query so that we can retreive statistics afterwords.
     */
-    function addPhrase( $phrase, $returnCount )
+    static function addPhrase( $phrase, $returnCount )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $phrase = strtolower( trim( $phrase ) );
@@ -80,7 +73,7 @@ class eZSearchLog
         /* when breaking BC: delete next lines */
         /* ezsearch_return_count is not used any more by eZ publish
            but perhaps someone else added some functionality... */
-        $time = mktime();
+        $time = time();
         // store the search result
         $db->query( "INSERT INTO
                            ezsearch_return_count ( phrase_id, count, time )
@@ -93,9 +86,9 @@ class eZSearchLog
     /*!
      Returns the most frequent search phrases, which did not get hits.
     */
-    function &mostFrequentPhraseArray( $parameters = array( ) )
+    static function &mostFrequentPhraseArray( $parameters = array( ) )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $query = 'SELECT phrase_count, result_count / phrase_count AS result_count, id, phrase
                   FROM   ezsearch_search_phrase
@@ -110,9 +103,9 @@ class eZSearchLog
      \static
      Removes all stored phrases and search match counts from the database.
     */
-    function removeStatistics()
+    static function removeStatistics()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "DELETE FROM ezsearch_search_phrase";
         $db->query( $query );
         /* when breaking BC: delete those two lines */

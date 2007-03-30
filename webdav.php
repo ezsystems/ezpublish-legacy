@@ -47,7 +47,7 @@ include_once( "kernel/classes/webdav/ezwebdavcontentserver.php" );
  */
 function eZUpdateDebugSettings()
 {
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $debugSettings = array();
     $debugSettings['debug-enabled'] = $ini->variable( 'DebugSettings', 'DebugOutput' ) == 'enabled';
     $debugSettings['debug-by-ip']   = $ini->variable( 'DebugSettings', 'DebugByIP' )   == 'enabled';
@@ -60,7 +60,7 @@ function eZUpdateDebugSettings()
 */
 function eZUpdateTextCodecSettings()
 {
-    $ini =& eZINI::instance( 'i18n.ini' );
+    $ini = eZINI::instance( 'i18n.ini' );
 
     list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
         $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
@@ -80,13 +80,13 @@ eZExtension::activateExtensions( 'default' );
 
 // Make sure site.ini and template.ini reloads its cache incase
 // extensions override it
-$ini =& eZINI::instance( 'site.ini' );
+$ini = eZINI::instance( 'site.ini' );
 $ini->loadCache();
-$tplINI =& eZINI::instance( 'template.ini' );
+$tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
-$webDavIni =& eZINI::instance( 'webdav.ini' );
+$webDavIni = eZINI::instance( 'webdav.ini' );
 $enable = $webDavIni->variable( 'GeneralSettings', 'EnableWebDAV' );
 
 function eZDBCleanup()
@@ -94,7 +94,7 @@ function eZDBCleanup()
     if ( class_exists( 'ezdb' )
          and eZDB::hasInstance() )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->setIsSQLOutputEnabled( false );
     }
 }
@@ -195,15 +195,15 @@ if ( $enable === 'true' )
                 foreach ( array_keys ( $loginHandlers ) as $key )
                 {
                     $loginHandler = $loginHandlers[$key];
-                    $userClass =& eZUserLoginHandler::instance( $loginHandler );
+                    $userClass = eZUserLoginHandler::instance( $loginHandler );
                     $user = $userClass->loginUser( $loginUsername, $loginPassword );
-                    if ( get_class( $user ) == 'ezuser' )
+                    if ( strtolower( get_class( $user ) ) == 'ezuser' )
                         break;
                 }
             }
 
             // Check if username & password contain someting, attempt to login.
-            if ( get_class( $user ) != 'ezuser' )
+            if ( strtolower( get_class( $user ) ) != 'ezuser' )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
                 header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );

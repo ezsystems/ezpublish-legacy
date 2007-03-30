@@ -35,10 +35,10 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezorder.php" );
 
 $Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $archiveIDArray = $http->sessionVariable( "OrderIDArray" );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 foreach ( $archiveIDArray as $archiveID )
 {

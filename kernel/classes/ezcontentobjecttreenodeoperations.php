@@ -65,7 +65,7 @@ class eZContentObjectTreeNodeOperations
      \param $newParentNodeID The id of a new parent.
      \return \c true if 'move' was done successfully, otherwise \c false;
     */
-    function move( $nodeID, $newParentNodeID )
+    static function move( $nodeID, $newParentNodeID )
     {
         $result = false;
 
@@ -88,7 +88,7 @@ class eZContentObjectTreeNodeOperations
 
         // clear user policy cache if this was a user object
         include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
@@ -101,7 +101,7 @@ class eZContentObjectTreeNodeOperations
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         include_once( "lib/ezdb/classes/ezdb.php" );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $node->move( $newParentNodeID );

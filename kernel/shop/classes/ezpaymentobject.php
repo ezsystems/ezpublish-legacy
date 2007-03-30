@@ -81,7 +81,7 @@ class eZPaymentObject extends eZPersistentObject
         return ( $this->attribute( 'status' ) == EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

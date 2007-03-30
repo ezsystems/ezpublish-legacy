@@ -46,7 +46,7 @@ class eZRSSEditFunction
         // VS-DBFILE
 
         /* Kill the RSS cache */
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         $cacheDir = eZSys::cacheDirectory();
         $cacheFilePath = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -57,7 +57,7 @@ class eZRSSEditFunction
             $cacheFile->delete();
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         /* Create the new RSS feed */
         for ( $itemCount = 0; $itemCount < $http->postVariable( 'Item_Count' ); $itemCount++ )

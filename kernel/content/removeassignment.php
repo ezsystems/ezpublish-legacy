@@ -32,7 +32,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 
 $module =& $Params["Module"];
-$http   =& eZHTTPTool::instance();
+$http   = eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
 {
@@ -43,7 +43,7 @@ if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
     $editLanguage = $data['edit_language'];
     $fromLanguage = $data['from_language'];
 
-    $object =& eZContentObject::fetch( $objectID );
+    $object = eZContentObject::fetch( $objectID );
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->checkAccess( 'edit' ) )
@@ -64,7 +64,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     $assignments     = eZnodeAssignment::fetchListByID( $removeList );
     $mainNodeChanged = false;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( $assignments as $assignment )
     {
@@ -107,7 +107,7 @@ foreach ( $assignmentsToRemove as $assignment )
     // We do this by fetching the limitation list for content/remove
     // and passing it to the subtre count function.
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-    $currentUser =& eZUser::currentUser();
+    $currentUser = eZUser::currentUser();
     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
     $canRemoveSubtree = true;
     if ( $accessResult['accessWord'] == 'limited' )

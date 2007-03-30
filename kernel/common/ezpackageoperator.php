@@ -79,7 +79,7 @@ class eZPackageOperator
         {
             case 'thumbnail':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( strtolower( get_class( $operatorValue ) ) == 'ezpackage' )
                 {
                     if ( !is_array( $fileList = $operatorValue->fileList( 'default' ) ) )
                         $fileList = array();
@@ -99,7 +99,7 @@ class eZPackageOperator
 
             case 'filepath':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( strtolower( get_class( $operatorValue ) ) == 'ezpackage' )
                 {
                     $variableName = $namedParameters['data'];
                     $fileList = $operatorValue->fileList( 'default' );
@@ -121,7 +121,7 @@ class eZPackageOperator
 
             case 'fileitempath':
             {
-                if ( get_class( $operatorValue ) == 'ezpackage' )
+                if ( strtolower( get_class( $operatorValue ) ) == 'ezpackage' )
                 {
                     $fileItem = $namedParameters['data'];
                     $operatorValue = $operatorValue->fileItemPath( $fileItem, 'default' );
@@ -130,7 +130,7 @@ class eZPackageOperator
 
             case 'documentpath':
             {
-                if ( get_class( $package ) == 'ezpackage' )
+                if ( strtolower( get_class( $package ) ) == 'ezpackage' )
                 {
                     $documentName = $namedParameters['data'];
                     $documentList = $package->attribute( 'documents' );
@@ -163,7 +163,7 @@ class eZPackageOperator
         }
     }
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

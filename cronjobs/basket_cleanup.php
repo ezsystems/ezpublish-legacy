@@ -33,7 +33,7 @@
 
 include_once( 'lib/ezutils/classes/ezini.php' );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 // Check if this should be run in a cronjob
 $useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';

@@ -70,7 +70,7 @@ class eZStepFinal extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         $siteType = $this->chosenSiteType();
 

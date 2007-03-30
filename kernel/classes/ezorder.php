@@ -59,7 +59,7 @@ class eZOrder extends eZPersistentObject
         $this->Status = null;
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -173,7 +173,7 @@ class eZOrder extends eZPersistentObject
             return $retValue;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $newCollection =& $collection->copy();
         if ( !$newCollection )
@@ -198,7 +198,7 @@ class eZOrder extends eZPersistentObject
         return $collection;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrder::definition(),
                                                 null,
@@ -206,7 +206,7 @@ class eZOrder extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null, null,
@@ -214,7 +214,7 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
-    function activeByUserID( $userID, $asObject = true )
+    static function activeByUserID( $userID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null,
@@ -224,7 +224,7 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
-    function getShowOrdersQuery( $show, $table = null )
+    static function getShowOrdersQuery( $show, $table = null )
     {
         $table = ( is_null( $table ) ? "" : $table . "." );
 
@@ -241,11 +241,11 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the active orders
     */
-    function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc", $show = SHOW_NORMAL_ORDERS )
+    static function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc", $show = SHOW_NORMAL_ORDERS )
     {
         if ( $sortField == "user_name" )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
 
             $db_params = array();
             $db_params["offset"] =(int) $offset;
@@ -296,9 +296,9 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    function activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
+    static function activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $query = "SELECT count( * ) AS count FROM ezorder WHERE ".eZOrder::getShowOrdersQuery( $show )." AND is_temporary='0'";
         $countArray = $db->arrayQuery( $query );
@@ -309,7 +309,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    function &orderStatistics( $year = false, $month = false )
+    static function &orderStatistics( $year = false, $month = false )
     {
         if ( $year == false )
         {
@@ -329,7 +329,7 @@ class eZOrder extends eZPersistentObject
             $stopDate = mktime( 23, 59, 59, $nextMonth, 0, $year );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*,  ignore_vat, ezorder.created, currency_code FROM ezorder, ezproductcollection_item, ezproductcollection
                                                 WHERE ezproductcollection.id=ezproductcollection_item.productcollection_id
                                                   AND ezproductcollection_item.productcollection_id=ezorder.productcollection_id
@@ -354,7 +354,7 @@ class eZOrder extends eZPersistentObject
 
             if (  $productObject == null )
             {
-                $productObject =& eZContentObject::fetch( $contentObjectID );
+                $productObject = eZContentObject::fetch( $contentObjectID );
                 $currentContentObjectID = $contentObjectID;
             }
 
@@ -367,7 +367,7 @@ class eZOrder extends eZPersistentObject
                 unset( $productObject );
                 $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
-                $productObject =& eZContentObject::fetch( $currentContentObjectID );
+                $productObject = eZContentObject::fetch( $currentContentObjectID );
             }
 
             $currencyCode = $productItem['currency_code'];
@@ -446,9 +446,9 @@ class eZOrder extends eZPersistentObject
     /*!
      \return list of products for a custom
     */
-    function &orderList( $CustomID, $Email )
+    static function &orderList( $CustomID, $Email )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $CustomID =(int) $CustomID;
         $Email = $db->escapeString( $Email );
         if ( $Email == false )
@@ -481,9 +481,9 @@ class eZOrder extends eZPersistentObject
     /*!
      \return list of products for a custom
     */
-    function &productList( $CustomID, $Email )
+    static function &productList( $CustomID, $Email )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $CustomID =(int) $CustomID;
         $Email = $db->escapeString( $Email );
         if ( $Email == false )
@@ -523,7 +523,7 @@ class eZOrder extends eZPersistentObject
             {
                 if ( $contentObjectID != 0 )
                 {
-                    $productObject =& eZContentObject::fetch( $contentObjectID );
+                    $productObject = eZContentObject::fetch( $contentObjectID );
                 }
                 else
                 {
@@ -543,7 +543,7 @@ class eZOrder extends eZPersistentObject
                 $currentContentObjectID = $contentObjectID;
                 if ( $contentObjectID != 0 )
                 {
-                    $productObject =& eZContentObject::fetch( $currentContentObjectID );
+                    $productObject = eZContentObject::fetch( $currentContentObjectID );
                 }
                 else
                 {
@@ -609,9 +609,9 @@ class eZOrder extends eZPersistentObject
     /*!
      \returns number of customers.
     */
-    function &customerCount( )
+    static function &customerCount( )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $countArray = $db->arrayQuery(  "SELECT count( DISTINCT email) AS count FROM ezorder WHERE is_temporary='0'" );
         $count = $countArray[0]['count'];
         return $count;
@@ -620,9 +620,9 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the list customers.
     */
-    function &customerList( $offset, $limit )
+    static function &customerList( $offset, $limit )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db_params = array();
         $db_params["offset"] =(int) $offset;
@@ -652,7 +652,7 @@ class eZOrder extends eZPersistentObject
                                              ORDER BY user_id, email, order_id" );
 
 
-        $siteIni =& eZINI::instance();
+        $siteIni = eZINI::instance();
         $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
 
         $currentUserID = 0;
@@ -779,7 +779,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \returns the discountrules for a user
     */
-    function discount( $userID, &$object )
+    static function discount( $userID, &$object )
     {
         include_once( 'kernel/classes/ezdiscount.php' );
 
@@ -949,7 +949,7 @@ class eZOrder extends eZPersistentObject
     */
     function purge( $removeCollection = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( $removeCollection )
             $this->removeCollection();
@@ -976,14 +976,14 @@ class eZOrder extends eZPersistentObject
     */
     function removeHistory()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $orderID = (int)$this->OrderNr;
         $db->query( "DELETE FROM ezorder_status_history WHERE order_id=$orderID" );
     }
 
     function removeOrderItems()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $orderID = (int) $this->ID;
         $db->query( "DELETE FROM ezorder_item WHERE order_id=$orderID" );
     }
@@ -993,7 +993,7 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeItem( $itemID )
+    static function removeItem( $itemID )
     {
         $item = eZProductCollectionItem::fetch( $itemID );
         $item->remove();
@@ -1092,7 +1092,7 @@ class eZOrder extends eZPersistentObject
     function canModifyStatus( $statusID, $user = false )
     {
         if ( $user === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else if ( is_numeric( $user ) )
             $user = eZUser::fetch( $user );
 
@@ -1148,7 +1148,7 @@ class eZOrder extends eZPersistentObject
     function &statusModificationList( $user = false )
     {
         if ( $user === false )
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         else if ( is_numeric( $user ) )
             $user = eZUser::fetch( $user );
 
@@ -1234,10 +1234,10 @@ class eZOrder extends eZPersistentObject
     */
     function modifyStatus( $statusID, $userID = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
-        $time = mktime();
+        $time = time();
         if ( $userID === false )
             $userID = eZUser::currentUserID();
 
@@ -1278,11 +1278,11 @@ class eZOrder extends eZPersistentObject
     */
     function setStatus( $status )
     {
-        if ( get_class( $status ) == "ezorderstatus" )
+        if ( strtolower( get_class( $status ) ) == "ezorderstatus" )
             $this->StatusID =& $status->attribute( 'id' );
         else
             $this->StatusID = $status;
-        $this->setStatusModified( mktime() );
+        $this->setStatusModified( time() );
     }
 
     /*!
@@ -1348,7 +1348,7 @@ class eZOrder extends eZPersistentObject
     */
     function activate()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->lock( 'ezorder' );
 
         $this->setAttribute( 'is_temporary', 0 );
@@ -1377,9 +1377,9 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanupOrder( $orderID )
+    static function cleanupOrder( $orderID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $orderID =(int) $orderID;
         $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
         if ( count( $rows ) > 0 )
@@ -1391,7 +1391,7 @@ class eZOrder extends eZPersistentObject
 
             $productCollectionID = $rows[0]['productcollection_id'];
             $orderNr = (int)$rows[0]['order_nr'];
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezorder where id='$orderID'" );
             $db->query( "DELETE FROM ezproductcollection where id='$productCollectionID'" );
@@ -1407,9 +1407,9 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function archiveOrder( $orderID )
+    static function archiveOrder( $orderID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $orderID =(int) $orderID;
         $db->query( "UPDATE ezorder SET is_archived='1' WHERE id='$orderID' " );
     }
@@ -1420,9 +1420,9 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function unArchiveOrder( $orderID )
+    static function unArchiveOrder( $orderID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $orderID =(int) $orderID;
         $db->query( "UPDATE ezorder SET is_archived='0' WHERE id='$orderID' " );
     }
@@ -1433,12 +1433,12 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezorder" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         if ( count( $rows ) > 0 )
         {
@@ -1576,7 +1576,7 @@ class eZOrder extends eZPersistentObject
 
     /// \privatesection
     /// The cached status object or \c null if not cached yet.
-    var $Status;
+    public $Status;
 
 }
 

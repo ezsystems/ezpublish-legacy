@@ -50,10 +50,6 @@
 
 class eZNavigationPart
 {
-    function eZNavigationPart()
-    {
-    }
-
     /*!
      \static
      Will return the navigation part array if the identifier is valid,
@@ -62,7 +58,7 @@ class eZNavigationPart
      The navigation parts are defined in the INI file \c menu.ini
      under the \c NavigationPart group.
     */
-    function fetchPartByIdentifier( $identifier )
+    static function fetchPartByIdentifier( $identifier )
     {
         $parts = eZNavigationPart::fetchList();
 
@@ -82,13 +78,13 @@ class eZNavigationPart
 
      \note The list is cached in the global variable \c eZNavigationPartList.
     */
-    function fetchList()
+    static function fetchList()
     {
         $list =& $GLOBALS['eZNavigationPartList'];
         if ( isset( $list ) )
             return $list;
 
-        $ini =& eZINI::instance( 'menu.ini' );
+        $ini = eZINI::instance( 'menu.ini' );
         $parts = $ini->variable( 'NavigationPart', 'Part' );
         $list = array();
         foreach ( $parts as $identifier => $name )
@@ -103,7 +99,7 @@ class eZNavigationPart
      \private
      \note This funtion only exists for the i18n entries to be picked up by ezlupdate.
     */
-    function i18nDummy()
+    private static function i18nDummy()
     {
         ezi18n( 'kernel/navigationpart', 'Content structure', 'Navigation part' );
         ezi18n( 'kernel/navigationpart', 'Media library', 'Navigation part' );

@@ -271,7 +271,7 @@ if ( $cronPart )
 }
 
 
-$ini =& eZINI::instance( 'cronjob.ini' );
+$ini = eZINI::instance( 'cronjob.ini' );
 $scriptDirectories = $ini->variable( 'CronjobSettings', 'ScriptDirectories' );
 
 /* Include extension directories */

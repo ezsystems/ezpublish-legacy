@@ -54,7 +54,7 @@ class eZCollaborationFunctionCollection
         if ( $participantID === false )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $participantID = $user->attribute( 'contentobject_id' );
         }
         $participant =& eZCollaborationItemParticipantLink::fetch( $itemID, $participantID );

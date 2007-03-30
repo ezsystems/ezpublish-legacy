@@ -71,8 +71,8 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 
         $simplifiedXML = new eZSimplifiedXMLEditOutput();
         $xml = new eZXML();
-        $domOld =& $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
-        $domNew =& $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
+        $domOld = $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
+        $domNew = $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
         

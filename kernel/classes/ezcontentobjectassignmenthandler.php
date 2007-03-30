@@ -82,7 +82,7 @@ class eZContentObjectAssignmentHandler
                 $nodeID = $node->attribute( 'node_id' );
             return $nodeID;
         }
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         switch ( $name )
         {
             case 'root':
@@ -121,7 +121,7 @@ class eZContentObjectAssignmentHandler
              !$parameters['default-variable-name'] and
              !$parameters['specific-variable-name'] )
              return false;
-        $contentINI =& eZINI::instance( 'content.ini' );
+        $contentINI = eZINI::instance( 'content.ini' );
         $defaultAssignment = $contentINI->variable( $parameters['group-name'], $parameters['default-variable-name'] );
         $specificAssignments = $contentINI->variable( $parameters['group-name'], $parameters['specific-variable-name'] );
         $hasAssignment = false;
@@ -208,7 +208,7 @@ class eZContentObjectAssignmentHandler
                      * to assign a newly created object to. */
                     if ( $sectionIDWanted and $isMain )
                     {
-                        $db =& eZDB::instance();
+                        $db = eZDB::instance();
                         $query = "SELECT section_id
                                   FROM ezcontentobject c, ezcontentobject_tree t
                                   WHERE t.node_id = 109
@@ -242,8 +242,8 @@ class eZContentObjectAssignmentHandler
     }
 
     /// \privatesection
-    var $CurrentObject;
-    var $ContentVersion;
+    public $CurrentObject;
+    public $ContentVersion;
 }
 
 ?>

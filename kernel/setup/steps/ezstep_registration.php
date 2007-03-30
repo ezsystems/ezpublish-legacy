@@ -235,7 +235,7 @@ class eZStepRegistration extends eZStepInstaller
     /*!
      \reimp
     */
-    function &display()
+    function display()
     {
         include_once( 'kernel/common/template.php' );
 

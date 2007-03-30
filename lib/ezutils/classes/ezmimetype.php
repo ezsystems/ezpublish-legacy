@@ -81,7 +81,7 @@ class eZMimeType
      \static
      \return the default MIME-Type, this is used for all files that are not recognized.
     */
-    function defaultMimeType()
+    static function defaultMimeType()
     {
         return array( 'name' => 'application/octet-stream',
                       'url' => false,
@@ -99,7 +99,7 @@ class eZMimeType
      \static
      \return the defaultMimeType if \a $returnDefault is \c true, otherwise returns \c false.
     */
-    function defaultValue( $url, $returnDefault )
+    static function defaultValue( $url, $returnDefault )
     {
         if ( $returnDefault )
         {
@@ -130,7 +130,7 @@ class eZMimeType
      Changes the MIME type attribute for the MIME info structure \a $mimeInfo to \a $mimetype,
      and recreates all the affected fields.
     */
-    function changeMIMEType( &$mimeInfo, $mimetype )
+    static function changeMIMEType( &$mimeInfo, $mimetype )
     {
         $mimeInfo['name'] = $mimetype;
         $newMimeInfo = eZMimeType::findByName( $mimetype );
@@ -154,7 +154,7 @@ class eZMimeType
      Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
      and recreates all the affected fields.
     */
-    function changeBasename( &$mimeInfo, $basename )
+    static function changeBasename( &$mimeInfo, $basename )
     {
         $mimeInfo['basename'] = $basename;
         $mimeInfo['filename'] = $basename . '.' . $mimeInfo['suffix'];
@@ -168,7 +168,7 @@ class eZMimeType
      Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
      and recreates all the affected fields.
     */
-    function changeDirectoryPath( &$mimeInfo, $dirpath )
+    static function changeDirectoryPath( &$mimeInfo, $dirpath )
     {
         $mimeInfo['dirpath'] = $dirpath;
         if ( $mimeInfo['dirpath'] )
@@ -181,7 +181,7 @@ class eZMimeType
      Changes the basename attribute for the MIME info structure \a $mimeInfo to \a $basename,
      and recreates all the affected fields.
     */
-    function changeFileData( &$mimeInfo, $dirpath = false, $basename = false, $suffix = false, $filename = false )
+    static function changeFileData( &$mimeInfo, $dirpath = false, $basename = false, $suffix = false, $filename = false )
     {
         if ( $basename !== false )
             $mimeInfo['basename'] = $basename;
@@ -210,10 +210,10 @@ class eZMimeType
      If \a $returnDefault is set to \c true then it will always return a MIME structure,
      if not it will return \c false if none were found.
     */
-    function findByName( $mimeName, $returnDefault = true )
+    static function findByName( $mimeName, $returnDefault = true )
     {
         if ( isset( $this ) and
-             get_class( $this ) == 'ezmimetype' )
+             strtolower( get_class( $this ) ) == 'ezmimetype' )
             $instance =& $this;
         else
             $instance = eZMimeType::instance();
@@ -244,10 +244,10 @@ class eZMimeType
      If \a $returnDefault is set to \c true then it will always return a MIME structure,
      if not it will return \c false if none were found.
     */
-    function findByURL( $url, $returnDefault = true )
+    static function findByURL( $url, $returnDefault = true )
     {
         if ( isset( $this ) and
-             get_class( $this ) == 'ezmimetype' )
+             strtolower( get_class( $this ) ) == 'ezmimetype' )
             $instance =& $this;
         else
             $instance = eZMimeType::instance();
@@ -340,7 +340,7 @@ class eZMimeType
      if not it will return \c false if none were found.
      \note Currently it only calls findByURL()
     */
-    function findByFileContents( $url, $returnDefault = true )
+    static function findByFileContents( $url, $returnDefault = true )
     {
         return eZMimeType::findByURL( $url, $returnDefault );
     }
@@ -355,7 +355,7 @@ class eZMimeType
      \param $url If specified the url will be used for MIME determination if buffer examination gives no results.
      \note Currently it only calls findByURL()
     */
-    function findByBuffer( $buffer, $length = false, $offset = false, $url = false, $returnDefault = true )
+    static function findByBuffer( $buffer, $length = false, $offset = false, $url = false, $returnDefault = true )
     {
         return eZMimeType::findByURL( $url, $returnDefault );
     }
@@ -364,7 +364,7 @@ class eZMimeType
      \static
      \return the unique instance of the eZMimeType class.
     */
-    function instance()
+    static function instance()
     {
         $instance =& $GLOBALS['eZMIMETypeInstance'];
         if ( !isset( $instance ) )
@@ -379,7 +379,7 @@ class eZMimeType
      \static
      \return the MIME-Type name for the file \a $file.
     */
-    function mimeTypeFor( $path, $file )
+    static function mimeTypeFor( $path, $file )
     {
         eZDebug::writeWarning( 'eZMimeType::mimeTypeFor() is deprecated, use eZMimeType::findByURL() instead',
                                'DEPRECATED FUNCTION eZMimeType::mimeTypeFor' );
@@ -399,7 +399,7 @@ class eZMimeType
      \private
      Goes trough the mime list and creates a reference to the mime entry using the primary suffix.
     */
-    function prepareSuffixList( &$suffixList, $mimeList )
+    static function prepareSuffixList( &$suffixList, $mimeList )
     {
         foreach ( $mimeList as $mimeName => $mimeData )
         {
@@ -418,7 +418,7 @@ class eZMimeType
      \private
      Goes trough the mime list and creates a reference to the mime entry using the primary prefix.
     */
-    function preparePrefixList( &$prefixList, $mimeList )
+    static function preparePrefixList( &$prefixList, $mimeList )
     {
         foreach ( $mimeList as $mimeName => $mimeData )
         {
@@ -436,20 +436,20 @@ class eZMimeType
     /// \privatesection
 
     /// An associative array which maps from suffix name to MIME type name.
-    var $SuffixList;
+    public $SuffixList;
     /// An associative array which maps from prefix name to MIME type name.
-    var $PrefixList;
+    public $PrefixList;
     /// An associative array which maps MIME type name to MIME structure.
-    var $MIMEList;
+    public $MIMEList;
 
-    var $QuickContentMatch = array(
+    public $QuickContentMatch = array(
         array( array( 0, 'string', 'GIF87a', 'image/gif' ),
                array( 0, 'string', 'GIF89a', 'image/gif' ) )
         );
 
     /// A list of suffixes and their MIME types, this is used to quickly initialize the system.
     /// Should be removed to a .ini file or other external file
-    var $QuickMIMETypes = array(
+    public $QuickMIMETypes = array(
         array( 'ezpkg', 'application/x-ezpublish-package' ),
         array( 'ez', 'application/andrew-inset' ),
         array( 'hqx', 'application/mac-binhex40' ),

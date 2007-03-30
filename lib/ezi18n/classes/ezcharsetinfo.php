@@ -52,7 +52,7 @@ class eZCharsetInfo
      \static
      \return the hash table with aliases, creates if it doesn't already exist.
     */
-    function &aliasTable()
+    static function &aliasTable()
     {
         $aliasTable =& $GLOBALS['eZCharsetInfoTable'];
         if ( !is_array( $aliasTable ) )
@@ -165,7 +165,7 @@ class eZCharsetInfo
      The table will map from a character encoding scheme to an array of character sets.
      \sa reverseEncodingTable
     */
-    function &encodingTable()
+    static function &encodingTable()
     {
         $encodingTable =& $GLOBALS['eZCharsetInfoEncodingTable'];
         if ( !is_array( $encodingTable ) )
@@ -188,7 +188,7 @@ class eZCharsetInfo
      The table will map from a character set to a character encoding scheme.
      \sa encodingTable
     */
-    function &reverseEncodingTable()
+    static function &reverseEncodingTable()
     {
         $reverseEncodingTable =& $GLOBALS['eZCharsetInfoReverseEncodingTable'];
         if ( !is_array( $reverseEncodingTable ) )
@@ -209,7 +209,7 @@ class eZCharsetInfo
      alias code could be find the original charset code is returned.
      \note The resulting charset code will be an all lowercase letters.
     */
-    function realCharsetCode( $charsetCode )
+    static function realCharsetCode( $charsetCode )
     {
         $aliasTable =& eZCharsetInfo::aliasTable();
         $charsetCode = strtolower( $charsetCode );
@@ -229,7 +229,7 @@ class eZCharsetInfo
      Either returns the found encoding scheme or 'singlebyte' if no scheme was found.
      \sa realCharsetCode
     */
-    function characterEncodingScheme( $charsetCode, $isRealCharset = false )
+    static function characterEncodingScheme( $charsetCode, $isRealCharset = false )
     {
         if ( !$isRealCharset )
             $charsetCode = eZCharsetInfo::realCharsetCode( $charsetCode );

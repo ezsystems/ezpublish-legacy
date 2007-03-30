@@ -43,7 +43,7 @@ if ( isset( $Params["GroupID"] ) )
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( 'NewWorkflowButton' ) )
 {
@@ -123,7 +123,7 @@ foreach( array_keys( $workflows ) as $workflowID )
 }
 */
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 
 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 

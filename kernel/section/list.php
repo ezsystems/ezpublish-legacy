@@ -30,7 +30,7 @@ include_once( 'kernel/classes/ezsection.php' );
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $tpl =& templateInit();
 $tpl->setVariable( 'module', $Module );
@@ -80,7 +80,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
     $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     foreach ( $sectionIDArray as $sectionID )

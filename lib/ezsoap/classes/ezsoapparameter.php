@@ -83,10 +83,10 @@ class eZSOAPParameter
     }
 
     /// The name of the parameter
-    var $Name;
+    public $Name;
 
     /// The parameter value
-    var $Value;
+    public $Value;
 }
 
 ?>

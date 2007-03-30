@@ -47,7 +47,7 @@ if ( $process === null )
 }
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 // include_once( "lib/ezutils/classes/ezexecutionstack.php" );
 // $execStack =& eZExecutionStack::instance();

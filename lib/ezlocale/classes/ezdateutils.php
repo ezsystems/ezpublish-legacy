@@ -40,13 +40,6 @@
 class eZDateUtils
 {
     /*!
-     Constructor
-    */
-    function eZDateUtils()
-    {
-    }
-
-    /*!
      \static
      Return a textual representation of the date according to the RFC 1123 standard.
 
@@ -61,10 +54,10 @@ class eZDateUtils
                   | "May" | "Jun" | "Jul" | "Aug"
                   | "Sep" | "Oct" | "Nov" | "Dec"
     */
-    function rfc1123Date( $timestamp = false )
+    static function rfc1123Date( $timestamp = false )
     {
         if ( $timestamp === false )
-            $timestamp = mktime();
+            $timestamp = time();
         $wday = (int) gmdate( 'w', $timestamp );
         $days = array( 1 => 'Mon', 2 => 'Tue', 3 => 'Wed',
                        4 => 'Thu', 5 => 'Fri', 6 => 'Sat', 0 => 'Sun' );
@@ -95,10 +88,10 @@ class eZDateUtils
                   | "May" | "Jun" | "Jul" | "Aug"
                   | "Sep" | "Oct" | "Nov" | "Dec"
     */
-    function rfc850Date( $timestamp = false )
+    static function rfc850Date( $timestamp = false )
     {
         if ( $timestamp === false )
-            $timestamp = mktime();
+            $timestamp = time();
         $wday = (int) gmdate( 'w', $timestamp );
         $days = array( 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday',
                        4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 0 => 'Sunday' );
@@ -115,7 +108,7 @@ class eZDateUtils
      \static
      Parses the date \a $dateText which is in text format and returns a timestamp which represents that date.
     */
-    function textToDate( $dateText )
+    static function textToDate( $dateText )
     {
         return strtotime( $dateText );
     }

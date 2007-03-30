@@ -250,7 +250,7 @@ class eZDateTimeType extends eZDataType
     /*!
      Returns the content.
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $dateTime = new eZDateTime();
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
@@ -309,7 +309,7 @@ class eZDateTimeType extends eZDataType
     {
         include_once( 'lib/ezxml/classes/ezxml.php' );
         $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlText );
+        $dom = $xml->domTree( $xmlText );
         return $dom;
     }
 
@@ -376,7 +376,7 @@ class eZDateTimeType extends eZDataType
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
             if ( $defaultType == EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE )
             {
-                $contentObjectAttribute->setAttribute( "data_int", mktime() );
+                $contentObjectAttribute->setAttribute( "data_int", time() );
             }
             else if ( $defaultType == EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
             {
@@ -428,9 +428,9 @@ class eZDateTimeType extends eZDataType
     /*!
      Returns the date.
     */
-    function title( &$contentObjectAttribute )
+    function title( $contentObjectAttribute, $name = null )
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         $retVal = $contentObjectAttribute->attribute( "data_int" ) == 0 ? '' : $locale->formatDateTime( $contentObjectAttribute->attribute( "data_int" ) );
         return $retVal;
     }

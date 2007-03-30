@@ -59,7 +59,7 @@ class eZPDFExport extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -152,7 +152,7 @@ class eZPDFExport extends eZPersistentObject
     */
     function create( $user_id )
     {
-        $config =& eZINI::instance( 'site.ini' );
+        $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
         $row = array( 'id' => null,
                       'title' => ezi18n( 'kernel/pdfexport', 'New PDF Export' ),
@@ -187,11 +187,11 @@ class eZPDFExport extends eZPersistentObject
             $originalVersion = $this->attribute( 'version' );
             $this->setAttribute( 'version', EZ_PDFEXPORT_VERSION_VALID );
         }
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $this->setAttribute( 'modified', time() );
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         eZPersistentObject::store();
         if ( $publish )
@@ -227,7 +227,7 @@ class eZPDFExport extends eZPersistentObject
         if ( $this->attribute( 'version' ) == EZ_PDFEXPORT_VERSION_VALID &&
              $this->attribute( 'status' ) != EZ_PDFEXPORT_CREATE_ONFLY )
         {
-            $sys =& eZSys::instance();
+            $sys = eZSys::instance();
             $storage_dir = $sys->storageDirectory();
 
             $filename = $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
@@ -279,7 +279,7 @@ class eZPDFExport extends eZPersistentObject
 
     function &filepath()
     {
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         $filePath = $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
         return $filePath;

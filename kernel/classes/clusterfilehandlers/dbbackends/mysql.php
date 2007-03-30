@@ -701,7 +701,7 @@ class eZDBFileHandlerMysqlBackend
         }
     }
 
-    var $db   = null;
+    public $db   = null;
 }
 
 ?>

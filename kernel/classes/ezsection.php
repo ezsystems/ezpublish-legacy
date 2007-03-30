@@ -48,7 +48,7 @@ class eZSection extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZSection class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -75,7 +75,7 @@ class eZSection extends eZPersistentObject
     /*!
      \return the section object with the given id.
     */
-    function fetch( $sectionID, $asObject = true )
+    static function fetch( $sectionID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZSection::definition(),
                                                 null,
@@ -83,7 +83,7 @@ class eZSection extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
+    static function fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
     {
         $limits = null;
         if ( $offset or $limit )
@@ -95,14 +95,14 @@ class eZSection extends eZPersistentObject
                                                     $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                     null, null, null, null,
                                                     $asObject );
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    static function fetchByOffset( $offset, $limit, $asObject = true )
     {
         $sectionList = eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                              null,
@@ -116,9 +116,9 @@ class eZSection extends eZPersistentObject
      /*!
      \return the number of active orders
     */
-    function sectionCount()
+    static function sectionCount()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezsection" );
         return $countArray[0]['count'];
@@ -127,7 +127,7 @@ class eZSection extends eZPersistentObject
     /*!
      Makes sure the global section ID is propagated to the template override key.
     */
-    function initGlobalID()
+    static function initGlobalID()
     {
         global $eZSiteBasics;
         $sessionRequired = $eZSiteBasics['session-required'];
@@ -135,9 +135,10 @@ class eZSection extends eZPersistentObject
         if ( $sessionRequired )
         {
             include_once( 'lib/ezutils/classes/ezhttptool.php' );
+            $http = eZHTTPTool::instance();
             $sectionArray = array();
-            if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
-                $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+            if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
+                $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
             if ( !isset( $sectionArray['id'] ) )
             {
                 return false;
@@ -158,14 +159,15 @@ class eZSection extends eZPersistentObject
      Sets the current global section ID to \a $sectionID in the session and
      the template override key.
     */
-    function setGlobalID( $sectionID )
+    static function setGlobalID( $sectionID )
     {
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
+        $http = eZHTTPTool::instance();
         $sectionArray = array();
-        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
-            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+        if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
+            $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
         $sectionArray['id'] = $sectionID;
-        eZHTTPTool::setSessionVariable( 'eZGlobalSection', $sectionArray );
+        $http->setSessionVariable( 'eZGlobalSection', $sectionArray );
 
         // eZTemplateDesignResource will read this global variable
         $GLOBALS['eZDesignKeys']['section'] = $sectionID;
@@ -174,12 +176,13 @@ class eZSection extends eZPersistentObject
     /*!
      \return the global section ID or \c null if it is not set yet.
     */
-    function globalID()
+    static function globalID()
     {
         include_once( 'lib/ezutils/classes/ezhttptool.php' );
-        if ( eZHTTPTool::hasSessionVariable( 'eZGlobalSection' ) )
+        $http = eZHTTPTool::instance();
+        if ( $http->hasSessionVariable( 'eZGlobalSection' ) )
         {
-            $sectionArray = eZHTTPTool::sessionVariable( 'eZGlobalSection' );
+            $sectionArray = $http->sessionVariable( 'eZGlobalSection' );
             if ( isset( $sectionArray['id'] ) )
                 return $sectionArray['id'];
         }

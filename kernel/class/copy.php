@@ -38,7 +38,7 @@ $class = eZContentClass::fetch( $ClassID, true, 0 );
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
-$classCopy = $class->clone();
+$classCopy = clone $class;
 $classCopy->initializeCopy( $class );
 $classCopy->setAttribute( 'version', 1 );
 $classCopy->store();
@@ -61,7 +61,7 @@ $classAttributes =& $class->fetchAttributes();
 foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
     $classAttribute =& $classAttributes[$classAttributeKey];
-    $classAttributeCopy = $classAttribute->clone();
+    $classAttributeCopy = clone $classAttribute;
 
     if ( $datatype = $classAttributeCopy->dataType() ) //avoiding fatal error if datatype not exist (was removed).
     {
@@ -79,7 +79,7 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     unset( $classAttributeCopy );
 }
 
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $classRedirect = strtolower( trim( $ini->variable( 'CopySettings', 'ClassRedirect' ) ) );
 
 switch ( $classRedirect )

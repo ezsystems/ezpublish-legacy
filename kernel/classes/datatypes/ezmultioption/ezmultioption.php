@@ -328,7 +328,7 @@ class eZMultiOption
         if ( $xmlString != "" )
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlString );
+            $dom = $xml->domTree( $xmlString );
             $root =& $dom->root();
             // set the name of the node
             $this->Name = $root->elementTextContentByName( "name" );
@@ -400,12 +400,12 @@ class eZMultiOption
 
     /// \privatesection
     /// Contains the Option name
-    var $Name;
+    public $Name;
     /// Contains the Options
-    var $Options;
+    public $Options;
     /// Contains the multioption counter value
-    var $MultiOptionCount;
+    public $MultiOptionCount;
     /// Contains the option counter value
-    var $OptionCounter;
+    public $OptionCounter;
 }
 ?>

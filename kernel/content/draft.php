@@ -35,12 +35,12 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 if ( !$user->isLoggedIn() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
@@ -51,7 +51,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
     $versions = eZContentObjectVersion::fetchForUser( $userID );
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $versions ) as $key )
     {

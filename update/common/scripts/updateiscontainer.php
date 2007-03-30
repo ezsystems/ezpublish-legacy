@@ -63,7 +63,7 @@ if ( !$script->validateVersion() )
     $script->shutdown( 1 );
 }
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $classList = array( 'folder', 'article', 'user_group', 'forum', 'forum_topic', 'gallery', 'weblog' );
 $idText = "'" . implode( "', '", $classList ) . "'";

@@ -59,7 +59,7 @@ Example:
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 include_once( 'lib/ezlocale/classes/ezdate.php' );
 
-$us_locale =& eZLocale::instance( 'us' );
+$us_locale = eZLocale::instance( 'us' );
 
 $date1 = new eZDate();
 $date2 = eZDate::create();
@@ -96,7 +96,7 @@ class eZDate
             $date = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         $this->Date = $date;
-        $this->Locale =& eZLocale::instance();
+        $this->Locale = eZLocale::instance();
         $this->IsValid = $date > 0;
     }
 
@@ -259,7 +259,7 @@ class eZDate
     function isGreaterThan( &$date, $equal = false )
     {
         $d1 = $this->timeStamp();
-        if ( get_class( $date ) == 'ezdate' )
+        if ( strtolower( get_class( $date ) ) == 'ezdate' )
             $d2 = $date->timeStamp();
         else
         {
@@ -280,7 +280,7 @@ class eZDate
     function isEqualTo( &$date )
     {
         $d1 = $this->timeStamp();
-        if ( get_class( $date ) == 'ezdate' )
+        if ( strtolower( get_class( $date ) ) == 'ezdate' )
             $d2 = $date->timeStamp();
         else
         {
@@ -331,10 +331,10 @@ class eZDate
 
 
     /// Locale object, is just a reference to minimize memory usage.
-    var $Locale;
+    public $Locale;
     /// The current date as a timestamp without hour, minute or second values
-    var $Date;
-    var $IsValid;
+    public $Date;
+    public $IsValid;
 }
 
 ?>

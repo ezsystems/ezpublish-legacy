@@ -203,7 +203,7 @@ class eZStepLanguageOptions extends eZStepInstaller
         for ( $i =0; $i < count( $languages ); $i++ )
             for ( $n = 0; $n < count( $languages ) - 1; $n++ )
             {
-                if ( strcmp( $languages[$n]['language_name'], $languages[$n+1]['language_name'] ) > 0 )
+                if ( strcmp( $languages[$n]->attribute( 'language_name' ), $languages[$n+1]->attribute( 'language_name' ) ) > 0 )
                 {
                     $tmpElement = $languages[$n];
                     $languages[$n] = $languages[$n+1];
@@ -286,7 +286,7 @@ class eZStepLanguageOptions extends eZStepInstaller
     }
 
 
-    var $Error;
+    public $Error;
 }
 
 ?>

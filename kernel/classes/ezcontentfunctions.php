@@ -29,7 +29,7 @@
 
 class eZContentFunctions
 {
-    function createAndPublishObject( $params )
+    static function createAndPublishObject( $params )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -50,7 +50,7 @@ class eZContentFunctions
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
             if ( is_object( $contentClass ) )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $db->begin();
 
                 $contentObject = $contentClass->instantiate( $creatorID );

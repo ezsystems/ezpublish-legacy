@@ -65,7 +65,7 @@ class eZXMLOutputHandler
             $this->ObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         }
 
-        $ini =& eZINI::instance( 'ezxml.ini' );
+        $ini = eZINI::instance( 'ezxml.ini' );
         if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
         {
             $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
@@ -114,14 +114,14 @@ class eZXMLOutputHandler
             } break;
             case 'view_template_name':
             {
-                $retValue =& $this->viewTemplateName();
+                $retValue = $this->viewTemplateName();
             } break;
             case 'aliased_handler':
             {
                 if ( $this->AliasedType !== false and
                      $this->AliasHandler === null )
                 {
-                    $this->AliasedHandler =& eZXMLText::inputHandler( $this->XMLData,
+                    $this->AliasedHandler = eZXMLText::inputHandler( $this->XMLData,
                                                                       $this->AliasedType,
                                                                       false,
                                                                       $this->ContentObjectAttribute );
@@ -184,14 +184,14 @@ class eZXMLOutputHandler
     function &outputText()
     {
         $this->Tpl =& templateInit();
-        $this->Res =& eZTemplateDesignResource::instance();
+        $this->Res = eZTemplateDesignResource::instance();
         if ( $this->ContentObjectAttribute )
         {
             $this->Res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         }
 
         $xml = new eZXML();
-        $this->Document =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
+        $this->Document = $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false, "SetParentNode" => true ) );
         if ( !$this->Document )
         {
             $this->Output = '';
@@ -200,7 +200,7 @@ class eZXMLOutputHandler
 
         $this->prefetch();
 
-        $this->XMLSchema =& eZXMLSchema::instance();
+        $this->XMLSchema = eZXMLSchema::instance();
 
         // Add missing elements to the OutputTags array
         foreach( $this->XMLSchema->availableElements() as $element )
@@ -256,7 +256,7 @@ class eZXMLOutputHandler
             {
                 $inIDSQL = implode( ', ', $linkIDArray );
 
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
 
                 foreach ( $linkArray as $linkRow )
@@ -300,7 +300,7 @@ class eZXMLOutputHandler
         }
 
         if ( $relatedObjectIDArray != null )
-            $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+            $this->ObjectArray = eZContentObject::fetchIDArray( $relatedObjectIDArray );
 
         if ( $nodeIDArray != null )
         {
@@ -394,7 +394,7 @@ class eZXMLOutputHandler
             // Initialize sibiling parameters array for the next level children
             // Parent parameters for the children may be modified in the current tag handler.
             $nextSibilingParams = array();
-            
+
             $this->NestingLevel++;
             foreach( array_keys( $element->Children ) as $key )
             {
@@ -610,39 +610,39 @@ class eZXMLOutputHandler
 
     // This array should be overriden in derived class with the set of rules
     // for outputting tags.
-    var $OutputTags = array();
+    public $OutputTags = array();
 
     // Path to tags' templates
-    var $TemplatesPath = 'design:content/datatype/view/ezxmltags/';
+    public $TemplatesPath = 'design:content/datatype/view/ezxmltags/';
 
     /// Contains the XML data as text
-    var $XMLData;
-    var $Document;
+    public $XMLData;
+    public $Document;
 
-    var $XMLSchema;
+    public $XMLSchema;
 
-    var $AliasedType;
-    var $AliasedHandler;
+    public $AliasedType;
+    public $AliasedHandler;
 
-    var $Output = '';
-    var $Tpl;
-    var $TemplateURI = '';
-    var $Res;
+    public $Output = '';
+    public $Tpl;
+    public $TemplateURI = '';
+    public $Res;
 
-    var $AllowMultipleSpaces = false;
-    var $AllowNumericEntities = false;
+    public $AllowMultipleSpaces = false;
+    public $AllowNumericEntities = false;
 
-    var $ContentObjectAttribute;
-    var $ObjectAttributeID;
+    public $ContentObjectAttribute;
+    public $ObjectAttributeID;
 
     /// Contains the URL's for <link> tags hashed by ID
-    var $LinkArray = array();
+    public $LinkArray = array();
     /// Contains the Objects hashed by ID
-    var $ObjectArray = array();
+    public $ObjectArray = array();
     /// Contains the Nodes hashed by ID
-    var $NodeArray = array();
+    public $NodeArray = array();
 
-    var $NestingLevel = 0;
+    public $NestingLevel = 0;
 }
 
 ?>

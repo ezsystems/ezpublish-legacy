@@ -73,7 +73,7 @@ class eZURI
             $this->UserArray = array();
 
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'template.ini' );
+            $ini = eZINI::instance( 'template.ini' );
 
             if ( $ini->variable( 'ControlSettings', 'OldStyleUserVariables' ) == 'enabled' )
             {
@@ -130,7 +130,7 @@ class eZURI
             $this->URI = implode( '/', $this->URIArray );
 
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $ini =& eZINI::instance( 'template.ini' );
+            $ini = eZINI::instance( 'template.ini' );
             if ( $ini->variable( 'ControlSettings', 'AllowUserVariables' ) == 'false' )
             {
                 $this->UserArray = array();
@@ -311,7 +311,7 @@ class eZURI
     */
     function matchBase( &$uri )
     {
-        if ( get_class( $uri ) != 'ezuri' )
+        if ( strtolower( get_class( $uri ) ) != 'ezuri' )
             return false;
         if ( count( $this->URIArray ) == 0 or
              count( $uri->URIArray ) == 0 )
@@ -382,7 +382,7 @@ class eZURI
     /*!
      \return the unique instance for the URI, if $uri is supplied it used as the global URI value.
     */
-    function &instance( $uri = false )
+    static function instance( $uri = false )
     {
         $uri_obj =& $GLOBALS['eZURIInstance'];
         if ( $uri )
@@ -400,7 +400,7 @@ class eZURI
      Implementation of an 'ezurl' template operator.
      Makes valid ez publish urls to use in links.
     */
-    function transformURI( &$href, $ignoreIndexDir = false, $serverURL = 'relative' )
+    static function transformURI( &$href, $ignoreIndexDir = false, $serverURL = 'relative' )
     {
         if ( preg_match( "#^[a-zA-Z0-9]+:#", $href ) || substr( $href, 0, 2 ) == '//' )
             return false;
@@ -418,7 +418,7 @@ class eZURI
         }
 
         include_once( 'lib/ezutils/classes/ezsys.php' );
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
         $dir = !$ignoreIndexDir ? $sys->indexDir() : $sys->wwwDir();
         $serverURL = $serverURL === 'full' ? $sys->serverURL() : '' ;
         $href = $serverURL . $dir . $href;
@@ -436,13 +436,13 @@ class eZURI
     }
 
     /// The original URI string
-    var $URI;
+    public $URI;
     /// The URI array
-    var $URIArray;
+    public $URIArray;
     /// The current index
-    var $Index;
+    public $Index;
     /// User defined template variables
-    var $UserArray;
+    public $UserArray;
 };
 
 ?>

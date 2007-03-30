@@ -38,7 +38,7 @@ class eZShopAccountHandler
     /*!
      returns the current shop account instance
     */
-    function &instance()
+    static function instance()
     {
         $accountHandler = null;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'shopaccount.ini',

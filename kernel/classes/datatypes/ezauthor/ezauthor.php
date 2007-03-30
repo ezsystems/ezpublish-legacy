@@ -177,7 +177,7 @@ class eZAuthor
     function decodeXML( $xmlString )
     {
         $xml = new eZXML();
-        $dom =& $xml->domTree( $xmlString );
+        $dom = $xml->domTree( $xmlString );
 
         if ( $dom )
         {
@@ -229,10 +229,10 @@ class eZAuthor
     }
 
     /// Contains the Authors
-    var $Authors;
+    public $Authors;
 
     /// Contains the author counter value
-    var $AuthorCount;
+    public $AuthorCount;
 }
 
 ?>

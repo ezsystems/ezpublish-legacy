@@ -52,7 +52,7 @@ class eZSearchFunctionCollection
     {
         include_once( "kernel/classes/ezsearchlog.php" );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $query = "SELECT count(*) as count FROM ezsearch_search_phrase";
         $searchListCount = $db->arrayQuery( $query );
 
@@ -64,7 +64,7 @@ class eZSearchFunctionCollection
         include_once( "kernel/classes/ezsearchlog.php" );
 
         $parameters = array( 'offset' => $offset, 'limit'  => $limit );
-        $mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray( $parameters );
+        $mostFrequentPhraseArray = eZSearchLog::mostFrequentPhraseArray( $parameters );
 
         return array( 'result' => &$mostFrequentPhraseArray );
     }

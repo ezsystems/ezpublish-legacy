@@ -134,9 +134,17 @@ class eZTemplateSwitchFunction
             }
 
             $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-            $children = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $children, $privateData );
+            if ( $children === false )
+            {
+                $children = array();
+            }
+            else
+            {
+                $children = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $children, $privateData );
+            }
 
             $caseNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( 8 );
+
             $caseNodes = array_merge( $caseNodes, $children );
             $caseNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( 8 );
 
@@ -377,7 +385,7 @@ class eZTemplateSwitchFunction
     }
 
     /// The name of the switch function
-    var $SwitchName;
+    public $SwitchName;
 }
 
 ?>

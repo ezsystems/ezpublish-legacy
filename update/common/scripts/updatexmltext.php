@@ -99,7 +99,7 @@ include_once( 'kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $xmlTypeAttributeList =& eZContentClassAttribute::fetchList( true, array( 'data_type' => 'ezxmltext',
@@ -252,7 +252,7 @@ if ( $fixAttribute )
             $dataType = $objectAttribute->dataType();
             $handleAttribute = true;
             $badDataType = false;
-            if ( !$dataType or get_class( $dataType ) != 'ezxmltexttype' )
+            if ( !$dataType or strtolower( get_class( $dataType ) ) != 'ezxmltexttype' )
             {
                 $handleAttribute = false;
                 $badDataType = true;
@@ -270,7 +270,7 @@ if ( $fixAttribute )
             if ( $handleAttribute )
             {
 //                 if ( !is_object( $content ) )
-//                     print( get_class( $dataType ) . ", " . gettype( $content ) . " [$content]" . "\n" );
+//                     print( strtolower( get_class( $dataType ) ) . ", " . gettype( $content ) . " [$content]" . "\n" );
 //                 if ( is_object( $content ) )
 //                 {
                 $xmlData = $content->attribute( 'xml_data' );
@@ -284,7 +284,7 @@ if ( $fixAttribute )
             $doc = null;
             if ( $handleAttribute )
             {
-                $doc =& $xml->domTree( $xmlData );
+                $doc = $xml->domTree( $xmlData );
                 if ( $doc )
                 {
                     if ( findAndReplaceLinks( $doc, $doc->root() ) or
@@ -431,7 +431,7 @@ if ( $fixURL )
             if ( $contentObjectAttribute )
             {
                 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
-                $contentObject =& eZContentObject::fetch( $contentObjectID );
+                $contentObject = eZContentObject::fetch( $contentObjectID );
                 $downloadURL = eZBinaryFileHandler::downloadURL( $contentObject, $contentObjectAttribute );
                 $url->setAttribute( 'url', $downloadURL );
                 $url->setModified();

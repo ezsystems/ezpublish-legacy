@@ -59,7 +59,7 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
     $sortOrder = 'asc';
 }
 
-$http =& eZHttpTool::instance();
+$http = eZHttpTool::instance();
 
 // The RemoveButton is not present in the orderlist, but is here for backwards
 // compatibility. Simply replace the ArchiveButton for the RemoveButton will

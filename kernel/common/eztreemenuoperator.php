@@ -263,7 +263,7 @@ class eZTreeMenuOperator
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

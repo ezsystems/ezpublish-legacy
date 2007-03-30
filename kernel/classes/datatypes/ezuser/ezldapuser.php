@@ -57,8 +57,8 @@ class eZLDAPUser extends eZUser
     */
     function &loginUser( $login, $password, $authenticationMatch = false )
     {
-        $http =& eZHTTPTool::instance();
-        $db =& eZDB::instance();
+        $http = eZHTTPTool::instance();
+        $db = eZDB::instance();
 
         if ( $authenticationMatch === false )
             $authenticationMatch = eZUser::authenticationMatch();
@@ -77,8 +77,8 @@ class eZLDAPUser extends eZUser
 
         $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
 
-        $ini =& eZINI::instance();
-        $LDAPIni =& eZINI::instance( 'ldap.ini' );
+        $ini = eZINI::instance();
+        $LDAPIni = eZINI::instance( 'ldap.ini' );
         $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
         // if mysql
         if ( $databaseImplementation == "ezmysql" )
@@ -645,7 +645,7 @@ class eZLDAPUser extends eZUser
                 return false;
             }
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $userClassID = $ini->variable( "UserSettings", "UserClassID" );
             $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
             $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
@@ -670,7 +670,7 @@ class eZLDAPUser extends eZUser
         else
         {
             $userID = $contentObjectID = $user->attribute( 'contentobject_id' );
-            $contentObject =& eZContentObject::fetch( $userID );
+            $contentObject = eZContentObject::fetch( $userID );
             $version =& $contentObject->attribute( 'current' );
             //$currentVersion = $contentObject->attribute( 'current_version' );
         }
@@ -742,7 +742,7 @@ class eZLDAPUser extends eZUser
         }
         else
         {
-            $LDAPIni =& eZINI::instance( 'ldap.ini' );
+            $LDAPIni = eZINI::instance( 'ldap.ini' );
             $keepGroupAssignment = ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) ) ?
                 ( $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled" ) : false;
 
@@ -847,7 +847,7 @@ class eZLDAPUser extends eZUser
             return $newNodeIDs;
         }
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $userGroupClassID = $ini->variable( "UserSettings", "UserGroupClassID" );
         $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
         $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
@@ -1042,7 +1042,7 @@ class eZLDAPUser extends eZUser
                     {
                         $params = array( 'Depth' => 1,
                                          'AttributeFilter' => array( array( 'name', '=', $currentName ) ) );
-                        $nodes =& eZContentObjectTreeNode::subTree( $params, $parentNodeID );
+                        $nodes = eZContentObjectTreeNode::subTree( $params, $parentNodeID );
 
                         if ( is_array( $nodes ) and count( $nodes ) > 0 and !$isUser )
                         {

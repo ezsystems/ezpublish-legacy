@@ -48,7 +48,7 @@ class eZImage extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -91,7 +91,7 @@ class eZImage extends eZPersistentObject
 
     function hasAttribute( $attr )
     {
-        $imageIni =& eZINI::instance( 'image.ini' );
+        $imageIni = eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
             $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
@@ -125,9 +125,9 @@ class eZImage extends eZPersistentObject
 
     function &attribute( $attr )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
-        $imageIni =& eZINI::instance( 'image.ini' );
+        $imageIni = eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
             $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
@@ -309,11 +309,11 @@ class eZImage extends eZPersistentObject
         }
     }
 
-    var $Version;
-    var $ContentObjectAttributeID;
-    var $Filename;
-    var $OriginalFilename;
-    var $MimeType;
+    public $Version;
+    public $ContentObjectAttributeID;
+    public $Filename;
+    public $OriginalFilename;
+    public $MimeType;
 }
 
 ?>

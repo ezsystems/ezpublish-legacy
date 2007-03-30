@@ -56,7 +56,7 @@ class eZRSSImport extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -157,7 +157,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return the new RSS Import object
     */
-    function create( $userID = false )
+    static function create( $userID = false )
     {
         if ( $userID === false )
         {
@@ -195,7 +195,7 @@ class eZRSSImport extends eZPersistentObject
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
 
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
         $this->setAttribute( 'modified', $dateTime );
@@ -208,7 +208,7 @@ class eZRSSImport extends eZPersistentObject
 
      \param RSS Import ID
     */
-    function fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSImport::definition(),
                                                 null,
@@ -221,7 +221,7 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of RSS Imports.
     */
-    function fetchList( $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
+    static function fetchList( $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
     {
         $cond = null;
         if ( $status !== false )
@@ -237,7 +237,7 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of active RSS Imports.
     */
-    function fetchActiveList( $asObject = true )
+    static function fetchActiveList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
                                                     null,
@@ -323,7 +323,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return RSS version number, false if invalid URL
     */
-    function getRSSVersion( $url )
+    static function getRSSVersion( $url )
     {
         include_once( "lib/ezutils/classes/ezhttptool.php" );
         $xmlData = eZHTTPTool::getDataByURL( $url );
@@ -369,7 +369,7 @@ class eZRSSImport extends eZPersistentObject
      \static
      Object attribute list
     */
-    function &objectAttributeList()
+    static function &objectAttributeList()
     {
         $objectAttributeList = array( 'published' => 'Published',
                                       'modified' => 'Modified' );
@@ -385,7 +385,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return RSS field definition array.
     */
-    function rssFieldDefinition( $version = '2.0' )
+    static function rssFieldDefinition( $version = '2.0' )
     {
         switch ( $version )
         {
@@ -438,7 +438,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return Ordered array of field definitions
     */
-    function &fieldMap( $version = '2.0' )
+    static function &fieldMap( $version = '2.0' )
     {
         $fieldDefinition = eZRSSImport::rssFieldDefinition();
 
@@ -465,7 +465,7 @@ class eZRSSImport extends eZPersistentObject
 
      \param array
     */
-    function recursiveFieldMap( $definitionArray, $globalKey, $value, &$returnArray, $count )
+    static function recursiveFieldMap( $definitionArray, $globalKey, $value, &$returnArray, $count )
     {
         foreach( $definitionArray as $key => $definition )
         {
@@ -512,7 +512,7 @@ class eZRSSImport extends eZPersistentObject
         return $description;
     }
 
-    function arrayMergeRecursive( $arr1, $arr2 )
+    static function arrayMergeRecursive( $arr1, $arr2 )
     {
         if ( !is_array( $arr1 ) ||
              !is_array( $arr2 ) )

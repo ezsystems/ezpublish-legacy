@@ -35,7 +35,7 @@ if ( !class_exists( 'eZXMLSchema' ) )
 
 class eZSimplifiedXMLEditOutput
 {
-    var $OutputTags = array(
+    public $OutputTags = array(
 
         'section'      => array( 'handler' => 'outputSection' ),
 
@@ -94,7 +94,7 @@ class eZSimplifiedXMLEditOutput
 
     function performOutput( &$dom )
     {
-        $this->XMLSchema =& eZXMLSchema::instance();
+        $this->XMLSchema = eZXMLSchema::instance();
         $this->NestingLevel = 0;
         $this->Output = '';
         $sectionLevel = -1;
@@ -517,7 +517,7 @@ class eZSimplifiedXMLEditOutput
             if ( count($linkIDArray) > 0 )
             {
                 $inIDSQL = implode( ', ', $linkIDArray );
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
                 foreach ( $linkArray as $linkRow )
                 {
@@ -527,11 +527,11 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    var $XMLSchema;
-    var $Output = '';
-    var $NestingLevel = 0;
+    public $XMLSchema;
+    public $Output = '';
+    public $NestingLevel = 0;
 
     // Contains all links hashed by ID
-    var $LinkArray = array();
+    public $LinkArray = array();
 }
 ?>

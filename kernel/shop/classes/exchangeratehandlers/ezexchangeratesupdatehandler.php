@@ -63,7 +63,7 @@ class eZExchangeRatesUpdateHandler
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
 
-        $shopINI =& eZINI::instance( 'shop.ini' );
+        $shopINI = eZINI::instance( 'shop.ini' );
         if ( $handlerName === false)
         {
            if ( $shopINI->hasVariable( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler' ) )
@@ -143,8 +143,8 @@ class eZExchangeRatesUpdateHandler
         return $error;
     }
 
-    var $RateList;
-    var $BaseCurrency;
+    public $RateList;
+    public $BaseCurrency;
 }
 
 ?>

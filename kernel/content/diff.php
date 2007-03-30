@@ -54,10 +54,10 @@ if ( !$contentObject->attribute( 'can_read' ) )
 if ( !$contentObject->attribute( 'can_diff' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $tpl =& templateInit();
 
-$res =& eZTemplateDesignResource::instance();
+$res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
                     array( 'class', $class->attribute( 'id' ) ),
                     array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );

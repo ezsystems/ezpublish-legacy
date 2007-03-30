@@ -62,7 +62,7 @@ class eZBasket extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -306,7 +306,7 @@ class eZBasket extends eZPersistentObject
      \param $sessionKey A string containing the session key.
      \return An eZSessionBasket object or \c false if none was found.
     */
-    function &fetch( $sessionKey )
+    static function fetch( $sessionKey )
     {
         $basket =& eZPersistentObject::fetchObject( eZBasket::definition(),
                                                     null, array( "session_id" => $sessionKey ),
@@ -320,7 +320,7 @@ class eZBasket extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &currentBasket( $asObject=true, $byOrderID=-1 )
+    static function currentBasket( $asObject=true, $byOrderID=-1 )
     {
         $basketList = array();
 
@@ -333,7 +333,7 @@ class eZBasket extends eZPersistentObject
         }
         else
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $sessionID = $http->sessionID();
 
             $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
@@ -345,7 +345,7 @@ class eZBasket extends eZPersistentObject
         $currentBasket = false;
         if ( count( $basketList ) == 0 )
         {
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $collection = eZProductCollection::create();
             $collection->store();
@@ -373,11 +373,11 @@ class eZBasket extends eZPersistentObject
         // Make order
         $productCollectionID = $this->attribute( 'productcollection_id' );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
         include_once( 'kernel/classes/ezorderstatus.php' );
-        $time = mktime();
+        $time = time();
         $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
                                      'user_id' => $userID,
                                      'is_temporary' => 1,
@@ -387,7 +387,7 @@ class eZBasket extends eZPersistentObject
                                      'status_modifier_id' => $userID
                                      ) );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $order->store();
 
@@ -413,7 +413,7 @@ class eZBasket extends eZPersistentObject
             $currencyCode = '';
             $items =& $this->items();
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach( array_keys( $items ) as $key )
             {
@@ -470,9 +470,9 @@ class eZBasket extends eZPersistentObject
      Removes all baskets which are considered expired (due to session expiration).
      \note This will also remove the product collection the basket is using.
     */
-    function cleanupExpired( $time )
+    static function cleanupExpired( $time )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         if ( $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
         {
@@ -528,9 +528,9 @@ WHERE ezbasket.session_id = ezsession.session_key AND
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "SELECT productcollection_id FROM ezbasket";
         $limit = EZ_BASKET_ITEM_LIMIT;
 
@@ -625,9 +625,9 @@ WHERE ezbasket.session_id = ezsession.session_key AND
      the calls within a db transaction; thus within db->begin and db->commit.
 
     */
-    function cleanupCurrentBasket( $useSetting = true )
+    static function cleanupCurrentBasket( $useSetting = true )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $removeBasket = true;
         if ( $useSetting )
             $removeBasket = $ini->hasVariable( 'ShopSettings', 'ClearBasketOnLogout' ) ? $ini->variable( 'ShopSettings', 'ClearBasketOnLogout' ) == 'enabled' : false;
@@ -637,7 +637,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
             $basket =& eZBasket::currentBasket();
             if ( !is_object( $basket ) )
                 return false;
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             $productCollectionID = $basket->attribute( 'productcollection_id' );
             eZProductCollection::cleanupList( array( $productCollectionID ) );

@@ -51,7 +51,7 @@ class eZUserFunctionCollection
     function fetchCurrentUser()
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         if ( $user === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -104,7 +104,7 @@ class eZUserFunctionCollection
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         include_once( 'kernel/classes/ezrole.php' );
         include_once( "kernel/classes/ezpolicylimitation.php" );
-        $userGroupObjects =& eZUser::groups( true, $userID );
+        $userGroupObjects = eZUser::groups( true, $userID );
         $userGroupArray = array();
         foreach ( $userGroupObjects as $userGroupObject )
         {
@@ -195,7 +195,7 @@ class eZUserFunctionCollection
         }
         else
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         $result = $user->hasAccessTo( $module, $view );
         return array( 'result' => $result['accessWord'] != 'no' );

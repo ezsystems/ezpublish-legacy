@@ -444,7 +444,7 @@ class eZImageInterface
                 include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
                     eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
@@ -461,7 +461,7 @@ class eZImageInterface
                 include_once( 'lib/ezfile/classes/ezdir.php' );
                 if ( !file_exists( $filePath ) )
                 {
-                    $ini =& eZINI::instance();
+                    $ini = eZINI::instance();
                     $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
                     eZDir::mkdir( $filePath, octdec( $perm ), true );
                 }
@@ -486,7 +486,7 @@ class eZImageInterface
     */
     function hasGD2()
     {
-        $imageINI =& eZINI::instance( 'image.ini' );
+        $imageINI = eZINI::instance( 'image.ini' );
         return $imageINI->variable( 'GDSettings', 'HasGD2' ) == 'true';
 //         $testGD = get_extension_funcs( "gd" ); // Grab function list
 //         if ( !$testGD )
@@ -551,10 +551,10 @@ class eZImageInterface
     /*!
      Copies the image from \a $image as the current image object.
     */
-    function clone( &$image )
+    function __clone()
     {
-        $this->cloneImage( $image->imageObject(), $image->width(), $image->height(),
-                           $image->isTruecolor() );
+        $this->cloneImage( $this->imageObject(), $this->width(), $this>height(),
+                           $this->isTruecolor() );
     }
 
     /*!
@@ -802,19 +802,19 @@ class eZImageInterface
     }
 
     /// \privatesection
-    var $Width;
-    var $Height;
-    var $Font;
-    var $ImageObject;
-    var $ImageObjectRef;
-    var $StoredFile;
-    var $StoredPath;
-    var $StoredType;
-    var $PaletteIndex;
-    var $Palette;
-    var $AlternativeText;
-    var $IsTrueColor;
-    var $IsProcessed;
+    public $Width;
+    public $Height;
+    public $Font;
+    public $ImageObject;
+    public $ImageObjectRef;
+    public $StoredFile;
+    public $StoredPath;
+    public $StoredType;
+    public $PaletteIndex;
+    public $Palette;
+    public $AlternativeText;
+    public $IsTrueColor;
+    public $IsProcessed;
 }
 
 /*!

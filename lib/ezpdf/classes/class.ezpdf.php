@@ -41,10 +41,10 @@ include_once( 'lib/ezpdf/classes/class.pdf.php' );
 class Cezpdf extends Cpdf
 {
 
-    var $ez = array( 'fontSize' => 10 ); // used for storing most of the page configuration parameters
-    var $y; // this is the current vertical positon on the page of the writing point, very important
-    var $ezPages = array(); // keep an array of the ids of the pages, making it easy to go back and add page numbers etc.
-    var $ezPageCount = 0;
+    public $ez=array('fontSize'=>10); // used for storing most of the page configuration parameters
+    public $y; // this is the current vertical positon on the page of the writing point, very important
+    public $ezPages=array(); // keep an array of the ids of the pages, making it easy to go back and add page numbers etc.
+    public $ezPageCount=0;
 
 // ------------------------------------------------------------------------------
 
@@ -146,7 +146,7 @@ class Cezpdf extends Cpdf
         $this->ez['pageHeight']=$size[3];
 
         // also set the margins to some reasonable defaults
-        $config =& eZINI::instance( 'pdf.ini' );
+        $config = eZINI::instance( 'pdf.ini' );
 
         $this->ez['topMargin']=$config->variable( 'PDFGeneral', 'TopMargin' );
         $this->ez['bottomMargin']=$config->variable( 'PDFGeneral', 'BottomMargin' );
@@ -1488,8 +1488,8 @@ class Cezpdf extends Cpdf
                                            'margin' => $rightMargin );
     }
 
-    var $LeftMarginArray = array();
-    var $RightMarginArray = array();
+    public $LeftMarginArray = array();
+    public $RightMarginArray = array();
 }
 
 // ------------------------------------------------------------------------------

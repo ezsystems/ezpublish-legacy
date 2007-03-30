@@ -225,10 +225,10 @@ class eZXMLInputHandler
 
     /// \privatesection
     /// Contains the XML data as text
-    var $XMLData;
-    var $AliasedType;
-    var $AliasedHandler;
-    var $ContentObjectAttribute;
+    public $XMLData;
+    public $AliasedType;
+    public $AliasedHandler;
+    public $ContentObjectAttribute;
 }
 
 ?>

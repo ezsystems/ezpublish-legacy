@@ -47,7 +47,7 @@ if ( $process === null )
 }
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 if ( $http->hasPostVariable( "Reset" ) )
 {
@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( "RunProcess" ) )
 {
 //     $Module->redirectTo( $Module->functionURI( "process" ) . "/" . $WorkflowProcessID );
 //     return;
-    if ( get_class( $workflowEvent ) == "ezworkflowevent" )
+    if ( strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent" )
     {
         $eventType =& $workflowEvent->eventType();
         $lastEventStatus = $eventType->execute( $process, $workflowEvent );

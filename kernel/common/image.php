@@ -34,7 +34,7 @@ function &imageInit()
     include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );
 
     $manager =& $GLOBALS['eZPublishImageManager'];
-    if ( get_class( $manager ) == 'ezimagemanager' )
+    if ( strtolower( get_class( $manager ) ) == 'ezimagemanager' )
         return $manager;
 
     $manager = eZImageManager::instance();

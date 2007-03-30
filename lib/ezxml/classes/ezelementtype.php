@@ -63,7 +63,7 @@ class eZElementType
     }
 
     /// the name of the type
-    var $Name;
+    public $Name;
 }
 
 ?>

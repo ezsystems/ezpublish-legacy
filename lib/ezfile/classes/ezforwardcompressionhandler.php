@@ -136,9 +136,9 @@ class eZForwardCompressionHandler extends eZCompressionHandler
     /*!
      \reimp
     */
-    function doPasstrough()
+    function doPasstrough( $closeFile = true )
     {
-        return $this->ForwardHandler->doPasstrough();
+        return $this->ForwardHandler->doPasstrough( $closeFile );
     }
 
     /*!

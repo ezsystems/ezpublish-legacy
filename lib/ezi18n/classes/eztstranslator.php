@@ -71,7 +71,7 @@ class eZTSTranslator extends eZTranslatorHandler
      \static
      Initialize the ts translator and context if this is not already done.
     */
-    function &initialize( $context, $locale, $filename, $useCache = true )
+    static function &initialize( $context, $locale, $filename, $useCache = true )
     {
         $tables =& $GLOBALS["eZTSTranslationTables"];
         $instance = false;
@@ -82,17 +82,18 @@ class eZTSTranslator extends eZTranslatorHandler
         if ( $instance and
              $instance->hasInitializedContext( $context ) )
             return $instance;
-        eZDebug::createAccumulatorGroup( 'tstranslator', 'TS translator' );
-        eZDebug::accumulatorStart( 'tstranslator_init', 'tstranslator', 'TS init' );
+        $debug = eZDebug::instance();
+        $debug->createAccumulatorGroup( 'tstranslator', 'TS translator' );
+        $debug->accumulatorStart( 'tstranslator_init', 'tstranslator', 'TS init' );
         if ( !$instance )
         {
             $instance = new eZTSTranslator( $locale, $filename, $useCache );
             $tables[$file] =& $instance;
-            $manager =& eZTranslatorManager::instance();
+            $manager = eZTranslatorManager::instance();
             $manager->registerHandler( $instance );
         }
         $instance->load( $context );
-        eZDebug::accumulatorStop( 'tstranslator_init' );
+        $debug->accumulatorStop( 'tstranslator_init' );
         return $instance;
     }
 
@@ -125,7 +126,7 @@ class eZTSTranslator extends eZTranslatorHandler
 
         if ( !$this->RootCache )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $roots = array( $ini->variable( 'RegionalSettings', 'TranslationRepository' ) );
             $extensionBase = eZExtension::baseDirectory();
             $translationExtensions = $ini->variable( 'RegionalSettings', 'TranslationExtensions' );
@@ -145,6 +146,8 @@ class eZTSTranslator extends eZTranslatorHandler
             if ( isset( $this->RootCache['timestamp'] ) )
                 $tsTimeStamp = $this->RootCache['timestamp'];
         }
+
+        $debug = eZDebug::instance();
 
         // Load cached translations if possible
         if ( $this->UseCache == true )
@@ -177,7 +180,7 @@ class eZTSTranslator extends eZTranslatorHandler
             if ( $this->HasRestoredCache or
                  eZTranslationCache::canRestoreCache( $key, $tsTimeStamp ) )
             {
-                eZDebug::accumulatorStart( 'tstranslator_cache_load', 'tstranslator', 'TS cache load' );
+                $debug->accumulatorStart( 'tstranslator_cache_load', 'tstranslator', 'TS cache load' );
                 if ( !$this->HasRestoredCache )
                 {
                     if ( !eZTranslationCache::restoreCache( $key ) )
@@ -196,7 +199,7 @@ class eZTSTranslator extends eZTranslatorHandler
                     $contextName = $requestedContext;
                     if ( !isset( $this->CachedMessages[$contextName] ) )
                     {
-                        eZDebug::accumulatorStart( 'tstranslator_context_load', 'tstranslator', 'TS context load' );
+                        $debug->accumulatorStart( 'tstranslator_context_load', 'tstranslator', 'TS context load' );
                         if ( eZTranslationCache::canRestoreCache( $contextName, $tsTimeStamp ) )
                         {
                             if ( !eZTranslationCache::restoreCache( $contextName ) )
@@ -211,11 +214,11 @@ class eZTSTranslator extends eZTranslatorHandler
                                 $this->Messages[$key] = $msg;
                             }
                         }
-                        eZDebug::accumulatorStop( 'tstranslator_context_load' );
+                        $debug->accumulatorStop( 'tstranslator_context_load' );
                     }
                 }
                 eZDebugSetting::writeNotice( 'i18n-tstranslator', "Loading cached translation", "eZTSTranslator::loadTranslationFile" );
-                eZDebug::accumulatorStop( 'tstranslator_cache_load' );
+                $debug->accumulatorStop( 'tstranslator_cache_load' );
                 if ( !$this->BuildCache )
                 {
                     return true;
@@ -235,7 +238,7 @@ class eZTSTranslator extends eZTranslatorHandler
             {
                 $path = eZDir::path( array( $root, $locale, $filename ) );
 
-                $ini =& eZINI::instance( "i18n.ini" );
+                $ini = eZINI::instance( "i18n.ini" );
                 $fallbacks = $ini->variable( 'TranslationSettings', 'FallbackLanguages' );
 
                 if ( array_key_exists( $locale,  $fallbacks ) and $fallbacks[$locale] )
@@ -247,12 +250,12 @@ class eZTSTranslator extends eZTranslatorHandler
 
                 if ( !file_exists( $path ) )
                 {
-                    eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator::loadTranslationFile" );
+                    $debug->writeError( "Could not load translation file: $path", "eZTSTranslator::loadTranslationFile" );
                     continue;
                 }
             }
 
-            eZDebug::accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
+            $debug->accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
             $fd = fopen( $path, "rb" );
             $trans_xml = fread( $fd, filesize( $path ) );
             fclose( $fd );
@@ -260,11 +263,11 @@ class eZTSTranslator extends eZTranslatorHandler
             include_once( "lib/ezxml/classes/ezxml.php" );
             $xml = new eZXML();
 
-            $tree =& $xml->domTree( $trans_xml, array(), true );
+            $tree = $xml->domTree( $trans_xml, array(), true );
 
             if ( !$this->validateDOMTree( $tree ) )
             {
-                eZDebug::writeWarning( "XML text for file $path did not validate", 'eZTSTranslator::loadTranslationFile' );
+                $debug->writeWarning( "XML text for file $path did not validate", 'eZTSTranslator::loadTranslationFile' );
                 continue;
             }
             $status = true;
@@ -280,17 +283,17 @@ class eZTSTranslator extends eZTranslatorHandler
                         $this->handleContextNode( $child );
                     }
                     else
-                        eZDebug::writeError( "Unknown element name: " . $child->name(),
+                        $debug->writeError( "Unknown element name: " . $child->name(),
                                              "eZTSTranslator::loadTranslationFile" );
                 }
             }
-            eZDebug::accumulatorStop( 'tstranslator_load' );
+            $debug->accumulatorStop( 'tstranslator_load' );
         }
 
         // Save translation cache
         if ( $this->UseCache == true && $this->BuildCache == true )
         {
-            eZDebug::accumulatorStart( 'tstranslator_store_cache', 'tstranslator', 'TS store cache' );
+            $debug->accumulatorStart( 'tstranslator_store_cache', 'tstranslator', 'TS store cache' );
             if ( eZTranslationCache::contextCache( 'cachecontexts' ) == null )
             {
                 $contexts = array_keys( $this->CachedMessages );
@@ -307,7 +310,7 @@ class eZTSTranslator extends eZTranslatorHandler
                 eZTranslationCache::storeCache( $contextName );
             }
             $this->BuildCache = false;
-            eZDebug::accumulatorStop( 'tstranslator_store_cache' );
+            $debug->accumulatorStop( 'tstranslator_store_cache' );
         }
 
         return $status;
@@ -319,7 +322,7 @@ class eZTSTranslator extends eZTranslatorHandler
      \warning There's no validation done yet. It checks if \a $tree is object only.
      In all other cases it returns \c true for all DOM trees.
     */
-    function validateDOMTree( &$tree )
+    static function validateDOMTree( &$tree )
     {
         if ( !is_object( $tree ) )
             return false;
@@ -376,6 +379,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
     function handleContextNode( $context )
     {
+        $debug = eZDebug::instance();
         $contextName = null;
         $messages = array();
         $context_children = $context->children();
@@ -398,7 +402,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         }
         if ( !$contextName )
         {
-            eZDebug::writeError( "No context name found, skipping context",
+            $debug->writeError( "No context name found, skipping context",
                                  "eZTSTranslator::handleContextNode" );
             return false;
         }
@@ -417,14 +421,14 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                 }
                 else
                 {
-                    eZDebug::writeError( "Unknown element name: $childName",
+                    $debug->writeError( "Unknown element name: $childName",
                                          "eZTSTranslator::handleContextNode" );
                 }
             }
         }
         if ( $contextName === null )
         {
-            eZDebug::writeError( "No context name found, skipping context",
+            $debug->writeError( "No context name found, skipping context",
                                  "eZTSTranslator::handleContextNode" );
             return false;
         }
@@ -436,6 +440,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
     function handleMessageNode( $contextName, &$message )
     {
+        $debug = eZDebug::instance();
         $source = null;
         $translation = null;
         $comment = null;
@@ -466,25 +471,25 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $comment = $comment_el->content;
                 }
                 else
-                    eZDebug::writeError( "Unknown element name: " . $message_child->name(),
+                    $debug->writeError( "Unknown element name: " . $message_child->name(),
                                          "eZTSTranslator::handleMessageNode" );
             }
         }
         if ( $source === null )
         {
-            eZDebug::writeError( "No source name found, skipping message",
+            $debug->writeError( "No source name found, skipping message",
                                  "eZTSTranslator::handleMessageNode" );
             return false;
         }
         if ( $translation === null )
         {
-//             eZDebug::writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
+//             $debug->writeError( "No translation, skipping message", "eZTSTranslator::messageNode" );
             return false;
         }
         /* we need to convert ourselves if we're using libxml stuff here */
-        if ( get_class( $message ) == 'domelement' )
+        if ( strtolower( get_class( $message ) ) == 'domelement' )
         {
-            $codec =& eZTextCodec::instance( "utf8" );
+            $codec = eZTextCodec::instance( "utf8" );
             $source = $codec->convertString( $source );
             $translation = $codec->convertString( $translation );
             $comment = $codec->convertString( $comment );
@@ -564,7 +569,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 //         eZDebug::writeDebug( "context=$context" );
         if ( $context == "" )
             $context = "default";
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
 //         if ( isset( $this->Messages[$key] ) )
 //             return $key;
@@ -591,7 +596,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     {
         if ( $context == "" )
             $context = "default";
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $message );
         if ( isset( $this->Messages[$key] ) )
             unset( $this->Messages[$key] );
@@ -609,11 +614,11 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 
     /// \privatesection
     /// Contains the hash table with message translations
-    var $Messages;
-    var $File;
-    var $UseCache;
-    var $BuildCache;
-    var $CachedMessages;
+    public $Messages;
+    public $File;
+    public $UseCache;
+    public $BuildCache;
+    public $CachedMessages;
 }
 
 ?>

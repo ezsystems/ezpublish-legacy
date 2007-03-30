@@ -48,9 +48,9 @@ else
 $viewParameters = array( 'offset' => $Offset, 'namefilter' => false );
 $viewParameters = array_merge( $viewParameters, $UserParameters );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $userID = $user->id();
 
 if ( $http->hasPostVariable( 'RemoveButton' )  )
@@ -62,7 +62,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $deleteIDArray as $deleteID )
             {
@@ -100,7 +100,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
                                                            null,
                                                            true );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         foreach ( array_keys( $objectList ) as $key )
         {

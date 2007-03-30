@@ -158,7 +158,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      \return An eZMultiOption object which contains all the option data
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $multioption = new eZMultiOption( "" );
         $multioption->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
@@ -250,7 +250,7 @@ class eZMultiOptionType extends eZDataType
      - new_multioption - Adds a new multioption.
      - remove_selected_multioption - Removes all multioptions given by a selection list
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $actionlist = explode( "_", $action );
         if ( $actionlist[0] == "new-option" )
@@ -330,7 +330,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      \reimp
     */
-    function title( &$contentObjectAttribute, $name = "name" )
+    function title( $contentObjectAttribute, $name = "name" )
     {
         $multioption =& $contentObjectAttribute->content();
         $value = $multioption->attribute( $name );

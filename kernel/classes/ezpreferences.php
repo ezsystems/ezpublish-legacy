@@ -47,10 +47,6 @@ define( 'EZ_PREFERENCES_SESSION_NAME', 'eZPreferences' );
 
 class eZPreferences
 {
-    function eZPreferences()
-    {
-    }
-
     /*!
      \static
      Sets a preference value for a given user. If
@@ -64,16 +60,16 @@ class eZPreferences
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function setValue( $name, $value, $storeUserID = false )
+    static function setValue( $name, $value, $storeUserID = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $name = $db->escapeString( $name );
         $value = $db->escapeString( $value );
 
         $isCurrentUser = true;
         if ( $storeUserID === false )
         {
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
         }
         else
         {
@@ -130,14 +126,14 @@ class eZPreferences
      \note The preferences variable will be stored in session after fetching
            if the specified user is the current user.
     */
-    function value( $name, $user = false )
+    static function value( $name, $user = false )
     {
-        if ( get_class( $user ) != 'ezuser' )
-            $user =& eZUser::currentUser();
+        if ( strtolower( get_class( $user ) ) != 'ezuser' )
+            $user = eZUser::currentUser();
 
         $value = false;
         // If the user object is not the currently logged in user we cannot use the session values
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
         if ( $useCache and eZPreferences::isStoredInSession( $name ) )
             return eZPreferences::storedSessionValue( $name );
@@ -146,7 +142,7 @@ class eZPreferences
         if ( $user->isAnonymous() )
             return false;
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $name = $db->escapeString( $name );
         $userID = $user->attribute( 'contentobject_id' );
         $existingRes = $db->arrayQuery( "SELECT value FROM ezpreferences WHERE user_id = $userID AND name = '$name'" );
@@ -171,20 +167,20 @@ class eZPreferences
      \return An array with all the preferences for the specified user.
              If the user is not logged in the empty array will be returned.
     */
-    function values( $user = false )
+    static function values( $user = false )
     {
-        if ( get_class( $user ) != 'ezuser' )
-            $user =& eZUser::currentUser();
+        if ( strtolower( get_class( $user ) ) != 'ezuser' )
+            $user = eZUser::currentUser();
 
         if ( !$user->isAnonymous() )
         {
             // If the user object is not the currently logged in user we cannot use the session values
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
 
             $returnArray = array();
             $userID = $user->attribute( 'contentobject_id' );
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $values = $db->arrayQuery( "SELECT name,value FROM ezpreferences WHERE user_id=$userID ORDER BY id" );
             foreach ( $values as $item )
             {
@@ -197,7 +193,7 @@ class eZPreferences
         else
         {
             // For the anonymous user we just return all values
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
                 return $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
             return array();
@@ -208,9 +204,9 @@ class eZPreferences
      \static
      Makes sure the stored session values are cleaned up.
     */
-    function sessionCleanup()
+    static function sessionCleanup()
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $http->removeSessionVariable( EZ_PREFERENCES_SESSION_NAME );
     }
 
@@ -218,9 +214,9 @@ class eZPreferences
      \static
      Makes sure the preferences named \a $name is stored in the session with the value \a $value.
     */
-    function storeInSession( $name, $value )
+    static function storeInSession( $name, $value )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         $preferencesInSession = array();
         if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
              $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
@@ -232,9 +228,9 @@ class eZPreferences
      \static
      \return \c true if the preference named \a $name is stored in session.
     */
-    function isStoredInSession( $name )
+    static function isStoredInSession( $name )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
             return false;
         $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
@@ -245,9 +241,9 @@ class eZPreferences
      \static
      \return the stored preferenced value found in the session or \c null if none were found.
     */
-    function storedSessionValue( $name )
+    static function storedSessionValue( $name )
     {
-        $http =& eZHTTPTool::instance();
+        $http = eZHTTPTool::instance();
         if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
             return null;
         $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
@@ -262,9 +258,9 @@ class eZPreferences
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezpreferences" );
     }
 }

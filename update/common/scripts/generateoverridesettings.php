@@ -52,7 +52,7 @@ if ( $hasSiteAccess )
 {
     $siteAccess = $options['siteaccess'];
     print( "Using siteacces: " . $siteAccess . "\n" );
-    $ini =& eZINI::instance( 'site.ini', 'settings', null, null, true );
+    $ini = eZINI::instance( 'site.ini', 'settings', null, null, true );
     $ini->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
     $ini->loadCache();
 

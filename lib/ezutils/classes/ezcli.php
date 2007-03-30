@@ -570,7 +570,7 @@ class eZCLI
             array_shift( $arguments );
         }
 
-        if ( isset( $this ) and get_class( $this ) == 'ezcli' )
+        if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcli' )
             $cli =& $this;
         else
             $cli =& eZCLI::instance();
@@ -705,11 +705,11 @@ class eZCLI
     /*!
      \return the unique instance for the cli class.
     */
-    function &instance()
+    static function instance()
     {
         $implementation =& $GLOBALS['eZCLIInstance'];
         if ( !isset( $implementation ) or
-             get_class( $implementation ) != 'ezcli' )
+             strtolower( get_class( $implementation ) ) != 'ezcli' )
         {
             $implementation = new eZCLI();
         }
@@ -722,7 +722,7 @@ class eZCLI
     function hasInstance()
     {
         $implementation =& $GLOBALS['eZCLIInstance'];
-        if ( isset( $implementation ) && get_class( $implementation ) == 'ezcli' )
+        if ( isset( $implementation ) && strtolower( get_class( $implementation ) ) == 'ezcli' )
             return true;
 
         return false;

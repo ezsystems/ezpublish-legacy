@@ -31,7 +31,7 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
 $Module =& $Params["Module"];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
 $groupsInfo = array();
 $deleteResult = array();

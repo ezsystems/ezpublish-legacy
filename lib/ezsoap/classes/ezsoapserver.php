@@ -249,9 +249,9 @@ class eZSOAPServer
     }
 
     /// Contains a list over registered functions
-    var $FunctionList;
+    public $FunctionList;
     /// Contains the RAW HTTP post data information
-    var $RawPostData;
+    public $RawPostData;
 }
 
 ?>

@@ -42,7 +42,7 @@ class eZUserSetting extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
                                                              'datatype' => 'integer',
@@ -66,7 +66,7 @@ class eZUserSetting extends eZPersistentObject
                       'name' => 'ezuser_setting' );
     }
 
-    function create( $userID, $isEnabled )
+    static function create( $userID, $isEnabled )
     {
         $row = array( 'user_id' => $userID,
                       'is_enabled' => $isEnabled,
@@ -99,18 +99,9 @@ class eZUserSetting extends eZPersistentObject
     }
 
     /*!
-     Remove user settings with \a $userID
-    */
-    function remove( $userID )
-    {
-        eZPersistentObject::removeObject( eZUserSetting::definition(),
-                                          array( 'user_id' => $userID ) );
-    }
-
-    /*!
      Fetch message object with \a $userID
     */
-    function fetch( $userID,  $asObject = true  )
+    static function fetch( $userID,  $asObject = true  )
     {
         return eZPersistentObject::fetchObject( eZUserSetting::definition(),
                                                     null,
@@ -121,7 +112,7 @@ class eZUserSetting extends eZPersistentObject
     /*!
      Fetch all settings from database
     */
-    function fetchAll( $asObject = true )
+    static function fetchAll( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZUserSetting::definition(),
                                                     null,
@@ -132,9 +123,9 @@ class eZUserSetting extends eZPersistentObject
     }
 
     /// \privatesection
-    var $UserID;
-    var $IsEnabled;
-    var $MaxLogin;
+    public $UserID;
+    public $IsEnabled;
+    public $MaxLogin;
 }
 
 ?>

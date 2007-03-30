@@ -32,8 +32,8 @@ include_once( "kernel/classes/ezorderstatus.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
-$http =& eZHttpTool::instance();
-$user =& eZUser::currentUser();
+$http = eZHTTPTool::instance();
+$user = eZUser::currentUser();
 
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )

@@ -39,7 +39,7 @@ class eZPDFParser
 {
     function &parseFile( $fileName )
     {
-        $binaryINI =& eZINI::instance( 'binaryfile.ini' );
+        $binaryINI = eZINI::instance( 'binaryfile.ini' );
 
         $textExtractionTool = $binaryINI->variable( 'PDFHandlerSettings', 'TextExtractionTool' );
 

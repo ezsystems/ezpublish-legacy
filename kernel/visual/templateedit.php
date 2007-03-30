@@ -31,7 +31,7 @@ include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 $parameters =& $Params["Parameters"];
 
@@ -40,7 +40,7 @@ if ( $http->hasPostVariable( 'Cancel' ) )
     return $Module->redirectTo( $http->postVariable( 'RedirectToURI' ) );
 }
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 $tpl =& templateInit();
 
 $Result = array();
@@ -107,8 +107,8 @@ foreach ( $overrideArray as $overrideSetting )
 
 /* Check if we need to do characterset conversions for editting and saving
  * templates. */
-$templateConfig =& eZINI::instance( 'template.ini' );
-$i18nConfig =& eZINI::instance( 'i18n.ini' );
+$templateConfig = eZINI::instance( 'template.ini' );
+$i18nConfig = eZINI::instance( 'i18n.ini' );
 
 /* First we check the HTML Output Charset */
 $outputCharset = eZTextCodec::internalCharset();
@@ -152,7 +152,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
             /* If we're saving a template after editting we need to convert it to the template's
              * Charset. */
-            $codec =& eZTextCodec::instance( $outputCharset, $templateCharset, false );
+            $codec = eZTextCodec::instance( $outputCharset, $templateCharset, false );
             if ( $codec )
             {
                 $templateContent = $codec->convertString( $templateContent );
@@ -166,7 +166,7 @@ if ( $module->isCurrentAction( 'Save' ) )
         }
         fclose( $fp );
 
-        $siteConfig =& eZINI::instance( 'site.ini' );
+        $siteConfig = eZINI::instance( 'site.ini' );
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
         @chmod( $template, octdec( $filePermissions ) );
 
@@ -240,7 +240,7 @@ else
 
 /* If we're loading a template for editting we need to convert it to the HTTP
  * Charset. */
-$codec =& eZTextCodec::instance( $templateCharset, $outputCharset, false );
+$codec = eZTextCodec::instance( $templateCharset, $outputCharset, false );
 if ( $codec )
 {
     $templateContent = $codec->convertString( $templateContent );

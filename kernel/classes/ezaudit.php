@@ -47,9 +47,9 @@ class eZAudit
      Returns an associative array of all names of audit and the log files used by this class,
      Will be fetched from ini settings.
     */
-    function fetchAuditNameSettings()
+    static function fetchAuditNameSettings()
     {
-        $ini =& eZINI::instance( 'audit.ini' );
+        $ini = eZINI::instance( 'audit.ini' );
 
         $auditNames = $ini->hasVariable( 'AuditSettings', 'AuditFileNames' )
                       ? $ini->variable( 'AuditSettings', 'AuditFileNames' )
@@ -71,7 +71,7 @@ class eZAudit
      Writes $auditName with $auditAttributes as content
      to file name that will be fetched from ini settings by auditNameSettings() for logging.
     */
-    function writeAudit( $auditName, $auditAttributes = array() )
+    static function writeAudit( $auditName, $auditAttributes = array() )
     {
         $enabled = eZAudit::isAuditEnabled();
         if ( !$enabled )
@@ -87,7 +87,7 @@ class eZAudit
             $ip = eZSys::serverVariable( 'HOSTNAME', true );
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $userLogin = $user->attribute( 'login' );
 
@@ -110,7 +110,7 @@ class eZAudit
      \static
      \return true if audit should be enabled.
     */
-    function isAuditEnabled()
+    static function isAuditEnabled()
     {
         if ( isset( $GLOBALS['eZAuditEnabled'] ) )
         {
@@ -126,9 +126,9 @@ class eZAudit
      \return true if audit should be enabled.
      \note Will fetch from ini setting.
     */
-    function fetchAuditEnabled()
+    static function fetchAuditEnabled()
     {
-        $ini =& eZINI::instance( 'audit.ini' );
+        $ini = eZINI::instance( 'audit.ini' );
         $auditEnabled = $ini->hasVariable( 'AuditSettings', 'Audit' )
                       ? $ini->variable( 'AuditSettings', 'Audit' )
                       : 'disabled';
@@ -140,7 +140,7 @@ class eZAudit
      \static
      Returns an associative array of all names of audit and the log files used by this class
     */
-    function auditNameSettings()
+    static function auditNameSettings()
     {
         if ( isset( $GLOBALS['eZAuditNameSettings'] ) )
         {

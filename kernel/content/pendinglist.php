@@ -35,12 +35,12 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$user =& eZUser::currentUser();
+$user = eZUser::currentUser();
 $userID = $user->id();
 
 

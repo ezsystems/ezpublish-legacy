@@ -31,7 +31,7 @@
 /*! \file toolbar.php
 */
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 $module =& $Params["Module"];
 
 $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
@@ -42,18 +42,18 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( "kernel/classes/ezsiteaccess.php" );
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
-$siteini =& eZINI::instance();
+$siteini = eZINI::instance();
 if ( !$currentSiteAccess or
      !$toolbarPosition or
      !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $iniPath = eZSiteAccess::findPathToSiteAccess( $currentSiteAccess );
-$ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
+$ini = eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
 
-$iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
+$iniAppend = eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
 $toolArray = array();
 if ( $iniAppend->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
@@ -363,7 +363,7 @@ if ( $removeCache )
     removeRelatedCache( $currentSiteAccess );
 }
 
-$toolbarIni =& eZINI::instance( "toolbar.ini", 'settings', null, false, true, false );
+$toolbarIni = eZINI::instance( "toolbar.ini", 'settings', null, false, true, false );
 $toolbarIni->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
 $toolbarIni->parse();
 
@@ -387,7 +387,7 @@ $Result['path'] = array( array( 'url' => 'visual/toolbarlist',
 function removeRelatedCache( $siteAccess )
 {
     // Delete compiled template
-    $ini =& eZINI::instance();
+    $ini = eZINI::instance();
     $iniPath = eZSiteAccess::findPathToSiteAccess( $siteAccess );
     $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
     if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )

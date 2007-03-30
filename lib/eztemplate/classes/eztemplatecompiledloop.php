@@ -296,14 +296,14 @@ class eZTemplateCompiledLoop
     ///
     /// \privatesection
     ///
-    var $Name;
-    var $Parameters;
-    var $NodePlacement;
-    var $UniqID;
-    var $NewNodes;
-    var $Node;
-    var $Tpl;
-    var $PrivateData;
+    public $Name;
+    public $Parameters;
+    public $NodePlacement;
+    public $UniqID;
+    public $NewNodes;
+    public $Node;
+    public $Tpl;
+    public $PrivateData;
 
 }
 

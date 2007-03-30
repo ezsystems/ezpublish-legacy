@@ -75,7 +75,7 @@ class eZDateOperatorCollection
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $locale =& eZLocale::instance();
+        $locale = eZLocale::instance();
         if ( $operatorName == $this->MonthOverviewName )
         {
             $field = $namedParameters['field'];
@@ -144,7 +144,7 @@ class eZDateOperatorCollection
                     $info = getdate( $optional['current'] );
                     $currentDay = $info['yday'];
                 }
-                $today = mktime();
+                $today = time();
                 $todayInfo = getdate( $today );
                 $todayClass = false;
                 if ( isset( $optional['today_class'] ) )
@@ -307,7 +307,7 @@ class eZDateOperatorCollection
     }
 
     /// \privatesection
-    var $Operators;
+    public $Operators;
 };
 
 ?>

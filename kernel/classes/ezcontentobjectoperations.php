@@ -52,7 +52,7 @@ class eZContentObjectOperations
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        $object =& eZContentObject::fetch( $objectID );
+        $object = eZContentObject::fetch( $objectID );
         if ( !is_object( $object ) )
             return false;
 

@@ -87,7 +87,7 @@ class eZContentClassNameList extends eZSerializedObjectNameList
         }
     }
 
-    function remove( &$contentClass )
+    static function remove( $contentClass )
     {
         eZContentClassName::remove( $contentClass->attribute( 'id' ), $contentClass->attribute( 'version' ) );
     }

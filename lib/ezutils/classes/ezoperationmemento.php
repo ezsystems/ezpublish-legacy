@@ -49,7 +49,7 @@ class eZOperationMemento extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -87,7 +87,7 @@ class eZOperationMemento extends eZPersistentObject
         return $this->MainMemento;
     }
 
-    function fetch( $mementoKey, $asObject = true )
+    static function fetch( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
@@ -100,7 +100,7 @@ class eZOperationMemento extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchChild( $mementoKey, $asObject = true )
+    static function fetchChild( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
@@ -114,7 +114,7 @@ class eZOperationMemento extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchMain( $mementoKey, $asObject = true )
+    static function fetchMain( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
@@ -128,7 +128,7 @@ class eZOperationMemento extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $mementoKey, $asObject = true )
+    static function fetchList( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
@@ -154,7 +154,7 @@ class eZOperationMemento extends eZPersistentObject
         return unserialize( $this->MementoData );
     }
 
-    function create( $mementoKey, $data = array(), $isMainKey = false, $mainKey = null )
+    static function create( $mementoKey, $data = array(), $isMainKey = false, $mainKey = null )
     {
         if( is_array( $mementoKey ) )
         {
@@ -169,7 +169,7 @@ class eZOperationMemento extends eZPersistentObject
                                               'memento_data' => $serializedData ) );
     }
 
-    function createKey( $parameters )
+    static function createKey( $parameters )
     {
         $string = '';
         foreach ( array_keys( $parameters ) as $key )
@@ -184,9 +184,9 @@ class eZOperationMemento extends eZPersistentObject
      \static
      Removes all active operation mementos.
     */
-    function cleanup()
+    static function cleanup()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->query( "DELETE FROM ezoperation_memento" );
     }
 

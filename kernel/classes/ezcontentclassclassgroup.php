@@ -44,7 +44,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    static function definition()
     {
         return array( "fields" => array( "contentclass_id" => array( 'name' => "ContentClassID",
                                                                      'datatype' => 'integer',
@@ -72,7 +72,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                       "name" => "ezcontentclass_classgroup" );
     }
 
-    function create( $contentclass_id, $contentclass_version, $group_id, $group_name )
+    static function create( $contentclass_id, $contentclass_version, $group_id, $group_name )
     {
         if( $contentclass_version == null )
         {
@@ -85,7 +85,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         return new eZContentClassClassGroup( $row );
     }
 
-    function update( $contentclass_version, $group_id, $group_name )
+    static function update( $contentclass_version, $group_id, $group_name )
     {
         if( $contentclass_version == null )
         {
@@ -127,7 +127,7 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeGroupMembers( $group_id )
+    static function removeGroupMembers( $group_id )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
                                           array( "group_id" => $group_id ) );
@@ -137,14 +137,14 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeClassMembers( $contentclass_id, $contentclass_version )
+    static function removeClassMembers( $contentclass_id, $contentclass_version )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
                                           array( "contentclass_id" =>$contentclass_id,
                                                  "contentclass_version" =>$contentclass_version ) );
     }
 
-    function fetch( $contentclass_id, $contentclass_version, $group_id, $asObject = true )
+    static function fetch( $contentclass_id, $contentclass_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentClassClassGroup::definition(),
                                                 null,
@@ -154,7 +154,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
+    static function fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
     {
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
@@ -184,7 +184,7 @@ class eZContentClassClassGroup extends eZPersistentObject
             $orderByClause = 'ORDER BY ' . implode( ', ', $orderByArray );
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "SELECT contentclass.* $classNameSqlFilter[nameField]
                 FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group $classNameSqlFilter[from]
                 WHERE contentclass.id=class_group.contentclass_id
@@ -195,7 +195,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );
     }
 
-    function fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )
+    static function fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )
     {
         if ( is_array( $groupIDList ) )
         {
@@ -228,7 +228,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         return $classList;
     }
 
-    function fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
+    static function fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                     null,
@@ -239,7 +239,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &classInGroup( $contentclassID, $contentclassVersion, $groupID )
+    static function &classInGroup( $contentclassID, $contentclassVersion, $groupID )
     {
         $rows = eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                      null,
@@ -254,10 +254,10 @@ class eZContentClassClassGroup extends eZPersistentObject
     }
 
     /// \privatesection
-    var $ContentClassID;
-    var $ContentClassVersion;
-    var $GroupID;
-    var $GroupName;
+    public $ContentClassID;
+    public $ContentClassVersion;
+    public $GroupID;
+    public $GroupName;
 }
 
 ?>
