@@ -172,13 +172,13 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #8996: Wrong title for ezselection.
 - Fixed bug #10452: Not possible to update auto rates (rev. 18396).
 - Fixed bug #8949: Use of undefined constant WEBDAV_DISABLED.
-  ( Merged from stable/3.8 rev. 18403, stable/3.9 rev. 18404 )
+  (Merged from stable/3.8 rev. 18403, stable/3.9 rev. 18404)
 - Fixed bug #9639: eZ publish generates same cache block simultaneously,
   for content view cache.
-  ( Merged from stable/3.9 rev. 18410 )
+  (Merged from stable/3.9 rev. 18410)
 - Fixed bug #10460: div block is not closed in edit template for ezprice.tpl (rev. 18412)
 - Fixed bug #10305: race condition in global ini cache generation.
-  ( Merged from stable/3.9 rev. 18420, stable/3.8 rev. 18421 )
+  (Merged from stable/3.9 rev. 18420, stable/3.8 rev. 18421)
 - Fixed bug #10430: Method parameters for eZPHPCreator::addMethodCall not processed right
 - Fixed bug #10451: eZContentFunctions::createAndPublishObject does not respect default sort field and order
 - Fixed bug #10313: eZMySQLDB constructor does not exit always if mysql extension is not available
@@ -198,10 +198,10 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10472: Notice: Only variable references should be returned by reference
   in kernel/classes/ezcontentclassclassgroup.php on line 103.
 - Fixed bug #10475: Hiding of important warnings.
-  ( Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492 )
+  (Merged from stable/3.8 rev. 18491, stable/3.9 rev. 18492)
 - Fixed bug #10461: class_group override does not work.
 - Fixed bug #7394: Installation problem on MySQL 5 (Transaction errors with sql-mode STRICT_TRANS_TABLES).
-  ( Merged from stable/3.9 rev. 18500 )
+  (Merged from stable/3.9 rev. 18500)
 - Fixed bug #10491: pg_exec(): Query failed: syntax error integer: ""
   in lib/ezdb/classes/ezpostgresqldb.php on line 166 (called from eZURLAlias::fetchBySourceURL()).
   (Merged from stable/3.8 (3.8.8) rev. 18514)
@@ -211,4 +211,7 @@ Changes from 3.9.0 to 3.10.0alpha1
   No such file or directory in cronjobs/updateviewcount.php on line 86.
   (Merged from stable/3.8 (3.8.8) rev. 18542)
 - Fixed bug #10544: Problem when adding a new checkbox with with disabled flag.
-  (Merged from 3.9 (3.9.2) rev. 18548)
+  (Merged from stable/3.9 (3.9.2) rev. 18548)
+- Fixed bug #10545: Warning: fopen(<path to apache>/log/access_log): failed to open stream:
+  No such file or directory in ./cronjobs/updateviewcount.php on line 108.
+  (Merged from stable/3.8 (3.8.8) rev. 18552)
