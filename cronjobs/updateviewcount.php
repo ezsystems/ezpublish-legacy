@@ -117,83 +117,85 @@ if ( is_file( $logFilePath ) )
         while ( !feof ($handle) and !$stopParse )
         {
             $line = fgets($handle, 1024);
-            if ( $line != "" )
-                $lastLine = $line;
-
-            if ( $startParse or !$hasStartLine )
+            if ( !empty( $line ) )
             {
-                $logPartArray = preg_split( "/[\"]+/", $line );
+                if ( $line != "" )
+                    $lastLine = $line;
 
-                $timeIPPart = $logPartArray[0];
-                list( $ip, $timePart ) = split( "\[", $timeIPPart );
-                list( $time, $rest ) = split( " ", $timePart );
-
-                if ( $time == $startTime )
-                    $stopParse = true;
-                $requirePart = $logPartArray[1];
-
-                list( $requireMethod, $url ) = split( " ", $requirePart );
-                $url = preg_replace( "/\?.*/", "", $url);
-                foreach ( $prefixes as $prefix )
+                if ( $startParse or !$hasStartLine )
                 {
-                    $urlChanged = preg_replace( "/^\/$prefix\//", "", $url );
-                    if ( $urlChanged != $url )
+                    $logPartArray = preg_split( "/[\"]+/", $line );
+                    $timeIPPart = $logPartArray[0];
+                    list( $ip, $timePart ) = split( "\[", $timeIPPart );
+                    list( $time, $rest ) = split( " ", $timePart );
+
+                    if ( $time == $startTime )
+                        $stopParse = true;
+                    $requirePart = $logPartArray[1];
+
+                    list( $requireMethod, $url ) = split( " ", $requirePart );
+                    $url = preg_replace( "/\?.*/", "", $url);
+                    foreach ( $prefixes as $prefix )
                     {
-                        $url = $urlChanged;
-                        break;
+                        $urlChanged = preg_replace( "/^\/$prefix\//", "", $url );
+                        if ( $urlChanged != $url )
+                        {
+                            $url = $urlChanged;
+                            break;
+                        }
                     }
-                }
 
-                if ( preg_match( "/content\/view\/full\//", $url ) )
-                {
-                    $url = str_replace( "content/view/full/", "", $url );
-                    $url = str_replace( "/", "", $url );
-                    $url = preg_replace( "/\?(.*)/", "", $url );
-                    $nodeIDArray[] = $url;
-                }
-                else
-                {
-                    $urlArray = split( "/", $url );
-                    $firstElement = $urlArray[0];
-                    if ( in_array( $firstElement, $contentArray ) )
+                    if ( preg_match( "/content\/view\/full\//", $url ) )
                     {
-                        $pathArray[] = $url;
-                    }
-                    else if ( in_array( $firstElement, $nonContentArray ) )
-                    {
-                        // do nothing
+                        $url = str_replace( "content/view/full/", "", $url );
+                        $url = str_replace( "/", "", $url );
+                        $url = preg_replace( "/\?(.*)/", "", $url );
+                        $nodeIDArray[] = $url;
                     }
                     else
                     {
-                        if ( $firstElement != "" )
+                        $urlArray = split( "/", $url );
+                        $firstElement = $urlArray[0];
+                        if ( in_array( $firstElement, $contentArray ) )
                         {
-                            $pathIdentificationString = $db->escapeString( $firstElement );
+                            $pathArray[] = $url;
+                        }
+                        else if ( in_array( $firstElement, $nonContentArray ) )
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            if ( $firstElement != "" )
+                            {
+                                $pathIdentificationString = $db->escapeString( $firstElement );
 
-                            //check in database, if fount, add to contentArray, else add to nonContentArray.
-                            $query = "SELECT node_id FROM ezcontentobject_tree \n" .
-                                     "WHERE path_identification_string='$pathIdentificationString'";
-                            $result = $db->arrayQuery( $query );
-                            if ( count($result) != 0 )
-                            {
-                                $contentArray[] = $firstElement;
-                                $pathArray[] = $url;
-                            }
-                            else
-                            {
-                                if ( $firstElement != "content" )
-                                    $nonContentArray[] = $firstElement;
+                                //check in database, if fount, add to contentArray, else add to nonContentArray.
+                                $query = "SELECT node_id FROM ezcontentobject_tree \n" .
+                                         "WHERE path_identification_string='$pathIdentificationString'";
+                                $result = $db->arrayQuery( $query );
+                                if ( count($result) != 0 )
+                                {
+                                    $contentArray[] = $firstElement;
+                                    $pathArray[] = $url;
+                                }
+                                else
+                                {
+                                    if ( $firstElement != "content" )
+                                        $nonContentArray[] = $firstElement;
+                                }
                             }
                         }
                     }
                 }
+                if ( $line == $startLine )
+                {
+                    $startParse = true;
+                }
+                /*$count++;
+                if ( $count == 7 )
+                    break;*/
             }
-            if ( $line == $startLine )
-            {
-                $startParse = true;
-            }
-            /*$count++;
-            if ( $count == 7 )
-                break;*/
         }
         fclose( $handle );
     }
