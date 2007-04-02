@@ -136,7 +136,12 @@ if ( is_file( $logFilePath ) )
                 $url = preg_replace( "/\?.*/", "", $url);
                 foreach ( $prefixes as $prefix )
                 {
-                    $url = preg_replace( "/^\/$prefix/", "", $url );
+                    $urlChanged = preg_replace( "/^\/$prefix\//", "", $url );
+                    if ( $urlChanged != $url )
+                    {
+                        $url = $urlChanged;
+                        break;
+                    }
                 }
 
                 if ( preg_match( "/content\/view\/full\//", $url ) )
