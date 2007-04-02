@@ -1327,6 +1327,7 @@ class eZModule
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
         $triedList = array();
+        $triedDirList = array();
         $foundADir = false;
         foreach ( $searchPathList as $path )
         {
@@ -1350,23 +1351,27 @@ class eZModule
                 $triedList[] = $dir;
             }
         }
+
+        $msg = "Could not find module named '$moduleName'";
         if ( $foundADir )
         {
-            $msg = ( "Could not find module named '$moduleName'\n" .
-                     "These directories had a directory named '$moduleName' but did not contain the module.php file:\n" . implode( ", ", $triedList ) . "\n" .
-                     "This usually means it is missing or has a wrong name." );
+            $msg = "\nThese directories had a directory named '$moduleName' but did not contain the module.php file:\n" .
+                   implode( ", ", $triedList ) . "\n" .
+                   "This usually means it is missing or has a wrong name.";
             if ( count( $triedDirList ) > 0 )
                 $msg .= "\n\nThese directories were tried too but none of them exists:\n" . implode( ', ', $triedDirList );
-            eZDebug::writeWarning( $msg );
         }
         else
         {
-            eZDebug::writeWarning( "Could not find module named '$moduleName'\n" .
-                                   "These directories were tried none of them exists:\n" . implode( ", ", $triedDirList ) );
+            if ( count( $triedDirList ) > 0 )
+                $msg.= "\nThese directories were tried none of them exists:\n" . implode( ", ", $triedDirList );
         }
+        eZDebug::writeWarning( $msg );
+
         $retValue = null;
         return $retValue;
     }
+
     function &getNamedParameters()
     {
         return $this->NamedParameters;
