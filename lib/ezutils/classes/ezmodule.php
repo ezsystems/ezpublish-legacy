@@ -1364,7 +1364,7 @@ class eZModule
         else
         {
             if ( count( $triedDirList ) > 0 )
-                $msg.= "\nThese directories were tried none of them exists:\n" . implode( ", ", $triedDirList );
+                $msg.= "\nThese directories were tried but none of them exists:\n" . implode( ", ", $triedDirList );
         }
         eZDebug::writeWarning( $msg );
 
