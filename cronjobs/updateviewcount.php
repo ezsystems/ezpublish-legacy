@@ -111,7 +111,6 @@ if ( is_file( $logFilePath ) )
     $handle = fopen( $logFilePath, "r" );
     if ( $handle )
     {
-        $count = 0;
         $startParse = false;
         $stopParse = false;
         while ( !feof ($handle) and !$stopParse )
@@ -192,9 +191,6 @@ if ( is_file( $logFilePath ) )
                 {
                     $startParse = true;
                 }
-                /*$count++;
-                if ( $count == 7 )
-                    break;*/
             }
         }
         fclose( $handle );
