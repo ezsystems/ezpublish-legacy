@@ -51,7 +51,7 @@ include_once( 'kernel/classes/ezrssexportitem.php' );
 $config =& eZINI::instance( 'site.ini' );
 $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
-if($cacheTime <= 0)
+if ( $cacheTime <= 0 )
 {
     $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
     $rssContent = $xmlDoc->toString();
@@ -59,7 +59,8 @@ if($cacheTime <= 0)
 else
 {
     $cacheDir = eZSys::cacheDirectory();
-    $cacheFilePath = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
+    $currentSiteAccessName = $GLOBALS['eZCurrentAccess']['name'];
+    $cacheFilePath = $cacheDir . '/rss/' . md5( $currentSiteAccessName . $feedName ) . '.xml';
 
     // If cache directory does not exist, create it. Get permissions settings from site.ini
     if ( !is_dir( $cacheDir.'/rss' ) )
