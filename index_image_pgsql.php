@@ -52,7 +52,7 @@ if ( $lobHandle )
     header( "Content-Length: $size" );
     header( "Content-Type: $mimeType" );
     header( "Last-Modified: $mdate" );
-    header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . 'GMT' );
+    header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT' );
     header( "Connection: close" );
     header( "X-Powered-By: eZ publish" );
     header( "Accept-Ranges: bytes" );
