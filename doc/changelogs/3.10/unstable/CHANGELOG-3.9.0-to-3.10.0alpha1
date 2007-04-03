@@ -223,3 +223,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10559: Notice: Undefined variable: triedDirList in
   'lib/ezutils/classes/ezmodule.php' on line 1358.
   (Merged from stable/3.8 (3.8.8) rev. 18566)
+- Fixed bug #10557: invalid "Expires" date in header of images.
+  ( Merged from stable/3.8 rev. 18575, stable/3.9 rev. 18576 )
