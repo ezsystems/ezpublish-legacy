@@ -111,7 +111,7 @@ if ( $http->hasPostVariable( 'SaveOrderStatusButton' ) )
 }
 
 $orderArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
-$orderCount = eZOrder::activeCount( $offset, $limit );
+$orderCount = eZOrder::activeCount();
 
 $tpl->setVariable( 'order_list', $orderArray );
 $tpl->setVariable( 'order_list_count', $orderCount );
