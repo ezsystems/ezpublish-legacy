@@ -488,9 +488,11 @@ class eZContentUpload
         {
             $filePath = $file->attribute( "filename" );
             $originalFilename = $file->attribute( "original_filename" );
-            return $handler->handleFile( $this, $result,
-                                         $filePath, $originalFilename, $mimeData,
-                                         $location, $existingNode );
+            $handlerResult = $handler->handleFile( $this, $result,
+                                                   $filePath, $originalFilename, $mimeData,
+                                                   $location, $existingNode );
+            if ( is_object( $result['contentobject'] ) )
+                return $handlerResult;
         }
 
         $object = false;
