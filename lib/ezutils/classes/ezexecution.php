@@ -148,6 +148,14 @@ class eZExecution
 */
 function eZExecutionUncleanShutdownHandler()
 {
+    // Need to change the current directory, since this information is lost
+    // when the callbackfunction is called. eZDocumentRoot is set in index.php.
+    if ( isset( $GLOBALS['eZDocumentRoot'] ) )
+    {
+        $documentRoot = $GLOBALS['eZDocumentRoot'];
+        chdir( $documentRoot );
+    }
+
     if ( eZExecution::isCleanExit() )
         return;
     eZExecution::cleanup();
