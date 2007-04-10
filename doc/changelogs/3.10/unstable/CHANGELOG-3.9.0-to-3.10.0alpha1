@@ -237,3 +237,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10589: missing include in kernel/common/ezi18noperator.php
   ( Merged from stable/3.8 rev. 18603, stable/3.9 rev. 18604 )
 - Fixed bug #010539: ezmedia datatype: has_content does not work
+- Fixed bug #10315: eZINI reports missing groups and settings in debug, but not the file they should be in

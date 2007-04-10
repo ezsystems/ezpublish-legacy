@@ -1031,11 +1031,11 @@ class eZINI
     {
         $ret = false;
         if ( !isset( $this->BlockValues[$blockName] ) )
-            eZDebug::writeError( "Undefined group: '$blockName'", "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
         else if ( isset( $this->BlockValues[$blockName][$varName] ) )
             $ret = $this->BlockValues[$blockName][$varName];
         else
-            eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName'", "eZINI" );
+            eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
 
         return $ret;
     }
