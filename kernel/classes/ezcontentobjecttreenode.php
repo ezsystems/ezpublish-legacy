@@ -3960,6 +3960,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( is_object( $parentNode ) )
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
+            $parentNode->updateAndStoreModified();
         }
 
         // Clean up policies and limitations
@@ -4393,6 +4394,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $newParentNodeID =(int) $newParentNodeID;
         if ( $oldParentNodeID != $newParentNodeID )
         {
+            $node->updateAndStoreModified();
             $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             $newParentPath = $newParentNode->attribute( 'path_string' );
             $newParentDepth = $newParentNode->attribute( 'depth' );
@@ -5567,7 +5569,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function store()
     {
+        $db =& eZDB::instance();
+
+        $db->begin();
         eZPersistentObject::storeObject( $this );
+        $this->updateAndStoreModified();
+        $db->commit();
     }
 
     function &object()
