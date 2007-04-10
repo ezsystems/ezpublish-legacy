@@ -202,6 +202,9 @@ function eZAppendWarningItem( $parameters = array() )
                             'identifier' => $identifier );
 }
 
+// Needed by the error handler, since the current directory is lost when
+// the callback function eZExecutionUncleanShutdownHandler is called.
+$GLOBALS['eZDocumentRoot'] = dirname( __FILE__ );
 include_once( 'lib/ezutils/classes/ezexecution.php' );
 
 function eZDBCleanup()
