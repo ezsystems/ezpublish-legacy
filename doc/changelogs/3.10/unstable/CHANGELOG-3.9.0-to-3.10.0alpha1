@@ -232,3 +232,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   required parameters not used.
   ( Merged from stable/3.8 rev. 18581, stable/3.9 rev. 18582 )
 - Fixed bug #010558: Without ezodf daemon the ms word import fails.
+- Fixed bug #10478: eZBasket::cleanupExpired doesnt cleanup.
