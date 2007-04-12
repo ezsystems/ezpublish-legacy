@@ -2287,6 +2287,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
         $db->commit();
+        unset( $this->ContentObjectAttributes );
     }
 
     /*!
