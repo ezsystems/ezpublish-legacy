@@ -241,3 +241,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10591: Fatal error on editing objects.
   (Merged from stable/3.9 (3.9.2) rev. 18612)
 - Fixed bug #10377: Inconsistent attribute data
+- Fixed bug #010609: No line break are stored in simplified XML input.
+  (Merged from stable/3.9 (3.9.2) rev. 18620)
