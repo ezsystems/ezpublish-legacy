@@ -1050,7 +1050,7 @@ class eZINI
 
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            eZDebug::writeError( "Undefined group: '$blockName'", "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
             return false;
         }
         foreach ( $varNames as $key => $varName )
