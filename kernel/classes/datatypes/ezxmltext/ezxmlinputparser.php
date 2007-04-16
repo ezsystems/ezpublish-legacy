@@ -833,12 +833,12 @@ class eZXMLInputParser
             $this->processNewElements( $newElements );
         }
 
+        // Call "Structure handler"
+        $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
+
         // Process by schema (check if element is allowed to exist)
         if ( !$this->processBySchemaPresence( $element ) )
             return $ret;
-
-        // Call "Structure handler"
-        $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
 
         // Process by schema (check place in the tree)
         if ( !$this->processBySchemaTree( $element ) )
