@@ -1,0 +1,115 @@
+====================
+ISBN-13 improvements
+====================
+
+:authors: Vidar Langseid
+:Version: 0.2
+
+
+This spesification addresses certain limitations in the ISBN-13 implemenation in eZ publish. Some improvents could also be applied to the ISBN-10 implemenation but such improvements are not evaluated and addressed in this specification since ISBN-10 now is obseleted by the industry.
+
+Change to the ISBN datatype on the class level
+===============================================
+When adding new ISBN datatypes to a class, "ISBN-13 format" should be enabled by default
+
+Changes to the ISBN datatype on the object level
+===============================================
+
+Autoconverting from ISBN-10 to ISBN-13
+--------------------------------------
+If user enters a ISBN number in ISBN-10 format AND "ISBN-13 format" is enabled for the attribute, the system should automaticly convert it to ISBN-13
+
+Entring ISBN-13 values with or without hyphens '-'
+--------------------------------------------------
+Current implementation accepts hyphens everywhere. This should be changed.
+When entering ISBN-13 numbers, user may choose if he wants to include the hyphens or not. The system should automatically correct misplaced hyphens without any warnings.
+
+Placement of hyphens
+--------------------
+A ISBN-13 number typically looks like:
+978-824-73-0904-6
+
+The hyphens separates the different fields:
+- Prefix element
+- Registration group element
+- Registrant element
+- Publication element
+- Check digit
+
+The Prefix element have a fixed length of 3 digits, while the Check digit have a fixed length of 1 digit. The other elements may vary in length.
+The algoritm for finding the element lengths and to place the hyphens are specified here:
+"http://www.isbn-international.org/en/download/2005 ISBN Users' Manual International Edition.pdf"
+
+Deriving the registration group and internal structure
+------------------------------------------------------
+Each registration group element belongs to a country or area and may have their own rules for the internal structure for Registrant and Publication element.
+
+This need to be calculated based on the distribution of ranges each region has. The different ranges need to be stored in order to calculate the correct placement to each hyphens in the internal structure.
+
+The ranges may be updated and should be checked on a regular basis with the International ISBN Agency and updated in eZ Publish.
+
+The different ranges will be stored in the database and accessible from the setup as a setting for all ISBN datatypes.
+
+Each area has a name, which will be stored in the database as a reference to the translation files in eZ Publish. This makes it possible to have the list with the description of the area in several languages dependent on the locale for the setup. It will be possible to edit each area and add customized ranges for each region. The same need to be done for the ranges for the registration group elements as well.
+
+ISBN-13 numbers stored in database
+----------------------------------
+In current implementation, ISBN-13 numbers are stored in database in the same way as user entered them (with or without hyphens). This must be changed
+
+The number should be stored in the database with the hyphens at the correct place.
+For instance: 978-82-573-0904-6
+
+Storing the ISBN-13 number without hyphens or with hyphens at incorrect possitions should NOT happend.
+
+
+Viewing ISBN-13 numbers with or without hyphens
+-----------------------------------------------
+As stated previously in this spec, ISBN-13 numbers should be stored with hyphens in the database. However it must be possible and convenient to view the ISBN-13 number both with and without hyphens from a template.
+
+This template code should display the ISBN-13 number with hyphens:
+{$attribute.content.value}
+For backwards compatibility, this should also work:
+{$attribute.data_text}
+
+This template code should display the ISBN-13 number without hyphens:
+{$attribute.content.value_without_hyphens}
+
+For the record: The view template for the ISBN datatype should continue showing the "ISBN" prefix:
+ISBN 978-82-573-0904-6
+
+
+Script to convert ISBN-10 data to ISBN-13
+=========================================
+A script should be made to convert ISBN-10 to ISBN-13
+
+convert2isbn13.php [--class-id=CLASSID] [--attribute-id=ATTRIBUTEID] [--all-classes]
+
+CLASSID and ATTRIBUTEID may be either be numeric number or attribute identifier (string)
+
+If only --class-id paramter is given, all ISBN attributes in that class will be converted.
+If --attribute-id is given, that attribute will be converted to ISBN-13
+If both --class-id and --attribute-id is given, the script should check that attribute-id is truely a attribute in the class spesified by class-id.
+If only --attribute-id is given and this is given as identfier(string) and not number, the script should ensure that multiple attributes with the same identifier does not exists in the system.
+If --all-classes is given, all ISBN attributes in database will be converted
+If --force is given, attribute will be converted even though "ISBN-13 format" is not enabled for the attribute. Script will then enable "ISBN-13 format" for the attribute
+
+If you run the script and try to convert a datatype where "ISBN-13 format" is not enabled, the script should warn about this. The script should also abort execution unless the "--force" option is given
+After converting an attribute, script must ensure that "ISBN-13 format" is enabled for the attribute at the class level.
+
+The script should not create new versions of the objects it alters. Instead, ISBN values for all versions of the object should be converted. This will ensure that all ISBN values in the database is stored correctly and consistently.
+
+If the script is run on a attribute which is already converted to ISBN-13, it should ensure that hyphens are stored at the correct place. Earlier versions of eZ publish don't ensure this so running this script would be mandatory when users using ISBN-13 are upgrading their eZ publish installation. 
+
+If you enable the "ISBN-13 format" on a attribute which contains numbers in ISBN-10 format, this scripts needs to be run.
+Please not that there is no script to convert ISBN-13 numbers back to ISBN-10. This is considered a no-issues since ISBN-10 should not be used anymore, according to international standards.
+
+Documentation issues
+====================
+Documentation of the convert2isbn13.php needs to be written
+Documentation of ISBN-13 datatype must inform about:
+ - convert2isbn13.php needs to be run after "ISBN-13 format" is enabled
+ - if "ISBN-13 format" is disabled, there is no script available for converting all data back to ISBN-10 format
+ - Documentation should explain how to get data from a template ({$attribute.content.value_without_hyphens} and {$attribute.content.value})
+
+
+

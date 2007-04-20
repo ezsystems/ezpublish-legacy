@@ -57,17 +57,25 @@ class eZISBNType extends eZDataType
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {
+            include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
             $number13 = $http->hasPostVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         ? $http->postVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         : false;
-            if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
+            if ( $contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Input required.' ) );
+
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+            else if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
-            $number13 = str_replace( "-", "", $number13 );
-            $number13 = str_replace( " ", "", $number13 );
-            $error = '';
-            $valid = $this->validateISBN13Checksum ( $number13, $error );
+
+
+            $isbn13 = new eZISBN13();
+            $valid = $isbn13->validate( $number13, $error );
 
             if ( $valid )
             {
@@ -145,51 +153,17 @@ class eZISBNType extends eZDataType
 
     /*!
      \private
+     \depricated, should use the class eZISBN13 instead.
      Validates the ISBN-13 number \a $isbnNr.
      \param $isbnNr A string containing the number without any dashes.
      \return \c true if it is valid.
     */
     function validateISBN13Checksum ( $isbnNr, &$error )
     {
-        if ( !$isbnNr )
-            return false;
+        $isbn13 = new eZISBN13();
+        $status = $isbn13->validateISBN13Checksum( $isbnNr, $error );
 
-        if ( substr( $isbnNr, 0, 3 ) != '978' && substr( $isbnNr, 0, 3 ) != '979' )
-        {
-            $error = ezi18n( 'kernel/classes/datatypes',
-                             '13 digit ISBN must start with 978 or 979' );
-            return false;
-        }
-        $isbnNr = strtoupper( $isbnNr );
-        $checksum13 = 0;
-        $weight13 = 1;
-        if ( strlen( $isbnNr ) != 13 )
-        {
-            $error = ezi18n( 'kernel/classes/datatypes', 'ISBN length is invalid' );
-            return false;
-        }
-
-        //compute checksum
-        $val = 0;
-        for ( $i = 0; $i < 13; $i++ )
-        {
-            $val = $isbnNr{$i};
-            if ( $isbnNr{$i} == 'X' )
-            {
-                $error = ezi18n( 'kernel/classes/datatypes', 'X not valid in ISBN 13' );
-                return false;
-            }
-            $checksum13 = $checksum13 + $weight13 * $val;
-            $weight13 = ( $weight13 + 2 ) % 4;
-        }
-        if ( ( $checksum13 % 10 ) != 0 )
-        {
-            //bad checksum
-            $error = ezi18n( 'kernel/classes/datatypes', 'Bad checksum' );
-            return false;
-        }
-
-        return true;
+        return $status;
     }
 
     /*!
@@ -204,13 +178,17 @@ class eZISBNType extends eZDataType
             $number13 = $http->hasPostVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         ? $http->postVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         : false;
-            if ( !$number13 )
+            if ( $number13 === false )
                 return true;
 
-            $isbn = strtoupper( $number13 );
-            $isbn = preg_replace( "# +#", " ", $isbn );
-            $isbn = preg_replace( "#-+#", "-", $isbn );
-            $contentObjectAttribute->setAttribute( "data_text", $isbn );
+            if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
+            {
+                return true;
+            }
+
+            $isbn13 = new eZISBN13();
+            $isbn13Value = $isbn13->formatedISBNValue( $number13, $error );
+            $contentObjectAttribute->setAttribute( "data_text", $isbn13Value );
             return true;
         }
 
