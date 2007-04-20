@@ -243,3 +243,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10377: Inconsistent attribute data
 - Fixed bug #010609: No line break are stored in simplified XML input.
   (Merged from stable/3.9 (3.9.2) rev. 18620)
+- Fixed bug #010492: Pre-generated view-cache not usable due to wrong cache-keys.
+  (Merged from stable/3.9 (3.9.2) rev. 18637).
