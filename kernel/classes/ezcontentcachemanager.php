@@ -660,7 +660,8 @@ class eZContentCacheManager
             $viewParameters = array( 'offset' => 0,
                                      'year' => false,
                                      'month' => false,
-                                     'day' => false );
+                                     'day' => false,
+                                     'namefilter' => false );
 
             foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
             {
@@ -722,7 +723,7 @@ class eZContentCacheManager
 
                         // Cache the current node
                         $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters, $cachedViewPreferences );
-                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true, $viewParameters );
 
                         // Cache the parent node
                         $parentNode =& $node->attribute( 'parent' );
@@ -731,7 +732,7 @@ class eZContentCacheManager
                         if ( $objectID )
                         {
                             $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters, $cachedViewPreferences );
-                            $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                            $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true, $viewParameters );
                         }
                     }
                 }
