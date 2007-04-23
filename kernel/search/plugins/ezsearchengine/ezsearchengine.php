@@ -64,6 +64,15 @@ class eZSearchEngine
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion =& $contentObject->currentVersion();
+        
+        if ( !$currentVersion )
+        {
+            $errCurrentVersion = $contentObject->attribute( 'current_version');
+            include_once( "lib/ezutils/classes/ezdebug.php" );
+            eZDebug::writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
+                                 " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
+            return;
+        }
 
         $indexArray = array();
         $indexArrayOnlyWords = array();
