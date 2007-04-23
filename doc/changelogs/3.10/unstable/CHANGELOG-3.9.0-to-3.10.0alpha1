@@ -247,3 +247,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.2) rev. 18637).
 - Fixed bug #010638: eZTSTranslator should handle the 'location' element.
 - Fixed bug #010597: smtp authentication doesn't work anymore
+- Fxied bug #10631: ezimage - import contentobject package problem.

@@ -1038,6 +1038,11 @@ class eZContentObjectAttribute extends eZPersistentObject
             $version->updateLanguageMask( (int) $version->languageMask() | (int) $languageID, false );
         }
         $db->commit();
+
+        // Clear in-memory content cache
+        $tmpnull = null;
+        $tmp->setContent( $tmpnull );
+
         return $tmp;
     }
 
