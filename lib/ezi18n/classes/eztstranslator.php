@@ -465,6 +465,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $comment_el = $comment_el[0];
                     $comment = $comment_el->content;
                 }
+                else if ( $message_child->name() == "location" )
+                {
+                    //Handle location element. No functionality yet.
+                }
                 else
                     eZDebug::writeError( "Unknown element name: " . $message_child->name(),
                                          "eZTSTranslator::handleMessageNode" );
