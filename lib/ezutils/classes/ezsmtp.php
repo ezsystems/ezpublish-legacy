@@ -234,7 +234,7 @@
         function auth()
         {
             /* if the connection is made */
-            if ( $this->send_cmd('AUTH', '334' ) )
+            if ( $this->send_cmd('AUTH LOGIN', '334' ) )
             {
                 /* if sending username ok */
                 if ( $this->send_cmd( base64_encode( $this->user ), '334' ) )
