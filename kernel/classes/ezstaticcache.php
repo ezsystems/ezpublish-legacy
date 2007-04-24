@@ -379,12 +379,8 @@ class eZStaticCache
         {
             fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
-            if ( strtolower( substr( PHP_OS, 3 ) ) == 'win' )
-            {
-                /* We have to remove the target file before renaming in Windows */
-                @unlink( $file );
-            }
-            rename( $tmpFileName, $file );
+            include_once( 'lib/ezfile/classes/ezfile.php' );
+            eZFile::rename( $tmpFileName, $file );
         }
 
         umask( $oldumask );

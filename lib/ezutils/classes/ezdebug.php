@@ -790,7 +790,8 @@ class eZDebug
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
-                    @rename( $logRotateName, $newLogRotateName );
+                    include_once( 'lib/ezfile/classes/ezfile.php' );
+                    eZFile::rename( $logRotateName, $newLogRotateName );
 //                     print( "@rename( $logRotateName, $newLogRotateName )<br/>" );
                 }
             }
@@ -798,7 +799,8 @@ class eZDebug
         if ( @file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
-            @rename( $fileName, $newLogRotateName );
+            include_once( 'lib/ezfile/classes/ezfile.php' );
+            eZFile::rename( $fileName, $newLogRotateName );
 //             print( "@rename( $fileName, $newLogRotateName )<br/>" );
             return true;
         }
