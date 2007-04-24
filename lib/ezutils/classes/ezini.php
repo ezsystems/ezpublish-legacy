@@ -460,13 +460,6 @@ class eZINI
             eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
             $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
             eZDebug::accumulatorStop( 'ini_files_2' );
-
-            if ( $cacheSaved )
-            {
-                // Write log message to storage.log
-                include_once( 'lib/ezutils/classes/ezlog.php' );
-                eZLog::writeStorageLog( $fileName, $cachedDir );
-            }
         }
 
         eZDebug::accumulatorStop( 'ini' );
