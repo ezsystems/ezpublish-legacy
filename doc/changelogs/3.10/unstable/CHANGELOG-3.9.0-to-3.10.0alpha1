@@ -25,6 +25,9 @@ Changes from 3.9.0 to 3.10.0alpha1
   updatetypedrelation.php.
   (Merged from stable/3.9 (3.9.1) rev.18252)
 
+* Translations:
+- Implemented enhancement #010569: Add language selection to setup wizard.
+
 *Bugfixes:
 - Fixed Bug: Minor issue with SQL transformation.
 - Fixed bug #9461: Wrong site access list used in some templates of the admin
@@ -250,8 +253,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fxied bug #10631: ezimage - import contentobject package problem.
 - Fixed bug #010598: [patch included] Content indexing crashes.
 - Fixed bug #10255: Module global path list not correctly initialized in workflow cronjob
-- Fixed bug #10285: Missing variable check of $EditLanguage in 
-  kernel/content/edit.php
+- Fixed bug #10285: Missing variable check of $EditLanguage in kernel/content/edit.php
 - Fixed bug #10305: race condition in global ini cache generation ( windows ).
   ( Merged from stable/3.8 rev. 18667, stable/3.9 rev. 18668 )
 - Fixed bug #10329: CJK charsets area definition in ezccodemapper.php.

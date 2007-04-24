@@ -963,7 +963,7 @@ function eZSetupPrvtExtractExtraPaths( &$givenPersistentList )
  */
 function eZSetupPrvtAreDirAndFilesWritable( $dir )
 {
-    include_once( 'lib/ezfile/classes/ezdir.php' );
+    include_once( 'lib/ezfile/classes/ezfile.php' );
     if ( !eZDir::isWriteable( $dir ) )
         return FALSE;
 

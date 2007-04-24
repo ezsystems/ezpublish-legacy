@@ -386,6 +386,11 @@ class eZStepCreateSites extends eZStepInstaller
                                 &$admin,
                                 &$resultArray )
     {
+        // since ini-settings will be changed,
+        // remember 'setup' translations cache dir for later use here.
+        include_once( 'lib/ezi18n/classes/eztranslationcache.php' );
+        $setupTranslationDir = eZTranslationCache::rootCacheDirectory();
+
         // Time limit #3:
         // We set the time limit to 5 minutes to ensure we have enough time
         // to initialize the site. However we only set if the current limit
@@ -1306,6 +1311,32 @@ language_locale='eng-GB'";
             eZSitePostInstall( $parameters );
 
         $accessMap = $parameters['access_map'];
+
+        // Copy pre-compiled translations
+        if ( is_dir( $setupTranslationDir ) )
+        {
+            $siteTranslationDir = eZTranslationCache::rootCacheDirectory();
+            if ( !is_dir( $siteTranslationDir ) )
+                eZDir::mkdir( $siteTranslationDir, eZDir::directoryPermission(), true );
+
+            // walk through languages and copy translations
+            foreach( $prioritizedLanguages as $locale )
+            {
+                $srcTranslationsDir = $setupTranslationDir . '/' . $locale;
+                if( is_dir( $srcTranslationsDir ) )
+                {
+                    $dstTranslationsDir = $siteTranslationDir . '/' . $locale;
+                    if ( !is_dir( $dstTranslationsDir ) )
+                        eZDir::mkdir( $dstTranslationsDir, eZDir::directoryPermission(), true );
+
+                    eZDir::copy( $srcTranslationsDir , $dstTranslationsDir, false );
+                }
+            }
+        }
+        else
+        {
+            eZDebug::writeNotice( 'no pre-compiled translations are found', 'Setup Wizard: create sites step' );
+        }
 
         // Call user function for some text which will be displayed at 'Finish' screen
         if ( function_exists( 'eZSiteFinalText' ) )

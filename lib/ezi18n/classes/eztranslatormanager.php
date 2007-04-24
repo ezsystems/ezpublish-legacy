@@ -52,6 +52,8 @@
 
 include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
+define( 'EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED', 'eZTMDynamicTranslationsEnabled' );
+
 class eZTranslatorManager
 {
     /*!
@@ -195,6 +197,69 @@ class eZTranslatorManager
                       "translation" => $translation );
         return $msg;
     }
+
+    /*!
+     \static
+    */
+    function resetGlobals()
+    {
+        unset( $GLOBALS["eZTranslatorManagerInstance"] );
+    }
+
+    /*!
+     \static
+    */
+    function resetTranslations()
+    {
+        include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+        eZINI::resetGlobals( "site.ini" );
+        eZTranslatorManager::resetGlobals();
+        eZTSTranslator::resetGlobals();
+        eZLocale::resetGlobals();
+        eZTranslationCache::resetGlobals();
+    }
+
+    /*!
+     \static
+    */
+    function dynamicTranslationsEnabled()
+    {
+        return isset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+    }
+
+    /*!
+     \static
+    */
+    function enableDynamicTranslations( $enable = true )
+    {
+        if ( $enable )
+        {
+            $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] = true;
+        }
+        else
+        {
+            unset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+        }
+    }
+
+    /*!
+     \static
+    */
+    function setActiveTranslation( $locale )
+    {
+        if( !eZTranslatorManager::dynamicTranslationsEnabled() )
+            return;
+
+        $siteINI =& eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+
+        $siteINI->setVariable( 'RegionalSettings', 'Locale', $locale );
+        $siteINI->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
+        $siteINI->save( 'site.ini.append', '.php', false, false );
+
+        eZTranslatorManager::resetTranslations();
+    }
+
+
 
     /// \privatesection
     /// The array of handler objects

@@ -173,45 +173,14 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function display()
     {
-        $locales = eZLocale::localeList( true );
-        $languages = array();
-        $httpMap   = array();
-        $httpMapShort = array();
-        // This alias array must be filled in with known names.
-        // The key is the value from the locale INI file (HTTP group)
-        // and the value is the HTTP alias.
-        $httpAliases = array( 'no-bokmaal' => 'nb',
-                              'no-nynorsk' => 'nn' );
-        foreach ( array_keys( $locales ) as $localeKey )
-        {
-            $locale =& $locales[$localeKey];
-            if ( !$locale->attribute( 'country_variation' ) )
-            {
-                $languages[] = $locale;
-                $httpLocale = strtolower( $locale->httpLocaleCode() );
-                $httpMap[$httpLocale] = $locale;
-                list( $httpLocaleShort ) = explode( '-', $httpLocale );
-                $httpMapShort[$httpLocale] = $locale;
-                if ( isset( $httpAliases[$httpLocale] ) )
-                {
-                    $httpMapShort[$httpAliases[$httpLocale]] = $locale;
-                }
-            }
-        }
+        $languages = false;
+        $defaultLanguage = false;
+        $defaultExtraLanguages = false;
 
-        // bubble sort language based on language name. bubble bad, but only about 8-9 elements
-        for ( $i =0; $i < count( $languages ); $i++ )
-            for ( $n = 0; $n < count( $languages ) - 1; $n++ )
-            {
-                if ( strcmp( $languages[$n]['language_name'], $languages[$n+1]['language_name'] ) > 0 )
-                {
-                    $tmpElement = $languages[$n];
-                    $languages[$n] = $languages[$n+1];
-                    $languages[$n+1] = $tmpElement;
-                }
-            }
+        eZSetupLanguageList( $languages, $defaultLanguage, $defaultExtraLanguages );
 
         $this->Tpl->setVariable( 'language_list', $languages );
+
         $showUnicodeError = false;
         if ( isset( $this->Error ) )
         {
@@ -219,42 +188,6 @@ class eZStepLanguageOptions extends eZStepInstaller
             unset( $this->PersistenceList['database_info']['use_unicode'] );
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
-
-        $defaultLanguage = false;
-        $defaultExtraLanguages = array();
-        if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) )
-        {
-            $acceptLanguages = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-            foreach ( $acceptLanguages as $acceptLanguage )
-            {
-                list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
-                $languageCode = false;
-                if ( isset( $httpMap[$acceptLanguageCode] ) )
-                {
-                    $languageCode = $httpMap[$acceptLanguageCode]->localeCode();
-                }
-                elseif ( isset( $httpMapShort[$acceptLanguageCode] ) )
-                {
-                    $languageCode = $httpMapShort[$acceptLanguageCode]->localeCode();
-                }
-                if ( $languageCode )
-                {
-                    if ( $defaultLanguage === false )
-                    {
-                        $defaultLanguage = $languageCode;
-                    }
-/*                    else
-                    {
-                        $defaultExtraLanguages[] = $languageCode;
-                    }*/
-                }
-            }
-        }
-        if ( $defaultLanguage === false )
-        {
-            $defaultLanguage = 'eng-GB';
-        }
-        $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ) );
 
         $regionalInfo = array( 'primary_language' => $defaultLanguage,
                                'languages' => $defaultExtraLanguages );

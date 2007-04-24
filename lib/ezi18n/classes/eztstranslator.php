@@ -611,6 +611,52 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
             unset( $this->Messages[$key] );
     }
 
+    /*!
+     \static
+     Fetche list of available translations, create eZTrnslator for each translations.
+     \return list of eZTranslator objects representing available translations.
+    */
+    function translationList()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+
+        $dir = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
+
+        $fileInfoList = array();
+        $translationList = array();
+        $locale = '';
+
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        $localeList = eZDir::findSubdirs( $dir );
+
+        foreach( $localeList as $locale )
+        {
+            if ( $locale != 'untranslated' )
+            {
+                $translationFiles = eZDir::findSubitems( $dir . '/' . $locale, 'f' );
+
+                foreach( $translationFiles as $translationFile )
+                {
+                    if ( eZFile::suffix( $translationFile ) == 'ts' )
+                    {
+                        $translationList[] = new eZTSTranslator( $locale,  $translationFile );
+                    }
+                }
+            }
+        }
+
+        return $translationList;
+    }
+
+    /*!
+     \static
+    */
+    function resetGlobals()
+    {
+        unset( $GLOBALS["eZTSTranslationTables"] );
+    }
+
     /// \privatesection
     /// Contains the hash table with message translations
     var $Messages;
