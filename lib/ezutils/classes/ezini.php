@@ -498,7 +498,20 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        rename( $tmpCacheFile, $cachedFile );
+        $moveOK = true;
+        if ( file_exists( $cachedFile ) )
+        {
+            if ( !unlink( $cachedFile ) )
+            {
+                $moveOK = false;
+                eZDebug::writeError( 'Could not remove deprecated cache file: ' . $cachedFile, 'eZINI' );
+            }
+        }
+        if ( $moveOK )
+        {
+            rename( $tmpCacheFile, $cachedFile );
+        }
+
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
 
