@@ -254,3 +254,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   kernel/content/edit.php
 - Fixed bug #10305: race condition in global ini cache generation ( windows ).
   ( Merged from stable/3.8 rev. 18667, stable/3.9 rev. 18668 )
+- Fixed bug #10329: CJK charsets area definition in ezccodemapper.php.
