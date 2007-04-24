@@ -31,14 +31,12 @@
 /*! \file ldapusermanage.php
 */
 
-include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 
-eZModule::setGlobalPathList( array( "kernel" ) );
 if ( !$isQuiet )
     $cli->output( "Checking LDAP users ..."  );
 $db =& eZDB::instance();
