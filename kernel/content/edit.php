@@ -111,6 +111,19 @@ if ( $http->hasPostVariable( 'EditButton' ) )
         return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
+
+//Check if there is corresponding locale for the supplied language code.
+if ( $EditLanguage != null )
+{
+   $localeObject = eZLocale::instance( $EditLanguage );
+       if ( !$localeObject || !$localeObject->isValid() )
+       {
+           eZDebug::writeError( "No such locale $EditLanguage!", 'Can not find language.' );       
+           return $Module->handleError( EZ_ERROR_KERNEL_LANGUAGE_NOT_FOUND, 'kernel',
+                     array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+       }
+}                                                                         
+
 // Action for edit_draft.tpl page,
 // This will create a new draft of the object which the user can edit.
 if ( $http->hasPostVariable( 'NewDraftButton' ) )
