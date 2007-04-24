@@ -46,6 +46,10 @@ define( 'EZ_ERROR_KERNEL_NOT_AVAILABLE', 3 );
  The object is moved.
 */
 define( 'EZ_ERROR_KERNEL_MOVED', 4 );
+/*!
+ The language is not found.
+*/
+define( 'EZ_ERROR_KERNEL_LANGUAGE_NOT_FOUND', 5 );
 
 /*!
  The module could not be found.
