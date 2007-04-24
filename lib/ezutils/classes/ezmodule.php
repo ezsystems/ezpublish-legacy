@@ -1260,6 +1260,58 @@ class eZModule
 
     /*!
      \static
+     \return a path list of currently active modules
+    */
+    function activeModuleRepositories( $useExtensions = true )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $moduleINI =& eZINI::instance( 'module.ini' );
+        $moduleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
+
+        if ( $useExtensions )
+        {
+            $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
+            $extensionDirectory = eZExtension::baseDirectory();
+            $activeExtensions = eZExtension::activeExtensions();
+            $globalExtensionRepositories = array();
+
+            foreach ( $extensionRepositories as $extensionRepository )
+            {
+                $extPath = $extensionDirectory . '/' . $extensionRepository;
+                $modulePath = $extPath . '/modules';
+                if ( file_exists( $modulePath ) )
+                {
+                    $globalExtensionRepositories[] = $modulePath;
+                }
+                else if ( !file_exists( $extPath ) )
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
+                                           "You should probably remove this extension from the list." );
+                }
+                else if ( !in_array( $extensionRepository, $activeExtensions ) )
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
+                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
+                }
+                else
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
+                                           "Looked for directory '" . $modulePath . "'\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
+                }
+            }
+
+            $moduleRepositories = array_merge( $moduleRepositories, $globalExtensionRepositories );
+        }
+
+        return $moduleRepositories;
+    }
+
+    /*!
+     \static
      Sets the global path list which is used for finding modules.
      \param $pathList Is either an array with path strings or a single path string
      \sa addGlobalPathList
