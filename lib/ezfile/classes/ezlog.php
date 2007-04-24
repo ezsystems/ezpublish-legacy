@@ -174,6 +174,7 @@ class eZLog
     */
     function rotateLog( $fileName )
     {
+        include_once( 'lib/ezfile/classes/ezfile.php' );
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
@@ -187,14 +188,14 @@ class eZLog
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
-                    @rename( $logRotateName, $newLogRotateName );
+                    eZFile::rename( $logRotateName, $newLogRotateName );
                 }
             }
         }
         if ( @file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
-            @rename( $fileName, $newLogRotateName );
+            eZFile::rename( $fileName, $newLogRotateName );
             return true;
         }
         return false;

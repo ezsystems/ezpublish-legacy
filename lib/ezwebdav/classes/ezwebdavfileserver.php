@@ -280,7 +280,8 @@ class eZWebDAVFileServer extends eZWebDAVServer
         append_to_log( "PUT: tempfile is $tempFile" );
 
         // Attempt to move the file from temp to desired location.
-        $status = rename( $tempFile, $realPath );
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        eZFile::rename( $tempFile, $realPath );
 
         // Check status & return corresponding code:
         if ( $status )
@@ -409,7 +410,8 @@ class eZWebDAVFileServer extends eZWebDAVServer
         $realDestination = $_SERVER["DOCUMENT_ROOT"] . $destination;
 
         append_to_log( "RealSource: $realSource   RealDestination: $realDestination" );
-        $status = rename( $realSource, $realDestination );
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        $status = eZFile::rename( $realSource, $realDestination );
 
         if ( $status )
         {

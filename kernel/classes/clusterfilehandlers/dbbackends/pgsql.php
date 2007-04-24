@@ -295,7 +295,8 @@ class eZDBFileHandlerPgsqlBackend
         fclose( $fp );
         if ( ! $uniqueName === true )
         {
-            rename( $tmpFilePath, $filePath );
+            include_once( 'lib/ezfile/classes/ezfile.php' );
+            eZFile::rename( $tmpFilePath, $filePath );
         }
         else
         {

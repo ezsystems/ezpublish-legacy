@@ -360,8 +360,9 @@ class eZFileHandler
         {
             $isLink = true;
         }
+        include_once( 'lib/ezfile/classes/ezfile.php' );
         if ( !$isLink and
-             @rename( $sourceFilename, $destinationFilename ) )
+             eZFile::rename( $sourceFilename, $destinationFilename ) )
         {
             return true;
         }
@@ -1004,7 +1005,8 @@ class eZFileHandler
     */
     function doRename( $destinationFilename, $sourceFilename )
     {
-        return @rename( $sourceFilename, $destinationFilename );
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        return eZFile::rename( $sourceFilename, $destinationFilename );
     }
 
     /*!
