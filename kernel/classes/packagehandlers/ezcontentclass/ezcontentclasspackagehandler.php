@@ -195,7 +195,11 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_CONTENTCLASS_REPLACE:
                 include_once( 'kernel/classes/ezcontentclassoperations.php' );
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
+                {
+                    eZDebug::writeWarning( "Unable to remove class '$className'." );
                     return true;
+                }
+                eZDebug::writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
                 break;
 
             case EZ_PACKAGE_CONTENTCLASS_SKIP:

@@ -1326,8 +1326,8 @@ class eZContentObjectVersion extends eZPersistentObject
                 {
                     // if there is no needed translation in system then add it
                     $locale =& eZLocale::instance( $language );
-                    $translationName = $locale->internationalLanguageName();
-                    $translationLocale = $locale->localeCode();
+                    //$translationName = $locale->internationalLanguageName();
+                    //$translationLocale = $locale->localeCode();
 
                     if ( $locale->isValid() )
                     {
@@ -1657,7 +1657,8 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function &languageMask()
     {
-        return (int)$this->attribute( 'language_mask' );
+        $mask = (int)$this->attribute( 'language_mask' );
+        return $mask;
     }
 
     function updateLanguageMask( $mask = false, $forceStore = true )

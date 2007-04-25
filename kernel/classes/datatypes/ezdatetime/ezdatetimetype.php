@@ -372,6 +372,8 @@ class eZDateTimeType extends eZDataType
                 $value->adjustDateTime( $adjustments['hour'], $adjustments['minute'], 0, $adjustments['month'], $adjustments['day'], $adjustments['year'] );
                 $contentObjectAttribute->setAttribute( "data_int", $value->timeStamp() );
             }
+            else
+                $contentObjectAttribute->setAttribute( "data_int", 0 );
         }
     }
 
@@ -540,10 +542,11 @@ class eZDateTimeType extends eZDataType
         $node  = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $stamp = $objectAttribute->attribute( 'data_int' );
 
-        if ( !is_null( $stamp ) )
+        if ( $stamp )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'date_time', eZDateUtils::rfc1123Date( $stamp ) ) );
+            $datetext = eZDateUtils::rfc1123Date( $stamp );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'date_time', $datetext ) );
         }
 
         return $node;
@@ -556,12 +559,14 @@ class eZDateTimeType extends eZDataType
     {
         $dateTimeNode = $attributeNode->elementByName( 'date_time' );
         if ( is_object( $dateTimeNode ) )
-            $timestampNode = $dateTimeNode->firstChild();
-        if ( is_object( $timestampNode ) )
         {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
-            $objectAttribute->setAttribute( 'data_int', $timestamp );
+            $timestampNode = $dateTimeNode->firstChild();
+            if ( is_object( $timestampNode ) )
+            {
+                include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+                $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
+                $objectAttribute->setAttribute( 'data_int', $timestamp );
+            }
         }
     }
 }
