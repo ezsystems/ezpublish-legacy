@@ -3,6 +3,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 *Kernel:
 - Added port option for shell database schema scripts.
 - Added SSL proxy support.
+- Added enhanced ISBN13 support.
 
 *Design:
 - Added Bulgarian flag.
