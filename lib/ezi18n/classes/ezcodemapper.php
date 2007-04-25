@@ -1607,7 +1607,26 @@ class eZCodeMapper
                        '{' . "\n" .
                        '    $text = str_replace( "*", " ", $text );' . "\n" .
                        '}' . "\n" .
-                       '$text = preg_replace( "(\s+)", " ", $text );' . "\n" );
+                       '$i18nIni =& eZINI::instance( \'i18n.ini\' );' . "\n" .
+                       '$hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and' . "\n" .
+                       '                 function_exists( "mb_regex_encoding" ) and' . "\n" .
+                       '                 function_exists( "mb_ereg_replace" ) );' . "\n" .
+                       '$hasUTF8 = ( eZTextCodec::internalCharset() == "utf-8" );' . "\n" .
+                       "\n" .
+                       'if ( $hasUTF8 )' . "\n" .
+                       '{' . "\n" .
+                       '    $text = preg_replace( "#(\s+)#u", " ", $text );' . "\n" .
+                       '}' . "\n" .
+                       'else if ( !$hasUTF8 and !$hasMBString )' . "\n" .
+                       '{' . "\n" .
+                       '    $text = preg_replace( "#(\s+)#", " ", $text );' . "\n" .
+                       '}' . "\n" .
+                       'else if ( !$hasUTF8 and $hasMBString )' . "\n" .
+                       '{' . "\n" .
+                       '    mb_regex_encoding( eZTextCodec::internalCharset() );' . "\n" .
+                       '    $text = mb_ereg_replace( "(\s+)", " ", $text );' . "\n" .
+                       '}' );
+                       
             return $code;
         }
         return false;
@@ -1690,7 +1709,25 @@ class eZCodeMapper
             {
                 $text = str_replace( "*", " ", $text );
             }
-            $text = preg_replace( "(\s+)", " ", $text );
+            $i18nIni =& eZINI::instance( 'i18n.ini' );
+            $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
+                             function_exists( "mb_regex_encoding" ) and
+                             function_exists( "mb_ereg_replace" ) );
+            $hasUTF8 = ( eZTextCodec::internalCharset() == "utf-8" );
+
+            if ( $hasUTF8 )
+            {
+                $text = preg_replace( "#(\s+)#u", " ", $text );
+            }
+            else if ( !$hasUTF8 and !$hasMBString )
+            {
+                $text = preg_replace( "#(\s+)#", " ", $text );
+            }
+            else if ( !$hasUTF8 and $hasMBString )
+            {
+                mb_regex_encoding( eZTextCodec::internalCharset() );
+                $text = mb_ereg_replace( "(\s+)", " ", $text );
+            }
             return true;
         }
         return false;
