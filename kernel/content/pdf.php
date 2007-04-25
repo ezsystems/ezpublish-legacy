@@ -167,7 +167,14 @@ switch( $operationResult['status'] )
                 }
             }
 
-            $object = $operationResult[ 'object' ];
+            if ( isset( $operationResult['object'] ) )
+            {
+                $object = $operationResult[ 'object' ];
+            }
+            else
+            {
+                return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            }
 
             if ( !get_class( $object ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );

@@ -265,3 +265,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed issue #10450: Multiple cronjob parts run simultaneously.
   ( Merged from stable/3.8 rev. 18687, stable/3.9 rev. 18688 )
 - Fixed bug #6574: PDF(content/pdf): Problem with UTF-8 and/or german umlauts
+- Fixed bug #10672: Missing check in PDF-view throws notice.
