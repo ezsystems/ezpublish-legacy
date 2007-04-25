@@ -28,8 +28,18 @@
 
 //
 
+
+// No more than one instance of a cronjob script can be run at any given time. If a script uses more
+// time than eZRunCronjobs_MaxScriptExecutionTime, the next instance of it will try to gracefully steal
+// the cronjob script mutex. If the process has been running for more than
+// two times the eZRunCronjobs_MaxScriptExecutionTime, the original process will be killed.
+
+// Define maximum script execution time to 12 hours
+define( 'eZRunCronjobs_MaxScriptExecutionTime', 12*3600 );
+
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
+include_once( 'lib/ezutils/classes/ezmutex.php' );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
@@ -303,14 +313,15 @@ foreach ( $scripts as $cronScript )
     }
     if ( file_exists( $scriptFile ) )
     {
-        if ( !$isQuiet )
+        if ( !$isQuiet &&
+             $index > 0 )
         {
-            if ( $index > 0 )
-                print( $endl );
-            $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
+            print( $endl );
         }
+        $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
+
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
-        include( $scriptFile );
+        eZRunCronjobs::runScript( $cli, $scriptFile );
         eZDebug::addTimingPoint( "Script $scriptFile done" );
         ++$index;
         // The transaction check
@@ -321,5 +332,90 @@ foreach ( $scripts as $cronScript )
 }
 
 $script->shutdown();
+
+/*!
+ Class containing helper functions to execute cronjob parts.
+*/
+class eZRunCronjobs
+{
+    /*!
+     \static
+     Function for running a cronjob script.
+    */
+    function runScript( &$cli, $scriptFile )
+    {
+        $scriptMutex = new eZMutex( $scriptFile );
+        $lockTS = $scriptMutex->lockTS();
+        $runScript = false;
+        if ( $lockTS === false )
+        {
+            if ( $scriptMutex->lock() )
+            {
+                $scriptMutex->setMeta( 'pid', getmypid() );
+                $runScript = true;
+            }
+            else
+            {
+                $cli->error( 'Failed to aquire cronjob part lock: ' . $scriptFile );
+            }
+        }
+        // If the cronjob part has been blocked for  2 * eZRunCronjobs_MaxScriptExecutionTime,
+        // force stealing of the cronjob part
+        else if ( $lockTS < gmmktime() - 2 * eZRunCronjobs_MaxScriptExecutionTime )
+        {
+            $cli->output( 'Forcing to steal the mutex lock: ' . $scriptFile );
+            $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex, true );
+        }
+        else if ( $lockTS < gmmktime() - eZRunCronjobs_MaxScriptExecutionTime )
+        {
+            $cli->output( 'Trying to steal the mutex lock: ' . $scriptFile );
+            $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex );
+        }
+        else
+        {
+            $cli->output( 'Cronjob part locked by other process: ' . $scriptMutex->meta( 'pid' ) );
+        }
+        if ( $runScript )
+        {
+            include( $scriptFile );
+        }
+    }
+
+    /*!
+     \static
+     \private
+
+     Steal a script mutex
+
+     \param cli
+     \param script mutex to steal
+     \param force stealing of mutex ( optional, false by default )
+
+     \return true if mutex is stole successfully
+    */
+    function stealMutex( &$cli, $scriptMutex, $force = false )
+    {
+        $cli->output( 'Stealing mutex. Old process has run too long.' );
+        $oldPid = $scriptMutex->meta( 'pid' );
+        if ( $force )
+        {
+            if ( function_exists( 'posix_kill' ) )
+            {
+                $cli->output( 'Killing process: ' . $oldPid );
+                posix_kill( $oldPid, 9 );
+            }
+        }
+        if ( $scriptMutex->steal( $force ) )
+        {
+            $scriptMutex->setMeta( 'pid', getmypid() );
+            return true;
+        }
+        else
+        {
+            $cli->error( 'Failed to steal cronjob part lock.' );
+        }
+        return false;
+    }
+}
 
 ?>
