@@ -261,3 +261,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   ( Merged from stable/3.8 rev. 18677, stable/3.9 rev. 18678 )
 - Fixed bug #10669: Search might alter unicode characters in the range for CJK Unified Ideographs.
 - Fixed bug #10602: upfirst() template operator does not work correctly with multibyte characters.
+- Fixed issue #10450: Multiple cronjob parts run simultaneously.
+  ( Merged from stable/3.8 rev. 18687, stable/3.9 rev. 18688 )
