@@ -188,8 +188,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         if ( $class )
         {
+            $className = $class->name();
             $description = ezi18n( 'kernel/package', "Class '%classname' already exists.", false,
-                                   array( '%classname' => $class->name() ) );
+                                   array( '%classname' => $className ) );
 
             $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTCLASS_ERROR_EXISTS,
                                                         $installParameters, $description );
@@ -199,7 +200,11 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_CONTENTCLASS_REPLACE:
                 include_once( 'kernel/classes/ezcontentclassoperations.php' );
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
+                {
+                    eZDebug::writeWarning( "Unable to remove class '$className'." );
                     return true;
+                }
+                eZDebug::writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
                 break;
 
             case EZ_PACKAGE_CONTENTCLASS_SKIP:
