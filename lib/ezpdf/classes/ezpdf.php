@@ -328,6 +328,14 @@ class eZPDF
                 }
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
+                include_once( 'lib/ezi18n/classes/eztextcodec.php' ); 
+                $httpCharset = eZTextCodec::internalCharset();
+                $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' ) 
+                                 ? $config->variable( 'PDFGeneral', 'OutputCharset' ) 
+                                 : 'iso-8859-1'; 
+                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset ); 
+                // Convert current text to $outputCharset (by default iso-8859-1) 
+                $text =& $codec->convertString( $text );
 
                 $this->PDF->ezText( $text );
                 eZDebug::writeNotice( 'Execute text in PDF, length: "'. strlen( $text ) .'"', 'eZPDF::modify' );
