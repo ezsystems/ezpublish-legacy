@@ -1397,6 +1397,16 @@ class eZINI
     {
         return $this->ReadOnlySettingsCheck;
     }
+
+    /*!
+     \static
+    */
+    function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    {
+        unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
+        unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );
+    }
+
     /// \privatesection
     /// The charset of the ini file
     var $Charset;
