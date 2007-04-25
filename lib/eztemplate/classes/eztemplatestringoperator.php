@@ -60,8 +60,6 @@ class eZTemplateStringOperator
         $this->phpMap = array ('upcase' => 'mb_strtoupper,strtoupper',
                                'downcase' => 'mb_strtolower,strtolower',
                                'break' => 'nl2br',
-                               'upfirst' => 'ucfirst',
-                               'upword' => 'ucwords',
                                'count_chars' => 'mb_strlen,strlen');
 
         $this->customMap = array ( 'count_words' => array( 'return' => 'int',
@@ -147,7 +145,52 @@ class eZTemplateStringOperator
                                                                           $result = $staticValues[0];
                                                                       }
                                                                   }'
-                                                     )
+                                                     ),
+                                   'upfirst' => array( 'return' => 'string',
+                                                       'code' => '$i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                                  $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
+                                                                  function_exists( "mb_strtoupper" ) and
+                                                                  function_exists( "mb_substr" ) and
+                                                                  function_exists( "mb_strlen" ) );
+
+                                                                  if ( $hasMBString )
+                                                                  {
+                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $firstLetter = mb_strtoupper( mb_substr( $staticValues[0], 0, 1, $encoding ), $encoding );
+                                                                      $remainingText = mb_substr( $staticValues[0], 1, mb_strlen( $staticValues[0], $encoding ), $encoding );
+                                                                      $result = $firstLetter . $remainingText;
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                     $result = ucfirst( $staticValues[0] );
+                                                                  }'
+                                                     ),
+                                   'upword' => array( 'return' => 'string',
+                                                      'code' => ' $i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                                  $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
+                                                                                   function_exists( "mb_strtoupper" ) and
+                                                                                   function_exists( "mb_substr" ) and
+                                                                                   function_exists( "mb_strlen" ) );
+
+                                                                  if ( $hasMBString )
+                                                                  {
+                                                                      $encoding = ezTextCodec::internalCharset();
+                                                                      $words = explode( " ", $staticValues[0] );
+                                                                      $newString = array();
+                                                                      foreach ( $words as $word )
+                                                                      {
+                                                                          $firstLetter = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding );
+                                                                          $remainingText = mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
+                                                                          $newString[] = $firstLetter . $remainingText;
+                                                                      }
+                                                                      $result = implode( " ", $newString );
+                                                                      unset( $newString, $words );
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                     $result = ucwords( $staticValues[0] );
+                                                                  }'
+                                                    )
 
                                  );
     }
@@ -167,8 +210,8 @@ class eZTemplateStringOperator
             $this->Count_charsName   => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->DowncaseName     => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
             $this->UpcaseName       => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
-            $this->UpfirstName      => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
-            $this->UpwordName       => array( 'parameters' => false, 'element-transformation-func' => 'phpMapTransformation' ),
+            $this->UpfirstName      => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
+            $this->UpwordName       => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
 
             $this->Count_wordsName   => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->ChrName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
@@ -550,7 +593,24 @@ class eZTemplateStringOperator
             // Convert the first character to uppercase.
             case $this->UpfirstName:
             {
-                $operatorValue = ucfirst( $operatorValue );
+                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
+                                 function_exists( "mb_strtoupper" ) and
+                                 function_exists( "mb_substr" ) and
+                                 function_exists( "mb_strlen" ) );
+
+                if ( $hasMBString )
+                {
+                    $encoding = ezTextCodec::internalCharset();
+                    $firstLetter = mb_strtoupper( mb_substr( $operatorValue, 0, 1, $encoding ), $encoding );
+                    $remainingText = mb_substr( $operatorValue, 1, mb_strlen( $operatorValue, $encoding ), $encoding );
+                    $operatorValue = $firstLetter . $remainingText;
+                }
+                else
+                {
+                   $operatorValue = ucfirst( $operatorValue );
+                }
+                
             }break;
 
             // Simplify / transform multiple consecutive characters into one.
@@ -571,7 +631,30 @@ class eZTemplateStringOperator
             // Convert all first characters [in all words] to uppercase.
             case $this->UpwordName:
             {
-                $operatorValue = ucwords( $operatorValue );
+                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
+                                 function_exists( "mb_strtoupper" ) and
+                                 function_exists( "mb_substr" ) and
+                                 function_exists( "mb_strlen" ) );
+
+                if ( $hasMBString )
+                {
+                    $encoding = ezTextCodec::internalCharset();
+                    $words = explode( " ", $operatorValue );
+                    $newString = array();
+                    foreach ( $words as $word )
+                    {
+                        $firstLetter = mb_strtoupper( mb_substr( $word, 0, 1, $encoding ), $encoding );
+                        $remainingText = mb_substr( $word, 1, mb_strlen( $word, $encoding ), $encoding );
+                        $newString[]= $firstLetter . $remainingText;
+                    }
+                    $operatorValue = implode( " ", $newString );
+                    unset( $newString, $words );
+                }
+                else
+                {
+                   $operatorValue = ucwords( $operatorValue );
+                }
             }break;
 
             // Strip whitespace from the beginning and end of a string.
