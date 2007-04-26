@@ -7,7 +7,7 @@
 
 <div class="element">
 <h3>Quick settings:</h3>
-{let siteaccess=$access_type.name
+{let siteaccess=is_set( $access_type )|choose( '', $access_type.name )
      select_siteaccess=false}
 {include uri='design:setup/quick_settings.tpl'}
 {/let}
