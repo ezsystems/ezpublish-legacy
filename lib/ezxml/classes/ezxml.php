@@ -128,11 +128,7 @@ class eZXML
                     $charset = $xmlAttribute->content();
             }
         }
-        else if ( !preg_match( "#<[a-zA-Z0-9_-]+>#", $xmlDoc ) )
-        {
-            $retVal = null;
-            return $retVal;
-        }
+
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
