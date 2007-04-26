@@ -157,11 +157,10 @@ class eZStepInstaller
         }
         $usableCharsets = array_values( $commonCharsets );
         $charset = false;
-
         if ( count( $usableCharsets ) > 0 )
         {
-            if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
-                $charset = $primaryLanguage->charset();
+            if ( in_array( eZCharsetInfo::realCharsetCode( $primaryLanguage->charset() ), $usableCharsets ) )
+                $charset = eZCharsetInfo::realCharsetCode( $primaryLanguage->charset() );
             else // Pick the first charset
                 $charset = $usableCharsets[0];
         }

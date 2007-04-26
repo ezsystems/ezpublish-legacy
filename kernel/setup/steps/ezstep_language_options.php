@@ -74,10 +74,12 @@ class eZStepLanguageOptions extends eZStepInstaller
             $regionalInfo['site_charset'] = 'utf-8';
         }
         $this->PersistenceList['regional_info'] = $regionalInfo;
+        $charset = false;
 
-        if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
-             $this->PersistenceList['database_info']['use_unicode'] == false )
-        {
+//SP experimental code 26.04.2007 commented "if"
+//        if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
+//             $this->PersistenceList['database_info']['use_unicode'] == false )
+//        {
             // If we have already figured out charset and it is utf-8
             // we don't have to check the new languages
             if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
@@ -126,8 +128,8 @@ class eZStepLanguageOptions extends eZStepInstaller
                     $allLanguageCodes[] = $extraLanguageCode;
                 }
 
-                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
-
+                $canUseUnicode = isset( $this->PersistenceList['database_info']['use_unicode'] ) ? $this->PersistenceList['database_info']['use_unicode'] : false;
+                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
                 if ( !$charset )
                 {
                     $this->Error = 1;
@@ -136,6 +138,19 @@ class eZStepLanguageOptions extends eZStepInstaller
             }
             // Store the charset for later handling
             $this->PersistenceList['regional_info']['site_charset'] = $charset;
+//SP experimental code 26.04.2007 commented "if"
+//      }
+
+
+        if ( $this->PersistenceList['regional_info']['site_charset'] )
+        {
+            $i18nINI =& eZINI::create( 'i18n.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $i18nINI->setReadOnlySettingsCheck( false );
+
+            $i18nINI->setVariable( 'CharacterSettings', 'Charset', $this->PersistenceList['regional_info']['site_charset'] );
+            $i18nINI->save( false, '.php', 'append', true );
         }
 
         return true;
@@ -185,7 +200,7 @@ class eZStepLanguageOptions extends eZStepInstaller
         if ( isset( $this->Error ) )
         {
             $showUnicodeError = !$this->PersistenceList['database_info']['use_unicode'];
-            unset( $this->PersistenceList['database_info']['use_unicode'] );
+            $this->PersistenceList['database_info']['use_unicode'] = false;
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
 
