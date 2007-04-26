@@ -166,6 +166,7 @@ class eZISBNType extends eZDataType
     function validateISBNChecksum ( $isbnNr )
     {
         $result = 0;
+        $isbnNr = strtoupper( $isbnNr );
         for ( $i = 10; $i > 0; $i-- )
         {
             if ( is_numeric( $isbnNr{$i-1} ) or ( $i == 10  and $isbnNr{$i-1} == 'X' ) )

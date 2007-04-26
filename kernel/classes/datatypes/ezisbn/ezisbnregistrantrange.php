@@ -28,8 +28,20 @@
 
 /*!
   \class eZISBNRegistrantRange ezisbnregistrantrange.php
-  \brief The class eZISBNRegistrantRange does
+  \brief The class eZISBNRegistrantRange handles Registrant ranges.
 
+  Has information about how the different ranges the registrant element
+  could be in. Example: From 00 to 19 and continues from 200-699.
+  This means that the length of the registrant can differ from
+  range to range.
+
+  The registrant element is the third element in the isbn-13 number, after
+  the Prefix and Registration group number.
+
+  Example: 978-0-11-000222-4 where 11 is the registrant number.
+
+  The different Registrant ranges are described in more detail at
+  http://www.isbn-international.org
 */
 
 class eZISBNRegistrantRange extends eZPersistentObject
@@ -42,6 +54,9 @@ class eZISBNRegistrantRange extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
+    /*!
+      Definition of the ranges for ISBN Registrant.
+    */
     function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
@@ -81,7 +96,21 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
     /*!
      \static
+     \param $ISBNGroupID    The id that point to the ISBN Group object
+                            (Which contain info about the area and the unique group number).
+     \param $fromNumber     Group is starting from test number, which is based on. Example: 20000
+                            the 5 numbers after the Prefix number and Registration Group number.
+     \param $toNumber       Group is ending on test number, which is based on. Example: 69999
+                            the 5 numbers after the Prefix number and Registration Group number.
+     \param $registrantFrom Registrant number is starting on, based on the length set
+                            in the registrant range. Is a string to support 0 in front. Example: 200
+     \param $registrantTo   Registrant number ending on, based on the length set
+                            in the registrant range. Is a string to support 0 in front. Example: 699
+     \param $length         How many characters $registrantFrom and $registrantTo should have.
+
      Create a new registrant range for a ISBN group / area.
+
+     \return A new eZISBNRegistrantRange object.
     */
     function create( $ISBNGroupID, $fromNumber, $toNumber, $registrantFrom, $registrantTo, $length )
     {
@@ -108,6 +137,15 @@ class eZISBNRegistrantRange extends eZPersistentObject
     }
 
     /*!
+     \static
+
+     Fetch the registrant group for a unique registration group area.
+
+     \param $groupID  The id that point to the ISBN Group object
+                      (Which contain info about the area and the unique group number).
+     \param $count    Will contain the count of objects returned and is sent
+                      back in the reference variable.
+     \param $asObject If the result should be returned as object or an array.
      \return the registrant list for a isbn registration group id.
     */
     function fetchListByGroupID( $groupID, &$count, $asObject = true )
@@ -121,6 +159,19 @@ class eZISBNRegistrantRange extends eZPersistentObject
         return $registrantRangeArray;
     }
 
+    /*!
+     \static
+
+     Will extract the registrant number based on the different ranges
+     which is based on the 5 first digits after the Prefix field and the registration group number.
+
+     \param $isbnNr Should be a stripped down ISBN number with just the digits (ean number).
+     \param $groupRange is an object of eZISBNGroupRange, which needs to be known before this function is called.
+     \param $registrantLength is the length of the Registrant in the range that was found.
+                              Is sent back in the reference variable.
+
+     \return the registrant range object if found and false if not found.
+    */
     function extractRegistrant( $isbnNr, $groupRange, &$registrantLength )
     {
         $registrant = false;
@@ -156,6 +207,10 @@ class eZISBNRegistrantRange extends eZPersistentObject
         return $registrant;
     }
 
+    /*!
+     \static
+     Removes all ISBN group ranges from the database.
+    */
     function cleanAll()
     {
         $db =& eZDB::instance();

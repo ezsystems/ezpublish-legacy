@@ -28,8 +28,14 @@
 
 /*!
   \class eZISBNGroup ezisbngroup.php
-  \brief The class eZISBNGroup does
+  \brief The class eZISBNGroup handles ISBN Registration groups.
 
+  Contains a list of registration numbers that exists for each area. The registration group is
+  the second field of an ISBN-13 number. Example: 978-0-11-000222-4 where 0 is the registration
+  group number.
+
+  The different Registration numbers are described in more detail at
+  http://www.isbn-international.org
 */
 
 class eZISBNGroup extends eZPersistentObject
@@ -70,6 +76,9 @@ class eZISBNGroup extends eZPersistentObject
     /*!
      \static
      Create a new area for a ISBN.
+     \param $groupNumber is the unique identifier for the area. Could be from 1 to 5 digits.
+     \param $description a small description of the registration group area.
+     \return a new eZISBNGroup object containing group number and a description.
     */
     function create( $groupNumber, $description = "" )
     {
@@ -83,6 +92,7 @@ class eZISBNGroup extends eZPersistentObject
     /*!
      \static
      Removes the ISBN group based on ID \a $id.
+     \param $id is the id the object will be removed based on.
     */
     function removeByID( $id )
     {
@@ -92,6 +102,8 @@ class eZISBNGroup extends eZPersistentObject
 
     /*!
      \static
+     \param $count The count of the result.
+     \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for isbn groups.
     */
     function fetchList( &$count, $asObject = true )
@@ -106,6 +118,8 @@ class eZISBNGroup extends eZPersistentObject
 
     /*!
      \static
+     \param $groupNumber is the unique number of the Registration group area.
+     \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for isbn groups.
     */
     function fetchByGroup( $groupNumber, $asObject = true )
@@ -122,6 +136,10 @@ class eZISBNGroup extends eZPersistentObject
         return $group;
     }
 
+    /*!
+     \static
+     Removes all ISBN groups from the database.
+    */
     function cleanAll()
     {
         $db =& eZDB::instance();

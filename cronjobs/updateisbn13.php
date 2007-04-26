@@ -24,6 +24,8 @@
 //
 
 /*! \file updateisbn13.php
+  \brief Updates the different ranges used by the ISBN standard to
+         calculate the length of Registration group, Registrant and Publication element.
  */
 
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );

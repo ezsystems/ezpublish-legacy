@@ -28,8 +28,11 @@
 
 /*!
   \class eZISBN13 ezisbn13.php
-  \brief The class eZISBN13 does
+  \brief The class eZISBN13 handles ISBN-13 numbers.
 
+  The class is containing an ISBN-13 number and extracts the different groups
+  based on the information stored in the different ranges for Registration group
+  and Registration elements. The Publication element will get the space left available.
 */
 
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
@@ -46,6 +49,9 @@ class eZISBN13
 {
     /*!
      Constructor
+     \param $isbnNr is the isbn-13 number. example is: 978-0-11-000222-4
+     \param $separator is the hyphen used in the ISBN number to make the
+                       ISBN number more visible.
     */
     function eZISBN13( $isbnNr = null, $separator = '-' )
     {
@@ -63,12 +69,24 @@ class eZISBN13
         }
     }
 
+    /*!
+     Receives an ISBN number and place hyphen on the correct place in the number.
+     If the placement is not found, an error message will be set and false
+
+     The different parts of the ISBN-13 number will be stored in separate class variables.
+
+     \param $isbnNr is the isbn-13 number. Should be 13 digits long and may contain space or hyphen as separator.
+     \param $error is used to send back an error message that will be shown to the user if the ISBN number was
+                   not extracted correctly.
+     \param $separator is the separator used to make the ISBN number visible. Could be either a space or hyphen.
+     \return A formated ISBN number or the original value if it was not possible to find the structure.
+    */
     function formatedISBNValue( $isbnNr = false, &$error, $separator = '-' )
     {
         if ( $isbnNr !== false )
         {
             $formatedISBN13 = preg_replace( "/[\s|\-]+/", "-", $isbnNr );
-            $status = $this->extractISBNNumber( $isbnNr, &$error, $separator );
+            $status = $this->extractISBNNumber( $isbnNr, &$error );
 
             if ( $status === false )
             {
@@ -140,9 +158,17 @@ class eZISBN13
     }
 
     /*!
-     \private
+      Extracts the ISBN-13 number and are setting the class variables for the different
+      parts when the value is found. The class variables should be set as default false
+      in the constructor.
+
+      \param $isbnNr is the isbn-13 number. Should be 13 digits long and may contain space or hyphen as separator.
+      \param $error is used to send back an error message that will be shown to the user if the ISBN number was
+                    not extracted correctly.
+
+      \return true if the ISBN-13 number was successfully extracted and false if not.
     */
-    function extractISBNNumber( $isbnNr = false, &$error, $separator = '-' )
+    function extractISBNNumber( $isbnNr = false, &$error )
     {
         $ini =& eZINI::instance( 'content.ini' );
         $ean = preg_replace( "/[\s|\-]+/", "", $isbnNr );
@@ -219,6 +245,8 @@ class eZISBN13
     /*!
      Validates the ISBN-13 number \a $isbnNr.
      \param $isbnNr A string containing the number without any dashes.
+     \param $error is used to send back an error message that will be shown to the user if the ISBN number was
+                   not extracted correctly.
      \return \c true if it is valid.
     */
     function validate( $isbnNr, &$error )
@@ -235,6 +263,8 @@ class eZISBN13
      \private
      Validates the ISBN-13 number \a $isbnNr.
      \param $isbnNr A string containing the number without any dashes.
+     \param $error is used to send back an error message that will be shown to the user if the
+                   ISBN number validated.
      \return \c true if it is valid.
     */
     function validateISBN13Checksum ( $isbnNr, &$error )

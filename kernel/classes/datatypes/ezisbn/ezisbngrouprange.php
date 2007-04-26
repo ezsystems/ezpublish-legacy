@@ -28,7 +28,15 @@
 
 /*!
   \class eZISBNGroupRange ezisbngrouprange.php
-  \brief The class eZISBNGroupRange does
+  \brief The class eZISBNGroupRange handle registration group ranges.
+
+  Has information about how the different ranges the registration group
+  element could be in. Example: From 0 to 5 and continues from 600-602.
+  This means that the length of the registration group can differ from
+  range to range.
+
+  The different Registration group ranges are described in more detail at
+  http://www.isbn-international.org
 
 */
 
@@ -82,6 +90,16 @@ class eZISBNGroupRange extends eZPersistentObject
     /*!
      \static
      Create a new group range for a ISBN.
+     \param $fromNumber Group is starting from test number, which is based on
+                        the 5 numbers after the Prefix number.
+     \param $toNumber   Group is ending on the To test number, which is based on
+                        the 5 numbers after the Prefix number.
+     \param $groupFrom  Group number is starting on, based on the length set
+                        in the Group.
+     \param $groupTo    Group number is ending on, based on the length set
+                        in the group.
+     \param $length     How many characters $groupFrom and $groupTo should have.
+     \return a new eZISBNGroupRange object.
     */
     function create( $fromNumber, $toNumber, $groupFrom, $groupTo, $length )
     {
@@ -107,6 +125,8 @@ class eZISBNGroupRange extends eZPersistentObject
     }
 
     /*!
+     \param $count Will contain the count of objects returned and is sent
+                   back in the reference variable.
      \return the group range list for isbn groups.
     */
     function fetchList( &$count, $asObject = true )
@@ -119,6 +139,15 @@ class eZISBNGroupRange extends eZPersistentObject
         return $groupRangeArray;
     }
 
+    /*!
+     \static
+     Will extract the group number based on the different ranges
+     which is based on the 5 first digits after the Prefix field.
+     \param $isbnNr Should be a stripped down ISBN number with just the digits (ean number).
+     \param $groupLength is the length of the RegistrationGroup in the range that was found.
+                         Is sent back in the reference variable.
+     \return the group range object if found and false if not found.
+    */
     function extractGroup( $isbnNr, &$groupLength )
     {
         $groupRange = false;
@@ -140,6 +169,10 @@ class eZISBNGroupRange extends eZPersistentObject
         return $groupRange;
     }
 
+    /*!
+     \static
+     Removes all ISBN group ranges from the database.
+    */
     function cleanAll()
     {
         $db =& eZDB::instance();
