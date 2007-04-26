@@ -212,7 +212,6 @@ class eZTranslatorManager
     function resetTranslations()
     {
         include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-        eZINI::resetGlobals( "site.ini" );
         eZTranslatorManager::resetGlobals();
         eZTSTranslator::resetGlobals();
         eZLocale::resetGlobals();
@@ -245,16 +244,24 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function setActiveTranslation( $locale )
+    function setActiveTranslation( $locale, $permanently = true )
     {
         if( !eZTranslatorManager::dynamicTranslationsEnabled() )
             return;
 
-        $siteINI =& eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+        if ( $permanently )
+            $siteINI =& eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+        else
+            $siteINI =& eZINI::instance();
 
         $siteINI->setVariable( 'RegionalSettings', 'Locale', $locale );
         $siteINI->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
-        $siteINI->save( 'site.ini.append', '.php', false, false );
+
+        if ( $permanently )
+        {
+            $siteINI->save( 'site.ini.append', '.php', false, false );
+            eZINI::resetGlobals( "site.ini" );
+        }
 
         eZTranslatorManager::resetTranslations();
     }
