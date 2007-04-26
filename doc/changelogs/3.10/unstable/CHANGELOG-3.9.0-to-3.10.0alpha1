@@ -267,3 +267,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #6574: PDF(content/pdf): Problem with UTF-8 and/or german umlauts
 - Fixed bug #10672: Missing check in PDF-view throws notice.
 - Fixed bug #10528: Tag order mistake in ezinfo/about.tpl template
+- Fixed bug #10510: Windows installer does not provide zip
