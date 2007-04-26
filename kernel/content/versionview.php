@@ -189,7 +189,8 @@ if ( $sectionID !== false )
 }
 $designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
 
-//$contentObject->setAttribute( 'current_version', $EditVersion );
+if ( !$Module->isCurrentAction( 'Publish' ) )
+    $contentObject->setAttribute( 'current_version', $EditVersion );
 
 $class = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
 $objectName = $class->contentObjectName( $contentObject );
