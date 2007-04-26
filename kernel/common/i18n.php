@@ -145,7 +145,8 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
         {
             // we don't have ts-file for 'eng-GB'.
             // NOTE: don't remove this 'if'. it's needed to support dynamic switch between translations.
-            return ezinsertarguments( $source, $arguments );
+            $text = ezinsertarguments( $source, $arguments );
+            return $text;
         }
 
         $language = ezcurrentLanguage();
