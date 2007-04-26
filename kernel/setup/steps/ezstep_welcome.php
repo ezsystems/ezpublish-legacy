@@ -116,7 +116,7 @@ class eZStepWelcome extends eZStepInstaller
         eZSetupLanguageList( $languages, $defaultLanguage, $defaultExtraLanguages );
 
         include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-        eZTranslatorManager::setActiveTranslation( $defaultLanguage );
+        eZTranslatorManager::setActiveTranslation( $defaultLanguage, false );
 
         $this->Tpl->setVariable( 'language_list', $languages );
         $this->Tpl->setVariable( 'primary_language', $defaultLanguage );
