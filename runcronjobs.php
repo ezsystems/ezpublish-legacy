@@ -377,6 +377,7 @@ class eZRunCronjobs
         }
         if ( $runScript )
         {
+            global $script;
             include( $scriptFile );
         }
     }
