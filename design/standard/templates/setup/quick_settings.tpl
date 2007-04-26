@@ -5,6 +5,8 @@
 <form name="quicksettings" action={'setup/settingstoolbar'|ezurl} method="post">
 <input type="hidden" name="SiteAccess" value="{$siteaccess|wash}" />
 
+{default ui_context=''}
+
 <div class="block">
 {section show=eq( $siteaccess, 'global_override' )}
    {section loop=$settings_list}
@@ -62,5 +64,7 @@
 <div class="block">
 <input {eq( $ui_context, 'edit' )|choose( "class='button'", "class='button-disabled'" )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="SetButton" value="Set" />
 </div>
+
+{/default}
 </form>
 {let}

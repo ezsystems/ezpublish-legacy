@@ -10,6 +10,7 @@
                         array( 'Static', 'Static'|i18n( 'design/standard/pagelayout' )|wash, false ) )}
 
 <form name="clearcache" action={'setup/cachetoolbar'|ezurl} method="post">
+{default ui_context=''}
 <div class="block">
 <select{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} name="CacheTypeValue">
    {section loop=$caches_list}
@@ -30,5 +31,6 @@
 <div class="block">
     <input {eq( $ui_context, 'edit' )|choose( 'class="button"', 'class="button-disabled"' )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="ClearCacheButton" value="{'Clear'|i18n( 'design/standard/pagelayout' )}" />
 </div>
+{/default}
 </form>
 {/let}
