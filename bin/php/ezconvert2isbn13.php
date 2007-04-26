@@ -23,8 +23,34 @@
 //
 //
 
-/*! \file ezconvert2isbn13.php
+/*!
+  \file ezconvert2isbn13.php
+  \class eZISBN10To13Converter ezconvert2isbn13.php
+  \brief Converts isbn-10 numbers to isbn-13.
+
+  The script should be runned by command line with example:
+
+  php bin/php/ezconvert2isbn13.php --all-classes
+
+  Depending on the parameter, the script will search through contentobjects and convert
+  ezisbn values in content attributes from isbn10 to isbn13. The script will also set the hyphen on the correct
+  place as well. You should set the class attribute to ISBN-13 in the contentclass before running
+  this script or add the flag --force as a parameter when you're running the script.
+
+  When --force is used, the is ISBN-13 will also be updated to ISBN-13 at the
+  contentclass level.
+
+  Example:
+  --class-id=2 Will Go through all ezisbn attributes in the class with id 2 and convert everyone which is a
+               isbn-10 value.
+  --attribute-id=12 will check if this is a isbn datatype and convert all isbn-13 values in the
+                    attribute with id 12.
+  --all-classes Does not have any argument, and converts all contentobject attributes that is set to isbn-13.
+
+  --force or -f will work in addition to all the options above and set the class attribute to isbn-13, even if it was
+                isbn10 before.
 */
+
 set_time_limit( 0 );
 
 include_once( 'lib/ezutils/classes/ezcli.php' );
@@ -106,6 +132,13 @@ else
 
 class eZISBN10To13Converter
 {
+    /*!
+     Constructor
+     \param $script The variable is set earlier in the script and transfered to the class.
+     \param $cli Is set earlier in the script, and used to send output / feedback to the user.
+     \param $params custom parameters to the class. The Force parameter is now set as a
+                    class variable for the other functions.
+    */
     function eZISBN10To13Converter( $script, $cli, $params )
     {
         $this->Script = $script;
@@ -121,6 +154,13 @@ class eZISBN10To13Converter
         }
     }
 
+
+    /*!
+      Add all classes. Will fetch all class attributes from the database that has the ezisbn
+      datatype and register it in a class variable AttributeArray for later processing.
+
+      \return true if successfull and false if not.
+     */
     function addAllClasses()
     {
         $db =& eZDB::instance();
@@ -156,6 +196,12 @@ class eZISBN10To13Converter
         return $status;
     }
 
+    /*!
+      Add all ezisbn class attributes from a class with a specific id and register them
+      in a class variable AttributeArray for later processing.
+
+      \return true if successfull and false if not.
+     */
     function addClass( $classID )
     {
         $status = false;
@@ -208,6 +254,12 @@ class eZISBN10To13Converter
         return $status;
     }
 
+     /*!
+      Add one ezisbn class attribute with a specific class attribute id and register it
+      in a class variable AttributeArray for later processing.
+
+      \return true if successfull and false if not.
+     */
     function addAttribute( $attributeID )
     {
         $status = false;
@@ -250,11 +302,18 @@ class eZISBN10To13Converter
         return $status;
     }
 
+
+    /*!
+      \return count of the current amount of class attributes registered in the attribute array.
+     */
     function attributeCount()
     {
         return count( $this->AttributeArray );
     }
 
+    /*!
+      Start processing the content object attributes.
+     */
     function execute()
     {
         foreach ( $this->AttributeArray as $classAttribute )
@@ -264,25 +323,33 @@ class eZISBN10To13Converter
                                 " (" . $contentClass->attribute( 'name' ) . "), attribute id: " .
                                 $this->Cli->stylize( 'strong', $classAttribute->attribute( 'id' ) ) .
                                 " (" . $classAttribute->attribute( 'name' ) . "):" );
-            $this->updateContentFromClass( $classAttribute->attribute( 'id' ) );
-            $this->updateClassAttributeToISBN13( $classAttribute->attribute( 'id' ) );
-            $this->Cli->output( " Finished." );
 
+            $this->updateContentFromClassAttribute( $classAttribute->attribute( 'id' ) );
+            $this->updateClassAttributeToISBN13( $classAttribute->attribute( 'id' ) );
+
+            $this->Cli->output( " Finished." );
         }
     }
 
-    function updateContentFromClass( $classAttributeID )
+    /*!
+      Update content in a ezisbn datatype for one specific class attribute id.
+      \param $classAttributeID is the class attribute id for for the isbn datatype.
+     */
+    function updateContentFromClassAttribute( $classAttributeID )
     {
         $asObject = true;
 
         $i = 0;
         $offset = 0;
+        $countList = 0;
         $limit = 100;
         $conditions = array( "contentclassattribute_id" => $classAttributeID );
         $limitArray = array( 'offset' => $offset,
                              'limit' => $limit );
 
         $sortArray = array( 'id' => 'asc' );
+
+        // Only fetch some objects each time to avoid memory problems.
         while ( true )
         {
             $contentObjectAttributeList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
@@ -305,15 +372,22 @@ class eZISBN10To13Converter
             {
                 $this->Cli->output( ' ' . $this->Cli->stylize( 'strong', $i * $limit ) );
             }
+            $countList = count( $contentObjectAttributeList );
             unset( $contentObjectList );
             $offset += $limit;
             $limitArray = array( 'offset' => $offset,
                                  'limit' => $limit );
         }
         $repeatLength = 70 - ( $i % 70 );
-        $this->Cli->output( str_repeat( ' ', $repeatLength  ) . ' ' . $this->Cli->stylize( 'strong', $i * $limit ), false );
+        $count = ( ( $i - 1 ) * $limit ) + $countList;
+        $this->Cli->output( str_repeat( ' ', $repeatLength  ) . ' ' . $this->Cli->stylize( 'strong', $count ), false );
     }
 
+    /*!
+      Convert the ISBN number for a content object attribute with the specific
+      content attribute id.
+      \param $contentObjectAttribute Should be a object of eZContentObjectAttribute.
+     */
     function updateContentObjectAttribute( $contentObjectAttribute )
     {
         $isbnNumber =& $contentObjectAttribute->attribute( 'data_text' );
@@ -325,6 +399,8 @@ class eZISBN10To13Converter
             // Validate the isbn number.
             $digits = preg_replace( "/\-/", "", $isbnNumber );
 
+            // If the length of the number is 10, it is a ISBN-10 number and need
+            // to be converted to ISBN-13.
             if ( strlen( $digits ) == 10 )
             {
                 $ean = eZISBNType::convertISBN10toISBN13( $digits );
@@ -358,6 +434,11 @@ class eZISBN10To13Converter
         }
     }
 
+    /*!
+     Does the update of the class attribute directly to the database, which will only alter
+     the attribute for if the isbn datatype is ISBN-13.
+     \param $classAttributeID is the Class attribute id for the isbn datatype.
+    */
     function updateClassAttributeToISBN13( $classAttributeID )
     {
         $db =& eZDB::instance();
@@ -365,6 +446,12 @@ class eZISBN10To13Converter
         $db->query( $sql );
     }
 
+    /*!
+     Does the update of the content object attribute directly to the database, which will only alter
+     the attribute for if the isbn datatype is ISBN-13.
+     \param $contentObjectAttribute Is an object of eZContentObjectAttribute.
+     \param $formatedISBN13Value contains the formated version of the ISBN-13 number with hyphen as delimiter.
+    */
     function updateContentISBNNumber( $contentObjectAttribute, $formatedISBN13Value )
     {
         $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
@@ -374,28 +461,6 @@ class eZISBN10To13Converter
                "' WHERE id='" .  $contentObjectAttributeID . "' AND version='" . $version . "'" ;
         $db->query( $sql );
     }
-
-    function convertISBN10to13( $isbnNumber )
-    {
-        $isbnNr = 978 . substr( $isbnNumber, 0, 9 );
-
-        $weight13 = 1;
-        $checksum13 = 0;
-        $val = 0;
-
-        for ( $i = 0; $i < 12; $i++ )
-        {
-            $val = $isbnNr{$i};
-            $checksum13 = $checksum13 + $weight13 * $val;
-            $weight13 = ( $weight13 + 2 ) % 4;
-        }
-
-        $checkDigit = 10 - ( ( $checksum13 % 10 ) ) % 10;
-        $isbnNr .= $checkDigit;
-
-        return $isbnNr;
-    }
-
 
     var $Cli;
     var $Script;
