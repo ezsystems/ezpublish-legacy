@@ -162,7 +162,6 @@ class eZXMLInputParser
         $this->ParseLineBreaks = $parseLineBreaks;
 
         $this->XMLSchema =& eZXMLSchema::instance();
-        //$this->getClassesList();
 
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
@@ -225,18 +224,19 @@ class eZXMLInputParser
     }
 
     /// \public
-    function createRootNode( $document = false )
+    function createRootNode()
     {
-        if ( !$document )
-            $document =& $this->Document;
+        if ( !$this->Document )
+            $this->Document = new $this->DOMDocumentClass( '', true );
+
         // Creating root section with namespaces definitions
-        $mainSection =& $document->createElement( 'section' );
-        $document->appendChild( $mainSection );
+        $mainSection =& $this->Document->createElement( 'section' );
+        $this->Document->appendChild( $mainSection );
         foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
         {
             $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
         }
-        return $document;
+        return $this->Document;
     }
 
     /*!
@@ -737,24 +737,6 @@ class eZXMLInputParser
         return $domString;
     }
 
-    /*function getClassesList()
-    {
-        $ini =& eZINI::instance( 'content.ini' );
-        foreach( array_keys( $this->OutputTags ) as $tagName )
-        {
-            if ( $ini->hasVariable( $tagName, 'AvailableClasses' ) )
-            {
-                $avail = $ini->variable( $tagName, 'AvailableClasses' );
-                if ( is_array( $avail ) && count( $avail ) )
-                    $this->OutputTags[$tagName]['classesList'] = $avail;
-                else
-                    $this->OutputTags[$tagName]['classesList'] = array();
-            }
-            else
-                $this->OutputTags[$tagName]['classesList'] = array();
-        }
-    }*/
-
     function wordMatchSupport( $newTagName, &$attributes, $attributeString )
     {
         $ini =& eZINI::instance( 'wordmatch.ini' );
@@ -1171,7 +1153,7 @@ class eZXMLInputParser
     var $DOMDocumentClass = 'eZDOMDocument';
 
     var $XMLSchema;
-    var $Document;
+    var $Document = null;
     var $Messages = array();
     var $eZPublishVersion;
 
