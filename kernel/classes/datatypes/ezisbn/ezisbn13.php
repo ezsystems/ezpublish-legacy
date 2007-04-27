@@ -222,8 +222,12 @@ class eZISBN13
                     }
                     else
                     {
-                        $error = ezi18n( 'kernel/classes/datatypes', 'The ISBN number has a incorrect registration group number.' );
-                        return false;
+                        $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
+                        if ( $strictValidation == 'true' )
+                        {
+                            $error = ezi18n( 'kernel/classes/datatypes', 'The ISBN number has a incorrect registration group number.' );
+                            return false;
+                        }
                     }
                 }
                 else
