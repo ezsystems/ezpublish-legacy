@@ -840,10 +840,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
                          'type' => EZ_ACCESS_TYPE_STATIC );
 
         $access = changeAccess( $access );
-
         eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
-
-        $GLOBALS['eZCurrentAccess'] =& $access;
 
         // Clear/flush global database instance.
         $nullVar = null;

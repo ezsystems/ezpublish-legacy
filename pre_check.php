@@ -56,7 +56,6 @@ function eZCheckValidity( &$siteBasics, &$uri )
         $access = array( 'name' => 'setup',
                          'type' => EZ_ACCESS_TYPE_URI );
         $access = changeAccess( $access );
-        $GLOBALS['eZCurrentAccess'] = $access;
 
         include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
         eZTranslatorManager::enableDynamicTranslations();
