@@ -75,6 +75,12 @@ class eZXML
     */
     function &domTree( $xmlDoc, $params = array(), $native = false )
     {
+        if ( !$xmlDoc )
+        {
+            $tmp = null;
+            return $tmp;
+        }
+
         /* We remove all control chars from the text, although they
          * should have not be there in the first place. This is
          * iso-8859-1 and UTF-8 safe. Those characters might also never exist
@@ -380,6 +386,11 @@ class eZXML
                     $currentNode->appendChild( $subNode );
                 }
             }
+        }
+        if ( !$domDocument->Root )
+        {
+            $tmp = null;
+            return $tmp;
         }
 
         return $domDocument;
