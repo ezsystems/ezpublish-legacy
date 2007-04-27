@@ -162,7 +162,6 @@ class eZXMLInputParser
         $this->ParseLineBreaks = $parseLineBreaks;
 
         $this->XMLSchema =& eZXMLSchema::instance();
-        //$this->getClassesList();
 
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
@@ -224,6 +223,22 @@ class eZXMLInputParser
         $this->RemoveDefaultAttrs = $value;
     }
 
+    /// \public
+    function createRootNode()
+    {
+        if ( !$this->Document )
+            $this->Document = new $this->DOMDocumentClass( '', true );
+
+        // Creating root section with namespaces definitions
+        $mainSection =& $this->Document->createElement( 'section' );
+        $this->Document->appendChild( $mainSection );
+        foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
+        {
+            $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
+        }
+        return $this->Document;
+    }
+
     /*!
         \public
         Call this function to process your input
@@ -237,17 +252,10 @@ class eZXMLInputParser
             $text = str_replace( "\n", '', $text);
         }
 
+        $this->Document = new $this->DOMDocumentClass( '', true );
+
         if ( $createRootNode )
-        {
-            // Creating root section with namespaces definitions
-            $this->Document = new $this->DOMDocumentClass( '', true );
-            $mainSection =& $this->Document->createElement( 'section' );
-            $this->Document->appendChild( $mainSection );
-            foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
-            {
-                $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
-            }
-        }
+            $this->createRootNode();
 
         // Perform pass 1
         // Parsing the source string
@@ -729,24 +737,6 @@ class eZXMLInputParser
         return $domString;
     }
 
-    /*function getClassesList()
-    {
-        $ini =& eZINI::instance( 'content.ini' );
-        foreach( array_keys( $this->OutputTags ) as $tagName )
-        {
-            if ( $ini->hasVariable( $tagName, 'AvailableClasses' ) )
-            {
-                $avail = $ini->variable( $tagName, 'AvailableClasses' );
-                if ( is_array( $avail ) && count( $avail ) )
-                    $this->OutputTags[$tagName]['classesList'] = $avail;
-                else
-                    $this->OutputTags[$tagName]['classesList'] = array();
-            }
-            else
-                $this->OutputTags[$tagName]['classesList'] = array();
-        }
-    }*/
-
     function wordMatchSupport( $newTagName, &$attributes, $attributeString )
     {
         $ini =& eZINI::instance( 'wordmatch.ini' );
@@ -1163,7 +1153,7 @@ class eZXMLInputParser
     var $DOMDocumentClass = 'eZDOMDocument';
 
     var $XMLSchema;
-    var $Document;
+    var $Document = null;
     var $Messages = array();
     var $eZPublishVersion;
 
