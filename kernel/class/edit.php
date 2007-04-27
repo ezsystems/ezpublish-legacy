@@ -114,17 +114,29 @@ if ( is_numeric( $ClassID ) )
 else
 {
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-    $user =& eZUser::currentUser();
-    $user_id = $user->attribute( 'contentobject_id' );
-    $class = eZContentClass::create( $user_id );
-    $class->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'New Class' ) );
-    $class->store();
-    $ClassID = $class->attribute( 'id' );
-    $ClassVersion = $class->attribute( 'version' );
-    $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
-    $ingroup->store();
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
-    return;
+    
+    if ( is_numeric( $GroupID ) and is_string( $GroupName ) and $GroupName != '' )
+    {
+        $user =& eZUser::currentUser();
+        $user_id = $user->attribute( 'contentobject_id' );
+        $class = eZContentClass::create( $user_id );
+        $class->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'New Class' ) );
+        $class->store();
+        $ClassID = $class->attribute( 'id' );
+        $ClassVersion = $class->attribute( 'version' );
+        $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
+        $ingroup->store();
+        $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
+        return;
+    }
+    else
+    {
+        $errorResponseGroupName = ( $GroupName == '' ) ? '<Empty name>' : $GroupName;
+        $errorResponseGroupID = ( !is_numeric( $GroupID ) ) ? '<Empty ID>' : $GroupID;
+        eZDebug::writeError( "Unknown class group: {$errorResponseGroupName} (ID: {$errorResponseGroupID})", 'Kernel - Class - Edit' );
+        $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
 }
 
 
