@@ -425,7 +425,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         // don't render if inside 'li' or inside 'td' (by option)
         $parent =& $element->parentNode;
 
-        if ( $parent->nodeName == 'li' ||
+        if ( ( $parent->nodeName == 'li' && count( $parent->Children ) == 1 ) ||
              ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells ) )
         {
             return $childrenOutput;
