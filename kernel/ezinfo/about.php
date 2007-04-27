@@ -162,10 +162,10 @@ $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );
 $thirdPartySoftware = getThirdPartySoftware( EZ_ABOUT_THIRDPARTY_SOFTWARE_FILE );
 $extensions = getExtensionsInfo();
 
-strReplaceByArray( array( 'eZ systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
-                          'eZ Systems AS' => "<a href='http://ez.no/'>eZ Systems AS</a>",
-                          'eZ publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>",
-                          'eZ Publish' => "<a href='http://ez.no/ezpublish'>eZ Publish</a>" ),
+strReplaceByArray( array( 'eZ Systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
+                          'eZ systems AS' => '<a href="http://ez.no/">eZ Systems AS</a>',
+                          'eZ Publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>',
+                          'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
                    array( &$whatIsEzPublish, &$license, &$contributors, &$thirdPartySoftware, &$extensions ) );
 
 $tpl =& templateInit();
