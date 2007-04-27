@@ -225,17 +225,18 @@ class eZXMLInputParser
     }
 
     /// \public
-    function createRootNode()
+    function createRootNode( $document = false )
     {
+        if ( !$document )
+            $document =& $this->Document;
         // Creating root section with namespaces definitions
-        $this->Document = new $this->DOMDocumentClass( '', true );
-        $mainSection =& $this->Document->createElement( 'section' );
-        $this->Document->appendChild( $mainSection );
+        $mainSection =& $document->createElement( 'section' );
+        $document->appendChild( $mainSection );
         foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
         {
             $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
         }
-        return $this->Document;
+        return $document;
     }
 
     /*!
@@ -250,6 +251,8 @@ class eZXMLInputParser
         {
             $text = str_replace( "\n", '', $text);
         }
+
+        $this->Document = new $this->DOMDocumentClass( '', true );
 
         if ( $createRootNode )
             $this->createRootNode();
