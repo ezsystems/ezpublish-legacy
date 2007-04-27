@@ -117,6 +117,7 @@ function accessType( &$uri, $host, $port, $file )
                                 $uri->dropBase();
                                 $access['name'] = $matchMapAccess;
                                 $access['type'] = $type;
+                                $access['access_alias'] = $matchMapURI;
                                 return $access;
                             }
                         }
@@ -280,6 +281,8 @@ function accessType( &$uri, $host, $port, $file )
 function changeAccess( $access )
 {
     $ini =& eZINI::instance();
+
+    $GLOBALS['eZCurrentAccess'] =& $access;
 
     $name = $access['name'];
     if ( isset( $access['type'] ) &&

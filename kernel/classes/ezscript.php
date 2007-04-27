@@ -260,7 +260,6 @@ class eZScript
         }
 
         $access = changeAccess( $access );
-        $GLOBALS['eZCurrentAccess'] =& $access;
 
         if ( $this->UseExtensions )
         {
