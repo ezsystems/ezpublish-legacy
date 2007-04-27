@@ -58,7 +58,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
         if ( !$object )
         {
-            eZDebugSetting::writeError( 'kernel-workflow-waituntildate', $parameters['object_id'], 'eZApproveType::execute() object is unavailable' );
+            eZDebugSetting::writeError( 'kernel-workflow-waituntildate','The object with ID '.$parameters['object_id'].' does not exist.', 'eZApproveType::execute() object is unavailable' );
             return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
 
