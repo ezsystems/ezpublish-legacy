@@ -224,6 +224,20 @@ class eZXMLInputParser
         $this->RemoveDefaultAttrs = $value;
     }
 
+    /// \public
+    function createRootNode()
+    {
+        // Creating root section with namespaces definitions
+        $this->Document = new $this->DOMDocumentClass( '', true );
+        $mainSection =& $this->Document->createElement( 'section' );
+        $this->Document->appendChild( $mainSection );
+        foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
+        {
+            $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
+        }
+        return $this->Document;
+    }
+
     /*!
         \public
         Call this function to process your input
@@ -238,16 +252,7 @@ class eZXMLInputParser
         }
 
         if ( $createRootNode )
-        {
-            // Creating root section with namespaces definitions
-            $this->Document = new $this->DOMDocumentClass( '', true );
-            $mainSection =& $this->Document->createElement( 'section' );
-            $this->Document->appendChild( $mainSection );
-            foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
-            {
-                $mainSection->setAttributeNS( 'http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $this->Namespaces[$prefix] );
-            }
-        }
+            $this->createRootNode();
 
         // Perform pass 1
         // Parsing the source string
