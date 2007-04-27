@@ -78,7 +78,6 @@ include_once( "access.php" );
 $access = array( 'name' => $ini->variable( 'SiteSettings', 'DefaultAccess' ),
                  'type' => EZ_ACCESS_TYPE_DEFAULT );
 $access = changeAccess( $access );
-$GLOBALS['eZCurrentAccess'] =& $access;
 // Siteaccess activation end
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())

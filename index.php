@@ -378,7 +378,6 @@ $access = accessType( $uri,
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
-$GLOBALS['eZCurrentAccess'] =& $access;
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
 eZDebug::checkDebugByUser();

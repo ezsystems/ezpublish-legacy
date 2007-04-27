@@ -4,6 +4,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Added port option for shell database schema scripts.
 - Added SSL proxy support.
 - Added enhanced ISBN13 support.
+- Implemented feature: Possibility to disable 'tipafriend' view for module 'content'.
 
 *Design:
 - Added Bulgarian flag.
@@ -278,4 +279,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10391: New contentclass automatically created.
 - Fixed bug #10603: Controls should be done on ezwaituntildatetype.php.
   (Merged from stable/3.9 (3.9.2) rev. 18741).
-- Implemented feature: Possibility to disable 'tipafriend' view for module 'content'
+- Fixed bug #10392: bug in ezurl operator.

@@ -253,14 +253,14 @@ if ( !$siteAccess )
     }
 }
 
-$GLOBALS['eZCurrentAccess']['name'] = $siteAccess;
-changeAccess( array( 'name' => $siteAccess ) );
+$access = $GLOBALS['eZCurrentAccess'];
+$access['name'] = $siteAccess;
 
-if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+if ( $access['type'] == EZ_ACCESS_TYPE_URI )
 {
     eZSys::clearAccessPath();
-    eZSys::addAccessPath( $siteAccess );
 }
+changeAccess( $access );
 
 // Load the siteaccess extensions
 eZExtension::activateExtensions( 'access' );
