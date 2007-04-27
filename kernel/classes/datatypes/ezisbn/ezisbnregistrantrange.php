@@ -166,41 +166,41 @@ class eZISBNRegistrantRange extends eZPersistentObject
      which is based on the 5 first digits after the Prefix field and the registration group number.
 
      \param $isbnNr Should be a stripped down ISBN number with just the digits (ean number).
+     \param $group is an object of eZISBNGroup, which needs to be known before this function is called.
+                   Contains information about the group itself.
      \param $groupRange is an object of eZISBNGroupRange, which needs to be known before this function is called.
+                        Contains information about the valid ranges for the isbn group.
      \param $registrantLength is the length of the Registrant in the range that was found.
                               Is sent back in the reference variable.
 
      \return the registrant range object if found and false if not found.
     */
-    function extractRegistrant( $isbnNr, $groupRange, &$registrantLength )
+    function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
     {
         $registrant = false;
-        if ( get_class( $groupRange ) == 'ezisbngrouprange' )
+        if ( get_class( $group ) == 'ezisbngroup' and
+             get_class( $groupRange ) == 'ezisbngrouprange' )
         {
             $groupLength =& $groupRange->attribute( 'group_length' );
-            $groupValue = substr( $isbnNr, 3, $groupLength );
-            $group = eZISBNGroup::fetchByGroup( $groupValue );
-            if ( get_class( $group ) == 'ezisbngroup' )
-            {
-                $groupID =& $group->attribute( 'id' );
-                $registrantOffset = 3 + $groupLength;
-                $testSegment = substr( $isbnNr, $registrantOffset, 5 );
-                if ( is_numeric( $testSegment ) )
-                {
-                    $conditions = array( 'from_number' => array( '<=', $testSegment ),
-                                         'to_number' => array( '>=', $testSegment ),
-                                         'isbn_group_id' => $groupID );
-                    $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
-                                                                            null, $conditions, null, null,
-                                                                            true );
-                    if ( count( $groupRangeArray ) == 1 )
-                    {
-                        $length =& $groupRangeArray[0]->attribute( 'registrant_length' );
+            $groupID =& $group->attribute( 'id' );
 
-                        // Copy the length to send it back as a reference.
-                        $registrantLength = $length;
-                        $registrant = $groupRangeArray[0];
-                    }
+            $registrantOffset = 3 + $groupLength;
+            $testSegment = substr( $isbnNr, $registrantOffset, 5 );
+            if ( is_numeric( $testSegment ) )
+            {
+                $conditions = array( 'from_number' => array( '<=', $testSegment ),
+                                     'to_number' => array( '>=', $testSegment ),
+                                     'isbn_group_id' => $groupID );
+                $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
+                                                                        null, $conditions, null, null,
+                                                                        true );
+                if ( count( $groupRangeArray ) == 1 )
+                {
+                    $length =& $groupRangeArray[0]->attribute( 'registrant_length' );
+
+                    // Copy the length to send it back as a reference.
+                    $registrantLength = $length;
+                    $registrant = $groupRangeArray[0];
                 }
             }
         }

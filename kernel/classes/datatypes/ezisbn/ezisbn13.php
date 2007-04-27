@@ -186,16 +186,19 @@ class eZISBN13
                 $publicationValue = false;
                 $checkDigit = false;
 
-                $group = eZISBNGroupRange::extractGroup( $ean, $groupLength );
+                $groupRange = eZISBNGroupRange::extractGroup( $ean, $groupLength );
+
                 if ( $groupLength > 0 )
                 {
                     $groupValue = substr( $ean, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH, $groupLength );
                     $this->RegistrationGroup = $groupValue;
 
-                    if ( get_class( $group ) == 'ezisbngrouprange' )
+                    $group = eZISBNGroup::fetchByGroup( $groupValue );
+                    if ( get_class( $group ) == 'ezisbngroup' )
                     {
-                        $registrant = eZISBNRegistrantRange::extractRegistrant( $ean, $group, $registrantLength );
-                        if ( $registrantLength > 0 )
+                        $registrant = eZISBNRegistrantRange::extractRegistrant( $ean, $group, $groupRange, $registrantLength );
+                        if ( get_class( $registrant ) == 'ezisbnregistrantrange' and
+                             $registrantLength > 0 )
                         {
                             $registrantOffset = EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH + $groupLength;
                             $registrantValue = substr( $ean, $registrantOffset, $registrantLength );
@@ -206,6 +209,15 @@ class eZISBN13
                             $publicationLength = 12 - $publicationOffset;
                             $publicationValue = substr( $ean, $publicationOffset, $publicationLength );
                             $this->PublicationElement = $publicationValue;
+                        }
+                        else
+                        {
+                            $strictValidation = $ini->variable( 'ISBNSettings', 'StrictValidation' );
+                            if ( $strictValidation == 'true' )
+                            {
+                                $error = ezi18n( 'kernel/classes/datatypes', 'The registrant element of the ISBN number does not exist.' );
+                                return false;
+                            }
                         }
                     }
                     else
