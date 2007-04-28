@@ -266,6 +266,10 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
         else
             $trashRowsArray = $db->arrayQuery( $query, array( 'offset' => $offset,
                                                               'limit'  => $limit ) );
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+
         if ( $asCount )
         {
             return $trashRowsArray[0]['count'];

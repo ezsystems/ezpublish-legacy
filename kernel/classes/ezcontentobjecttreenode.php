@@ -1510,6 +1510,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
+        $tempTables = array();
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1549,9 +1550,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
-                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
+                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
+                            $tempTables[] = $groupPermTempTable;
+
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
+
+                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                            $db->query( "INSERT INTO $groupPermTempTable
+                                                SELECT DISTINCT contentobject_id AS user_id
+                                                FROM     ezcontentobject_tree
+                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
+
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
                         case 'Node':
@@ -1597,7 +1608,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
-                                        'where' => $sqlPermissionCheckingWhere );
+                                        'where' => $sqlPermissionCheckingWhere,
+                                        'temp_tables' => $tempTables );
 
         return $sqlPermissionChecking;
     }
@@ -1840,7 +1852,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                 $groupByText";
 
-    if ( $sortingInfo['sortingFields'] )
+        if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db =& eZDB::instance();
@@ -1859,6 +1871,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         else
             $retNodeList =& $nodeListArray;
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
     }
@@ -2071,6 +2086,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $retNodeList =& $nodeListArray;
         }
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
     }
@@ -2661,6 +2679,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
+        $sqlPermissionTempTables = array();
 
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
@@ -2700,9 +2719,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
-                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
+                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
+                            $sqlPermissionTempTables[] = $groupPermTempTable;
+
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
+
+                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                            $db->query( "INSERT INTO $groupPermTempTable
+                                                SELECT DISTINCT contentobject_id AS user_id
+                                                FROM     ezcontentobject_tree
+                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
+
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
                         case 'Node':
@@ -2796,6 +2825,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $nodeListArray = $db->arrayQuery( $query );
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionTempTables );
+
         return $nodeListArray[0]['count'];
     }
 
@@ -2888,6 +2921,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $retNodeList =& $nodeListArray;
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
 
