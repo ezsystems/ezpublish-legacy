@@ -64,7 +64,7 @@ class eZSearchEngine
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion =& $contentObject->currentVersion();
-        
+
         if ( !$currentVersion )
         {
             $errCurrentVersion = $contentObject->attribute( 'current_version');
@@ -819,6 +819,9 @@ class eZSearchEngine
                 $intermediateResult = $this->callMethod( $methodName, array( $searchType ) );
                 if ( $intermediateResult == false )
                 {
+                    // cleanup temp tables
+                    $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+
                     return array( "SearchResult" => array(),
                                   "SearchCount" => 0,
                                   "StopWordArray" => array() );
@@ -833,6 +836,9 @@ class eZSearchEngine
                  !$searchPartsArray &&
                  !$subTreeSQL )
             {
+                // cleanup temp tables
+                $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+
                 return array( "SearchResult" => array(),
                               "SearchCount" => 0,
                               "StopWordArray" => array() );
@@ -969,6 +975,11 @@ class eZSearchEngine
             if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
             {
                 // No words to search for, return empty result
+
+                // cleanup temp tables
+                $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+                $db->dropTempTableList( $this->getSavedTempTablesList() );
+
                 return array( "SearchResult" => array(),
                           "SearchCount" => 0,
                           "StopWordArray" => $stopWordArray );
@@ -1119,8 +1130,8 @@ class eZSearchEngine
                 $objectRes = array();
 
             // Drop tmp tables
-            foreach ( $this->getSavedTempTablesList() as $table )
-                $db->dropTempTable( "DROP TABLE $table" );
+            $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+            $db->dropTempTableList( $this->getSavedTempTablesList() );
 
             return array( "SearchResult" => $objectRes,
                           "SearchCount" => $searchCount,

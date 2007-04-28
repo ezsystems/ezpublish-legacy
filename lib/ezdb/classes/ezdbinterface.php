@@ -1180,6 +1180,15 @@ class eZDBInterface
     }
 
     /*!
+      Drop temporary table list
+    */
+    function dropTempTableList( $tableList )
+    {
+        foreach( $tableList as $tableName )
+            $this->dropTempTable( "DROP TABLE $tableName" );
+    }
+
+    /*!
       \pure
       Sets the error message and error message number
     */

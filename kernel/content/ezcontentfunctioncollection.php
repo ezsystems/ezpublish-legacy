@@ -846,6 +846,9 @@ class eZContentFunctionCollection
 
         $keyWords = $db->arrayQuery( $query );
 
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
+
         return array( 'result' => $keyWords[0]['count'] );
     }
 
