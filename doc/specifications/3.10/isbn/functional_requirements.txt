@@ -44,13 +44,7 @@ Deriving the registration group and internal structure
 ------------------------------------------------------
 Each registration group element belongs to a country or area and may have their own rules for the internal structure for Registrant and Publication element.
 
-This need to be calculated based on the distribution of ranges each region has. The different ranges need to be stored in order to calculate the correct placement to each hyphens in the internal structure.
-
-The ranges may be updated and should be checked on a regular basis with the International ISBN Agency and updated in eZ Publish.
-
-The different ranges will be stored in the database and accessible from the setup as a setting for all ISBN datatypes.
-
-Each area has a name, which will be stored in the database as a reference to the translation files in eZ Publish. This makes it possible to have the list with the description of the area in several languages dependent on the locale for the setup. It will be possible to edit each area and add customized ranges for each region. The same need to be done for the ranges for the registration group elements as well.
+This need to be calculated based on the distribution of ranges each region has. The different ranges need to be stored in order to calculate the correct placement to each hyphens in the internal structure. The ranges may be updated and should be checked on a regular basis with the International ISBN Agency and updated in eZ Publish. The different ranges will be stored in the database and accessible from the setup as a setting for all ISBN datatypes.
 
 ISBN-13 numbers stored in database
 ----------------------------------
@@ -60,7 +54,6 @@ The number should be stored in the database with the hyphens at the correct plac
 For instance: 978-82-573-0904-6
 
 Storing the ISBN-13 number without hyphens or with hyphens at incorrect possitions should NOT happend.
-
 
 Viewing ISBN-13 numbers with or without hyphens
 -----------------------------------------------
