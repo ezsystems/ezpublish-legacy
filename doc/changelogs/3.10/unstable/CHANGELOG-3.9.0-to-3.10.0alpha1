@@ -281,3 +281,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.2) rev. 18741).
 - Fixed bug #10392: bug in ezurl operator.
 - Fixed bug #10413: Review group based permisson fix
+- Fixed bug #10681: Node tree in inconsistent/illegal state because of hidden parent with 
+  retrofitted related objects as children.

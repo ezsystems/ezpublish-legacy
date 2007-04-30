@@ -3690,7 +3690,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $insertedNode->setAttribute( 'contentobject_version', $contentObjectVersion );
 
-        // If the parent node is hidden, the new created node should be hidden as well.
+        // If the parent node is invisible, the new created node should be invisible as well.
         $insertedNode->setAttribute( 'is_invisible', $isInvinsible );
 
         $db->begin();
