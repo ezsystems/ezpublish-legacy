@@ -129,6 +129,7 @@ function getUserInput( $prompt )
     fwrite( $stdin, $prompt );
 
     $userInput = fgets( $stdin );
+    $userInput = trim( $userInput, "\n" );
 
     fclose( $stdin );
 
@@ -601,7 +602,9 @@ function updateINI()
 {
     showMessage2( "Updateing INI-files..." );
 
-    $userSiteaccessName = 'ezwebin_site';
+    $siteaccessList = getUserInput( "Please specify your 'user' siteaccesses: ");
+    $siteaccessList = split( ' ', $siteaccessList );
+
     $parameters = array();
 
     $extraSettings = array();
@@ -614,56 +617,59 @@ function updateINI()
     $extraCommonSettings = array();
     $extraCommonSettings[] = eZCommonContentINISettings( $parameters );
 
-    // NOTE: it's copy/paste from ezstep_create_sites.php
-    foreach ( $extraSettings as $extraSetting )
+    foreach( $siteaccessList as $userSiteaccessName )
     {
-        if ( $extraSetting === false )
-            continue;
-
-        $iniName = $extraSetting['name'];
-        $settings = $extraSetting['settings'];
-        $resetArray = false;
-        if ( isset( $extraSetting['reset_arrays'] ) )
-            $resetArray = $extraSetting['reset_arrays'];
-
-        $tmpINI =& eZINI::create( $iniName );
-        // Set ReadOnlySettingsCheck to false: towards
-        // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
-        $tmpINI->setReadOnlySettingsCheck( false );
-
-        $tmpINI->setVariables( $settings );
-        if ( $iniName == 'site.ini' )
+        // NOTE: it's copy/paste from ezstep_create_sites.php
+        foreach ( $extraSettings as $extraSetting )
         {
-            $siteINIStored = true;
-            $tmpINI->setVariables( $siteINIChanges );
-            $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-            $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-        }
-        else if ( $iniName == 'design.ini' )
-        {
-            if ( $siteCSS )
-                $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-            if ( $classesCSS )
-                $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-            $designINIStored = true;
-        }
-        $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
+            if ( $extraSetting === false )
+                continue;
 
-        if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
-        {
-            // setting up appropriate data in look&feel object
-            $templateLookObject = eZContentObject::fetch( 54 );
-            $dataMap =& $templateLookObject->fetchDataMap();
-            $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-            $dataMap[ 'title' ]->store();
-            $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-            $dataMap[ 'siteurl' ]->store();
-            $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-            $dataMap[ 'email' ]->store();
-            $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
-            $objectName = $class->contentObjectName( $templateLookObject );
-            $templateLookObject->setName( $objectName );
-            $templateLookObject->store();
+            $iniName = $extraSetting['name'];
+            $settings = $extraSetting['settings'];
+            $resetArray = false;
+            if ( isset( $extraSetting['reset_arrays'] ) )
+                $resetArray = $extraSetting['reset_arrays'];
+
+            $tmpINI =& eZINI::create( $iniName );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $tmpINI->setReadOnlySettingsCheck( false );
+
+            $tmpINI->setVariables( $settings );
+            if ( $iniName == 'site.ini' )
+            {
+                $siteINIStored = true;
+                $tmpINI->setVariables( $siteINIChanges );
+                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+                $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+            }
+            else if ( $iniName == 'design.ini' )
+            {
+                if ( $siteCSS )
+                    $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+                if ( $classesCSS )
+                    $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
+                $designINIStored = true;
+            }
+            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
+
+            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+            {
+                // setting up appropriate data in look&feel object
+                $templateLookObject = eZContentObject::fetch( 54 );
+                $dataMap =& $templateLookObject->fetchDataMap();
+                $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                $dataMap[ 'title' ]->store();
+                $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                $dataMap[ 'siteurl' ]->store();
+                $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                $dataMap[ 'email' ]->store();
+                $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
+                $objectName = $class->contentObjectName( $templateLookObject );
+                $templateLookObject->setName( $objectName );
+                $templateLookObject->store();
+            }
         }
     }
 
