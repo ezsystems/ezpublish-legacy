@@ -244,7 +244,9 @@ class eZMutex
         else
         {
             $stealPid = $stealMutex->meta( 'pid' );
-            if ( function_exists( 'posix_kill' ) )
+            if ( is_numeric( $stealPid ) &&
+                 $stealPid != 0 &&
+                 function_exists( 'posix_kill' ) )
             {
                 eZDebug::writeNotice( 'Killing steal mutex process: ' . $stealPid );
                 posix_kill( $stealPid, 9 );

@@ -401,7 +401,9 @@ class eZRunCronjobs
         $oldPid = $scriptMutex->meta( 'pid' );
         if ( $force )
         {
-            if ( function_exists( 'posix_kill' ) )
+            if ( is_numeric( $oldPid ) &&
+                 $oldPid != 0 &&
+                 function_exists( 'posix_kill' ) )
             {
                 $cli->output( 'Killing process: ' . $oldPid );
                 posix_kill( $oldPid, 9 );
