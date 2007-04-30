@@ -1356,8 +1356,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 {
                     // if there is no needed translation in system then add it
                     $locale =& eZLocale::instance( $language );
-                    //$translationName = $locale->internationalLanguageName();
-                    //$translationLocale = $locale->localeCode();
 
                     if ( $locale->isValid() )
                     {
