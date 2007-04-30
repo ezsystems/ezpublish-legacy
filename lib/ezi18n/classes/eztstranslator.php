@@ -616,7 +616,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
      Fetche list of available translations, create eZTrnslator for each translations.
      \return list of eZTranslator objects representing available translations.
     */
-    function translationList()
+    function fetchList( $localeList = array() )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
@@ -628,7 +628,11 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $locale = '';
 
         include_once( 'lib/ezfile/classes/ezfile.php' );
-        $localeList = eZDir::findSubdirs( $dir );
+
+        if ( count( $localeList ) == 0 )
+        {
+            $localeList = eZDir::findSubdirs( $dir );
+        }
 
         foreach( $localeList as $locale )
         {

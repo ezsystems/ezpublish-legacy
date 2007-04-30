@@ -36,7 +36,11 @@
 // Generate caches for translations
 // file  bin/php/ezgeneratetranslationcache.php
 
-// script initializing
+
+/**************************************************************
+* script initializing                                         *
+***************************************************************/
+
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
@@ -49,27 +53,40 @@ $script =& eZScript::instance( array( 'description' => ( "\n" .
                                       'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "",
+$scriptOptions = $script->getOptions( "[ts-list:]",
                                       "",
-                                      array(),
+                                      array( 'ts-list' => "A list of trunstaltions to genereate caches for, f.ex 'rus-RU nor-NO'\n".
+                                                          "By default caches for all translations will be generated" ),
                                       false,
                                       array( 'user' => true )
                                      );
 $script->initialize();
 
-$cli->output( "Fetching available translations" );
-
 include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-$translations = eZTSTranslator::translationList();
-
 include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+
+/**************************************************************
+* process options                                             *
+***************************************************************/
+
+//
+// 'ts-list' option
+//
+$translations = split( ' ', $scriptOptions['ts-list'] );
+$translations = eZTSTranslator::fetchList( $translations );
+
+
+/**************************************************************
+* do the work
+***************************************************************/
+
+$cli->output( $cli->stylize( 'blue', "Processing: " ), false );
 
 $ini =& eZINI::instance();
 
-$cli->output( "Processing:" );
 foreach( $translations as $translation )
 {
-    $cli->output( "$translation->Locale" );
+    $cli->output( "$translation->Locale ", false );
 
     $ini->setVariable( 'RegionalSettings', 'Locale', $translation->Locale );
     eZTranslationCache::resetGlobals();
@@ -77,6 +94,8 @@ foreach( $translations as $translation )
     $translation->load( '' );
 }
 
-$script->shutdown( 0, 'Done' );
+$cli->output( "", true );
+
+$script->shutdown( 0 );
 
 ?>
