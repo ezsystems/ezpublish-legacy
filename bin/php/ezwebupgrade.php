@@ -339,15 +339,15 @@ $script->startup();
 
 $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:]",
                                       "",
-                                          array( 'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
-                                                             "placed. it's relative to 'var/[site.ini].[FileSettings].[StorageDir]/[package.ini].[RepositorySettings].[RepositoryDirectory]' \n".
-                                                             "(default is 'var/storage/packages/ez_systems')",
+                                      array( 'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
+                                                         "placed. it's relative to 'var/[site.ini].[FileSettings].[StorageDir]/[package.ini].[RepositorySettings].[RepositoryDirectory]' \n".
+                                                         "(default is 'var/storage/packages/ez_systems')",
                                              'package' => "Package(s) to install, f.e. 'ezwebin-classes'",
                                              'package-dir' => "Path to directory with packed(ezpkg) packages(default is '/tmp/ezwebin') ",
                                              'url' => "URL to download packages, f.e. 'http://packages.ez.no/ezpublish/3.9'.\n" .
                                                       "'package-dir' can be specified to store uploaded packages on local computer.\n" .
                                                       "if 'package-dir' is not specified then default dir('/tmp/ezwebin') will be used."
-                                             ),
+                                           ),
                                       false,
                                       array( 'user' => true )
                                      );
