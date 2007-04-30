@@ -58,9 +58,9 @@ include_once( 'kernel/common/i18n.php' );
 include_once( 'kernel/classes/ezpackage.php' );
 
 
-/*!
- 'cli->output' wrappers
-*/
+/**************************************************************
+* 'cli->output' wrappers                                      *
+***************************************************************/
 function showError( $message, $addEOL = true, $bailOut = true )
 {
     global $cli;
@@ -99,6 +99,9 @@ function showMessage2( $message, $addEOL = true )
     $cli->output( $cli->stylize( 'red', $message ), $addEOL );
 }
 
+/*!
+ Show available actions to user
+*/
 function showPackageActions( $actionList )
 {
     foreach( $actionList as $action => $actionDescription )
@@ -106,7 +109,6 @@ function showPackageActions( $actionList )
         showMessage( "    [ $action ]: " . $actionDescription );
     }
 }
-
 
 /*!
  add extra actions to default package item's actions
@@ -155,6 +157,9 @@ function handlePackageError( $error )
     return $action;
 }
 
+/*!
+ Check if dir $dirName exists. If not, ask user to create it.
+*/
 function checkDir( $dirName )
 {
     if ( !file_exists( $dirName ) )
@@ -349,13 +354,13 @@ $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url
 
 $script->initialize();
 
-//
-// process options
-//
 
+/**************************************************************
+* process options                                             *
+***************************************************************/
 
 //
-// 'repository'
+// 'repository' option
 //
 $packageRepository = $scriptOptions['repository'];
 if ( !$packageRepository )
@@ -365,7 +370,7 @@ if ( !$packageRepository )
 
 
 //
-// 'package'
+// 'package' option
 //
 $packageList = $scriptOptions['package'];
 if ( !$packageList )
@@ -384,12 +389,12 @@ else
 }
 
 //
-// package-dir
+// 'package-dir' option
 //
 $packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/tmp/ezwebin";
 
 //
-// url
+// 'url' option
 //
 $packageURL = $scriptOptions['url'];
 if ( !$packageURL )
@@ -398,6 +403,9 @@ if ( !$packageURL )
     $packageURL = $packageINI->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 }
 
+/**************************************************************
+* do the work                                                 *
+***************************************************************/
 if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository ) )
 {
     installPackages( $packageList );
@@ -405,25 +413,5 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
 
 
 $script->shutdown( 0, 'Done' );
-
-
-// diff -U3 -r /projects/extensions/ezwebin/trunk/packages/ezwebin_extension.export/ezextension/ezwebin /projects/trunk/extension/ezwebin/
-
-// while coping files(extension, design) it doesn't remove files which exists in current ezwebin but are removed in new ezwebin.
-// while coping ask user to do if the same file exists(skip, override). Currently it's possible to skip or override whole package.
-//
-// add analyzing: before upgrading collect info about what was changed on user installation comparing to
-//                current version(means version which is going to be upgraded)
-// add merging of class attributes.
-// problems:
-//   'ezwebin_classes':
-//      - can't replace 'frontpage' class cause it's used by top-level node
-//  'ezwebin_banners':
-//      - problem with replacing 'banners' object.
-//  'ezwebin_democontent'
-//      - problem with replacing 'partners' object. looks liek because of that aobjects are not published.
-//  'ezwebin_design':
-//      - removes old design but didn't copy new desing;
-
 
 ?>
