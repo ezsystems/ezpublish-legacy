@@ -3533,6 +3533,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentMainNodeID = $node->attribute( 'node_id' ); //$parent->attribute( 'main_node_id' );
         $parentPath = $node->attribute( 'path_string' );
         $parentDepth = $node->attribute( 'depth' );
+        $isInvinsible = $node->attribute( 'is_invisible' );
 
         $nodeDepth = $parentDepth + 1 ;
 
@@ -3544,6 +3545,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
         $insertedNode->setAttribute( 'contentobject_version', $contentObjectVersion );
+
+        // If the parent node is invisible, the new created node should be invisible as well.
+        $insertedNode->setAttribute( 'is_invisible', $isInvinsible );
 
         $db->begin();
         $insertedNode->store();
