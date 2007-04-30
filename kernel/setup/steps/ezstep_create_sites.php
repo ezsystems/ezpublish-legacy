@@ -937,7 +937,9 @@ language_locale='eng-GB'";
                              'package_object' => $sitePackage,
                              'siteaccess_urls' => $this->siteaccessURLs(),
                              'access_map' => $accessMap,
-                             'site_type' => $siteType );
+                             'site_type' => $siteType,
+                             'all_language_codes' => $allLanguageCodes );
+
 
         $siteINIStored = false;
         $siteINIAdminStored = false;
