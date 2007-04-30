@@ -961,20 +961,19 @@ class eZContentObjectVersion extends eZPersistentObject
             $version = $contentobject->CurrentVersion;
             if ( $contentobject->CurrentVersion == $versionNum ) //will assign another current_version in contetnObject.
             {
-               $versions = $contentobject->versions( true );
-               $lastModifiedTime = 0;
-               $candidateToBeCurrent = 0;
                //search for version that will be current after removing of this one.
-               for ( $i=0; $i < count( $versions ); $i++ )
+               $candidateToBeCurrent = $db->arrayQuery( "SELECT version 
+                                                 FROM ezcontentobject_version 
+                                                 WHERE contentobject_id={$contentobject->ID} AND 
+                                                       version!={$contentobject->CurrentVersion} 
+                                                 ORDER BY modified DESC", 
+                                             array( 'offset' => 0, 'limit' => 1 ) );
+
+               if ( isset($candidateToBeCurrent[0]['version']) && is_numeric($candidateToBeCurrent[0]['version']) )
                {
-                 if ( $versions[$i]->Modified > $lastModifiedTime && $versions[$i]->Version != $versionNum ) 
-                 {
-                     $lastModifiedTime = $versions[$i]->Modified;
-                     $candidateToBeCurrent = $versions[$i]->Version;
-                 }
+                   $contentobject->CurrentVersion = $candidateToBeCurrent[0]['version'];
+                   $contentobject->store();
                }
-               $contentobject->CurrentVersion = $candidateToBeCurrent;
-               $contentobject->store();
             }
         }
         $db->query( "DELETE FROM ezcontentobject_name
