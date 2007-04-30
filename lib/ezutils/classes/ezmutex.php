@@ -183,6 +183,7 @@ class eZMutex
     {
         if ( $fp = $this->fp() )
         {
+            unlink( $this->MetaFileName );
             unlink( $this->FileName );
             $GLOBALS['eZMutex_FP_' . $this->FileName] = false;
         }

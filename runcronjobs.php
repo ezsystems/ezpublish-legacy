@@ -378,6 +378,7 @@ class eZRunCronjobs
         if ( $runScript )
         {
             global $script;
+            global $isQuiet;
             include( $scriptFile );
         }
     }
