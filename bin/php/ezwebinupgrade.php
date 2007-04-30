@@ -834,7 +834,6 @@ else
     showWarning( "no data for updating content classes, objects, roles, ini" );
 }
 
-exit();
 $script->shutdown( 0, 'Done' );
 
 ?>
