@@ -20,7 +20,6 @@
 {* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu, $admin_left_width) *}
 {* Cache header for each navigation part *}
 
-<script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
 <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
