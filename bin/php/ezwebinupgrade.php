@@ -66,7 +66,7 @@ function showError( $message, $addEOL = true, $bailOut = true )
     global $cli;
     global $script;
 
-    $cli->output( $cli->stylize( 'error', "Error: " ) .  $message, $addEOL );
+    $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
 
     if( $bailOut )
     {
@@ -78,7 +78,7 @@ function showError( $message, $addEOL = true, $bailOut = true )
 function showWarning( $message, $addEOL = true )
 {
     global $cli;
-    $cli->output( $cli->stylize( 'warning', "Warning: " ) . $message, $addEOL );
+    $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
 }
 
 function showNotice( $message, $addEOL = true )
