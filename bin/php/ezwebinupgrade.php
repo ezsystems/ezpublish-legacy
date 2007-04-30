@@ -164,8 +164,8 @@ function checkDir( $dirName )
 {
     if ( !file_exists( $dirName ) )
     {
-        global $auto;
-        if( $auto == 'on' )
+        global $autoMode;
+        if( $autoMode == 'on' )
         {
             $action = 'y';
         }
@@ -215,8 +215,8 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
 
         if( is_object( $package ) )
         {
-            global $auto;
-            if( $auto == 'on' )
+            global $autoMode;
+            if( $autoMode == 'on' )
             {
                 $action = 'y';
             }
@@ -250,8 +250,8 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
     {
         if( file_exists( "$packageDir/$packageName.ezpkg" ) )
         {
-            global $auto;
-            if( $auto == 'on' )
+            global $autoMode;
+            if( $autoMode == 'on' )
             {
                 $action = 'y';
             }
@@ -352,8 +352,8 @@ function installPackages( $packageList )
 
                 if ( isset( $params['error'] ) && is_array( $params['error'] ) && count( $params['error'] ) > 0 )
                 {
-                    global $auto;
-                    if( $auto == 'on' )
+                    global $autoMode;
+                    if( $autoMode == 'on' )
                     {
                         switch( $packageType )
                         {
@@ -712,7 +712,7 @@ $script =& eZScript::instance( array( 'description' => ( "\n" .
                                       'user' => true ) );
 $script->startup();
 
-$scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:][auto:]",
+$scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url:][auto-mode:]",
                                       "",
                                       array( 'repository' => "Path to repository where unpacked(unarchived) packages are \n" .
                                                          "placed. it's relative to 'var/[site.ini].[FileSettings].[StorageDir]/[package.ini].[RepositorySettings].[RepositoryDirectory]' \n".
@@ -722,7 +722,7 @@ $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url
                                              'url' => "URL to download packages, f.e. 'http://packages.ez.no/ezpublish/3.9'.\n" .
                                                       "'package-dir' can be specified to store uploaded packages on local computer.\n" .
                                                       "if 'package-dir' is not specified then default dir('/tmp/ezwebin') will be used.",
-                                             'auto' => "[on/off]. Do not ask what to do in case of confilicts. By default is 'on'"
+                                             'auto-mode' => "[on/off]. Do not ask what to do in case of confilicts. By default is 'on'"
                                            ),
                                       false,
                                       array( 'user' => true )
@@ -781,13 +781,22 @@ if ( !$packageURL )
 }
 
 //
-// 'auto' option
+// 'auto-mode' option
 //
-global $auto;
-$auto = $scriptOptions['auto'];
-if( $auto != 'off' )
+global $autoMode;
+$autoMode = $scriptOptions['auto-mode'];
+if( $autoMode != 'off' )
 {
-    $auto = 'on';
+    $autoMode = 'on';
+    $importDir = eZPackage::repositoryPath() . "/$packageRepository";
+    showWarning( "Processing in auto-mode: \n".
+                 "- packages will be downloaded to '$packageDir';\n" .
+                 "- packages will be imported to '$importDir';\n" .
+                 "- installing of existing classes will be skipped;\n" .
+                 "- all files(extesion, design, downloaded and imported packages) will be overwritten;" );
+    $action = getUserInput( "Continue? [y/n]: ");
+    if( strpos( $action, 'y' ) !== 0 )
+        $script->shutdown( 0, 'Done' );
 }
 
 /**************************************************************
