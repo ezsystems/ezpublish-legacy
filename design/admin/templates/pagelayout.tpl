@@ -8,7 +8,6 @@
 {* cache-block keys=array('navigation_tabs',$navigation_part.identifier,$current_user.contentobject_id) *}
 {* Cache header for each navigation part *}
 
-<script language="JavaScript" type="text/javascript" src={'javascript/tools/ezjsselection.js'|ezdesign}></script>
 {section name=JavaScript loop=ezini( 'JavaScriptSettings', 'JavaScriptList', 'design.ini' ) }
 <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
