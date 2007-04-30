@@ -253,6 +253,26 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                   $this->isCustomAction( 'Deny' ) or
                   $this->isCustomAction( 'Defer' ) )
         {
+            // check user's rights to approve
+            $user =& eZUser::currentUser();
+            $userID = $user->attribute( 'contentobject_id' );
+            $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
+    
+            $approveAllowed = false;
+            foreach( $participantList as $participant )
+            {
+                if ( $participant->ParticipantID == $userID &&
+                     $participant->ParticipantRole == EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER )
+                {
+                    $approveAllowed = true;
+                    break;
+                }
+            }
+            if ( !$approveAllowed )
+            {
+                return $module->redirectToView( $redirectView, $redirectParameters );
+            }
+
             $contentObjectVersion = $this->contentObjectVersion( $collaborationItem );
             $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             if ( $this->isCustomAction( 'Accept' ) )
