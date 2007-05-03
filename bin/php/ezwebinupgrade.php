@@ -472,7 +472,7 @@ function updateINI()
 {
     showMessage2( "Updating INI-files..." );
 
-    $siteaccessList = getUserInput( "Please specify your 'user' (eZ webin-related) siteaccesses: ");
+    $siteaccessList = getUserInput( "Please specify your user-side, eZ webin-related siteaccesses (separated with space): ");
     $siteaccessList = explode( ' ', $siteaccessList );
     
     $ezWebinSiteacceses = siteAccessMap( $siteaccessList );
