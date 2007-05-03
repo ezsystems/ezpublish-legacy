@@ -391,14 +391,21 @@ class eZISBN10To13Converter
     function updateContentObjectAttribute( $contentObjectAttribute )
     {
         $isbnNumber =& $contentObjectAttribute->attribute( 'data_text' );
+        $isbnValue = trim( $isbnNumber );
+        $error = false;
 
-        if ( trim( $isbnNumber ) !=  "" )
+        // If the number only consists of hyphen, it should be emty.
+        if ( preg_match( "/^\-+$/", $isbnValue ) )
         {
-            $error = false;
+            $emtyValue = '';
+            $this->updateContentISBNNumber( $contentObjectAttribute, $emtyValue );
+            return true;
+        }
+        // Validate the isbn number.
+        $digits = preg_replace( "/\-/", "", $isbnValue );
 
-            // Validate the isbn number.
-            $digits = preg_replace( "/\-/", "", $isbnNumber );
-
+        if ( trim( $digits ) !=  "" )
+        {
             // If the length of the number is 10, it is a ISBN-10 number and need
             // to be converted to ISBN-13.
             if ( strlen( $digits ) == 10 )
