@@ -465,214 +465,77 @@ function updateObjects()
     return $result;
 }
 
-/*!
- update roles
-*/
-function updateRoles()
-{
-    showMessage2( "Updateing polices and roles..." );
-
-    $installer = new eZWebinInstaller();
-
-    // 'Anonymous role'
-    $installer->removePoliciesForRole( array( 'role_name' => 'Anonymous',
-                                              'policies' => array( array( 'module' => 'content',
-                                                                          'function' => 'read' ) ) ) );
-
-    $installer->addPoliciesForRole( array( 'role_name' => 'Anonymous',
-                                           'policies' => array( array( 'module' => 'content',
-                                                                       'function' => 'read',
-                                                                       'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'image' ) ) ,
-                                                                                                                $installer->classIDbyIdentifier( array( 'class_identifier' => 'banner' ) ) ,
-                                                                                                                $installer->classIDbyIdentifier( array( 'class_identifier' => 'flash' ) ) ,
-                                                                                                                $installer->classIDbyIdentifier( array( 'class_identifier' => 'real_video' ) ) ,
-                                                                                                                $installer->classIDbyIdentifier( array( 'class_identifier' => 'windows_media' ) ) ,
-                                                                                                                $installer->classIDbyIdentifier( array( 'class_identifier' => 'quicktime' ) ) ),
-                                                                                              'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Media' ) ) ) ) ) ) ) );
-
-    // 'Editor' role
-    $installer->removePoliciesForRole( array( 'role_name' => 'Editor',
-                                              'policies' => array( array( 'module' => 'content',
-                                                                          'function' => '*' ) ) ) );
-    $installer->addPoliciesForRole( array( 'role_name' => 'Editor',
-                                           'policies' => array( array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'folder' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'link' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'file' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'product' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'feedback_form' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'frontpage' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'article' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'article_mainpage' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'article_subpage' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'blog' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'poll' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'multicalendar' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'documentation_page' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'infobox' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'flash' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'quicktime' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'windows_media' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'real_video' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'gallery' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'forums' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'event_calendar' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'banner' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'image' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'folder' ) ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'blog_post' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'blog' ) ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_topic' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum' ) ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'event' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'event_calendar' ) ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'image' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'gallery' ) ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'folder' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'link' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'feedback_form' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'frontpage' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'documentation_page' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'gallery' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'event_calendar' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'multicalendar' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'forums' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'frontpage' ) ) ) ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'edit' ),
-                                                               array( 'module' => 'content',
-                                                                      'function' => 'read',
-                                                                      'limitation' => array( 'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Standard' ) ),
-                                                                                                                 $installer->sectionIDbyName( array( 'section_name' => 'Restricted' ) ),
-                                                                                                                 $installer->sectionIDbyName( array( 'section_name' => 'Media' ) ) ) ) ) ) ) ) );
-
-
-    $installer->addPoliciesForRole( array( 'role_name' => 'Editor',
-                                           'policies' =>  array( array( 'module' => 'content',
-                                                                        'function' => 'manage_locations' ),
-                                                                 array( 'module' => 'shop',
-                                                                        'function' => 'administrate' ) ) ) );
-
-    // 'Member' role
-    $installer->removePoliciesForRole( array( 'role_name' => 'Member',
-                                              'policies' => array( array( 'module' => 'content',
-                                                                          'function' => '*' ) ) ) );
-    $installer->addPoliciesForRole( array( 'role_name' => 'Member',
-                                           'policies' => array( array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_topic' ) ) ),
-                                                                                             'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Standard' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum' ) ) ) ) ),
-                                                                array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_reply' ) ) ),
-                                                                                             'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Standard' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_topic' ) ) ) ) ),
-                                                                array( 'module' => 'content',
-                                                                      'function' => 'create',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'comment' ) ) ),
-                                                                                             'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Standard' ) ) ),
-                                                                                             'ParentClass' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'article' ) ),
-                                                                                                                     $installer->classIDbyIdentifier( array( 'class_identifier' => 'blog' ) ),
-                                                                                                                     $installer->classIDbyIdentifier( array( 'class_identifier' => 'article_mainpage' ) ) ) ) ),
-                                                                array( 'module' => 'content',
-                                                                      'function' => 'edit',
-                                                                      'limitation' => array( 'Class' => array( $installer->classIDbyIdentifier( array( 'class_identifier' => 'comment' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_topic' ) ),
-                                                                                                               $installer->classIDbyIdentifier( array( 'class_identifier' => 'forum_reply' ) ) ),
-                                                                                             'Section' => array( $installer->sectionIDbyName( array( 'section_name' => 'Standard' ) ) ),
-                                                                                             'Owner' => 1 ) ) ) ) );
-}
 
 /*!
 */
 function updateINI()
 {
-    showMessage2( "Updateing INI-files..." );
+    showMessage2( "Updating INI-files..." );
 
-    $siteaccessList = getUserInput( "Please specify your 'user' siteaccesses: ");
-    $siteaccessList = split( ' ', $siteaccessList );
-
+    $siteaccessList = getUserInput( "Please specify the eZ webin siteaccesses on your site (separated with space, for example eng nor): ");
+    $siteaccessList = explode( ' ', $siteaccessList );
+    
+    $ezWebinSiteacceses = siteAccessMap( $siteaccessList );
+    
     $parameters = array();
 
     $extraSettings = array();
     $extraSettings[] = eZSiteOverrideINISettings();
     $extraSettings[] = eZSiteImageINISettings();
     $extraSettings[] = eZSiteContentINISettings( $parameters );
+    $extraSettings[] = eZSiteDesignINISettings( $parameters );
     $extraSettings[] = eZSiteBrowseINISettings( $parameters );
     $extraSettings[] = eZSiteTemplateINISettings( $parameters );
 
     $extraCommonSettings = array();
     $extraCommonSettings[] = eZCommonContentINISettings( $parameters );
-
-    foreach( $siteaccessList as $userSiteaccessName )
+    
+    //The following INI-files should be modified instead of being replaced
+    $modifiableINIFiles = array();
+    $modifiableINIFiles[] = 'design.ini';
+    
+    
+    foreach ( $ezWebinSiteacceses as $sa )
     {
-        // NOTE: it's copy/paste from ezstep_create_sites.php
-        foreach ( $extraSettings as $extraSetting )
+        if( $sa and is_array( $sa ) )
         {
-            if ( $extraSetting === false )
-                continue;
-
-            $iniName = $extraSetting['name'];
-            $settings = $extraSetting['settings'];
-            $resetArray = false;
-            if ( isset( $extraSetting['reset_arrays'] ) )
-                $resetArray = $extraSetting['reset_arrays'];
-
-            $tmpINI =& eZINI::create( $iniName );
-            // Set ReadOnlySettingsCheck to false: towards
-            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
-            $tmpINI->setReadOnlySettingsCheck( false );
-
-            $tmpINI->setVariables( $settings );
-            if ( $iniName == 'site.ini' )
+            $saName = key($sa);
+            $saPath = current($sa);
+            
+            // NOTE: it's copy/paste from ezstep_create_sites.php
+            foreach ( $extraSettings as $extraSetting )
             {
-                $siteINIStored = true;
-                $tmpINI->setVariables( $siteINIChanges );
-                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-                $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-            }
-            else if ( $iniName == 'design.ini' )
-            {
-                if ( $siteCSS )
-                    $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                if ( $classesCSS )
-                    $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                $designINIStored = true;
-            }
-            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
+                if ( $extraSetting === false )
+                    continue;
 
-            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
-            {
-                // setting up appropriate data in look&feel object
-                $templateLookObject = eZContentObject::fetch( 54 );
-                $dataMap =& $templateLookObject->fetchDataMap();
-                $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-                $dataMap[ 'title' ]->store();
-                $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-                $dataMap[ 'siteurl' ]->store();
-                $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-                $dataMap[ 'email' ]->store();
-                $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
-                $objectName = $class->contentObjectName( $templateLookObject );
-                $templateLookObject->setName( $objectName );
-                $templateLookObject->store();
+                $iniName = $extraSetting['name'];
+                $settings = $extraSetting['settings'];
+                $resetArray = false;
+                if ( isset( $extraSetting['reset_arrays'] ) )
+                    $resetArray = $extraSetting['reset_arrays'];
+                
+                if ( in_array( $iniName, $modifiableINIFiles ) )
+                {
+                    //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
+                    $iniToModify = $iniName . '.append.php';
+                    $tmpINI =& eZINI::instance( $iniToModify, $saPath );
+                    // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+                    $tmpINI->setReadOnlySettingsCheck( false );
+                    $tmpINI->setVariables( $settings );
+                    $tmpINI->save( false, false, false, false, $saPath, $resetArray );
+                }
+                else
+                {
+                    //Replace new INI files eZ webin 1.2 accordingly.
+                    $tmpINI =& eZINI::create( $iniName );
+                    // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+                    $tmpINI->setReadOnlySettingsCheck( false );
+                    $tmpINI->setVariables( $settings );
+                    $tmpINI->save( false, '.append.php', false, true, $saPath, $resetArray );
+                }
             }
         }
     }
-
 
     foreach ( $extraCommonSettings as $extraSetting )
     {
@@ -684,12 +547,6 @@ function updateINI()
         $resetArray = false;
         if ( isset( $extraSetting['reset_arrays'] ) )
             $resetArray = $extraSetting['reset_arrays'];
-
-        if ( $iniName == 'site.ini' )
-        {
-            $siteINISettings[] = $settings;
-            continue;
-        }
 
         if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
              file_exists( 'settings/override/' . $iniName . '.append.php' ) )
@@ -707,6 +564,63 @@ function updateINI()
         $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
     }
 }
+
+function siteAccessMap( $siteAccessNameArray )
+{
+    if ( is_array( $siteAccessNameArray ) )
+    {
+        //Build array map of checked siteaccesses.
+        //Siteaccess name as key, points to root dir, to be used in eZINI methods.
+        $siteAccessMap = array();
+        foreach ( $siteAccessNameArray as $siteAccessName )
+        {
+            $mapEntry = checkSiteaccess( $siteAccessName, true );
+            $siteAccessMap[] = $mapEntry;
+        }
+        return $siteAccessMap;
+    }
+    else
+    {
+        return false;
+    }
+}
+ 
+function checkSiteaccess( $siteAccess, $returnPathMap = false )
+{
+    include_once( 'lib/ezutils/classes/ezextension.php' );
+    $extensionBaseDir = eZExtension::baseDirectory();
+    $extensionNameArray = eZExtension::activeExtensions();
+    $siteAccessPath = '/settings/siteaccess/';
+    $siteAccessExists = false;
+    
+    $path = 'settings/siteaccess/' . $siteAccess;
+
+    $siteAccessExists = file_exists( $path );
+    
+    if ( $siteAccessExists )
+    {
+        $ret = $returnPathMap ? array( $siteAccess => $path ) : true;
+        return $ret;
+    }
+    else
+    {
+        // Not found, check if it exists in extensions
+        foreach ( $extensionNameArray as $extensionName )
+        {
+            $extensionSiteaccessPath = $extensionBaseDir . '/' . $extensionName . $siteAccessPath . $siteAccess;
+            if ( file_exists( $extensionSiteaccessPath ) )
+            {
+                $siteAccessExists = true;
+                $ret = $returnPathMap ? array( $siteAccess => $extensionSiteaccessPath ) : $siteAccessExists;
+                return $ret;
+            }
+        }
+    }
+    return $siteAccessExists;
+}
+
+
+
 
 // script initializing
 $cli =& eZCLI::instance();
@@ -734,8 +648,26 @@ $scriptOptions = $script->getOptions( "[repository:][package:][package-dir:][url
                                       array( 'user' => true )
                                      );
 
-$script->initialize();
 
+if ( !$scriptOptions['siteaccess'] )
+{
+    showNotice( "No siteaccess provided, will use default siteaccess" );
+}
+else
+{
+    $siteAccessExists = checkSiteaccess( $scriptOptions['siteaccess'] );
+
+    if ( $siteAccessExists )
+    {
+        showNotice( "Using siteaccess " . $scriptOptions['siteaccess'] );
+        $script->setUseSiteAccess( $scriptOptions['siteaccess'] );
+    }
+    else
+    {
+        showError( "Siteaccess '" . $scriptOptions['siteaccess'] . "' does not exist. Exiting..." );
+    }
+}
+$script->initialize();
 
 /**************************************************************
 * process options                                             *
@@ -824,8 +756,6 @@ if( file_exists( installScriptDir( $packageRepository ) ) )
     updateClasses();
 
     updateObjects();
-
-    updateRoles();
 
     updateINI();
 }
