@@ -490,6 +490,11 @@ function updateINI()
     $extraCommonSettings = array();
     $extraCommonSettings[] = eZCommonContentINISettings( $parameters );
     
+    //The following INI-files should be modified instead of being replaced
+    $modifiableINIFiles = array();
+    $modifiableINIFiles[] = 'design.ini';
+    
+    
     foreach ( $ezWebinSiteacceses as $sa )
     {
         if( $sa and is_array( $sa ) )
@@ -508,20 +513,29 @@ function updateINI()
                 $resetArray = false;
                 if ( isset( $extraSetting['reset_arrays'] ) )
                     $resetArray = $extraSetting['reset_arrays'];
-
-                $tmpINI =& eZINI::create( $iniName );
-                // Set ReadOnlySettingsCheck to false: towards
-                // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
-                $tmpINI->setReadOnlySettingsCheck( false );
-
-                $tmpINI->setVariables( $settings );
-
-                $tmpINI->save( false, '.append.php', false, true, $saPath, $resetArray );
+                
+                if ( in_array( $iniName, $modifiableINIFiles ) )
+                {
+                    //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
+                    $iniToModify = $iniName . '.append.php';
+                    $tmpINI =& eZINI::instance( $iniToModify, $saPath );
+                    // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+                    $tmpINI->setReadOnlySettingsCheck( false );
+                    $tmpINI->setVariables( $settings );
+                    $tmpINI->save( false, false, false, false, $saPath, $resetArray );
+                }
+                else
+                {
+                    //Replace new INI files eZ webin 1.2 accordingly.
+                    $tmpINI =& eZINI::create( $iniName );
+                    // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+                    $tmpINI->setReadOnlySettingsCheck( false );
+                    $tmpINI->setVariables( $settings );
+                    $tmpINI->save( false, '.append.php', false, true, $saPath, $resetArray );
+                }
             }
         }
     }
-
-    
 
     foreach ( $extraCommonSettings as $extraSetting )
     {
@@ -569,8 +583,6 @@ function siteAccessMap( $siteAccessNameArray )
     {
         return false;
     }
-    
-    
 }
  
 function checkSiteaccess( $siteAccess, $returnPathMap = false )
