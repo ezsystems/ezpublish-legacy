@@ -1313,32 +1313,6 @@ language_locale='eng-GB'";
 
         $accessMap = $parameters['access_map'];
 
-        // Copy pre-compiled translations
-        if ( is_dir( $setupTranslationDir ) )
-        {
-            $siteTranslationDir = eZTranslationCache::rootCacheDirectory();
-            if ( !is_dir( $siteTranslationDir ) )
-                eZDir::mkdir( $siteTranslationDir, eZDir::directoryPermission(), true );
-
-            // walk through languages and copy translations
-            foreach( $prioritizedLanguages as $locale )
-            {
-                $srcTranslationsDir = $setupTranslationDir . '/' . $locale;
-                if( is_dir( $srcTranslationsDir ) )
-                {
-                    $dstTranslationsDir = $siteTranslationDir . '/' . $locale;
-                    if ( !is_dir( $dstTranslationsDir ) )
-                        eZDir::mkdir( $dstTranslationsDir, eZDir::directoryPermission(), true );
-
-                    eZDir::copy( $srcTranslationsDir , $dstTranslationsDir, false );
-                }
-            }
-        }
-        else
-        {
-            eZDebug::writeNotice( 'no pre-compiled translations are found', 'Setup Wizard: create sites step' );
-        }
-
         // Call user function for some text which will be displayed at 'Finish' screen
         if ( function_exists( 'eZSiteFinalText' ) )
         {
