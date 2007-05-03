@@ -382,7 +382,7 @@ class eZStepCreateSites extends eZStepInstaller
     function initializePackage( // &$package,
                                 $siteType,
                                 &$accessMap, $charset,
-                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
+                                &$extraLanguageCodes, &$allLanguages, &$primaryLanguage,
                                 &$admin,
                                 &$resultArray )
     {
@@ -432,7 +432,6 @@ class eZStepCreateSites extends eZStepInstaller
         $accessMap['sites'][] = $userSiteaccessName;
         $userDesignName = $siteType['identifier'];
 
-        $languages = $allLanguageCodes;
         $languageObjects = $allLanguages;
 
         $databaseMap = eZSetupDatabaseMap();
@@ -553,7 +552,7 @@ class eZStepCreateSites extends eZStepInstaller
         // Prepare languages
         $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
         $primaryLanguageName = $primaryLanguage->languageName();
-        $prioritizedLanguages = array_merge( array( $primaryLanguageLocaleCode ), $languages );
+        $prioritizedLanguages = array_merge( array( $primaryLanguageLocaleCode ), $extraLanguageCodes );
 
         $installParameters = array( 'path' => '.' );
         $installParameters['ini'] = array();
@@ -566,7 +565,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         $siteINIChanges['SiteAccessSettings'] = array( 'RelatedSiteAccessList' => $accessMap['accesses'] );
 
-        $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
+        $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $extraLanguageCodes ) );
         $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
                                                  'SiteURL' => $url );
         $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
@@ -938,7 +937,7 @@ language_locale='eng-GB'";
                              'siteaccess_urls' => $this->siteaccessURLs(),
                              'access_map' => $accessMap,
                              'site_type' => $siteType,
-                             'all_language_codes' => $allLanguageCodes );
+                             'all_language_codes' => $prioritizedLanguages );
 
 
         $siteINIStored = false;
