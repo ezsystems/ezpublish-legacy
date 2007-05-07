@@ -461,17 +461,30 @@ function setObjectAttributeValue( &$objectAttribute, $value )
     }
 
     $dataType = $objectAttribute->attribute( 'data_type_string' );
-    if ( $dataType == 'ezxmltext' )
+    switch( $dataType )
     {
-        setEZXMLAttribute( $objectAttribute, $value );
-    }
-    elseif ( $dataType == 'ezurl' )
-    {
-        $objectAttribute->setContent( $value );
-    }
-    else
-    {
-        $objectAttribute->setAttribute( 'data_text', $value );
+        case 'ezxmltext':
+        {
+            setEZXMLAttribute( $objectAttribute, $value );
+        } break;
+
+        case 'ezurl':
+        {
+            $objectAttribute->setContent( $value );
+        } break;
+
+        case 'ezkeyword':
+        {
+            include_once( 'kernel/classes/datatypes/ezkeyword/ezkeyword.php' );
+            $keyword = new eZKeyword();
+            $keyword->initializeKeyword( $value );
+            $objectAttribute->setContent( $keyword );
+        } break;
+
+        default:
+        {
+            $objectAttribute->setAttribute( 'data_text', $value );
+        } break;
     }
 
     $objectAttribute->store();
