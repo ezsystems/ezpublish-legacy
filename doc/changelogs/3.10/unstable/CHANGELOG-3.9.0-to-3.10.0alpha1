@@ -288,3 +288,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   ( Merged from stable/3.8 rev. 18847, stable/3.9 rev. 18848 )
 - Fixed bug #10716: Some typos in "country.ini" file.
 - Fixed bug #10721: Wrongly spelled function names in ezstep_site_types.php.
+- Fixed bug #10752: Function 'tipafriend_top_list' always returns array filled with the same node.
+  (Merged from stable/3.9 (3.9.3) rev. 18869)
