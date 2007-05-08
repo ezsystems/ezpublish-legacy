@@ -284,7 +284,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10681: Node tree in inconsistent/illegal state because of hidden parent with 
   retrofitted related objects as children.
 - Fixed bug #10636: ezjsselection.js is loaded twice in admin pagelayout.tpl
-- Fixed issue #10713: RSS Import - eZKeword datatype import does not work.
+- Fixed bug #10713: RSS Import - eZKeword datatype import does not work.
   ( Merged from stable/3.8 rev. 18847, stable/3.9 rev. 18848 )
 - Fixed bug #10716: Some typos in "country.ini" file.
 - Fixed bug #10721: Wrongly spelled function names in ezstep_site_types.php.
