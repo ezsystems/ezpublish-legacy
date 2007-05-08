@@ -46,7 +46,7 @@ class eZSearchLog
     }
 
     /*!
-     Logs a search query so that we can retreive statistics afterwords.
+     Logs a search query so that we can retrieve statistics afterwords.
     */
     function addPhrase( $phrase, $returnCount )
     {
