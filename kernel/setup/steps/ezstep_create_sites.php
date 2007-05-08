@@ -1011,6 +1011,30 @@ language_locale='eng-GB'";
                                             'settings' => array( 'ExtensionSettings' => array( 'ActiveExtensions' => array( 'ezodf' ) ) ) );
         }
 
+        // Enable dynamic tree menu for the admin interface by default
+        $enableDynamicTreeMenuAdded = false;
+        foreach ( $extraAdminSettings as $key => $extraSetting )
+        {
+            if ( $extraSetting['name'] == 'contentstructuremenu.ini' )
+            {
+                if ( isset( $extraSetting['settings']['TreeMenu'] ) )
+                {
+                    $extraAdminSettings[$key]['settings']['TreeMenu']['Dynamic'] = 'enabled';
+                }
+                else
+                {
+                    $extraAdminSettings[$key]['settings'] = array( 'TreeMenu' => array( 'Dynamic' => 'enabled' ) );
+                }
+                $enableDynamicTreeMenuAdded = true;
+                break;
+            }
+        }
+        if ( !$enableDynamicTreeMenuAdded )
+        {
+            $extraAdminSettings[] = array( 'name' => 'contentstructuremenu.ini',
+                                           'settings' => array( 'TreeMenu' => array( 'Dynamic' => 'enabled' ) ) );
+        }
+
         $resultArray['common_settings'] = $extraCommonSettings;
 
         foreach ( $extraSettings as $extraSetting )

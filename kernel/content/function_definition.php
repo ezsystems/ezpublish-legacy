@@ -1177,5 +1177,12 @@ $FunctionList['reverse_related_objects_ids'] = array( 'name' => 'object',
                                                                'required' => false,
                                                                'default' => false ) ) );
 
+$FunctionList['content_tree_menu_expiry'] = array( 'name' => 'content_tree_menu_expiry',
+                                                   'operation_types' => array( 'read' ),
+                                                   'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                           'class' => 'eZContentFunctionCollection',
+                                                                           'method' => 'fetchContentTreeMenuExpiry' ),
+                                                   'parameter_type' => 'standard',
+                                                   'parameters' => array() );
 
 ?>

@@ -142,7 +142,13 @@ class eZCache
                                        'id' => 'user_info_cache',
                                        'tag' => array( 'user' ),
                                        'enabled' => true,
-                                       'path' => 'user-info' )
+                                       'path' => 'user-info' ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'Content tree menu (browser cache)' ),
+                                       'id' => 'content_tree_menu',
+                                       'tag' => array( 'content' ),
+                                       'path' => false,
+                                       'enabled' => true,
+                                       'function' => 'eZCacheClearContentTreeMenu' ),
                                 );
         }
         return $cacheList;
@@ -379,6 +385,21 @@ class eZCache
 
     /*!
      \private
+     Sets the content tree menu timestamp to the current date and time,
+     this is used as a GET parameter in the content/treemenu requests and thus
+     forces a browser to load the content tree menu from a server rather than
+     to use a cached copy.
+    */
+    function clearContentTreeMenu( $cacheItem )
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $expiryHandler = eZExpiryHandler::instance();
+        $expiryHandler->setTimestamp( 'content-tree-menu', time() );
+        $expiryHandler->store();
+    }
+
+    /*!
+     \private
      Removes all template block cache files and subtree entries.
     */
     function clearTemplateBlockCache( $cacheItem )
@@ -481,6 +502,15 @@ function eZCacheClearSortKey( $cacheItem )
 function eZCacheClearTemplateBlockCache( $cacheItem )
 {
     eZCache::clearTemplateBlockCache( $cacheItem );
+}
+
+/*!
+  Helper function for eZCache::clearContentTreeMenu.
+  \note Static functions in classes cannot be used as callback functions in PHP 4, that is why we need this helper.
+*/
+function eZCacheClearContentTreeMenu( $cacheItem )
+{
+    eZCache::clearContentTreeMenu( $cacheItem );
 }
 
 ?>

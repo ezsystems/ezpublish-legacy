@@ -46,8 +46,13 @@ eZImagePreloader.prototype.preloadImageList = function( imageList )
     this.nLoadedImagesCount     = 0;
     this.bPreloadDone           = false;
 
-    for( var i = 0; i < imageList.length; i++ )
-        this.preload( imageList[i] );
+    for( var i in imageList )
+    {
+        if ( typeof imageList[i] != 'function' )
+        {
+            this.preload( imageList[i] );
+        }
+    }
 }
 
 eZImagePreloader.prototype.preload = function( imageFilePath )

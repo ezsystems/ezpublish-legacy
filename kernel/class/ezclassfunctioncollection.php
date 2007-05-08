@@ -48,8 +48,16 @@ class eZClassFunctionCollection
     {
     }
 
-    function fetchClassList( $classFilter )
+    function fetchClassList( $classFilter, $sortBy )
     {
+        $sorts = null;
+        if ( $sortBy && 
+             is_array( $sortBy ) &&
+             count( $sortBy ) == 2 &&
+             in_array( $sortBy[0], array( 'id', 'name' ) ) )
+        {
+            $sorts = array( $sortBy[0] => ( $sortBy[1] )? 'asc': 'desc' );
+        }
         $contentClassList = array();
         if ( is_array( $classFilter ) and count( $classFilter ) == 0)
         {
@@ -60,7 +68,7 @@ class eZClassFunctionCollection
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClassList = eZContentClass::fetchList( 0, true, false,
-                                                            null, null,
+                                                            $sorts, null,
                                                             $classFilter );
         }
         if ( $contentClassList === null )

@@ -5140,6 +5140,7 @@ class eZContentObject extends eZPersistentObject
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', mktime() );
         $handler->setTimestamp( 'template-block-cache', mktime() );
+        $handler->setTimestamp( 'content-tree-menu', mktime() );
         $handler->store();
     }
 

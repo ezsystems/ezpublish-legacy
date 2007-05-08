@@ -48,6 +48,7 @@
 
 </style>
 
+{if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|ne('enabled')}
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -55,6 +56,7 @@ document.write("<style type='text/css'>div#contentstructure ul#content_tree_menu
 -->
 </script>
 {/literal}
+{/if}
 
 {literal}
 <!--[if IE]>

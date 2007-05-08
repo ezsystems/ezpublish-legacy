@@ -1466,6 +1466,21 @@ class eZContentFunctionCollection
 
         return array( 'result' => $country );
     }
+
+    function fetchContentTreeMenuExpiry()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+
+        $expiryHandler = eZExpiryHandler::instance();
+
+        if ( !$expiryHandler->hasTimestamp( 'content-tree-menu' ) )
+        {
+            $expiryHandler->setTimestamp( 'content-tree-menu', time() );
+            $expiryHandler->store();
+        }
+
+        return array( 'result' => $expiryHandler->timestamp( 'content-tree-menu' ) );
+    }
 }
 
 ?>
