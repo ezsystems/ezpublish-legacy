@@ -8,75 +8,6 @@ include_once( 'kernel/classes/ezclusterfilehandler.php' );
 
 define( 'MAX_AGE', 86400 );
 
-// TODO: remove:
-/*
-function iconMapInit( $sizeName, &$iconMap, &$iconPath, &$defaultIcon )
-{
-    $iconINI =& eZINI::instance( 'icon.ini' );
-
-    $repository = $iconINI->variable( 'IconSettings', 'Repository' );
-    $theme = $iconINI->variable( 'IconSettings', 'Theme' );
-    if ( $iconINI->hasVariable( 'ClassIcons', 'Theme' ) )
-    {
-        $theme = $iconINI->variable( 'ClassIcons', 'Theme' );
-    }
-
-    $themeINI =& eZINI::instance( 'icon.ini', $repository . '/' . $theme );
-    $sizes = $themeINI->variable( 'IconSettings', 'Sizes' );
-    if ( $iconINI->hasVariable( 'IconSettings', 'Sizes' ) )
-    {
-        $sizes = array_merge( $sizes, $iconINI->variable( 'IconSettings', 'Sizes' ) );
-    }
-    if ( isset( $sizes[$sizeName] ) )
-    {
-        $size = $sizes[$sizeName];
-    }
-    else
-    {
-        $size = $sizes[0];
-    }
-
-    $pathDivider = strpos( $size, ';' );
-    if ( $pathDivider !== false )
-    {
-        $sizePath = substr( $size, $pathDivider + 1 );
-        $size = substr( $size, 0, $pathDivider );
-    }
-    else
-    {
-        $sizePath = $size;
-    }
-
-    $iconMap = array();
-    if ( $themeINI->hasVariable( 'ClassIcons', 'ClassMap' ) )
-    {
-        $iconMap = $themeINI->variable( 'ClassIcons', 'ClassMap' );
-    }
-    if ( $iconINI->hasVariable( 'ClassIcons', 'ClassMap' ) )
-    {
-        $iconMap = array_merge( $iconMap, $iconINI->variable( 'ClassIcons', 'ClassMap' ) );
-    }
-
-    $defaultIcon = false;
-    if ( $themeINI->hasVariable( 'ClassIcons', 'Default' ) )
-    {
-        $defaultIcon = $themeINI->variable( 'ClassIcons', 'Default' );
-    }
-    else if ( $iconINI->hasVariable( 'ClassIcons', 'Default' ) )
-    {
-        $defaultIcon = $iconINI->variable( 'ClassIcons', 'Default' );
-    }
-
-    $wwwDirPrefix = "";
-    if ( strlen( eZSys::wwwDir() ) > 0 )
-    {
-        $wwwDirPrefix = eZSys::wwwDir();
-    }
-
-    $iconPath = $wwwDirPrefix . '/' . $repository . '/' . $theme . '/' . $sizePath .'/';
-}
-*/
-
 function washJS( $string )
 {
     return str_replace( array( "\\", "\"", "'"), array( "\\\\", "\\042", "\\047" ), $string );
@@ -191,17 +122,17 @@ if ( $cacheFile->exists() )
         $globalExpiryTime = $handler->timestamp( 'template-block-cache' );
     }
 
-    if ( $cacheFile->mtime() > $globalExpiryTime || $globalExpiryTime == -1 )
+    if ( $globalExpiryTime == -1 || $cacheFile->mtime() > $globalExpiryTime )
     {
         $cacheFileContent = $cacheFile->fetchContents();
         $httpCharset = eZTextCodec::httpCharset();
 
         header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
         header( 'Cache-Control: max-age=' . MAX_AGE );
-        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $_GET['if_modified_since'] ) . ' GMT' );
+        header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $_GET['modified'] ) . ' GMT' );
         header( 'Pragma: ' );
         header( 'Content-Type: application/json; charset=' . $httpCharset );
-        header( 'Content-Length: '.strlen( $cacheFileContent ) );
+        header( 'Content-Length: ' . strlen( $cacheFileContent ) );
 
         echo $cacheFileContent;
 
@@ -209,10 +140,6 @@ if ( $cacheFile->exists() )
         return;
     }
 }
-
-// TODO: remove the following code:
-//$sizeName = $contentstructuremenuINI->variable( 'TreeMenu', 'ClassIconsSize' );
-//iconMapInit( $sizeName, $iconMap, $iconPath, $defaultIcon );
 
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 
@@ -222,10 +149,9 @@ if ( !$node )
 }
 else if ( !$node->canRead() )
 {
-    // TODO: i18n
     $jsonText= arrayToJSON( array(
         'error_code' => -1,
-        'error_message' => 'You do not have enough rights to access the requested node',
+        'error_message' => ezi18n( 'kernel/content', 'You do not have enough rights to access the requested node' ),
         'node_id' => $nodeID,
     ) );
 
@@ -312,11 +238,8 @@ else
                 $childResponse['class_list'][] = $class['id'];
             }
         }
-        // TODO: remove:
-        // $childResponse['icon'] = $iconPath . ( ( isset( $iconMap[$childResponse['class_identifier']] ) )? $iconMap[$childResponse['class_identifier']]: $defaultIcon );
         $response['children'][] = $childResponse;
 
-        // TODO: remove the ezcontentobject cache?
         unset( $object );
         eZContentObject::clearCache();
     }
@@ -325,7 +248,6 @@ else
 
     $jsonText= arrayToJSON( $response );
 
-    // TODO: maybe to move the following code to arrayToJSON:
     $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
     if ( $codec )
     {
@@ -344,7 +266,6 @@ else
             }
         }
     
-        // TODO: it might not work with UTF-8 correctly, testing needed
         $httpCharset = 'iso-8859-1';
     }
 
