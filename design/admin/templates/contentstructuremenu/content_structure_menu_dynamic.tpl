@@ -440,21 +440,21 @@ function ContentStructureMenu()
                             case 403:
                             {
 {/literal}
-                                aElement.title = '{"Dynamic tree not allowed for this siteaccess."|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Dynamic tree not allowed for this siteaccess"|i18n('design/admin/contentstructuremenu')}';
 {literal}
                             } break;
                         
                             case 404:
                             {
 {/literal}
-                                aElement.title = '{"Node does not exist."|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Node does not exist"|i18n('design/admin/contentstructuremenu')}';
 {literal}
                             } break;
                         
                             case 500:
                             {
 {/literal}
-                                aElement.title = '{"Internal error."|i18n('design/admin/contentstructuremenu')}';
+                                aElement.title = '{"Internal error"|i18n('design/admin/contentstructuremenu')}';
 {literal}
                             } break;
                         }
@@ -528,7 +528,7 @@ function ContentStructureMenu()
 
     var treeMenu = new ContentStructureMenu();
 
-{cache-block expiry="0"}
+{cache-block keys=$root_node_id expiry="0"}
 {def $root_node=fetch('content','node',hash('node_id',$root_node_id))}
     var rootNode = {ldelim}{*
         *}"node_id":{$root_node.node_id},{*
