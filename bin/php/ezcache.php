@@ -34,7 +34,7 @@ $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
                                                          "Allows for easy clearing of Cache files\n" .
                                                          "\n" .
-                                                         "./bin/ezcache.php --clear-tag=content" ),
+                                                         "./bin/php/ezcache.php --clear-tag=content" ),
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => true ) );
