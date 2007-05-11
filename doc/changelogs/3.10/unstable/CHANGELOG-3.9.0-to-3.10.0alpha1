@@ -291,3 +291,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10752: Function 'tipafriend_top_list' always returns array filled with the same node.
   (Merged from stable/3.9 (3.9.3) rev. 18869)
 - Fixed bug #10508: section-based override fails until object is first published.
+- Fixed bug #10778: Error: eZTemplate in table.tpl.
