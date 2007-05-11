@@ -4058,7 +4058,6 @@ class eZContentObject extends eZPersistentObject
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
     /*!
-     \static
      Finds all classes that the current user can create objects from and returns.
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
 
