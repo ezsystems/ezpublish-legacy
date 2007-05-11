@@ -3132,6 +3132,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
 
         // Who assigns which section at which node should be logged.
+        include_once( 'kernel/classes/ezsection.php' );
         $section = eZSection::fetch( $sectionID );
         $object = $node->object();
         include_once( "kernel/classes/ezaudit.php" );

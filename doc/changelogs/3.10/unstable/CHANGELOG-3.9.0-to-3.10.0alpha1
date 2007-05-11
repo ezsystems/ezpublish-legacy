@@ -294,3 +294,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10778: Error: eZTemplate in table.tpl.
 - Fixed bug #10763: Typo in image.ini comment.
 - Fixed bug #10665: Wrong path in the description of bin/php/ezcache.php.
+- Fixed bug #10663: Fatal error: Undefined class name 'ezsection'.
