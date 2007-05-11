@@ -64,7 +64,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     'table'        => array( 'initHandler' => 'initHandlerTable',
                              'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
-                             'attrNamesTemplate' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification',
+                                                           'width' => 'width' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'tr'           => array( //'quickRender' => array( 'tr', "\n" ),
