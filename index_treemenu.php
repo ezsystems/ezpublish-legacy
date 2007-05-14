@@ -70,9 +70,9 @@ error_reporting ( E_ALL );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
-// Trick to get eZSys working with a script other than index.php (while index.php still used in URLs):
-$_SERVER['SCRIPT_FILENAME'] = dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/index.php';
-$_SERVER['PHP_SELF'] = dirname( $_SERVER['PHP_SELF'] ) . '/index.php';
+// Trick to get eZSys working with a script other than index.php (while index.php still used in generated URLs):
+$_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['SCRIPT_FILENAME'] );
+$_SERVER['PHP_SELF'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['PHP_SELF'] );
 
 $ini =& eZINI::instance();
 
