@@ -686,7 +686,7 @@ div#contentstructure ul#content_tree_menu li
 {
     list-style-type: none;
     white-space: nowrap;
-    position: relative; /* Dynamic menu */
+    position: relative;
 }
 
 div#contentstructure ul#content_tree_menu ul li
@@ -802,7 +802,7 @@ div#contentstructure span.openclose
     visibility: hidden;
 }
 
-/* The following are used in the dynamic version of the tree menu */
+/* The following are used in the dynamic tree menu */
 div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
     position: absolute;
@@ -830,6 +830,16 @@ div#contentstructure ul#content_tree_menu ul a.openclose-busy
 div#contentstructure ul#content_tree_menu ul a.openclose-error
 {
     background-image: url( '../images/content_tree-error.gif' );
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+    display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+    display: none;
 }
 
 /* MAIN CONTENT TOP MENU (in navigation mode) */

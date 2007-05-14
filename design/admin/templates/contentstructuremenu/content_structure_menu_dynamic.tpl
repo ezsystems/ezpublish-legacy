@@ -123,7 +123,7 @@ function ContentStructureMenu()
         }
     }
 
-    this.generateEntry = function( item, lastli )
+    this.generateEntry = function( item, lastli, rootNode )
     {
         var liclass = '';
         if ( lastli )
@@ -138,7 +138,7 @@ function ContentStructureMenu()
             + ( ( liclass )? ' class="' + liclass + '"':
                              '' )
             + '>';
-        if ( item.has_children )
+        if ( item.has_children && !rootNode )
         {
             html += '<a class="openclose-open" id="a'
                 + item.node_id
@@ -296,13 +296,6 @@ function ContentStructureMenu()
 
     this.load = function( aElement, nodeID, modifiedSubnode )
     {
-{/literal}
-        var url = "{"content/treemenu"|ezurl(no)}?node_id=" + nodeID 
-            + "&modified=" + modifiedSubnode
-            + "&expiry=" + this.expiry
-            + "&perm=" + this.perm;
-{literal}
-        var request = false;
         var divElement = document.getElementById( 'c' + nodeID );
 
         if ( !divElement )
@@ -312,7 +305,6 @@ function ContentStructureMenu()
 
         if ( divElement.className == 'hidden' )
         {
-            divElement.style.display = '';
             divElement.className = 'loaded';
             if ( aElement )
             {
@@ -326,7 +318,6 @@ function ContentStructureMenu()
 
         if ( divElement.className == 'loaded' )
         {
-            divElement.style.display = 'none';
             divElement.className = 'hidden';
             if ( aElement )
             {
@@ -342,6 +333,14 @@ function ContentStructureMenu()
         {
             return false;
         }
+
+{/literal}
+        var url = "{"content/treemenu"|ezurl(no)}?node_id=" + nodeID 
+            + "&modified=" + modifiedSubnode
+            + "&expiry=" + this.expiry
+            + "&perm=" + this.perm;
+{literal}
+        var request = false;
 
         if ( window.XMLHttpRequest )
         {
@@ -408,7 +407,7 @@ function ContentStructureMenu()
                         for ( var i = 0; i < result.children.length; i++ )
                         {
                             var item = result.children[i];
-                            html += thisThis.generateEntry( item, i == result.children.length - 1 );
+                            html += thisThis.generateEntry( item, i == result.children.length - 1, false );
                         }
                         html += '</ul>';
 
@@ -472,7 +471,6 @@ function ContentStructureMenu()
         return false;
     }
 
-
     this.openUnder = function( parentNodeID )
     {
         var divElement = document.getElementById( 'c' + parentNodeID );
@@ -510,6 +508,40 @@ function ContentStructureMenu()
             }
         }
     }
+
+    this.collapse = function( parentNodeID )
+    {
+        var divElement = document.getElementById( 'c' + parentNodeID );
+        if ( !divElement )
+        {
+            return;
+        }
+
+        var aElements = divElement.getElementsByTagName( 'a' );
+        for ( var index in aElements )
+        {
+            var aElement = aElements[index];
+            if ( aElement.className == 'openclose-close' )
+            {
+                var nodeID = aElement.id.substr( 1 );
+                var subdivElement = document.getElementById( 'c' + nodeID );
+                if ( subdivElement )
+                {
+                    subdivElement.className = 'hidden';
+                }
+                aElement.className = 'openclose-open';
+                this.setClosed( nodeID );
+            }
+        }
+
+        var aElement = document.getElementById( 'a' + parentNodeID );
+        if ( aElement )
+        {
+            divElement.className = 'hidden';
+            aElement.className = 'openclose-open';
+            this.setClosed( parentNodeID );
+        }
+    }
 }
 
 // -->
@@ -542,7 +574,7 @@ function ContentStructureMenu()
         *}"class_list":[{foreach fetch('content','can_instantiate_class_list',hash('parent_node',$child)) as $class}{$class.id}{delimiter},{/delimiter}{/foreach}]{rdelim};
 
     document.writeln( '<ul id="content_tree_menu">' );
-    document.writeln( treeMenu.generateEntry( rootNode, false ) );
+    document.writeln( treeMenu.generateEntry( rootNode, false, true ) );
     document.writeln( '</ul>' );
 
     treeMenu.load( false, {$root_node.node_id}, {$root_node.modified_subnode} );
