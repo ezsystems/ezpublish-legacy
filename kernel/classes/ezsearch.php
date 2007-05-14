@@ -52,19 +52,12 @@ class eZSearch
     */
     function removeObject( $contentObject )
     {
-        $ini =& eZINI::instance();
+        $searchEngine = eZSearch::getEngine();
 
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
+        if ( is_object( $searchEngine ) )
         {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
+            $searchEngine->removeObject( $contentObject );
         }
-
-        // fetch the correct search engine implementation
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        $searchEngine->removeObject( $contentObject );
     }
 
     /*!
@@ -73,19 +66,12 @@ class eZSearch
     */
     function addObject( $contentObject )
     {
-        $ini =& eZINI::instance();
+        $searchEngine = eZSearch::getEngine();
 
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
+        if ( is_object( $searchEngine ) )
         {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
+            $searchEngine->addObject( $contentObject, '/content/view/' );
         }
-
-        // fetch the correct search engine implementation
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        $searchEngine->addObject( $contentObject, '/content/view/' /*, $metaData*/ );
     }
 
     /*!
@@ -94,18 +80,12 @@ class eZSearch
     */
     function search( $searchText, $params, $searchTypes = array() )
     {
-        $ini =& eZINI::instance();
+        $searchEngine = eZSearch::getEngine();
 
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
+        if ( is_object( $searchEngine ) )
         {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
+            return $searchEngine->search( $searchText, $params, $searchTypes );
         }
-
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        return $searchEngine->search( $searchText, $params, $searchTypes );
     }
 
     /*!
@@ -113,17 +93,15 @@ class eZSearch
     */
     function &normalizeText( $text )
     {
-        $ini =& eZINI::instance();
+        $searchEngine = eZSearch::getEngine();
+        $normalizedText = '';
 
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
+        if ( is_object( $searchEngine ) )
         {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
+            $normalizedText =& $searchEngine->normalizeText( $text );
+            
         }
 
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-        $normalizedText =& $searchEngine->normalizeText( $text );
         return $normalizedText;
     }
 
@@ -133,29 +111,24 @@ class eZSearch
      */
     function &buildSearchArray()
     {
-        $ini =& eZINI::instance();
-
-        $searchEngineString = 'ezsearch';
-        if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
-        {
-            $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
-        }
-
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        // This method was renamed in pre 3.5 trunk
-        if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
-        {
-            $searchTypesDefinition = $searchEngine->supportedSearchTypes();  // new and correct
-        }
-        else
-        {
-            $searchTypesDefinition = $searchEngine->suportedSearchTypes();  // deprecated
-        }
+        $searchEngine = eZSearch::getEngine();
 
         $searchArray = array();
         $andSearchParts = array();
+        $searchTypesDefinition = array( 'types' => array(), 'general_filter' => array() );
+
+        if ( is_object( $searchEngine ) )
+        {
+            // This method was renamed in pre 3.5 trunk
+            if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
+            {
+                $searchTypesDefinition = $searchEngine->supportedSearchTypes();  // new and correct
+            }
+            else
+            {
+                $searchTypesDefinition = $searchEngine->suportedSearchTypes();  // deprecated
+            }
+        }
 
         $http =& eZHTTPTool::instance();
 
@@ -423,6 +396,30 @@ class eZSearch
     */
     function cleanup()
     {
+        $searchEngine = eZSearch::getEngine();
+
+        if ( is_object( $searchEngine ) && method_exists( $searchEngine, 'cleanup' ) )
+        {
+            $searchEngine->cleanup();
+        }
+    }
+
+    /*!
+     \static
+     Get object instance of eZSearch engine to use.
+
+     \return instance of eZSearch class.
+    */
+    function getEngine()
+    {
+        // Get instance if already created.
+        $instanceName = 'eZSearchPlugin_' . $GLOBALS['eZCurrentAccess'];
+        if ( isset( $GLOBALS[$instanceName] ) )
+        {
+            return $GLOBALS[$instanceName];
+        }
+
+        include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
 
         $searchEngineString = 'ezsearch';
@@ -431,14 +428,38 @@ class eZSearch
             $searchEngineString = $ini->variable( 'SearchSettings', 'SearchEngine' );
         }
 
-        // fetch the correct search engine implementation
-        include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
-        $searchEngine = new $searchEngineString;
-
-        if ( method_exists( $searchEngine, 'cleanup' ) )
+        $directoryList = array();
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        if ( $ini->hasVariable( 'SearchSettings', 'ExtensionDirectories' ) )
         {
-            $searchEngine->cleanup();
+            $extensionDirectories = $ini->variable( 'SearchSettings', 'ExtensionDirectories' );
+            if ( is_array( $extensionDirectories ) )
+            {
+                $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'search/plugins' );
+            }
         }
+
+        $kernelDir = array( 'kernel/search/plugins' );
+        $directoryList = array_merge( $kernelDir, $directoryList );
+
+        eZDebug::writeDebug( $directoryList );
+
+        foreach( $directoryList as $directory )
+        {
+            $searchEngineFile = implode( '/', array( $directory, strtolower( $searchEngineString ), strtolower( $searchEngineString ) ) ) . '.php';
+
+            if ( file_exists( $searchEngineFile ) )
+            {
+                eZDebug::writeDebug( 'Loading search engine from ' . $searchEngineFile, 'eZSearch' );
+                include_once( $searchEngineFile );
+                $GLOBALS[$instanceName] = new $searchEngineString();
+                return $GLOBALS[$instanceName];
+            }
+        }
+
+        eZDebug::writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
+        eZDebug::writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
+        return false;
     }
 
 }
