@@ -93,8 +93,9 @@ function ContentStructureMenu()
     this.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
     this.autoOpen = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
 
-{def $current_user=fetch('user','current_user')}
+{default current_user=fetch('user','current_user')}
     this.perm = "{concat($current_user.role_id_list|implode(','),'|',$current_user.limited_assignment_value_list|implode(','))|md5}";
+{/default}
 
 {literal}
     this.updateCookie = function()

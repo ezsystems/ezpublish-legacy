@@ -5970,28 +5970,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function hideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
-        $db     =& eZDB::instance();
+        $time = time();
+        $db =& eZDB::instance();
+
+        $db->begin();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
         {
-            $db->begin();
-
             // 1) Mark root node as hidden and invisible.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1, modified_subnode=$time WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
             $nodePath = $node->attribute( 'path_string' );
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1 WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
-
-            $db->commit();
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1, modified_subnode=$time WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
         }
         else
         {
             // Mark root node as hidden
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, modified_subnode=$time WHERE node_id=$nodeID" );
         }
+
+        $node->updateAndStoreModified();
+        
+        $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
@@ -6018,19 +6021,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function unhideSubTree( &$node, $modifyRootNode = true )
     {
-        $nodeID        = $node->attribute( 'node_id' );
-        $nodePath      = $node->attribute( 'path_string' );
+        $nodeID = $node->attribute( 'node_id' );
+        $nodePath = $node->attribute( 'path_string' );
         $nodeInvisible = $node->attribute( 'is_invisible' );
-        $parentNode    =& $node->attribute( 'parent' );
-        $db            =& eZDB::instance();
+        $parentNode =& $node->attribute( 'parent' );
+        $time = time();
+        $db =& eZDB::instance();
 
+        $db->begin();
 
         if ( ! $parentNode->attribute( 'is_invisible' ) ) // if parent node is visible
         {
-            $db->begin();
             // 1) Mark root node as not hidden and visible.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0, modified_subnode=$time WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
 
@@ -6042,15 +6046,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $skipSubtreesString .= " AND path_string NOT LIKE '" . $i['path_string'] . "%'";
 
             // 2.2) Mark those children as visible which are not under nodes in $hiddenChildren
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0 WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
-            $db->commit();
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, modified_subnode=$time WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
         }
         else
         {
             // Mark root node as not hidden.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0, modified_subnode=$time WHERE node_id=$nodeID" );
         }
+
+        $node->updateAndStoreModified();
+
+        $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
