@@ -83,7 +83,6 @@ class eZShippingManager
      \endcode
 
      The returned array for each shipping item should consist of these keys:
-     - order_id - The order id for the current order.
      - description - An own description of the shipping item.
      - cost - A float value of the cost for the shipping. The value should be a float value.
      - vat_value - The vat value that should be added to the shipping item. The value should be an integer or
