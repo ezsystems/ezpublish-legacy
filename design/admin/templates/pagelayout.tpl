@@ -5,16 +5,13 @@
 <head>
 {include uri='design:page_head.tpl'}
 
-{set-block variable=$admin_right}
+{set-block variable=$admin_right_menu}
 {tool_bar name='admin_right' view=full}
-{/set-block}
-
-{set-block variable=$admin_developer}
 {tool_bar name='admin_developer' view=full}
 {/set-block}
 
 
-{def $hide_right_menu = and($admin_right|eq(''), $admin_developer|eq(''))
+{def $hide_right_menu = $admin_right_menu|eq('')
      $admin_left_width = ezpreference( 'admin_left_menu_width' )}
 
 {* cache-block keys=array($navigation_part.identifier, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ), $ui_context, $hide_right_menu, $admin_left_width) *}
@@ -264,8 +261,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 
 <h3 class="hide">Right</h3>
 
-{$admin_right}
-{$admin_developer}
+{$admin_right_menu}
 
 </div>
 </div>
