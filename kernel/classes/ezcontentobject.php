@@ -4055,7 +4055,6 @@ class eZContentObject extends eZPersistentObject
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
     /*!
-     \static
      Finds all classes that the current user can create objects from and returns.
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
 
@@ -4068,7 +4067,7 @@ class eZContentObject extends eZPersistentObject
      \param $id A unique name for the current fetch, this must be supplied when filtering is
                 used if you want caching to work.
     */
-    static function &canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
+    function canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
         $ini = eZINI::instance();
         $groupArray = array();
@@ -5528,7 +5527,7 @@ class eZContentObject extends eZPersistentObject
     public $MainNodeID = false;
 
     /// Contains the arrays of relatedobject id by fetching input for this object
-    var $InputRelationList = array();
+    public $InputRelationList = array();
 }
 
 ?>

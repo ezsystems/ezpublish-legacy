@@ -5183,7 +5183,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
     /*!
-     \static
      Finds all classes that the current user can create objects from and returns.
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
 
@@ -5196,7 +5195,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $id A unique name for the current fetch, this must be supplied when filtering is
                 used if you want caching to work.
     */
-    static function &canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
+    function canCreateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
         $ini = eZINI::instance();
         $groupArray = array();
