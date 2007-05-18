@@ -48,6 +48,7 @@ define( "EZ_WORKFLOW_STATUS_CANCELLED", 5 );
 define( "EZ_WORKFLOW_STATUS_FETCH_TEMPLATE", 6 );
 define( "EZ_WORKFLOW_STATUS_REDIRECT", 7 );
 define( "EZ_WORKFLOW_STATUS_RESET", 8 );
+define( "EZ_WORKFLOW_STATUS_WAITING_PARENT", 9 );
 
 class eZWorkflow extends eZPersistentObject
 {
