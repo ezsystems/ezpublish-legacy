@@ -38,7 +38,8 @@ $conds = array();
 //$conds['user_id'] =  $userID;
 $conds['status'] = array( array( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,
                                  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE,
-                                 EZ_WORKFLOW_STATUS_REDIRECT ) );
+                                 EZ_WORKFLOW_STATUS_REDIRECT,
+                                 EZ_WORKFLOW_STATUS_WAITING_PARENT ) );
 $db = eZDB::instance();
 if ( $db->databaseName() == 'oracle' )
     $conds['LENGTH(memento_key)'] = array( '!=', 0 );
