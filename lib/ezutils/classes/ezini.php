@@ -408,14 +408,17 @@ class eZINI
 
         $loadCache = false;
         $cacheTime = false;
-        $fileInfo = @stat( $cachedFile );
-        if ( $fileInfo )
+        if ( file_exists( $cachedFile ) )
         {
-            $cacheTime = $fileInfo['mtime'];
-            $loadCache = true;
-            if ( $cacheTime < $inputTime )
+            $fileInfo = @stat( $cachedFile );
+            if ( $fileInfo )
             {
-                $loadCache = false;
+                $cacheTime = $fileInfo['mtime'];
+                $loadCache = true;
+                if ( $cacheTime < $inputTime )
+                {
+                    $loadCache = false;
+                }
             }
         }
 
