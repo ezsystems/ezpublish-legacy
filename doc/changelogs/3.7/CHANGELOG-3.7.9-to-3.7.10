@@ -213,3 +213,5 @@ Changes from 3.7.9 to 3.7.10
   (Merged from trunk (3.10.0alpha1) rev. 18347)  
 - Fixed bug #9953: SiteAccessRules example 3 disables website root
   (Merged from stable/3.8 (3.8.8) rev. 18468)
+- Fixed bug #10817: IDE debug warning
+  (Merged from stable/3.8 (3.8.9) rev. 18923)
