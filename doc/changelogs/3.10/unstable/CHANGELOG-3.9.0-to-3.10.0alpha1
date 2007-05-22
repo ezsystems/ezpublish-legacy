@@ -300,3 +300,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10714: GUI problem for /content/history.
 - Fixed bug #8722: A possible bug when connecting "wait until" to "Multiplexer" workflow event.
   (Merged from stable/3.9 (3.9.3) rev. 18914.)
+- Fixed bug #10820: Refresh of Login site with SSO Handler does not work.
