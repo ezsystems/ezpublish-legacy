@@ -192,7 +192,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             if ( $i > 1 )
                 $headerAutoName .= "_";
-            
+
             $headerAutoName .= $this->HeaderCount[$i];
             $i++;
         }
@@ -242,9 +242,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $object )
             {
                 $node =& $object->attribute( 'main_node' );
-                $nodeID = $node->attribute( 'node_id' );
                 if ( $node )
                 {
+                    $nodeID = $node->attribute( 'node_id' );
+
                     $view = $element->getAttribute( 'view' );
                     if ( $view )
                         $href = 'content/view/' . $view . '/' . $nodeID;
@@ -252,7 +253,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $href = $node->attribute( 'url_alias' );
                 }
                 else
-                    $href = 'content/view/full/' . $nodeID;
+                    eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
             }
             else
             {
@@ -359,7 +360,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         if ( $tplSuffix == '_node')
             $ret['tpl_vars']['node'] = $node;
-        
+
         return $ret;
     }
 
@@ -544,7 +545,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $tagText .= $childOutput[1];
         }
-        
+
         return array( false, $tagText );
     }
 
@@ -555,7 +556,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $text = htmlspecialchars( $element->Content );
             // Get rid of linebreak and spaces stored in xml file
             $text = preg_replace( "#[\n]+#", "", $text );
-    
+
             if ( $this->AllowMultipleSpaces )
                 $text = preg_replace( "#  #", " &nbsp;", $text );
             else
