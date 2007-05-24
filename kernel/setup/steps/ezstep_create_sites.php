@@ -386,11 +386,6 @@ class eZStepCreateSites extends eZStepInstaller
                                 &$admin,
                                 &$resultArray )
     {
-        // since ini-settings will be changed,
-        // remember 'setup' translations cache dir for later use here.
-        include_once( 'lib/ezi18n/classes/eztranslationcache.php' );
-        $setupTranslationDir = eZTranslationCache::rootCacheDirectory();
-
         // Time limit #3:
         // We set the time limit to 5 minutes to ensure we have enough time
         // to initialize the site. However we only set if the current limit
