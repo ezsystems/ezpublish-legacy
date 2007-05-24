@@ -442,15 +442,14 @@ class eZSearch
         $kernelDir = array( 'kernel/search/plugins' );
         $directoryList = array_merge( $kernelDir, $directoryList );
 
-        eZDebug::writeDebug( $directoryList );
-
         foreach( $directoryList as $directory )
         {
             $searchEngineFile = implode( '/', array( $directory, strtolower( $searchEngineString ), strtolower( $searchEngineString ) ) ) . '.php';
 
             if ( file_exists( $searchEngineFile ) )
             {
-                eZDebug::writeDebug( 'Loading search engine from ' . $searchEngineFile, 'eZSearch' );
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', 'Loading search engine from ' . $searchEngineFile, 'eZSearch::getEngine' );
+
                 include_once( $searchEngineFile );
                 $GLOBALS[$instanceName] = new $searchEngineString();
                 return $GLOBALS[$instanceName];
