@@ -230,6 +230,41 @@ class eZISBNType extends eZDataType
     }
 
     /*!
+     Converts ISBN10 to ISBN13
+    */
+    function convertISBN10toISBN13 ( &$isbnNr )
+    {
+        $isbn2 = substr("978" . trim($isbnNr), 0, -1);
+		$sum13 = $this->genISBN13Checksum($isbn2);
+		$isbnNr = "$isbn2"."$sum13";
+        eZdebug::writeDebug ( $isbnNr );
+		return $isbnNr;
+    }
+
+    /*!
+    Generates checksum for converting isbn10 to isbn13
+    */
+
+    function genISBN13Checksum ( $isbn ) 
+    {
+		$isbn = trim($isbn);
+		for ($i = 0; $i <= 12; $i++) {
+			$tc = substr($isbn, -1, 1);
+			$isbn = substr($isbn, 0, -1);
+			$ta = ($tc*3);
+			$tci = substr($isbn, -1, 1);
+			$isbn = substr($isbn, 0, -1);
+			$tb = $tb + $ta + $tci;
+		}
+		$tg = ($tb / 10);
+		$tint = intval($tg);
+		if ($tint == $tg) { return 0; }
+		$ts = substr($tg, -1, 1);
+		$tsum = (10 - $ts);
+		return $tsum;
+	}
+
+    /*!
      Fetches the http post var string input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -241,7 +276,22 @@ class eZISBNType extends eZDataType
             $number13 = $http->hasPostVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         ? $http->postVariable( $base . "_isbn_13_" . $contentObjectAttribute->attribute( "id" ) )
                         : false;
+<<<<<<< .mine
+
+            $number13 = str_replace( "-", "", $number13 );
+            $number13 = str_replace( " ", "", $number13 );
+
+            if ( strlen( $number13 ) == 10 )
+            {
+                $number13 = $this->convertISBN10toISBN13( &$number13 );
+            }
+
+            eZdebug::writeDebug ( $number13 );
+
+            if ( !$number13 )
+=======
             if ( $number13 === false )
+>>>>>>> .r18945
                 return true;
 
             if ( !$contentObjectAttribute->validateIsRequired() and ( !$number13 or $number13 == '' ) )
@@ -371,7 +421,19 @@ class eZISBNType extends eZDataType
         $content = array( 'ISBN13' => $ISBN_13 );
         return $content;
     }
+    /*!
+    Set class attribute value for template version
+    */
 
+    function initializeClassAttribute ( &$classAttribute ) 
+    {
+        if (!$classAttribute->attribute('id')) {
+            if ($classAttribute->attribute('data_int1') == 0) {
+                $classAttribute->setAttribute('data_int1', 1);
+            }
+            $classAttribute->store();
+        }
+    }
 
     /*!
      \reimp
@@ -409,7 +471,12 @@ class eZISBNType extends eZDataType
     */
     function title( &$data_instance )
     {
+<<<<<<< .mine
+        # eZdebug::writeDebug($data_instance->attribute( "data_text" ));
+        return $data_instance->attribute( "data_text" );
+=======
         return $data_instance->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
+>>>>>>> .r18945
     }
 
     /*!
