@@ -330,7 +330,7 @@ function &eZFetchActiveSessionCount( $params = array() )
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
-    $query = "SELECT count( * ) AS count
+    $query = "SELECT count( DISTINCT ezsession.user_id ) AS count 
 FROM ezsession
 $whereSQL
 $filterSQL
