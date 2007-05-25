@@ -52,8 +52,9 @@ class eZLog
      \public
      Writes a message $message to a given file name $name and directory $dir for logging
     */
-    function write( $message, $logName = 'common.log', $dir = 'var/log' )
+    function write( $message, $logName = 'common.log', $dir = '' )
     {
+        $dir = $ini->variable( 'FileSettings', 'VarDir' ).'/'.$ini->variable( 'FileSettings', 'LogDir' );
         $fileName = $dir . '/' . $logName;
         if ( !file_exists( $dir ) )
         {
