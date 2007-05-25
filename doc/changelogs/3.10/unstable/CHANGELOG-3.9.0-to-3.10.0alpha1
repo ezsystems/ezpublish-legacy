@@ -303,3 +303,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10820: Refresh of Login site with SSO Handler does not work.
 - Fixed bug #10775: Fatal error when viewing object with related objects at second location after it was
   removed from its first(original) location.
+- Fixed bug ##8482: Session function is buggy.
