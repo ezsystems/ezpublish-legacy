@@ -298,7 +298,8 @@ class eZContentCacheManager
             if ( $ini->hasGroup( $classID ) )
             {
                 $info = array();
-                $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
+                if ( $ini->hasVariable( $classID, 'DependentClassIdentifier' ) )
+                    $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
 
                 if ( $ini->hasVariable( $classID, 'MaxParents' ) )
                     $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
