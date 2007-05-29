@@ -308,3 +308,9 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #010516: Missing chi-TW flag in trunk.
 - Fixed bug #010694: Letter-turner in ezdebug.php.
 - Fixed bug #010709: typpo in ger translation.
+- Fixed bug #010855: missing hasVariable check for DependentClassIdentifier in ezcontentcachemanager.php
+  (Merged from stable/3.9 (3.9.3) rev. 18959.)
+- Fixed bug #010843: Variable $cronPart not set in cronjobs
+  (Merged from stable/3.9 (3.9.3) rev. 18963.)
+- Fixed bug #010854: generateNodeListCache is calling storeCache + static cache files are rewritten several times
+  (Merged from stable/3.9 (3.9.3) rev. 18966.)
