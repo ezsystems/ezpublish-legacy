@@ -379,6 +379,7 @@ class eZRunCronjobs
         {
             global $script;
             global $isQuiet;
+            global $cronPart;
             include( $scriptFile );
         }
     }
