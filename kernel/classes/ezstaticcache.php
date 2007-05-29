@@ -438,6 +438,7 @@ class eZStaticCache
                 case 'store':
                     list( $destination, $source ) = $parameters;
                     if ( ! isset( $doneDestList[$destination] ) )
+                    {
                         if ( ! isset( $fileContentCache[$source] ) )
                         {
                             $fileContentCache[$source] = @file_get_contents( $source );
