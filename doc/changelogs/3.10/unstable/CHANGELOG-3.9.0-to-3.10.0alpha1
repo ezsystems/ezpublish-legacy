@@ -316,3 +316,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.3) rev. 18966)
 - Fixed bug #10868: ezcontentobjecttrashnode 'original_parent' property should
   return null if parent was moved or deleted.
+- Fixed bug #10853: Missing ":" in extension_path function.
