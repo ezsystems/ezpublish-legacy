@@ -54,14 +54,6 @@ class eZXMLSchema
                                                      'align', 'view', 'xhtml:id', 'class', 'target' ),
                               'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed-inline', 'class' => '' ) ),
     
-        'object'    => array( 'blockChildrenAllowed' => false,
-                              'inlineChildrenAllowed' => false,
-                              'childrenRequired' => null,
-                              'isInline' => true,
-                              'attributes' => array( 'class', 'id', 'size', 'align',
-                                                     'view', 'image:ezurl_id', 'image:ezurl_target' ),
-                              'attributesDefaults' => array( 'align' => 'right', 'view' => 'embed' ) ),
-    
         'table'     => array( 'blockChildrenAllowed' => array( 'tr' ),
                               'inlineChildrenAllowed' => false,
                               'childrenRequired' => true,
@@ -200,68 +192,46 @@ class eZXMLSchema
                 $this->Schema[$tagName]['classesList'] = array();
         }
 
-        if ( $eZPublishVersion >= 3.8 )
+        
+        // Fix for empty paragraphs setting
+        $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
+        $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
+        
+        // Get all tags custom attributes list
+        $ini =& eZINI::instance( 'content.ini' );
+        foreach( array_keys( $this->Schema ) as $tagName )
         {
-            // Fix for empty paragraphs setting
-            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
-            $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
-        }
-        else
-        {
-            // Fix for headers content
-            $this->Schema['header']['inlineChildrenAllowed'] = array( '#text' );
-        }
-
-        if ( $eZPublishVersion >= 3.9 )
-        {
-            // <object> is not supported in 3.9
-            unset( $this->Schema['object'] );
-
-            // Get all tags custom attributes list
-            $ini =& eZINI::instance( 'content.ini' );
-            foreach( array_keys( $this->Schema ) as $tagName )
+            if ( $tagName == 'custom' ) 
             {
-                if ( $tagName == 'custom' ) 
+                // Custom attributes of custom tags
+                foreach( $this->Schema['custom']['tagList'] as $customTagName )
                 {
-                    // Custom attributes of custom tags
-                    foreach( $this->Schema['custom']['tagList'] as $customTagName )
+                    if ( $ini->hasVariable( $customTagName, 'CustomAttributes' ) )
                     {
-                        if ( $ini->hasVariable( $customTagName, 'CustomAttributes' ) )
-                        {
-                            $avail = $ini->variable( $customTagName, 'CustomAttributes' );
-                            if ( is_array( $avail ) && count( $avail ) )
-                                $this->Schema['custom']['customAttributes'][$customTagName] = $avail;
-                            else
-                                $this->Schema['custom']['customAttributes'][$customTagName] = array();
-                        }
+                        $avail = $ini->variable( $customTagName, 'CustomAttributes' );
+                        if ( is_array( $avail ) && count( $avail ) )
+                            $this->Schema['custom']['customAttributes'][$customTagName] = $avail;
                         else
                             $this->Schema['custom']['customAttributes'][$customTagName] = array();
-
                     }
+                    else
+                        $this->Schema['custom']['customAttributes'][$customTagName] = array();
                 }
-                else
+            }
+            else
+            {
+                // Custom attributes of regular tags
+                if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
                 {
-                    // Custom attributes of regular tags
-                    if ( $ini->hasVariable( $tagName, 'CustomAttributes' ) )
-                    {
-                        $avail = $ini->variable( $tagName, 'CustomAttributes' );
-                        if ( is_array( $avail ) && count( $avail ) )
-                            $this->Schema[$tagName]['customAttributes'] = $avail;
-                        else
-                            $this->Schema[$tagName]['customAttributes'] = array();
-                    }
+                    $avail = $ini->variable( $tagName, 'CustomAttributes' );
+                    if ( is_array( $avail ) && count( $avail ) )
+                        $this->Schema[$tagName]['customAttributes'] = $avail;
                     else
                         $this->Schema[$tagName]['customAttributes'] = array();
                 }
+                else
+                    $this->Schema[$tagName]['customAttributes'] = array();
             }
-        }
-        else
-        {
-            // Literal was inline before 3.9
-            $this->Schema['literal']['isInline'] = true;
-            $this->Schema['link']['attributes'] = array( 'class', 'xhtml:id', 'target', 'xhtml:title',
-                                                         'object_id', 'node_id', 'show_path', 'anchor_name',
-                                                         'url_id', 'id' );
         }
     }
 
