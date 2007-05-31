@@ -1,0 +1,49 @@
+===================================
+Content Structure Menu Improvements
+===================================
+
+:Authors: Jan Kudlicka
+:Version: 0.1
+
+
+
+Preface
+-------
+From the experience with our customers and their projects, especially those
+bigger ones, we can say that the content structure menu in the administration
+interface is not implemented in the optimal way. Any change on a site which
+leads to the removal of cache-blocks removes the cached content of the tree menu
+as well and a user has to wait for long time to get a page containing the tree
+menu. This is caused by regenerating (and caching) HTML code for the menu by
+fetching whole structure of the site (or better to say one particular section of
+site) and rendering the menu in the templates. In addition this HTML code
+contains
+
+  - information about all nodes, even those rarely used,
+  - some pieces of information are duplicated many times,
+  - as the result of the previous points, the generated HTML code is big in size
+    (on some sites it can reach even hundreds of kilobytes) and must be
+    transferred for all requests to the *content/view* view.
+
+
+
+Proposed solution
+-----------------
+As practically all users work with the administration interface in modern
+browsers supporting XMLHTTPRequest objects (also known as AJAX request objects),
+we want to add implementation for the tree menu using this technique to get
+lists of children of a given node on fly, as they are needed (for example after
+clicking on an unfold icon). In addition, we would like to meet the following
+requirements:
+
+  - the content of subtrees, transferred from the server to a client, should
+    contain only the necessary information so that it would minimize the
+    transfer size/rate,
+  - to be able to cache the information both on a server and in browsers,
+  - to bypass index.php and use a light-weighted script instead (to decrease
+    reaction time).
+
+This dynamic content structure menu should be used in the administration
+siteaccesses only. The old implementation should not be removed and an
+administrator of a site should be able to switch between original and the new
+dynamic implementation of the content structure menu.
