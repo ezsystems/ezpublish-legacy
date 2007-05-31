@@ -57,7 +57,7 @@ function ContentStructureMenu()
     this.context = "{$ui_context}";
     this.expiry = "{fetch('content','content_tree_menu_expiry')}";
 
-{cache-block expiry="0"}
+{cache-block expiry="0" ignore_content_expiry}
     this.languages = {*
         *}{ldelim}{*
             *}{foreach fetch('content','translation_list') as $language}{*
@@ -81,17 +81,16 @@ function ContentStructureMenu()
     {foreach $iconInfo.icons as $class => $icon}{*
         *}this.iconsList['{$class}'] = wwwDirPrefix + "{$icon}";
     {/foreach}
-
     this.iconsList['__default__'] = wwwDirPrefix + "{$iconInfo.default}";
-{/cache-block}
-
     {if ezini('TreeMenu','PreloadClassIcons','contentstructuremenu.ini')|eq('enabled')}
-        ezjslib_preloadImageList( this.iconsList );
+    ezjslib_preloadImageList( this.iconsList );
     {/if}
 
     this.showTips = {if ezini('TreeMenu','ToolTips','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
     this.createHereMenu = "{ezini('TreeMenu','CreateHereMenu','contentstructuremenu.ini')}";
     this.autoOpen = {if ezini('TreeMenu','AutoopenCurrentNode','contentstructuremenu.ini')|eq('enabled')}true{else}false{/if};
+{/cache-block}
+
 
 {default current_user=fetch('user','current_user')}
     this.perm = "{concat($current_user.role_id_list|implode(','),'|',$current_user.limited_assignment_value_list|implode(','))|md5}";
@@ -580,5 +579,6 @@ function ContentStructureMenu()
 
     treeMenu.load( false, {$root_node.node_id}, {$root_node.modified_subnode} );
 {/cache-block}
+
 // -->
 </script>
