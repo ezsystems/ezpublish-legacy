@@ -764,7 +764,7 @@ class eZDebug
     */
     function setLogrotateFiles( $files )
     {
-        $GLOBALS['eZDebugMaxLogrotateFiles'] = $filse;
+        $GLOBALS['eZDebugMaxLogrotateFiles'] = $files;
     }
 
     /*!
