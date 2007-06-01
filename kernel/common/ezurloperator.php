@@ -301,10 +301,15 @@ CODEPIECE;
                     $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
                     if ( $match === null )
                     {
-                        return false;
+                        $tpl->warning( $operatorName, "Design element $path does not exist in any design" );
+                        $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+                        $path = "design/$siteDesign/$path";
+                    }
+                    else
+                    {
+                        $path = $match["file"];
                     }
 
-                    $path = $match["file"];
                     $path = $this->Sys->wwwDir() . '/' . $path;
                     $path = htmlspecialchars( $path );
 
@@ -320,17 +325,21 @@ CODEPIECE;
                           'if ( %tmp3% === null )' . "\n" .
                           '{' . "\n" .
                           '    %tmp3% = array();' . "\n" .
+                          '    $tpl->warning( "' . $operatorName . '", "Design element %1% does not exist in any design" );' . "\n" .
+                          '    %tmp4% = eZTemplateDesignResource::designSetting( "site" );' . "\n" .
+                          '    %1% = "design/%tmp4%/%1%";' . "\n" .
                           '}' . "\n" .
                           'else' . "\n" .
                           '{' . "\n" .
                           '    %1% = %tmp3%["file"];' . "\n" .
-                          '    %1% = %2% . "/" . %1%;' . "\n" .
-                          '    %1% = htmlspecialchars( %1% );' . "\n" .
-                          '}' . "\n" );
+                          '}' . "\n" .
+                          '%1% = %2% . "/" . %1%;' . "\n" .
+                          '%1% = htmlspecialchars( %1% );' . "\n"
+                        );
 
                 $values[] = $parameters[0];
                 $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
-                $tmpCount += 3;
+                $tmpCount += 4;
                 ++$paramCount;
             } break;
 
@@ -353,18 +362,26 @@ CODEPIECE;
                     $imageFound = false;
                     foreach ( $bases as $base )
                     {
-                        if ( file_exists( $base . "/images/" . $path ) )
+                        $possiblePath = $base . '/images/' . $path;
+                        if ( file_exists( $possiblePath ) )
                         {
                             if ( $no_slash_prefix == true )
-                                $path = $base . '/images/' . $path;
+                                $path = $possiblePath;
                             else
-                                $path = $this->Sys->wwwDir() . '/' . $base . '/images/'. $path;
+                                $path = $this->Sys->wwwDir() . '/' . $possiblePath;
+                            $imageFound = true;
                             break;
                         }
                     }
 
-                    $path = htmlspecialchars( $path );
+                    if ( !$imageFound )
+                    {
+                        $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                        $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+                        $path = "design/$siteDesign/images/$path";
+                    }
 
+                    $path = htmlspecialchars( $path );
                     $path = $this->applyQuotes( $path, $parameters[1] );
 
                     return array( eZTemplateNodeTool::createStringElement( $path ) );
@@ -386,28 +403,40 @@ CODEPIECE;
                     $ini =& eZINI::instance();
                     $values[] = array( eZTemplateNodeTool::createStringElement( $this->Sys->wwwDir() ) );
                     $values[] = array( eZTemplateNodeTool::createArrayElement( eZTemplateDesignResource::allDesignBases() ) );
-                    $code = 'foreach ( %3% as %tmp1% )'."\n{\n";
-                    $code .= '    if ( file_exists( %tmp1% . \'/images/\' . %1% ) )' . "\n" . '    {' . "\n";
+
+                    $code =
+                    '%tmp2% = false;'                                                                   . "\n" .
+                    'foreach ( %3% as %tmp1% )'                                                         . "\n" .
+                    '{'                                                                                 . "\n" .
+                    '    %tmp3% = %tmp1% . "/images/" . %1%;'                                           . "\n" .
+                    '    if ( file_exists( %tmp3% ) )'                                                  . "\n" .
+                    '    {'                                                                             . "\n" ;
                     if ( $no_slash_prefix == true )
-                    {
-                        $code .= '        %output% = %tmp1% . \'/images/\' . %1%;' . "\n";
-                    }
+                        $code .= '        %1% = %tmp3%;';
                     else
-                    {
-                        $code .= '        %output% = %2% . \'/\' . %tmp1% . \'/images/\' . %1%;' . "\n";
-                    }
-                    $code .= '        break;'."\n";
-                    $code .= "    }\n}\n" . '%output% = htmlspecialchars( %output% );' . "\n";
+                        $code .= '        %1% = %2% . "/" . %tmp3%;';
+
+                    $code .= "\n" .
+                    '         %tmp2% = true;'                                                           . "\n" .
+                    '         break;'                                                                   . "\n" .
+                    '    }'                                                                             . "\n" .
+                    '}'                                                                                 . "\n" .
+                    'if ( !%tmp2% )'                                                                    . "\n" .
+                    '{'                                                                                 . "\n" .
+                    '    $tpl->warning( "' . $operatorName .
+                                                   '", "Image %1% does not exist in any design" );'     . "\n" .
+                    '    %tmp3% = eZTemplateDesignResource::designSetting( "site" );'                   . "\n" .
+                    '    %1% = "design/%tmp3%/images/%1%";'                                             . "\n" .
+                    '}'                                                                                 . "\n" .
+                    '%output% = htmlspecialchars( %1% );'                                               . "\n" ;
 
                     $quote = $this->applyQuotes( '', $parameters[1], true );
-
                     if ( $quote )
                     {
                         $values[] = array( eZTemplateNodeTool::createStringElement( $quote ) );
-                        $code .= '%output% = %4% . %output% . %4%;' . "\n";
+                        $code .= '%output% = %4% . %output% . %4%;'                                     . "\n";
                     }
-
-                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 2 ) );
+                    return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 3 ) );
                 }
             } break;
 
@@ -691,10 +720,6 @@ CODEPIECE;
             case $this->ImageName:
             {
                 $ini =& eZINI::instance();
-                $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-                $site_base = eZTemplateDesignResource::designSetting( 'site' );
-                $std_file = "design/$std_base/images/$operatorValue";
-                $site_file = "design/$site_base/images/$operatorValue";
                 $no_slash_prefix = false;
                 if ( count( $operatorParameters ) == 2 )
                 {
@@ -707,13 +732,13 @@ CODEPIECE;
                 $imageFound = false;
                 foreach ( $bases as $base )
                 {
-                    if ( file_exists( $base . "/images/" . $operatorValue ) )
+                    $possiblePath = $base . '/images/' . $operatorValue;
+                    if ( file_exists( $possiblePath ) )
                     {
                         if ( $no_slash_prefix == true )
-                            $operatorValue = $base . '/images/' . $operatorValue;
+                            $operatorValue = $possiblePath;
                         else
-                            $operatorValue = $this->Sys->wwwDir() . '/' . $base . '/images/'. $operatorValue;
-                        $operatorValue = htmlspecialchars( $operatorValue );
+                            $operatorValue = $this->Sys->wwwDir() . '/' . $possiblePath;
                         $imageFound = true;
                         break;
                     }
@@ -722,7 +747,11 @@ CODEPIECE;
                 if ( !$imageFound )
                 {
                     $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                    $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+                    $operatorValue = "design/$siteDesign/images/$operatorValue";
                 }
+
+                $operatorValue = htmlspecialchars( $operatorValue );
             } break;
 
             case $this->ExtName:
@@ -738,8 +767,7 @@ CODEPIECE;
 
             case $this->DesignName:
             {
-                $path = $operatorValue;
-                $matches = eZTemplateDesignResource::fileMatchingRules( false, $path );
+                $matches = eZTemplateDesignResource::fileMatchingRules( false, $operatorValue );
 
                 $designResource =& eZTemplateDesignResource::instance();
                 $matchKeys = $designResource->keys();
@@ -749,11 +777,13 @@ CODEPIECE;
                 $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.[a-zA-Z0-9]+)$#" );
                 if ( $match === null )
                 {
-                    $tpl->warning( 'eZURLOperator', "Design element $operatorValue does not exist in any design" );
-                    return false;
+                    $tpl->warning( $operatorName, "Design element $operatorValue does not exist in any design" );
+                    $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
+                    $file = "design/$siteDesign/$operatorValue";
                 }
+                else
+                    $file = $match["file"];
 
-                $file = $match["file"];
                 $operatorValue = $this->Sys->wwwDir() . "/$file";
                 $operatorValue = htmlspecialchars( $operatorValue );
 
