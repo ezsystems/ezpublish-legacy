@@ -114,8 +114,6 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
     {
         $trigger =& $possibleTriggers[$key];
 
-        eZDebug::writeDebug( $trigger, "check trigger" );
-
         if ( $http->hasPostVariable( 'WorkflowID_' . $trigger['key'] ) )
         {
             $workflowID = $http->postVariable( 'WorkflowID_' . $trigger['key'] );
