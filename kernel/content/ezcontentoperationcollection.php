@@ -440,7 +440,6 @@ class eZContentOperationCollection
                 // We should check if current object already has been updated for section_id
                 // If yes we should not update object section_id by $parentNodeSectionID
                 $sectionID = $object->attribute( 'section_id' );
-                // If sectionID is 0 than the object has been newly created
                 if ( $sectionID > 0 )
                     return;
 
