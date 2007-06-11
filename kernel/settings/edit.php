@@ -177,7 +177,6 @@ function parseArrayToStr( $value, $separator )
         return $value;
 
     $valueArray = array();
-    $valueArray[] = "=";
 
     foreach( $value as $param=>$key )
     {
@@ -196,7 +195,7 @@ function parseArrayToStr( $value, $separator )
 
 function getVariable( $block, $settingName, $iniFile, $path )
 {
-    $ini =& eZINI::instance( $iniFile, $path, null, null, null, true );
+    $ini =& eZINI::instance( $iniFile, $path, null, null, null, true, true );
     $result = $ini->hasVariable( $block, $settingName ) ? $ini->variable( $block, $settingName ) : false;
     $result = parseArrayToStr( $result, '<br>' );
     return $result;
