@@ -40,6 +40,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZISBNGroupRange extends eZPersistentObject
 {
     /*!
@@ -131,11 +133,11 @@ class eZISBNGroupRange extends eZPersistentObject
     */
     function fetchList( &$count, $asObject = true )
     {
-        $sortArray = array( array( 'from_number' => 'asc' ) );
+        $sortArray = array( 'from_number' => 'asc' );
         $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
                                                                 null, null, $sortArray, null,
                                                                 $asObject );
-        $count = count( $sortArray );
+        $count = count( $groupRangeArray );
         return $groupRangeArray;
     }
 
@@ -178,7 +180,7 @@ class eZISBNGroupRange extends eZPersistentObject
         $db =& eZDB::instance();
         $definition = eZISBNGroupRange::definition();
         $table = $definition['name'];
-        $sql = "DELETE FROM " . $table;
+        $sql = "TRUNCATE TABLE " . $table;
         $db->query( $sql );
     }
 

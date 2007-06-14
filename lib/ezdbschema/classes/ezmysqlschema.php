@@ -66,11 +66,16 @@ class eZMysqlSchema extends eZDBSchemaInterface
             foreach( $tableArray as $tableNameArray )
             {
                 $table_name = current( $tableNameArray );
-                $schema_table['name'] = $table_name;
-                $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
-                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
+                if ( !isset( $params['table_include'] ) or
+                     ( is_array( $params['table_include'] ) and
+                       in_array( $table_name, $params['table_include'] ) ) )
+                {
+                    $schema_table['name'] = $table_name;
+                    $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
+                    $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
 
-                $schema[$table_name] = $schema_table;
+                    $schema[$table_name] = $schema_table;
+                }
             }
             $this->transformSchema( $schema, $params['format'] == 'local' );
             ksort( $schema );
@@ -608,7 +613,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                  'windows-1251' => 'cp1251',
                                  'windows-1256' => 'cp1256',
                                  'windows-1257' => 'cp1257',
-                                 'utf-8' => 'utf8',                 
+                                 'utf-8' => 'utf8',
                                  'koi8-r' => 'koi8r',
                                  'koi8-u' => 'koi8u' );
         $charset = strtolower( $charset );

@@ -126,11 +126,16 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             foreach( $resultArray as $row )
             {
                 $table_name = $row['Name'];
-                $schema_table['name'] = $table_name;
-                $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
-                $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
+                if ( !isset( $params['table_include'] ) or
+                     ( is_array( $params['table_include'] ) and
+                       in_array( $table_name, $params['table_include'] ) ) )
+                {
+                    $schema_table['name'] = $table_name;
+                    $schema_table['fields'] = $this->fetchTableFields( $table_name, $params );
+                    $schema_table['indexes'] = $this->fetchTableIndexes( $table_name, $params );
 
-                $schema[$table_name] = $schema_table;
+                    $schema[$table_name] = $schema_table;
+                }
             }
             $this->transformSchema( $schema, $params['format'] == 'local' );
             ksort( $schema );

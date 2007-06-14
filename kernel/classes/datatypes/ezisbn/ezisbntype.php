@@ -39,6 +39,7 @@ include_once( "kernel/classes/ezdatatype.php" );
 define( "EZ_DATATYPESTRING_ISBN", "ezisbn" );
 define( 'EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13', 'data_int1' );
 define( 'EZ_DATATYPESTRING_ISBN_CONTENT_VALUE', 'data_text' );
+define( 'EZ_DATATYPESTRING_ISBN_13_DBA_DATA', 'kernel/classes/datatypes/ezisbn/share/db_data.dba' );
 
 class eZISBNType extends eZDataType
 {
@@ -290,6 +291,61 @@ class eZISBNType extends eZDataType
     /*!
      \reimp
     */
+    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    {
+        switch ( $action )
+        {
+            case 'ImportISBN13Data':
+            {
+                $this->importISBN13RangeData( $http, $action, $classAttribute );
+            }break;
+        }
+    }
+
+    /*!
+
+    */
+    function importISBN13RangeData( &$http, $action, &$classAttribute )
+    {
+        if ( file_exists( EZ_DATATYPESTRING_ISBN_13_DBA_DATA ) )
+        {
+            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            $db =& eZDB::instance();
+            $dbSchema = eZDBSchema::instance( $db );
+            $dataArray = eZDBSchema::read( EZ_DATATYPESTRING_ISBN_13_DBA_DATA, true );
+            if ( count( $dataArray ) > 0 )
+            {
+                $schemaArray = $dataArray;
+                $schemaArray['type'] = strtolower( $db->databaseName() );
+                $schemaArray['instance'] =& $db;
+                $dbSchema = eZDBSchema::instance( $schemaArray );
+
+                if ( $dbSchema )
+                {
+                    // This will insert the data and
+                    // run any sequence value correction SQL if required
+                    $params = array( 'schema' => false,
+                                     'data' => true );
+
+                    // Before adding the schema, make sure that the tables are emty.
+                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
+                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
+                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+
+                    eZISBNGroup::cleanAll();
+                    eZISBNGroupRange::cleanAll();
+                    eZISBNRegistrantRange::cleanAll();
+
+                    $dbSchema->insertSchema( $params );
+                }
+            }
+        }
+    }
+
+
+    /*!
+     \reimp
+    */
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
         $classAttributeID = $classAttribute->attribute( 'id' );
@@ -299,6 +355,7 @@ class eZISBNType extends eZDataType
         {
              $content['ISBN13'] = $http->hasPostVariable( $base . '_ezisbn_13_value_' . $classAttributeID ) ? 1 : 0;
         }
+
         $classAttribute->setContent( $content );
         $classAttribute->store();
         return true;
@@ -367,8 +424,12 @@ class eZISBNType extends eZDataType
     */
     function &classAttributeContent( &$classAttribute )
     {
+        include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
+
         $ISBN_13 = $classAttribute->attribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 );
-        $content = array( 'ISBN13' => $ISBN_13 );
+        $isbn13Info = new eZISBN13();
+        $content = array( 'ISBN13' => $ISBN_13,
+                          'ranges' => $isbn13Info );
         return $content;
     }
 

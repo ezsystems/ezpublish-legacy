@@ -38,6 +38,8 @@
   http://www.isbn-international.org
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZISBNGroup extends eZPersistentObject
 {
     /*!
@@ -108,11 +110,11 @@ class eZISBNGroup extends eZPersistentObject
     */
     function fetchList( &$count, $asObject = true )
     {
-        $sortArray = array( array( 'from_number' => 'asc' ) );
+        $sortArray = array( 'id' => 'asc' );
         $groupArray = eZPersistentObject::fetchObjectList( eZISBNGroup::definition(),
                                                            null, null, $sortArray, null,
                                                            $asObject );
-        $count = count( $sortArray );
+        $count = count( $groupArray );
         return $groupArray;
     }
 
@@ -145,7 +147,7 @@ class eZISBNGroup extends eZPersistentObject
         $db =& eZDB::instance();
         $definition = eZISBNGroup::definition();
         $table = $definition['name'];
-        $sql = "DELETE FROM " . $table;
+        $sql = "TRUNCATE TABLE " . $table;
         $db->query( $sql );
     }
 }
