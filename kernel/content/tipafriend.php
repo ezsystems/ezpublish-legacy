@@ -30,7 +30,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 include_once( "lib/ezutils/classes/ezmailtransport.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
+include_once( 'lib/ezutils/classes/ezcontentobjecttreenode.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
@@ -71,7 +71,7 @@ $receiversEmail = '';
 if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = (int)$http->variable( 'NodeID' );
 
-$node = eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
+$node = eZContentObjectTreeNode::fetch( $NodeID );
 if ( is_object( $node ) )
 {
     $nodename = $node->Name;
