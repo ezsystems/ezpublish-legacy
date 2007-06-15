@@ -69,6 +69,10 @@ class eZISBN13
         }
     }
 
+    /*!
+     Contains a list of all attributes for this class.
+     \return the array with existing attributes.
+    */
     function &attributes()
     {
         $attributeArray = array( 'has_content',
@@ -77,6 +81,11 @@ class eZISBN13
         return $attributeArray;
     }
 
+    /*!
+     Fetch the attribute sent in $value.
+     \param $value is the name of the attribute that should be fetched.
+     \return the result of the attribute.
+    */
     function &attribute( $value )
     {
         $returnData = null;
@@ -106,6 +115,11 @@ class eZISBN13
         return $returnData;
     }
 
+    /*!
+     Check if the attribute set in the string $value exists.
+     \param $value is the attribute you want to see if exist.
+     \return true if the attribute is found.
+    */
     function &hasAttribute( $value )
     {
         $attributes =& eZISBN13::attributes();
@@ -113,6 +127,10 @@ class eZISBN13
         return $hasAttribute;
     }
 
+    /*!
+     Check if any ISBN ranges exist.
+     \return true if any ranges are found.
+    */
     function hasRangeData()
     {
         $db =& eZDB::instance();
