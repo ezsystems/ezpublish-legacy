@@ -303,7 +303,9 @@ class eZISBNType extends eZDataType
     }
 
     /*!
-
+     Insert isbn range data from file. The datafile is located in:
+     kernel/classes/datatypes/ezisbn/share/db_data.dba and should contain data
+     for the tables ezisbn_group, ezisbn_group_range and ezisbn_registrant_range.
     */
     function importISBN13RangeData( &$http, $action, &$classAttribute )
     {
