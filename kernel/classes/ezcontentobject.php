@@ -1683,10 +1683,10 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $nodeID !== null )
         {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-            if ( is_object( $node ) )
+            $node = eZContentObjectTreeNode::fetch( $nodeID , false, false);
+            if ( is_array( $node ) )
             {
-                if ( $node->attribute( 'main_node_id' )  == $nodeID )
+                if ( $node['main_node_id']  == $nodeID )
                 {
                     $db =& eZDB::instance();
                     $db->begin();
@@ -3722,8 +3722,8 @@ class eZContentObject extends eZPersistentObject
                             $mainNodeID = $this->attribute( 'main_node_id' );
                             foreach ( $limitationArray[$key] as $nodeID )
                             {
-                                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                                $limitationNodeID = $node->attribute( 'main_node_id' );
+                                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                                $limitationNodeID = $node['main_node_id'];
                                 if ( $mainNodeID == $limitationNodeID )
                                 {
                                     $access = 'allowed';
@@ -3781,8 +3781,8 @@ class eZContentObject extends eZPersistentObject
                                 {
                                     foreach ( $parentNodes as $parentNode )
                                     {
-                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode );
-                                        $path = $parentNode->attribute( 'path_string' );
+                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode, false, false );
+                                        $path = $parentNode['path_string'];
 
                                         $subtreeArray = $limitationArray[$key];
                                         foreach ( $subtreeArray as $subtreeString )
@@ -3843,8 +3843,8 @@ class eZContentObject extends eZPersistentObject
                                 {
                                     foreach ( $parentNodes as $parentNode )
                                     {
-                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode );
-                                        $path = $parentNode->attribute( 'path_string' );
+                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode, false, false );
+                                        $path = $parentNode['path_string'];
 
                                         $subtreeArray = $limitationArray[$key];
                                         foreach ( $subtreeArray as $subtreeString )
@@ -3994,8 +3994,8 @@ class eZContentObject extends eZPersistentObject
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( $mainNodeID == $node['main_node_id'] )
                 {
                     $allowed = true;
                     $allowedNode = true;

@@ -1338,12 +1338,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             foreach ( $nodeIDList as $nodeID )
             {
-                $node           = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( !is_object( $node ) )
+                $node           = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( !is_array( $node ) )
                     return false;
 
-                $nodePath       = $node->attribute( 'path_string' );
-                $nodeDepth      = $node->attribute( 'depth' );
+                $nodePath       = $node['path_string'];
+                $nodeDepth      = $node['depth'];
                 $depthCond      = '';
                 if ( $depth )
                 {
@@ -1391,16 +1391,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 $node =& $treeNode;
                 $nodeID = $node->attribute( 'node_id' );
+                $nodePath = $node->attribute('path_string');
+                $nodeDepth  = $node->attribute('depth');
             }
             else
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( !is_object( $node ) )
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( !is_array( $node ) )
                     return false;
-            }
 
-            $nodePath   = $node->attribute( 'path_string' );
-            $nodeDepth  = $node->attribute( 'depth' );
+                $nodePath   = $node['path_string'];
+                $nodeDepth  = $node['depth'];
+            }
 
             $outNotEqParentStr   = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, $depth, $depthOperator );
             $outPathConditionStr = eZContentObjectTreeNode::createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator );
@@ -2149,22 +2151,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $retVal;
         }
 
-        if ( $nodeID == 0 )
-        {
-            $nodeID = $this->attribute( 'node_id' );
-            $node = $this;
-        }
-        else if ( is_numeric( $nodeID ) )
-        {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-            // If the node doesn't exist we return null.
-            if ( !is_object( $node ) )
-            {
-                $retVal = 0;
-                return $retVal;
-            }
-        }
-
         $depth = false;
         if ( isset( $params['Depth'] ) && is_numeric( $params['Depth'] ) )
         {
@@ -2187,16 +2173,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sqlPartForOneNodeList = array();
             foreach ( $nodeIDList as $nodeID )
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                 // If the node doesn't exist we return null.
-                if ( !is_object( $node ) )
+                if ( !is_array( $node ) )
                 {
                     $retVal = null;
                     return $retVal;
                 }
 
-                $nodePath =  $node->attribute( 'path_string' );
-                $nodeDepth = $node->attribute( 'depth' );
+                $nodePath = $node['path_string'];
+                $nodeDepth = $node['depth'];
                 $childrensPath = $nodePath ;
                 $pathString = " ezcontentobject_tree.path_string like '$childrensPath%' ";
                 if ( isset( $params[ 'Depth' ] ) and $params[ 'Depth' ] > 0 )
@@ -2219,17 +2205,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $fromNode = $nodeID ;
-
             $nodePath = null;
             $nodeDepth = 0;
-            if ( count( $node ) != 0 )
+
+            if ( $nodeID == 0 )
             {
+                $nodeID = $this->attribute( 'node_id' );
+                $node = $this;
                 $nodePath = $node->attribute( 'path_string' );
                 $nodeDepth = $node->attribute( 'depth' );
             }
+            else if ( is_numeric( $nodeID ) )
+            {
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                // If the node doesn't exist we return null.
+                if ( !is_array( $node ) )
+                {
+                    $retVal = 0;
+                    return $retVal;
+                }
+                $nodePath = $node['path_string'];
+                $nodeDepth = $node['depth'];
+            }
 
-            $childrensPath = $nodePath ;
+            $fromNode = $nodeID;
+            $childrensPath = $nodePath;
             $pathLength = strlen( $childrensPath );
 
             $db =& eZDB::instance();
@@ -2240,7 +2240,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $depthCond = '';
             if ( $depth )
             {
-
                 $nodeDepth += $params[ 'Depth' ];
                 if ( isset( $params[ 'DepthOperator' ] ) && $params[ 'DepthOperator' ] == 'eq' )
                 {
@@ -3730,10 +3729,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $node->attribute( 'depth' ) > 1 )
         {
             $parentNodeID = $node->attribute( 'parent_node_id' );
-            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID, false, false );
             if ( ! is_null( $parentNode ) )
             {
-                $parentNodePathString = $parentNode->attribute( 'path_identification_string' );
+                $parentNodePathString = $parentNode['path_identification_string'];
             }
             else
             {
@@ -4367,11 +4366,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
         foreach( $nodeIDArray as $nodeID )
         {
-            $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID );
+            $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+            $tempPathString = $contentObjectTreeNode['path_string'];
 
-            // Create WHERE section
-            $pathStringArray[] = "tree.path_string like '$contentObjectTreeNode->PathString%'";
-            $path2StringArray[] = "tree2.path_string like '$contentObjectTreeNode->PathString%'";
+            // Create WHERE section 
+            $pathStringArray[] = "tree.path_string like '$tempPathString%'";
+            $path2StringArray[] = "tree2.path_string like '$tempPathString%'";
         }
         $path_strings = '( ' . implode( ' OR ', $pathStringArray ) . ' ) ';
         $path_strings_where = '( ' . implode( ' OR ', $path2StringArray ) . ' ) ';
@@ -4967,8 +4967,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $mainNodeID = $currentNode->attribute( 'main_node_id' );
                             foreach ( $limitationArray[$key] as $nodeID )
                             {
-                                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                                $limitationNodeID = $node->attribute( 'main_node_id' );
+                                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                                $limitationNodeID = $node['main_node_id'];
                                 if ( $mainNodeID == $limitationNodeID )
                                 {
                                     $access = 'allowed';
@@ -5159,8 +5159,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( $mainNodeID == $node['main_node_id'] )
                 {
                     $allowed = true;
                     $allowedNode = true;

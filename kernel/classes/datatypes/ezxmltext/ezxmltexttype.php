@@ -685,11 +685,11 @@ class eZXMLTextType extends eZDataType
                 // add as related object
                 if ( $contentObject )
                 {
-                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( $node )
                     {
                         $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
-                        $contentObject->addContentObjectRelation( $node->attribute( 'contentobject_id' ), $objectAttribute->attribute( 'version' ), false, 0, $relationType );
+                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), false, 0, $relationType );
                     }
                 }
             }

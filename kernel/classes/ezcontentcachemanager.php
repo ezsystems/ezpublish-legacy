@@ -493,8 +493,7 @@ class eZContentCacheManager
                 {
                     if ( in_array( $item['class_identifier'], $dependentClassIdentifiers ) )
                     {
-                        $node = eZContentObjectTreeNode::fetch( $item['node_id'] );
-                        $object =& $node->attribute( 'object' );
+                        $object =& eZContentObject::fetchByNodeID( $item['node_id'] );
 
                         if ( count( $dependentClassInfo['object_filter'] ) > 0 )
                         {
@@ -782,19 +781,45 @@ class eZContentCacheManager
         {
             include_once( 'kernel/classes/ezstaticcache.php' );
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
+
+            $nodes = array();
+            $ini =& eZINI::instance();
             $staticCache = new eZStaticCache();
+            $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
+            $pathPrefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
 
-            eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes);
+            if ( !isset( $useURLAlias ) )
+            {
+                $useURLAlias = $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled';
+            }
 
+            eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes );
             foreach ( $nodes as $nodeID )
             {
-                $aNode = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( is_object( $aNode ) )
-                    $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
+                if ( $useURLAlias )
+                {
+                    $aNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                    if ( !isset( $aNode ) )
+                        continue;
+
+                    $urlAlias = $aNode['path_identification_string'];
+                    if ( $pathPrefix != '' )
+                    {
+                        $tempAlias = substr( $pathPrefix, strlen( $pathPrefix ) -1 ) == '/'
+                                        ? $urlAlias . '/'
+                                        : $urlAlias;
+                        if ( strncmp( $tempAlias, $pathPrefix, strlen( $tempAlias) ) == 0 )
+                            $urlAlias = substr( $tempAlias, strlen( $pathPrefix ) );
+                    }
+                }
+                else
+                {
+                    $urlAlias = 'content/view/full/' . $nodeID;
+                }
+                $staticCache->cacheURL( '/' . $urlAlias, $nodeID );
             }
             $staticCache->generateAlwaysUpdatedCache();
         }
-
         eZDebug::accumulatorStop( 'generate_cache' );
     }
 

@@ -666,7 +666,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( ereg( "^[0-9]+$", $nodePath ) )
                 {
                     $nodeID = $nodePath;
-                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
                         $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
@@ -674,12 +674,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     }
                     else
                     {
-                        $objectID = $node->attribute( 'contentobject_id' );
+                        $objectID = $node['contentobject_id'];
                     }
                 }
                 else
                 {
-                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
                         $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
@@ -687,8 +687,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     }
                     else
                     {
-                        $nodeID = $node->attribute( 'node_id' );
-                        $objectID = $node->attribute( 'contentobject_id' );
+                        $nodeID = $node['node_id'];
+                        $objectID = $node['contentobject_id'];
                     }
                     $element->setAttribute( 'show_path', 'true' );
                 }
@@ -808,7 +808,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( ereg( "^[0-9]+$", $nodePath ) )
                 {
                     $nodeID = $nodePath;
-                    $node = eZContentObjectTreeNode::fetch( $nodeID );
+                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                     if ( !$node )
                     {
                         $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, "Node '%1' does not exist.",
@@ -820,7 +820,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
                 else
                 {
-                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                    $node = eZContentObjectTreeNode::fetchByURLPath( $nodePath, false );
                     if ( !$node )
                     {
                         $this->handleError( EZ_XMLINPUTPARSER_ERROR_DATA, 'Node \'%1\' does not exist.',
@@ -829,12 +829,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         $element->removeAttribute( 'href' );
                         return $ret;
                     }
-                    $nodeID = $node->attribute('node_id');
+                    $nodeID = $node['node_id'];
                     $element->setAttribute( 'show_path', 'true' );
                 }
 
                 $element->setAttribute( 'node_id', $nodeID );
-                $objectID = $node->attribute( 'contentobject_id' );
+                $objectID = $node['contentobject_id'];
 
                 // protection from self-embedding
                 if ( $objectID == $this->contentObjectID )

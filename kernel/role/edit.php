@@ -354,8 +354,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
             foreach ( $deletedIDList as $deletedID )
             {
-                $subtree = eZContentObjectTreeNode::fetch( $deletedID );
-                $path = $subtree->attribute( 'path_string' );
+                $subtree = eZContentObjectTreeNode::fetch( $deletedID , false, false);
+                $path = $subtree['path_string'];
                 eZPolicyLimitationValue::removeByValue( $path, $http->sessionVariable( 'BrowsePolicyID' ) );
             }
         }

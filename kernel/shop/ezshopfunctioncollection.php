@@ -91,11 +91,11 @@ class eZShopFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-        $node = eZContentObjectTreeNode::fetch( $topParentNodeID );
-        if ( !isset( $node ) )
+        $node = eZContentObjectTreeNode::fetch( $topParentNodeID , false, false);
+        if ( !is_array( $node ) )
             return array( 'result' => null );
 
-        $nodePath = $node->attribute( 'path_string' );
+        $nodePath = $node['path_string'];
         $currentTime = time();
         $sqlCreatedCondition = '';
 
