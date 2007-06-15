@@ -84,6 +84,7 @@ else
 $hostname = eZSys::hostname();
 $subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostname, $nodename ) );
 $comment = '';
+$overrideKeysAreSet = false;
 
 if ( $http->hasPostVariable( 'SendButton' ) )
 {
@@ -139,6 +140,21 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mail->setReceiver( $receiversEmail, $receiversName );
         $mail->setSubject( $subject );
 
+        // fetch
+        $res =& eZTemplateDesignResource::instance();
+        $object = $node->attribute( 'object' );
+        $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                              array( 'class',            $object->attribute( 'contentclass_id' ) ),
+                              array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                              array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
+                              array( 'section',          $object->attribute( 'section_id' ) ),
+                              array( 'node',             $NodeID ),
+                              array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
+                              array( 'depth',            $node->attribute( 'depth' ) ),
+                              array( 'url_alias',        $node->attribute( 'url_alias' ) )
+                              ) );
+        $overrideKeysAreSet = true;
+
         // fetch text from mail template
         $mailtpl =& templateInit();
         $mailtpl->setVariable( 'hostname', $hostname );
@@ -182,6 +198,21 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
     $Module->redirectTo( '/content/view/full/' . $NodeID );
 }
 
+if ( !$overrideKeysAreSet )
+{
+    $res =& eZTemplateDesignResource::instance();
+    $object = $node->attribute( 'object' );
+    $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                          array( 'class',            $object->attribute( 'contentclass_id' ) ),
+                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                          array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
+                          array( 'section',          $object->attribute( 'section_id' ) ),
+                          array( 'node',             $NodeID ),
+                          array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
+                          array( 'depth',            $node->attribute( 'depth' ) ),
+                          array( 'url_alias',        $node->attribute( 'url_alias' ) )
+                          ) );
+}
 
 $Module->setTitle( 'Tip a friend' );
 

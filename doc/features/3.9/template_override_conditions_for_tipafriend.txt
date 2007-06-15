@@ -1,0 +1,18 @@
+*Title: Template override conditions for 'content/tipafriend.tpl' and 'content/tipafriendmail.tpl' templates.
+
+*Documentation:
+Module 'content/tipafriend' has a node id as required parameter. So it is useful
+to have ability to override these templates using passed node's attributes.
+From now, it is possible to use keys listed below to override 'content/tipafriend.tpl'
+and 'content/tipafriendmail.tpl' templates:
+
+object              - Matches the ID number of the object.
+class               - Matches the ID number of the class which the object is an instance of.
+class_identifier    - Matches the identifier of the class which the object is an instance of.
+class_group         - Matches the ID number of the group that the class which the object
+                      is an instance of belongs to.
+section             - Matches the number of the section which the object belongs to.
+node                - Matches the ID number of the node.
+parent_node         - Matches the ID number of the parent node.
+depth               - Matches the depth of the node. The depth of a top level node is 1.
+url_alias           - Matches the virtual URL of the node.
