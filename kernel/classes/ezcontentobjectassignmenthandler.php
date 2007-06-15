@@ -77,9 +77,9 @@ class eZContentObjectAssignmentHandler
         if ( is_numeric( $name ) )
         {
             $nodeID = false;
-            $node = eZContentObjectTreeNode::fetch( $name );
+            $node = eZContentObjectTreeNode::fetch( $name, false, false );
             if ( $node )
-                $nodeID = $node->attribute( 'node_id' );
+                $nodeID = $node['node_id'];
             return $nodeID;
         }
         $contentINI =& eZINI::instance( 'content.ini' );

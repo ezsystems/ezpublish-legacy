@@ -1179,8 +1179,8 @@ class eZContentUpload
     {
         if ( is_numeric( $nodeName ) )
         {
-            $node = eZContentObjectTreeNode::fetch( $nodeName );
-            if ( is_object( $node ) )
+            $node = eZContentObjectTreeNode::fetch( $nodeName, false, false );
+            if ( is_array( $node ) )
             {
                 $result['status'] = EZ_CONTENTUPLOAD_STATUS_PERMISSION_DENIED;
                 $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -1208,10 +1208,10 @@ class eZContentUpload
         $pathPos = strpos( $nodeName, '/' );
         if ( $pathPos !== false )
         {
-            $node = eZContentObjectTreeNode::fetchByURLPath( $nodeName );
-            if ( is_object( $node ) )
+            $node = eZContentObjectTreeNode::fetchByURLPath( $nodeName, false );
+            if ( is_array( $node ) )
             {
-                return $node->attribute( 'node_id' );
+                return $node['node_id'];
             }
         }
         return false;

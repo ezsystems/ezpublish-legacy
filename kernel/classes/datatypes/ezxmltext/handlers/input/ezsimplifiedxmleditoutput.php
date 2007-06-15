@@ -413,9 +413,9 @@ class eZSimplifiedXMLEditOutput
         {
             if ( $showPath == 'true' )
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false);
                 if ( $node )
-                    $href = 'eznode://' . $node->attribute('path_identification_string');
+                    $href = 'eznode://' . $node['path_identification_string'];
                 else
                     $href = 'eznode://' . $nodeID;
             }
@@ -459,9 +459,9 @@ class eZSimplifiedXMLEditOutput
         {
             if ( $showPath == 'true' )
             {
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                 if ( $node )
-                    $href = 'eznode://' . $node->attribute('path_identification_string');
+                    $href = 'eznode://' . $node['path_identification_string'];
                 else
                     $href = 'eznode://' . $nodeID;
             }

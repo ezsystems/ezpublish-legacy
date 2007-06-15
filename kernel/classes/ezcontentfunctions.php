@@ -43,9 +43,9 @@ class eZContentFunctions
 
         $contentObject = false;
 
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
+        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID, false, false );
 
-        if ( is_object( $parentNode ) )
+        if ( is_array( $parentNode ) )
         {
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
             if ( is_object( $contentClass ) )
@@ -58,7 +58,7 @@ class eZContentFunctions
 
                 $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                    'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                                   'parent_node' => $parentNode->attribute( 'node_id' ),
+                                                                   'parent_node' => $parentNodeID,
                                                                    'is_main' => 1,
                                                                    'sort_field' => $contentClass->attribute( 'sort_field' ),
                                                                    'sort_order' => $contentClass->attribute( 'sort_order' ) ) );
