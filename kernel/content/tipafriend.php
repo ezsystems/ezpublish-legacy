@@ -74,15 +74,15 @@ if ( $http->hasPostVariable( 'NodeID' ) )
 $node = eZContentObjectTreeNode::fetch( $NodeID );
 if ( is_object( $node ) )
 {
-    $nodename = $node->Name;
+    $nodeName = $node->getName();
 }
 else
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$hostname = eZSys::hostname();
-$subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostname, $nodename ) );
+$hostName = eZSys::hostname();
+$subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostName, $nodeName ) );
 $comment = '';
 $overrideKeysAreSet = false;
 
@@ -157,8 +157,8 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
         // fetch text from mail template
         $mailtpl =& templateInit();
-        $mailtpl->setVariable( 'hostname', $hostname );
-        $mailtpl->setVariable( 'nodename', $nodename );
+        $mailtpl->setVariable( 'hostname', $hostName );
+        $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );
         $mailtpl->setVariable( 'your_name', $yourName );
         $mailtpl->setVariable( 'your_email', $yourEmail );
