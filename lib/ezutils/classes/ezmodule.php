@@ -1283,11 +1283,11 @@ class eZModule
      \static
      \return a path list of currently active modules
     */
-    function activeModuleRepositories( $useExtensions = true )
+    static function activeModuleRepositories( $useExtensions = true )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         include_once( 'lib/ezutils/classes/ezextension.php' );
-        $moduleINI =& eZINI::instance( 'module.ini' );
+        $moduleINI = eZINI::instance( 'module.ini' );
         $moduleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 
         if ( $useExtensions )

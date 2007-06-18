@@ -103,9 +103,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $class = eZContentClass::fetchByRemoteID( $classRemoteID );
 
+        $debug = eZDebug::instance();
         if ( $class == null )
         {
-            eZDebug::writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
+            $debug->writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
             return true;
         }
 
@@ -136,7 +137,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 }
             }
 
-            eZDebug::writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
+            $debug->writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
 
             include_once( 'kernel/classes/ezcontentclassoperations.php' );
             eZContentClassOperations::remove( $class->attribute( 'id' ) );
@@ -199,12 +200,13 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_NON_INTERACTIVE:
             case EZ_PACKAGE_CONTENTCLASS_REPLACE:
                 include_once( 'kernel/classes/ezcontentclassoperations.php' );
+                $debug = eZDebug::instance();
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
                 {
-                    eZDebug::writeWarning( "Unable to remove class '$className'." );
+                    $debug->writeWarning( "Unable to remove class '$className'." );
                     return true;
                 }
-                eZDebug::writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
+                $debug->writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
                 break;
 
             case EZ_PACKAGE_CONTENTCLASS_SKIP:

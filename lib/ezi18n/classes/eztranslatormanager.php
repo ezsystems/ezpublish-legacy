@@ -177,7 +177,7 @@ class eZTranslatorManager
      \static
      Creates an md5 key based on the \a $context, \a $source and \a $comment and returns it.
     */
-    function createKey( $context, $source, $comment = null )
+    static function createKey( $context, $source, $comment = null )
     {
         if ( $comment === null )
             $comment = "";
@@ -189,7 +189,7 @@ class eZTranslatorManager
      Creates a message structure out of \a $context, \a $source and \a $comment
      and returns it.
     */
-    function createMessage( $context, $source, $comment = null, $translation = null )
+    static function createMessage( $context, $source, $comment = null, $translation = null )
     {
         $msg = array( "context" => $context,
                       "source" => $source,
@@ -201,7 +201,7 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function resetGlobals()
+    static function resetGlobals()
     {
         unset( $GLOBALS["eZTranslatorManagerInstance"] );
     }
@@ -209,7 +209,7 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function resetTranslations()
+    static function resetTranslations()
     {
         include_once( 'lib/ezi18n/classes/eztstranslator.php' );
         eZTranslatorManager::resetGlobals();
@@ -221,7 +221,7 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function dynamicTranslationsEnabled()
+    static function dynamicTranslationsEnabled()
     {
         return isset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
     }
@@ -229,7 +229,7 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function enableDynamicTranslations( $enable = true )
+    static function enableDynamicTranslations( $enable = true )
     {
         if ( $enable )
         {
@@ -244,15 +244,15 @@ class eZTranslatorManager
     /*!
      \static
     */
-    function setActiveTranslation( $locale, $permanently = true )
+    static function setActiveTranslation( $locale, $permanently = true )
     {
         if( !eZTranslatorManager::dynamicTranslationsEnabled() )
             return;
 
         if ( $permanently )
-            $siteINI =& eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+            $siteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
         else
-            $siteINI =& eZINI::instance();
+            $siteINI = eZINI::instance();
 
         $siteINI->setVariable( 'RegionalSettings', 'Locale', $locale );
         $siteINI->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );

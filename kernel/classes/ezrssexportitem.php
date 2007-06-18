@@ -114,7 +114,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return the URL alias object
     */
-    function create( $rssexport_id )
+    static function create( $rssexport_id )
     {
         $row = array( 'id' => null,
                       'rssexport_id' => $rssexport_id,
@@ -188,7 +188,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExportItem::definition(),
                                                 null,

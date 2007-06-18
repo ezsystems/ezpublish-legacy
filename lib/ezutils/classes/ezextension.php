@@ -103,11 +103,12 @@ class eZExtension
         $activeExtensions = eZExtension::activeExtensions( $extensionType );
         $hasExtensions = false;
         $ini = eZINI::instance();
+        $debug = eZDebug::instance();
         foreach ( $activeExtensions as $activeExtension )
         {
             if ( !file_exists( $extensionDirectory . '/' . $activeExtension ) )
             {
-                eZDebug::writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
+                $debug->writeWarning( "Extension '$activeExtension' does not exist, looked for directory '" . $extensionDirectory . '/' . $activeExtension . "'" );
             }
             $extensionSettingsPath = $extensionDirectory . '/' . $activeExtension . '/settings';
             if ( file_exists( $extensionSettingsPath ) )
@@ -278,6 +279,7 @@ class eZExtension
                 $repositoryDirectory .= '/' . $subdir;
             $repositoryDirectoryList[] = $repositoryDirectory;
         }
+        $debug = eZDebug::instance();
         foreach ( $extensionDirectories as $extensionDirectory )
         {
             $extensionPath = $baseDirectory . '/' . $extensionDirectory;
@@ -289,7 +291,7 @@ class eZExtension
             }
             else if ( $extensionSubdir )
             {
-                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory $extensionSubdir, looked for directory '" . $extensionPath . "'" );
+                $debug->writeWarning( "Extension '$extensionDirectory' does not have the subdirectory $extensionSubdir, looked for directory '" . $extensionPath . "'" );
             }
         }
         $foundType = false;

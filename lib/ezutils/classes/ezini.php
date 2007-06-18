@@ -1374,7 +1374,7 @@ class eZINI
      Fetches the ini file \a $fileName and returns the INI object for it.
      \note This will not use the override system or read cache files, this is a direct fetch from one file.
     */
-    function &fetchFromFile( $fileName, $useTextCodec = null )
+    static function &fetchFromFile( $fileName, $useTextCodec = null )
     {
         $impl = new eZINI( $fileName, false, $useTextCodec, false, false, true );
         return $impl;
@@ -1409,7 +1409,7 @@ class eZINI
     /*!
      \static
     */
-    function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    static function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
     {
         unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
         unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );

@@ -139,6 +139,7 @@ class eZLocale
     */
     function eZLocale( $localeString )
     {
+        $debug = eZDebug::instance();
         $this->IsValid = false;
         $this->TimePHPArray = array( 'g', 'G', 'h', 'H', 'i', 's', 'U', 'I', 'L', 't' );
         $this->DatePHPArray = array( 'd', 'j', 'm', 'n', 'O', 'T', 'U', 'w', 'W', 'Y', 'y', 'z', 'Z', 'I', 'L', 't' );
@@ -215,7 +216,7 @@ class eZLocale
         else
         {
             $this->IsValid = false;
-            eZDebug::writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
+            $debug->writeError( 'Could not load country settings for ' . $this->CountryCode, 'eZLocale' );
         }
 
         // Load language information
@@ -226,7 +227,7 @@ class eZLocale
         else
         {
             $this->IsValid = false;
-            eZDebug::writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
+            $debug->writeError( 'Could not load language settings for ' . $this->LanguageCode, 'eZLocale' );
         }
 
 
@@ -557,6 +558,7 @@ class eZLocale
 
     function &attribute( $attribute )
     {
+        $debug = eZDebug::instance();
         $attributeMap = eZLocale::attributeFunctionMap();
         if ( isset( $attributeMap[$attribute] ) )
         {
@@ -567,13 +569,13 @@ class eZLocale
             }
             else
             {
-                eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
+                $debug->writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
                 $retValue = null;
             }
         }
         else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
+            $debug->writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
             $retValue = null;
         }
         return $retValue;
@@ -1462,7 +1464,10 @@ class eZLocale
             }
             $localeFile = $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
-                eZDebug::writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeNotice( "Requesting $localeFile", 'eZLocale::localeFile' );
+            }
             if ( eZINI::exists( $localeFile, 'share/locale' ) )
                 $this->LocaleINI[$type] = eZINI::instance( $localeFile, 'share/locale' );
         }
@@ -1488,7 +1493,10 @@ class eZLocale
             }
             $countryFile = 'country/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
-                eZDebug::writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeNotice( "Requesting $countryFile", 'eZLocale::countryFile' );
+            }
             if ( eZINI::exists( $countryFile, 'share/locale' ) )
                 $this->CountryINI[$type] = eZINI::instance( $countryFile, 'share/locale' );
         }
@@ -1514,7 +1522,10 @@ class eZLocale
             }
             $languageFile = 'language/' . $locale . '.ini';
             if ( eZLocale::isDebugEnabled() )
-                eZDebug::writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeNotice( "Requesting $languageFile", 'eZLocale::languageFile' );
+            }
             if ( eZINI::exists( $languageFile, 'share/locale' ) )
                 $this->LanguageINI[$type] = eZINI::instance( $languageFile, 'share/locale' );
         }
@@ -1594,7 +1605,7 @@ class eZLocale
     /*!
      \static
     */
-    function resetGlobals( $localeString = false )
+    static function resetGlobals( $localeString = false )
     {
         if ( $localeString === false )
         {

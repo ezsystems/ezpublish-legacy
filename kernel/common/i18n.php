@@ -140,7 +140,7 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 
     function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'Locale' ) == 'eng-GB' )
         {
             // we don't have ts-file for 'eng-GB'.

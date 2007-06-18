@@ -5759,7 +5759,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function store()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db->begin();
         eZPersistentObject::storeObject( $this );
@@ -5971,7 +5971,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $nodeID = $node->attribute( 'node_id' );
         $time = time();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db->begin();
 
@@ -6026,7 +6026,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode =& $node->attribute( 'parent' );
         $time = time();
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $db->begin();
 

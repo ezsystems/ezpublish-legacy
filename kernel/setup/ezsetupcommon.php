@@ -183,7 +183,7 @@ function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraL
     for ( $i =0; $i < count( $languageList ); $i++ )
         for ( $n = 0; $n < count( $languageList ) - 1; $n++ )
         {
-            if ( strcmp( $languageList[$n]['language_name'], $languageList[$n+1]['language_name'] ) > 0 )
+            if ( strcmp( $languageList[$n]->attribute( 'language_name' ), $languageList[$n+1]->attribute( 'language_name' ) ) > 0 )
             {
                 $tmpElement = $languageList[$n];
                 $languageList[$n] = $languageList[$n+1];

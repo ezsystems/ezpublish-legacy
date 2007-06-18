@@ -410,7 +410,7 @@ class eZSearch
 
      \return instance of eZSearch class.
     */
-    function getEngine()
+    static function getEngine()
     {
         // Get instance if already created.
         $instanceName = 'eZSearchPlugin_' . $GLOBALS['eZCurrentAccess'];
@@ -420,7 +420,7 @@ class eZSearch
         }
 
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $searchEngineString = 'ezsearch';
         if ( $ini->hasVariable( 'SearchSettings', 'SearchEngine' ) == true )
@@ -456,8 +456,9 @@ class eZSearch
             }
         }
 
-        eZDebug::writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
-        eZDebug::writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
+        $debug = eZDebug::instance();
+        $debug->writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
+        $debug->writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
         return false;
     }
 

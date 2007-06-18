@@ -235,7 +235,7 @@ class eZXMLSchema
         }
     }
 
-    function instance()
+    static function instance()
     {
         $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
 

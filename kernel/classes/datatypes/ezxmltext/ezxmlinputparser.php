@@ -161,7 +161,7 @@ class eZXMLInputParser
         $this->RemoveDefaultAttrs = $removeDefaultAttrs;
         $this->ParseLineBreaks = $parseLineBreaks;
 
-        $this->XMLSchema =& eZXMLSchema::instance();
+        $this->XMLSchema = eZXMLSchema::instance();
 
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
@@ -200,7 +200,7 @@ class eZXMLInputParser
             $this->AllowNumericEntities = false;
         }
 
-        $contentIni =& eZINI::instance( 'content.ini' );
+        $contentIni = eZINI::instance( 'content.ini' );
         $useStrictHeaderRule = $contentIni->variable( 'header', 'UseStrictHeaderRule' );
         $this->StrictHeaders = $useStrictHeaderRule == 'true' ? true : false;
     }

@@ -129,7 +129,8 @@ class eZFile
     */
     static function suffix( $filename )
     {
-        return array_pop( explode( '.', $filename) );
+        $parts = explode( '.', $filename);
+        return array_pop( $parts );
     }
 
     /*!

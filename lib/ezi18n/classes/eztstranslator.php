@@ -621,10 +621,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
      Fetche list of available translations, create eZTrnslator for each translations.
      \return list of eZTranslator objects representing available translations.
     */
-    function fetchList( $localeList = array() )
+    static function fetchList( $localeList = array() )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
 
         $dir = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
 
@@ -661,7 +661,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /*!
      \static
     */
-    function resetGlobals()
+    static function resetGlobals()
     {
         unset( $GLOBALS["eZTSTranslationTables"] );
     }

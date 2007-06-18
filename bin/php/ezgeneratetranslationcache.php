@@ -43,8 +43,8 @@
 
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will generate caches for translations.\n" .
                                                          "Default usage: ./bin/php/ezgeneratetranslationcache -s setup\n" ),
                                       'use-session' => false,
@@ -72,7 +72,15 @@ include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 //
 // 'ts-list' option
 //
-$translations = split( ' ', $scriptOptions['ts-list'] );
+
+if ( isset( $scriptOptions['ts-list'] ) )
+{
+    $translations = split( ' ', $scriptOptions['ts-list'] );
+}
+else
+{
+    $translations = array();
+}
 $translations = eZTSTranslator::fetchList( $translations );
 
 
@@ -82,7 +90,7 @@ $translations = eZTSTranslator::fetchList( $translations );
 
 $cli->output( $cli->stylize( 'blue', "Processing: " ), false );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 foreach( $translations as $translation )
 {

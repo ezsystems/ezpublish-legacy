@@ -150,7 +150,7 @@ class eZRSSExport extends eZPersistentObject
 
      \return the URL alias object
     */
-    function create( $user_id )
+    static function create( $user_id )
     {
         $config = eZINI::instance( 'site.ini' );
         $dateTime = time();
@@ -228,7 +228,7 @@ class eZRSSExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
+    static function fetch( $id, $asObject = true, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         return eZPersistentObject::fetchObject( eZRSSExport::definition(),
                                                 null,
@@ -243,7 +243,7 @@ class eZRSSExport extends eZPersistentObject
 
      \param RSS Export access url
     */
-    function fetchByName( $access_url, $asObject = true )
+    static function fetchByName( $access_url, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZRSSExport::definition(),
                                                 null,
@@ -257,7 +257,7 @@ class eZRSSExport extends eZPersistentObject
      \static
       Fetches complete list of RSS Exports.
     */
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExport::definition(),
                                                     null, array( 'status' => 1 ), null, null,

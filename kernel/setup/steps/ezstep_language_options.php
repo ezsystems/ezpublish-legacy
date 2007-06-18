@@ -144,7 +144,7 @@ class eZStepLanguageOptions extends eZStepInstaller
 
         if ( $this->PersistenceList['regional_info']['site_charset'] )
         {
-            $i18nINI =& eZINI::create( 'i18n.ini' );
+            $i18nINI = eZINI::create( 'i18n.ini' );
             // Set ReadOnlySettingsCheck to false: towards
             // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
             $i18nINI->setReadOnlySettingsCheck( false );

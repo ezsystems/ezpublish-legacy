@@ -2189,7 +2189,7 @@ WHERE user_id = '" . $userID . "' AND
      \static
      \return true when password is valid by length and not empty, false if not
     */
-    function validatePassword( $password )
+    static function validatePassword( $password )
     {
         $ini = eZINI::instance();
         $minPasswordLength = $ini->hasVariable( 'UserSettings', 'MinPasswordLength' ) ? $ini->variable( 'UserSettings', 'MinPasswordLength' ) : 3;

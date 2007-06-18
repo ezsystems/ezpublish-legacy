@@ -756,8 +756,8 @@ class eZObjectRelationListType extends eZDataType
         $placementAttributes = array();
         if ( $content['default_placement'] )
             $placementAttributes['node-id'] = $content['default_placement']['node_id'];
-        $root->appendChild( $doc->createElementNode( 'contentobject-placement',
-                                                     $placementAttributes ) );
+        $placementNode = $doc->createElementNode( 'contentobject-placement', $placementAttributes );
+        $root->appendChild( $placementNode );
         $doc->setRoot( $root );
         return $doc;
     }
@@ -1470,19 +1470,29 @@ class eZObjectRelationListType extends eZDataType
     {
         $content =& $classAttribute->content();
         if ( $content['default_placement'] )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-placement',
-                                                                                     array( 'node-id' => $content['default_placement']['node_id'] ) ) );
+        {
+            $defaultPlacementNode = eZDOMDocument::createElementNode( 'default-placement',
+                                                                      array( 'node-id' => $content['default_placement']['node_id'] ) );
+            $attributeParametersNode->appendChild( $defaultPlacementNode );
+        }
         if ( is_numeric( $content['type'] ) )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $content['type'] ) );
+        {
+            $typeNode = eZDOMDocument::createElementTextNode( 'type', $content['type'] );
+            $attributeParametersNode->appendChild( $typeNode );
+        }
         else
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', '0' ) );
+        {
+            $typeNode = eZDOMDocument::createElementTextNode( 'type', '0' );
+            $attributeParametersNode->appendChild( $typeNode );
+        }
         $classConstraintsNode = eZDOMDocument::createElementNode( 'class-constraints' );
         $attributeParametersNode->appendChild( $classConstraintsNode );
         foreach ( $content['class_constraint_list'] as $classConstraint )
         {
             $classConstraintIdentifier = $classConstraint;
-            $classConstraintsNode->appendChild( eZDOMDocument::createElementNode( 'class-constraint',
-                                                                                  array( 'class-identifier' => $classConstraintIdentifier ) ) );
+            $classConstraintNode = eZDOMDocument::createElementNode( 'class-constraint',
+                                                                     array( 'class-identifier' => $classConstraintIdentifier ) );
+            $classConstraintsNode->appendChild( $classConstraintNode );
         }
     }
 
