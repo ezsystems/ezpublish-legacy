@@ -4623,10 +4623,9 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the attributes for the content object version \a $version and content object \a $contentObjectID.
      \a $language defines the language to fetch.
-     \static
      \sa attributes
     */
-    static function &fetchClassAttributes( $version = 0, $asObject = true )
+    function &fetchClassAttributes( $version = 0, $asObject = true )
     {
         $classAttributesList =& eZContentClassAttribute::fetchListByClassID( $this->attribute( 'contentclass_id' ), $version, $asObject );
         return $classAttributesList;

@@ -201,7 +201,7 @@ if ( $viewCacheEnabled )
         $cacheFileGenPath = $cacheFilePath . '.gen';
         $cacheGenFile = eZClusterFileHandler::instance( $cacheFileGenPath );
         while( $cacheGenFile->fileExists( $cacheGenFile->name() ) &&
-               $cacheGenFile->mtime() + eZNodeViewFunctions_FileGenerateTimeout > mktime() )
+               $cacheGenFile->mtime() + eZNodeViewFunctions_FileGenerateTimeout > time() )
         {
             sleep( 1 );
             $cacheGenFile->loadMetaData();
@@ -235,7 +235,7 @@ if ( $viewCacheEnabled )
             $cacheFileGenPath = $cacheFilePath . '.gen';
             $cacheGenFile = eZClusterFileHandler::instance( $cacheFileGenPath );
             while( $cacheGenFile->fileExists( $cacheGenFile->name() ) &&
-                   $cacheGenFile->mtime() + eZNodeViewFunctions_FileGenerateTimeout > mktime() )
+                   $cacheGenFile->mtime() + eZNodeViewFunctions_FileGenerateTimeout > time() )
             {
                 sleep( 1 );
                 $cacheGenFile->loadMetaData();

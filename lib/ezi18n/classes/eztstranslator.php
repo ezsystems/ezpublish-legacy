@@ -77,7 +77,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $instance = false;
         $file = $locale . '/' . $filename;
         if ( isset( $tables[$file] ) and
-             get_class( $tables[$file] ) == "eztstranslator" )
+             strtolower( get_class( $tables[$file] ) ) == "eztstranslator" )
             $instance =& $tables[$file];
         if ( $instance and
              $instance->hasInitializedContext( $context ) )
