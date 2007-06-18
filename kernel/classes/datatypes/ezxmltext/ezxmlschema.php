@@ -197,17 +197,11 @@ class eZXMLSchema
         $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
         $this->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
 
-<<<<<<< .working
-            // Get all tags custom attributes list
-            $ini = eZINI::instance( 'content.ini' );
-            foreach( array_keys( $this->Schema ) as $tagName )
-=======
         // Get all tags custom attributes list
-        $ini =& eZINI::instance( 'content.ini' );
+        $ini = eZINI::instance( 'content.ini' );
         foreach( array_keys( $this->Schema ) as $tagName )
         {
             if ( $tagName == 'custom' )
->>>>>>> .merge-right.r19058
             {
                 // Custom attributes of custom tags
                 foreach( $this->Schema['custom']['tagList'] as $customTagName )
