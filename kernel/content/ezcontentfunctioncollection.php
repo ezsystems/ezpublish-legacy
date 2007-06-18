@@ -196,7 +196,7 @@ class eZContentFunctionCollection
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         // Fetch locale list
         $localeList = eZLocale::localeList( false, true );
-        $localeObj =& eZLocale::instance( $localeCode );
+        $localeObj = eZLocale::instance( $localeCode );
         // Check if $localeName exists
         if ( $localeObj === null or ( is_object( $localeObj ) and !in_array( $localeObj->localeFullCode(), $localeList ) ) )
         {
@@ -580,7 +580,7 @@ class eZContentFunctionCollection
 
         if ( is_object( $parentNode ) )
         {
-            $classList =& $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
+            $classList = $parentNode->canCreateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
         else
         {
