@@ -300,11 +300,11 @@ class eZRSSImport extends eZPersistentObject
                 $path_array =& $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
-                    $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
+                    $treenode = eZContentObjectTreeNode::fetch( $path_array[$i], false, false );
                     if( $i == 0 )
-                        $retValue = $treenode->attribute( 'name' );
+                        $retValue = $treenode['name'];
                     else
-                        $retValue .= '/'.$treenode->attribute( 'name' );
+                        $retValue .= '/' . $treenode['name'];
                 }
             }
             else

@@ -79,6 +79,7 @@ function help()
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
+    global $cronPart;
     $cli =& eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
@@ -379,6 +380,7 @@ class eZRunCronjobs
         {
             global $script;
             global $isQuiet;
+            global $cronPart;
             include( $scriptFile );
         }
     }

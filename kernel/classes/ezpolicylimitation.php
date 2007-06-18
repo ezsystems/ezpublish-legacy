@@ -278,11 +278,11 @@ class eZPolicyLimitation extends eZPersistentObject
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
-                $node = eZContentObjectTreeNode::fetch( $value );
+                $node = eZContentObjectTreeNode::fetch( $value, false, false );
                 if ( $node == null )
                     continue;
                 $limitationValuePair = array();
-                $limitationValuePair['Name'] = $node->attribute( 'name' );
+                $limitationValuePair['Name'] = $node['name'];
                 $limitationValuePair['value'] = $value;
                 $limitationValueArray[] = $limitationValuePair;
             }
@@ -292,13 +292,11 @@ class eZPolicyLimitation extends eZPersistentObject
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             foreach ( $valueList as $value )
             {
-                $subtreeObject = eZContentObjectTreeNode::fetchByPath( $value );
+                $subtreeObject = eZContentObjectTreeNode::fetchByPath( $value, false );
                 if ( $subtreeObject != null )
                 {
-                    $subtreeID = $subtreeObject->attribute( 'node_id' );
-                    $subtree = eZContentObjectTreeNode::fetch( $subtreeID );
                     $limitationValuePair = array();
-                    $limitationValuePair['Name'] = $subtree->attribute( 'name' );
+                    $limitationValuePair['Name'] = $subtreeObject['name'];
                     $limitationValuePair['value'] = $value;
                     $limitationValueArray[] = $limitationValuePair;
                 }

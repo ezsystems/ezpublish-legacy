@@ -139,16 +139,15 @@ class eZStaticCache
 
     function generateNodeListCache( $nodeList )
     {
-        $hostname = $this->HostName;
-        $staticStorageDir = $this->StaticStorageDir;
+        $db = eZDB::instance();
 
         foreach ( $nodeList as $uri )
         {
-            $this->storeCache( '/' . $uri['path_identification_string'], $hostname, $staticStorageDir, array(), false, true );
+            //cacheURL checks the MaxCacheDepth and CachedURLArray for us before calling storeCache
+            $this->cacheURL( '/' . $uri['path_identification_string']);
 
             /* Fetch all url aliases with the same node */
             /* 1. request content/view/full/* style url */
-            $db = eZDB::instance();
             $srcURL = $db->escapeString( $uri['path_identification_string'] );
             $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '$srcURL'" );
             /* 2. get all other elements linked to the same destination URL */
@@ -156,7 +155,7 @@ class eZStaticCache
             /* Loop over this result and store the cache for this */
             foreach ( $aliases as $alias )
             {
-                $this->storeCache( '/' . $alias['source_url'], $hostname, $staticStorageDir, array(), false, true );
+                $this->cacheURL( '/' . $alias['source_url']);
             }
         }
     }
@@ -316,8 +315,7 @@ class eZStaticCache
                     {
                         $this->addAction( 'store', array( $file, $fileName ) );
                     }
-
-                    if ( !$delay )
+                    else
                     {
                         /* Generate content, if required */
                         if ( $content === false )
@@ -430,6 +428,7 @@ class eZStaticCache
         }
 
         $fileContentCache = array();
+        $doneDestList = array();
 
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
@@ -438,17 +437,21 @@ class eZStaticCache
             switch( $action ) {
                 case 'store':
                     list( $destination, $source ) = $parameters;
-                    if ( ! isset( $fileContentCache[$source] ) )
+                    if ( ! isset( $doneDestList[$destination] ) )
                     {
-                        $fileContentCache[$source] = @file_get_contents( $source );
-                    }
-                    if ( $fileContentCache[$source] === false )
-                    {
-                        eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
-                    }
-                    else
-                    {
-                        eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
+                        if ( ! isset( $fileContentCache[$source] ) )
+                        {
+                            $fileContentCache[$source] = @file_get_contents( $source );
+                        }
+                        if ( $fileContentCache[$source] === false )
+                        {
+                            eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                        }
+                        else
+                        {
+                            eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
+                                $doneDestList[$destination] = 1;
+                        }
                     }
                     break;
             }

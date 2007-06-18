@@ -717,7 +717,7 @@ class eZImageAliasHandler
                 // Always returns current attribute (array of $contentObjectAttributeID and $contentObjectAttributeVersion)
                 $dbResult = eZImageFile::fetchImageAttributesByFilepath( $filepath, $contentObjectAttributeID );
                 // Check if there are the attributes.
-                if ( count( $dbResult ) > 1 )
+                if ( count( $dbResult ) > 0 )
                 {
                     $doNotDelete = true;
                     foreach ( $dbResult as $res )

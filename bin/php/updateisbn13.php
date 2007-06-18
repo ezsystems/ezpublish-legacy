@@ -28,6 +28,9 @@
          calculate the length of Registration group, Registrant and Publication element.
  */
 
+include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'kernel/classes/ezscript.php' );
+
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
@@ -35,6 +38,19 @@ include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
 $fileAdded = false;
 $scriptFound = true;
 $file = "";
+
+
+$cli =& eZCLI::instance();
+$script =& eZScript::instance( array( 'description' => "eZ publish Isbn-13 update\n\n" .
+                                                       "Update the database with new updated isbn data to the database.",
+                                      'use-session' => false,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
+
+$script->startup();
+
+
+
 if ( get_class( $script ) == 'ezscript' )
 {
     $options = $script->getOptions( "[file:]",
@@ -52,10 +68,11 @@ if ( get_class( $script ) == 'ezscript' )
 }
 else
 {
-    print( "Warning: You should start this script with 'php runcronjobs.php isbn13'" );
+    print( "Warning: Unable to start the script." );
     $scriptFound = false;
 }
 
+$script->initialize();
 
 // $file = "http://www.isbn-international.org/converter/ranges.js";
 
@@ -239,4 +256,7 @@ if ( $file != '' and $scriptFound === true )
         $cli->output( "File not found: " . $file );
     }
 }
+
+$script->shutdown();
+
 ?>

@@ -297,7 +297,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
 
     function originalParent()
     {
-        $parent = $this->fetch( $this->attribute( 'parent_node_id' ) );
+        $parent = eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node_id' ) );
         $thisPathArray = $this->attribute( 'path_array' );
 
         if ( is_object( $parent ) and count( $thisPathArray ) > 0 )
@@ -305,8 +305,8 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
             $realParentPathArray = $parent->attribute( 'path_array' );
             $realParentPath = implode( '/', $realParentPathArray );
 
-            $thisParentPathArray = array_pop( $thisPathArray );
-            $thisParentPath = implode( '/', $realParentPathArray );
+            array_pop( $thisPathArray );
+            $thisParentPath = implode( '/', $thisPathArray );
 
             if ( $thisParentPath == $realParentPath )
             {
@@ -314,7 +314,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                 return $parent;
             }
         }
-        // original parent was moved or does not exist anymore
+        // original parent was moved or deleted
         $ret = null;
         return $ret;
     }

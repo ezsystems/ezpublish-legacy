@@ -1,0 +1,241 @@
+===================================
+Content Structure Menu Improvements
+===================================
+
+:Authors: Jan Kudlicka
+:Version: 0.1
+
+
+
+Introduction
+------------
+To be able to use the new dynamic content structure menu, it is necessary to
+enable it in contentstructuremenu.ini for your administration siteaccess. Add
+the following setting to the [TreeMenu] group::
+
+    Dynamic=enabled
+
+If you are installing a site by using the setup wizard in eZ Publish 3.10 and
+later, this setting is added to the configuration automatically and thus the
+dynamic menu is used by default. You might switch it off and use the old
+implementation by setting *Dynamic* to *disabled*.
+
+There are two important files in the implementation. We will now have a look at
+both of them and will describe how the dynamic content structure menu works.
+
+
+
+kernel/content/treemenu.php
+---------------------------
+Implements the *content/treemenu* view. Typically, the URL of a request to this
+view will look like the following example::
+
+    http://site.com/path/to/ez/index.php/content/treemenu?node_id=109&modified=1179233056&expiry=1179214259&perm=43b864bde60564a9abad0598b1d5d203
+
+Using such a request a browser asks to get the list of children of the given
+node identified by the GET parameter *node_id*. The other GET parameters are not
+used by the view itself but they are used for caching purposes, see below.
+
+The content type of a response is *application/json*. (We will use the term
+*JSON document* for such a response from now on.) The response has set *max-age*
+in the *Cache-Control* header to 86400 seconds and the expiration date set
+accordingly. It contains the list of direct children of the given node, together
+with their properties. Only those children which a user can read are in the
+list.
+
+An example of such a response (including the header) follows::
+
+    Date: Tue, 29 May 2007 11:42:47 GMT
+    Server: ...
+    X-Powered-By: ...
+    Expires: Wed, 30 May 2007 11:42:50 GMT
+    Cache-Control: max-age=86400
+    Last-Modified: Tue, 15 May 2007 12:44:16 GMT
+    Content-Length: ...
+    Content-Type: application/json; charset=utf-8
+
+    {
+        "error_code": 0,
+        "node_id": 109,
+        "children_count": 2,
+        "children":
+        [
+            {
+                "node_id": 130,
+                "object_id": 128,
+                "class_id": 1,
+                "has_children": 0,
+                "name": "Multimedia",
+                "url": "/community/multimedia",
+                "modified_subnode": 1177503912,
+                "languages": ["eng-US", "slk-SK"],
+                "is_hidden": 0,
+                "is_invisible": 0
+            },
+            {
+                "node_id": 124,
+                "object_id": 122,
+                "class_id": 1,
+                "has_children": 0,
+                "name": "Downloads",
+                "url": "/community/downloads",
+                "modified_subnode": 1177503910,
+                "languages": ["eng-US"],
+                "is_hidden": 0,
+                "is_invisible": 0
+            }
+        ]
+    }
+
+Note that real replies do not contain non-significant white spaces which are
+used in the example only to increase the readibility.
+
+JSON documents containing information about children of different parent nodes
+are cached by eZ Publish using the node ID and the permission hash as keys. This
+helps eZ Publish to answer quickly. Caching imitate template cache blocks with
+the subtree_expiry parameter. Cache file for a given node is removed when any
+node under the given node is modified, or if all content caches are removed.
+
+Additionally, the JSON documents are cached in a browser by setting *max-age* to
+86400 seconds (i. e. 1 day) in the *Cache-Control* header of responses (and
+setting the *Expires* header accordingly). When there is a change on a server,
+which makes the cached information incorrect or invalid, it is important that
+a browser is not using this information anymore but gets the new version of
+a list of children from the server. To achieve this, the request URL contains
+couple of additional GET parameters. The URLs are prepared by Javascript (in
+ContentStructureMenu::load(), see below). Value of the *modified* parameter is
+the node's *modified_subnode* property. If there was a change below the given
+node, the value of *modified_subnode* will change, Javascript will generate
+a URL which will contain new value of the *modified* parameter and the
+information has to be fetched from the server because a response for this new
+URL is not cached in the browser.
+
+To be able to override using browser cache completely, for example because a new
+class or a new language was added on a server or because an administrator
+changed INI settings and removed all caches in the administration interface,
+there is another parameter named *expiry*. Value of this parameter will in such
+circumstances increase increase and will change all URLs.
+
+The last parameter *perm* is used only to ensure the correct functionality when
+people with different permissions are using the very same browser.
+
+Notes:
+    - The *content/treemenu* view will return a JSON document only if the
+      dynamic menu is allowed for the siteaccess.
+    - The *content/read* function (for roles/policies) is used for the 
+      *content/treemenu* view.
+    - Because of strange behavior of caching in different browsers, the
+      *content/treemenu* view (and also *index_treemenu.php* mentioned below)
+      immediately answers with *HTTP/1.1 304 Not Modified* response if a request
+      contains *If-Modified-Since* header (which means that the browser has the
+      cached document but checks with the server if it is still valid). It also
+      updates the *Expires* header.
+
+
+
+design/admin/templates/contentstructuremenu/content_structure_menu_dynamic.tpl
+------------------------------------------------------------------------------
+This file contains implementation of the *ContentStructureMenu* class.
+Brief description of important methods of this class follows:
+
+    - updateCookie(): 
+      The information about which submenus are open is, as in the old
+      implementation, kept in a cookie (by default, validity of this cookie is
+      10 years).
+   
+    - setOpen():
+      Adds the given node to to the list of nodes for which the list of children
+      is visible and updates the cookie.
+   
+    - setClosed():
+      Removes the given node from the list of nodes for which the list of
+      children is visible and updates the cookie.
+
+    - generateEntry():
+      Creates and returns HTML chunk for the given node. In the following
+      example you can see the example HTML generated and returned by this
+      function for a node with ID 109. As you can see, it resembles the HTML 
+      generated by the old tree menu implementation::
+   
+            <li id="n109">
+                <a id="a109" class="openclose-close" 
+                   onclick="this.blur(); return treeMenu.load( this, 109, 1177503912 )" href="#" />
+                <a class="nodeicon" onclick="ezpopmenu_showTopLevel( ... ); return false" href="#">
+                    <img title="[Frontpage] Click on the icon to get a context sensitive menu." alt="" 
+                         src="/share/icons/crystal-admin/16x16_indexed/mimetypes/empty.png" />
+                </a>
+                <a class="nodetext" href="/community">
+                    <span class="node-name-normal">Community</span>
+                </a>
+                <div id="c109" class="hidden">
+                </div>
+            </li>      
+   
+      Note that children of a node will be loaded and rendered as a unsorted
+      list (<ul>) under the div with ID *c* followed by the node ID (*c109* in
+      our example). In the following text we will sometimes refer to this list
+      as the submenu of the given node.
+   
+    - load():
+      If the submenu for a given node is loaded, it is shown; if it is loaded
+      and shown, it is hidden; otherwise, this method loads the JSON document
+      with the list of children by creating an AJAX request to eZ Publish (to
+      the *content/tree* view). Upon loading of the document, it creates HTML
+      code for the submenu by creating a list containing HTML chunks generated
+      by generateEntry() for all children and appends this list to the tree. It
+      also calls method openUnder() for the given node.
+
+    - openUnder():
+      Checks (in DOM structure) the children of the given node, determines which
+      of them have to be unfolded and opens them.
+
+    - collapse():
+      Collapses all submenus under the given node.
+
+The file also contains small Javascript code which creates an instance of the
+described class, renders the menu by calling this instance's generateEntry()
+method for the root node and the load() method. If Javascript is not enabled in
+the browser, the user will not see any tree structure which is equivalent with
+the situation where the content structure is switched off.
+   
+
+
+General notes
+-------------
+When a page containing the content tree menu is being generated by eZ publish,
+content_structure_menu_dynamic.tpl is included. As the page is being loaded
+into a browser and the instance of ContentStructureMenu is created, the root
+node item is rendered and the Javascript code loads the list of direct children
+(AJAX request to the *content/treemenu* view). This list is then rendered and
+for the items which have to be unfolded lists of children are loaded and
+rendered. This process is repeated until all visible items are rendered.
+
+By clicking on an unfold icon (small plus) in the tree menu, the Javascript
+code checks if the submenu for the given node is not already loaded (see below),
+if not, it loads the list of direct children of the node and renders them.
+While waiting for these operations to finish, the clock icon is shown instead of
+the unfold icon. When finished, the node ID is stored in the cookie and the fold
+icon (small minus) is used instead of the clock icon. The script checks again if
+some of the children are to be shown, if so, it continues loading and rendering
+the submenus.
+
+Note that if during loading the list of children an error occurs, the clock icon
+will be replaced by the red cross and title will be set to the description of
+the error. This might occur for example when the parent node of menu being
+loaded was removed after loading the page (and the tree menu).
+
+Clicking on a fold icon hides the submenu (it does not remove it from DOM),
+removes the node ID from the cookie and changes the icon to the unfold icon.
+
+
+
+index_treemenu.php
+------------------
+To increase the reaction time, *index_treemenu.php* should be used instead of
+*index.php* when accessing the *content/view* view. It performs only checks
+necessary for this view and it is therefore much quicker than index.php. You can
+instruct Apache to use this file by using the following rewrite rules (if unsure
+where to put them, place them above your existing rules for eZ Publish)::
+
+    RewriteRule content/treemenu/?$ index_treemenu.php
+    RewriteRule index_treemenu.php - [L]

@@ -70,6 +70,85 @@ class eZISBN13
     }
 
     /*!
+     Contains a list of all attributes for this class.
+     \return the array with existing attributes.
+    */
+    function &attributes()
+    {
+        $attributeArray = array( 'has_content',
+                                 'group_ranges',
+                                 'groups' );
+        return $attributeArray;
+    }
+
+    /*!
+     Fetch the attribute sent in $value.
+     \param $value is the name of the attribute that should be fetched.
+     \return the result of the attribute.
+    */
+    function &attribute( $value )
+    {
+        $returnData = null;
+        switch ( $value )
+        {
+            case "has_content":
+            {
+                $returnData = eZISBN13::hasRangeData();
+            }break;
+
+            case "groups":
+            {
+                $count = 0;
+                $groupList = eZISBNGroup::fetchList( $count );
+                $returnData = array( 'group_list' => $groupList,
+                                     'count' => $count );
+            }break;
+
+            case "group_ranges":
+            {
+                $count = 0;
+                $groupList = eZISBNGroupRange::fetchList( $count );
+                $returnData = array( 'group_list' => $groupList,
+                                     'count' => $count );
+            }break;
+        }
+        return $returnData;
+    }
+
+    /*!
+     Check if the attribute set in the string $value exists.
+     \param $value is the attribute you want to see if exist.
+     \return true if the attribute is found.
+    */
+    function &hasAttribute( $value )
+    {
+        $attributes =& eZISBN13::attributes();
+        $hasAttribute = in_array( $value, $attributes );
+        return $hasAttribute;
+    }
+
+    /*!
+     Check if any ISBN ranges exist.
+     \return true if any ranges are found.
+    */
+    function hasRangeData()
+    {
+        $db =& eZDB::instance();
+        $query = "SELECT count(ezisbn_group.id) as count FROM
+                         ezisbn_group, ezisbn_group_range, ezisbn_registrant_range WHERE
+                         ezisbn_group.group_number >= ezisbn_group_range.from_number and
+                         ezisbn_group.group_number <= ezisbn_group_range.to_number and
+                         ezisbn_group.id=ezisbn_registrant_range.isbn_group_id";
+        $countArray = $db->arrayQuery( $query );
+        $hasRangeData = false;
+        if ( $countArray[0]['count'] > 0 )
+        {
+            $hasRangeData = true;
+        }
+        return $hasRangeData;
+    }
+
+    /*!
      Receives an ISBN number and place hyphen on the correct place in the number.
      If the placement is not found, an error message will be set and false
 

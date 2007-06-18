@@ -44,6 +44,8 @@
   http://www.isbn-international.org
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZISBNRegistrantRange extends eZPersistentObject
 {
     /*!
@@ -216,7 +218,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
         $db =& eZDB::instance();
         $definition = eZISBNRegistrantRange::definition();
         $table = $definition['name'];
-        $sql = "DELETE FROM " . $table;
+        $sql = "TRUNCATE TABLE " . $table;
         $db->query( $sql );
     }
 }

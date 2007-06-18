@@ -30,11 +30,11 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 include_once( "lib/ezutils/classes/ezmailtransport.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
-include_once( 'lib/ezutils/classes/ezfunctionhandler.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/common/template.php" );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $ini =& eZINI::instance();
 
@@ -71,19 +71,20 @@ $receiversEmail = '';
 if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = (int)$http->variable( 'NodeID' );
 
-$node = eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
+$node = eZContentObjectTreeNode::fetch( $NodeID );
 if ( is_object( $node ) )
 {
-    $nodename = $node->Name;
+    $nodeName = $node->getName();
 }
 else
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$hostname = eZSys::hostname();
-$subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostname, $nodename ) );
+$hostName = eZSys::hostname();
+$subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostName, $nodeName ) );
 $comment = '';
+$overrideKeysAreSet = false;
 
 if ( $http->hasPostVariable( 'SendButton' ) )
 {
@@ -139,10 +140,25 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mail->setReceiver( $receiversEmail, $receiversName );
         $mail->setSubject( $subject );
 
+        // fetch
+        $res =& eZTemplateDesignResource::instance();
+        $object = $node->attribute( 'object' );
+        $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                              array( 'class',            $object->attribute( 'contentclass_id' ) ),
+                              array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                              array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
+                              array( 'section',          $object->attribute( 'section_id' ) ),
+                              array( 'node',             $NodeID ),
+                              array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
+                              array( 'depth',            $node->attribute( 'depth' ) ),
+                              array( 'url_alias',        $node->attribute( 'url_alias' ) )
+                              ) );
+        $overrideKeysAreSet = true;
+
         // fetch text from mail template
         $mailtpl =& templateInit();
-        $mailtpl->setVariable( 'hostname', $hostname );
-        $mailtpl->setVariable( 'nodename', $nodename );
+        $mailtpl->setVariable( 'hostname', $hostName );
+        $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );
         $mailtpl->setVariable( 'your_name', $yourName );
         $mailtpl->setVariable( 'your_email', $yourEmail );
@@ -182,6 +198,21 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
     $Module->redirectTo( '/content/view/full/' . $NodeID );
 }
 
+if ( !$overrideKeysAreSet )
+{
+    $res =& eZTemplateDesignResource::instance();
+    $object = $node->attribute( 'object' );
+    $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
+                          array( 'class',            $object->attribute( 'contentclass_id' ) ),
+                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
+                          array( 'class_group',      $object->attribute( 'match_ingroup_id_list' ) ),
+                          array( 'section',          $object->attribute( 'section_id' ) ),
+                          array( 'node',             $NodeID ),
+                          array( 'parent_node',      $node->attribute( 'parent_node_id' ) ),
+                          array( 'depth',            $node->attribute( 'depth' ) ),
+                          array( 'url_alias',        $node->attribute( 'url_alias' ) )
+                          ) );
+}
 
 $Module->setTitle( 'Tip a friend' );
 

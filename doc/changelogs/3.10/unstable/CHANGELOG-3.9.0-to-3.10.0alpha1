@@ -5,6 +5,8 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Added SSL proxy support.
 - Added enhanced ISBN13 support.
 - Implemented feature: Possibility to disable 'tipafriend' view for module 'content'.
+- Implemented enhancement #010806: template override conditions for tipafriend.
+- Implemented enhancement #010860: As Object performance patch.
 
 *Design:
 - Added Bulgarian flag.
@@ -43,9 +45,9 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.8 (3.8.7) rev.17808)
 - Fixed bug #9850: Possible image template class problem.
   (Merged from stable/3.8 (3.8.7) rev. 17811)
-- Fixed bug #9873: Serious regression: 
+- Fixed bug #9873: Serious regression:
   "You do not have permissions to create an object of the requested class in any language."
-- Fixed bug #9887: Certain sequence in simplified XML input may cause line 
+- Fixed bug #9887: Certain sequence in simplified XML input may cause line
   removal.
   (Merged from trunk (3.9.0) rev. 17816)
 - Fixed bug #9610: Unexpected error changing sub-items sorting type when user
@@ -101,7 +103,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #9962: [Workflow] When speciying a section for content approval mechanism,
   content appears without being approved.
   (Merged from stable/3.9 (3.9.1) rev. 17990)
-- Fixed bug #8754: installation wizard test for zlib should be critical, not 
+- Fixed bug #8754: installation wizard test for zlib should be critical, not
   optional
 - Fixed bug #10048: pdf( set_margin, ... - fails for link text.
   (Merged from stable/3.8 rev. 18012, stable/3.8 rev. 18015)
@@ -147,9 +149,9 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10330: Minor typo in ezcontentclassattribute::clone().
   (Manually merged from stable/3.6 (3.6.12) rev. 18229)
 - Fixed bug #10360: Ampersands in URLs are not encoded.
-- Fixed bug #10130: Editing object with image make 
+- Fixed bug #10130: Editing object with image make
   very long sql query with out use of index.
-- Fixed bug #10253: PHP warning in ezscript when using ob_end_clean(). 
+- Fixed bug #10253: PHP warning in ezscript when using ob_end_clean().
 - Fixed bug #10323: Class translation breaks after some translations.
 - Fixed bug #10379: Class editing crash & issues.
   (Merged from stable/3.9 (3.9.1) rev. 18269)
@@ -167,7 +169,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10427: Typo in eZPHPCreator.
 - Fixed bug #10417: content/edit still redirects to deprecated view (content/versions)
 - Fixed bug #10317: Design in the setup is too wide in the setup wizard in the system check.
-- Fixed bug: template warning 'variable <foo> already exists' while doing 
+- Fixed bug: template warning 'variable <foo> already exists' while doing
   recursive include in 'foreach'.
 - Fixed bug #10435: Editing object gives fatal error (multilangual site)
 - Fixed bug #10388: copysubtree.php on line 729
@@ -233,38 +235,38 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10570: RSS feeds generated for a different siteaccesses use the
   same cache files.
   (Merged from stable/3.8 (3.8.8) rev. 18578)
-- Fixed bug #9546: eZOrder::activeCount(), api changed from 3.7 to 3.8 + new 
+- Fixed bug #9546: eZOrder::activeCount(), api changed from 3.7 to 3.8 + new
   required parameters not used.
-  ( Merged from stable/3.8 rev. 18581, stable/3.9 rev. 18582 )
-- Fixed bug #010558: Without ezodf daemon the ms word import fails.
+  (Merged from stable/3.8 rev. 18581, stable/3.9 rev. 18582)
+- Fixed bug #10558: Without ezodf daemon the ms word import fails.
 - Fixed bug #10478: eZBasket::cleanupExpired doesnt cleanup.
 - Fixed bug #10443: Modified_subnode isn't changed when deleting subnodes.
 - Fixed bug #10589: missing include in kernel/common/ezi18noperator.php
-  ( Merged from stable/3.8 rev. 18603, stable/3.9 rev. 18604 )
-- Fixed bug #010539: ezmedia datatype: has_content does not work
+  (Merged from stable/3.8 rev. 18603, stable/3.9 rev. 18604)
+- Fixed bug #10539: ezmedia datatype: has_content does not work
 - Fixed bug #10315: eZINI reports missing groups and settings in debug, but not the file they should be in
 - Fixed bug #10591: Fatal error on editing objects.
   (Merged from stable/3.9 (3.9.2) rev. 18612)
 - Fixed bug #10377: Inconsistent attribute data
-- Fixed bug #010609: No line break are stored in simplified XML input.
+- Fixed bug #10609: No line break are stored in simplified XML input.
   (Merged from stable/3.9 (3.9.2) rev. 18620)
-- Fixed bug #010492: Pre-generated view-cache not usable due to wrong cache-keys.
+- Fixed bug #10492: Pre-generated view-cache not usable due to wrong cache-keys.
   (Merged from stable/3.9 (3.9.2) rev. 18637).
-- Fixed bug #010638: eZTSTranslator should handle the 'location' element.
-- Fixed bug #010597: smtp authentication doesn't work anymore
+- Fixed bug #10638: eZTSTranslator should handle the 'location' element.
+- Fixed bug #10597: smtp authentication doesn't work anymore
 - Fxied bug #10631: ezimage - import contentobject package problem.
-- Fixed bug #010598: [patch included] Content indexing crashes.
+- Fixed bug #10598: [patch included] Content indexing crashes.
 - Fixed bug #10255: Module global path list not correctly initialized in workflow cronjob
 - Fixed bug #10285: Missing variable check of $EditLanguage in kernel/content/edit.php
 - Fixed bug #10305: race condition in global ini cache generation ( windows ).
-  ( Merged from stable/3.8 rev. 18667, stable/3.9 rev. 18668 )
+  (Merged from stable/3.8 rev. 18667, stable/3.9 rev. 18668)
 - Fixed bug #10329: CJK charsets area definition in ezccodemapper.php.
 - Fixed issue #10670: Clean up rename function usage.
-  ( Merged from stable/3.8 rev. 18677, stable/3.9 rev. 18678 )
+  (Merged from stable/3.8 rev. 18677, stable/3.9 rev. 18678)
 - Fixed bug #10669: Search might alter unicode characters in the range for CJK Unified Ideographs.
 - Fixed bug #10602: upfirst() template operator does not work correctly with multibyte characters.
 - Fixed issue #10450: Multiple cronjob parts run simultaneously.
-  ( Merged from stable/3.8 rev. 18687, stable/3.9 rev. 18688 )
+  (Merged from stable/3.8 rev. 18687, stable/3.9 rev. 18688)
 - Fixed bug #6574: PDF(content/pdf): Problem with UTF-8 and/or german umlauts
 - Fixed bug #10672: Missing check in PDF-view throws notice.
 - Fixed bug #10528: Tag order mistake in ezinfo/about.tpl template
@@ -274,18 +276,18 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10628: ezdatetime datatype import/export problems.
 - Fixed bug #10664: ezxmltext - problem with empty column data_text.
   (Merged from stable/3.8 (3.8.8) rev. 18716)
-- Fixed bug #10393: Edit and discard a contentobject with several drafts may 
+- Fixed bug #10393: Edit and discard a contentobject with several drafts may
   leed to a wrong current version.
 - Fixed bug #10391: New contentclass automatically created.
 - Fixed bug #10603: Controls should be done on ezwaituntildatetype.php.
   (Merged from stable/3.9 (3.9.2) rev. 18741).
 - Fixed bug #10392: bug in ezurl operator.
 - Fixed bug #10413: Review group based permisson fix
-- Fixed bug #10681: Node tree in inconsistent/illegal state because of hidden parent with 
+- Fixed bug #10681: Node tree in inconsistent/illegal state because of hidden parent with
   retrofitted related objects as children.
 - Fixed bug #10636: ezjsselection.js is loaded twice in admin pagelayout.tpl
 - Fixed bug #10713: RSS Import - eZKeword datatype import does not work.
-  ( Merged from stable/3.8 rev. 18847, stable/3.9 rev. 18848 )
+  (Merged from stable/3.8 rev. 18847, stable/3.9 rev. 18848)
 - Fixed bug #10716: Some typos in "country.ini" file.
 - Fixed bug #10721: Wrongly spelled function names in ezstep_site_types.php.
 - Fixed bug #10752: Function 'tipafriend_top_list' always returns array filled with the same node.
@@ -303,3 +305,24 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10820: Refresh of Login site with SSO Handler does not work.
 - Fixed bug #10775: Fatal error when viewing object with related objects at second location after it was
   removed from its first(original) location.
+- Fixed bug #8482: Session function is buggy.
+- Fixed bug #10366: FileSettings.LogDir missused.
+- Fixed bug #10516: Missing chi-TW flag in trunk.
+- Fixed bug #10694: Letter-turner in ezdebug.php.
+- Fixed bug #10709: typpo in ger translation.
+- Fixed bug #10855: missing hasVariable check for DependentClassIdentifier in ezcontentcachemanager.php
+  (Merged from stable/3.9 (3.9.3) rev. 18959)
+- Fixed bug #10843: Variable $cronPart not set in cronjobs
+  (Merged from stable/3.9 (3.9.3) rev. 18963)
+- Fixed bug #10854: generateNodeListCache is calling storeCache + static cache files are rewritten several times
+  (Merged from stable/3.9 (3.9.3) rev. 18966)
+- Fixed bug #10868: ezcontentobjecttrashnode 'original_parent' property should
+  return null if parent was moved or deleted.
+- Fixed bug #10853: Missing ":" in extension_path function.
+- Fixed bug #6344: Using ezdesign with not existing CSS, JS, image files leads to unwanted behavior.
+- Fixed bug #10392: bug in ezurl operator.
+- Fixed bug #10824: unneeded </a> at admin templates (admin/templates/children_list.tpl,
+  admin/templates/children_detailed.tpl, admin/templates/children_thumbnail.tpl)
+- Fixed bug #10887: Image get lost when created a second language.
+  (Merged from stable/3.8 (3.8.9) rev. 19024)
+- Fixed bug #10958: Missing 'content/datatype/view/ezxmltags/quote.tpl' template causes warning.

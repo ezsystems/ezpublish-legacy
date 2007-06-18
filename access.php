@@ -111,6 +111,10 @@ function accessType( &$uri, $host, $port, $file )
                         {
                             $matchMapURI = $matchMapItem[0];
                             $matchMapAccess = $matchMapItem[1];
+                            if ( $access['name']  == $matchMapAccess and in_array( $matchMapAccess, $siteAccessList ) )
+                            {
+                                $access['access_alias'] = $matchMapURI;
+                            }
                             if ( $matchMapURI == $match_item and in_array( $matchMapAccess, $siteAccessList ) )
                             {
                                 $uri->increase( 1 );

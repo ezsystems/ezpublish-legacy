@@ -358,12 +358,13 @@ function extension_path( $extension, $withWWWDir = false, $withHost = false, $wi
     if ( $withProtocol )
     {
         if ( is_string( $withProtocol ) )
-            $path .= $withProtocol . ':';
+            $path .= $withProtocol;
         else
         {
             include_once( 'lib/ezutils/classes/ezsys.php' );
             $path .= eZSys::serverProtocol();
         }
+        $path .= ':';
     }
     if ( $withHost )
     {

@@ -752,11 +752,11 @@ class eZRole extends eZPersistentObject
             {
                 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-                $node = eZContentObjectTreeNode::fetch( $limitValue );
+                $node = eZContentObjectTreeNode::fetch( $limitValue, false, false );
                 if ( $node )
                 {
                     $limitIdent = 'Subtree';
-                    $limitValue = $node->attribute( 'path_string' );
+                    $limitValue = $node['path_string'];
                 }
                 else
                 {
