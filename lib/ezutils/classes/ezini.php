@@ -507,7 +507,9 @@ class eZINI
         fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
         fwrite( $fp, "\n?>" );
         fclose( $fp );
-        rename( $tmpCacheFile, $cachedFile );
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+        eZFile::rename( $tmpCacheFile, $cachedFile );
+
         if ( eZINI::isDebugEnabled() )
             $debug->writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
 
@@ -1037,11 +1039,11 @@ class eZINI
         $debug = eZDebug::instance();
         $ret = false;
         if ( !isset( $this->BlockValues[$blockName] ) )
-            $debug->writeError( "Undefined group: '$blockName'", "eZINI" );
+            $debug->writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
         else if ( isset( $this->BlockValues[$blockName][$varName] ) )
             $ret = $this->BlockValues[$blockName][$varName];
         else
-            $debug->writeError( "Undefined variable: '$varName' in group '$blockName'", "eZINI" );
+            $debug->writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
 
         return $ret;
     }
@@ -1057,7 +1059,7 @@ class eZINI
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
             $debug = eZDebug::instance();
-            $debug->writeError( "Undefined group: '$blockName'", "eZINI" );
+            $debug->writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
             return false;
         }
         foreach ( $varNames as $key => $varName )
@@ -1403,6 +1405,16 @@ class eZINI
     {
         return $this->ReadOnlySettingsCheck;
     }
+
+    /*!
+     \static
+    */
+    function resetGlobals(  $fileName = "site.ini", $rootDir = "settings", $useLocalOverrides = null )
+    {
+        unset( $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"] );
+        unset( $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"] );
+    }
+
     /// \privatesection
     /// The charset of the ini file
     public $Charset;

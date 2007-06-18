@@ -39,7 +39,11 @@ $FunctionList['list'] = array( 'name' => 'list',
                                'parameters' => array( array( 'name' => 'class_filter',
                                                              'type' => 'array',
                                                              'required' => false,
-                                                             'default' => false ) ) );
+                                                             'default' => false ),
+                                                      array( 'name' => 'sort_by',
+                                                             'type' => 'array',
+                                                             'required' => false,
+                                                             'default' => array() ) ) );
 
 $FunctionList['latest_list'] = array( 'operation_types' => array( 'read' ),
                                       'call_method' => array( 'include_file' => 'kernel/class/ezclassfunctioncollection.php',

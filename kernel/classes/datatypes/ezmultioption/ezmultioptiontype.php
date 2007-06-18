@@ -131,17 +131,17 @@ class eZMultiOptionType extends eZDataType
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
 
+            $optionSetName = $http->hasPostVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) )
+                             ? $http->postVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) )
+                             : '';
+            if ( trim( $optionSetName ) == '' )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Option set name is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
         }
 
-        $optionSetName = $http->hasPostVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) )
-                         ? $http->postVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) )
-                         : '';
-        if ( trim( $optionSetName ) == '' )
-        {
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'Option set name is required.' ) );
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-        }
 
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }

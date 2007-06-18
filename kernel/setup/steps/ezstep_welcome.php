@@ -61,6 +61,16 @@ class eZStepWelcome extends eZStepInstaller
         {
             $this->PersistenceList['run_finetune'] = true;
         }
+
+        if ( $this->Http->hasPostVariable( 'eZSetupWizardLanguage' ) )
+        {
+            $wizardLanguage = $this->Http->postVariable( 'eZSetupWizardLanguage' );
+            $this->PersistenceList['wizard_language'] = $wizardLanguage;
+
+            include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+            eZTranslatorManager::setActiveTranslation( $wizardLanguage );
+        }
+
         return true;
     }
 
@@ -98,6 +108,18 @@ class eZStepWelcome extends eZStepInstaller
     function display()
     {
         $result = array();
+
+        $languages = false;
+        $defaultLanguage = false;
+        $defaultExtraLanguages = false;
+
+        eZSetupLanguageList( $languages, $defaultLanguage, $defaultExtraLanguages );
+
+        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+        eZTranslatorManager::setActiveTranslation( $defaultLanguage, false );
+
+        $this->Tpl->setVariable( 'language_list', $languages );
+        $this->Tpl->setVariable( 'primary_language', $defaultLanguage );
         $this->Tpl->setVariable( 'optional_test', array( 'result' => $this->OptionalResult,
                                                          'results' => $this->OptionalResults ) );
         $result['content'] = $this->Tpl->fetch( 'design:setup/init/welcome.tpl' );

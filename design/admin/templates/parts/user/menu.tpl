@@ -38,7 +38,11 @@
 {* Treemenu. *}
 <div id="contentstructure">
 {section show=ezpreference( 'admin_treemenu' )}
-    {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=ezini( 'NodeSettings', 'UserRootNode', 'content.ini')}
+    {if ezini('TreeMenu','Dynamic','contentstructuremenu.ini')|eq('enabled')}
+        {include uri='design:contentstructuremenu/content_structure_menu_dynamic.tpl' custom_root_node_id=ezini( 'NodeSettings', 'UserRootNode', 'content.ini')}
+    {else}
+        {include uri='design:contentstructuremenu/content_structure_menu.tpl' custom_root_node_id=ezini( 'NodeSettings', 'UserRootNode', 'content.ini')}
+    {/if}
 {/section}
 </div>
 

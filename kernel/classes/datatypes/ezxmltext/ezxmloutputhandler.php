@@ -183,6 +183,12 @@ class eZXMLOutputHandler
      */
     function &outputText()
     {
+        if ( !$this->XMLData )
+        {
+            $output = '';
+            return $output;
+        }
+
         $this->Tpl =& templateInit();
         $this->Res = eZTemplateDesignResource::instance();
         if ( $this->ContentObjectAttribute )

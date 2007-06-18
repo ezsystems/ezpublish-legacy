@@ -40,18 +40,21 @@ function useDirectXAlphaBlender()
 
     for( var i=0; i<images.length; i++ )
     {
-        if( images[i].className == "transparent-png-icon" )
+        var image = images[i];
+        if( image.className == "transparent-png-icon" )
         {
-            images[i].runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + images[i].src + "', sizingMethod='scale')";
+            image.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + image.src + "', sizingMethod='scale')";
             
-            if( images[i].width == 16 )
+            if( image.width == 16 )
             {           
-                images[i].src = emptyIcon16;
+                image.src = emptyIcon16;
             }
             else
             {
-                images[i].src = emptyIcon32;
+                image.src = emptyIcon32;
             }
+
+            image.className = "transparent-png-icon-fixed";
         }
     }
 }

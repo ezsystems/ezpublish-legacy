@@ -541,6 +541,10 @@ class eZImageType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
+        // Remove all existing image data for the case this is a translated attribute,
+        // so initial language's image alias will not be removed in 'initializeFromFile'
+        $objectAttribute->setAttribute( 'data_text', '' );
+
         $alternativeText = $attributeNode->attributeValue( 'alternative-text' );
         // Backwards compatability with older node name
         if ( $alternativeText === false )

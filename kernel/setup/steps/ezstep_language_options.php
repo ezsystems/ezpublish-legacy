@@ -74,10 +74,12 @@ class eZStepLanguageOptions extends eZStepInstaller
             $regionalInfo['site_charset'] = 'utf-8';
         }
         $this->PersistenceList['regional_info'] = $regionalInfo;
+        $charset = false;
 
-        if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
-             $this->PersistenceList['database_info']['use_unicode'] == false )
-        {
+//SP experimental code 26.04.2007 commented "if"
+//        if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
+//             $this->PersistenceList['database_info']['use_unicode'] == false )
+//        {
             // If we have already figured out charset and it is utf-8
             // we don't have to check the new languages
             if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
@@ -126,8 +128,8 @@ class eZStepLanguageOptions extends eZStepInstaller
                     $allLanguageCodes[] = $extraLanguageCode;
                 }
 
-                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
-
+                $canUseUnicode = isset( $this->PersistenceList['database_info']['use_unicode'] ) ? $this->PersistenceList['database_info']['use_unicode'] : false;
+                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
                 if ( !$charset )
                 {
                     $this->Error = 1;
@@ -136,6 +138,19 @@ class eZStepLanguageOptions extends eZStepInstaller
             }
             // Store the charset for later handling
             $this->PersistenceList['regional_info']['site_charset'] = $charset;
+//SP experimental code 26.04.2007 commented "if"
+//      }
+
+
+        if ( $this->PersistenceList['regional_info']['site_charset'] )
+        {
+            $i18nINI =& eZINI::create( 'i18n.ini' );
+            // Set ReadOnlySettingsCheck to false: towards
+            // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
+            $i18nINI->setReadOnlySettingsCheck( false );
+
+            $i18nINI->setVariable( 'CharacterSettings', 'Charset', $this->PersistenceList['regional_info']['site_charset'] );
+            $i18nINI->save( false, '.php', 'append', true );
         }
 
         return true;
@@ -173,88 +188,21 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function display()
     {
-        $locales = eZLocale::localeList( true );
-        $languages = array();
-        $httpMap   = array();
-        $httpMapShort = array();
-        // This alias array must be filled in with known names.
-        // The key is the value from the locale INI file (HTTP group)
-        // and the value is the HTTP alias.
-        $httpAliases = array( 'no-bokmaal' => 'nb',
-                              'no-nynorsk' => 'nn' );
-        foreach ( array_keys( $locales ) as $localeKey )
-        {
-            $locale =& $locales[$localeKey];
-            if ( !$locale->attribute( 'country_variation' ) )
-            {
-                $languages[] = $locale;
-                $httpLocale = strtolower( $locale->httpLocaleCode() );
-                $httpMap[$httpLocale] = $locale;
-                list( $httpLocaleShort ) = explode( '-', $httpLocale );
-                $httpMapShort[$httpLocale] = $locale;
-                if ( isset( $httpAliases[$httpLocale] ) )
-                {
-                    $httpMapShort[$httpAliases[$httpLocale]] = $locale;
-                }
-            }
-        }
+        $languages = false;
+        $defaultLanguage = false;
+        $defaultExtraLanguages = false;
 
-        // bubble sort language based on language name. bubble bad, but only about 8-9 elements
-        for ( $i =0; $i < count( $languages ); $i++ )
-            for ( $n = 0; $n < count( $languages ) - 1; $n++ )
-            {
-                if ( strcmp( $languages[$n]->attribute( 'language_name' ), $languages[$n+1]->attribute( 'language_name' ) ) > 0 )
-                {
-                    $tmpElement = $languages[$n];
-                    $languages[$n] = $languages[$n+1];
-                    $languages[$n+1] = $tmpElement;
-                }
-            }
+        eZSetupLanguageList( $languages, $defaultLanguage, $defaultExtraLanguages );
 
         $this->Tpl->setVariable( 'language_list', $languages );
+
         $showUnicodeError = false;
         if ( isset( $this->Error ) )
         {
             $showUnicodeError = !$this->PersistenceList['database_info']['use_unicode'];
-            unset( $this->PersistenceList['database_info']['use_unicode'] );
+            $this->PersistenceList['database_info']['use_unicode'] = false;
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
-
-        $defaultLanguage = false;
-        $defaultExtraLanguages = array();
-        if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) )
-        {
-            $acceptLanguages = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-            foreach ( $acceptLanguages as $acceptLanguage )
-            {
-                list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
-                $languageCode = false;
-                if ( isset( $httpMap[$acceptLanguageCode] ) )
-                {
-                    $languageCode = $httpMap[$acceptLanguageCode]->localeCode();
-                }
-                elseif ( isset( $httpMapShort[$acceptLanguageCode] ) )
-                {
-                    $languageCode = $httpMapShort[$acceptLanguageCode]->localeCode();
-                }
-                if ( $languageCode )
-                {
-                    if ( $defaultLanguage === false )
-                    {
-                        $defaultLanguage = $languageCode;
-                    }
-/*                    else
-                    {
-                        $defaultExtraLanguages[] = $languageCode;
-                    }*/
-                }
-            }
-        }
-        if ( $defaultLanguage === false )
-        {
-            $defaultLanguage = 'eng-GB';
-        }
-        $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ) );
 
         $regionalInfo = array( 'primary_language' => $defaultLanguage,
                                'languages' => $defaultExtraLanguages );

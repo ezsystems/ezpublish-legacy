@@ -52,8 +52,9 @@ class eZLog
      \public
      Writes a message $message to a given file name $name and directory $dir for logging
     */
-    function write( $message, $logName = 'common.log', $dir = 'var/log' )
+    function write( $message, $logName = 'common.log', $dir = '' )
     {
+        $dir = $ini->variable( 'FileSettings', 'VarDir' ).'/'.$ini->variable( 'FileSettings', 'LogDir' );
         $fileName = $dir . '/' . $logName;
         if ( !file_exists( $dir ) )
         {
@@ -174,6 +175,7 @@ class eZLog
     */
     static function rotateLog( $fileName )
     {
+        include_once( 'lib/ezfile/classes/ezfile.php' );
         $maxLogrotateFiles = eZLog::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
         {
@@ -187,14 +189,14 @@ class eZLog
                 else
                 {
                     $newLogRotateName = $fileName . '.' . ($i + 1);
-                    @rename( $logRotateName, $newLogRotateName );
+                    eZFile::rename( $logRotateName, $newLogRotateName );
                 }
             }
         }
         if ( @file_exists( $fileName ) )
         {
             $newLogRotateName = $fileName . '.' . 1;
-            @rename( $fileName, $newLogRotateName );
+            eZFile::rename( $fileName, $newLogRotateName );
             return true;
         }
         return false;

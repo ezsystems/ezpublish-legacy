@@ -323,7 +323,7 @@ WHERE
         $url = eZURLAlias::cleanURL( $url );
         $conditions = array( "source_url" => $url,
                              'is_wildcard' => 0,
-                             'is_internal' => $isInternal );
+                             'is_internal' => ($isInternal ? 1 : 0) );
         if ( $noForwardID )
             $conditions['forward_to_id'] = 0;
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
@@ -341,13 +341,12 @@ WHERE
     static function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
         $url = eZURLAlias::cleanURL( $url );
-        $isInternal = $isInternal ? 1 : 0;
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
                                                 array( "destination_url" => $url,
                                                        'forward_to_id' => 0,
                                                        'is_wildcard' => 0,
-                                                       'is_internal' => $isInternal ),
+                                                       'is_internal' => ($isInternal ? 1 : 0) ),
                                                 $asObject );
     }
 

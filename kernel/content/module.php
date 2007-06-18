@@ -472,6 +472,12 @@ $ViewList['translation'] = array(
                                                                      'ViewMode' => 'ViewMode',
                                                                      'LanguageCode' => 'ContentObjectLanguageCode' ) ) );
 
+$ViewList['treemenu'] = array(
+    'functions' => array( 'read' ),
+    'script' => 'treemenu.php',
+    'default_navigation_part' => 'ezmynavigationpart',
+    'params' => array() );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),

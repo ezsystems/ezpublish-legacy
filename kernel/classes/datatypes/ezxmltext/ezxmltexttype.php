@@ -148,6 +148,11 @@ class eZXMLTextType extends eZDataType
         }
         else
         {
+            include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
+            $parser = new eZXMLInputParser;
+            $doc = $parser->createRootNode();
+            $xmlText = eZXMLTextType::domString( $doc );
+            $contentObjectAttribute->setAttribute( "data_text", $xmlText );
         }
     }
 

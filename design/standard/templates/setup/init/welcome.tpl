@@ -18,6 +18,14 @@
 <form method="post" action="{$script}">
   {include uri='design:setup/persistence.tpl'}
 
+  <fieldset>
+   <legend>{"Select installation language"|i18n("design/standard/setup/init")}:</legend>
+   <select name="eZSetupWizardLanguage">
+    {foreach $language_list as $language}
+        <option value="{$language.locale_code}"  {if eq( $language.locale_code, $primary_language )}selected="selected"{/if}>{$language.intl_language_name}</option>
+    {/foreach}
+   </select>
+  </fieldset>
   {include uri='design:setup/init/navigation.tpl' dont_show_back=1 finetune=eq( $optional_test.result, 2 )}
 
 </form>

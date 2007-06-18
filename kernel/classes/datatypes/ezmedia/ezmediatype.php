@@ -608,6 +608,8 @@ class eZMediaType extends eZDataType
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
             return false;
+        if( $mediaFile->attribute( "filename" ) == "" )
+            return false;
        return true;
     }
 

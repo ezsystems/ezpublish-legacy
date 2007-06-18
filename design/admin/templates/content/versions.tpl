@@ -117,7 +117,7 @@
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
     <th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
-    <th>{'Edited language'i18n( 'design/admin/content/versions' )}</th>
+    <th>{'Modified translation'i18n( 'design/admin/content/versions' )}</th>
     <th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
     <th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/versions' )}</th>
@@ -144,7 +144,7 @@
     {* Status. *}
     <td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ), 'Untouched draft'|i18n( 'design/admin/content/versions' ) )}</td>
 
-    {* Edited language. *}
+    {* Modified translation. *}
     <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $initial_language.name, '%version_number', $Versions.item.version ) )}" >{$initial_language.name|wash}</a>
     </td>

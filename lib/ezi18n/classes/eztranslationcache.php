@@ -112,16 +112,29 @@ class eZTranslationCache
         if ( !isset( $cacheDirectory ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            include_once( 'lib/ezutils/classes/ezsys.php' );
-
             $ini = eZINI::instance();
             $locale = $ini->variable( 'RegionalSettings', 'Locale' );
-            $internalCharset = eZTextCodec::internalCharset();
-            $rootName = 'root-' . md5( $internalCharset );
-            $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', $rootName, $locale ) );
+
+            $rootCacheDirectory = eZTranslationCache::rootCacheDirectory();
+            $cacheDirectory = eZDir::path( array( $rootCacheDirectory, $locale ) );
+
         }
         return $cacheDirectory;
+    }
+
+    /*!
+     \static
+    */
+    function rootCacheDirectory()
+    {
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+
+        $internalCharset = eZTextCodec::internalCharset();
+        $rootName = 'root-' . md5( $internalCharset );
+        $rootCacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'translation', $rootName ) );
+
+        return $rootCacheDirectory;
     }
 
     /*!
@@ -214,6 +227,16 @@ class eZTranslationCache
         $php->addSpace();
         $php->addRawVariable( 'TranslationRoot', $cache['root'] );
         $php->store();
+    }
+
+    /*!
+     \static
+     Reset values strored in $GLOABLS variable
+    */
+    function resetGlobals()
+    {
+        unset( $GLOBALS['eZTranslationCacheDirectory'] );
+        unset( $GLOBALS['eZTranslationCacheTable'] );
     }
 }
 

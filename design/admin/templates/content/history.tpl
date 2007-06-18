@@ -109,7 +109,7 @@
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Status'|i18n( 'design/admin/content/history' )}</th>
-    <th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified translation'i18n( 'design/admin/content/history' )}</th>
     <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
@@ -140,7 +140,7 @@
     {* Status. *}
     <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/history' ), 'Published'|i18n( 'design/admin/content/history' ), 'Pending'|i18n( 'design/admin/content/history' ), 'Archived'|i18n( 'design/admin/content/history' ), 'Rejected'|i18n( 'design/admin/content/history' ), 'Untouched draft'|i18n( 'design/admin/content/history' ) )}</td>
 
-    {* Edited language. *}
+    {* Modified translation. *}
     <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $version.version ) )}" >{$initial_language.name|wash}</a>
     </td>
@@ -359,7 +359,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Version'|i18n( 'design/admin/content/history' )}</th>
-    <th>{'Edited language'i18n( 'design/admin/content/history' )}</th>
+    <th>{'Modified translation'i18n( 'design/admin/content/history' )}</th>
     <th>{'Creator'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Created'|i18n( 'design/admin/content/history' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/history' )}</th>
@@ -375,7 +375,7 @@
     {* Version/view. *}
     <td><a href={concat( '/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version, '%translation', $initial_language.name ) )}">{$draft_version.version}</a></td>
 
-    {* Edited language. *}
+    {* Modified translation. *}
     <td>
         <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $draft_version.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/history',, hash( '%translation', $initial_language.name, '%version_number', $draft_version.version ) )}" >{$initial_language.name|wash}</a>
     </td>

@@ -52,6 +52,8 @@
 
 include_once( "lib/ezi18n/classes/eztranslatorhandler.php" );
 
+define( 'EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED', 'eZTMDynamicTranslationsEnabled' );
+
 class eZTranslatorManager
 {
     /*!
@@ -195,6 +197,76 @@ class eZTranslatorManager
                       "translation" => $translation );
         return $msg;
     }
+
+    /*!
+     \static
+    */
+    function resetGlobals()
+    {
+        unset( $GLOBALS["eZTranslatorManagerInstance"] );
+    }
+
+    /*!
+     \static
+    */
+    function resetTranslations()
+    {
+        include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+        eZTranslatorManager::resetGlobals();
+        eZTSTranslator::resetGlobals();
+        eZLocale::resetGlobals();
+        eZTranslationCache::resetGlobals();
+    }
+
+    /*!
+     \static
+    */
+    function dynamicTranslationsEnabled()
+    {
+        return isset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+    }
+
+    /*!
+     \static
+    */
+    function enableDynamicTranslations( $enable = true )
+    {
+        if ( $enable )
+        {
+            $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] = true;
+        }
+        else
+        {
+            unset( $GLOBALS[EZ_TM_DYNAMIC_TRANSLATIONS_ENABLED] );
+        }
+    }
+
+    /*!
+     \static
+    */
+    function setActiveTranslation( $locale, $permanently = true )
+    {
+        if( !eZTranslatorManager::dynamicTranslationsEnabled() )
+            return;
+
+        if ( $permanently )
+            $siteINI =& eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+        else
+            $siteINI =& eZINI::instance();
+
+        $siteINI->setVariable( 'RegionalSettings', 'Locale', $locale );
+        $siteINI->setVariable( 'RegionalSettings', 'TextTranslation', 'enabled' );
+
+        if ( $permanently )
+        {
+            $siteINI->save( 'site.ini.append', '.php', false, false );
+            eZINI::resetGlobals( "site.ini" );
+        }
+
+        eZTranslatorManager::resetTranslations();
+    }
+
+
 
     /// \privatesection
     /// The array of handler objects

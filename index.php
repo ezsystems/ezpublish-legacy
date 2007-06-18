@@ -385,7 +385,6 @@ $access = accessType( $uri,
                       eZSys::indexFile() );
 $access = changeAccess( $access );
 eZDebugSetting::writeDebug( 'kernel-siteaccess', $access, 'current siteaccess' );
-$GLOBALS['eZCurrentAccess'] = $access;
 
 // Check for activating Debug by user ID (Final checking. The first was in eZDebug::updateSettings())
 eZDebug::checkDebugByUser();
@@ -398,6 +397,39 @@ eZExtension::activateExtensions( 'access' );
 // siteaccess or extensions override it
 $tplINI = eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
+
+// Check if this should be run in a cronjob
+// Need to be runned before eZHTTPTool::instance() because of eZSessionStart() which
+// is called from eZHandlePreChecks() below.
+$useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';
+if ( !$useCronjob )
+{
+    // Functions for session to make sure baskets are cleaned up
+    function eZSessionBasketDestroy( &$db, $key, $escapedKey )
+    {
+        include_once( 'kernel/classes/ezbasket.php' );
+        $basket =& eZBasket::fetch( $key );
+        if ( is_object( $basket ) )
+            $basket->remove();
+    }
+
+    function eZSessionBasketGarbageCollector( &$db, $time )
+    {
+        include_once( 'kernel/classes/ezbasket.php' );
+        eZBasket::cleanupExpired( $time );
+    }
+
+    function eZSessionBasketEmpty( &$db )
+    {
+        include_once( 'kernel/classes/ezbasket.php' );
+        eZBasket::cleanup();
+    }
+
+    // Fill in hooks
+    $GLOBALS['eZSessionFunctions']['destroy_pre'][] = 'eZSessionBasketDestroy';
+    $GLOBALS['eZSessionFunctions']['gc_pre'][] = 'eZSessionBasketGarbageCollector';
+    $GLOBALS['eZSessionFunctions']['empty_pre'][] = 'eZSessionBasketEmpty';
+}
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
 
@@ -483,75 +515,10 @@ foreach ( $policyCheckOmitList as $omitItem )
 
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
-
-$moduleINI = eZINI::instance( 'module.ini' );
-$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-$extensionDirectory = eZExtension::baseDirectory();
-$activeExtensions = eZExtension::activeExtensions();
-$globalExtensionRepositories = array();
-foreach ( $extensionRepositories as $extensionRepository )
-{
-    $extPath = $extensionDirectory . '/' . $extensionRepository;
-    $modulePath = $extPath . '/modules';
-    if ( file_exists( $modulePath ) )
-    {
-        $globalExtensionRepositories[] = $modulePath;
-    }
-    else if ( !file_exists( $extPath ) )
-    {
-        $debug->writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
-                               "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
-                               "You should probably remove this extension from the list." );
-    }
-    else if ( !in_array( $extensionRepository, $activeExtensions ) )
-    {
-        $debug->writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
-                               "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
-                               "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
-    }
-    else
-    {
-        $debug->writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
-                               "Looked for directory '" . $modulePath . "'\n" .
-                               "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
-    }
-}
-$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
+$moduleRepositories = eZModule::activeModuleRepositories();
 eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/eznavigationpart.php' );
-
-// Check if this should be run in a cronjob
-$useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';
-if ( !$useCronjob )
-{
-    // Functions for session to make sure baskets are cleaned up
-    function eZSessionBasketDestroy( &$db, $key, $escapedKey )
-    {
-        include_once( 'kernel/classes/ezbasket.php' );
-        $basket = eZBasket::fetch( $key );
-        if ( is_object( $basket ) )
-            $basket->remove();
-    }
-
-    function eZSessionBasketGarbageCollector( &$db, $time )
-    {
-        include_once( 'kernel/classes/ezbasket.php' );
-        eZBasket::cleanupExpired( $time );
-    }
-
-    function eZSessionBasketEmpty( &$db )
-    {
-        include_once( 'kernel/classes/ezbasket.php' );
-        eZBasket::cleanup();
-    }
-
-    // Fill in hooks
-    $GLOBALS['eZSessionFunctions']['destroy_pre'] = array( 'eZSessionBasketDestroy' );
-    $GLOBALS['eZSessionFunctions']['gc_pre'] = array( 'eZSessionBasketGarbageCollector' );
-    $GLOBALS['eZSessionFunctions']['empty_pre'] = array( 'eZSessionBasketEmpty' );
-}
 
 // Start the module loop
 while ( $moduleRunRequired )

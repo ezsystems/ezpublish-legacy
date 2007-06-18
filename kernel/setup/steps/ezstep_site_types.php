@@ -226,7 +226,7 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $dependencies = $sitePackage->attribute( 'dependencies' );
         $requirements = $dependencies['requires'];
-        $remotePackagesInfo = $this->retreiveRemotePackagesList();
+        $remotePackagesInfo = $this->retrieveRemotePackagesList();
 
         foreach ( $requirements as $req )
         {
@@ -507,7 +507,7 @@ class eZStepSiteTypes extends eZStepInstaller
     */
     function display()
     {
-        $remoteSitePackages = $this->retreiveRemoteSitePackagesList();
+        $remoteSitePackages = $this->retrieveRemoteSitePackagesList();
         $importedSitePackages = $this->fetchAvailableSitePackages();
         $dependenciesStatus = array();
 
@@ -590,7 +590,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
 
     /**
-     * Retreive list of packages available to download.
+     * Retrieve list of packages available to download.
      *
      * Example of return value:
      * array(
@@ -601,7 +601,7 @@ class eZStepSiteTypes extends eZStepInstaller
      *      );
      *
      */
-    function retreiveRemotePackagesList( $onlySitePackages = false )
+    function retrieveRemotePackagesList( $onlySitePackages = false )
     {
         // Download index file.
         $idxFileName = $this->downloadFile( $this->XMLIndexURL, /* $outDir = */ eZStepSiteTypes::tempDir(), 'index.xml' );
@@ -655,12 +655,12 @@ class eZStepSiteTypes extends eZStepInstaller
     }
 
     /**
-     * Retreive list of site packages available to download.
+     * Retrieve list of site packages available to download.
      * \private
      */
-    function retreiveRemoteSitePackagesList()
+    function retrieveRemoteSitePackagesList()
     {
-        return $this->retreiveRemotePackagesList( true );
+        return $this->retrieveRemotePackagesList( true );
     }
 
     /**

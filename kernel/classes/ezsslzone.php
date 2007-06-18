@@ -117,6 +117,7 @@ class eZSSLZone
         if ( !isset( $GLOBALS['eZSSLZonesCachedPathStrings'] ) ) // if in-memory cache does not exist
         {
             $cacheFileName = eZSSLZone::cacheFileName();
+            $cacheDirName = eZSys::cacheDirectory();
 
             // if file cache does not exist then create it
             if ( !is_readable( $cacheFileName ) )
@@ -143,9 +144,16 @@ class eZSSLZone
                 }
 
                 // write calculated path strings to the file
+                if ( !file_exists( $cacheDirName ) )
+                {
+                    eZDir::mkdir( $cacheDirName, false, true );
+                }
                 $fh = fopen( $cacheFileName, 'w' );
-                fwrite( $fh, "<?php\n\$pathStringsArray = " . var_export( $pathStringsArray, true ) . ";\n?>" );
-                fclose( $fh );
+                if ( $fh )
+                {
+                    fwrite( $fh, "<?php\n\$pathStringsArray = " . var_export( $pathStringsArray, true ) . ";\n?>" );
+                    fclose( $fh );
+                }
 
                 return $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;
             }

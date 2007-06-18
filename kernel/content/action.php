@@ -155,9 +155,8 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             {
                 $user = eZUser::currentUser();
                 $userID =& $user->attribute( 'contentobject_id' );
-                // We should set sectionID to 0 because when publishing eZContentOperationCollection::updateSectionID() will be called
-                // and sectionID will be updated
-                $sectionID = 0;
+                // Set section of the newly created object to the section's value of it's parent object
+                $sectionID = $parentContentObject->attribute( 'section_id' );
 
                 if ( !is_object( $class ) )
                     $class = eZContentClass::fetch( $contentClassID );
@@ -1128,6 +1127,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
             $nodeID = (int) $priorityIDArray[$i];
             $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
         }
+        $contentNode->updateAndStoreModified();
         $db->commit();
     }
 

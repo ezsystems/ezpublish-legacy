@@ -835,3 +835,19 @@ Datatype branch:
 - Revision=18384
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.1 
 - Date 7-March-2007
+
+3.8.8:
+- Release branch=release/3.8.8
+- Release branch start=18804
+- Release date 30-Apr-2007
+- Revision=18841
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.8
+- Date 04-May-2007
+
+3.9.2:
+- Release branch=release/3.9.2
+- Release branch start=18815
+- Release date 30-Apr-2007
+- Revision=18840
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.2
+- Date 04-May-2007

@@ -660,6 +660,7 @@ div#contentstructure
     overflow: auto;
     overflow: -moz-scrollbars-horizontal;  /* hide vertical scrollbar in Mozilla */
     padding-top: 0.5em;
+    position: relative; /* to fix a bug in Opera */
 }
 
 div#contentstructure ul#content_tree_menu
@@ -685,6 +686,7 @@ div#contentstructure ul#content_tree_menu li
 {
     list-style-type: none;
     white-space: nowrap;
+    position: relative;
 }
 
 div#contentstructure ul#content_tree_menu ul li
@@ -800,6 +802,45 @@ div#contentstructure span.openclose
     visibility: hidden;
 }
 
+/* The following are used in the dynamic tree menu */
+div#contentstructure ul#content_tree_menu ul a.openclose-open, div#contentstructure ul#content_tree_menu ul a.openclose-close, div#contentstructure ul#content_tree_menu ul a.openclose-busy, div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    position: absolute;
+    left: 0;
+    _left: -20px; /* to fix a bug in IE 6 */
+    top: 0;
+    width: 16px;
+    height: 16px;
+    background-image: url( '../images/content_tree-open.gif' );
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-close
+{
+    background-image: url( '../images/content_tree-close.gif' );
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-busy
+{
+    background-image: url( '../images/content_tree-busy.gif' );
+    cursor: progress;
+}
+
+div#contentstructure ul#content_tree_menu ul a.openclose-error
+{
+    background-image: url( '../images/content_tree-error.gif' );
+}
+
+div#contentstructure ul#content_tree_menu div.loaded
+{
+    display: block;
+}
+
+div#contentstructure ul#content_tree_menu div.hidden
+{
+    display: none;
+}
 
 /* MAIN CONTENT TOP MENU (in navigation mode) */
 

@@ -470,6 +470,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
                     $comment_el = $comment_el[0];
                     $comment = $comment_el->content;
                 }
+                else if ( $message_child->name() == "location" )
+                {
+                    //Handle location element. No functionality yet.
+                }
                 else
                     $debug->writeError( "Unknown element name: " . $message_child->name(),
                                          "eZTSTranslator::handleMessageNode" );
@@ -610,6 +614,56 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     {
         if ( isset( $this->Messages[$key] ) )
             unset( $this->Messages[$key] );
+    }
+
+    /*!
+     \static
+     Fetche list of available translations, create eZTrnslator for each translations.
+     \return list of eZTranslator objects representing available translations.
+    */
+    function fetchList( $localeList = array() )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+
+        $dir = $ini->variable( 'RegionalSettings', 'TranslationRepository' );
+
+        $fileInfoList = array();
+        $translationList = array();
+        $locale = '';
+
+        include_once( 'lib/ezfile/classes/ezfile.php' );
+
+        if ( count( $localeList ) == 0 )
+        {
+            $localeList = eZDir::findSubdirs( $dir );
+        }
+
+        foreach( $localeList as $locale )
+        {
+            if ( $locale != 'untranslated' )
+            {
+                $translationFiles = eZDir::findSubitems( $dir . '/' . $locale, 'f' );
+
+                foreach( $translationFiles as $translationFile )
+                {
+                    if ( eZFile::suffix( $translationFile ) == 'ts' )
+                    {
+                        $translationList[] = new eZTSTranslator( $locale,  $translationFile );
+                    }
+                }
+            }
+        }
+
+        return $translationList;
+    }
+
+    /*!
+     \static
+    */
+    function resetGlobals()
+    {
+        unset( $GLOBALS["eZTSTranslationTables"] );
     }
 
     /// \privatesection

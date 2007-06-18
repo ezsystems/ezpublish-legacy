@@ -296,14 +296,13 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    static function activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
+    static function activeCount( $show = SHOW_NORMAL_ORDERS )
     {
         $db = eZDB::instance();
 
-        $query = "SELECT count( * ) AS count FROM ezorder WHERE ".eZOrder::getShowOrdersQuery( $show )." AND is_temporary='0'";
+        $query = 'SELECT count( * ) AS count FROM ezorder WHERE ' . eZOrder::getShowOrdersQuery( $show ) . ' AND is_temporary=\'0\'';
         $countArray = $db->arrayQuery( $query );
-        $result = isset( $countArray[0]['count'] ) ? $countArray[0]['count'] : 0;
-        return $result;
+        return isset( $countArray[0]['count'] ) ? $countArray[0]['count'] : 0;
     }
 
     /*!

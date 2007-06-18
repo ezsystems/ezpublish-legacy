@@ -608,7 +608,17 @@ class eZSys
 
         if ( $withAccessList and count( $instance->AccessPath ) > 0 )
         {
-                $text .= '/' . implode( '/', $instance->AccessPath );
+            $accessPath = implode( '/', $instance->AccessPath );
+
+            include_once( 'access.php' );
+            if ( isset( $GLOBALS['eZCurrentAccess'] ) &&
+                 isset( $GLOBALS['eZCurrentAccess']['type'] ) &&
+                 $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI &&
+                 isset( $GLOBALS['eZCurrentAccess']['access_alias'] ) )
+            {
+                $accessPath = $GLOBALS['eZCurrentAccess']['access_alias'];
+            }
+            $text .= '/' . $accessPath;
         }
         return $text;
     }

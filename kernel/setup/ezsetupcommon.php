@@ -148,4 +148,86 @@ function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )
         }
     }
 }
+
+function eZSetupLanguageList( &$languageList, &$defaultLanguage, &$defaultExtraLanguages )
+{
+    $locales = eZLocale::localeList( true );
+    $languageList = array();
+    $httpMap   = array();
+    $httpMapShort = array();
+    // This alias array must be filled in with known names.
+    // The key is the value from the locale INI file (HTTP group)
+    // and the value is the HTTP alias.
+    $httpAliases = array( 'no-bokmaal' => 'nb',
+                          'no-nynorsk' => 'nn',
+                          'ru-ru' => 'ru' );
+
+    foreach ( array_keys( $locales ) as $localeKey )
+    {
+        $locale =& $locales[$localeKey];
+        if ( !$locale->attribute( 'country_variation' ) )
+        {
+            $languageList[] = $locale;
+            $httpLocale = strtolower( $locale->httpLocaleCode() );
+            $httpMap[$httpLocale] = $locale;
+            list( $httpLocaleShort ) = explode( '-', $httpLocale );
+            $httpMapShort[$httpLocale] = $locale;
+            if ( isset( $httpAliases[$httpLocale] ) )
+            {
+                $httpMapShort[$httpAliases[$httpLocale]] = $locale;
+            }
+        }
+    }
+
+    // bubble sort language based on language name. bubble bad, but only about 8-9 elements
+    for ( $i =0; $i < count( $languageList ); $i++ )
+        for ( $n = 0; $n < count( $languageList ) - 1; $n++ )
+        {
+            if ( strcmp( $languageList[$n]['language_name'], $languageList[$n+1]['language_name'] ) > 0 )
+            {
+                $tmpElement = $languageList[$n];
+                $languageList[$n] = $languageList[$n+1];
+                $languageList[$n+1] = $tmpElement;
+            }
+        }
+
+    $defaultLanguage = false;
+    $defaultExtraLanguages = array();
+    if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) )
+    {
+        $acceptLanguages = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+        foreach ( $acceptLanguages as $acceptLanguage )
+        {
+            list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
+            $languageCode = false;
+            if ( isset( $httpMap[$acceptLanguageCode] ) )
+            {
+                $languageCode = $httpMap[$acceptLanguageCode]->localeCode();
+            }
+            elseif ( isset( $httpMapShort[$acceptLanguageCode] ) )
+            {
+                $languageCode = $httpMapShort[$acceptLanguageCode]->localeCode();
+            }
+            if ( $languageCode )
+            {
+                if ( $defaultLanguage === false )
+                {
+                    $defaultLanguage = $languageCode;
+                }
+                /*
+                else
+                {
+                    $defaultExtraLanguages[] = $languageCode;
+                }
+                */
+            }
+        }
+    }
+    if ( $defaultLanguage === false )
+    {
+        $defaultLanguage = 'eng-GB';
+    }
+    $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ) );
+}
+
 ?>

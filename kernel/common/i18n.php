@@ -118,17 +118,14 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
             }
         }
     }
-
-
-    if ( $language != "eng-GB" ) // eng-GB does not need translation
-    {
-        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
-        include_once( 'lib/ezi18n/classes/eztstranslator.php' );
-    }
 }
 
-if ( $useTextTranslation )
+include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+
+if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 {
+    include_once( 'lib/ezi18n/classes/eztstranslator.php' );
+
     function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
         $text = eZTranslateText( $context, $source, $comment, $arguments );
@@ -143,12 +140,20 @@ if ( $useTextTranslation )
 
     function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'RegionalSettings', 'Locale' ) == 'eng-GB' )
+        {
+            // we don't have ts-file for 'eng-GB'.
+            // NOTE: don't remove this 'if'. it's needed to support dynamic switch between translations.
+            $text = ezinsertarguments( $source, $arguments );
+            return $text;
+        }
+
         $language = ezcurrentLanguage();
 
         $file = 'translation.ts';
 
         // translation.ts translation
-        $ini = eZINI::instance();
         $useCache = $ini->variable( 'RegionalSettings', 'TranslationCache' ) != 'disabled';
         eZTSTranslator::initialize( $context, $language, $file, $useCache );
 

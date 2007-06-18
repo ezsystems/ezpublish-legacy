@@ -39,7 +39,7 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 class eZSearchLog
 {
     /*!
-     Logs a search query so that we can retreive statistics afterwords.
+     Logs a search query so that we can retrieve statistics afterwords.
     */
     static function addPhrase( $phrase, $returnCount )
     {

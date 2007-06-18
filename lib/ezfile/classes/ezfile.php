@@ -160,6 +160,11 @@ class eZFile
     /*!
     \static
     Renames a file atomically on Unix, and provides a workaround for Windows
+
+    \param from filename
+    \param to filename
+
+    \return rename status. ( true if successful, false if not )
     */
     static function rename( $srcFile, $destFile )
     {
@@ -168,7 +173,7 @@ class eZFile
         {
             @unlink( $destFile );
         }
-        rename( $srcFile, $destFile );
+        return rename( $srcFile, $destFile );
     }
 
     /*!

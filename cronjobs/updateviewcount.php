@@ -30,7 +30,6 @@
 
 /*! \file updateviewcount.php
 */
-include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
@@ -39,10 +38,9 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
 set_time_limit( 0 );
-eZModule::setGlobalPathList( array( "kernel" ) );
 
 if ( !$isQuiet )
-    print( "Update content view count ...\n"  );
+    $cli->output( "Update content view count..."  );
 
 
 $dt = new eZDateTime();
@@ -53,8 +51,8 @@ $hour = $dt->hour();
 $minute = $dt->minute();
 $second = $dt->second();
 $startTime = $day . "/" . $month . "/" . $year . ":" . $hour . ":" . $minute . ":" . $second;
-//$startTime = "29/Aug/2003:11:31:42";
-print( "Started at " . $dt->toString() . "\n\n"  );
+
+$cli->output( "Started at " . $dt->toString() . "\n"  );
 $nodeIDArray = array();
 
 $pathArray = array();
@@ -82,112 +80,128 @@ $updateViewLog = "updateview.log";
 
 $startLine = "";
 $hasStartLine = false;
-$fh = fopen( $varDir . "/" . $logDir . "/" . $updateViewLog, "r" );
-if ( $fh )
+
+$updateViewLogPath = $varDir . "/" . $logDir . "/" . $updateViewLog;
+if ( is_file( $updateViewLogPath ) )
 {
-    while ( !feof ( $fh ) )
+    $fh = fopen( $updateViewLogPath, "r" );
+    if ( $fh )
     {
-        $line = fgets( $fh, 1024 );
-        if ( preg_match( "/\[/", $line ) )
+        while ( !feof ( $fh ) )
         {
-             $startLine = $line;
-             $hasStartLine = true;
+            $line = fgets( $fh, 1024 );
+            if ( preg_match( "/\[/", $line ) )
+            {
+                $startLine = $line;
+                $hasStartLine = true;
+            }
         }
+        fclose( $fh );
     }
-    fclose( $fh );
 }
 
-print( "Start line:\n" .$startLine . "\n" );
+$cli->output( "Start line:\n" . $startLine );
 $lastLine = "";
-$handle = fopen( $fileDir . $fileName, "r" );
-if ( $handle )
+$logFilePath = $fileDir . '/' . $fileName;
+
+if ( is_file( $logFilePath ) )
 {
-    $count = 0;
-    $startParse = false;
-    $stopParse = false;
-    while ( !feof ($handle) and !$stopParse )
+    $handle = fopen( $logFilePath, "r" );
+    if ( $handle )
     {
-        $line = fgets($handle, 1024);
-        if ( $line != "" )
-            $lastLine = $line;
-
-        if ( $startParse or !$hasStartLine )
+        $startParse = false;
+        $stopParse = false;
+        while ( !feof ($handle) and !$stopParse )
         {
-            $logPartArray = preg_split( "/[\"]+/", $line );
-
-            $timeIPPart = $logPartArray[0];
-            list( $ip, $timePart ) = split( "\[", $timeIPPart );
-            list( $time, $rest ) = split( " ", $timePart );
-
-            if ( $time == $startTime )
-                $stopParse = true;
-            $requirePart = $logPartArray[1];
-
-            list( $requireMethod, $url ) = split( " ", $requirePart );
-            $url = preg_replace( "/\?.*/", "", $url);
-            foreach ( $prefixes as $prefix )
+            $line = fgets($handle, 1024);
+            if ( !empty( $line ) )
             {
-                $url = preg_replace( "/^\/$prefix/", "", $url );
-            }
+                if ( $line != "" )
+                    $lastLine = $line;
 
-            if ( preg_match( "/content\/view\/full\//", $url ) )
-            {
-                $url = str_replace( "content/view/full/", "", $url );
-                $url = str_replace( "/", "", $url );
-                $url = preg_replace( "/\?(.*)/", "", $url );
-                $nodeIDArray[] = $url;
-            }
-            else
-            {
-                $urlArray = split( "/", $url );
-                $firstElement = $urlArray[0];
-                if ( in_array( $firstElement, $contentArray ) )
+                if ( $startParse or !$hasStartLine )
                 {
-                    $pathArray[] = $url;
-                }
-                else if ( in_array( $firstElement, $nonContentArray ) )
-                {
-                    // do nothing
-                }
-                else
-                {
-                    if ( $firstElement != "" )
+                    $logPartArray = preg_split( "/[\"]+/", $line );
+                    $timeIPPart = $logPartArray[0];
+                    list( $ip, $timePart ) = split( "\[", $timeIPPart );
+                    list( $time, $rest ) = split( " ", $timePart );
+
+                    if ( $time == $startTime )
+                        $stopParse = true;
+                    $requirePart = $logPartArray[1];
+
+                    list( $requireMethod, $url ) = split( " ", $requirePart );
+                    $url = preg_replace( "/\?.*/", "", $url);
+                    foreach ( $prefixes as $prefix )
                     {
-                        $pathIdentificationString = $db->escapeString( $firstElement );
-
-                        //check in database, if fount, add to contentArray, else add to nonContentArray.
-                        $query = "SELECT node_id FROM ezcontentobject_tree \n" .
-                                 "WHERE path_identification_string='$pathIdentificationString'";
-                        $result = $db->arrayQuery( $query );
-                        if ( count($result) != 0 )
+                        $urlChanged = preg_replace( "/^\/$prefix\//", "", $url );
+                        if ( $urlChanged != $url )
                         {
-                            $contentArray[] = $firstElement;
+                            $url = $urlChanged;
+                            break;
+                        }
+                    }
+
+                    if ( preg_match( "/content\/view\/full\//", $url ) )
+                    {
+                        $url = str_replace( "content/view/full/", "", $url );
+                        $url = str_replace( "/", "", $url );
+                        $url = preg_replace( "/\?(.*)/", "", $url );
+                        $nodeIDArray[] = $url;
+                    }
+                    else
+                    {
+                        $urlArray = split( "/", $url );
+                        $firstElement = $urlArray[0];
+                        if ( in_array( $firstElement, $contentArray ) )
+                        {
                             $pathArray[] = $url;
+                        }
+                        else if ( in_array( $firstElement, $nonContentArray ) )
+                        {
+                            // do nothing
                         }
                         else
                         {
-                            if ( $firstElement != "content" )
-                                $nonContentArray[] = $firstElement;
+                            if ( $firstElement != "" )
+                            {
+                                $pathIdentificationString = $db->escapeString( $firstElement );
+
+                                //check in database, if fount, add to contentArray, else add to nonContentArray.
+                                $query = "SELECT node_id FROM ezcontentobject_tree \n" .
+                                         "WHERE path_identification_string='$pathIdentificationString'";
+                                $result = $db->arrayQuery( $query );
+                                if ( count($result) != 0 )
+                                {
+                                    $contentArray[] = $firstElement;
+                                    $pathArray[] = $url;
+                                }
+                                else
+                                {
+                                    if ( $firstElement != "content" )
+                                        $nonContentArray[] = $firstElement;
+                                }
+                            }
                         }
                     }
                 }
+                if ( $line == $startLine )
+                {
+                    $startParse = true;
+                }
             }
         }
-        if ( $line == $startLine )
-        {
-            $startParse = true;
-        }
-        /*$count++;
-        if ( $count == 7 )
-            break;*/
+        fclose( $handle );
     }
-    fclose($handle);
+    else
+    {
+        $cli->output( "Warning: Cannot open apache log-file '$logFilePath' for reading, please check permissions and try again." );
+    }
 }
-
-/*print_r($nonContentArray);
-print_r($contentArray);
-print_r($nodeIDArray );
-print_r($pathArray );*/
+else
+{
+    $cli->output( "Warning: apache log-file '$logFilePath' doesn't exist, please check your ini-settings and try again." );
+}
 
 foreach ( $nodeIDArray as $nodeID )
 {
@@ -219,7 +233,7 @@ foreach ( $pathArray as $path )
 
 $dt = new eZDateTime();
 
-$fh = fopen( $varDir . "/" . $logDir . "/" . $updateViewLog, "w" );
+$fh = fopen( $updateViewLogPath, "w" );
 if ( $fh )
 {
     fwrite( $fh, "# Finished at " . $dt->toString() . "\n" );
@@ -228,8 +242,8 @@ if ( $fh )
     fclose( $fh );
 }
 
-print( "Finished at " . $dt->toString() . "\n\n"  );
+$cli->output( "Finished at " . $dt->toString() . "\n"  );
 if ( !$isQuiet )
-    print( "View count have been updated!\n" );
+    $cli->output( "View count have been updated!\n" );
 
 ?>

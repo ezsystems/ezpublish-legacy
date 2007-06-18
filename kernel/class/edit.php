@@ -131,19 +131,30 @@ else
         }
     }
 
-    $user = eZUser::currentUser();
-    $user_id = $user->attribute( 'contentobject_id' );
-    $class = eZContentClass::create( $user_id, array(), $EditLanguage );
-    $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );
-    $class->store();
-    $editLanguageID = eZContentLanguage::idByLocale( $EditLanguage );
-    $class->setAlwaysAvailableLanguageID( $editLanguageID );
-    $ClassID = $class->attribute( 'id' );
-    $ClassVersion = $class->attribute( 'version' );
-    $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
-    $ingroup->store();
-    $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
-    return;
+    if ( is_numeric( $GroupID ) and is_string( $GroupName ) and $GroupName != '' )
+    {
+        $user =& eZUser::currentUser();
+        $user_id = $user->attribute( 'contentobject_id' );
+        $class = eZContentClass::create( $user_id, array(), $EditLanguage );
+        $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );
+        $class->store();
+        $editLanguageID = eZContentLanguage::idByLocale( $EditLanguage );
+        $class->setAlwaysAvailableLanguageID( $editLanguageID );
+        $ClassID = $class->attribute( 'id' );
+        $ClassVersion = $class->attribute( 'version' );
+        $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
+        $ingroup->store();
+        $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID . '/(language)/' . $EditLanguage );
+        return;
+    }
+    else
+    {
+        $errorResponseGroupName = ( $GroupName == '' ) ? '<Empty name>' : $GroupName;
+        $errorResponseGroupID = ( !is_numeric( $GroupID ) ) ? '<Empty ID>' : $GroupID;
+        eZDebug::writeError( "Unknown class group: {$errorResponseGroupName} (ID: {$errorResponseGroupID})", 'Kernel - Class - Edit' );
+        $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
 }
 
 
@@ -712,7 +723,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                             $version = $objectVersion->attribute( 'version' );
                             foreach ( $translations as $translation )
                             {
-                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version, $translation );
                                 $objectAttribute->setAttribute( 'language_code', $translation );
                                 $objectAttribute->initialize();
                                 $objectAttribute->store();

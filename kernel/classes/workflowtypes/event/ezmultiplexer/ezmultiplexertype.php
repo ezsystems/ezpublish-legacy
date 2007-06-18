@@ -327,7 +327,14 @@ class eZMultiplexerType extends eZWorkflowEventType
 //                 eZDebug::writeNotice( $childProcess, "childProcess" );
 //                 eZDebug::writeNotice( $childStatus, "childStatus" );
 
-                if ( $childStatus ==  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE )
+                if ( $childStatus ==  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON )
+                {
+                    $this->setActivationDate( $childProcess->attribute( 'activation_date' ) );
+                    $childProcess->setAttribute( "status", EZ_WORKFLOW_STATUS_WAITING_PARENT );
+                    $childProcess->store();
+                    return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
+                }
+                else if ( $childStatus ==  EZ_WORKFLOW_STATUS_FETCH_TEMPLATE )
                 {
                     $process->Template =& $childProcess->Template;
                     return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;

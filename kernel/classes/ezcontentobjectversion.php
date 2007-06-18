@@ -957,6 +957,24 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $contentobject->purge();
             }
+            
+            $version = $contentobject->CurrentVersion;
+            if ( $contentobject->CurrentVersion == $versionNum ) //will assign another current_version in contetnObject.
+            {
+               //search for version that will be current after removing of this one.
+               $candidateToBeCurrent = $db->arrayQuery( "SELECT version 
+                                                 FROM ezcontentobject_version 
+                                                 WHERE contentobject_id={$contentobject->ID} AND 
+                                                       version!={$contentobject->CurrentVersion} 
+                                                 ORDER BY modified DESC", 
+                                             array( 'offset' => 0, 'limit' => 1 ) );
+
+               if ( isset($candidateToBeCurrent[0]['version']) && is_numeric($candidateToBeCurrent[0]['version']) )
+               {
+                   $contentobject->CurrentVersion = $candidateToBeCurrent[0]['version'];
+                   $contentobject->store();
+               }
+            }
         }
         $db->query( "DELETE FROM ezcontentobject_name
                          WHERE contentobject_id=$contentobjectID AND content_version=$versionNum" );
@@ -1337,8 +1355,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 {
                     // if there is no needed translation in system then add it
                     $locale = eZLocale::instance( $language );
-                    $translationName = $locale->internationalLanguageName();
-                    $translationLocale = $locale->localeCode();
 
                     if ( $locale->isValid() )
                     {
@@ -1668,7 +1684,8 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function &languageMask()
     {
-        return (int)$this->attribute( 'language_mask' );
+        $mask = (int)$this->attribute( 'language_mask' );
+        return $mask;
     }
 
     function updateLanguageMask( $mask = false, $forceStore = true )

@@ -124,12 +124,18 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                 $code .= " and\n" . str_repeat( ' ', $ifLength );
                             $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                             $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
+
+                            $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and ";
                             if ( $conditionName == 'url_alias' )
                             {
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and  strpos( \$" . $designKeysName . "[$conditionNameText], $conditionValueText ) ===0 ";
+                                $code .= "(strpos( \$" . $designKeysName . "[$conditionNameText], $conditionValueText ) === 0 )";
                             }
                             else
-                                $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                            {
+                                $code .= "( is_array( \$" . $designKeysName . "[$conditionNameText] ) ? " .
+                                         "in_array( $conditionValueText, \$" . $designKeysName . "[$conditionNameText] ) : " .
+                                         "\$" . $designKeysName . "[$conditionNameText] == $conditionValueText )";
+                            }
                             ++$conditionCount;
                         }
                     }
@@ -513,12 +519,20 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                                     $matchCondition .= " and ";
 
                                 // Have a special substring match for subtree matching
+
+                                $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and ";
                                 if ( $conditionKey == 'url_alias' )
-                                    $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
+                                {
+                                    $matchCondition .=
+                                        "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions']['url_alias'] . "\\' ) === 0 ) )";
+                                }
                                 else
-                                    $matchCondition .= "( isset( \$matchKeys[\\'$conditionKey\\'] ) and ( ( is_array( \$matchKeys[\\'$conditionKey\\'] ) and " .
-                                        "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) ) or " .
+                                {
+                                    $matchCondition .=
+                                        "( is_array( \$matchKeys[\\'$conditionKey\\'] ) ? " .
+                                        "in_array( \\'" . $customMatch['conditions'][$conditionKey] . "\\', \$matchKeys[\\'$conditionKey\\'] ) : " .
                                         "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\') )";
+                                }
 
                                 $condCount++;
                             }
@@ -549,7 +563,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
                     foreach ( array_keys( $matchConditionArray ) as $key )
                     {
-                        $phpCode .= '(' . $matchConditionArray[$key]['condition'] . '?' . "\\'" .  $matchConditionArray[$key]['matchFile'] . "\\'" . ':';
+                        $phpCode .= '(' . $matchConditionArray[$key]['condition'] . ' ? ' . "\\'" .  $matchConditionArray[$key]['matchFile'] . "\\'" . ' : ';
                     }
 
                     $phpCode .= "\\'" . $defaultMatchFile . "\\'";

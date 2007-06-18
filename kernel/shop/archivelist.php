@@ -76,7 +76,7 @@ if ( $http->hasPostVariable( 'UnarchiveButton' ) )
 }
 
 $archiveArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, SHOW_ARCHIVED_ORDERS );
-$archiveCount = eZOrder::activeCount( $offset, $limit, SHOW_ARCHIVED_ORDERS );
+$archiveCount = eZOrder::activeCount( SHOW_ARCHIVED_ORDERS );
 
 $tpl->setVariable( 'archive_list', $archiveArray );
 $tpl->setVariable( 'archive_list_count', $archiveCount );

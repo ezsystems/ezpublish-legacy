@@ -1281,6 +1281,58 @@ class eZModule
 
     /*!
      \static
+     \return a path list of currently active modules
+    */
+    function activeModuleRepositories( $useExtensions = true )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+        $moduleINI =& eZINI::instance( 'module.ini' );
+        $moduleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
+
+        if ( $useExtensions )
+        {
+            $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
+            $extensionDirectory = eZExtension::baseDirectory();
+            $activeExtensions = eZExtension::activeExtensions();
+            $globalExtensionRepositories = array();
+
+            foreach ( $extensionRepositories as $extensionRepository )
+            {
+                $extPath = $extensionDirectory . '/' . $extensionRepository;
+                $modulePath = $extPath . '/modules';
+                if ( file_exists( $modulePath ) )
+                {
+                    $globalExtensionRepositories[] = $modulePath;
+                }
+                else if ( !file_exists( $extPath ) )
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but the extension itself does not exist.\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions.\n" .
+                                           "You should probably remove this extension from the list." );
+                }
+                else if ( !in_array( $extensionRepository, $activeExtensions ) )
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' was reported to have modules but has not yet been activated.\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extensions\n" .
+                                           "or make sure it is activated in the setting ExtensionSettings/ActiveExtensions in site.ini." );
+                }
+                else
+                {
+                    eZDebug::writeWarning( "Extension '$extensionRepository' does not have the subdirectory 'modules' allthough it reported it had modules.\n" .
+                                           "Looked for directory '" . $modulePath . "'\n" .
+                                           "Check the setting ModuleSettings/ExtensionRepositories in module.ini for your extension." );
+                }
+            }
+
+            $moduleRepositories = array_merge( $moduleRepositories, $globalExtensionRepositories );
+        }
+
+        return $moduleRepositories;
+    }
+
+    /*!
+     \static
      Sets the global path list which is used for finding modules.
      \param $pathList Is either an array with path strings or a single path string
      \sa addGlobalPathList
@@ -1348,6 +1400,7 @@ class eZModule
             $searchPathList = array();
         $searchPathList = array_merge( $searchPathList, $pathList );
         $triedList = array();
+        $triedDirList = array();
         $foundADir = false;
         foreach ( $searchPathList as $path )
         {
@@ -1371,25 +1424,29 @@ class eZModule
                 $triedList[] = $dir;
             }
         }
+
+        $msg = "Could not find module named '$moduleName'";
         if ( $foundADir )
         {
-            $msg = ( "Could not find module named '$moduleName'\n" .
-                     "These directories had a directory named '$moduleName' but did not contain the module.php file:\n" . implode( ", ", $triedList ) . "\n" .
-                     "This usually means it is missing or has a wrong name." );
+            $msg = "\nThese directories had a directory named '$moduleName' but did not contain the module.php file:\n" .
+                   implode( ", ", $triedList ) . "\n" .
+                   "This usually means it is missing or has a wrong name.";
             if ( count( $triedDirList ) > 0 )
                 $msg .= "\n\nThese directories were tried too but none of them exists:\n" . implode( ', ', $triedDirList );
-            $debug = eZDebug::instance();
-            $debug->writeWarning( $msg );
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Could not find module named '$moduleName'\n" .
-                                   "These directories were tried none of them exists:\n" . implode( ", ", $triedDirList ) );
+            if ( count( $triedDirList ) > 0 )
+                $msg.= "\nThese directories were tried but none of them exists:\n" . implode( ", ", $triedDirList );
         }
+        $debug = eZDebug::instance();
+        $debug->writeWarning( $msg );
+        
+
         $retValue = null;
         return $retValue;
     }
+
     function &getNamedParameters()
     {
         return $this->NamedParameters;

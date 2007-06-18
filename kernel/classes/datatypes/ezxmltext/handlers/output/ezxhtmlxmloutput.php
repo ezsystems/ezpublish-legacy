@@ -64,7 +64,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     'table'        => array( 'initHandler' => 'initHandlerTable',
                              'renderHandler' => 'renderAll',
                              'contentVarName' => 'rows',
-                             'attrNamesTemplate' => array( 'class' => 'classification' ),
+                             'attrNamesTemplate' => array( 'class' => 'classification',
+                                                           'width' => 'width' ),
                              'attrDesignKeys' => array( 'class' => 'classification' ) ),
 
     'tr'           => array( //'quickRender' => array( 'tr', "\n" ),
@@ -241,9 +242,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             if ( $object )
             {
                 $node =& $object->attribute( 'main_node' );
-                $nodeID = $node->attribute( 'node_id' );
                 if ( $node )
                 {
+                    $nodeID = $node->attribute( 'node_id' );
+
                     $view = $element->getAttribute( 'view' );
                     if ( $view )
                         $href = 'content/view/' . $view . '/' . $nodeID;
@@ -251,7 +253,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $href = $node->attribute( 'url_alias' );
                 }
                 else
-                    $href = 'content/view/full/' . $nodeID;
+                    eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
             }
             else
             {
@@ -358,7 +360,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         if ( $tplSuffix == '_node')
             $ret['tpl_vars']['node'] = $node;
-        
+
         return $ret;
     }
 
@@ -425,7 +427,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         // don't render if inside 'li' or inside 'td' (by option)
         $parent =& $element->parentNode;
 
-        if ( $parent->nodeName == 'li' ||
+        if ( ( $parent->nodeName == 'li' && count( $parent->Children ) == 1 ) ||
              ( $parent->nodeName == 'td' && !$this->RenderParagraphInTableCells ) )
         {
             return $childrenOutput;

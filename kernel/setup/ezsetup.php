@@ -29,7 +29,7 @@
 //
 
 $siteBasics =& $GLOBALS['eZSiteBasics'];
-$siteBasics['no-cache-adviced'] = true;
+$siteBasics['no-cache-adviced'] = false;
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
 include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );

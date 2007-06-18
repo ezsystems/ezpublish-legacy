@@ -1510,6 +1510,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
+        $tempTables = array();
 
         if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
@@ -1549,9 +1550,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
-                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
+                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
+                            $tempTables[] = $groupPermTempTable;
+
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
+
+                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                            $db->query( "INSERT INTO $groupPermTempTable
+                                                SELECT DISTINCT contentobject_id AS user_id
+                                                FROM     ezcontentobject_tree
+                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
+
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
                         case 'Node':
@@ -1597,7 +1608,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
-                                        'where' => $sqlPermissionCheckingWhere );
+                                        'where' => $sqlPermissionCheckingWhere,
+                                        'temp_tables' => $tempTables );
 
         return $sqlPermissionChecking;
     }
@@ -1747,6 +1759,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
 
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
@@ -1779,15 +1800,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $useVersionName     = true;
-
-        if ( $language )
-        {
-            if ( !is_array( $language ) )
-            {
-                $language = array( $language );
-            }
-            eZContentLanguage::setPrioritizedLanguages( $language );
-        }
 
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
@@ -1840,7 +1852,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $languageFilter
                 $groupByText";
 
-    if ( $sortingInfo['sortingFields'] )
+        if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db = eZDB::instance();
@@ -1859,6 +1871,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         else
             $retNodeList =& $nodeListArray;
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
     }
@@ -1923,8 +1938,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $sortBy = $listParams['SortBy'];
 
-        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
-
         $queryNodes = '';
 
         foreach( $nodesParams as $nodeParams )
@@ -1962,6 +1975,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeParams['ClassFilterType'] = false;
             }
 
+            if ( $language )
+            {
+                if ( !is_array( $language ) )
+                {
+                    $language = array( $language );
+                }
+                eZContentLanguage::setPrioritizedLanguages( $language );
+            }
+
+            $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
             $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
             $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
             $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
@@ -1975,15 +1998,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $retValue = null;
                 return $retValue;
-            }
-
-            if ( $language )
-            {
-                if ( !is_array( $language ) )
-                {
-                    $language = array( $language );
-                }
-                eZContentLanguage::setPrioritizedLanguages( $language );
             }
 
             $useVersionName     = true;
@@ -2072,6 +2086,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $retNodeList =& $nodeListArray;
         }
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
     }
@@ -2662,6 +2679,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $sqlPermissionCheckingFrom = '';
         $sqlPermissionCheckingWhere = '';
+        $sqlPermissionTempTables = array();
 
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
@@ -2701,9 +2719,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                             $parentList =& $userContentObject->attribute( 'parent_nodes' );
 
-                            $sqlPartPart[] = "ezcontentobject.owner_id in ( SELECT contentobject_id FROM ezcontentobject_tree, ezcontentobject 
-                                              WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id 
-                                              AND ezcontentobject_tree.parent_node_id IN (" . implode( ', ', $parentList ) . ') )';
+                            $groupPermTempTable = $db->generateUniqueTempTableName( 'ezgroup_perm_tmp_%_0' );
+                            $sqlPermissionTempTables[] = $groupPermTempTable;
+
+                            if ( $sqlPermissionCheckingFrom == '' )
+                                $sqlPermissionCheckingFrom = ', ' . $groupPermTempTable;
+
+                            $db->createTempTable( "CREATE TEMPORARY TABLE $groupPermTempTable ( user_id int )" );
+                            $db->query( "INSERT INTO $groupPermTempTable
+                                                SELECT DISTINCT contentobject_id AS user_id
+                                                FROM     ezcontentobject_tree
+                                                WHERE    parent_node_id IN ("  . implode( ', ', $parentList ) . ')' );
+
+                            $sqlPartPart[] = "ezcontentobject.owner_id = $groupPermTempTable.user_id";
                         } break;
 
                         case 'Node':
@@ -2797,6 +2825,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $nodeListArray = $db->arrayQuery( $query );
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionTempTables );
+
         return $nodeListArray[0]['count'];
     }
 
@@ -2889,6 +2921,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $retNodeList =& $nodeListArray;
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
 
@@ -3097,6 +3132,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return;
 
         // Who assigns which section at which node should be logged.
+        include_once( 'kernel/classes/ezsection.php' );
         $section = eZSection::fetch( $sectionID );
         $object = $node->object();
         include_once( "kernel/classes/ezaudit.php" );
@@ -3639,6 +3675,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentMainNodeID = $node->attribute( 'node_id' ); //$parent->attribute( 'main_node_id' );
         $parentPath = $node->attribute( 'path_string' );
         $parentDepth = $node->attribute( 'depth' );
+        $isInvinsible = $node->attribute( 'is_invisible' );
 
         $nodeDepth = $parentDepth + 1 ;
 
@@ -3653,6 +3690,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
         $insertedNode->setAttribute( 'contentobject_version', $contentObjectVersion );
+
+        // If the parent node is invisible, the new created node should be invisible as well.
+        $insertedNode->setAttribute( 'is_invisible', $isInvinsible );
 
         $db->begin();
         $insertedNode->store();
@@ -4085,6 +4125,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( is_object( $parentNode ) )
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
+            $parentNode->updateAndStoreModified();
         }
 
         // Clean up policies and limitations
@@ -4526,6 +4567,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $newParentNodeID =(int) $newParentNodeID;
         if ( $oldParentNodeID != $newParentNodeID )
         {
+            $node->updateAndStoreModified();
             // Who moves which content should be logged.
             include_once( "kernel/classes/ezaudit.php" );
             $object = $node->object();
@@ -5717,7 +5759,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function store()
     {
+        $db =& eZDB::instance();
+
+        $db->begin();
         eZPersistentObject::storeObject( $this );
+        $this->updateAndStoreModified();
+        $db->commit();
     }
 
     function &object()
@@ -5923,28 +5970,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
     static function hideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID = $node->attribute( 'node_id' );
-        $db     = eZDB::instance();
+        $time = time();
+        $db =& eZDB::instance();
+
+        $db->begin();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
         {
-            $db->begin();
-
             // 1) Mark root node as hidden and invisible.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1, modified_subnode=$time WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
             $nodePath = $node->attribute( 'path_string' );
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1 WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
-
-            $db->commit();
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1, modified_subnode=$time WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
         }
         else
         {
             // Mark root node as hidden
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, modified_subnode=$time WHERE node_id=$nodeID" );
         }
+
+        $node->updateAndStoreModified();
+        
+        $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }
@@ -5971,19 +6021,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function unhideSubTree( &$node, $modifyRootNode = true )
     {
-        $nodeID        = $node->attribute( 'node_id' );
-        $nodePath      = $node->attribute( 'path_string' );
+        $nodeID = $node->attribute( 'node_id' );
+        $nodePath = $node->attribute( 'path_string' );
         $nodeInvisible = $node->attribute( 'is_invisible' );
-        $parentNode    =& $node->attribute( 'parent' );
-        $db            = eZDB::instance();
+        $parentNode =& $node->attribute( 'parent' );
+        $time = time();
+        $db =& eZDB::instance();
 
+        $db->begin();
 
         if ( ! $parentNode->attribute( 'is_invisible' ) ) // if parent node is visible
         {
-            $db->begin();
             // 1) Mark root node as not hidden and visible.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, is_hidden=0, modified_subnode=$time WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as visible (except for nodes previosly marked as hidden, and all their children).
 
@@ -5995,15 +6046,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $skipSubtreesString .= " AND path_string NOT LIKE '" . $i['path_string'] . "%'";
 
             // 2.2) Mark those children as visible which are not under nodes in $hiddenChildren
-            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0 WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
-            $db->commit();
+            $db->query( "UPDATE ezcontentobject_tree SET is_invisible=0, modified_subnode=$time WHERE path_string LIKE '$nodePath%' $skipSubtreesString" );
         }
         else
         {
             // Mark root node as not hidden.
             if ( $modifyRootNode )
-                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0 WHERE node_id=$nodeID" );
+                $db->query( "UPDATE ezcontentobject_tree SET is_hidden=0, modified_subnode=$time WHERE node_id=$nodeID" );
         }
+
+        $node->updateAndStoreModified();
+
+        $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
     }

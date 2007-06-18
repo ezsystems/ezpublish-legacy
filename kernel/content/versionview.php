@@ -189,7 +189,8 @@ if ( $sectionID !== false )
 }
 $designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
 
-//$contentObject->setAttribute( 'current_version', $EditVersion );
+if ( !$Module->isCurrentAction( 'Publish' ) )
+    $contentObject->setAttribute( 'current_version', $EditVersion );
 
 $class = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
 $objectName = $class->contentObjectName( $contentObject );
@@ -252,14 +253,14 @@ if ( !$siteAccess )
     }
 }
 
-$GLOBALS['eZCurrentAccess']['name'] = $siteAccess;
-changeAccess( array( 'name' => $siteAccess ) );
+$access = $GLOBALS['eZCurrentAccess'];
+$access['name'] = $siteAccess;
 
-if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+if ( $access['type'] == EZ_ACCESS_TYPE_URI )
 {
     eZSys::clearAccessPath();
-    eZSys::addAccessPath( $siteAccess );
 }
+changeAccess( $access );
 
 // Load the siteaccess extensions
 eZExtension::activateExtensions( 'access' );

@@ -978,6 +978,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $userID = eZUser::currentUserID();
 
         $handlerType = $this->handlerType();
+        $firstInstalledID = null;
 
         foreach( $objectNodes as $objectNode )
         {
@@ -988,6 +989,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             if ( isset( $installParameters['error']['error_code'] ) &&
                  !$this->isErrorElement( $realObjectNode->attributeValue( 'remote_id' ), $installParameters ) )
                 continue;
+
+            if ( !$firstInstalledID )
+                $firstInstalledID = $realObjectNode->attributeValue( 'remote_id' );
 
             $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
             if ( !$newObject )
@@ -1019,9 +1023,18 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $remoteID = substr( $objectNode->getAttribute( 'filename' ), 7, 32 );
             }
 
-            $object = eZContentObject::fetchByRemoteID( $remoteID );
-            $object->postUnserialize( $package );
-            eZContentObject::clearCache( $object->attribute( 'id' ) );
+            // Begin from the object that we started from in the previous cycle
+            if ( $firstInstalledID && $remoteID != $firstInstalledID )
+                continue;
+            else
+                $firstInstalledID = null;
+
+            $object =& eZContentObject::fetchByRemoteID( $remoteID );
+            if ( is_object( $object ) )
+            {
+                $object->postUnserialize( $package );
+                eZContentObject::clearCache( $object->attribute( 'id' ) );
+            }
             unset( $object );
         }
 

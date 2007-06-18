@@ -1571,10 +1571,12 @@ class eZCodeMapper
                            'foreach ( array_keys( $unicodeValueArray ) as $valueKey )' . "\n" .
                            '{' . "\n" .
                            '    // Check for word characters that should be broken up for search' . "\n" .
-                           '    if ( ( $unicodeValueArray[$valueKey] >= 13312 and' . "\n" .
+                           '    if ( ( $unicodeValueArray[$valueKey] >= 12289 and' . "\n" .
+                           '           $unicodeValueArray[$valueKey] <= 12542 ) or' . "\n" .
+                           '         ( $unicodeValueArray[$valueKey] >= 13312 and' . "\n" .
                            '           $unicodeValueArray[$valueKey] <= 40863 ) or' . "\n" .
-                           '         (  $unicodeValueArray[$valueKey] >= 44032 and' . "\n" .
-                           '            $unicodeValueArray[$valueKey] <= 55203 ) )' . "\n" .
+                           '         ( $unicodeValueArray[$valueKey] >= 44032 and' . "\n" .
+                           '           $unicodeValueArray[$valueKey] <= 55203 ) )' . "\n" .
                            '    {' . "\n" .
                            '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
                            '        $normalizedTextArray[] = 32; // A space' . "\n" .
@@ -1605,7 +1607,18 @@ class eZCodeMapper
                        '{' . "\n" .
                        '    $text = str_replace( "*", " ", $text );' . "\n" .
                        '}' . "\n" .
-                       '$text = preg_replace( "(\s+)", " ", $text );' . "\n" );
+                       '$charset = eZTextCodec::internalCharset();' . "\n" .
+                       '$hasUTF8 = ( $charset == "utf-8" );' . "\n" .
+                       "\n" .
+                       'if ( $hasUTF8 )' . "\n" .
+                       '{' . "\n" .
+                       '    $text = preg_replace( "#(\s+)#u", " ", $text );' . "\n" .
+                       '}' . "\n" .
+                       'else' . "\n" .
+                       '{' . "\n" .
+                       '    $text = preg_replace( "#(\s+)#", " ", $text );' . "\n" .
+                       '}' );
+                       
             return $code;
         }
         return false;
@@ -1649,10 +1662,12 @@ class eZCodeMapper
                 foreach ( array_keys( $unicodeValueArray ) as $valueKey )
                 {
                     // Check for word characters that should be broken up for search
-                    if ( ( $unicodeValueArray[$valueKey] >= 13312 and
+                    if ( ( $unicodeValueArray[$valueKey] >= 12289 and
+                           $unicodeValueArray[$valueKey] <= 12542 ) or
+                         ( $unicodeValueArray[$valueKey] >= 13312 and
                            $unicodeValueArray[$valueKey] <= 40863 ) or
-                         (  $unicodeValueArray[$valueKey] >= 44032 and
-                            $unicodeValueArray[$valueKey] <= 55203 ) )
+                         ( $unicodeValueArray[$valueKey] >= 44032 and
+                           $unicodeValueArray[$valueKey] <= 55203 ) )
                     {
                         $normalizedTextArray[] = $unicodeValueArray[$valueKey];
                         $normalizedTextArray[] = 32; // A space
@@ -1686,7 +1701,18 @@ class eZCodeMapper
             {
                 $text = str_replace( "*", " ", $text );
             }
-            $text = preg_replace( "(\s+)", " ", $text );
+            $charset = eZTextCodec::internalCharset();
+            $hasUTF8 = ( $charset == "utf-8" );
+
+            if ( $hasUTF8 )
+            {
+                $text = preg_replace( "#(\s+)#u", " ", $text );
+            }
+            else
+            {
+                $text = preg_replace( "#(\s+)#", " ", $text );
+            }
+
             return true;
         }
         return false;

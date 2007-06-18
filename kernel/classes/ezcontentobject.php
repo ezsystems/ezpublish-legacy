@@ -2284,6 +2284,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
         $db->commit();
+        unset( $this->ContentObjectAttributes );
     }
 
     /*!
@@ -5137,6 +5138,7 @@ class eZContentObject extends eZPersistentObject
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'content-view-cache', time() );
         $handler->setTimestamp( 'template-block-cache', time() );
+        $handler->setTimestamp( 'content-tree-menu', mktime() );
         $handler->store();
     }
 

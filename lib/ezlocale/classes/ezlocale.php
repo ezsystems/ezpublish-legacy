@@ -1591,6 +1591,24 @@ class eZLocale
         $GLOBALS['eZLocaleDebugInternalsEnabled'] = $debug;
     }
 
+    /*!
+     \static
+    */
+    function resetGlobals( $localeString = false )
+    {
+        if ( $localeString === false )
+        {
+            $localeStringDefault =& $GLOBALS["eZLocaleStringDefault"];
+            if ( isset( $localeStringDefault ) )
+            {
+                $localeString = $localeStringDefault;
+            }
+        }
+
+        unset( $GLOBALS["eZLocaleInstance_$localeString"] );
+        unset( $GLOBALS["eZLocaleStringDefault"] );
+    }
+
     //@{
     public $IsValid;
     //@}

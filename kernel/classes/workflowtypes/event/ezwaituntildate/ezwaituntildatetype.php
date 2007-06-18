@@ -55,6 +55,13 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     {
         $parameters = $process->attribute( 'parameter_list' );
         $object = eZContentObject::fetch( $parameters['object_id'] );
+
+        if ( !$object )
+        {
+            eZDebugSetting::writeError( 'kernel-workflow-waituntildate','The object with ID '.$parameters['object_id'].' does not exist.', 'eZApproveType::execute() object is unavailable' );
+            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }
+
         $version =& $object->version( $parameters['version'] );
         $objectAttributes = $version->attribute( 'contentobject_attributes' );
         $waitUntilDateObject =& $this->workflowEventContent( $event );
@@ -81,7 +88,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                         $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
                         $this->setActivationDate( $dateTime->timeStamp() );
 //                        eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
-                        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
+                        return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
                     }
                     else if ( $dateTime->isValid() and $modifyPublishDate )
                     {

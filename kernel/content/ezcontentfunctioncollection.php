@@ -687,7 +687,7 @@ class eZContentFunctionCollection
                 if ( !is_object( $contentNode ) )
                     return array( 'error' => array( 'error_type' => 'kernel',
                                                     'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-                $topList[ $key ][ 'node' ] =& $contentNode;
+                $topList[ $key ][ 'node' ] = $contentNode;
             }
             return array( 'result' => $topList );
         }
@@ -700,7 +700,7 @@ class eZContentFunctionCollection
                 if ( !is_object( $contentNode ) )
                     return array( 'error' => array( 'error_type' => 'kernel',
                                                     'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-                $retList[] =& $contentNode;
+                $retList[] = $contentNode;
             }
             return array( 'result' => $retList );
         }
@@ -845,6 +845,9 @@ class eZContentFunctionCollection
         }
 
         $keyWords = $db->arrayQuery( $query );
+
+        // cleanup temp tables
+        $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return array( 'result' => $keyWords[0]['count'] );
     }
@@ -1468,6 +1471,21 @@ class eZContentFunctionCollection
         }
 
         return array( 'result' => $country );
+    }
+
+    function fetchContentTreeMenuExpiry()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+
+        $expiryHandler = eZExpiryHandler::instance();
+
+        if ( !$expiryHandler->hasTimestamp( 'content-tree-menu' ) )
+        {
+            $expiryHandler->setTimestamp( 'content-tree-menu', time() );
+            $expiryHandler->store();
+        }
+
+        return array( 'result' => $expiryHandler->timestamp( 'content-tree-menu' ) );
     }
 }
 

@@ -51,12 +51,14 @@ function eZCheckValidity( &$siteBasics, &$uri )
         $siteBasics['user-object-required'] = false;
         $siteBasics['session-required'] = false;
         $siteBasics['db-required'] = false;
-        $siteBasics['no-cache-adviced'] = true;
+        $siteBasics['no-cache-adviced'] = false;
         $siteBasics['site-design-override'] = $ini->variable( 'SetupSettings', 'OverrideSiteDesign' );
         $access = array( 'name' => 'setup',
                          'type' => EZ_ACCESS_TYPE_URI );
         $access = changeAccess( $access );
-        $GLOBALS['eZCurrentAccess'] = $access;
+
+        include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
+        eZTranslatorManager::enableDynamicTranslations();
     }
     return $check;
 }

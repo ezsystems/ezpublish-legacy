@@ -261,7 +261,6 @@ class eZScript
         }
 
         $access = changeAccess( $access );
-        $GLOBALS['eZCurrentAccess'] =& $access;
 
         if ( $this->UseExtensions )
         {
@@ -315,27 +314,8 @@ class eZScript
         // Initialize module handling
         if ( $this->UseModules )
         {
-            $moduleRepositories = array();
-            $moduleINI = eZINI::instance( 'module.ini' );
-            $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
-            $extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
-
-            if ( $this->UseExtensions )
-                $extensionDirectory = eZExtension::baseDirectory();
-            else
-                $extensionDirectory = array();
-
-            $globalExtensionRepositories = array();
-            foreach ( $extensionRepositories as $extensionRepository )
-            {
-                $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
-                if ( file_exists( $modulePath ) )
-                {
-                    $globalExtensionRepositories[] = $modulePath;
-                }
-            }
-            $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
             include_once( 'lib/ezutils/classes/ezmodule.php' );
+            $moduleRepositories = eZModule::activeModuleRepositories( $this->UseExtensions );
             eZModule::setGlobalPathList( $moduleRepositories );
         }
         $this->IsInitialized = true;

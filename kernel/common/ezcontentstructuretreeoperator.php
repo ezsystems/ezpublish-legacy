@@ -217,6 +217,9 @@ class eZContentStructureTreeOperator
         $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
 
+        // cleanup temp tables
+        $db->dropTempTableList( $permissionChecking['temp_tables'] );
+
         if ( $countChildren )
         {
             return $nodeListArray[0]['count'];
