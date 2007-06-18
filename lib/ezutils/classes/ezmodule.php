@@ -69,8 +69,11 @@ class eZModule
         {
             include( $file );
             $this->Functions = $ViewList;
-            if ( isset( $FunctionList ) )
+            if ( isset( $FunctionList ) and
+                 is_array( $FunctionList ) and
+                 count( $FunctionList ) > 0 )
             {
+                ksort( $FunctionList, SORT_STRING );
                 $this->FunctionList = $FunctionList;
             }
             else
