@@ -203,7 +203,7 @@ class eZApproveType extends eZWorkflowEventType
             $user = eZUser::instance( $process->attribute( 'user_id' ) );
         }
 
-        $userGroups = array_merge( $user->attribute( 'groups' ), $user->attribute( 'contentobject_id' ) );
+        $userGroups = array_merge( $user->attribute( 'groups' ), array( $user->attribute( 'contentobject_id' ) ) );
         $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editors = explode( ',', $event->attribute( 'data_text3' ) ); //$event->attribute( 'data_int1' );
