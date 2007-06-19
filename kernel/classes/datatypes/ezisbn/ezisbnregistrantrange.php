@@ -59,7 +59,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
     /*!
       Definition of the ranges for ISBN Registrant.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

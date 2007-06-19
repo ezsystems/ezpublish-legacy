@@ -54,7 +54,7 @@ class eZISBNGroup extends eZPersistentObject
      \static
      returns a definition of the isbn group.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

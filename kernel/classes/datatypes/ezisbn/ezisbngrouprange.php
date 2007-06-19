@@ -56,7 +56,7 @@ class eZISBNGroupRange extends eZPersistentObject
     /*!
       Definition of the ranges for ISBN groups.
     */
-    function definition()
+    static function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
