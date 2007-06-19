@@ -81,6 +81,12 @@ else
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
+$object = $node->object();
+if ( !$object->canRead() )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
+}
+
 $hostName = eZSys::hostname();
 $subject = ezi18n( 'kernel/content', 'Tip from %1: %2', null, array( $hostName, $nodeName ) );
 $comment = '';
@@ -142,7 +148,6 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
         // fetch
         $res =& eZTemplateDesignResource::instance();
-        $object = $node->attribute( 'object' );
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                               array( 'class',            $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
@@ -201,7 +206,6 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
 if ( !$overrideKeysAreSet )
 {
     $res =& eZTemplateDesignResource::instance();
-    $object = $node->attribute( 'object' );
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                           array( 'class',            $object->attribute( 'contentclass_id' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
