@@ -366,7 +366,7 @@ $ViewList['translations'] = array(
     'params' => array( 'TranslationID' ) );
 
 $ViewList['tipafriend'] = array(
-    'functions' => array( 'read' ),
+    'functions' => array( 'tipafriend'),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'tipafriend.php',
     'params' => array( 'NodeID' ) );
@@ -633,9 +633,9 @@ $FunctionList['pdf'] = array( 'Class' => $ClassID,
 $FunctionList['translations'] = array();
 $FunctionList['urltranslator'] = array();
 $FunctionList['pendinglist'] = array();
-
-$FunctionList['restore'] = array( );
-$FunctionList['cleantrash'] = array( );
+$FunctionList['restore'] = array();
+$FunctionList['cleantrash'] = array();
+$FunctionList['tipafriend'] = array();
 
 /*
 $ViewArray['view'] = array(
