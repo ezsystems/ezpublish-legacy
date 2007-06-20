@@ -16,8 +16,8 @@ by default, because there is no proper 'tipafriend' policy in roles
 assigned to your user groups.
 Thus there was added upgrade script to solve this problem. The script
 optionally adds a new role to your system and assigns it to every top
-user group except the anonymous group. This role contains only one
-policy that enables access to 'tipafriend' view.
+user or user group. This role contains only one policy that enables
+access to 'tipafriend' view.
 The script is placed in 'update' subfolder and must be run from the
 root of the system:
 'update/common/scripts/3.10/updatetipafriendpolicy.php'
