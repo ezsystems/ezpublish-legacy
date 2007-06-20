@@ -77,10 +77,8 @@ $role = eZRole::fetchByName( $roleName );
 if ( is_object( $role ) )
 {
     $cli->warning( "The 'Tipafriend Role' already exists in the system. This means that\n" .
-                   "the script was already run before or you have added the role manually.\n" .
+                   "the script was already run before or the same role was added manually.\n" .
                    "The role will not be added. Check the role settings of the system." );
-    // rush: debug
-    $role->remove();
 }
 else
 {
