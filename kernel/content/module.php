@@ -366,7 +366,7 @@ $ViewList['translations'] = array(
     'params' => array( 'TranslationID' ) );
 
 $ViewList['tipafriend'] = array(
-    'functions' => array( 'tipafriend'),
+    'functions' => array( 'tipafriend', 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'tipafriend.php',
     'params' => array( 'NodeID' ) );
