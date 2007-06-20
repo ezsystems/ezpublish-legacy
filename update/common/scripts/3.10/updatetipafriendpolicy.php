@@ -38,7 +38,7 @@ $script =& eZScript::instance( array( 'description' => "\nThis script is optiona
                                                        "\npossibility to use tipafriend view for all users except anonymous." .
                                                        "\n\nNote: siteacces, login and password options are required and" .
                                                        "\nmust to be set to admin siteaccess and admin login/passsword accordingly" .
-                                                       "\n\n(See doc/feature/../content_tipafriend_policy.txt for more information).",
+                                                       "\n\n(See doc/feature/(3.8|3.9|3.10)/content_tipafriend_policy.txt for more information).",
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => true ) );
@@ -46,8 +46,7 @@ $script =& eZScript::instance( array( 'description' => "\nThis script is optiona
 $script->startup();
 $options = $script->getOptions( '', '', false, false,
                                 array( 'siteaccess' => true,
-                                       'user' => true )
-                                );
+                                       'user' => true ) );
 
 $siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 $script->setUseSiteAccess( $siteAccess );
@@ -61,11 +60,11 @@ $userRootNodeID = $contentIni->variable( 'NodeSettings', 'UserRootNode' );
 $siteIni =& eZINI::instance( 'site.ini' );
 $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
 $anonymousUser = eZUser::fetch( $anonymousUserID );
-$anonymousUserGroups = array();
+$anonymousUsers = array();
 if ( is_object( $anonymousUser ) )
 {
-    $anonymousUserGroups = $anonymousUser->groups();
-    $anonymousUserGroups[] = $anonymousUserID;
+    $anonymousUsers = $anonymousUser->groups();
+    $anonymousUsers[] = $anonymousUserID;
 }
 
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -80,45 +79,47 @@ if ( is_object( $role ) )
     $cli->warning( "The 'Tipafriend Role' already exists in the system. This means that\n" .
                    "the script was already run before or you have added the role manually.\n" .
                    "The role will not be added. Check the role settings of the system." );
+    // rush: debug
     $role->remove();
 }
 else
 {
-    $role = eZRole::create( $roleName );
-    $role->store();
-    $role->appendPolicy( 'content', 'tipafriend' );
-    $role->store();
-
     $userInput = '';
-    $roleWasAssigned = false;
+    $usersToAssign = array();
     $stdin = fopen( "php://stdin", "r+" );
-
-    foreach ( $topUserNodes as $userGroupNode )
+    foreach ( $topUserNodes as $userNode )
     {
-        if ( !in_array( $userGroupNode->attribute( 'contentobject_id' ), $anonymousUserGroups ) )
+        if ( $userInput != 'a' )
         {
-            if ( $userInput != 'a' )
-            {
-                $name = $userGroupNode->getName();
-                $cli->output( "Assign 'Tipafriend Role' to the group/user '$name'? y(yes)/n(no)/a(all)/s(skip all): ", false );
-                $userInput = fgets( $stdin );
-                $userInput = trim( $userInput, "\n" );
-            }
-            if ( $userInput == 'y' or $userInput == 'a' )
-            {
-                $role->assignToUser( $userGroupNode->attribute( 'contentobject_id' ) );
-                $roleWasAssigned = true;
-            }
-            else if ( $userInput == 's' )
-            {
-                break;
-            }
+            $name = $userNode->getName();
+            if ( in_array( $userNode->attribute( 'contentobject_id' ), $anonymousUsers ) )
+                $cli->output( "Note: the '$name' group/user is anonymous." );
+            $cli->output( "Assign 'Tipafriend Role' to the '$name' group/user? y(yes)/n(no)/a(all)/s(skip all): ", false );
+            $userInput = fgets( $stdin );
+            $userInput = trim( $userInput, "\n" );
+        }
+        if ( $userInput == 'y' or $userInput == 'a' )
+        {
+            $usersToAssign[] = $userNode->attribute( 'contentobject_id' );
+        }
+        else if ( $userInput == 's' )
+        {
+            break;
         }
     }
     fclose( $stdin );
 
-    if ( $roleWasAssigned )
+    if ( count( $usersToAssign ) > 0 )
     {
+        $role = eZRole::create( $roleName );
+        $role->store();
+        $role->appendPolicy( 'content', 'tipafriend' );
+        $role->store();
+
+        foreach ( $usersToAssign as $userID )
+        {
+            $role->assignToUser( $userID );
+        }
         // clear role cache
         eZRole::expireCache();
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -128,8 +129,7 @@ else
     }
     else
     {
-        $role->remove();
-        $cli->notice( "\nThe role wasn't added because you've chosen no group to assign." );
+        $cli->notice( "\nThe role wasn't added because you didn't choose any group to assign." );
     }
 }
 
