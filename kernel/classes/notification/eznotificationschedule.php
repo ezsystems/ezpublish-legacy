@@ -111,7 +111,10 @@ class eZNotificationSchedule
 
         $sendDate = time() + $secondsDiff;
         eZDebugSetting::writeDebug( 'kernel-notification', getdate( $sendDate ), "item date"  );
-        $item->setAttribute( 'send_date', $sendDate );
+	if ( $item )
+	{
+            $item->setAttribute( 'send_date', $sendDate );
+	}
         return $sendDate;
     }
 }
