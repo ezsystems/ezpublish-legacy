@@ -433,6 +433,16 @@ class eZTemplateCompiler
                                        &$tpl, $key, &$resourceData,
                                        $rootNamespace, $currentNamespace )
     {
+        // Performance testing BEGIN 1/2
+        static $script_map = array();
+        if ( !array_key_exists( $phpScript, $script_map ) )
+        {
+            $raw_script             = file_get_contents( $phpScript );
+            $raw_script             = preg_replace( '/\<\?php/', '', $raw_script );
+            $script_map[$phpScript] = preg_replace( '/\?\>/',    '', $raw_script );
+        }
+        // Performance testing END 1/2
+
         $vars =& $tpl->Variables;
 
         /* We use $setArray to detect if execution failed, and not $text,
@@ -442,7 +452,10 @@ class eZTemplateCompiler
         $namespaceStack = array();
 
         $tpl->createLocalVariablesList();
-        include( eZTemplateCompiler::TemplatePrefix() . $phpScript );
+        // Performance testing BEGIN 2/2 (Remove comment to revert)
+        // include( eZTemplateCompiler::TemplatePrefix() . $phpScript );
+        eval( $script_map[$phpScript] );
+        // Performance testing END 2/2
         $tpl->unsetLocalVariables();
         $tpl->destroyLocalVariablesList();
 
