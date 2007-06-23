@@ -31,13 +31,41 @@ include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-$http = eZHTTPTool::instance();
-$module =& $Params["Module"];
-$parameters =& $Params["Parameters"];
+$http           =  eZHTTPTool::instance();
+$module         =& $Params['Module'];
+$parameters     =& $Params['Parameters'];
+$userParameters =& $Params['UserParameters'];
+$redirect       = '';
+$type           = '';
 
-if ( $http->hasPostVariable( 'Cancel' ) )
+if ( array_key_exists( 'type', $userParameters ) )
 {
-    return $Module->redirectTo( $http->postVariable( 'RedirectToURI' ) );
+    $type = $userParameters['type'];
+}
+elseif ( $http->hasPostVariable( 'type' ) )
+{
+    $type = $http->postVariable( 'type' );
+}
+
+if ( $http->hasPostVariable( 'RedirectToURI' ) )
+{
+    $redirect = $http->postVariable( 'RedirectToURI' );
+}
+
+if ( $http->hasPostVariable( 'Cancel' ) || $http->hasPostVariable( 'DiscardButton' ) )
+{
+    if ( $http->hasPostVariable( 'RedirectToURI' ) )
+    {
+        return $Module->redirectTo( $http->postVariable( 'RedirectToURI' ) );
+    }
+    else if ( $http->hasSessionVariable( 'visualRedirectTo' ) )
+    {
+        return $Module->redirectTo( $http->sessionVariable( 'visualRedirectTo' ) );
+    }
+    else
+    {
+        return $Module->redirectTo( '/visual/templatelist' );
+    }
 }
 
 $ini = eZINI::instance();
@@ -52,27 +80,43 @@ $i = 0;
 foreach ( $parameters as $param )
 {
     if ( $i > 0 )
+    {
         $template .= "/";
+    }
     $template .= "$param";
     $i++;
 }
 
 $siteAccess = $Params['SiteAccess'];
-if( $siteAccess )
+if ( $siteAccess )
+{
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
+}
 else
+{
     $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+}
 
 $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 // Check if template already exists
 $isExistingTemplate = false;
-foreach ( $overrideArray as $overrideSetting )
+
+if ( $type && $type != 'design' )
 {
-    if ( $overrideSetting['base_dir'] . $overrideSetting['template'] == $template )
+    foreach ( $overrideArray as $overrideSetting )
     {
-        $isExistingTemplate = true;
+        if ( $overrideSetting['base_dir'] . $overrideSetting['template'] == $template )
+        {
+            $isExistingTemplate = true;
+        }
     }
+}
+else if ( ( is_file( $template ) && is_writeable( $template ) ) ||
+          ( is_link( $template ) && is_file( readlink( $template ) ) && is_writeable( readlink( $template ) ) )
+        )
+{
+    $isExistingTemplate = true;
 }
 
 if ( $isExistingTemplate == false )
@@ -86,22 +130,25 @@ if ( $isExistingTemplate == false )
     return;
 }
 
-// Find the main template for this override
 $originalTemplate = false;
-foreach ( $overrideArray as $overrideSetting )
+if ( $type && $type != 'design' )
 {
-    if ( isset( $overrideSetting['custom_match'] ) )
+    // Find the main template for this override
+    foreach ( $overrideArray as $overrideSetting )
     {
-        foreach ( $overrideSetting['custom_match'] as $customMatch )
+        if ( isset( $overrideSetting['custom_match'] ) )
         {
-            if ( $customMatch['match_file'] == $template )
+            foreach ( $overrideSetting['custom_match'] as $customMatch )
             {
-                $originalTemplate = $overrideSetting['template'];
-                break;
+                if ( $customMatch['match_file'] == $template )
+                {
+                    $originalTemplate = $overrideSetting['template'];
+                    break;
+                }
             }
+            if ( $originalTemplate )
+                break;
         }
-        if ( $originalTemplate )
-            break;
     }
 }
 
@@ -174,16 +221,34 @@ if ( $module->isCurrentAction( 'Save' ) )
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
-        $module->redirectTo( '/visual/templateview'. $originalTemplate );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        if ( $redirect != '' )
+        {
+            $module->redirectTo( $redirect );
+        }
+	else if ( $http->hasSessionVariable( 'visualRedirectTo' ) )
+        {
+            return $Module->redirectTo( $http->sessionVariable( 'visualRedirectTo' ) );
+        }
+        else
+        {
+            $module->redirectTo( '/visual/templateview'. $originalTemplate );
+        }
+         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 
 
 if ( $module->isCurrentAction( 'Discard' ) )
 {
-    $module->redirectTo( '/visual/templateview'. $originalTemplate );
-    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    if ( $redirect != '' )
+    {
+        $module->redirectTo( $redirect );
+    }
+    else
+    {
+        $module->redirectTo( '/visual/templateview'. $originalTemplate );
+    }
+     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
 // get the content of the template
@@ -246,8 +311,10 @@ if ( $codec )
     $templateContent = $codec->convertString( $templateContent );
 }
 
-$tpl->setVariable( 'template', $template );
+$tpl->setVariable( 'template',         $template );
 $tpl->setVariable( 'template_content', $templateContent );
+$tpl->setVariable( 'redirect',         $redirect );
+$tpl->setVariable( 'type',             $type );
 
 $Result['content'] =& $tpl->fetch( "design:visual/templateedit.tpl" );
 

@@ -37,6 +37,13 @@ $filterString = '';
 if ( !is_numeric( $offset ) )
     $offset = 0;
 
+if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
+{
+    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess',
+                               $http->postVariable( 'CurrentSiteAccess' )
+                             );
+}
+
 if ( $http->hasVariable( 'filterString' ) )
 {
     $filterString = $http->variable('filterString');
@@ -50,6 +57,15 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $ini = eZINI::instance();
 $tpl =& templateInit();
+
+$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+
+if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
+{
+    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess',
+                               $siteAccessList[0]
+                             );
+}
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
@@ -91,6 +107,8 @@ else
 $tpl->setVariable( 'most_used_template_array', $mostUsedOverrideArray );
 $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'siteaccess_list', $siteAccessList );
+$tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templatelist.tpl" );

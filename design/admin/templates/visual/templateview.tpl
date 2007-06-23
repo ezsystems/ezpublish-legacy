@@ -1,33 +1,49 @@
-{section show=or( $not_removed, $ini_not_saved )}
+{if or( $not_removed, $ini_not_saved )}
+
 <div class="message-error">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The overrides could not be removed.'|i18n( 'design/admin/visual/templateview' )}</h2>
+ <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The overrides could not be removed.'|i18n( 'design/admin/visual/templateview' )}</h2>
 
-{section show=$not_removed}
-<p>{'The following files and override rules could not be removed because of insufficient file permissions'|i18n( 'design/admin/visual/templateview' )}:</p>
-<ul>
+    {if $not_removed}
 
-{section var=item loop=$not_removed}
-    <li>{$item.filename}</li>
-{/section}
+ <p>
 
-</ul>
-{/section}
+    {'The following files and override rules could not be removed because of insufficient file permissions'|i18n( 'design/admin/visual/templateview' )}:
 
-{section show=$ini_not_saved}
-<p>{'The override.ini file could not be modified because of insufficient permissions.'|i18n( 'design/admin/visual/templateview' )}</p>
-{/section}
+ </p>
+ <ul>
+
+        {foreach $not_removed as $file}
+
+  <li>{$file.filename}</li>
+
+        {/foreach}
+
+ </ul>
+
+    {/if}
+
+    {if $ini_not_saved}
+
+ <p>
+
+        {'The override.ini file could not be modified because of insufficient permissions.'|i18n( 'design/admin/visual/templateview' )}
+
+ </p>
+
+    {/if}
 
 </div>
-{/section}
+
+{/if}
 
 
 <form method="post" name="templateview" action={concat( '/visual/templateview', $template_settings.template )|ezurl}>
-
-<div class="context-block">
+ <input type="hidden" name="RedirectToURI" value="{$action_path}" />
+ <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
+  <h1 class="context-title">{'Overrides for <%template_name> template in <%current_siteaccess> siteaccess [%override_count]'|i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template, '%current_siteaccess', $current_siteaccess, '%override_count', $template_settings.custom_match|count ) )|wash}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -36,30 +52,20 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
+<table>
+ <tr>
+  <td><label>{'Default template resource'|i18n( 'design/admin/visual/templateview' )}:</label></td>
+  <td>{$template_settings.base_dir}</td>
+ </tr>
+ <tr>
+  <td><label>{'Siteaccess'|i18n( 'design/admin/visual/templateview' )}:</label></td>
+  <td>{$current_siteaccess}</td>
+ </tr>
+</table>
 
-<div class="block">
-<label>{'Default template resource'|i18n( 'design/admin/visual/templateview' )}:</label>
-{$template_settings.base_dir}
-</div>
+<div class="scroll">
 
-
-<div class="block">
-<label>{'Siteaccess'|i18n( 'design/admin/visual/templateview' )}:</label>
-
-<select name="CurrentSiteAccess">
-{section name=SiteAccess loop=ezini('SiteAccessSettings','RelatedSiteAccessList')}
-    {section show=eq($current_siteaccess,$:item)}
-        <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
-    {section-else}
-        <option value="{$SiteAccess:item}">{$:item}</option>
-    {/section}
-{/section}
-</select>
-
-<input class="button" type="submit" name="SelectCurrentSiteAccessButton" value="{'Set'|i18n( 'design/admin/visual/templateview' )}" />
-</div>
-
-{section show=$template_settings.custom_match}
+{if $template_settings.custom_match}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -70,71 +76,130 @@
     <th class="tight">{'Priority'|i18n( 'design/admin/visual/templateview' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
-{section var=CustomMatch loop=$template_settings.custom_match sequence=array( bglight, bgdark )}
+
+    {section var=CustomMatch loop=$template_settings.custom_match sequence=array( bglight, bgdark )}
+
 <tr class="{$CustomMatch.sequence}">
     <td><input type="checkbox" name="RemoveOverrideArray[]" value="{$CustomMatch.item.override_name}" /></td>
     <td>{$CustomMatch.item.override_name}</td>
 
-    {section show=$CustomMatch.item.match_file}
+        {if $CustomMatch.item.match_file}
+
     <td>{$CustomMatch.item.match_file}</td>
-    {section-else}
+
+        {else}
+
     <td><i>{'No file matched'|i18n( 'design/admin/visual/templateview' )}</i></td>
-    {/section}
+
+        {/if}
 
     <td>
-        {section show=is_set( $CustomMatch.item.conditions )}
-            {section name=Condition  loop=$CustomMatch.item.conditions}
-            {$:key} : {$:item}
-            {delimiter}
-            <br />
-            {/delimiter}
+
+        {if is_set( $CustomMatch.item.conditions )}
+
+            {section name=Condition loop=$CustomMatch.item.conditions}
+
+                {$:key} : {$:item}{delimiter}<br />{/delimiter}
+
             {/section}
-    {/section}
+
+        {/if}
+
     </td>
     <td><input type="text" name="PriorityArray[{$CustomMatch.item.override_name}]" size="2" value="{$CustomMatch.number}" /></td>
 
-    {section show=$CustomMatch.item.match_file}
+        {if $CustomMatch.item.match_file}
+
     <td><a href={concat( '/visual/templateedit/', $CustomMatch.item.match_file)|ezurl} title="{'Edit override template.'|i18n( 'design/admin/visual/templateview' )}"><img src={'edit.gif'|ezimage} alt="Edit" /></a></td>
-    {section-else}
+
+        {else}
+
     <td><img src={'edit-disabled.gif'|ezimage} alt="" /></td>
-    {/section}
+
+        {/if}
 
 </tr>
-{/section}
-</table>
 
-{section-else}
+    {/section}
+
+</table>
+</div>
+
+{else}
+
 <div class="block">
 <p>{'There are no overrides for the <%template_name> template.'i18n( 'design/admin/visual/templateview',, hash( '%template_name', $template_settings.template ) )|wash}</p>
 </div>
-{/section}
+
+{/if}
 
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
-{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-    <div class="block">
+ <div class="box-bc">
+  <div class="box-ml">
+   <div class="box-mr">
+    <div class="box-tc">
+     <div class="box-bl">
+      <div class="box-br">
+       <div class="block">
         <div class="button-left">
-        {section show=$template_settings.custom_match}
-        <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/visual/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/visual/templateview' )}" />
-        {section-else}
-        <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/visual/templateview' )}" disabled="disabled"/>
-        {/section}
 
-        <input class="button" type="submit" name="NewOverrideButton" value="{'New override'|i18n( 'design/admin/visual/templateview' )}" title="{'Create a new template override.'|i18n( 'design/admin/visual/templateview' )}" />
+        {if $template_settings.custom_match}
+
+         <input class="button" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/visual/templateview' )}" title="{'Remove selected template overrides.'|i18n( 'design/admin/visual/templateview' )}" />
+
+        {else}
+
+         <input class="button-disabled" type="submit" name="RemoveOverrideButton" value="{'Remove selected'|i18n( 'design/admin/visual/templateview' )}" disabled="disabled" />
+
+        {/if}
+
         </div>
         <div class="button-right">
-            {section show=$template_settings.custom_match}
-            <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" />
-            {section-else}
-            <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" disabled="disabled"/>
-            {/section}
+
+        {if $template_settings.custom_match}
+
+         <input class="button" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" />
+
+        {else}
+
+         <input class="button-disabled" type="submit" name="UpdateOverrideButton" value="{'Update priorities'|i18n( 'design/admin/visual/templateview' )}" disabled="disabled"/>
+
+        {/if}
+
         </div>
         <div class="break"></div>
+        <div class="block">
+         {'Create new template in '|i18n( 'design/admin/visual/templateview' )|wash()}
+         <select name="NewTemplateLocation" class="template-location">
+          <option value="default">{'Default Location'|i18n( 'design/admin/visual/templateview' )}</option>
+
+        {foreach ezini( 'ExtensionSettings', 'DesignExtensions', 'design.ini' ) as $extension}
+
+           <option value="{$extension}">{$extension|wash()}</option>
+
+        {/foreach}
+
+         </select>
+         {' as '|i18n( 'design/admin/visual/templateview' )|wash()}
+         <select name="NewTemplateType" class="template-type">
+          <option value="override">{'Override Template'|i18n( 'design/admin/visual/templateview' )|wash()}</option>
+          <option value="design">{'Replacement Template'|i18n( 'design/admin/visual/templateview' )|wash()}</option>
+         </select>
+         <input class="button" type="submit" name="NewOverrideButton"  value="{'Create'|i18n( 'design/admin/visual/templateview' )}"        title="{'Create a new template.'|i18n( 'design/admin/visual/templateview' )}" />
+         <input class="button" type="submit" name="EditTemplateButton" value="{'Edit existing'|i18n( 'design/admin/visual/templateview' )}" title="{'Edit the existing template.'|i18n( 'design/admin/visual/templateview' )}" />
+        </div>
+        <div class="break"></div>
+       </div>
+      </div>
+     </div>
     </div>
-{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+   </div>
+  </div>
+ </div>
 </div>
 
 </div>
