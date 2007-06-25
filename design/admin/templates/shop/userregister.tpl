@@ -76,9 +76,9 @@
 <input class="halfbox" type="text" name="State" size="20" value="{$state|wash}" />
 </div>
 
-{* Country. *}
+{* Country/region. *}
 <div class="block">
-<label>{'Country'|i18n( 'design/admin/shop/userregister' )}:*</label>
+<label>{'Country/region'|i18n( 'design/admin/shop/userregister' )}:*</label>
 {include uri='design:shop/country/edit.tpl' select_name='Country' select_size=1 current_val=$country}
 </div>
 

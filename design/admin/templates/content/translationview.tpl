@@ -77,9 +77,9 @@
 {/section}
 </div>
 
-{* Country name *}
+{* Country/region name *}
 <div class="block">
-<label>{'Country name'|i18n( 'design/admin/content/translationview' )}:</label>
+<label>{'Country/region name'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_name}
     {$translation.locale_object.country_name}
 {section-else}
@@ -87,9 +87,9 @@
 {/section}
 </div>
 
-{* Country comment *}
+{* Country/region comment *}
 <div class="block">
-<label>{'Country comment'|i18n( 'design/admin/content/translationview' )}:</label>
+<label>{'Country/region comment'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_comment}
     {$translation.locale_object.country_comment}
 {section-else}
@@ -97,9 +97,9 @@
 {/section}
 </div>
 
-{* Country code *}
+{* Country/region code *}
 <div class="block">
-<label>{'Country code'|i18n( 'design/admin/content/translationview' )}:</label>
+<label>{'Country/region code'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_code}
     {$translation.locale_object.country_code}
 {section-else}
@@ -107,9 +107,9 @@
 {/section}
 </div>
 
-{* Country variation *}
+{* Country/region variation *}
 <div class="block">
-<label>{'Country variation'|i18n( 'design/admin/content/translationview' )}:</label>
+<label>{'Country/region variation'|i18n( 'design/admin/content/translationview' )}:</label>
 {section show=$translation.locale_object.country_variation}
     {$translation.locale_object.country_variation}
 {section-else}
