@@ -36,14 +36,6 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$ini =& eZINI::instance();
-
-if ( $ini->variable( 'TipAFriend', 'Enabled' ) == 'false' )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel',
-                                 array( 'check' => array( 'view_checked' => false,
-                                                          'module' => 'content' ) ) );
-}
 
 $http =& eZHTTPTool::instance();
 

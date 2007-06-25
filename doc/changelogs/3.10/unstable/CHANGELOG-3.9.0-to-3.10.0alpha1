@@ -4,7 +4,6 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Added port option for shell database schema scripts.
 - Added SSL proxy support.
 - Added enhanced ISBN13 support.
-- Implemented feature: Possibility to disable 'tipafriend' view for module 'content'.
 - Implemented enhancement #010806: template override conditions for tipafriend.
 - Implemented enhancement #010860: As Object performance patch.
 - Implemented enhancement #009625: cannot disable tipafriend for anonymous.
