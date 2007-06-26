@@ -190,15 +190,16 @@ class eZUserFunctionCollection
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         if ( $userID )
-        {
             $user = eZUser::fetch( $userID );
+        else
+            $user =& eZUser::currentUser();
+        if ( is_object( $user ) )
+        {
+            $result = $user->hasAccessTo( $module, $view );
+            return array( 'result' => $result['accessWord'] != 'no' );
         }
         else
-        {
-            $user =& eZUser::currentUser();
-        }
-        $result = $user->hasAccessTo( $module, $view );
-        return array( 'result' => $result['accessWord'] != 'no' );
+            return array( 'result' => false );
     }
 }
 
