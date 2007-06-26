@@ -328,3 +328,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10887: Image get lost when created a second language.
   (Merged from stable/3.8 (3.8.9) rev. 19024)
 - Fixed bug #10958: Missing 'content/datatype/view/ezxmltags/quote.tpl' template causes warning.
+- Fixed bug #011027: Fatal error: Call to a member function on a non-object in
+  kernel/user/ezuserfunctioncollection.php on line 202.
