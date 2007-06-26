@@ -33,11 +33,12 @@
   \ingroup eZDatatype
   \brief A content datatype which handles object relations
 
-Bugs/missing features:
+Bugs/missing/deprecated features:
 - No identifier support yet
 - Validation and fixup for "Add new object" functionality
 - Proper embed views for admin classes
 - No translation page support yet (maybe?)
+- is_modified is deprecated and is used for BC only.
 
 */
 
