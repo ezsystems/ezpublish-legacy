@@ -909,7 +909,9 @@ class eZContentObject extends eZPersistentObject
     {
         $rows =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                       array(),
-                                                      $conditions, null, null,
+                                                      $conditions, 
+                                                      false/* we don't want any sorting when counting. Sorting leads to error on postgresql 8.x */,
+                                                      null,
                                                       false, false,
                                                       array( array( 'operation' => 'count( * )',
                                                                     'name' => 'count' ) ) );
