@@ -760,7 +760,7 @@ class eZPersistentObject
         }
 
         $grouping_text = "";
-        if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping) > 0 ) )
+        if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
         {
             $grouping_list =& $def["grouping"];
             if ( is_array( $grouping ) )

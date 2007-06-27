@@ -156,12 +156,15 @@ class eZVatRule extends eZPersistentObject
      */
     function fetchCountByVatType( $vatID )
     {
-        $customFields = array( array( 'operation' => 'count( * )',
-                                      'name' => 'count' ) );
-        $rows = eZPersistentObject::fetchObjectList( eZVatRule::definition(), array(),
+        $rows = eZPersistentObject::fetchObjectList( eZVatRule::definition(),
+                                                     array(),
                                                      array( 'vat_type' => (int) $vatID ),
-                                                     null, null, false, false,
-                                                     $customFields );
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     false,
+                                                     array( array( 'operation' => 'count( * )',
+                                                                   'name' => 'count' ) ) );
         return $rows[0]['count'];
     }
 

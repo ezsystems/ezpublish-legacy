@@ -113,9 +113,14 @@ class eZNotificationCollection extends eZPersistentObject
     function &itemCount()
     {
         $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                        array(), array( 'collection_id' => $this->attribute( 'id' ) ), array(),null,
-                                                        false,false, array( array( 'operation' => 'count(*)',
-                                                                                   'name' => 'count' ) ) );
+                                                       array(),
+                                                       array( 'collection_id' => $this->attribute( 'id' ) ),
+                                                       false,
+                                                       null,
+                                                       false,
+                                                       false,
+                                                       array( array( 'operation' => 'count( * )',
+                                                                     'name' => 'count' ) ) );
         return $result[0]['count'];
     }
 

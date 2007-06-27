@@ -373,13 +373,16 @@ class eZWorkflow extends eZPersistentObject
 
     function &fetchListCount( $version = 0, $enabled = 1 )
     {
-        $custom = array( array( "name" => "count",
-                                "operation" => "count( id )" ) );
         $list = eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
-                                                      array(), array( "version" => $version,
-                                                                      "is_enabled" => $enabled ), array(), null,
-                                                      false, null,
-                                                      $custom );
+                                                     array(),
+                                                     array( 'version' => $version,
+                                                            'is_enabled' => $enabled ),
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     null,
+                                                     array( array( 'operation' => 'count( id )',
+                                                                    'name' => 'count' ) ) );
         return $list[0]["count"];
     }
 
@@ -394,8 +397,7 @@ class eZWorkflow extends eZPersistentObject
                                                       array( "placement" => "asc" ),
                                                       array( "offset" => $index - 1,
                                                              "length" => 1 ),
-                                                      false, null,
-                                                      null );
+                                                      false );
 
         eZDebugSetting::writeDebug( 'workflow-event', $list, "event indexed" );
         if ( count( $list ) > 0 )
@@ -440,14 +442,16 @@ class eZWorkflow extends eZPersistentObject
                 return $count;
             }
         }
-        $custom = array( array( "name" => "count",
-                                "operation" => "count( id )" ) );
         $list = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                      array(), array( "version" => $version,
-                                                                      "workflow_id" => $id ),
-                                                      array(), null,
-                                                      false, null,
-                                                      $custom );
+                                                     array(),
+                                                     array( 'version' => $version,
+                                                            'workflow_id' => $id ),
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     false,
+                                                     array( array( 'operation' => 'count( id )',
+                                                                   'name' => 'count' ) ) );
         return $list[0]["count"];
     }
 

@@ -145,7 +145,7 @@ class eZCurrencyData extends eZPersistentObject
         $rows = eZPersistentObject::fetchObjectList( eZCurrencyData::definition(),
                                                      array(),
                                                      $conditions,
-                                                     null,
+                                                     false,
                                                      null,
                                                      false,
                                                      false,

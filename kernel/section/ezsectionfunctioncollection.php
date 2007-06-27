@@ -86,13 +86,16 @@ class eZSectionFunctionCollection
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
-        $custom = array( array( 'operation' => 'count( id )',
-                                'name' => 'count' ) );
         $rows = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                      array(),
                                                      array( 'section_id' => $sectionID,
                                                             'status' => EZ_CONTENT_OBJECT_STATUS_PUBLISHED ),
-                                                     false, null, false, false, $custom );
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     false,
+                                                     array( array( 'operation' => 'count( id )',
+                                                                   'name' => 'count' ) ) );
         return array( 'result' => $rows[0]['count'] );
     }
 
