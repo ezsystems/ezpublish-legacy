@@ -334,3 +334,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.3) rev. 19118)
 - Fixed bug #10788: PostgreSQL - sql error after setup wizard.
   (Merged from stable/3.9 (3.9.3) rev. 19121)
+- Fixed bug #11034: Method removeAttributes() of eZContentClass may be unusable
+  due the use of a non-existing variable.
