@@ -1251,11 +1251,23 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /*!
-     Returns the content of the string for use as a title
+     Returns the content of the string for use as a title,
+     for simplicity this is the name of the first object referenced or false.
     */
     function title( &$contentObjectAttribute )
     {
-        return false;
+        $objectAttributeContent = $this->objectAttributeContent( $contentObjectAttribute );
+
+        if ( count( $objectAttributeContent['relation_list'] ) > 0 )
+        {
+            $target = $objectAttributeContent['relation_list'][0];
+            $targetObject =& eZContentObject::fetch( $target['contentobject_id'], false );
+            return $targetObject['name'];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /*!
