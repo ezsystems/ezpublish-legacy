@@ -90,8 +90,6 @@ class eZSectionFunctionCollection
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
-        $custom = array( array( 'operation' => 'count( id )',
-                                'name' => 'count' ) );
         if ( $status == 'archived' )
             $status = EZ_CONTENT_OBJECT_STATUS_ARCHIVED;
         else
@@ -100,7 +98,12 @@ class eZSectionFunctionCollection
                                                      array(),
                                                      array( 'section_id' => $sectionID,
                                                             'status' => $status ),
-                                                     false, null, false, false, $custom );
+                                                     false,
+                                                     null,
+                                                     false,
+                                                     false,
+                                                     array( array( 'operation' => 'count( id )',
+                                                                   'name' => 'count' ) ) );
         return array( 'result' => $rows[0]['count'] );
     }
 
