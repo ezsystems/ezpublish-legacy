@@ -519,13 +519,9 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         $attributes = $keepers;
         foreach ( $rejects as $reject )
         {
-            $dataType = $reject->dataType();
-            if ( $dataType->isClassAttributeRemovable( $reject ) )
+            if ( !$reject->remove( true ) )
             {
-                $reject->remove();
-            }
-            else
-            {
+                $dataType = $reject->dataType();
                 $removeInfo = $dataType->classAttributeRemovableInformation( $reject );
                 if ( $removeInfo !== false )
                 {

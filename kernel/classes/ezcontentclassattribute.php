@@ -314,21 +314,23 @@ class eZContentClassAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove()
+    function remove( $quiet = false )
     {
         $dataType = $this->dataType();
-        $version = $this->Version;
         if ( $dataType->isClassAttributeRemovable( $this ) )
         {
             $db =& eZDB::instance();
             $db->begin();
-            $dataType->deleteStoredClassAttribute( $this, $version );
+            $dataType->deleteStoredClassAttribute( $this, $this->Version );
             eZPersistentObject::remove();
             $db->commit();
+            return true;
         }
         else
         {
-            eZDebug::writeError( 'Datatype [' . $dataType->attribute( 'name' ) . '] can not be deleted to avoid system crash' );
+            if ( !$quiet )
+                eZDebug::writeError( 'Datatype [' . $dataType->attribute( 'name' ) . '] can not be deleted to avoid system crash' );
+            return false;
         }
     }
 
