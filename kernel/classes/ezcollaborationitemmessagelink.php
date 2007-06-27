@@ -158,13 +158,14 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         $conditions['collaboration_id'] = $itemID;
 
         $objectList = eZPersistentObject::fetchObjectList( eZCollaborationItemMessageLink::definition(),
-                                                            array(),
-                                                            $conditions,
-                                                            null, null,
-                                                            false,
-                                                            false,
-                                                            array( array( 'operation' => 'count( id )',
-                                                                          'name' => 'count' ) ) );
+                                                           array(),
+                                                           $conditions,
+                                                           false,
+                                                           null,
+                                                           false,
+                                                           false,
+                                                           array( array( 'operation' => 'count( id )',
+                                                                         'name' => 'count' ) ) );
         return $objectList[0]['count'];
     }
 

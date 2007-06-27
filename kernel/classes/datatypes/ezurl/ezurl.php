@@ -352,8 +352,12 @@ class eZURL extends eZPersistentObject
             if ( $asCount )
             {
                 $urls = eZPersistentObject::fetchObjectList( eZURL::definition(),
-                                                             array(), $conditions, null, null,
-                                                             false, null,
+                                                             array(),
+                                                             $conditions,
+                                                             false,
+                                                             null,
+                                                             false,
+                                                             false,
                                                              array( array( 'operation' => 'count( id )',
                                                                            'name' => 'count' ) ) );
                 return $urls[0]['count'];

@@ -297,13 +297,12 @@ class eZPDFExport extends eZPersistentObject
         $queryResult = eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
                                                             array(),
                                                             $conditions,
-                                                            null,
+                                                            false,
                                                             null,
                                                             false,
                                                             null,
                                                             array( array( 'operation' => 'count( * )',
                                                                           'name' => 'count' ) ) );
-
         if ( isset( $queryResult[0]['count'] ) )
         {
             return ( int ) $queryResult[0]['count'];

@@ -176,9 +176,13 @@ class eZContentObjectAttribute extends eZPersistentObject
                                           'name' => 'count' ) );
         }
         $objectList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                            $fieldFilters, $conditions,
-                                                            null, $limit, $asObject,
-                                                            null, $customFields );
+                                                           $fieldFilters,
+                                                           $conditions,
+                                                           ( $asCount ? false : null ),
+                                                           $limit,
+                                                           $asObject,
+                                                           null,
+                                                           $customFields );
         if ( $asCount )
             return $objectList[0]['count'];
         else

@@ -572,11 +572,11 @@ class eZInformationCollection extends eZPersistentObject
          $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
                                                            array(),
                                                            $conditions,
-                                                           null,
+                                                           false,
                                                            null,
                                                            false,
                                                            false,
-                                                           array( array( 'operation' => 'count(id)',
+                                                           array( array( 'operation' => 'count( id )',
                                                                          'name' => 'count' ) ) );
          return $resultSet[0]['count'];
    }

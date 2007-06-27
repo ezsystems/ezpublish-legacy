@@ -103,16 +103,15 @@ class eZWishList extends eZPersistentObject
 
     function itemCount( $alternativeProductionID = false )
     {
-        $custom = array( array( 'operation' => 'count( id )',
-                                'name' => 'count' ) );
         $countRes = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       array(),
-                                                       array( "productcollection_id" => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
-                                                       null,
-                                                       null,
-                                                       false,
-                                                       false,
-                                                       $custom );
+                                                         array(),
+                                                         array( "productcollection_id" => ( $alternativeProductionID === false ) ? $this->ProductCollectionID : $alternativeProductionID ),
+                                                         false,
+                                                         null,
+                                                         false,
+                                                         false,
+                                                         array( array( 'operation' => 'count( id )',
+                                                                       'name' => 'count' ) ) );
         return $countRes[0]['count'];
     }
 
@@ -120,7 +119,7 @@ class eZWishList extends eZPersistentObject
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,
-                                                       array( 'productcollection_id' => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
+                                                       array( 'productcollection_id' => ( $alternativeProductionID === false ) ? $this->ProductCollectionID : $alternativeProductionID ),
                                                        null,
                                                        array( 'offset' => $offset,
                                                               'length' => $limit ),

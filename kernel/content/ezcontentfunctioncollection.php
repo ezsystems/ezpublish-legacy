@@ -469,13 +469,16 @@ class eZContentFunctionCollection
     function fetchDraftVersionCount()
     {
         $userID = eZUser::currentUserID();
-        $draftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                                   array(), array( 'creator_id' => $userID,
-                                                                                   'status' => EZ_VERSION_STATUS_DRAFT ),
-                                                                   array(), null,
-                                                                   false,false,
-                                                                   array( array( 'operation' => 'count( * )',
-                                                                                 'name' => 'count' ) ) );
+        $draftVersionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                                 array(),
+                                                                 array( 'creator_id' => $userID,
+                                                                        'status' => EZ_VERSION_STATUS_DRAFT ),
+                                                                 false,
+                                                                 null,
+                                                                 false,
+                                                                 false,
+                                                                 array( array( 'operation' => 'count( * )',
+                                                                               'name' => 'count' ) ) );
         return array( 'result' => $draftVersionList[0]['count'] );
     }
 
@@ -483,10 +486,10 @@ class eZContentFunctionCollection
     {
         $userID = eZUser::currentUserID();
         $pendingList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                                   null, array(  'creator_id' => $userID,
-                                                                                 'status' => EZ_VERSION_STATUS_PENDING ),
-                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
-                                                                   true );
+                                                             null, array(  'creator_id' => $userID,
+                                                                           'status' => EZ_VERSION_STATUS_PENDING ),
+                                                             null, array( 'length' => $limit, 'offset' => $offset ),
+                                                             true );
         return array( 'result' => &$pendingList );
 
     }
@@ -494,13 +497,16 @@ class eZContentFunctionCollection
     function fetchPendingCount()
     {
         $userID = eZUser::currentUserID();
-        $pendingList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                                   array(), array( 'creator_id' => $userID,
-                                                                                   'status' => EZ_VERSION_STATUS_PENDING ),
-                                                                   array(), null,
-                                                                   false,false,
-                                                                   array( array( 'operation' => 'count( * )',
-                                                                                 'name' => 'count' ) ) );
+        $pendingList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                            array(),
+                                                            array( 'creator_id' => $userID,
+                                                                   'status' => EZ_VERSION_STATUS_PENDING ),
+                                                            false,
+                                                            null,
+                                                            false,
+                                                            false,
+                                                            array( array( 'operation' => 'count( * )',
+                                                                          'name' => 'count' ) ) );
         return array( 'result' => $pendingList[0]['count'] );
     }
 
@@ -521,12 +527,15 @@ class eZContentFunctionCollection
     {
         if ( !is_object( $contentObject ) )
             return array( 'result' => 0 );
-        $versionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                                   array(), array( 'contentobject_id' => $contentObject->attribute("id") ),
-                                                                   array(), null,
-                                                                   false,false,
-                                                                   array( array( 'operation' => 'count( * )',
-                                                                                 'name' => 'count' ) ) );
+        $versionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                            array(),
+                                                            array( 'contentobject_id' => $contentObject->attribute( 'id' ) ),
+                                                            false,
+                                                            null,
+                                                            false,
+                                                            false,
+                                                            array( array( 'operation' => 'count( * )',
+                                                                          'name' => 'count' ) ) );
         return array( 'result' => $versionList[0]['count'] );
     }
 
