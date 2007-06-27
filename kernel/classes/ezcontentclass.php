@@ -704,61 +704,15 @@ class eZContentClass extends eZPersistentObject
      \note If you want to remove a class with all data associated with it (objects/classMembers)
            you should use eZContentClassOperations::remove()
     */
-    function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
+    function remove( $removeAttributes = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         // If we are not allowed to remove just return false
         if ( $this->Version != EZ_CLASS_VERSION_STATUS_TEMPORARY && !$this->isRemovable() )
             return false;
 
-        if ( is_array( $remove_childs ) or $remove_childs )
-        {
-            if ( is_array( $remove_childs ) )
-            {
-                $db =& eZDb::instance();
-                $db->begin();
+        if ( is_array( $removeAttributes ) or $removeAttributes )
+            $this->removeAttributes( $removeAttributes );
 
-                $attributes =& $remove_childs;
-                for ( $i = 0; $i < count( $attributes ); ++$i )
-                {
-                    $attribute =& $attributes[$i];
-                    $attribute->remove();
-                }
-                $db->commit();
-            }
-            else
-            {
-                if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
-                {
-                    $contentClassID = $this->ID;
-                    $version = $this->Version;
-                    $classAttributes =& $this->fetchAttributes( );
-
-                    foreach ( $classAttributes as $classAttribute )
-                    {
-                        $dataType = $classAttribute->dataType();
-                        $dataType->deleteStoredClassAttribute( $classAttribute, $version );
-                    }
-                    eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                                      array( "contentclass_id" => $contentClassID,
-                                                             "version" => $version ) );
-                }
-                else
-                {
-                    $contentClassID = $this->ID;
-                    $version = $this->Version;
-                    $classAttributes =& $this->fetchAttributes( );
-
-                    foreach ( $classAttributes as $classAttribute )
-                    {
-                        $dataType = $classAttribute->dataType();
-                        $dataType->deleteStoredClassAttribute( $classAttribute, $version );
-                    }
-                    eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                                      array( "contentclass_id" => $contentClassID,
-                                                             "version" => $version ) );
-                }
-            }
-        }
         eZPersistentObject::remove();
     }
 
@@ -823,29 +777,54 @@ You will need to change the class of the node by using the swap functionality.' 
         return $result;
     }
 
-    function removeAttributes( $attributes = false, $id = false, $version = false )
+    /*!
+     \note Removes class attributes
+    */
+    function removeAttributes( $removeAttributes = false, $contentClassID = false, $version = false )
     {
-        if ( is_array( $attributes ) )
+        if ( is_array( $removeAttributes ) )
         {
             $db =& eZDB::instance();
             $db->begin();
-            for ( $i = 0; $i < count( $attributes ); ++$i )
+            for ( $i = 0; $i < count( $removeAttributes ); ++$i )
             {
-                $attribute =& $attributes[$i];
+                $attribute =& $removeAttributes[$i];
                 $attribute->remove();
-                $contentObject->purge();
             }
             $db->commit();
         }
         else
         {
-            if ( $version === false )
-                $version = $this->Version;
-            if ( $id === false )
-                $id = $this->ID;
+            if ( isset( $this ) )
+            {
+                $contentClass =& $this;
+                $contentClassID = $this->ID;
+            }
+            else if ( $contentClassID !== false  )
+            {
+                $contentClass = ( $version === false ) ?
+                    $contentClass = eZContentClass::fetch( $contentClassID, true ) :
+                    $contentClass = eZContentClass::fetch( $contentClassID, true, $version );
+                if ( !is_object( $contentClass ) )
+                    return;
+            }
+            else
+                return;
+
+            $version = $contentClass->Version;
+            $classAttributes =& $contentClass->fetchAttributes( );
+
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach ( $classAttributes as $classAttribute )
+            {
+                $dataType = $classAttribute->dataType();
+                $dataType->deleteStoredClassAttribute( $classAttribute, $version );
+            }
             eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                              array( "contentclass_id" => $id,
-                                                     "version" => $version ) );
+                                              array( 'contentclass_id' => $contentClassID,
+                                                     'version' => $version ) );
+            $db->commit();
         }
     }
 
