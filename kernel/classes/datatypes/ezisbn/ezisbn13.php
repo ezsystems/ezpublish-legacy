@@ -134,18 +134,21 @@ class eZISBN13
     function hasRangeData()
     {
         $db =& eZDB::instance();
-        $query = "SELECT count(ezisbn_group.id) as count FROM
-                         ezisbn_group, ezisbn_group_range, ezisbn_registrant_range WHERE
-                         ezisbn_group.group_number >= ezisbn_group_range.from_number and
-                         ezisbn_group.group_number <= ezisbn_group_range.to_number and
-                         ezisbn_group.id=ezisbn_registrant_range.isbn_group_id";
-        $countArray = $db->arrayQuery( $query );
-        $hasRangeData = false;
-        if ( $countArray[0]['count'] > 0 )
+        $tableList = $db->eZTableList();
+        if ( array_key_exists( 'ezisbn_group', $tableList ) and
+             array_key_exists( 'ezisbn_group_range', $tableList ) and
+             array_key_exists( 'ezisbn_registrant_range', $tableList ) )
         {
-            $hasRangeData = true;
+            $query = "SELECT count( ezisbn_group.id ) AS count
+                      FROM ezisbn_group, ezisbn_group_range, ezisbn_registrant_range
+                      WHERE ezisbn_group.group_number >= ezisbn_group_range.from_number AND
+                            ezisbn_group.group_number <= ezisbn_group_range.to_number AND
+                            ezisbn_group.id=ezisbn_registrant_range.isbn_group_id";
+            $countArray = $db->arrayQuery( $query );
+            return ( $countArray[0]['count'] > 0 );
         }
-        return $hasRangeData;
+        else
+            return false;
     }
 
     /*!
