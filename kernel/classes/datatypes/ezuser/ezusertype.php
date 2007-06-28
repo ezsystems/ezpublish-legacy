@@ -279,7 +279,7 @@ class eZUserType extends eZDataType
     /*!
      \reimp
      We can only remove the user attribute if:
-     - The current user, anonymous user and administrator use is not using this class
+     - The current user, anonymous user and administrator user is not using this class
      - There are more classes with the ezuser datatype
     */
     function classAttributeRemovableInformation( &$contentClassAttribute, $includeAll = true )
