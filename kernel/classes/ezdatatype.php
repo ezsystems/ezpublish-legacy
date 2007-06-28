@@ -1262,6 +1262,80 @@ class eZDataType
         return $diffObject;
     }
 
+    /*!
+      Returns dba-data file name of the specific datatype.
+      This one is the default dba-data file name for all datatypes
+    */
+    function getDBAFileName()
+    {
+        return 'share/db_data.dba';
+    }
+
+    /*!
+      Returns dba-data file path (relative to the system root folder) for the specific datatype.
+    */
+    function getDBAFilePath()
+    {
+        return 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
+    }
+
+    /*!
+      Used by setup-wizard to update database data using per datatype dba file
+      which is usually placed in share subfolder of the datatype and (share/db_data.dba)
+    */
+    function importDBDataFromDBAFile( $dbaFilePath = false )
+    {
+        // If no file path is passed then get the common dba-data file name for the datatype
+        if ( !$dbaFilePath )
+            $dbaFilePath = $this->getDBAFilePath();
+
+        $result = true;
+        if ( file_exists( $dbaFilePath ) )
+        {
+            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            $dataArray = eZDBSchema::read( $dbaFilePath, true );
+            if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
+            {
+                //var_dump( $dataArray );
+                $db =& eZDB::instance();
+                $dataArray['type'] = strtolower( $db->databaseName() );
+                $dataArray['instance'] =& $db;
+                $dbSchema = eZDBSchema::instance( $dataArray );
+
+                $name = get_class( $dbSchema );
+                var_dump( $name );
+                //eZDebug::writeDebug( $dbSchema, 'rush: $dbSchema' );
+
+                $result = false;
+                if ( $dbSchema )
+                {
+                    //$this->importISBN13RangeData();
+                    // Before adding the schema, make sure that the tables are empty.
+                    if ( $this->cleanDBDataBeforeImport() )
+                    {
+                        eZDebug::writeDebug( '', 'rush: we are in' );
+                        // This will insert the data and
+                        // run any sequence value correction SQL if required
+                        $result = $dbSchema->insertSchema( array( 'schema' => false,
+                                                                  'data' => true ) );
+                        eZDebug::writeDebug( $result, 'rush: $result' );
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /*!
+      \private
+      Used by updateDBDataByDBAFile() method
+      Must return true if successfull, or false otherwise.
+    */
+    function cleanDBDataBeforeImport()
+    {
+        return true;
+    }
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     var $DataTypeString;
