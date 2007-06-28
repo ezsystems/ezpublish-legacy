@@ -337,7 +337,7 @@ class eZPostgreSQLDB extends eZDBInterface
         $relationKinds = array();
         foreach ( $relationTypes as $relationType )
         {
-            $relationBit = (1 << $relationType );
+            $relationBit = ( 1 << $relationType );
             if ( $relationMask & $relationBit )
             {
                 $relationKind = $this->relationKind( $relationType );
@@ -360,7 +360,7 @@ class eZPostgreSQLDB extends eZDBInterface
         if ( $this->isConnected() )
         {
             $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE ( $relkindText ) AND NOT relname~'pg_.*'";
-            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
+            $array = $this->arrayQuery( $sql, array( 'column' => 'count' ) );
             $count = $array[0];
         }
         return $count;
@@ -381,8 +381,8 @@ class eZPostgreSQLDB extends eZDBInterface
 
         if ( $this->isConnected() )
         {
-            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE relkind='$relkind' AND NOT relname~'pg_.*'";
-            $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
+            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE relkind='$relationKind' AND NOT relname~'pg_.*'";
+            $array = $this->arrayQuery( $sql, array( 'column' => 'count' ) );
             $count = $array[0];
         }
         return $count;
@@ -418,10 +418,10 @@ class eZPostgreSQLDB extends eZDBInterface
         $array = array();
         if ( $this->isConnected() )
         {
-            foreach ( array ( EZ_DB_RELATION_TABLE, EZ_DB_RELATION_SEQUENCE ) as $relationType )
+            foreach ( array( EZ_DB_RELATION_TABLE, EZ_DB_RELATION_SEQUENCE ) as $relationType )
             {
                 $sql = "SELECT relname FROM pg_class WHERE relkind='" . $this->relationKind( $relationType ) . "' AND relname like 'ez%'";
-                foreach ( $this->arrayQuery( $sql, array( 'column' => '0' ) ) as $result )
+                foreach ( $this->arrayQuery( $sql, array( 'column' => 'relname' ) ) as $result )
                 {
                     $array[$result] = $relationType;
                 }

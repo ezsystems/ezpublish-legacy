@@ -124,6 +124,7 @@ class eZDbSchema
                 return false;
             }
         }
+        return false;
     }
 
     /*!
