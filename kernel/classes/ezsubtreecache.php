@@ -125,11 +125,12 @@ class eZSubtreeCache
             $ini =& eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
             {
-                // VS-DBFILE : FIXME: this will not work if clustering enabled
                 eZSubtreeCache::renameDir( $cacheDir );
             }
             else
+            {
                 eZSubtreeCache::removeExpiryCacheFromDisk( $cacheDir );
+            }
         }
     }
 
@@ -142,10 +143,13 @@ class eZSubtreeCache
     {
         // just rename. Actual removing will be performed by cronjob.
 
+        // This directory renaming is only performed on the local filesystem
+        // to ensure purging of really old data. If the DB file handler is in
+        // use it will check the modified_subnode field of the tree structure
+        // to determin expiry when the cache-block entry is accessed.
+
         if ( $dir )
         {
-            // VS-DBFILE : FIXME: this will not work if clustering enabled
-
             include_once( 'lib/ezfile/classes/ezfile.php' );
             $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
 
@@ -183,7 +187,16 @@ class eZSubtreeCache
     {
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $fileHandler = eZClusterFileHandler::instance();
-        $fileHandler->fileDelete( $expiryCachePath );
+        if ( get_class( $fileHandler ) == 'ezfsfilehandler' )
+        {
+            // We will only delete files if the FS file handler is used,
+            // if the DB file handler is in use the system will
+            // instead use the modified_subnode field from the tree structure
+            // in the database to determine if the cache is expired.
+            // This reduces the need to perform expensive modifications to the
+            // database entries for the cluster storage.
+            $fileHandler->fileDelete( $expiryCachePath );
+        }
     }
 }
 

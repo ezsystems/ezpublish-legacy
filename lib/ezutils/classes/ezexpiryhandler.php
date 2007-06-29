@@ -48,6 +48,10 @@ class eZExpiryHandler
     {
         $this->Timestamps = array();
         $this->IsModified = false;
+
+        $cacheDirectory = eZSys::cacheDirectory();
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $this->CacheFile = eZClusterFileHandler::instance( $cacheDirectory . '/' . 'expiry.php' );
         $this->restore();
     }
 
@@ -56,25 +60,19 @@ class eZExpiryHandler
     */
     function restore()
     {
-        // VS-DBFILE
+        $Timestamps = $this->CacheFile->processFile( array( $this, 'fetchData' ) );
+        $this->Timestamps = $Timestamps;
+        $this->IsModified = false;
+    }
 
-        $cacheDirectory = eZSys::cacheDirectory();
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $expiryFile = eZClusterFileHandler::instance( $cacheDirectory . '/' . 'expiry.php' );
-        if ( $expiryFile->exists() )
-        {
-
-            $fetchedFilePath = $expiryFile->fetchUnique();
-            include( $fetchedFilePath );
-            $expiryFile->fileDeleteLocal( $fetchedFilePath );
-
-//            $expiryFile->fetch();
-//            include( $cacheDirectory . "/" . 'expiry.php' );
-            $this->Timestamps = $Timestamps;
-            $this->IsModified = false;
-
-//            $expiryFile->deleteLocal();
-        }
+    /*!
+     \private
+     Includes the expiry file and extracts the $Timestamps variable from it.
+     */
+    function fetchData( $path )
+    {
+        include( $path );
+        return $Timestamps;
     }
 
     /*!
@@ -82,36 +80,21 @@ class eZExpiryHandler
     */
     function store()
     {
-        // VS-DBFILE
-
         $cacheDirectory = eZSys::cacheDirectory();
 
-        $uniqid = md5( uniqid( "ezp". getmypid(), true ) );
-        $fp = @fopen( "$cacheDirectory/.expiry.php.$uniqid.tmp", 'w' );
-        if ( $fp )
+        $storeString = "<?php\n\$Timestamps = array( ";
+        $i = 0;
+        foreach ( $this->Timestamps as $key => $value )
         {
-            $storeString = "<?php\n\$Timestamps = array( ";
-            $i = 0;
-            foreach ( $this->Timestamps as $key => $value )
-            {
-                if ( $i > 0 )
-                    $storeString .= ",\n" . str_repeat( ' ', 21 );
-                $storeString .= "'$key' => $value";
-                ++$i;
-            }
-            $storeString .= " );\n?>";
-
-            fwrite( $fp, $storeString );
-            fclose( $fp );
-            include_once( 'lib/ezutils/classes/ezfile.php' );
-            eZFile::rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
-
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $fileHandler = eZClusterFileHandler::instance();
-            $fileHandler->fileStore(  "$cacheDirectory/expiry.php", 'expirycache', true );
-
-            $this->IsModified = false;
+            if ( $i > 0 )
+                $storeString .= ",\n" . str_repeat( ' ', 21 );
+            $storeString .= "'$key' => $value";
+            ++$i;
         }
+        $storeString .= " );\n?>";
+
+        $this->CacheFile->storeContents( $storeString, 'expirycache', false, true );
+        $this->IsModified = false;
     }
 
     /*!
@@ -142,6 +125,20 @@ class eZExpiryHandler
             return false;
         }
         return $this->Timestamps[$name];
+    }
+
+    /*!
+     \static
+     \return the timestamp value for the expiry key \a $name if it exists or \c false if not,
+    */
+    function getTimestamp( $name, $default = false )
+    {
+        $handler =& eZExpiryHandler::instance();
+        if ( !isset( $handler->Timestamps[$name] ) )
+        {
+            return $default;
+        }
+        return $handler->Timestamps[$name];
     }
 
     /*!

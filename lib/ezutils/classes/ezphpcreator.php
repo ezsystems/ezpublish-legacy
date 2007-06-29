@@ -126,6 +126,7 @@ class eZPHPCreator
         {
             $this->ClusteringEnabled = false;
         }
+        $this->ClusterHandler = null;
     }
 
     //@{
@@ -687,8 +688,6 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function open( $atomic = false )
     {
-        // VS-DBFILE
-
         if ( $this->ClusteringEnabled )
             return true;
 
@@ -730,10 +729,11 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function close()
     {
-        // VS-DBFILE
-
         if ( $this->ClusteringEnabled )
+        {
+            $this->ClusterHandler = null;
             return;
+        }
 
         if ( $this->FileResource )
         {
@@ -758,11 +758,12 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         if ( !$this->ClusteringEnabled )
             return file_exists( $path );
 
-        // VS-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $fileHandler = eZClusterFileHandler::instance();
-        return $fileHandler->fileExists( $path );
+        if ( !$this->ClusterHandler )
+        {
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $this->ClusterHandler = eZClusterFileHandler::instance();
+        }
+        return $this->ClusterHandler->fileExists( $path );
     }
 
     /*!
@@ -774,19 +775,20 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function canRestore( $timestamp = false )
     {
-        // VS-DBFILE
-
         $path = $this->PHPDir . '/' . $this->PHPFile;
 
         if ( $this->ClusteringEnabled )
         {
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $file = eZClusterFileHandler::instance( $path );
-            $canRestore= $file->exists();
+            if ( !$this->ClusterHandler )
+            {
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $this->ClusterHandler = eZClusterFileHandler::instance( $path );
+            }
+            $canRestore= $this->ClusterHandler->exists();
 
             if ( $timestamp !== false and $canRestore )
             {
-                $cacheModifierTime = $file->mtime();
+                $cacheModifierTime = $this->ClusterHandler->mtime();
                 $canRestore = ( $cacheModifierTime >= $timestamp );
             }
 
@@ -823,28 +825,30 @@ print( $values['MyValue'] );
     */
     function restore( $variableDefinitions )
     {
-        // VS-DBFILE
-
         $returnVariables = array();
         $path = $this->PHPDir . '/' . $this->PHPFile;
 
         if ( !$this->ClusteringEnabled )
-            include( $path );
+            $returnVariables = $this->_restoreCall( $path, false, $variableDefinitions );
         else
         {
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $file = eZClusterFileHandler::instance( $path );
-            if ( $file->exists() )
+            if ( !$this->ClusterHandler )
             {
-                $fetchedFilePath = $file->fetchUnique();
-                include( $fetchedFilePath );
-                $file->fileDeleteLocal( $fetchedFilePath );
-//                $file->fetch();
-//                include( $path );
-//                $file->deleteLocal();
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $this->ClusterHandler = eZClusterFileHandler::instance( $path );
             }
+            $returnVariables = $this->ClusterHandler->processFile( array( $this, '_restoreCall' ), null, $variableDefinitions );
         }
+        return $returnVariables;
+    }
 
+    /*!
+     \private
+     Processes the PHP file and returns the specified data.
+     */
+    function _restoreCall( $path, $mtime, $variableDefinitions )
+    {
+        include( $path );
         foreach ( $variableDefinitions as $variableReturnName => $variableName )
         {
             $variableRequired = true;
@@ -926,8 +930,6 @@ print( $values['MyValue'] );
     */
     function writeChunks()
     {
-        // VS-DBFILE
-
         $count = count( $this->TextChunks );
 
         if ( $this->ClusteringEnabled )
@@ -938,9 +940,12 @@ print( $values['MyValue'] );
 
             $filePath = $this->FilePrefix . $this->PHPDir . '/' . $this->PHPFile;
 
-            require_once( 'kernel/classes/ezclusterfilehandler.php' );
-            $fileHandler = eZClusterFileHandler::instance();
-            $fileHandler->fileStoreContents( $filePath, $text, $this->ClusterFileScope, 'php' );
+            if ( !$this->ClusterHandler )
+            {
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $this->ClusterHandler = eZClusterFileHandler::instance();
+            }
+            $this->ClusterHandler->fileStoreContents( $filePath, $text, $this->ClusterFileScope, 'php' );
 
             return;
         }

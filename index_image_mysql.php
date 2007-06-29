@@ -3,29 +3,45 @@
 define( 'TABLE_METADATA', 'ezdbfile' );
 define( 'TABLE_DATA', 'ezdbfile_data' );
 
+function _die( $value )
+{
+    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    die( $value );
+}
+
 // Connect to storage database.
 $serverString = STORAGE_HOST;
 if ( defined( 'STORAGE_SOCKET' ) && STORAGE_SOCKET )
     $serverString .= ':' . STORAGE_SOCKET;
 elseif ( defined( 'STORAGE_PORT' ) )
     $serverString .= ':' . STORAGE_PORT;
-if ( !$db = mysql_connect( $serverString, STORAGE_USER, STORAGE_PASS ) )
-    die( "Unable to connect to storage server.\n" );
+
+$maxTries = 3;
+$tries = 0;
+while ( $tries < $maxTries )
+{
+    if ( $db = mysql_connect( $serverString, STORAGE_USER, STORAGE_PASS ) )
+        break;
+    ++$tries;
+}
+if ( !$db )
+    _die( "Unable to connect to storage server.\n" );
 
 if ( !mysql_select_db( STORAGE_DB, $db ) )
-    die( "Unable to connect to storage database.\n" );
+    _die( "Unable to select database " . STORAGE_DB . ".\n" );
 
 $filename = ltrim( $_SERVER['SCRIPT_URL'], "/");
 
 // Fetch file metadata.
-$filePathHash = md5( mysql_real_escape_string( $filename ) );
-$sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash='$filePathHash'" ;
+$filePathHash = mysql_real_escape_string( $filename );
+$sql = "SELECT * FROM " . TABLE_METADATA . "  WHERE name_hash=MD5('$filePathHash')" ;
 if ( !$res = mysql_query( $sql, $db ) )
-    die( "Failed to retrive file metadata: $filePath.\n" );
+    _die( "Failed to retrieve file metadata: $filePath.\n" );
 
-if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) )
+if ( !( $metaData = mysql_fetch_array( $res, MYSQL_ASSOC ) ) ||
+     $metaData['mtime'] < 0 )
 {
-    header( "HTTP/1.1 404 Not Found" );
+    header( $_SERVER['SERVER_PROTOCOL'] . " 404 Not Found" );
 ?>
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <HTML><HEAD>
@@ -42,9 +58,23 @@ The requested URL <?=htmlspecialchars( $filename )?> was not found on this serve
 
 mysql_free_result( $res );
 
+// Verify the filesize
+$sql = "SELECT SUM(LENGTH(filedata)) AS size FROM " . TABLE_DATA . " WHERE name_hash=MD5('$filePathHash')";
+if ( !$res = mysql_query( $sql, $db ) )
+{
+    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    exit();
+}
+
+$row = mysql_fetch_row( $res );
+if ( $row['size'] != $metaData['size'] )
+{
+    header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
+    exit();
+}
+
 // Fetch file data.
-$fileID = $metaData['id'];
-$sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
+$sql = "SELECT filedata, offset FROM " . TABLE_DATA . " WHERE name_hash=MD5('$filePathHash') ORDER BY offset";
 if ( $res = mysql_query( $sql, $db ) )
 {
     // Output HTTP headers.
@@ -52,15 +82,16 @@ if ( $res = mysql_query( $sql, $db ) )
     $size     = $metaData['size'];
     $mimeType = $metaData['datatype'];
     $mtime    = $metaData['mtime'];
-    $mdate    = gmdate( 'D, d M Y H:i:s T', $mtime );
+    $mdate    = gmdate( 'D, d M Y H:i:s T', $mtime ) . ' GMT';
 
     header( "Content-Length: $size" );
     header( "Content-Type: $mimeType" );
     header( "Last-Modified: $mdate" );
+    /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
     header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT' );
     header( "Connection: close" );
     header( "X-Powered-By: eZ publish" );
-    header( "Accept-Ranges: bytes" );
+    header( "Accept-Ranges: none" );
     header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 
     // Output image data.

@@ -57,7 +57,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
 
         if ( $fileName != "" and $file->exists() )
         {
-            $file->fetch();
+            $file->fetch( true );
             $fileSize = $file->size();
             $mimeType =  $fileInfo['mime_type'];
             $originalFileName = $fileInfo['original_filename'];
@@ -94,19 +94,12 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             $fh = fopen( "$fileName", "rb" );
             if ( $fileOffset )
             {
-                eZDebug::writeDebug( $fileOffset, "seeking to fileoffset" );
                 fseek( $fh, $fileOffset );
             }
 
             ob_end_clean();
             fpassthru( $fh );
             fclose( $fh );
-            fflush( $fh );
-
-            // VS-DBFILE : NOTE: We don't remove fetched file here to avoid refetching on each download.
-            // We may need a way to purge obsolete files though.
-
-            //$file->deleteLocal();
 
             eZExecution::cleanExit();
         }
