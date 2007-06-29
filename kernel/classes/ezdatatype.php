@@ -1303,8 +1303,6 @@ class eZDataType
                 $dbSchema = eZDBSchema::instance( $dataArray );
 
                 $name = get_class( $dbSchema );
-                var_dump( $name );
-                //eZDebug::writeDebug( $dbSchema, 'rush: $dbSchema' );
 
                 $result = false;
                 if ( $dbSchema )
@@ -1313,12 +1311,10 @@ class eZDataType
                     // Before adding the schema, make sure that the tables are empty.
                     if ( $this->cleanDBDataBeforeImport() )
                     {
-                        eZDebug::writeDebug( '', 'rush: we are in' );
                         // This will insert the data and
                         // run any sequence value correction SQL if required
                         $result = $dbSchema->insertSchema( array( 'schema' => false,
                                                                   'data' => true ) );
-                        eZDebug::writeDebug( $result, 'rush: $result' );
                     }
                 }
             }
