@@ -29,6 +29,7 @@ include_once( 'lib/ezutils/classes/ezuri.php' );
 include_once( 'lib/ezutils/classes/ezsys.php' );
 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 include_once( 'kernel/classes/ezclusterfilehandler.php' );
+include_once( 'lib/eztemplate/classes/eztemplatecacheblock.php' );
 
 define( 'MAX_AGE', 86400 );
 
@@ -116,46 +117,26 @@ $user =& eZUser::currentUser();
 $limitedAssignmentValueList = implode( ',', $user->limitValueList() );
 $roleList = implode( ',', $user->roleIDList() );
 
-$showHidden = $siteINI->variable( 'SiteAccessSettings', 'ShowHiddenNodes' );
+$showHidden = $siteINI->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'true';
 
-// TODO: should we use the timestamp from the $_GET['expiry']?
-
-$keyString = eZSys::ezcrc32( 'content_structure_' . 
-                             $nodeID . '_' .
-                             ( ( $showHidden )? 'hidden_': '' ) .
-                             $roleList . '_' .
-                             $limitedAssignmentValueList . '_' .
-                             $accessName );
-$cacheFilename = $keyString . '.cache';
-$cacheDir = eZSys::cacheDirectory() . '/template-block' ;
-$nodeIDString = (string) $nodeID;
-for ( $i = 0; $i < strlen( $nodeIDString ); $i++ )
+$handler = false;
+if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' )
 {
-    $cacheDir .= '/' . $nodeIDString[$i];
-}
-$cacheDir .= '/cache/' . $cacheFilename[0] . '/' . $cacheFilename[1] . '/' . $cacheFilename[2];
-$cacheFilename = $cacheDir . '/' . $cacheFilename;
+    list( $handler, $cacheFileContent ) = eZTemplateCacheBlock::retrieve( array( 
+        'content_structure',
+        $nodeID,
+        $showHidden,
+        $user->roleIDList(),
+        $user->limitValueList(),
+        $accessName ), $nodeID, -1 );
 
-$cacheFile = eZClusterFileHandler::instance( $cacheFilename );
-if ( $cacheFile->exists() )
-{
-    $handler =& eZExpiryHandler::instance();
-    $globalExpiryTime = -1;
-    if ( $handler->hasTimestamp( 'template-block-cache' ) )
+    if ( get_class( $cacheFileContent ) != 'ezclusterfilefailure' )
     {
-        $globalExpiryTime = $handler->timestamp( 'template-block-cache' );
-    }
-
-    if ( $globalExpiryTime == -1 || $cacheFile->mtime() > $globalExpiryTime )
-    {
-        $cacheFileContent = $cacheFile->fetchContents();
-        $httpCharset = eZTextCodec::httpCharset();
-
         header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
         header( 'Cache-Control: max-age=' . MAX_AGE );
         header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $_GET['modified'] ) . ' GMT' );
         header( 'Pragma: ' );
-        header( 'Content-Type: application/json; charset=' . $httpCharset );
+        header( 'Content-Type: application/json' );
         header( 'Content-Length: ' . strlen( $cacheFileContent ) );
 
         echo $cacheFileContent;
@@ -273,38 +254,33 @@ else
     $jsonText= arrayToJSON( $response );
 
     $codec = eZTextCodec::instance( $httpCharset, 'unicode' );
-    if ( $codec )
+    $jsonTextArray = $codec->convertString( $jsonText );
+    $jsonText = '';
+    foreach ( $jsonTextArray as $character )
     {
-        $jsonTextArray = $codec->convertString( $jsonText );
-    
-        $jsonText = '';
-        foreach ( $jsonTextArray as $character )
+        if ( $character < 128 )
         {
-            if ( $character < 128 )
-            {
-                $jsonText .= chr( $character );
-            }
-            else
-            {
-                $jsonText .= '\u' . str_pad( dechex( $character ), 4, '0000', STR_PAD_LEFT );
-            }
+            $jsonText .= chr( $character );
         }
-    
-        $httpCharset = 'iso-8859-1';
+        else
+        {
+            $jsonText .= '\u' . str_pad( dechex( $character ), 4, '0000', STR_PAD_LEFT );
+        }
     }
 
     header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + MAX_AGE ) . ' GMT' );
     header( 'Cache-Control: cache, max-age=' . MAX_AGE . ', post-check=' . MAX_AGE . ', pre-check=' . MAX_AGE );
     header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s', $node->ModifiedSubNode ) . ' GMT' );
     header( 'Pragma: cache' );
-    header( 'Content-Type: application/json; charset=' . $httpCharset );
+    header( 'Content-Type: application/json' );
     header( 'Content-Length: '.strlen( $jsonText ) );
 
     echo $jsonText;
 
-    if ( $cacheFile )
+    if ( $handler )
     {
-        $cacheFile->storeContents( $jsonText, 'template-block' );
+        $handler->storeCache( array( 'scope' => 'template-block',
+                                     'binarydata' => $jsonText ) );
     }
 }
 
