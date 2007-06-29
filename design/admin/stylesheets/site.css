@@ -823,6 +823,11 @@ div.menu-block li
     background-color: #ffffff;
 }
 
+div.menu-block li._25
+{
+    width: 25%;
+}
+
 div.context-user div.menu-block li
 {
     width: 14%;
