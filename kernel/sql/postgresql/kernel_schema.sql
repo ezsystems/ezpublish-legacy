@@ -360,6 +360,45 @@ CREATE SEQUENCE ezinfocollection_attribute_s
 
 
 
+CREATE SEQUENCE ezisbn_group_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezisbn_group_range_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezisbn_registrant_range_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezkeyword_s
     START 1
     INCREMENT 1
@@ -1671,6 +1710,49 @@ CREATE TABLE ezinfocollection_attribute (
     data_text text,
     id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
     informationcollection_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_group (
+    description character varying(255) DEFAULT ''::character varying NOT NULL,
+    group_number integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezisbn_group_s'::text) NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_group_range (
+    from_number integer DEFAULT 0 NOT NULL,
+    group_from character varying(32) DEFAULT ''::character varying NOT NULL,
+    group_length integer DEFAULT 0 NOT NULL,
+    group_to character varying(32) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezisbn_group_range_s'::text) NOT NULL,
+    to_number integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_registrant_range (
+    from_number integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezisbn_registrant_range_s'::text) NOT NULL,
+    isbn_group_id integer DEFAULT 0 NOT NULL,
+    registrant_from character varying(32) DEFAULT ''::character varying NOT NULL,
+    registrant_length integer DEFAULT 0 NOT NULL,
+    registrant_to character varying(32) DEFAULT ''::character varying NOT NULL,
+    to_number integer DEFAULT 0 NOT NULL
 );
 
 
@@ -3837,6 +3919,33 @@ ALTER TABLE ONLY ezinfocollection_attribute
 
 
 
+ALTER TABLE ONLY ezisbn_group
+    ADD CONSTRAINT ezisbn_group_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezisbn_group_range
+    ADD CONSTRAINT ezisbn_group_range_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezisbn_registrant_range
+    ADD CONSTRAINT ezisbn_registrant_range_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezkeyword
     ADD CONSTRAINT ezkeyword_pkey PRIMARY KEY (id);
 
@@ -4375,105 +4484,6 @@ ALTER TABLE ONLY ezworkflow_process
 
 
 
-CREATE SEQUENCE ezisbn_group_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
 
 
 
-
-
-
-
-CREATE TABLE ezisbn_group (
-  id integer DEFAULT nextval('ezisbn_group_s'::text) NOT NULL,
-  description character varying(255) default ''::character varying NOT NULL,
-  group_number integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_group
-    ADD CONSTRAINT ezisbn_group_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezisbn_group_range_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezisbn_group_range (
-  id integer DEFAULT nextval('ezisbn_group_range_s'::text) NOT NULL,
-  from_number  integer DEFAULT 0 NOT NULL,
-  to_number  integer DEFAULT 0 NOT NULL,
-  group_from  character varying(32) default ''::character varying NOT NULL,
-  group_to character varying(32) default ''::character varying NOT NULL,
-  group_length integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_group_range
-    ADD CONSTRAINT ezisbn_group_range_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezisbn_registrant_range_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezisbn_registrant_range (
-  id integer DEFAULT nextval('ezisbn_registrant_range_s'::text) NOT NULL,
-  from_number integer DEFAULT 0 NOT NULL,
-  to_number integer DEFAULT 0 NOT NULL,
-  registrant_from character varying(32) default ''::character varying NOT NULL,
-  registrant_to character varying(32) default ''::character varying NOT NULL,
-  registrant_length integer DEFAULT 0 NOT NULL,
-  isbn_group_id integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_registrant_range
-    ADD CONSTRAINT ezisbn_registrant_range_pkey PRIMARY KEY (id);

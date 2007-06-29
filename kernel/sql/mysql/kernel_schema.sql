@@ -672,6 +672,46 @@ CREATE TABLE ezinfocollection_attribute (
 
 
 
+CREATE TABLE ezisbn_group (
+  description varchar(255) NOT NULL default '',
+  group_number int(11) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezisbn_group_range (
+  from_number int(11) NOT NULL default '0',
+  group_from varchar(32) NOT NULL default '',
+  group_length int(11) NOT NULL default '0',
+  group_to varchar(32) NOT NULL default '',
+  id int(11) NOT NULL auto_increment,
+  to_number int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezisbn_registrant_range (
+  from_number int(11) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  isbn_group_id int(11) NOT NULL default '0',
+  registrant_from varchar(32) NOT NULL default '',
+  registrant_length int(11) NOT NULL default '0',
+  registrant_to varchar(32) NOT NULL default '',
+  to_number int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE ezkeyword (
   class_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
@@ -1613,30 +1653,4 @@ CREATE TABLE ezworkflow_process (
 ) TYPE=MyISAM;
 
 
-CREATE TABLE ezisbn_group (
-  id int(11) NOT NULL auto_increment,
-  description varchar(255) default NULL,
-  group_number int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
 
-CREATE TABLE ezisbn_group_range (
-  id int(11) NOT NULL auto_increment,
-  from_number int(11) NOT NULL default '0',
-  to_number int(11) NOT NULL default '0',
-  group_from varchar(32) default NULL,
-  group_to varchar(32) default NULL,
-  group_length int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
-CREATE TABLE ezisbn_registrant_range (
-  id int(11) NOT NULL auto_increment,
-  from_number int(11) NOT NULL default '0',
-  to_number int(11) NOT NULL default '0',
-  registrant_from varchar(32) default NULL,
-  registrant_to varchar(32) default NULL,
-  registrant_length int(11) NOT NULL default '0',
-  isbn_group_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
