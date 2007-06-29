@@ -547,7 +547,7 @@ class eZStepCreateSites extends eZStepInstaller
                 foreach ( $registeredDataTypes as $dataType )
                 {
                     $res = $dataType->importDBDataFromDBAFile();
-                    if ( !res )
+                    if ( !$res )
                     {
                         $resultArray['errors'][] = array( 'code' => 'EZSW-002',
                                                           'text' => "Failed inserting datatype related data into database: \n" .
