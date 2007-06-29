@@ -41,7 +41,7 @@ class eZTemplateCacheBlock
 
      \param $keys Array or string which is used for key. To ensure uniqueness prefix or add an entry which is unique to your code.
      \param $subtreeExpiry The subtree expiry value, use null to disable or a string. See subtreeCacheSubDir for more details.
-     \param $ttl Amount of seconds the cache should live, use null or -1 to disable TTL.
+     \param $ttl Amount of seconds the cache should live, use null, 0 or -1 to disable TTL.
      \param $useGlobalExpiry Boolean which controls if the global content expiry value should be used or not.
 
      Returns an array with the file handler objects as the first entry and the content data as the second.
@@ -102,6 +102,8 @@ class eZTemplateCacheBlock
                                  $globalExpiryTime,
                                  $subtreeExpiry );
 
+        if ( $ttl == 0 )
+            $ttl = -1;
         return array( &$cacheHandler,
                       $cacheHandler->processCache( array( 'eZTemplateCacheBlock', 'retrieveContent' ), null,
                                                    $ttl, $globalExpiryTime ) );
