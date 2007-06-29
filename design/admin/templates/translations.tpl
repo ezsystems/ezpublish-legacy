@@ -1,5 +1,6 @@
 {def $translations=$node.object.languages
      $translations_count=$translations|count}
+{if gt( $translations_count, 1)}
 
 <form name="translationsform" method="post" action={'content/translation'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -134,6 +135,8 @@
 </div>
 
 </form>
+
+{/if}
 
 {undef $translations
        $translations_count}
