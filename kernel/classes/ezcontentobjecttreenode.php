@@ -2980,7 +2980,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &children()
     {
         $children =& $this->subTree( array( 'Depth' => 1,
-                                            'DepthOperator' => 'eq' ) );
+                                            'DepthOperator' => 'eq',
+                                            'SortBy' => $this->sortArray() ) );
         return $children;
     }
 
