@@ -614,7 +614,9 @@ class eZSys
                  $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI &&
                  isset( $GLOBALS['eZCurrentAccess']['access_alias'] ) )
             {
-                $accessPath = $GLOBALS['eZCurrentAccess']['access_alias'];
+                $accessPathArray = $instance->AccessPath;
+                $accessPathArray[0] = $GLOBALS['eZCurrentAccess']['access_alias'];
+                $accessPath = implode( '/', $accessPathArray );
             }
             $text .= '/' . $accessPath;
         }
