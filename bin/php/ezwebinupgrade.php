@@ -40,352 +40,15 @@
 /*!
  define constans
 */
-define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT", 'q' );
-define( "EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE", 's' );
 
 /*!
  define global vars
 */
-global $cli;
-global $script;
-
 
 /*!
  includes
 */
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/common/i18n.php' );
-include_once( 'kernel/classes/ezpackage.php' );
-
-
-/**************************************************************
-* 'cli->output' wrappers                                      *
-***************************************************************/
-function showError( $message, $addEOL = true, $bailOut = true )
-{
-    global $cli;
-    global $script;
-
-    $cli->output( $cli->stylize( 'error', "Error: " .  $message ), $addEOL );
-
-    if( $bailOut )
-    {
-        exit();
-        $script->shutdown( 1 );
-    }
-}
-
-function showWarning( $message, $addEOL = true )
-{
-    global $cli;
-    $cli->output( $cli->stylize( 'warning', "Warning: " . $message ), $addEOL );
-}
-
-function showNotice( $message, $addEOL = true )
-{
-    global $cli;
-    $cli->output( $cli->stylize( 'notice', "Notice: " ) .  $message, $addEOL );
-}
-
-function showMessage( $message, $addEOL = true )
-{
-    global $cli;
-    $cli->output( $cli->stylize( 'blue', $message ), $addEOL );
-}
-
-function showMessage2( $message, $addEOL = true )
-{
-    global $cli;
-    $cli->output( $cli->stylize( 'red', $message ), $addEOL );
-}
-
-/*!
- Show available actions to user
-*/
-function showPackageActions( $actionList )
-{
-    foreach( $actionList as $action => $actionDescription )
-    {
-        showMessage( "    [ $action ]: " . $actionDescription );
-    }
-}
-
-/*!
- add extra actions to default package item's actions
-*/
-function getExtraActions( &$actionList )
-{
-    $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE] = "Skipt rest of the package";
-    $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT] = "Quit";
-}
-
-/*!
- prompt user to choose what to do next
-*/
-function getUserInput( $prompt )
-{
-    $stdin = fopen( "php://stdin", "r+" );
-
-    fwrite( $stdin, $prompt );
-
-    $userInput = fgets( $stdin );
-    $userInput = trim( $userInput, "\n" );
-
-    fclose( $stdin );
-
-    return $userInput;
-}
-
-/*!
- handle installation error:
-     - show error message;
-     - ask user what to do next;
-*/
-function handlePackageError( $error )
-{
-    showWarning( $error['description'] );
-
-    $actionList = $error['actions'];
-    getExtraActions( $actionList );
-
-    showPackageActions( $actionList );
-
-    $actions = array_keys( $actionList );
-    $actions = '[' . implode( '], [', $actions ) . ']';
-
-    $userInput = getUserInput( "    Plese choose one of the following actions( $actions ): " );
-
-    return $userInput;
-}
-
-/*!
- Check if dir $dirName exists. If not, ask user to create it.
-*/
-function checkDir( $dirName )
-{
-    if ( !file_exists( $dirName ) )
-    {
-        global $autoMode;
-        if( $autoMode == 'on' )
-        {
-            $action = 'y';
-        }
-        else
-        {
-            $action = getUserInput( "Directory '$dirName' doesn't exist. Create? [y/n]: ");
-        }
-
-        if( strpos( $action, 'n' ) === 0 )
-            showError( "Unable to continue. Aborting..." );
-
-        if( !eZDir::mkdir( $dirName, eZDir::directoryPermission(), true ) )
-            showError( "Unable to create dir '$dirName'. Aborting..." );
-    }
-
-    return true;
-}
-
-function installScriptDir( $packageRepository )
-{
-    return ( eZPackage::repositoryPath() . "/$packageRepository/ezwebin_site" );
-}
-
-/*!
- download packages if neede.
-    1. check if packages specified in $packageList exist in $packageRepository(means already downloaded and imported).
-       if yes - ask user to do download or not. If not - go out
-    2. check $packgesList exists in $packageDir(means packages downloaded but not imported)
-       if yes - ask user to import or not. If not - go out
-    3. download and import.
-*/
-function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository )
-{
-    global $cli;
-
-    showMessage2( "Configuring..." );
-
-    if ( !is_array( $packageList ) || count( $packageList ) == 0 )
-        showError( "Package list is empty. Aborting..." );
-
-    // 1. check if packages specified in $packageList exist in $packageRepository(means already downloaded and imported).
-    //    if yes - ask user to do download or not. If not - go out
-    foreach( array_keys( $packageList ) as $k )
-    {
-        $packageName = $packageList[$k];
-        $package = eZPackage::fetch( $packageName );
-
-        if( is_object( $package ) )
-        {
-            global $autoMode;
-            if( $autoMode == 'on' )
-            {
-                $action = 'y';
-            }
-            else
-            {
-                $action = getUserInput( "Package '$packageName' already imported. Import it anyway? [y/n]: " );
-            }
-
-            if ( strpos( $action, 'n' ) === 0 )
-                unset( $packageList[$k] );
-            else
-            {
-                eZDir::recursiveDelete( eZPackage::repositoryPath() . "/$packageRepository/$packageName" );
-            }
-        }
-    }
-
-    if( count( $packageList ) == 0 )
-    {
-        // all packages are imported.
-        return true;
-    }
-
-    // 2. check $packgesList exists in $packageDir(means packages downloaded but not imported)
-    //    if yes - ask user to import or not. If not - go out
-    if( !checkDir( $packageDir ) )
-        return false;
-
-    $downloadPackageList = array();
-    foreach( $packageList as $packageName )
-    {
-        if( file_exists( "$packageDir/$packageName.ezpkg" ) )
-        {
-            global $autoMode;
-            if( $autoMode == 'on' )
-            {
-                $action = 'y';
-            }
-            else
-            {
-                $action = getUserInput( "Package '$packageName' already downloaded. Download it anyway? [y/n]: " );
-            }
-
-            if ( strpos( $action, 'n' ) === 0 )
-                continue;
-        }
-
-        $downloadPackageList[] = $packageName;
-    }
-
-    //
-    // download
-    //
-    showMessage2( "Downloading..." );
-    if( count( $downloadPackageList ) > 0 )
-    {
-        // TODO: using 'eZStepSiteTypes' is hack.
-        //       need to exclude 'downloadFile' from that class.
-        include_once( 'kernel/setup/steps/ezstep_site_types.php' );
-
-        $tpl = false;
-        $http = false;
-        $ini = false;
-        $persistenceList = false;
-
-        $downloader = new eZStepSiteTypes( $tpl, $http, $ini, $persistenceList );
-
-        foreach( $downloadPackageList as $packageName )
-        {
-            showMessage( "$packageName" );
-            $archiveName = $downloader->downloadFile( "$packageURL/$packageName.ezpkg", $packageDir );
-            if ( $archiveName === false )
-                showError( "Error while downloading: " . $downloader->ErrorMsg );
-        }
-    }
-
-    //
-    // import
-    //
-    showMessage2( "Importing..." );
-    foreach( $packageList as $packageName )
-    {
-        showMessage( "$packageName" );
-        $package = eZPackage::import( "$packageDir/$packageName.ezpkg", $packageName, false, $packageRepository );
-
-        if( !is_object( $package ) )
-            showError( "Faild to import '$packageName' package: err = $package" );
-    }
-
-    return true;
-}
-
-/*!
- install packages
-*/
-function installPackages( $packageList )
-{
-    global $cli;
-
-    showMessage2( "Installing..." );
-
-    $action = false;
-    while( ( list( , $packageName ) = each( $packageList ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT )
-    {
-        $action = false;
-
-        $cli->output( $cli->stylize( 'emphasize', "Installing package '$packageName'" ), true );
-
-        $params = array( 'install_type' => 'install' );
-
-        $package = eZPackage::fetch( $packageName );
-        if ( !is_object( $package ) )
-        {
-            showError( "can't fetch package '$packageName'. Aborting..." );
-        }
-
-        // skip installing 'site packages'
-        $packageType = $package->attribute( 'type' );
-
-        if ( $packageType == 'site' )
-            continue;
-
-        $packageItems = $package->installItemsList();
-
-        while( ( list( , $item ) = each( $packageItems ) ) && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT
-                                                           && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE )
-        {
-            $itemInstalled = false;
-            do
-            {
-                $action = false;
-                $package->installItem( $item, $params );
-
-                if ( isset( $params['error'] ) && is_array( $params['error'] ) && count( $params['error'] ) > 0 )
-                {
-                    global $autoMode;
-                    if( $autoMode == 'on' )
-                    {
-                        switch( $packageType )
-                        {
-                            case 'contentclass':
-                                $action = 2;
-                                break;
-                            case 'extension':
-                                $action = 1;
-                                break;
-                            default:
-                                $action = handlePackageError( $params['error'] );
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        $action = handlePackageError( $params['error'] );
-                    }
-
-                    $params['error']['choosen_action'] = $action;
-                }
-                else
-                {
-                    $itemInstalled = true;
-                }
-            }
-            while( !$itemInstalled && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT
-                                   && $action != EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE );
-        }
-    }
-}
+include_once( 'bin/php/ezwebincommon.php' );
 
 /*!
  update content classes
@@ -394,57 +57,38 @@ function updateClasses()
 {
     showMessage2( "Updateting content classes..." );
 
-    eZWebinInstaller::addClassAttribute( array( 'class_identifier' => 'folder',
-                                                'attribute_identifier' => 'tags',
-                                                'attribute_name' => 'Tags',
-                                                'datatype' => 'ezkeyword' ) );
-
-    eZWebinInstaller::addClassAttribute( array( 'class_identifier' => 'folder',
-                                                'attribute_identifier' => 'publish_date',
-                                                'attribute_name' => 'Publish date',
-                                                'datatype' => 'ezdatetime',
-                                                'default_value' => 0 ) );
-
-    $result = false;
-
-    $classInfo = array( 'identifier' => 'template_look',
-                        'attributes' => array( array( 'data_type_string' => 'ezurl',
-                                                      'name' => 'Tag Cloud URL',
-                                                      'identifier' => 'tag_cloud_url',
-                                                      'can_translate' => 1,
-                                                      'version' => 1,
-                                                      'is_required' => 0,
-                                                      'is_searchable' => 0 ) ) );
-
     $installer = new eZWebinInstaller();
 
-    $attibutesDiff = $installer->updateContentClass( $classInfo );
+    $installer->addClassAttributes( array( 'class' => array( 'identifier' => 'folder' ),
+                                           'attributes' => array( array( 'identifier' => 'tags',
+                                                                         'name' => 'Tags',
+                                                                         'data_type_string' => 'ezkeyword' ),
+                                                                   array( 'identifier' => 'publish_date',
+                                                                          'name' => 'Publish date',
+                                                                          'data_type_string' => 'ezdatetime',
+                                                                          'default_value' => 0 ) ) ) );
 
-    foreach( $attibutesDiff as $id )
-    {
-        if( ( $result = $installer->updateObject( $classInfo['identifier'], $id ) ) == false )
-        {
-            break;
-        }
-    }
+    $installer->addClassAttributes( array( 'class' => array( 'identifier' => 'template_look' ),
+                                           'attributes' => array( array( 'data_type_string' => 'ezurl',
+                                                                         'name' => 'Tag Cloud URL',
+                                                                         'identifier' => 'tag_cloud_url' ) ) ) );
 
-    eZWebinInstaller::updateClassAttribute( array( 'class_identifier' => 'folder',
-                                                   'class_attribute_identifier' => 'show_children',
-                                                   'name' => 'Display sub items' ) );
+    $installer->updateClassAttributes( array( 'class' => array( 'identifier' => 'folder' ),
+                                              'attributes' => array( array( 'identifier' => 'show_children',
+                                                                            'new_name' => 'Display sub items' ) ) ) );
 
-    eZWebinInstaller::setRSSExport( array( 'creator' => '14',
-                                           'access_url' => 'my_feed',
-                                           'main_node_only' => '1',
-                                           'number_of_objects' => '10',
-                                           'rss_version' => '2.0',
-                                           'status' => '1',
-                                           'title' => 'My RSS Feed',
-                                           'rss_export_itmes' => array( 0 => array( 'class_id' => '16',
-                                                                                    'description' => 'intro',
-                                                                                    'source_node_id' => '153',
-                                                                                    'status' => '1',
-                                                                                    'title' => 'title' ) ) ) );
-    return $result;
+    $installer->setRSSExport( array( 'creator' => '14',
+                                     'access_url' => 'my_feed',
+                                     'main_node_only' => '1',
+                                     'number_of_objects' => '10',
+                                     'rss_version' => '2.0',
+                                     'status' => '1',
+                                     'title' => 'My RSS Feed',
+                                     'rss_export_itmes' => array( 0 => array( 'class_id' => '16',
+                                                                              'description' => 'intro',
+                                                                              'source_node_id' => '153',
+                                                                              'status' => '1',
+                                                                              'title' => 'title' ) ) ) );
 }
 
 /*!
@@ -460,7 +104,8 @@ function updateObjects()
                                                          "Content" => "/content/view/tagcloud/2" ),
                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ systems AS. All rights reserved." ) );
 
-    $result = $installer->addContentObjectData( $installer->setting( 'template_look_object_id' ), $templateLookData );
+    $result = $installer->updateContentObjectAttributes( array( 'object_id' => $this->setting( 'template_look_object_id' ),
+                                                                'attributes_data' => $templateLookData ))
 
     return $result;
 }
@@ -474,9 +119,9 @@ function updateINI()
 
     $siteaccessList = getUserInput( "Please specify the eZ webin siteaccesses on your site (separated with space, for example eng nor): ");
     $siteaccessList = explode( ' ', $siteaccessList );
-    
+
     $ezWebinSiteacceses = siteAccessMap( $siteaccessList );
-    
+
     $parameters = array();
 
     $extraSettings = array();
@@ -489,19 +134,19 @@ function updateINI()
 
     $extraCommonSettings = array();
     $extraCommonSettings[] = eZCommonContentINISettings( $parameters );
-    
+
     //The following INI-files should be modified instead of being replaced
     $modifiableINIFiles = array();
     $modifiableINIFiles[] = 'design.ini';
-    
-    
+
+
     foreach ( $ezWebinSiteacceses as $sa )
     {
         if( $sa and is_array( $sa ) )
         {
             $saName = key($sa);
             $saPath = current($sa);
-            
+
             // NOTE: it's copy/paste from ezstep_create_sites.php
             foreach ( $extraSettings as $extraSetting )
             {
@@ -513,7 +158,7 @@ function updateINI()
                 $resetArray = false;
                 if ( isset( $extraSetting['reset_arrays'] ) )
                     $resetArray = $extraSetting['reset_arrays'];
-                
+
                 if ( in_array( $iniName, $modifiableINIFiles ) )
                 {
                     //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
@@ -564,62 +209,6 @@ function updateINI()
         $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
     }
 }
-
-function siteAccessMap( $siteAccessNameArray )
-{
-    if ( is_array( $siteAccessNameArray ) )
-    {
-        //Build array map of checked siteaccesses.
-        //Siteaccess name as key, points to root dir, to be used in eZINI methods.
-        $siteAccessMap = array();
-        foreach ( $siteAccessNameArray as $siteAccessName )
-        {
-            $mapEntry = checkSiteaccess( $siteAccessName, true );
-            $siteAccessMap[] = $mapEntry;
-        }
-        return $siteAccessMap;
-    }
-    else
-    {
-        return false;
-    }
-}
- 
-function checkSiteaccess( $siteAccess, $returnPathMap = false )
-{
-    include_once( 'lib/ezutils/classes/ezextension.php' );
-    $extensionBaseDir = eZExtension::baseDirectory();
-    $extensionNameArray = eZExtension::activeExtensions();
-    $siteAccessPath = '/settings/siteaccess/';
-    $siteAccessExists = false;
-    
-    $path = 'settings/siteaccess/' . $siteAccess;
-
-    $siteAccessExists = file_exists( $path );
-    
-    if ( $siteAccessExists )
-    {
-        $ret = $returnPathMap ? array( $siteAccess => $path ) : true;
-        return $ret;
-    }
-    else
-    {
-        // Not found, check if it exists in extensions
-        foreach ( $extensionNameArray as $extensionName )
-        {
-            $extensionSiteaccessPath = $extensionBaseDir . '/' . $extensionName . $siteAccessPath . $siteAccess;
-            if ( file_exists( $extensionSiteaccessPath ) )
-            {
-                $siteAccessExists = true;
-                $ret = $returnPathMap ? array( $siteAccess => $extensionSiteaccessPath ) : $siteAccessExists;
-                return $ret;
-            }
-        }
-    }
-    return $siteAccessExists;
-}
-
-
 
 
 // script initializing
