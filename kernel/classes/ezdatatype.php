@@ -1282,6 +1282,8 @@ class eZDataType
     /*!
       Used by setup-wizard to update database data using per datatype dba file
       which is usually placed in share subfolder of the datatype and (share/db_data.dba)
+      Any reimplementation of this method must return true if import is succesfully done,
+      otherwise false.
     */
     function importDBDataFromDBAFile( $dbaFilePath = false )
     {
@@ -1296,7 +1298,6 @@ class eZDataType
             $dataArray = eZDBSchema::read( $dbaFilePath, true );
             if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
             {
-                //var_dump( $dataArray );
                 $db =& eZDB::instance();
                 $dataArray['type'] = strtolower( $db->databaseName() );
                 $dataArray['instance'] =& $db;
@@ -1307,7 +1308,6 @@ class eZDataType
                 $result = false;
                 if ( $dbSchema )
                 {
-                    //$this->importISBN13RangeData();
                     // Before adding the schema, make sure that the tables are empty.
                     if ( $this->cleanDBDataBeforeImport() )
                     {
