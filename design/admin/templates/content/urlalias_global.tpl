@@ -1,0 +1,244 @@
+{* Errors START *}
+
+{switch match=$info_code}
+{case match='feedback-removed'}
+<div class="message-feedback">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The selected aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+</div>
+{/case}
+{case match='error-invalid-language'}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified language code <%language> is not valid.'|i18n( 'design/admin/content/urlalias_global',, hash('%language', $info_data['language']) )|wash}</h2>
+</div>
+{/case}
+{case match='error-no-alias-text'}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+<ul>
+    <li>{'You will need to fill in some text in the input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+</ul>
+</div>
+{/case}
+{case match='error-no-alias-destination-text'}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias destination'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+<ul>
+    <li>{'You will need to fill in some text in the destination input box to create a new alias.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+</ul>
+</div>
+{/case}
+{case match=error-action-invalid}
+<div class="message-error">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified destination URL %url does not exist in the system, cannot create alias for it'|i18n( 'design/admin/content/urlalias_global',, hash('%url', concat( "<", $info_data['aliasText'], ">" ) ) )|wash}</h2>
+<p>{'You will need to ensure that the destination points to a valid entry, they can be one of:'|i18n( 'design/admin/content/urlalias_global' )}</li>
+<ul>
+    <li>{'Builtin functionality, e.g. %example.'|i18n( 'design/admin/content/urlalias_global',, hash( '%example', '<i>user/login</i>' ) )}</li>
+    <li>{'Existing aliases for the content structure.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+</ul>
+</div>
+{/case}
+{case match='feedback-alias-cleanup'}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias was successfully created, but was modified by the system to <%new_alias>'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
+<ul>
+    <li>{'Invalid characters will be removed or transformed to valid characters.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+    <li>{'Existing objects or functionality with the same name will get precedence on the name.'|i18n( 'design/admin/content/urlalias_global' )}</li>
+</ul>
+</div>
+{/case}
+{case match='feedback-alias-created}
+<div class="message-feedback">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias <%new_alias> was successfully created'|i18n( 'design/admin/content/urlalias_global',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
+</div>
+{/case}
+{case match='feedback-alias-exists}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias %new_alias already exists, and it points to %action_url'|i18n( 'design/admin/content/urlalias_global',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
+</div>
+{/case}
+{case}
+{/case}
+{/switch}
+
+{* Errors END *}
+
+
+{def $aliasList=$filter.items}
+
+<form name="aliasform" method="post" action={concat('content/urltranslator/', $node.node_id)|ezurl}>
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{'Globally defined URL aliases [%alias_count]'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+{* list here *}
+{if eq( count( $aliasList ), 0)}
+<div class="block">
+<p>{"The global list does not contain any aliases."|i18n( 'design/admin/content/urlalias_global' )}</p>
+</div>
+{else}
+<table class="list" cellspacing="0" >
+<tr>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
+    <th>{'Path'|i18n( 'design/admin/content/urlalias_global' )}</th>
+    <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
+    <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
+</tr>
+{foreach $aliasList as $element sequence array('bglight', 'bgdark') as $seq}
+    <tr class="{$seq}">
+        {* Remove. *}
+        <td>
+            <input type="checkbox" name="ElementList[]" value="{$element.id}-{$element.parent}" />
+        </td>
+
+        <td>
+            {foreach $element.path_array as $el}
+            {if ne( $el.action, "nop:" )}
+            <a href="{concat("/",$el.path)}">
+            {/if}
+            {$el.text|wash}
+            {if ne( $el.action, "nop:" )}
+            </a>
+            {/if}
+            {delimiter}/{/delimiter}
+            {/foreach}
+        </td>
+
+        <td>
+            <a href={$element.action_url|ezurl}>{$element.action_url}</a>
+        </td>
+
+        <td>
+            <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
+            &nbsp;
+            {$element.language_object.name|wash}
+        </td>
+    </tr>
+{/foreach}
+ </table>
+
+<div class="context-toolbar">
+    {include name=navigator
+         uri='design:navigator/google.tpl'
+         page_uri=concat('content/urltranslator/', $node.node_id)
+         item_count=$filter.count
+         view_parameters=$view_parameters
+         node_id=$node.node_id
+         item_limit=$filter.limit}
+</div>
+{/if}
+
+
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
+{* buttons here *}
+<div class="block">
+<div class="button-left">
+    {if $aliasList|count|gt( 0 )}
+    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    {else}
+    <input class="button-disabled" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias_global' )}" disabled="disabled" />
+    {/if}
+</div>
+<div class="break"></div>
+
+</div>
+
+
+</div>
+</div>
+
+
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+
+</div>
+
+
+{* Generated aliases context block start *}
+{* Generated aliases window. *}
+<div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h2 class="context-title">{'Create new alias'|i18n( 'design/admin/content/urlalias' )}</h2>
+{* DESIGN: Subline *}<div class="header-subline"></div>
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
+<div class="block">
+{* Alias name field. *}
+    <label>{'Name/Path of alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input class="text" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+</div>
+
+<div class="block">
+{* Destination field. *}
+    <label>{'Path to existing funtionality or resource'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <input class="text" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+</div>
+
+<div class="block">
+<fieldset>
+<legend>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</legend>
+{* Language dropdown. *}
+<div class="block">
+    <select name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias_global' )}">
+    {foreach $languages as $language}
+               <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+    {/foreach}
+    </select>
+</div>
+
+{* All languages flag. *}
+<div class="block">
+    <input type="checkbox" name="AllLanguages" id="all-languages" value="all-languages" /><label class="radio" for="all-languages" title="{'Makes the alias available also in other languages than the one specified.'|i18n( 'design/admin/content/urlalias_global' )}">{'Include in other languages'|i18n( 'design/admin/content/urlalias' )}</label>
+</div>
+</fieldset>
+</div>
+
+{* DESIGN: Content END *}</div></div></div>
+
+<div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+
+<div class="block">
+{* Create button. *}
+    <input class="button" type="submit" name="NewAliasButton" value="{'Create'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Create a new global URL alias.'|i18n( 'design/admin/content/urlalias_global' )}" />
+</div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
+
+<div class="break"></div>
+
+{* DESIGN: Content END *}</div></div></div>
+</div>
+{* Generated aliases context block end *}
+
+</form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        with( document.aliasform )
+        {
+            for( var i=0; i<elements.length; i++ )
+            {
+                if( elements[i].type == 'text' && elements[i].name == 'AliasSourceText' )
+                {
+                    elements[i].select();
+                    elements[i].focus();
+                    return;
+                }
+            }
+        }
+    }
+-->
+</script>
+{/literal}

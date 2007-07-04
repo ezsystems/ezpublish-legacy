@@ -233,7 +233,8 @@ if ( $enable === 'true' )
 // Else: WebDAV functionality is disabled, do nothing...
 else
 {
-    print ( WEBDAV_DISABLED );
+    header( "HTTP/1.1 404 Not Found" );
+    print ( "WebDAV functionality is disabled!" );
 }
 
 ?>

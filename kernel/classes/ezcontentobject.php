@@ -5504,6 +5504,16 @@ class eZContentObject extends eZPersistentObject
 
         $version->setAlwaysAvailableLanguageID( $languageID );
 
+        // Update url alias for all locations
+        $nodeRows = eZContentObjectTreeNode::fetchByContentObjectID( $objectID, false );
+        $actions = array();
+        foreach ( $nodeRows as $nodeRow )
+        {
+            $nodeID = (int)$nodeRow['node_id'];
+            $actions[] = array( 'eznode', $nodeID );
+        }
+        eZURLAliasML::setLangMaskAlwaysAvailable( $languageID, $actions, null );
+
         $db->commit();
     }
 

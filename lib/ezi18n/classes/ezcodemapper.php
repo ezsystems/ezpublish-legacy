@@ -1467,7 +1467,9 @@ class eZCodeMapper
         switch ( $name )
         {
             // Special code handlers
+            case 'url_cleanup_iri':
             case 'url_cleanup':
+            case 'url_cleanup_compat':
             case 'identifier_cleanup':
             {
             } break;
@@ -1525,6 +1527,12 @@ class eZCodeMapper
 
             default:
             {
+                $ini =& eZINI::instance( 'transform.ini' );
+                $commands = $ini->variable( 'Extensions', 'Commands' );
+                if ( isset( $commands[$name] ) )
+                {
+                    break;
+                }
                 eZDebug::writeError( "Unknown command '$name'",
                                      'eZCharTransform::decodeCommand' );
             } break;
@@ -1540,8 +1548,25 @@ class eZCodeMapper
     */
     function generateCommandCode( $command, $charsetName )
     {
-        if ( $command['command'] == 'url_cleanup' or
-             $command['command'] == 'identifier_cleanup' )
+        if ( $command['command'] == 'url_cleanup_iri' )
+        {
+            $charsetNameTxt = var_export( $charsetName, true );
+            $code = "\$text = eZCharTransform::commandUrlCleanupIRI( \$text, $charsetNameTxt );\n";
+            return $code;
+        }
+        else if ( $command['command'] == 'url_cleanup' )
+        {
+            $charsetNameTxt = var_export( $charsetName, true );
+            $code = "\$text = eZCharTransform::commandUrlCleanup( \$text, $charsetNameTxt );\n";
+            return $code;
+        }
+        else if ( $command['command'] == 'url_cleanup_compat' )
+        {
+            $charsetNameTxt = var_export( $charsetName, true );
+            $code = "\$text = eZCharTransform::commandUrlCleanupCompat( \$text, $charsetNameTxt );\n";
+            return $code;
+        }
+        else if ( $command['command'] == 'identifier_cleanup' )
         {
             $code = ( "\$text = strtolower( \$text );\n" .
                       "\$text = preg_replace( array( \"#[^a-z0-9_ ]#\",\n" .
@@ -1621,6 +1646,27 @@ class eZCodeMapper
                        
             return $code;
         }
+        else
+        {
+            $ini =& eZINI::instance( 'transform.ini' );
+            $commands = $ini->variable( 'Extensions', 'Commands' );
+            if ( isset( $commands[$command['command']] ) )
+            {
+                list( $path, $className ) = split( ":", $commands[$command['command']], 2 );
+                if ( file_exists( $path ) )
+                {
+                    $charsetNameTxt = var_export( $charsetName, true );
+                    $commandTxt     = var_export( $command['command'], true );
+                    $pathTxt        = var_export( $path, true );
+                    $code = "include_once( $pathTxt );\n\$text = $className::executeCommand( \$text, $commandTxt, $charsetNameTxt );\n";
+                    return $code;
+                }
+                else
+                {
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                }
+            }
+        }
         return false;
     }
 
@@ -1632,8 +1678,22 @@ class eZCodeMapper
     */
     function executeCommandCode( &$text, $command, $charsetName )
     {
-        if ( $command['command'] == 'url_cleanup' or
-             $command['command'] == 'identifier_cleanup' )
+        if ( $command['command'] == 'url_cleanup_iri' )
+        {
+            $text = eZCharTransform::commandUrlCleanupIRI( $text, $charsetName );
+            return true;
+        }
+        else if ( $command['command'] == 'url_cleanup' )
+        {
+            $text = eZCharTransform::commandUrlCleanup( $text, $charsetName );
+            return true;
+        }
+        else if ( $command['command'] == 'url_cleanup_compat' )
+        {
+            $text = eZCharTransform::commandUrlCleanupCompat( $text, $charsetName );
+            return true;
+        }
+        else if ( $command['command'] == 'identifier_cleanup' )
         {
             $text = strtolower( $text );
             $text = preg_replace( array( "#[^a-z0-9_ ]#",
@@ -1714,6 +1774,26 @@ class eZCodeMapper
             }
 
             return true;
+        }
+        else
+        {
+            $ini =& eZINI::instance( 'transform.ini' );
+            $commands = $ini->variable( 'Extensions', 'Commands' );
+            if ( isset( $commands[$command['command']] ) )
+            {
+                list( $path, $className ) = split( ":", $commands[$command['command']], 2 );
+                if ( file_exists( $path ) )
+                {
+                    include_once( $path );
+                    $text = call_user_func_array( array( $className, 'executeCommand' ),
+                                                  array( $text, $command['command'], $charsetName ) );
+                    return true;
+                }
+                else
+                {
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                }
+            }
         }
         return false;
     }

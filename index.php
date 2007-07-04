@@ -531,21 +531,11 @@ while ( $moduleRunRequired )
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
          !$uri->isEmpty() )
     {
-        include_once( 'kernel/classes/ezurlalias.php' );
-        $translateResult = eZURLAlias::translate( $uri );
-
-
-        if ( !$translateResult )
-        {
-            $useWildcardTranslation = $ini->variable( 'URLTranslator', 'WildcardTranslation' ) == 'enabled';
-            if ( $useWildcardTranslation )
-            {
-                $translateResult =& eZURLAlias::translateByWildcard( $uri );
-            }
-        }
+        include_once( 'kernel/classes/ezurlaliasml.php' );
+        $translateResult = eZURLAliasML::translate( $uri );
 
         // Check if the URL has moved
-        if ( get_class( $translateResult ) == 'ezurlalias' )
+        if ( get_class( $translateResult ) == 'ezurlaliasml' )
         {
             $objectHasMovedURI =& $translateResult->attribute( 'source_url' );
             $objectHasMovedError = true;
@@ -875,8 +865,8 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     $translatedModuleRedirectUri = $moduleRedirectUri;
     if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
-        include_once( 'kernel/classes/ezurlalias.php' );
-        if ( eZURLAlias::translate( $translatedModuleRedirectUri, true ) )
+        include_once( 'kernel/classes/ezurlaliasml.php' );
+        if ( eZURLAliasML::translate( $translatedModuleRedirectUri, true ) )
         {
             $moduleRedirectUri = $translatedModuleRedirectUri;
             if ( strlen( $moduleRedirectUri ) > 0 and

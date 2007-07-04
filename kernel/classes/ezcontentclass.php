@@ -92,6 +92,10 @@ class eZContentClass extends eZPersistentObject
                                                                         'datatype' => 'string',
                                                                         'default' => '',
                                                                         'required' => true ),
+                                         "url_alias_name" => array( 'name' => "URLAliasName",
+                                                                    'datatype' => 'string',
+                                                                    'default' => '',
+                                                                    'required' => false ),
                                          "creator_id" => array( 'name' => "CreatorID",
                                                                 'datatype' => 'integer',
                                                                 'default' => 0,
@@ -1460,6 +1464,44 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         $contentObjectName = eZContentClass::buildContentObjectName( $contentObjectName, $dataMap, $tmpTagResultArray );
         return $contentObjectName;
+    }
+
+    /*
+     Will generate a name for the url alias based on the class
+     settings for content object.
+    */
+    function urlAliasName( &$contentObject, $version = false, $translation = false )
+    {
+        if ( $this->URLAliasName )
+        {
+            $urlAliasName = $this->URLAliasName;
+        }
+        else
+        {
+            $urlAliasName = $this->ContentObjectName;
+        }
+
+        $dataMap =& $contentObject->fetchDataMap( $version, $translation );
+
+        eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
+        preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
+                        $urlAliasName,
+                        $subTagMatchArray );
+
+        $i = 0;
+        $tmpTagResultArray = array();
+        foreach ( $subTagMatchArray[1]  as $subTag )
+        {
+            $tmpTag = 'tmptag' . $i;
+
+            $urlAliasName = str_replace( $subTag, $tmpTag, $urlAliasName );
+
+            $subTag = substr( $subTag, 1,strlen($subTag) - 2 );
+            $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
+            $i++;
+        }
+        $urlAliasName = eZContentClass::buildContentObjectName( $urlAliasName, $dataMap, $tmpTagResultArray );
+        return $urlAliasName;
     }
 
     /*!

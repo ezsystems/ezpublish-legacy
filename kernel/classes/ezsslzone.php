@@ -133,7 +133,21 @@ class eZSSLZone
                 $pathStringsArray = array();
                 foreach ( $sslSubtrees as $uri )
                 {
-                    $node = eZContentObjectTreeNode::fetchByURLPath( preg_replace( '/^\//', '', $uri ) );
+                    include_once( 'kernel/classes/ezurlaliasml.php' );
+                    $elements = eZURLAliasML::fetchByPath( $uri );
+                    if ( count( $elements ) == 0 )
+                    {
+                        eZDebug::writeError( "Cannot fetch URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        continue;
+                    }
+                    $action = $elements[0]->attribute( 'action' );
+                    if ( !preg_match( "#^eznode:(.+)#", $action, $matches ) )
+                    {
+                        eZDebug::writeError( "Cannot decode action '$action' for URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        continue;
+                    }
+                    $nodeID = (int)$matches[1];
+                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !is_object( $node ) )
                     {
                         eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );

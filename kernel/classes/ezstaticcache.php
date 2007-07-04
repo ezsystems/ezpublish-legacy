@@ -50,6 +50,7 @@
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/classes/ezurlaliasml.php' );
 
 class eZStaticCache
 {
@@ -137,25 +138,41 @@ class eZStaticCache
         }
     }
 
+    /*!
+     Generates caches for all the urls of nodes in $nodeList.
+     $nodeList is an array with node entries, each entry is either the node ID or an associative array.
+     The associative array must have on of these entries:
+     - node_id - ID of the node
+     - path_identification_string - The path_identification_string from the node table, is used to fetch the node ID  if node_id is missing.
+     */
     function generateNodeListCache( $nodeList )
     {
         $db =& eZDB::instance();
 
         foreach ( $nodeList as $uri )
         {
-            //cacheURL checks the MaxCacheDepth and CachedURLArray for us before calling storeCache
-            $this->cacheURL( '/' . $uri['path_identification_string']);
-
-            /* Fetch all url aliases with the same node */
-            /* 1. request content/view/full/* style url */
-            $srcURL = $db->escapeString( $uri['path_identification_string'] );
-            $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '$srcURL'" );
-            /* 2. get all other elements linked to the same destination URL */
-            $aliases = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '{$destURL[0]['destination_url']}' AND destination_url <> '{$uri['path_identification_string']}'" );
-            /* Loop over this result and store the cache for this */
-            foreach ( $aliases as $alias )
+            if ( is_array( $uri ) )
             {
-                $this->cacheURL( '/' . $alias['source_url']);
+                if ( !isset( $uri['node_id'] ) )
+                {
+                    eZDebug::writeError( "node_id is not set for uri entry " . var_export( $uri ) . ", will need to perform extra query to get node_id" );
+                    $node = eZContentObjectTreeNode::fetchByURLPath( $uri['path_identification_string'] );
+                    $nodeID = (int)$node->attribute( 'node_id' );
+                }
+                else
+                {
+                    $nodeID = (int)$uri['node_id'];
+                }
+            }
+            else
+            {
+                $nodeID = (int)$uri;
+            }
+            $elements = eZURLAliasML::fetchByAction( 'eznode', $nodeID, true, true, true );
+            foreach ( $elements as $element )
+            {
+                $path = $element->getPath();
+                $this->cacheURL( '/' . $path );
             }
         }
     }
@@ -173,50 +190,79 @@ class eZStaticCache
         $db =& eZDB::instance();
         $configSettingCount = count( $staticURLArray );
         $currentSetting = 0;
+
+        // This contains parent elements which must checked to find new urls and put them in $generateList
+        // Each entry contains:
+        // - url - Url of parent
+        // - glob - A glob string to filter direct children based on name
+        // - org_url - The original url which was requested
+        // - parent_id - The element ID of the parent (optional)
+        // The parent_id will be used to quickly fetch the children, if not it will use the url
+        $parentList = array();
+        // A list of urls which must generated, each entry is a string with the url
+        $generateList = array();
         foreach ( $staticURLArray as $url )
         {
             $currentSetting++;
             if ( strpos( $url, '*') === false )
             {
-                if ( !$quiet and $cli )
-                    $cli->output( "caching: $url ", false );
-                $this->cacheURL( $url, false, !$force, $delay );
-                if ( !$quiet and $cli )
-                    $cli->output( "done" );
+                $generateList[] = $url;
             }
             else
             {
+                $queryURL = ltrim( str_replace( '*', '', $url ), '/' );
+                $dir = dirname( $queryURL );
+                if ( $dir == '.' )
+                    $dir = '';
+                $glob = basename( $queryURL );
+                $parentList[] = array( 'url' => $dir,
+                                       'glob' => $glob,
+                                       'org_url' => $url );
+            }
+        }
+
+        // As long as we have urls to generate or parents to check we loop
+        while ( count( $generateList ) > 0 || count( $parentList ) > 0 )
+        {
+            // First generate single urls
+            foreach ( $generateList as $generateURL )
+            {
                 if ( !$quiet and $cli )
-                    $cli->output( "wildcard cache: $url" );
-                $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
-                $queryURL = $db->escapeString( $queryURL );
-                $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
-                $urlCount = count( $aliasArray );
-                $currentURL = 0;
-                foreach ( $aliasArray as $urlAlias )
+                    $cli->output( "caching: $generateURL ", false );
+                $this->cacheURL( $generateURL, false, !$force, $delay );
+                if ( !$quiet and $cli )
+                    $cli->output( "done" );
+            }
+            $generateList = array();
+
+            // Then check for more data
+            $newParentList = array();
+            foreach ( $parentList as $parentURL )
+            {
+                if ( isset( $parentURL['parent_id'] ) )
                 {
-                    $currentURL++;
-                    $url = "/" . $urlAlias['source_url'];
-                    preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
-                    $id = $matches[1];
-                    if ( $this->cacheURL( $url, (int) $id, !$force, $delay ) )
+                    $elements = eZURLAliasML::fetchByParentID( $parentURL['parent_id'], true, true, false );
+                    foreach ( $elements as $element )
                     {
-                        if ( !$quiet and $cli )
-                        {
-                            $cli->output( sprintf("   %5.1f%% CACHE  $url", 100 * ($currentURL / $urlCount)));
-                        }
-                    }
-                    elseif ( !$quiet and $cli )
-                    {
-                        $cli->output( sprintf("   %5.1f%% SKIP   $url", 100 * ($currentURL / $urlCount)));
+                        $path = '/' . $element->getPath();
+                        $generateList[] = $path;
+                        $newParentList[] = array( 'parent_id' => $element->attribute( 'id' ) );
                     }
                 }
-
-                if ( !$quiet and $cli )
+                else
                 {
-                    $cli->output( sprintf("%5.1f%% done", 100 * ($currentSetting / $configSettingCount)));
+                    if ( !$quiet and $cli and $parentURL['glob'] )
+                        $cli->output( "wildcard cache: " . $parentURL['url'] . '/' . $parentURL['glob'] . "*" );
+                    $elements = eZURLAliasML::fetchByPath( $parentURL['url'], $parentURL['glob'], true, true );
+                    foreach ( $elements as $element )
+                    {
+                        $path = '/' . $element->getPath();
+                        $generateList[] = $path;
+                        $newParentList[] = array( 'parent_id' => $element->attribute( 'id' ) );
+                    }
                 }
             }
+            $parentList = $newParentList;
         }
     }
 

@@ -35,15 +35,9 @@
   \class eZURLAlias ezurlalias.php
   \brief Handles URL aliases in eZ publish
 
-  URL aliases are different names for existing URLs in eZ publish.
-  Using URL aliases allows for having better looking urls on the webpage
-  as well as having fixed URLs pointing to various locations.
+  \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
 
-  This class handles storing, fetching, moving and subtree updates on eZ publish URL aliases.
-
-  Creating a new alias is done by using the create() function and passing the correct parameters.
-  Fetching an url can either be done with it's ID using fetch() or by it's URL string by using fetchBySourceURL.
-  To fetch the original URL you must use the translate() function.
+  \private
 */
 
 include_once( "kernel/classes/ezpersistentobject.php" );
@@ -58,17 +52,20 @@ class eZURLAlias extends eZPersistentObject
 {
     /*!
      Initializes a new URL alias.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function eZURLAlias( $row )
     {
-        $this->eZPersistentObject( $row );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \reimp
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function definition()
     {
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
@@ -106,29 +103,20 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \return the url alias object as an associative array with all the attribute values.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function asArray()
     {
-        return array( 'id' => $this->attribute( 'id' ),
-                      'source_url' => $this->attribute( 'source_url' ),
-                      'source_md5' => $this->attribute( 'source_md5' ),
-                      'destination_url' => $this->attribute( 'destination_url' ),
-                      'is_internal' => $this->attribute( 'is_internal' ),
-                      'is_wildcard' => $this->attribute( 'is_wildcard' ),
-                      'forward_to_id' => $this->attribute( 'forward_to_id' ) );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \return the URL alias object this URL alias points to or \c null if no such URL exists.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &forwardURL()
     {
-        $url = null;
-        if ( $this->attribute( 'forward_to_id' ) != 0 )
-            $url = eZURLAlias::fetch( $this->attribute( 'forward_to_id' ) );
-        else
-            $url = null;
-        return $url;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -136,20 +124,11 @@ class eZURLAlias extends eZPersistentObject
      Creates a new URL alias with the new URL \a $sourceURL and the original URL \a $destinationURL
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
     {
-        if ( !$forwardToID )
-            $forwardToID = 0;
-        $sourceURL = eZURLAlias::cleanURL( $sourceURL );
-        $destinationURL = eZURLAlias::cleanURL( $destinationURL );
-        $row = array( 'source_url' => $sourceURL,
-                      'destination_url' => $destinationURL,
-                      'is_internal' => $isInternal,
-                      'is_wildcard' => $isWildcard,
-                      'forward_to_id' => $forwardToID );
-        $alias = new eZURLAlias( $row );
-        return $alias;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -159,41 +138,33 @@ class eZURLAlias extends eZPersistentObject
      The difference between a forwarding and translation is that forwarding will the browser
      and crawlers that the url is no longer in use and give the new one.
      \return the URL alias object
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &createForForwarding( $forwardURL )
     {
-        $alias = eZURLAlias::create( $forwardURL, $this->attribute( 'destination_url' ),
-                                      $this->attribute( 'is_internal' ), $this->attribute( 'id' ) );
-        return $alias;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Generates the md5 for the alias and stores the values.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function store()
     {
-        $this->SourceURL = eZURLAlias::cleanURL( $this->SourceURL );
-        $this->DestinationURL = eZURLAlias::cleanURL( $this->DestinationURL );
-        $this->SourceMD5 = md5( $this->SourceURL );
-        eZPersistentObject::store();
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Removes this url alias as well as all other aliases that relate to it,
      for instance forwarding aliases.
      \note If you want to remove just this alias you must use remove()
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanup()
     {
-        $id = $this->attribute( 'id' );
-        $db =& eZDB::instance();
-        $db->begin();
-        $sql = "DELETE FROM ezurlalias WHERE forward_to_id = '" . $db->escapeString( $id ) . "'";
-        $db->query( $sql );
-        $this->remove();
-        $db->commit();
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -202,80 +173,33 @@ class eZURLAlias extends eZPersistentObject
      to have the correct \a $newPathString.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function updateChildAliases( $newPathString, $oldPathString )
     {
-        $oldPathStringLength = strlen( $oldPathString );
-        $db =& eZDB::instance();
-        $newPathStringText = $db->escapeString( $newPathString );
-        $oldPathStringText = $db->escapeString( $oldPathString );
-        $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
-        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
-        $sql = "UPDATE ezurlalias
-SET
-    source_url = $newPathStringQueryPart
-WHERE
-    is_wildcard = 0 AND
-    source_url LIKE '$oldPathStringText/%'";
-
-        $db->begin();
-        $db->query( $sql );
-
-        $subStringQueryPart = $db->subString( 'source_url', $oldPathStringLength + 1 );
-        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
-        $destSubStringQueryPart = $db->subString( 'destination_url', $oldPathStringLength + 1 );
-        $newDestPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $destSubStringQueryPart ) );
-        $sql = "UPDATE ezurlalias
-SET
-    source_url = $newPathStringQueryPart, destination_url = $newDestPathStringQueryPart
-WHERE
-    is_wildcard != 0 AND
-    source_url LIKE '$oldPathStringText/%/*' AND
-    destination_url LIKE '$oldPathStringText/%/{1}'";
-
-        $db->query( $sql );
-
-        $md5QueryPart = $db->md5( 'source_url' );
-        $sql = "UPDATE ezurlalias
-SET
-    source_md5 = $md5QueryPart
-WHERE
-    source_url like '$newPathStringText%'";
-
-        $db->query( $sql );
-        $db->commit();
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Removes all wildcards that matches the base URL \a $baseURL.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanupWildcards( $baseURL )
     {
-        $db =& eZDB::instance();
-        $baseURLText = $db->escapeString( $baseURL . "/*" );
-        $sql = "DELETE FROM ezurlalias
-WHERE
-     source_url = '$baseURLText' AND
-     is_wildcard IN ( " . EZ_URLALIAS_WILDCARD_TYPE_FORWARD . ", " . EZ_URLALIAS_WILDCARD_TYPE_DIRECT . ")";
-        $db->query( $sql );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Removes forwarding urls where source_url match \a $oldURL.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanupForwardingURLs( $oldURL )
     {
-        $db =& eZDB::instance();
-        $oldURLText = $db->escapeString( $oldURL );
-        $sql = "DELETE FROM ezurlalias
-WHERE
-     source_url = '$oldURLText' AND
-     forward_to_id != 0";
-        $db->query( $sql );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -283,31 +207,21 @@ WHERE
      to point to correct url \a $newForardID.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function updateForwardID( $newForwardID, $oldForwardID )
     {
-        $db =& eZDB::instance();
-        $oldForwardIDText = $db->escapeString( $oldForwardID );
-        $newForwardIDText = $db->escapeString( $newForwardID );
-        $sql = "UPDATE ezurlalias
-SET
-    forward_to_id = '$newForwardIDText'
-WHERE
-    forward_to_id = '$oldForwardIDText'";
-
-        $db->query( $sql );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \static
       Fetches the URL alias by ID.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
-                                                null,
-                                                array( "id" => $id ),
-                                                $asObject );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -317,19 +231,11 @@ WHERE
       \param $noForwardID boolean which controls whether to only fetch urls without forward id
                           or if forward id it should be ignored.
       \return the URL alias object or \c null
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
     {
-        $url = eZURLAlias::cleanURL( $url );
-        $conditions = array( "source_url" => $url,
-                             'is_wildcard' => 0,
-                             'is_internal' => ($isInternal ? 1 : 0) );
-        if ( $noForwardID )
-            $conditions['forward_to_id'] = 0;
-        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
-                                                null,
-                                                $conditions,
-                                                $asObject );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -337,45 +243,31 @@ WHERE
       Fetches the URL alias by destination URL \a $url.
       \param $isInternal boolean which controls whether internal or external urls are fetched.
       \return the URL alias object or \c null
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
-        $url = eZURLAlias::cleanURL( $url );
-        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
-                                                null,
-                                                array( "destination_url" => $url,
-                                                       'forward_to_id' => 0,
-                                                       'is_wildcard' => 0,
-                                                       'is_internal' => ($isInternal ? 1 : 0) ),
-                                                $asObject );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \static
       Fetches non-internal URL alias by offset and limit
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchByOffset( $offset, $limit, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                    null,
-                                                    array( "is_internal" => 0 ),
-                                                    null,
-                                                    array( 'offset' => $offset, 'length' => $limit ),
-                                                    $asObject );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \static
       Fetches all wildcards from DB.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchWildcards( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                    null,
-                                                    array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -386,143 +278,50 @@ WHERE
      - file - The filename for the cache
      - path - The entire path (including filename) for the cache
      - keys - Array with key values which is used to uniquely identify the cache
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cacheInfo()
     {
-        $cacheDir = eZSys::cacheDirectory();
-        $ini =& eZINI::instance();
-        $keys = array( 'implementation' => $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' ),
-                       'server' => $ini->variable( 'DatabaseSettings', 'Server' ),
-                       'database' => $ini->variable( 'DatabaseSettings', 'Database' ) );
-        $wildcardKey = md5( implode( "\n", $keys ) );
-        $wildcardCacheDir = "$cacheDir/wildcard";
-        $wildcardCacheFile = "wildcard_$wildcardKey.php";
-        $wildcardCachePath = "$wildcardCacheDir/$wildcardCacheFile";
-        return array( 'dir' => $wildcardCacheDir,
-                      'file' => $wildcardCacheFile,
-                      'path' => $wildcardCachePath,
-                      'keys' => $keys );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Sets the various cache information to the parameters.
      \sa cacheInfo
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
     {
-        $info = eZURLAlias::cacheInfo();
-        $wildcardCacheDir = $info['dir'];
-        $wildcardCacheFile = $info['file'];
-        $wildcardCachePath = $info['path'];
-        $wildcardKeys = $info['keys'];
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Goes trough all wildcards in the database and creates the wildcard match cache.
      \sa cacheInfo
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function createWildcardMatches()
     {
-        eZURLAlias::cacheInfoDirectories( $wildcardCacheDir, $wildcardCacheFile, $wildcardCachePath, $wildcardKeys );
-        if ( !file_exists( $wildcardCacheDir ) )
-        {
-            eZDir::mkdir( $wildcardCacheDir, eZDir::directoryPermission(), true );
-        }
-
-        // VS-DBFILE
-
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile, '', array( 'clustering' => 'wirldcard-cache' ) );
-
-        foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
-        {
-            $phpCache->addComment( "$wildcardKey = $wildcardKeyValue" );
-        }
-        $phpCache->addSpace();
-
-        $phpCode = "function " . EZURLALIAS_CACHE_FUNCTION . "( &\$uri, &\$urlAlias )\n{\n";
-
-        $wildcards = eZURLAlias::fetchWildcards();
-        $counter = 0;
-        foreach ( $wildcards as $wildcard )
-        {
-            $matchWilcard = $wildcard->attribute( 'source_url' );
-            $matchWilcardList = explode( "*", $matchWilcard );
-            $matchWildcardCount = count( $matchWilcardList ) - 1;
-            $regexpList = array();
-            foreach ( $matchWilcardList as $matchWilcardItem )
-            {
-                $regexpList[] = preg_quote( $matchWilcardItem, '#' );
-            }
-            $matchRegexp = implode( '(.*)', $regexpList );
-
-            $replaceWildcard = $wildcard->attribute( 'destination_url' );
-            $replaceWildcardList = preg_split( "#{([0-9]+)}#", $replaceWildcard, false, PREG_SPLIT_DELIM_CAPTURE );
-            $regexpList = array();
-            $replaceCounter = 0;
-            $replaceCode = "\$uri = ";
-            foreach ( $replaceWildcardList as $replaceWildcardItem )
-            {
-                if ( $replaceCounter > 0 )
-                    $replaceCode .= " . ";
-                if ( ( $replaceCounter % 2 ) == 0 )
-                {
-                    $replaceWildcardItemText = $phpCache->variableText( $replaceWildcardItem, 0 );
-                    $replaceCode .= "$replaceWildcardItemText";
-                }
-                else
-                {
-                    $replaceCode .= "\$matches[$replaceWildcardItem]";
-                }
-                ++$replaceCounter;
-            }
-            $replaceRegexp = implode( '', $regexpList );
-
-            $wildcardArray = $wildcard->asArray();
-
-            $phpCode .= "    ";
-            $phpCode .= "if ( preg_match( \"#^$matchRegexp#\", \$uri, \$matches ) )\n    {\n";
-            $phpCode .= "        $replaceCode;\n";
-            $phpCode .= "        \$urlAlias = " . $phpCache->variableText( $wildcardArray, 8 + 12, 0, false ) . ";\n";
-            $phpCode .= "        return true;\n";
-            $phpCode .= "    }\n";
-
-            ++$counter;
-        }
-        $phpCode .= "    return false;\n";
-
-        $phpCode .= "}\n";
-
-        $phpCache->addCodePiece( $phpCode );
-        $phpCache->store( true );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \return true if the wildcard cache is expired.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &isWildcardExpired( $timestamp )
     {
-        $retVal = false;
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        if ( !$handler->hasTimestamp( 'urlalias-wildcard' ) )
-            return $retVal;
-        $expiryTime = $handler->timestamp( 'urlalias-wildcard' );
-        if ( $expiryTime > $timestamp )
-            $retVal = true;
-        return $retVal;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      Expires the wildcard cache. This causes the wildcard cache to be
      regenerated on the next page load.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function expireWildcards()
     {
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'urlalias-wildcard', mktime() );
-        $handler->store();
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -530,137 +329,42 @@ WHERE
      Transforms the URI if there exists an alias for it.
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &translateByWildcard( &$uri, $reverse = false )
     {
-        if ( get_class( $uri ) == "ezuri" )
-        {
-            $uriString = $uri->elements();
-        }
-        else
-        {
-            $uriString = $uri;
-        }
-        $uriString = eZURLAlias::cleanURL( $uriString );
-
-        $info = eZURLAlias::cacheInfo();
-        $hasCache = false;
-        $isExpired = true;
-        $return = false;
-
-        // VS-DBFILE
-
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $cacheFile = eZClusterFileHandler::instance( $info['path'] );
-
-        if ( $cacheFile->exists() )
-        {
-            $timestamp = $cacheFile->mtime();
-            $isExpired = eZURLAlias::isWildcardExpired( $timestamp );
-            $hasCache = true;
-        }
-        if ( $isExpired )
-        {
-            eZURLAlias::createWildcardMatches();
-            $hasCache = true;
-        }
-        if ( $hasCache )
-        {
-            // VS-DBFILE
-
-            $fetchedFilePath = $cacheFile->fetchUnique();
-            include_once( $fetchedFilePath );
-            $cacheFile->fileDeleteLocal( $fetchedFilePath );
-
-            $hasCache = false;
-            if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )
-            {
-                $hasCache = true;
-                $function = EZURLALIAS_CACHE_FUNCTION;
-                $hasTranslated = false;
-                $url = false;
-                $ini =& eZINI::instance();
-                $maxIterationCount = $ini->variable( 'URLTranslator', 'MaximumWildcardIterations' );
-                $iteration = 0;
-                while ( $function( $uriString, $urlAlias ) )
-                {
-                    $hasTranslated = true;
-                    $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
-                    if ( $url )
-                        break;
-                    ++$iteration;
-                    if ( $iteration >= $maxIterationCount )
-                        break;
-                }
-                if ( $hasTranslated )
-                {
-                    if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_FORWARD )
-                    {
-                        if ( !$url )
-                            $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
-                        if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
-                        {
-                            // This will set the forwarded alias as the URL to redirect to.
-                            $return = eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
-                            $uriString = 'error/301';
-                        }
-                        else if ( $url )
-                        {
-                            // This will set the current alias as the URL to redirect to.
-                            $return =& $url;
-                            $uriString = 'error/301';
-                        }
-                    }
-                    else if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_DIRECT )
-                    {
-                        if ( !$url )
-                            $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
-                        if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
-                        {
-                            // This will set the forwarded alias as the URL to use as system URL.
-                            $url = eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
-                            $uriString = $url->attribute( 'destination_url' );
-                            $return = true;
-                        }
-                        else if ( $url )
-                        {
-                            // This will set the current alias as the URL to use as system URL.
-                            $uriString = $url->attribute( 'destination_url' );
-                            $return = true;
-                        }
-                    }
-                }
-            }
-        }
-        if ( !$hasCache )
-        {
-            $return = false;
-            return $return;
-        }
-
-        if ( get_class( $uri ) == "ezuri" )
-        {
-            $uri->setURIString( $uriString, false );
-        }
-        else
-        {
-            $uri = $uriString;
-        }
-        return $return;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \static
       Counts the non-internal URL alias
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &totalCount( )
     {
-        $db =& eZDB::instance();
-        $query = "SELECT count(id) AS count
- FROM ezurlalias
- WHERE is_internal = 0";
-        $res = $db->arrayQuery( $query );
-        return $res[0]['count'];
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
+    }
+
+    /*!
+     \static
+     Converts the path \a $urlElement into a new alias url which only conists of characters
+     in the range a-z, numbers and _.
+     All other characters are converted to _.
+     \return the converted element
+
+     \example
+     'My car' => 'My-car'
+     'What is this?' => 'What-is-this'
+     'This & that' => 'This-that'
+     'myfile.tpl' => 'Myfile-tpl',
+     'רזו' => 'oeaeaa'
+     \endexample
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+    */
+    function convertToAlias( $urlElement, $defaultValue = false )
+    {
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -677,24 +381,13 @@ WHERE
      'myfile.tpl' => 'myfile_tpl',
      'רזו' => 'oeaeaa'
      \endexample
-    */
-    function convertToAlias( $urlElement, $defaultValue = false )
-    {
-        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
 
-        $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
-        if ( strlen( $urlElement ) == 0 )
-        {
-            if ( $defaultValue === false )
-                $urlElement = '_1';
-            else
-            {
-                $urlElement = $defaultValue;
-                $urlElement = $trans->transformByGroup( $urlElement, 'urlalias' );
-            }
-        }
-        return $urlElement;
+     \note Provided for creating url alias as they were before 3.10. Also used to make path_identification_string.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+    */
+    function convertToAliasCompat( $urlElement, $defaultValue = false )
+    {
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -703,20 +396,11 @@ WHERE
      For more information on the conversion see convertToAlias().
      \note each element in the path (separated by / (slash) ) is converted separately.
      \return the converted path
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function convertPathToAlias( $pathURL )
     {
-        $result = array();
-
-        $elements = explode( '/', $pathURL );
-
-        foreach ( $elements as $element )
-        {
-            $element = eZURLAlias::convertToAlias( $element );
-            $result[] = $element;
-        }
-
-        return implode( '/', $result );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
@@ -724,127 +408,22 @@ WHERE
      Transforms the URI if there exists an alias for it.
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function translate( &$uri, $reverse = false )
     {
-        if ( get_class( $uri ) == "ezuri" )
-        {
-            $uriString = $uri->elements();
-        }
-        else
-        {
-            $uriString = $uri;
-        }
-        $uriString = eZURLAlias::cleanURL( $uriString );
-        $internalURIString = $uriString;
-
-        if ( isset( $GLOBALS['eZURLAliasTranslate'][$uriString] ) )
-        {
-            $uri = $GLOBALS['eZURLAliasTranslate'][$uriString]['uri'];
-            return $GLOBALS['eZURLAliasTranslate'][$uriString]['return'];
-        }
-
-        $originalURIString = $uriString;
-
-        $ini =& eZIni::instance();
-        if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-             $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
-        {
-            $prefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-            // Only prepend the path prefix if it's not already the first element of the url.
-            if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
-            {
-                $exclude = $ini->hasVariable( 'SiteAccessSettings', 'PathPrefixExclude' )
-                           ? $ini->variable( 'SiteAccessSettings', 'PathPrefixExclude' )
-                           : false;
-                $breakInternalURI = false;
-                foreach ( $exclude as $item )
-                {
-                    if ( preg_match( "#^$item(/.*)?$#", $uriString )  )
-                    {
-                        $breakInternalURI = true;
-                        break;
-                    }
-                }
-                // We should check if this urlString is internal
-                // If yes we should not use PathPrefix
-                $urlAliasObject = eZURLAlias::fetchBySourceURL( $uriString, false, false );
-                if ( $urlAliasObject )
-                    $breakInternalURI = true;
-
-                if ( !$breakInternalURI )
-                    $internalURIString = eZUrlAlias::cleanURL( eZUrlAlias::cleanURL( $prefix ) . '/' . $uriString );
-            }
-        }
-
-        $db =& eZDB::instance();
-        if ( $reverse )
-        {
-            $query = "SELECT source_url as destination_url, forward_to_id
-FROM ezurlalias
-WHERE destination_url = '" . $db->escapeString( $internalURIString ) . "' AND
-      forward_to_id = 0 AND
-      is_wildcard = 0
-ORDER BY forward_to_id ASC";
-        }
-        else
-        {
-            $query = "SELECT destination_url, forward_to_id
-FROM ezurlalias
-WHERE source_md5 = '" . md5( $internalURIString ) . "' AND
-      is_wildcard = 0
-ORDER BY forward_to_id ASC, is_internal ASC";
-        }
-
-        $return = false;
-        $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
-        if ( count( $urlAliasArray ) > 0 )
-        {
-            $uriString = $urlAliasArray[0]['destination_url'];
-            if ( $uriString == '' )
-                $uriString = '/';
-
-            if ( $urlAliasArray[0]['forward_to_id'] == -1 )
-            {
-                $uriString = 'error/301';
-
-                $return = $urlAliasArray[0]['destination_url'];
-            }
-            else if ( $urlAliasArray[0]['forward_to_id'] != 0 )
-            {
-                $uriString = 'error/301';
-
-                $return = eZURLAlias::fetch( $urlAliasArray[0]['forward_to_id'] );
-            }
-            else
-            {
-                $return = true;
-            }
-        }
-
-        if ( get_class( $uri ) == "ezuri" )
-        {
-            $uri->setURIString( $uriString, false );
-        }
-        else
-        {
-            $uri = $uriString;
-        }
-
-        $GLOBALS['eZURLAliasTranslate'][$originalURIString] = array( 'return' => $return,
-                                                                     'uri' => $uri );
-
-        return $return;
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 
     /*!
      \static
      Makes sure the URL \a $url does not contain leading and trailing slashes (/).
      \return the clean URL
+     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanURL( $url )
     {
-        return trim( $url, '/ ' );
+        die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
 }
 

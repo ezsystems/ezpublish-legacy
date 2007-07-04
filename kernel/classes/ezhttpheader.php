@@ -79,10 +79,10 @@ class eZHTTPHeader
 
         $contentView = false;
 
-        include_once( 'kernel/classes/ezurlalias.php' );
-        $uriString = eZURLAlias::cleanURL( $uri->uriString() );
+        include_once( 'kernel/classes/ezurlaliasml.php' );
+        $uriString = eZURLAliasML::cleanURL( $uri->uriString() );
 
-        // If content/view used, get path_identification_string.
+        // If content/view used, get url alias for node
         if ( strpos( $uriString, 'content/view/' ) === 0 )
         {
             $urlParts = explode( '/', $uriString );
@@ -93,36 +93,33 @@ class eZHTTPHeader
             }
 
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $resultSet = eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
-                                                          array( 'path_identification_string' ),
-                                                          array( 'node_id' => $nodeID ),
-                                                          false );
-            if ( !$resultSet )
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
+            if ( !$node )
             {
                 return $headerArray;
             }
 
-            $uriString = $resultSet['path_identification_string'];
+            $uriString = $node->pathWithNames();
             $contentView = true;
         }
         else
         {
             $uriCopy = $uri;
-            eZURLAlias::translate( $uriCopy );
+            eZURLAliasML::translate( $uriCopy );
             if ( strpos( $uriCopy->uriString(), 'content/view' ) === 0 )
             {
                 $contentView = true;
             }
         }
 
-        $uriString = '/' . eZURLAlias::cleanURL( $uriString );
+        $uriString = '/' . eZURLAliasML::cleanURL( $uriString );
         $ini = eZINI::instance();
 
         foreach( $ini->variable( 'HTTPHeaderSettings', 'HeaderList' ) as $header )
         {
             foreach( $ini->variable( 'HTTPHeaderSettings', $header ) as $path => $value )
             {
-                $path = '/' . eZURLAlias::cleanURL( $path );
+                $path = '/' . eZURLAliasML::cleanURL( $path );
                 if ( strlen( $path ) == 1 &&
                      !$contentView &&
                      $uriString != '/' )

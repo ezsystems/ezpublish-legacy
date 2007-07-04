@@ -748,7 +748,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                     $insertedNode->setAttribute( 'contentobject_is_published', 1 );
                     $insertedNode->setAttribute( 'main_node_id', $node->attribute( 'main_node_id' ) );
                     $insertedNode->setAttribute( 'contentobject_version', $node->attribute( 'contentobject_version' ) );
-                    // Make sure the path_identification_string is set correctly.
+                    // Make sure the url alias is set updated.
                     $insertedNode->updateSubTreePath();
                     $insertedNode->sync();
 

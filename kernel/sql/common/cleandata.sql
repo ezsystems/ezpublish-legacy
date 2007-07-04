@@ -26,6 +26,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -43,6 +44,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:6:\"Folder\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -61,6 +63,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   0,
@@ -78,6 +81,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:7:\"Article\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -96,6 +100,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -113,6 +118,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:10:\"User group\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -131,6 +137,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -148,6 +155,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:4:\"User\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -166,6 +174,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -183,6 +192,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:5:\"Image\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -201,6 +211,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   0,
@@ -218,6 +229,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:4:\"Link\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -236,6 +248,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -253,6 +266,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:4:\"File\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -271,6 +285,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   0,
@@ -288,6 +303,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:7:\"Comment\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -306,6 +322,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -323,6 +340,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:19:\"Common ini settings\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 INSERT INTO ezcontentclass (
@@ -341,6 +359,7 @@ INSERT INTO ezcontentclass (
   serialized_name_list,
   sort_field,
   sort_order,
+  url_alias_name,
   version
 ) VALUES (
   1,
@@ -358,6 +377,7 @@ INSERT INTO ezcontentclass (
   'a:2:{s:6:\"eng-GB\";s:13:\"Template look\";s:16:\"always-available\";s:6:\"eng-GB\";}',
   1,
   1,
+  NULL,
   0
 );
 
@@ -22523,6 +22543,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22531,6 +22552,7 @@ INSERT INTO ezurlalias (
   'content/view/full/2',
   0,
   12,
+  0,
   1,
   0,
   'd41d8cd98f00b204e9800998ecf8427e',
@@ -22540,6 +22562,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22548,6 +22571,7 @@ INSERT INTO ezurlalias (
   'content/view/full/5',
   0,
   13,
+  0,
   1,
   0,
   '9bc65c2abec141778ffaa729489f3e87',
@@ -22557,6 +22581,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22565,6 +22590,7 @@ INSERT INTO ezurlalias (
   'content/view/full/12',
   0,
   15,
+  0,
   1,
   0,
   '02d4e844e3a660857a3f81585995ffe1',
@@ -22574,6 +22600,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22582,6 +22609,7 @@ INSERT INTO ezurlalias (
   'content/view/full/13',
   0,
   16,
+  0,
   1,
   0,
   '1b1d79c16700fd6003ea7be233e754ba',
@@ -22591,6 +22619,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22599,6 +22628,7 @@ INSERT INTO ezurlalias (
   'content/view/full/14',
   0,
   17,
+  0,
   1,
   0,
   '0bb9dd665c96bbc1cf36b79180786dea',
@@ -22608,6 +22638,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22616,6 +22647,7 @@ INSERT INTO ezurlalias (
   'content/view/full/15',
   0,
   18,
+  0,
   1,
   0,
   'f1305ac5f327a19b451d82719e0c3f5d',
@@ -22625,6 +22657,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22633,6 +22666,7 @@ INSERT INTO ezurlalias (
   'content/view/full/43',
   0,
   20,
+  0,
   1,
   0,
   '62933a2951ef01f4eafd9bdf4d3cd2f0',
@@ -22642,6 +22676,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22650,6 +22685,7 @@ INSERT INTO ezurlalias (
   'content/view/full/44',
   0,
   21,
+  0,
   1,
   0,
   '3ae1aac958e1c82013689d917d34967a',
@@ -22659,6 +22695,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22667,6 +22704,7 @@ INSERT INTO ezurlalias (
   'content/view/full/45',
   0,
   22,
+  0,
   1,
   0,
   'aad93975f09371695ba08292fd9698db',
@@ -22676,6 +22714,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22684,6 +22723,7 @@ INSERT INTO ezurlalias (
   'content/view/full/48',
   0,
   25,
+  0,
   1,
   0,
   'a0f848942ce863cf53c0fa6cc684007d',
@@ -22693,6 +22733,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22701,6 +22742,7 @@ INSERT INTO ezurlalias (
   'content/view/full/50',
   0,
   27,
+  0,
   1,
   0,
   'c60212835de76414f9bfd21eecb8f221',
@@ -22710,6 +22752,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22718,6 +22761,7 @@ INSERT INTO ezurlalias (
   'content/view/full/51',
   0,
   28,
+  0,
   1,
   0,
   '38985339d4a5aadfc41ab292b4527046',
@@ -22727,6 +22771,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22735,6 +22780,7 @@ INSERT INTO ezurlalias (
   'content/view/full/52',
   0,
   29,
+  0,
   1,
   0,
   'ad5a8c6f6aac3b1b9df267fe22e7aef6',
@@ -22744,6 +22790,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22752,6 +22799,7 @@ INSERT INTO ezurlalias (
   'content/view/full/53',
   0,
   30,
+  0,
   1,
   0,
   '562a0ac498571c6c3529173184a2657c',
@@ -22761,6 +22809,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22769,6 +22818,7 @@ INSERT INTO ezurlalias (
   'content/view/full/54',
   0,
   31,
+  0,
   1,
   0,
   'e501fe6c81ed14a5af2b322d248102d8',
@@ -22778,6 +22828,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22786,6 +22837,7 @@ INSERT INTO ezurlalias (
   'content/view/full/56',
   0,
   32,
+  0,
   1,
   0,
   '2dd3db5dc7122ea5f3ee539bb18fe97d',
@@ -22795,6 +22847,7 @@ INSERT INTO ezurlalias (
   destination_url,
   forward_to_id,
   id,
+  is_imported,
   is_internal,
   is_wildcard,
   source_md5,
@@ -22803,6 +22856,7 @@ INSERT INTO ezurlalias (
   'content/view/full/58',
   0,
   33,
+  0,
   1,
   0,
   '31c13f47ad87dd7baa2d558a91e0fbb9',

@@ -167,16 +167,35 @@ $ViewList['search'] = array(
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['urlalias'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'urlalias.php',
+    'ui_context' => 'administration',
+    'single_post_actions' => array( 'NewAliasButton' => 'NewAlias',
+                                    'RemoveAliasButton' => 'RemoveAlias' ),
+    'post_action_parameters' => array( 'RemoveAlias' => array( 'ElementList' => 'ElementList' ),
+                                       'NewAlias' => array( 'LanguageCode' => 'LanguageCode',
+                                                            'AliasText' => 'AliasText' ) ),
+    'params' => array( 'NodeID' ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
+
 $ViewList['urltranslator'] = array(
     'functions' => array( 'urltranslator' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'script' => 'urltranslator.php',
+    'script' => 'urlalias_global.php',
     'ui_context' => 'administration',
-    'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
+    'single_post_actions' => array( 'NewAliasButton' => 'NewAlias',
+                                    'RemoveAliasButton' => 'RemoveAlias' ),
+    'post_action_parameters' => array( 'RemoveAlias' => array( 'ElementList' => 'ElementList' ),
+                                       'NewAlias' => array( 'LanguageCode' => 'LanguageCode',
+                                                            'AliasSourceText' => 'AliasSourceText',
+                                                            'AliasDestinationText' => 'AliasDestinationText' ) ),
+/*    'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
                                     'NewForwardURLAliasButton' => 'NewForwardURLAlias',
                                     'NewWildcardURLAliasButton' => 'NewWildcardURLAlias',
                                     'RemoveURLAliasButton' => 'RemoveURLAlias',
-                                    'StoreURLAliasButton' => 'StoreURLAlias' ),
+                                    'StoreURLAliasButton' => 'StoreURLAlias' ),*/
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 

@@ -71,3 +71,41 @@ ALTER TABLE ONLY ezisbn_registrant_range
     ADD CONSTRAINT ezisbn_registrant_range_pkey PRIMARY KEY (id);
 
 -- Add new tables for the isbn datatype. -- END --
+
+-- URL alias name pattern
+ALTER TABLE ezcontentclass ADD COLUMN url_alias_name VARCHAR(255);
+
+-- URL alias
+CREATE TABLE ezurlalias_ml (
+  id        integer NOT NULL DEFAULT 0,
+  parent    integer NOT NULL DEFAULT 0,
+  lang      varchar(255) NOT NULL DEFAULT '',
+  lang_mask integer NOT NULL DEFAULT 0,
+  text      text NOT NULL DEFAULT '',
+  text_md5  varchar(32) NOT NULL DEFAULT '',
+  action    text NOT NULL DEFAULT '',
+  action_type varchar(32) NOT NULL DEFAULT '',
+  link      integer NOT NULL DEFAULT 0,
+  is_original integer NOT NULL DEFAULT 0,
+  is_alias    integer NOT NULL DEFAULT 0
+  );
+
+ALTER TABLE ONLY ezurlalias_ml
+    ADD CONSTRAINT ezurlalias_ml_pkey PRIMARY KEY (parent, text_md5);
+CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_mask, parent);
+CREATE INDEX ezurlalias_ml_text ON ezurlalias_ml USING btree (text, id, link);
+CREATE INDEX ezurlalias_ml_action ON ezurlalias_ml USING btree (action, id, link);
+CREATE INDEX ezurlalias_ml_par_txt ON ezurlalias_ml USING btree (parent, text);
+CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, link, text);
+CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree (parent, action, id, link);
+CREATE INDEX ezurlalias_ml_id ON ezurlalias_ml USING btree (id);
+CREATE INDEX ezurlalias_ml_act_org ON ezurlalias_ml USING btree (action,is_original);
+CREATE INDEX ezurlalias_ml_actt_org_al ON ezurlalias_ml USING btree (action_type, is_original, is_alias);
+CREATE INDEX ezurlalias_ml_actt ON ezurlalias_ml USING btree (action_type);
+
+-- Update old urlalias table for the import
+ALTER TABLE ezurlalias ADD COLUMN is_imported integer NOT NULL DEFAULT 0;
+CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is_wildcard, forward_to_id);
+
+DROP INDEX ezurlalias_is_wildcard;
+CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);

@@ -1303,6 +1303,7 @@ CREATE TABLE ezcontentclass (
     serialized_name_list text,
     sort_field integer DEFAULT 1 NOT NULL,
     sort_order integer DEFAULT 1 NOT NULL,
+    url_alias_name character varying(255),
     "version" integer DEFAULT 0 NOT NULL
 );
 
@@ -2434,10 +2435,31 @@ CREATE TABLE ezurlalias (
     destination_url text NOT NULL,
     forward_to_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezurlalias_s'::text) NOT NULL,
+    is_imported integer DEFAULT 0 NOT NULL,
     is_internal integer DEFAULT 1 NOT NULL,
     is_wildcard integer DEFAULT 0 NOT NULL,
     source_md5 character varying(32),
     source_url text NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezurlalias_ml (
+    "action" text NOT NULL,
+    action_type character varying(32) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT 0 NOT NULL,
+    is_alias integer DEFAULT 0 NOT NULL,
+    is_original integer DEFAULT 0 NOT NULL,
+    lang character varying(255) DEFAULT ''::character varying NOT NULL,
+    lang_mask integer DEFAULT 0 NOT NULL,
+    link integer DEFAULT 0 NOT NULL,
+    parent integer DEFAULT 0 NOT NULL,
+    text text NOT NULL,
+    text_md5 character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -3502,7 +3524,7 @@ CREATE INDEX ezurlalias_forward_to_id ON ezurlalias USING btree (forward_to_id);
 
 
 
-CREATE INDEX ezurlalias_is_wildcard ON ezurlalias USING btree (is_wildcard);
+CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is_wildcard, forward_to_id);
 
 
 
@@ -3519,6 +3541,94 @@ CREATE INDEX ezurlalias_source_md5 ON ezurlalias USING btree (source_md5);
 
 
 CREATE INDEX ezurlalias_source_url ON ezurlalias USING btree (source_url);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_act_org ON ezurlalias_ml USING btree ("action", is_original);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_action ON ezurlalias_ml USING btree ("action", id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_actt ON ezurlalias_ml USING btree (action_type);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_actt_org_al ON ezurlalias_ml USING btree (action_type, is_original, is_alias);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_id ON ezurlalias_ml USING btree (id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree (parent, "action", id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, link, text);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_txt ON ezurlalias_ml USING btree (parent, text);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_text ON ezurlalias_ml USING btree (text, id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_mask, parent);
 
 
 
@@ -4317,6 +4427,15 @@ ALTER TABLE ONLY ezurl
 
 ALTER TABLE ONLY ezurlalias
     ADD CONSTRAINT ezurlalias_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezurlalias_ml
+    ADD CONSTRAINT ezurlalias_ml_pkey PRIMARY KEY (parent, text_md5);
 
 
 
