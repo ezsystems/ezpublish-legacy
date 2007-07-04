@@ -223,8 +223,7 @@ function downloadPackages( $packageList, $packageURL, $packageDir, $packageRepos
             }
             else
             {
-                //lazy: $action = getUserInput( "Package '$packageName' already imported. Import it anyway? [y/n]: " );
-                $action = 'n';
+                $action = getUserInput( "Package '$packageName' already imported. Import it anyway? [y/n]: " );
             }
 
             if ( strpos( $action, 'n' ) === 0 )
@@ -372,8 +371,7 @@ function installPackages( $packageList, $params = array() )
                     }
                     else
                     {
-                        //lazy: $action = handlePackageError( $params['error'] );
-                        $action = 1;
+                        $action = handlePackageError( $params['error'] );
                     }
 
                     $params['error']['choosen_action'] = $action;
