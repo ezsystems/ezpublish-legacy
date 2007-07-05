@@ -600,6 +600,20 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+      Validates the data contents, returns true on success false if the data
+      does not validate.
+     */
+    function validateAddToBasket( $data, &$errors )
+    {
+        $dataType = $this->dataType();
+        if ( $dataType )
+        {
+            $this->AddToBasketIsValid = $dataType->validateAddToBasket( $this, $data, $errors );
+        }
+        return $this->AddToBasketIsValid;
+    }
+
+    /*!
      Sets the current input parameters to \a $parameters.
      The input parameters are set by validateInput() and made avaiable to
      datatypes trough the function inputParameters().

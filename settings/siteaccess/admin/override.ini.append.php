@@ -77,6 +77,12 @@ MatchFile=admin_preview/image.tpl
 Subdir=templates
 Match[class_identifier]=image
 
+[tiny_image]
+Source=content/view/tiny.tpl
+MatchFile=tiny_image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
 [link]
 Source=node/view/admin_preview.tpl
 MatchFile=admin_preview/link.tpl

@@ -922,6 +922,23 @@ class eZDataType
     }
 
     /*!
+     \return true if the datatype requires validation during add to basket procedure
+    */
+    function isAddToBasketValidationRequired()
+    {
+        return false;
+    }
+    /*!
+     Validates the input for an object attribute during add to basket process
+     and returns a validation state as defined in eZInputValidator.
+     \note Default implementation does nothing and returns accepted.
+    */
+    function validateAddToBasket( &$objectAttribute, $data, &$errors )
+    {
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
+    /*!
      Queries the datatype if the attribute containing this datatype can be
      removed from the class. This can be used by datatypes to ensure
      that very important datatypes that could cause system malfunction is

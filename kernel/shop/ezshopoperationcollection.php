@@ -36,6 +36,7 @@
   \brief The class eZShopOperationCollection does
 
 */
+include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 
 class eZShopOperationCollection
 {
@@ -374,6 +375,32 @@ class eZShopOperationCollection
         }
         if ( $hasOptionSet )
             return $returnStatus;
+
+
+        $unvalidatedAttributes = array();
+        foreach ( $attributes as $attribute )
+        {
+            $dataType = $attribute->dataType();
+
+            if ( $dataType->isAddToBasketValidationRequired() )
+            {
+                $errors = array();
+                if ( $attribute->validateAddToBasket( $optionList[$attribute->attribute('id')], $errors ) !== EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+                {
+                    $description = $errors;
+                    $contentClassAttribute =& $attribute->contentClassAttribute();
+                    $attributeName = $contentClassAttribute->attribute( 'name' );
+                    $unvalidatedAttributes[] = array( "name" => $attributeName,
+                                                      "description" => $description );
+                }
+            }
+        }
+        if ( count( $unvalidatedAttributes ) > 0 )
+        {
+            return array( 'status' => EZ_MODULE_OPERATION_CANCELED,
+                          'reason' => 'validation',
+                          'error_data' => $unvalidatedAttributes );
+        }
 
         $basket =& eZBasket::currentBasket();
 
