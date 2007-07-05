@@ -344,3 +344,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #009772: RSS import extension does not work.
 - Fixed bug #10392: bug in ezurl operator (additionally fix for default siteaccess handling).
 - Fixed bug #10242: $node.children returns unsortet list.
+- Fixed bug #10319: Workflow crash with copied objects.

@@ -1406,6 +1406,7 @@ class eZContentObject extends eZPersistentObject
         // Set new unique remote_id
         $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
         $contentObject->setAttribute( 'remote_id', $newRemoteID );
+        $contentObject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
 
         $contentObject->store();
 
