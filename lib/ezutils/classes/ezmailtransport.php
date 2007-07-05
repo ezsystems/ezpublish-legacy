@@ -74,50 +74,6 @@ class eZMailTransport
         }
         $ini = eZINI::instance();
 
-        // DebugEmailToEmail feature
-        // Modify all email receivers to exactly one email address
-        if ( $ini->hasVariable( 'MailSettings', 'DebugEmailToEmail' )                  &&
-             ( $destination = $ini->variable( 'MailSettings', 'DebugEmailToEmail' ) )
-           )
-        {
-            $original = '';
-            foreach ( $mail->receiverElements() as $recv)
-            {
-                $original .= $recv['email'] . ', ';
-            }
-            foreach ( $mail->bccElements()      as $recv)
-            {
-                $original .= $recv['email'] . ', ';
-            }
-            $original = substr( $original, 0, -2 );
-            $mail->setSubject( '[DebugEmail: ' . $original . '] ' . $mail->subject() );
-            $mail->setReceiver( $destination );
-            $mail->setBCCElements( array() );
-        }
-
-        // DebugEmailLog feature
-        // Write email text into a log file instead of sending an email
-        if ( $ini->hasVariable( 'MailSettings', 'DebugEmailLog' )                        &&
-             ( $path = realpath( $ini->variable( 'MailSettings', 'DebugEmailLog' ) ) )
-           )
-        {
-            $fp = @fopen( $path, 'a' );
-            if ( !$fp )
-            {
-                eZDebug::writeError( 'Cannot open maillog (' . $path . ') for writing.', 'eZMailTransport::send' );
-            }
-            else
-            {
-                fwrite( $fp, sprintf( "[%s] To: %s; Subject: %s\n", date('r'),
-                                      $mail->receiverEmailText(),
-				      $mail->subject()
-                                    )
-                      );
-                fclose( $fp );
-            }
-            return true;
-        }
-
         $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
         $transportObject =& $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )];
         if ( !isset( $transportObject ) or

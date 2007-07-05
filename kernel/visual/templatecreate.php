@@ -26,15 +26,12 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$http           =  eZHTTPTool::instance();
-$module         =& $Params['Module'];
-$parameters     =& $Params['Parameters'];
-$userParameters =& $Params['UserParameters'];
+$http = eZHTTPTool::instance();
+$module =& $Params["Module"];
+$parameters =& $Params["Parameters"];
 
-$overrideKeys = array( 'nodeID'       => $Params['NodeID'],
-                       'parentNodeID' => '',
-                       'classID'      => $Params['ClassID']
-                     );
+$overrideKeys = array( 'nodeID' => $Params['NodeID'],
+                       'classID' => $Params['ClassID'] );
 
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
@@ -46,42 +43,10 @@ $tpl =& templateInit();
 
 // Todo: read from siteaccess settings
 $siteAccess = $Params['SiteAccess'];
-if ( $siteAccess )
-{
+if( $siteAccess )
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
-}
 else
-{
     $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-}
-
-$location         = '';
-$type             = '';
-$overridePath     = '';
-$availableDesigns = array();
-
-if ( array_key_exists( 'location', $userParameters ) )
-{
-    $location = $userParameters['location'];
-}
-elseif ( $http->hasPostVariable( 'location' ) )
-{
-    $location = $http->postVariable( 'location' );
-}
-
-if ( array_key_exists( 'type', $userParameters ) )
-{
-    $type = $userParameters['type'];
-}
-elseif ( $http->hasPostVariable( 'type' ) )
-{
-    $type = $http->postVariable( 'type' );
-}
-
-if ( $http->hasPostVariable( 'OverridePath' ) )
-{
-    $overridePath = $http->postVariable( 'OverridePath' );
-}
 
 $siteBase = $siteAccess;
 
@@ -96,7 +61,6 @@ foreach ( $parameters as $param )
     $template .= "/$param";
 }
 
-$availableDesigns = getAvailableDesigns( $location, $type, $template );
 
 $templateType = 'default';
 if ( strpos( $template, "node/view" ) )
@@ -119,74 +83,15 @@ else if ( strpos( $template, "pagelayout.tpl" ) )
 $error = false;
 $templateName = false;
 
-if ( $module->isCurrentAction( 'CreateOverride' ) && $type == 'design' )
-{
-    if ( $overridePath != '' )
-    {
-        $fileName = $overridePath . '/templates' . $template;
-        $filePath = $overridePath . '/templates';
-    }
-    else
-    {
-        $fileName = 'design/' . $siteDesign . '/templates' . $template;
-        $filePath = 'design/' . $siteDesign . '/templates';
-    }
-    $templateCode = '';
-    switch ( $http->postVariable( 'TemplateContent' ) )
-    {
-        case 'DefaultCopy':
-        {
-            $siteAccess   = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-            $templateCode = readDefaultFile( $siteAccess, $template );
-        }
-        break;
-        case 'EmptyFile':
-        default:
-        {
-        }
-        break;
-    }
-
-    $directory_structure = substr( $fileName, 0, strrpos( $fileName, '/' ) );
-    if ( !file_exists( $directory_structure ) )
-    {
-        $dirPermission = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
-        eZDir::mkdir( $directory_structure, eZDir::directoryPermission(), true );
-    }
-
-    if ( writeTemplate( $fileName, $templateCode ) )
-    {
-        clearCaches();
-    }
-    else
-    {
-        $error = 'permission_denied';
-        eZDebug::writeError( 'Could not create design template, check permissions on ' . $fileName );
-    }
-
-    if ( $error == false )
-    {
-        $module->redirectTo( '/visual/templateedit/' . $fileName . '/(type)/' . $type );
-        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
-    }
-}
-elseif ( $module->isCurrentAction( 'CreateOverride' ) && $type == 'override' )
+if ( $module->isCurrentAction( 'CreateOverride' ) )
 {
     $templateName = trim( $http->postVariable( 'TemplateName' ) );
 
     if ( preg_match( "#^[0-9a-z_]+$#", $templateName ) )
     {
         $templateName = trim( $http->postVariable( 'TemplateName' ) );
-        if ( $overridePath != '' )
-        {
-            $fileName = $overridePath . '/override/templates/' . $templateName . '.tpl';
-            $filePath = $overridePath . '/override/templates';
-        }
-        else
-        {
-            $fileName = "design/$siteDesign/override/templates/" . $templateName . ".tpl";
-            $filePath = "design/$siteDesign/override/templates";
-        }
+        $fileName = "design/$siteDesign/override/templates/" . $templateName . ".tpl";
+        $filePath = "design/$siteDesign/override/templates";
 
         $templateCode = "";
         switch ( $templateType )
@@ -219,8 +124,17 @@ elseif ( $module->isCurrentAction( 'CreateOverride' ) && $type == 'override' )
             eZDir::mkdir( $filePath, eZDir::directoryPermission(), true );
         }
 
-        if ( writeTemplate( $fileName, $templateCode ) )
+
+        $fp = fopen( $fileName, "w+" );
+        if ( $fp )
         {
+            $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+            $oldumask = umask( 0 );
+            fwrite( $fp, $templateCode );
+            fclose( $fp );
+            chmod( $fileName, octdec( $filePermission ) );
+            umask( $oldumask );
+
             // Store override.ini.append file
             $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
             $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
@@ -244,13 +158,19 @@ elseif ( $module->isCurrentAction( 'CreateOverride' ) && $type == 'override' )
                 $overrideINI->setVariable( $templateName, 'Match', $matchArray );
             }
 
-            $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
             $oldumask = umask( 0 );
             $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
             chmod( "settings/siteaccess/$siteAccess/override.ini.append.php", octdec( $filePermission ) );
             umask( $oldumask );
 
-            clearCaches();
+            // Expire content view cache
+            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            eZContentCacheManager::clearAllContentCache();
+
+            // Clear override cache
+            $cachedDir = eZSys::cacheDirectory();
+            $cachedDir .= "/override/";
+            eZDir::recursiveDelete( $cachedDir );
         }
         else
         {
@@ -275,108 +195,6 @@ else if( $module->isCurrentAction( 'CancelOverride' ) )
 }
 
 
-function getAvailableDesigns( $location, $type, $template )
-{
-    $availableDesigns = array();
-    $extensionPath    = 'extension/' . $location . '/design';
-    if ( $location == 'default' )
-    {
-        $extensionPath = 'design';
-    }
-    if ( is_dir( $extensionPath ) )
-    {
-        if ( $dh = opendir( $extensionPath ) )
-        {
-            while ( ( $file = readdir( $dh ) ) !== false )
-            {
-                $filename = $extensionPath . '/' . $file;
-                if ( !ereg( '^\.', $file ) && is_dir( $filename ) && is_writeable( $filename ) )
-                {
-                    if ( $type == 'design' )
-                    {
-                        if ( !file_exists( $filename . '/templates' . $template ) )
-                        {
-                            $availableDesigns[$file] = $filename;
-                        }
-                    }
-                    else
-                    {
-                        $availableDesigns[$file] = $filename;
-                    }
-                }
-		else
-                {
-                    eZDebug::writeNotice( 'Skipped file ' . $filename );
-                }
-            }
-        }
-        else
-        {
-            eZDebug::writeWarning( 'Unable to read directory ' . $extensionPath );
-        }
-    }
-    else
-    {
-        eZDebug::writeWarning( 'Submitted location ' . $extensionPath . ' is not a directory.' );
-    }
-    return $availableDesigns;
-}
-
-function readDefaultFile( $siteAccess, $template )
-{
-    $templateCode  = '';
-    $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
-    $fileName      = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
-    $fp = fopen( $fileName, 'rb' );
-    if ( $fp )
-    {
-        $codeFromFile = fread( $fp, filesize( $fileName ) );
-
-        // Remove the "{* DO NOT EDIT... *}" first line (if exists).
-        $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
-    }
-    else
-    {
-        eZDebug::writeError( 'Could not open file ' . $fileName . ', check read permissions' );
-    }
-    fclose( $fp );
-    return $templateCode;
-}
-
-function clearCaches()
-{
-    include_once( 'kernel/classes/ezcache.php' );
-    eZCache::clearGlobalINICache();
-
-    // Expire content view cache
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
-    eZContentCacheManager::clearAllContentCache();
-
-    // Clear override cache
-    $cachedDir  = eZSys::cacheDirectory();
-    $cachedDir .= '/override/';
-    eZDir::recursiveDelete( $cachedDir );
-}
-
-function writeTemplate( $fileName, $templateCode )
-{
-    global $ini;
-    $fp = fopen( $fileName, 'w+' );
-    if ( $fp )
-    {
-        $filePermission = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
-        $oldumask       = umask( 0 );
-        fwrite( $fp, $templateCode );
-        fclose( $fp );
-        chmod( $fileName, octdec( $filePermission ) );
-        umask( $oldumask );
-
-        return true;
-    }
-
-    return false;
-}
-
 function &generateNodeViewTemplate( &$http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
@@ -392,7 +210,21 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
         case 'DefaultCopy' :
         {
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-            $templateCode = readDefaultFile( $siteAccess, $template );
+            $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'rb' );
+            if ( $fp )
+            {
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
         }break;
 
         case 'ContainerTemplate' :
@@ -464,9 +296,9 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
     $matchArray = $http->postVariable( 'Match' );
 
     $templateCode = "";
-    $classID = $matchArray['class_identifier'];
+    $classID = $matchArray['class'];
 
-    $class = eZContentClass::fetchByIdentifier( $classID );
+    $class = eZContentClass::fetch( $classID );
 
     // Check what kind of contents we should create in the template
     switch ( $http->postVariable( 'TemplateContent' ) )
@@ -474,7 +306,21 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
         case 'DefaultCopy' :
         {
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-            $templateCode = readDefaultFile( $siteAccess, $template );
+            $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'rb' );
+            if ( $fp )
+            {
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
         }break;
 
         case 'ViewTemplate' :
@@ -513,7 +359,21 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
         case 'DefaultCopy' :
         {
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-            $templateCode = readDefaultFile( $siteAccess, $template );
+            $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'rb' );
+            if ( $fp )
+            {
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
         }break;
 
         default:
@@ -547,7 +407,21 @@ function &generateDefaultTemplate( &$http, $template, $fileName )
         case 'DefaultCopy' :
         {
             $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-            $templateCode = readDefaultFile( $siteAccess, $template );
+            $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
+            $fileName = $overrideArray[$template]['base_dir'] . $overrideArray[$template]['template'];
+            $fp = fopen( $fileName, 'rb' );
+            if ( $fp )
+            {
+                $codeFromFile = fread( $fp, filesize( $fileName ) );
+
+                // Remove the "{* DO NOT EDIT... *}" first line (if exists).
+                $templateCode = preg_replace('@^{\*\s*DO\sNOT\sEDIT.*?\*}\n(.*)@s', '$1', $codeFromFile);
+            }
+            else
+            {
+                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+            }
+            fclose( $fp );
         }break;
 
         default:
@@ -580,14 +454,6 @@ $tpl->setVariable( 'template_name', $templateName );
 $tpl->setVariable( 'site_base', $siteBase );
 $tpl->setVariable( 'site_design', $siteDesign );
 $tpl->setVariable( 'override_keys', $overrideKeys );
-$tpl->setVariable( 'location', $location );
-$tpl->setVariable( 'designs', $availableDesigns );
-$tpl->setVariable( 'selected_location', $overridePath );
-$tpl->setVariable( 'type', $type );
-$tpl->setVariable( 'current_siteaccess', $siteAccess );
-
-// Should be used in templateedit when clicking on "Back" button
-$http->setSessionVariable( 'visualRedirectTo', '/visual/templateview' . $template );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:visual/templatecreate.tpl" );

@@ -838,34 +838,21 @@ class eZRole extends eZPersistentObject
     /*!
       \return the users and user groups assigned to the current role.
     */
-    function &fetchUserByRole( $offset = 0, $limit = 0 )
+    function &fetchUserByRole( )
     {
         $db = eZDB::instance();
-
-        $db_params = array();
-        if( $limit )
-        {
-            $db_params["offset"] =(int) $offset;
-            $db_params["limit"] =(int) $limit;
-        }
-
 
         $query = "SELECT
                      ezuser_role.contentobject_id as user_id,
                      ezuser_role.limit_value,
                      ezuser_role.limit_identifier,
                      ezuser_role.id
-                     ezuser_role.id,
-                     ezcontentobject.name
                   FROM
                      ezuser_role
-                     ezuser_role, ezcontentobject
                   WHERE
-                    ezuser_role.contentobject_id = ezcontentobject.id AND
-                    ezuser_role.role_id = '$this->ID'
-                  ORDER BY ezcontentobject.name";
+                    ezuser_role.role_id = '$this->ID'";
 
-        $userRoleArray = $db->arrayQuery( $query, $db_params );
+        $userRoleArray = $db->arrayQuery( $query );
         $userRoles = array();
         foreach ( $userRoleArray as $userRole )
         {

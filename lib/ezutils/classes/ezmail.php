@@ -600,7 +600,7 @@ class eZMail
 
      Example: John Doe <john@doe.com> or just john@doe.com
     */
-    function composeEmailName( $item, $key = false, $convert = true )
+    function composeEmailName( $item, $key = false )
     {
         if ( $key !== false and
              isset( $item[$key] ) )

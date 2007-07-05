@@ -611,44 +611,12 @@ class eZContentOperationCollection
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNotificationEvent( $objectID, $versionNum, $notify = 1 )
+    function createNotificationEvent( $objectID, $versionNum )
     {
-        if ( $notify )
-        {
-            include_once( 'kernel/classes/notification/eznotificationevent.php' );
-
-            $ini =& eZini::instance( 'notification.ini' );
-            if ( is_object( $ini ) )
-	    {
-                $classes = $ini->variable( 'NotificationSettings', 'IncludeClasses' );
-                $object  = &eZContentObject::fetch( $objectID );
-                if ( $object )
-                {
-                    $class   = $object->contentClassIdentifier();
-                    if ( in_array( $class, $classes ) )
-                    {
-                        $event = eZNotificationEvent::create( 'ezpublish',
-                                                              array( 'object'  => $objectID,
-                                                                     'version' => $versionNum
-                                                                   )
-                                                            );
-                        $event->store();
-                    }
-                    else
-                    {
-                        eZDebug::writeNotice( 'According to notification.ini no notification will be send for objects of class ' . $class );
-                    }
-                }
-                else
-                {
-                    eZDebug::writeWarning( 'Failed to get instance for object with ID ' . $objectID );
-                }
-            }
-            else
-            {
-                eZDebug::writeWarning( 'Failed to get instance for notification.ini.' );
-            }
-        }
+        include_once( 'kernel/classes/notification/eznotificationevent.php' );
+        $event = eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
+                                                                   'version' => $versionNum ) );
+        $event->store();
     }
 
     /*!

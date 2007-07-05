@@ -1251,50 +1251,6 @@ class eZDBInterface
         return false;
     }
 
-    /*!
-     \static
-
-     This function can be used to create a SQL IN statement to be used in a WHERE clause:
-
-     WHERE columnName IN ( element1, element2, ... )
-
-     By default, the elements that can be submitted as an anonymous array (or an integer value
-     in case of a single element) will just be imploded. Drivers for databases with a limitation
-     of the elements within an IN statement have to reimplement this function. It is also possible
-     to negate the "IN" to a "NOT IN" by using the last parameter of this function.
-
-     Usage:
-
-     $db =& eZDb::instance();
-     $db->generateSQLINStatement( array( 2, 5, 43, ) );
-
-     \param $elements   Elements that should (not) be matched by the IN statment as an integer or anonymous array
-     \param $columnName Column name of the database table the IN statement should be created for
-     \param $not        Will generate a "NOT IN" ( if set to \c true ) statement instead of an "IN" ( if set to
-                        \c false , default )
-
-     \return A string with the correct IN statement like for example
-             "columnName IN ( element1, element2 )"
-     */
-    static function generateSQLINStatement( $elements, $columnName = '', $not = false )
-    {
-        $result    = '';
-        $statement = $columnName . ' IN';
-        if ( $not === true )
-        {
-            $statement = $columnName . ' NOT IN';
-        }
-        if ( is_array( $elements ) )
-        {
-            $result = $statement . ' ( ' . implode( ', ', $elements ) . ' )';
-        }
-        else
-        {
-            $result = $statement . ' ( ' . $elements . ' )';
-        }
-        return $result;
-    }
-
     /// \protectedsection
     /// Contains the current server
     public $Server;

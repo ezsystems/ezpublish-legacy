@@ -37,31 +37,12 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 include_once( 'lib/ezutils/classes/ezmodule.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-include_once( 'kernel/classes/ezpreferences.php' );
 
 include_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
 $Module =& $Params['Module'];
 $roleID =& $Params['RoleID'];
-
-$offset     = $Params['Offset'];
-$item_type  = eZPreferences::value( 'admin_role_limit' );
-$item_type  = min( $item_type, 3);
-$values     = array( 10, 25, 50 );
-$limit      = $values[$item_type-1];
-
-if ( $offset )
-{
-    $offset = (int) $offset;
-}
-
-if ( !is_numeric( $offset ) )
-{
-    $offset = 0;
-}
-
-$viewParameters = array( 'offset' => $offset );
 
 $role = eZRole::fetch( $roleID );
 
@@ -152,8 +133,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
 
 $tpl =& templateInit();
 
-$userArray =& $role->fetchUserByRole( $offset, $limit );
-$userCount =  $role->fetchCountUserByRole();
+$userArray =& $role->fetchUserByRole();
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( 'policies', $policies );
@@ -161,8 +141,6 @@ $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'role', $role );
 
 $tpl->setVariable( 'user_array', $userArray );
-$tpl->setVariable( 'user_array_count', $userCount );
-$tpl->setVariable( 'view_parameters',  $viewParameters );
 
 $Module->setTitle( 'View role - ' . $role->attribute( 'name' ) );
 

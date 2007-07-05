@@ -54,7 +54,6 @@ $ViewList['view'] = array(
     'script' => 'view.php',
     'default_navigation_part' => 'ezusernavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
-    'unordered_params' => array( 'offset' => 'Offset' ),
     'params' => array( 'RoleID' ) );
 $ViewList['assign'] = array(
     'script' => 'assign.php',

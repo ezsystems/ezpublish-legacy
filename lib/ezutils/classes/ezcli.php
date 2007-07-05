@@ -387,9 +387,9 @@ class eZCLI
     {
         if ( $this->isQuiet() )
             return;
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!
@@ -401,9 +401,9 @@ class eZCLI
         if ( $this->isQuiet() )
             return;
         $string = $this->stylize( 'warning', $string );
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!
@@ -415,9 +415,9 @@ class eZCLI
         if ( $this->isQuiet() )
             return;
         $string = $this->stylize( 'error', $string );
-        print( $string );
+        fputs( STDERR, $string );
         if ( $addEOL )
-            print( $this->endlineString() );
+            fputs( STDERR, $this->endlineString() );
     }
 
     /*!

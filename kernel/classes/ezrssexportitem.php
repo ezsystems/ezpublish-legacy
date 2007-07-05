@@ -146,7 +146,6 @@ class eZRSSExportItem extends eZPersistentObject
 
     function &sourcePath()
     {
-        $retValue = null;
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
             include_once( "kernel/classes/ezcontentobjecttreenode.php" );
@@ -154,23 +153,20 @@ class eZRSSExportItem extends eZPersistentObject
             if ( isset( $objectNode ) )
             {
                 $path_array = $objectNode->attribute( 'path_array' );
-                for ( $i = 0; $i < count( $path_array ); ++$i )
+                for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
                     $treenode = eZContentObjectTreeNode::fetch( $path_array[$i], false, false );
-                    if ( is_array( $treenode ) && array_key_exists( 'name', $treenode ) )
-                    {
-                        if ( $i == 0 )
-                        {
-                            $retValue = $treenode['name'];
-                        }
-                        else
-                        {
-                            $retValue .= '/' . $treenode['name'];
-                        }
-                    }
+                    if( $i == 0 )
+                        $retValue = $treenode['name'];
+                    else
+                        $retValue .= '/' . $treenode['name'];
                 }
             }
+            else
+                $retValue = null;
         }
+        else
+            $retValue = null;
         return $retValue;
     }
 

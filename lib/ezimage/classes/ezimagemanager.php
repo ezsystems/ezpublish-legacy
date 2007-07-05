@@ -392,7 +392,7 @@ class eZImageManager
         {
             if ( is_array( $item['match'] ) )
             {
-                if ( array_key_exists( 'info', $mimeData ) && is_array( $mimeData['info'] ) )
+                if ( is_array( $mimeData['info'] ) )
                 {
                     $isMatch = true;
                     $info =& $mimeData['info'];

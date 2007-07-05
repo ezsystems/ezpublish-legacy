@@ -52,31 +52,15 @@ if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
     }
 }
 
-$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-
 // Fetch siteaccess settings for the selected override
 // Default to first defined siteacces if none are selected
 if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
 {
+    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccessList[0] );
 }
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
-
-$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
-
-$templateSettings = false;
-if ( isset( $overrideArray[$template] ) )
-{
-    $templateSettings = $overrideArray[$template];
-}
-
-if ( $http->hasPostVariable( 'EditTemplateButton' ) )
-{
-    // Should be used in templateedit when clicking on "Back" button
-    $http->setSessionVariable( 'visualRedirectTo', '/visual/templateview' . $template );
-    $module->redirectTo( '/visual/templateedit/' . $templateSettings['base_dir'] . $template );
-}
 
 if ( $module->isCurrentAction( 'NewOverride' ) )
 {
@@ -85,16 +69,7 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
         $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $http->postVariable( 'CurrentSiteAccess' ) );
     }
 
-    $appendParameters = '';
-    if ( $http->hasPostVariable( 'NewTemplateLocation' ) )
-    {
-        $appendParameters .= '/(location)/' . $http->postVariable( 'NewTemplateLocation' );
-    }
-    if ( $http->hasPostVariable( 'NewTemplateType' ) )
-    {
-        $appendParameters .= '/(type)/' . $http->postVariable( 'NewTemplateType' );
-    }
-    $module->redirectTo( '/visual/templatecreate' . $template . $appendParameters );
+    $module->redirectTo( '/visual/templatecreate'. $template );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
@@ -132,11 +107,6 @@ if ( $module->isCurrentAction( 'UpdateOverride' ) )
 $overrideINISaveFailed = false;
 $notRemoved = array();
 
-if ( !isset( $templateSettings['custom_match'] ) )
-{
-    $templateSettings['custom_match'] = 0;
-}
-
 if ( $module->isCurrentAction( 'RemoveOverride' ) )
 {
     if ( $http->hasPostVariable( 'RemoveOverrideArray' ) )
@@ -159,43 +129,23 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         foreach ( $removeOverrideArray as $removeOverride )
         {
             $group = $overrideINI->group( $removeOverride );
-            $removedKey = -1;
 
             $fileName = "design/$siteBase/override/templates/" . $group['MatchFile'];
-            if ( $templateSettings['custom_match'] != 0 )
-            {
-                foreach ( $templateSettings['custom_match'] as $matchkey => $match )
-                {
-                    if ( $match['override_name'] == $removeOverride )
-                    {
-                        $fileName = $match['match_file'];
-                        $removedKey = $matchkey;
-                        break;
-                    }
-                }
-            }
 
             if ( unlink( $fileName ) )
             {
                 $overrideINI->removeGroup( $removeOverride );
-                if ( $removedKey > -1 )
-                {
-                    unset( $templateSettings['custom_match'][$removedKey] );
-                }
             }
             else
             {
                 $notRemoved[] = array( 'filename' => $fileName );
+                // eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
             }
-            unset( $removedKey );
         }
         if ( $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" ) == false )
         {
             $overrideINISaveFailed = true;
         }
-
-        include_once( 'kernel/classes/ezcache.php' );
-        eZCache::clearGlobalINICache();
 
         // Expire content view cache
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -208,12 +158,21 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
     }
 }
 
-$tpl->setVariable( 'template_settings',  $templateSettings );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
+
+$templateSettings = false;
+if ( isset( $overrideArray[$template] ) )
+{
+    $templateSettings = $overrideArray[$template];
+}
+
+if ( !isset( $templateSettings['custom_match'] ) )
+    $templateSettings['custom_match'] = 0;
+
+$tpl->setVariable( 'template_settings', $templateSettings );
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
-$tpl->setVariable( 'not_removed',        $notRemoved );
-$tpl->setVariable( 'ini_not_saved',      $overrideINISaveFailed );
-$tpl->setVariable( 'siteaccess_list',    $siteAccessList );
-$tpl->setVariable( 'action_path',        '/visual/templateview' . $templateSettings['template'] );
+$tpl->setVariable( 'not_removed', $notRemoved );
+$tpl->setVariable( 'ini_not_saved', $overrideINISaveFailed );
 
 $siteINI = eZINI::instance( 'site.ini' );
 if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) == 'enabled' )

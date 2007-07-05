@@ -1,5 +1,3 @@
-{def $item_type=ezpreference( 'admin_role_limit' )
-     $number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 )}
 <form name="role" method="post" action={concat( $module.functions.view.uri, '/', $role.id, '/')|ezurl}>
 
 <div class="context-block">
@@ -94,44 +92,14 @@
 
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Users and groups using the <%role_name> role [%users_count]'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array_count) )|wash}</h2>
+<h2 class="context-title">{'Users and groups using the <%role_name> role [%users_count]'|i18n( 'design/admin/role/view',, hash('%role_name', $role.name, '%users_count', $user_array|count) )|wash}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
-<div class="context-toolbar">
-<div class="block">
-<div class="left">
-    <p>
-    {switch match=$number_of_items}
-    {case match=25}
-        <a href={'/user/preferences/set/admin_role_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-        <span class="current">25</span>
-        <a href={'/user/preferences/set/admin_role_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
 
-        {/case}
-
-        {case match=50}
-        <a href={'/user/preferences/set/admin_role_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-        <a href={'/user/preferences/set/admin_role_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-        <span class="current">50</span>
-        {/case}
-
-        {case}
-        <span class="current">10</span>
-        <a href={'/user/preferences/set/admin_role_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-        <a href={'/user/preferences/set/admin_role_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
-        {/case}
-
-        {/switch}
-    </p>
-</div>
-
-<div class="break"></div>
-
-</div>
 {section show=$user_array}
 <table class="list" cellspacing="0">
 <tr>
@@ -170,14 +138,6 @@
 </tr>
 {/section}
 </table>
-<div class="context-toolbar">
-{include name=navigator
-         uri='design:navigator/google.tpl'
-         page_uri=concat( $module.functions.view.uri, '/', $role.id )
-         item_count=$user_array_count
-         view_parameters=$view_parameters
-         item_limit=$number_of_items}
-</div>
 {section-else}
 <div class="block">
 <p>
