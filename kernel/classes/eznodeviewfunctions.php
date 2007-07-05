@@ -228,30 +228,10 @@ class eZNodeviewfunctions
         {
             $serializeString = serialize( $Result );
 
-            if ( !file_exists( $cacheDir ) )
-            {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
-                $ini =& eZINI::instance();
-                $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-                eZDir::mkdir( $cacheDir, $perm, true );
-            }
-            $oldumask = umask( 0 );
-            $pathExisted = file_exists( $cachePath );
-            $ini =& eZINI::instance();
-            $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
-            $fp = @fopen( $cachePath, "w" );
-            if ( !$fp )
-                eZDebug::writeError( "Could not open file '$cachePath' for writing, perhaps wrong permissions" );
-            if ( $fp and
-                 !$pathExisted )
-                chmod( $cachePath, $perm );
-            umask( $oldumask );
-
-            if ( $fp )
-            {
-                fwrite( $fp, $serializeString );
-                fclose( $fp );
-            }
+            include_once( "lib/ezfile/classes/ezatomicfile.php" );
+            $cacheFile = new eZAtomicFile( $cachePath );
+            $cacheFile->write( $serializeString );
+            $cacheFile->close();
 
             // VS-DBFILE
 
