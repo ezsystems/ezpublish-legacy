@@ -106,7 +106,7 @@
         <td>
             {foreach $element.path_array as $el}
             {if ne( $el.action, "nop:" )}
-            <a href="{concat("/",$el.path)}">
+            <a href={concat("/",$el.path)|ezurl}>
             {/if}
             {$el.text|wash}
             {if ne( $el.action, "nop:" )}
