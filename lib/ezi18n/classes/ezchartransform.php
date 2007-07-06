@@ -526,7 +526,7 @@ class eZCharTransform
         // Note: Space is turned into a dash to make it easier for people to
         //       paste urls from the system and have the whole url recognized
         //       instead of being broken off
-        $text = preg_replace( array( "#[ &;/:=?\[\]()-]+#",
+        $text = preg_replace( array( "#[ %\#&;/:=?\[\]()-]+#",
                                      "#/\.\.?/#",
                                      "/^[ -.]+|[ -.]+$/" ),
                               array( "-",
