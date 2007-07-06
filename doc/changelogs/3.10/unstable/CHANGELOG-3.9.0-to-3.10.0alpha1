@@ -346,3 +346,4 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10242: $node.children returns unsortet list.
 - Fixed bug #10319: Workflow crash with copied objects.
 - Fixed bug #010757: Class for handling atomic writing of files.
+- Fixed bug #11058: DebugByIP exists twice in site.ini
