@@ -78,14 +78,13 @@ ALTER TABLE ezcontentclass ADD COLUMN url_alias_name VARCHAR(255);
 -- URL alias
 CREATE TABLE ezurlalias_ml (
   id        integer NOT NULL DEFAULT 0,
+  link      integer NOT NULL DEFAULT 0,
   parent    integer NOT NULL DEFAULT 0,
-  lang      varchar(255) NOT NULL DEFAULT '',
   lang_mask integer NOT NULL DEFAULT 0,
   text      text NOT NULL DEFAULT '',
   text_md5  varchar(32) NOT NULL DEFAULT '',
   action    text NOT NULL DEFAULT '',
   action_type varchar(32) NOT NULL DEFAULT '',
-  link      integer NOT NULL DEFAULT 0,
   is_original integer NOT NULL DEFAULT 0,
   is_alias    integer NOT NULL DEFAULT 0
   );

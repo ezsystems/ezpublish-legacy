@@ -70,11 +70,6 @@ class eZPathElement extends eZPersistentObject
                                                             'datatype' => 'integer',
                                                             'default' => 0,
                                                             'required' => true ),
-                                         "lang" => array( 'name' => 'Lang',
-                                                          'datatype' => 'string',
-                                                          'default' => '',
-                                                          'length' => 255,
-                                                          'required' => true ),
                                          "lang_mask" => array( 'name' => 'LangMask',
                                                                'datatype' => 'integer',
                                                                'default' => 0,
@@ -174,10 +169,6 @@ class eZPathElement extends eZPersistentObject
         if ( $this->Path !== null )
             return $this->Path;
 
-        // TODO: Maybe the selected languages should be closer to the one
-        //       from the redirected node, ie. this language should get top
-        //       priority?
-
         // Fetch path 'text' elements of correct parent path
         $path = array( $this->Text );
         $id = (int)$this->Parent;
@@ -207,10 +198,6 @@ class eZPathElement extends eZPersistentObject
         if ( $this->PathArray !== null )
             return $this->PathArray;
 
-        // TODO: Maybe the selected languages should be closer to the one
-        //       from the redirected node, ie. this language should get top
-        //       priority?
-
         // Fetch path 'text' elements of correct parent path
         $path = array( $this );
         $id = (int)$this->Parent;
@@ -233,35 +220,6 @@ class eZPathElement extends eZPersistentObject
         }
         $this->PathArray = $path;
         return $this->PathArray;
-    }
-
-    /*!
-     \static
-     Takes an array with database data in $row and turns them into eZPathElement objects.
-     Entries which have multiple languages will be turned into multiple objects.
-     */
-    function makeList( $rows )
-    {
-        if ( !is_array( $rows ) || count( $rows ) == 0 )
-            return array();
-        $list = array();
-        foreach ( $rows as $row )
-        {
-            $mask = $row['lang_mask'] & ~1;
-            for ( $i = 1; $i < 30; ++$i )
-            {
-                $newMask = (1 << $i);
-                if ( ($newMask & $mask) > 0 )
-                {
-                    $row['lang_mask'] = (1 << $i);
-                    $language = eZContentLanguage::fetch( (1 << $i) );
-                    $row['lang'] = $language->attribute( 'locale' );
-                    $list[] = $row;
-                }
-            }
-        }
-        $objectList = eZPersistentObject::handleRows( $list, 'eZPathElement', true );
-        return $objectList;
     }
 }
 

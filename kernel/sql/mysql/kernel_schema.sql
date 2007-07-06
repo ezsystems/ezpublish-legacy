@@ -1415,7 +1415,6 @@ CREATE TABLE ezurlalias_ml (
   id int(11) NOT NULL default '0',
   is_alias int(11) NOT NULL default '0',
   is_original int(11) NOT NULL default '0',
-  lang varchar(255) NOT NULL default '',
   lang_mask int(11) NOT NULL default '0',
   link int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',

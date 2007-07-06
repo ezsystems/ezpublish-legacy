@@ -3894,8 +3894,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                  'language' => &$language );
         }
 
-        $thisAction = "eznode:" . $nodeID;
-        $parentAction = "eznode:" . $parentNodeID;
+//        $parentAction = "eznode:" . $parentNodeID;
         $parentActionName = "eznode";
         $parentActionValue = $parentNodeID;
 
@@ -3970,9 +3969,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->updatePathIdentificationString( $pathIdentificationName );
 
         $languageID = $obj->attribute( 'initial_language_id' );
-        $changeCount = eZURLALiasML::updateElement( $nodeID, $existingElementID, $parentElementID, $thisAction, $languageID, $alwaysMask,
-                                                    $nameList, $existingElements, $isMoved,
-                                                    $changeCount );
+        foreach ( $nameList as $nameEntry )
+        {
+            $text     = $nameEntry['text'];
+            $language =& $nameEntry['language'];
+            eZDebug::writeDebug( "language for {$text}" );
+            eZDebug::writeDebug( $language );
+            if ( eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID ) === true )
+                $changeCount++;
+        }
         return $changeCount;
     }
 

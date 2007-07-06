@@ -215,7 +215,7 @@ class eZURLAliasQuery
         if ( count( $rows ) == 0 )
             $this->items = array();
         else
-            $this->items = eZPathElement::makeList( $rows );
+            $this->items = eZURLAliasQuery::makeList( $rows );
         return $this->items;
     }
 
@@ -325,6 +325,34 @@ class eZURLAliasQuery
         }
 
         return "FROM ezurlalias_ml WHERE " . join( " AND ", $conds );
+    }
+
+    /*!
+     \static
+     Takes an array with database data in $row and turns them into eZPathElement objects.
+     Entries which have multiple languages will be turned into multiple objects.
+     */
+    function makeList( $rows )
+    {
+        if ( !is_array( $rows ) || count( $rows ) == 0 )
+            return array();
+        $list = array();
+        foreach ( $rows as $row )
+        {
+            $mask = $row['lang_mask'] & ~1;
+            for ( $i = 1; $i < 30; ++$i )
+            {
+                $newMask = (1 << $i);
+                if ( ($newMask & $mask) > 0 )
+                {
+                    $row['lang_mask'] = (1 << $i);
+                    $list[] = $row;
+                }
+            }
+        }
+        include_once( 'kernel/classes/ezpathelement.php' );
+        $objectList = eZPersistentObject::handleRows( $list, 'eZPathElement', true );
+        return $objectList;
     }
 }
 

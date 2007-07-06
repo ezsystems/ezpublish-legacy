@@ -6373,13 +6373,6 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'lang' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
       'lang_mask' => 
       array (
         'length' => 11,

@@ -2454,7 +2454,6 @@ CREATE TABLE ezurlalias_ml (
     id integer DEFAULT 0 NOT NULL,
     is_alias integer DEFAULT 0 NOT NULL,
     is_original integer DEFAULT 0 NOT NULL,
-    lang character varying(255) DEFAULT ''::character varying NOT NULL,
     lang_mask integer DEFAULT 0 NOT NULL,
     link integer DEFAULT 0 NOT NULL,
     parent integer DEFAULT 0 NOT NULL,

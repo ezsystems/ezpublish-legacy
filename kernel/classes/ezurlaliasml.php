@@ -55,7 +55,6 @@
   the higher level methods for fetching or storing a path.
 
   For objects the methods getChildren() and getPath() can be used to fetch the child elements and path string.
-  In addition to the persistent object maniupulcation methods the method removeRedirectingElements() can be used to remove all path elements which redirect to the same action.
 
   Typically you will not have a path element object and should use on of these static functions:
 
@@ -66,15 +65,10 @@
   For more detailed path element handling these static methods are available:
 
   - fetchByAction() - Fetch a path element based on the action.
-  - fetchRedirectionsByAction() - Fetch path elements which are redirections based on the action.
-  - fetchPlaceholders() - Fetch path elements which are placeholders (ie. replacable) based on the parent and text string.
-  - fetchConflictingPlaceholders() - Finds placeholders which conflicts with a set of new names and returns them.
   - fetchByParentID() - Fetch path elements based on parent ID.
-  - fetchByID() - Fetch path element based on ID.
   - fetchPathByActionList() - Fetch path string based on action values, this is more optimized than getPath().
 
   - setLangMaskAlwaysAvailable() - Updates language mask for path elements based on actions.
-  - move() - Changes parent ID of specified element to a new parent element.
 
   Most of these methods have some common arguments, they can be:
   - $maskLanguages - If true then only elements which matches the currently prioritized languaes is processed.
@@ -86,6 +80,11 @@
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentlanguage.php" );
 include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+
+// Return values from storePath()
+define( "EZ_URLALIAS_LINK_ID_NOT_FOUND", 1 );
+define( "EZ_URLALIAS_LINK_ID_WRONG_ACTION", 2 );
+define( "EZ_URLALIAS_LINK_ALREADY_TAKEN", 3 );
 
 class eZURLAliasML extends eZPersistentObject
 {
@@ -121,11 +120,6 @@ class eZURLAliasML extends eZPersistentObject
                                                             'datatype' => 'integer',
                                                             'default' => 0,
                                                             'required' => true ),
-                                         "lang" => array( 'name' => 'Lang',
-                                                          'datatype' => 'string',
-                                                          'default' => '',
-                                                          'length' => 255,
-                                                          'required' => true ),
                                          "lang_mask" => array( 'name' => 'LangMask',
                                                                'datatype' => 'integer',
                                                                'default' => 0,
@@ -199,12 +193,11 @@ class eZURLAliasML extends eZPersistentObject
      \param $language ID or mask of languages
      \param $languageName Name of language(s), comma separated
      */
-    function create( $element, $action, $parentID, $language, $languageName )
+    function create( $element, $action, $parentID, $language )
     {
         $row = array( 'text'      => $element,
                       'text_md5'  => md5( eZURLALiasML::strtolower( $element ) ),
                       'parent'    => $parentID,
-                      'lang'      => $languageName,
                       'lang_mask' => $language,
                       'action'    => $action );
         return new eZURLAliasML( $row );
@@ -217,7 +210,6 @@ class eZURLAliasML extends eZPersistentObject
     {
         $row = array( 'id'        => $this->ID,
                       'parent'    => $this->Parent,
-                      'lang'      => $this->Lang,
                       'lang_mask' => $this->LangMask,
                       'text'      => $this->Text,
                       'text_md5'  => $this->TextMD5,
@@ -279,28 +271,11 @@ class eZURLAliasML extends eZPersistentObject
             else
                 $this->ActionType = 'nop';
         }
+
         eZPersistentObject::store();
         if ( $locked )
         {
             $db->unlock();
-        }
-    }
-
-    /*!
-     Removes all path elements which are redirecting to the current path element.
-
-     \note The action value is used to figure this out.
-     \note If the current element is a redirection element nothing will be done.
-     */
-    function removeRedirectingElements()
-    {
-        if ( $this->ID == $this->Link )
-        {
-            // If this is an original element we must get rid of all elements which points to it.
-            $db =& eZDB::instance();
-            $actionStr = $db->escapeString( $this->Action );
-            $query = "DELETE FROM ezurlalias_ml WHERE is_original = 0 AND action = '{$actionStr}'";
-            $db->query( $query );
         }
     }
 
@@ -315,12 +290,6 @@ class eZURLAliasML extends eZPersistentObject
         $actionStr = $db->escapeString( $actionName . ':' . $actionValue );
         $query = "DELETE FROM ezurlalias_ml WHERE action = '{$actionStr}'";
         $db->query( $query );
-    }
-
-    function removeByIDParentID( $id, $parentID )
-    {
-        $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezurlalias_ml WHERE id = {$id} AND parent = {$parentID}" );
     }
 
     /*!
@@ -344,10 +313,6 @@ class eZURLAliasML extends eZPersistentObject
     {
         if ( $this->Path !== null )
             return $this->Path;
-
-        // TODO: Maybe the selected languages should be closer to the one
-        //       from the redirected node, ie. this language should get top
-        //       priority?
 
         // Fetch path 'text' elements of correct parent path
         $path = array( $this->Text );
@@ -382,8 +347,9 @@ class eZURLAliasML extends eZPersistentObject
      \param $languageName The language to use for entry, can be a string (locale code, e.g. 'nor-NO') an eZContentLanguage object or false for the top prioritized language.
      \param $linkID Numeric ID for link field, if it is set to false the entry will point to itself. Use this for redirections.
      \param $alwaysAvailable If true the entry will be available in any language.
+     \param $rootID ID of the parent element to start at, use 0/false for the very top.
      */
-    function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false )
+    function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false )
     {
         $path = eZURLAliasML::cleanURL( $path );
 //        $existingElement = $this->fetchByAction( $action );
@@ -393,12 +359,14 @@ class eZURLAliasML extends eZPersistentObject
         }
         if ( is_object( $languageName ) )
         {
+            $languageObj  = $languageName;
             $languageID   = $languageName->attribute( 'id' );
             $languageName = $languageName->attribute( 'locale' );
         }
         else
         {
-            $languageID = eZContentLanguage::idByLocale( $languageName );
+            $languageObj = eZContentLanguage::fetchByLocale( $languageName );
+            $languageID  = (int)$languageObj->attribute( 'id' );
         }
         $languageMask = $languageID;
         if ( $alwaysAvailable )
@@ -409,6 +377,12 @@ class eZURLAliasML extends eZPersistentObject
 
         $db =& eZDB::instance();
         $parentID = 0;
+
+        // If the root ID is specified we will start the parent search from that
+        if ( $rootID !== false )
+        {
+            $parentID = $rootID;
+        }
         $i = 0;
         // Top element is handled separately.
         $topElement = array_pop( $elements );
@@ -423,7 +397,7 @@ class eZURLAliasML extends eZPersistentObject
             if ( count( $rows ) == 0 )
             {
                 // Create a fake element to ensure we have a parent
-                $elementObj = eZURLAliasML::create( $element, "nop:", $parentID, $languageMask, $languageName );
+                $elementObj = eZURLAliasML::create( $element, "nop:", $parentID, 1 );
                 $elementObj->store();
                 $parentID = (int)$elementObj->attribute( 'id' );
             }
@@ -432,287 +406,144 @@ class eZURLAliasML extends eZPersistentObject
                 $parentID = (int)$rows[0]['link'];
             }
 
-//            $query = "SELECT * FROM ezurlalias_ml WHERE id = {$id}";
-//            $rows = $db->arrayQuery( $query );
-
             ++$i;
         }
 
-        // Handle top element
+        preg_match( "#^(.+):(.+)$#", $action, $matches );
+        $actionName  = $matches[1];
+        $actionValue = $matches[2];
+        $existingElementID = null;
+        $alwaysMask = $alwaysAvailable ? 1 : 0;
+
+
         $actionStr = $db->escapeString( $action );
-        $elementStr = $db->escapeString( eZURLALiasML::strtolower( $topElement ) );
-        $linkSql = "";
-        if ( $linkID !== false )
-            $linkSql = " AND link = " . (int)$linkID . " AND is_original = 0";
-        $query = "SELECT * FROM ezurlalias_ml WHERE action = '$actionStr' AND parent = {$parentID}{$linkSql}";
-        $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
+
+        if ( $linkID === false )
         {
-            $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . $db->md5( "'$elementStr'" ) . " AND parent = {$parentID}";
+            // Step 1, find existing ID
+            $query = "SELECT id FROM ezurlalias_ml WHERE action = '{$actionStr}' AND is_original = 1 AND is_alias= 0";
             $rows = $db->arrayQuery( $query );
-            // check for action, if nop: or same use it, if not an error?
-        }
-        else
-        {
-            $tmp = $rows;
-            $rows = array();
-            $useRow = false;
-            foreach ( $tmp as $row )
+            if ( count( $rows ) > 0 )
             {
-                if ( $row['lang_mask'] & $languageID )
+                $existingElementID = $rows[0]['id'];
+            }
+
+            // Step 2, remove language from original entries
+            if ( $db->databaseName() == 'oracle' )
+            {
+                $bitDel = "bitand( lang_mask, " . (~$languageID) . " )";
+            }
+            else
+            {
+                $bitDel = "lang_mask & ~{$languageID}";
+            }
+            $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitDel} WHERE action = '{$actionStr}' AND is_original = 1 AND is_alias = 0";
+            $db->query( $query );
+
+            // Step 3, adjust name
+            $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, $action );
+
+            // Step 4, update | create element
+            $textMD5 = $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $query = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
+            $rows = $db->arrayQuery( $query );
+            // TODO: optimize on InnoDB with INSERT ... ON DUPLICATE
+            if ( count( $rows ) > 0 )
+            {
+                if ( $db->databaseName() == 'oracle' )
                 {
-                    $useRow = $row;
+                    $bitOr = "bitor( lang_mask, {$languageID} )";
                 }
-                else if ( $useRow === false && $row['text'] & $topElement )
+                else
                 {
-                    $useRow = $row;
+                    $bitOr = "lang_mask | {$languageID}";
                 }
+                $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitOr} WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
+                $db->query( $query );
             }
-            if ( $useRow !== false )
+            else
             {
-                $rows = array( $useRow );
+                $element = new eZURLAliasML( array( 'id'=> $existingElementID,
+                                                    'link' => $existingElementID,
+                                                    'parent' => $parentID,
+                                                    'text' => $topElement,
+                                                    'lang_mask' => $languageID | $alwaysMask,
+                                                    'action' => $action ) );
+                $element->store();
+                $existingElementID = $element->attribute( 'id' );
             }
-        }
 
-        if ( count( $rows ) == 0 )
-        {
-            // Create the new element
-            $elementObj = eZURLAliasML::create( $topElement, $action, $parentID, $languageMask, $languageName );
-            if ( $linkID !== false )
-                $elementObj->setAttribute( 'link', $linkID );
-            $elementObj->store();
-            $parentID = (int)$elementObj->attribute( 'id' );
+            // Step 5, find all empty lang_mask entries and make them redirections
+            if ( $db->databaseName() == 'oracle' )
+            {
+                $bitNotFirst = "bitand( lang_mask, -2 )";
+            }
+            else
+            {
+                $bitNotFirst = "lang_mask & ~1";
+            }
+            $query = "SELECT * FROM ezurlalias_ml WHERE action = '{$actionStr}' AND {$bitNotFirst} = 0";
+            $rows = $db->arrayQuery( $query );
+            $redirectionLanguageID = $languageID;
+            if ( !$redirectionLanguageID )
+            {
+                $topLanguage = eZContentLanguage::topPriorityLanguage();
+                $redirectionLanguageID = $topLanguage->attribute( 'id' );
+            }
+            foreach ( $rows as $row )
+            {
+                $row['id'] = null;
+                $row['link'] = $existingElementID;
+                $row['lang_mask'] = $redirectionLanguageID | $alwaysMask;
+                $element = new eZURLAliasML( $row );
+                $element->store();
+            }
+
+            // Step 6, update historic elements to contain only bit 1
+            $query = "UPDATE ezurlalias_ml SET lang_mask = 1 WHERE action = '{$actionStr}' AND is_original = 0 AND is_alias = 0";
+            $db->query( $query );
         }
         else
         {
-            $row = $rows[0];
-            $row['lang_mask'] |= $languageID;
-            if ( $alwaysAvailable )
-                $row['lang_mask'] |= 1;
-            if ( strpos( $row['lang'], $languageName ) === false )
+            $linkID = (int)$linkID;
+            // Step 1, find existing ID
+            $query = "SELECT * FROM ezurlalias_ml WHERE id = '{$linkID}'";
+            $rows = $db->arrayQuery( $query );
+            // Some sanity checking
+            if ( count( $rows ) == 0 )
             {
-                $row['lang'] .= ',' . $languageName;
+                eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                return EZ_URLALIAS_LINK_ID_NOT_FOUND;
             }
-            $elementObj = new eZURLAliasML( $row );
-            if ( $linkID !== false )
-                $elementObj->setAttribute( 'link', $linkID );
-            $elementObj->store();
-            $parentID = (int)$elementObj->attribute( 'id' );
-        }
-    }
-
-    /*!
-     \static
-     TODO: Fill in doc here.
-     */
-    function updateElement( $nodeID, $existingElementID, $parentElementID, $thisAction, $languageID, $alwaysMask,
-                            $nameList, $existingElements, $isMoved,
-                            $changeCount )
-    {
-        $redirectionElements = array();
-        if ( $existingElementID !== null )
-        {
-            $redirectionElements = eZURLAliasML::fetchRedirectionsByAction( "eznode", $nodeID );
-        }
-
-        $newElementMap = eZURLAliasML::makeElementMap( $nameList, $existingElementID, $parentElementID, $thisAction, $languageID, $alwaysMask );
-
-        $placeholderElements = eZURLAliasML::fetchConflictingPlaceholders( $newElementMap, $parentElementID, $thisAction );
-
-        // Find existing elements which are no longer present in the new name map
-        list( $existingElements, $redirectionElements, $changeCount ) =
-            eZURLAliasML::archiveUnusedElements( $existingElements, $redirectionElements, $changeCount,
-                                                 $newElementMap, $isMoved );
-
-        list ( $placeholderElements, $redirectionElements, $existingElementID, $changeCount ) =
-            eZURLAliasML::insertOrUpdateElements( $newElementMap, $placeholderElements, $redirectionElements, $existingElementID, $changeCount );
-
-        // Create or update any existing or new redirection elements
-        eZURLAliasML::insertOrUpdateRedirections( $redirectionElements, $existingElementID );
-
-        return $changeCount;
-    }
-
-    /*!
-     \static
-     Takes the text strings in $nameList and turns into an array of URLAlias elements, the key in the array will be the text.
-     If the same text string is available in multiple languages they will all be merged into one element entry.
-
-     \param $nameList Array of text entries which is an array consisting of 'text' (string) and 'language' (eZContentLanguage).
-     \param $existingElementID The ID of existing URLAlias entries or null if none.
-     \param $parentElementID The ID of the parent element.
-     \param $action Action string for the new elements.
-     \param $initialLanguageID The ID of the initial language, if this matches one of the languages in $nameList then $mask will be applied in the mask.
-     \param $mask Mask which has the bit 0 set or not depending on whether the entries should be *always available* or not.
-
-     \return Array of URLAlias elements with the key being the element text.
-     */
-    function makeElementMap( $nameList, $existingElementID, $parentElementID, $action, $initialLanguageID, $mask )
-    {
-        $elementMap = array();
-        foreach ( $nameList as $nameEntry )
-        {
-            $name     =  $nameEntry['text'];
-            $language =& $nameEntry['language'];
-            $languageID     = $language->attribute( 'id' );
-            $languageLocale = $language->attribute( 'locale' );
-            if ( !isset( $elementMap[$name] ) )
+            if ( $rows[0]['action'] != $action )
             {
-                $elementMap[$name] = array( 'id'     => $existingElementID,
-                                            'parent' => $parentElementID,
-                                            'lang'   => array(),
-                                            'lang_mask' => 0,
-                                            'text'   => $name,
-                                            'action' => $action,
-                                            'link'   => $existingElementID );
+                eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
+                return EZ_URLALIAS_LINK_ID_WRONG_ACTION;
             }
-            $elementMap[$name]['lang'][] = $languageLocale;
-            $langMask = $languageID;
-            if ( $initialLanguageID == $languageID )
-                $langMask |= $mask;
-            $elementMap[$name]['lang_mask'] |= $langMask;
-        }
-        return $elementMap;
-    }
-
-    /*!
-     \static
-     Archives any elements in $elements which is no longer present in $nameMap. Archiving
-     is performed by removing the database entry, adding to the $redirections array and removing
-     it from the $elements list.
-
-     A typical call looks like:
-     \code
-     $elements = eZURLAliasML::fetchByAction( 'eznode', 5 );
-     $redirections = eZURLAliasML::fetchRedirectionsByAction( "eznode", 5 );
-     $count = 0;
-     $nameMap = array( 'repoman' => array(...) );
-     list( $elements, $redirections, $count ) = eZURLAliasML::archiveUnusedElements( $elements, $redirections, $count, $nameMap, false );
-     \endcode
-
-     \param $elements Array of eZURLAliasML objects.
-     \param $redirections Array of eZURLAliasML objects which are redirections.
-     \param $changeCount The current changecount.
-     \param $nameMap The new names for the elements, array( <name> => <row-data> )
-     \param $isMoved If true then all elements are to be archived since they have been moved.
-     \return a new array with $elements, $redirections, $changeCount.
-     */
-    function archiveUnusedElements( $elements, $redirections, $changeCount, $nameMap, $isMoved )
-    {
-        foreach ( $elements as $key => $tmp )
-        {
-            unset( $existingElement );
-            $existingElement =& $elements[$key];
-            $text = $existingElement->attribute( 'text' );
-            if ( $isMoved or !isset( $nameMap[$text] ) )
+            // If the element which is pointed to is a link, then grab the link id from that instead
+            if ( $rows[0]['link'] != $rows[0]['id'] )
             {
-                // The existing name no longer exists, make a historic element
-                $existingElement->remove();
-                $existingElement->setAttribute( 'id', null );
-                $redirections[] =& $existingElement;
-                unset( $elements[$key] );
-                $changeCount++;
+                $linkID = (int)$rows[0]['link'];
             }
-        }
 
-        return array( $elements, $redirections, $changeCount );
-    }
-
-    //list ( $redirectionElements ) =
-    /*!
-     \static
-     Insert new elements or updates existing elements by going through $nameMap.
-     Any redirection element which has the same text and parent as the new items
-     are removed from $redirections.
-
-     \param $nameMap Array of element data as DB rows (ie. arrays) which should be the new elements. The keys are the text for the element.
-     \param $placeholders Elements which can be replaced by new elements in $nameMap.
-     \param $redirections The elements which redirects to elements in $nameMap.
-     \param $existingElementID The ID of the current element, if null it will create a new ID and return it.
-     \param $changeCount The current changecount.
-     \return Array with $placeholders, $redirections, $existingElementID
-     */
-    function insertOrUpdateElements( $nameMap, $placeholders, $redirections, $existingElementID, $changeCount )
-    {
-        // Create all the new elements, if they already exist in database they will be updated
-        foreach ( $nameMap as $row )
-        {
-            $text = $row['text'];
-            if ( isset( $placeholders[$text] ) )
+            // Step 2
+            $originalTopElement = $topElement;
+            $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true );
+            if ( strcmp( $topElement, $originalTopElement ) != 0 )
             {
-                // An existing sibling (redirection) element is already using this name, we need to remove it.
-                $placeholders[$text]->remove();
-                unset( $placeholders[$text] );
+                eZDebug::writeError( "The link name '{$topElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                return EZ_URLALIAS_LINK_ALREADY_TAKEN;
             }
-            $parentID = $row['parent'];
-            foreach ( $redirections as $key => $tmp )
-            {
-                unset( $redirectionElement );
-                $redirectionElement =& $redirections[$key];
-                if ( $redirectionElement->attribute( 'text' ) == $text &&
-                     $redirectionElement->attribute( 'parent' ) == $parentID )
-                {
-                    // The old redirection entry is a placeholder and must be removed
-                    // before the new element can be inserted (key conflict).
-                    $redirectionElement->remove();
-                    unset( $redirections[$key] );
-                }
-            }
-            // Make sure language list is sorted alphabetically
-            sort( $row['lang'] );
-            $row['lang'] = join( ',', $row['lang'] );
-            $newElement = new eZURLAliasML( $row );
-            $newElement->setAttribute( 'id', $existingElementID );
-            $newElement->store();
-            $existingElementID = $newElement->attribute( 'id' );
-            $changeCount++;
+            $element = new eZURLAliasML( array( 'id'=> null,
+                                                'link' => $linkID,
+                                                'parent' => $parentID,
+                                                'text' => $topElement,
+                                                'lang_mask' => $languageID | $alwaysMask,
+                                                'action' => $action,
+                                                'is_alias' => 1 ) );
+            $element->store();
         }
-
-        return array( $placeholders, $redirections, $existingElementID, $changeCount );
-    }
-
-    /*!
-     \static
-     Inserts or updates the redirections in $redirections.
-
-     \param $redirections Array of eZURLAlias objects.
-     \param $existingElementID The ID of the current element, if null it will create a new ID and return it.
-     */
-    function insertOrUpdateRedirections( $redirections, $existingElementID )
-    {
-        foreach ( $redirections as $key => $tmp )
-        {
-            unset( $redirectionElement );
-            $redirectionElement =& $redirections[$key];
-            if ( $redirectionElement->attribute( 'link' ) != $existingElementID )
-            {
-                $redirectionElement->setAttribute( 'link', $existingElementID );
-            }
-            $redirectionElement->sync();
-        }
-    }
-
-    /*!
-     \static
-     Moves the path element $element from its current position as child of
-     parent element $newElement.
-
-     \param $element Either an eZURLAliasML object or the numeric ID of the element.
-     \param $newElement Either an eZURLAliasML object or the numeric ID of the element.
-     */
-    function move( $element, $newElement )
-    {
-        if ( is_object( $element ) )
-            $id = (int)$element->attribute( 'id' );
-        else
-            $id = (int)$element;
-        if ( is_object( $newElement ) )
-            $newID = (int)$newElement->attribute( 'id' );
-        else
-            $newID = (int)$newElement;
-        $query = "UPDATE ezurlalias_ml SET parent = $id WHERE parent = $newID";
-        $db =& eZDB::instance();
-        $db->query( $query );
+        return true;
     }
 
     /*!
@@ -783,186 +614,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     Fetches redirection path element(s) which matches the action name $actionName and value $actionValue.
-
-     Lets say we have the following elements:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     1   1    0      'ham'       'eznode:4'
-     2   6    0      'spam'      'eznode:55'
-     3   3    0      'bicycle'   'eznode:5'
-     4   4    0      'superman'  'nop:'
-     5   5    3      'repairman' 'eznode:42'
-     6   6    3      'repoman'   'eznode:55'
-     === ==== ====== =========== ==========
-
-     then we try to fetch a specific action:
-     \code
-     $elements = eZURLAliasML::fetchRedirectionsByAction( 'eznode', 10 );
-     \endcode
-
-     it would return:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     2   6    0      'spam'      'eznode:55'
-     === ==== ====== =========== ==========
-
-     Now let's try with an element which is not redirecting:
-     \code
-     $elements = eZURLAliasML::fetchRedirectionsByAction( 'eznode', 5 );
-     \endcode
-
-     the returned array is now empty.
-     */
-    function fetchRedirectionsByAction( $actionName, $actionValue, $maskLanguages = false, $onlyPrioritized = false )
-    {
-        $action = $actionName . ":" . $actionValue;
-        $db =& eZDB::instance();
-        $actionStr = $db->escapeString( $action );
-        $langMask = '';
-        if ( $maskLanguages )
-        {
-            $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
-        }
-        $query = "SELECT * FROM ezurlalias_ml WHERE $langMask action = '$actionStr' AND is_original = 0";
-        $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
-            return array();
-        $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
-        $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
-        return $objectList;
-    }
-
-    /*!
-     \static
-     Fetches path element(s) with text $text and parent $parentID which are considered
-     placeholders for real elements.
-
-     Elements which are considered as placeholders are:
-     - redirection elements at the same path.
-     - nop elements which are just placeholders.
-
-     Lets say we have the following elements:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     1   1    0      'ham'       'eznode:4'
-     2   6    0      'spam'      'eznode:55'
-     3   3    0      'bicycle'   'eznode:5'
-     4   4    0      'superman'  'nop:'
-     5   5    3      'repairman' 'eznode:42'
-     6   6    3      'repoman'   'eznode:55'
-     === ==== ====== =========== ==========
-
-     Then trying with 'nop:' elements:
-     \code
-     $elements = eZURLAliasML::fetchPlaceholders( 0, "spam" );
-     \endcode
-
-     we would get:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     2   6    0      'spam'      'eznode:55'
-     === ==== ====== =========== ==========
-
-     While with the code:
-     \code
-     $elements = eZURLAliasML::fetchPlaceholders( 0, "superman" );
-     \endcode
-
-     we would get:
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     4   4    0      'superman' 'nop:'
-     === ==== ====== =========== ==========
-
-     However trying it with real elements will not return anything:
-     \code
-     $elements = eZURLAliasML::fetchPlaceholders( 0, "ham" );
-     \endcode
-     */
-    function fetchPlaceholders( $parentID, $text, $maskLanguages = false, $onlyPrioritized = false )
-    {
-        $db =& eZDB::instance();
-        $textStr = $db->escapeString( eZURLALiasML::strtolower( $text ) );
-        $parentID = (int)$parentID;
-        $langMask = '';
-        if ( $maskLanguages )
-        {
-            $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
-        }
-        $query = "SELECT * FROM ezurlalias_ml WHERE $langMask text_md5 = " . $db->md5( "'$textStr'" ) . " AND parent = $parentID AND ( is_original = 0 OR action = 'nop:' )";
-        $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
-            return array();
-        $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
-        $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
-        return $objectList;
-    }
-
-    /*!
-     \static
-     Fetches path element(s) which are considered placeholders and which conflicts with
-     names found in $nameMap and with different action string than $action.
-     Only placeholders with same parent ID as $parentID is considered.
-
-     Lets say we have the following elements:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     1   1    0      'ham'       'eznode:4'
-     2   6    0      'spam'      'eznode:55'
-     3   3    0      'bicycle'   'eznode:5'
-     4   4    0      'superman'  'nop:'
-     5   5    3      'repairman' 'eznode:42'
-     6   6    3      'repoman'   'eznode:55'
-     === ==== ====== =========== ==========
-
-     Then
-     \code
-     $nameMap = array( "spam" => array(...),
-                       "castle-of-aaargh" => array(...) );
-     $elements = eZURLAliasML::fetchConflictingPlaceholders( $nameMap, 0, 'eznode:10' );
-     \endcode
-
-     we would get:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     6   6    3      'repoman'   'eznode:55'
-     === ==== ====== =========== ==========
-     */
-    function fetchConflictingPlaceholders( $nameMap, $parentID, $action )
-    {
-        $elements = array();
-        foreach ( $nameMap as $name => $tmp )
-        {
-            $list = eZURLAliasML::fetchPlaceholders( $parentID, $name );
-            foreach ( $list as $key => $tmp )
-            {
-                unset( $placeholder );
-                $placeholder =& $list[$key];
-                if ( $placeholder->attribute( 'action' ) != $action )
-                {
-                    $elements[$placeholder->attribute( 'text' )] =& $placeholder;
-                }
-            }
-        }
-        return $elements;
-    }
-
-    /*!
-     \static
      Fetches path element(s) which matches the parent ID $id.
 
      Lets say we have the following elements:
@@ -1027,67 +678,6 @@ class eZURLAliasML extends eZPersistentObject
         }
         $query = "SELECT * FROM ezurlalias_ml WHERE $langMask parent = {$id} $redirSQL";
         $rows = $db->arrayQuery( $query );
-        $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
-        $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
-        return $objectList;
-    }
-
-    /*!
-     \static
-     Fetches path element(s) which matches the ID $id.
-
-     Lets say we have the following elements:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     1   1    0      'ham'       'eznode:4'
-     2   6    0      'spam'      'eznode:55'
-     3   3    0      'bicycle'   'eznode:5'
-     4   4    0      'superman'  'nop:'
-     5   5    3      'repairman' 'eznode:42'
-     6   6    3      'repoman'   'eznode:55'
-     === ==== ====== =========== ==========
-
-     then we try to fetch a specific ID:
-     \code
-     eZURLAliasML::fetchByID( 3 );
-     \endcode
-
-     it would return:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     3   3    0      'bicycle'   'eznode:5'
-     === ==== ====== =========== ==========
-
-     Now let's try with an element which is redirecting:
-     \code
-     eZURLAliasML::fetchByID( 2 );
-     \endcode
-
-     it would return:
-
-     === ==== ====== =========== ==========
-     id  link parent text        action
-     === ==== ====== =========== ==========
-     2   6    0      'spam'      'eznode:55'
-     === ==== ====== =========== ==========
-     */
-    function fetchByID( $id, $maskLanguages = false, $onlyPrioritized = false )
-    {
-        $db =& eZDB::instance();
-        $id = (int)$id;
-        $langMask = '';
-        if ( $maskLanguages )
-        {
-            $langMask = "(" . trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) ) . ") AND ";
-        }
-        $query = "SELECT * FROM ezurlalias_ml WHERE $langMask id = {$id}";
-        $rows = $db->arrayQuery( $query );
-        if ( count( $rows ) == 0 )
-            return array();
         $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
         $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
         return $objectList;
@@ -1312,7 +902,6 @@ class eZURLAliasML extends eZPersistentObject
                 $table = "e" . $elementOffset;
                 $element = array( 'id'        => $pathRow[$table . "_id"],
                                   'parent'    => $pathRow[$table . "_parent"],
-                                  'lang'      => $pathRow[$table . "_lang"],
                                   'lang_mask' => $pathRow[$table . "_lang_mask"],
                                   'text'      => $pathRow[$table . "_text"],
                                   'action'    => $pathRow[$table . "_action"],
@@ -1352,9 +941,6 @@ class eZURLAliasML extends eZPersistentObject
                     }
                     $id = (int)$newLinkID;
                     $path = array();
-                    // TODO: Maybe the selected languages should be closer to the one
-                    //       from the redirected node, ie. this language should get top
-                    //       priority?
 
                     // Fetch path 'text' elements of correct parent path
                     while ( $id != 0 )
@@ -1494,13 +1080,6 @@ class eZURLAliasML extends eZPersistentObject
         }
         $uriString = eZURLAliasML::cleanURL( $uriString );
         $internalURIString = $uriString;
-
-        if ( isset( $GLOBALS['eZURLAliasMLTranslate'][$uriString] ) )
-        {
-            $uri = $GLOBALS['eZURLAliasMLTranslate'][$uriString]['uri'];
-            return $GLOBALS['eZURLAliasMLTranslate'][$uriString]['return'];
-        }
-
         $originalURIString = $uriString;
 
         $ini =& eZIni::instance();
@@ -1524,13 +1103,6 @@ class eZURLAliasML extends eZPersistentObject
                     }
                 }
 
-                // TODO: This code is a bit strange, what to do with it?
-/*                // We should check if this urlString is internal
-                // If yes we should not use PathPrefix
-                $urlAliasObject = eZURLAliasML::fetchBySourceURL( $uriString, false, false );
-                if ( $urlAliasObject )
-                    $breakInternalURI = true;*/
-
                 if ( !$breakInternalURI )
                     $internalURIString = eZUrlAliasML::cleanURL( eZUrlAliasML::cleanURL( $prefix ) . '/' . $uriString );
             }
@@ -1541,96 +1113,38 @@ class eZURLAliasML extends eZPersistentObject
         $len      = count( $elements );
         if ( $reverse )
         {
-            $action = eZURLAliasML::urlToAction( $internalURIString );
-            if ( $action !== false )
-            {
-                $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
-                $actionStr = $db->escapeString( $action );
-                $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1";
-                $rows = $db->arrayQuery( $query );
-                $path = array();
-                $count = count( $rows );
-                if ( $count != 0 )
-                {
-                    $row = eZURLAliasML::choosePrioritizedRow( $rows );
-                    if ( $row === false )
-                    {
-                        $row = $rows[0];
-                    }
-                    $paren = (int)$row['parent'];
-                    $path[] = $row['text'];
-                    // We have the parent so now do an iterative lookup until we have the top element
-                    while ( $paren != 0 )
-                    {
-                        $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1";
-                        $rows = $db->arrayQuery( $query );
-                        $count = count( $rows );
-                        if ( $count != 0 )
-                        {
-                            $row = eZURLAliasML::choosePrioritizedRow( $rows );
-                            if ( $row === false )
-                            {
-                                $row = $rows[0];
-                            }
-                            $paren = (int)$row['parent'];
-                            array_unshift( $path, $row['text'] );
-                        }
-                        else
-                        {
-                            eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
-                            return false;
-                        }
-                    }
-                    $uriString = join( '/', $path );
-                    if ( get_class( $uri ) == "ezuri" )
-                    {
-                        $uri->setURIString( $uriString, false );
-                    }
-                    else
-                    {
-                        $uri = $uriString;
-                    }
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
+            return eZURLAliasML::reverseTranslate( $uri, $uriString, $internalURIString );
         }
-        else
+
+        $i = 0;
+        $selects = array();
+        $tables  = array();
+        $conds   = array();
+        foreach ( $elements as $element )
         {
-            $i = 0;
-            $selects = array();
-            $tables  = array();
-            $conds   = array();
-            foreach ( $elements as $element )
+            $table = "e" . $i;
+            if ( $i == $len - 1 )
             {
-                $table = "e" . $i;
-                if ( $i == $len - 1 )
-                {
-                    $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action";
-                }
-                else
-                {
-                    $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5";
-                }
-                $tables[]  = "ezurlalias_ml AS " . $table;
-                $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
-                if ( $i == 0 )
-                {
-                    $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
-                }
-                else
-                {
-                    $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
-                }
-                $prevTable = $table;
-                ++$i;
+                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action";
             }
-            $query = "SELECT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
+            else
+            {
+                $selects[] = "{$table}.id AS {$table}_id, {$table}.link AS {$table}_link, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5";
+            }
+            $tables[]  = "ezurlalias_ml AS " . $table;
+            $langMask = trim( eZContentLanguage::languagesSQLFilter( $table, 'lang_mask' ) );
+            if ( $i == 0 )
+            {
+                $conds[]   = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            }
+            else
+            {
+                $conds[]   = "{$table}.parent = {$prevTable}.link AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
+            }
+            $prevTable = $table;
+            ++$i;
         }
+        $query = "SELECT " . join( ", ", $selects ) . "\nFROM " . join( ", ", $tables ) . "\nWHERE " . join( "\nAND ", $conds );
 
         $return = false;
         $urlAliasArray = $db->arrayQuery( $query, array( 'limit' => 1 ) );
@@ -1662,27 +1176,8 @@ class eZURLAliasML extends eZPersistentObject
             }
             if ( $redirectLink )
             {
-                $newLinkID = $redirectLink;
-                // Resolve new links until a real element is found.
-                // TODO: Add max redirection count?
-                // Note: This core is obsolete.
-                while ( $newLinkID )
-                {
-                    $query = "SELECT id, parent, lang_mask, text, link FROM ezurlalias_ml WHERE id={$newLinkID}";
-                    $rows = $db->arrayQuery( $query );
-                    if ( count( $rows ) == 0 )
-                    {
-                        return false;
-                    }
-                    $newLinkID = false;
-                    if ( $rows[0]['id'] != $rows[0]['link'] )
-                        $newLinkID = (int)$rows[0]['link'];
-                }
                 $id = (int)$lastID;
                 $pathData = array();
-                // TODO: Maybe the selected languages should be closer to the one
-                //       from the redirected node, ie. this language should get top
-                //       priority?
                 // Figure out the correct path by iterating down the parents until we have all
                 // elements figured out.
                 while ( $id != 0 )
@@ -1703,7 +1198,6 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $uriString = 'error/301';
                 $return = join( "/", $pathData );
-//                $return = true;
             }
             else if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
             {
@@ -1715,21 +1209,85 @@ class eZURLAliasML extends eZPersistentObject
                 $uriString = eZURLAliasML::actionToUrl( $action );
                 $return = true;
             }
-        }
 
-        if ( get_class( $uri ) == "ezuri" )
-        {
-            $uri->setURIString( $uriString, false );
+            if ( get_class( $uri ) == "ezuri" )
+            {
+                $uri->setURIString( $uriString, false );
+            }
+            else
+            {
+                $uri = $uriString;
+            }
         }
-        else
-        {
-            $uri = $uriString;
-        }
-
-//        $GLOBALS['eZURLAliasMLTranslate'][$originalURIString] = array( 'return' => $return,
-//                                                                     'uri' => $uri );
 
         return $return;
+    }
+
+    /*!
+     \private
+     Perform reverse translation of uri, that is from system-url to url alias.
+     */
+    function reverseTranslate( &$uri, $uriString, $internalURIString )
+    {
+        $db =& eZDB::instance();
+
+        $action = eZURLAliasML::urlToAction( $internalURIString );
+        if ( $action !== false )
+        {
+            $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
+            $actionStr = $db->escapeString( $action );
+            $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1";
+            $rows = $db->arrayQuery( $query );
+            $path = array();
+            $count = count( $rows );
+            if ( $count != 0 )
+            {
+                $row = eZURLAliasML::choosePrioritizedRow( $rows );
+                if ( $row === false )
+                {
+                    $row = $rows[0];
+                }
+                $paren = (int)$row['parent'];
+                $path[] = $row['text'];
+                // We have the parent so now do an iterative lookup until we have the top element
+                while ( $paren != 0 )
+                {
+                    $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1";
+                    $rows = $db->arrayQuery( $query );
+                    $count = count( $rows );
+                    if ( $count != 0 )
+                    {
+                        $row = eZURLAliasML::choosePrioritizedRow( $rows );
+                        if ( $row === false )
+                        {
+                            $row = $rows[0];
+                        }
+                        $paren = (int)$row['parent'];
+                        array_unshift( $path, $row['text'] );
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
+                        return false;
+                    }
+                }
+                $uriString = join( '/', $path );
+                if ( get_class( $uri ) == "ezuri" )
+                {
+                    $uri->setURIString( $uriString, false );
+                }
+                else
+                {
+                    $uri = $uriString;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
     }
 
     /*!
@@ -1740,8 +1298,9 @@ class eZURLAliasML extends eZPersistentObject
 
      \param $text The text element which is to be checked
      \param $action The action string which is to be excluded from the check. Set to empty string to disable the exclusion.
+     \param $linkCheck If true then it will see all existing entries as taken.
      */
-    function findUniqueText( $parentElementID, $text, $action )
+    function findUniqueText( $parentElementID, $text, $action, $linkCheck = false )
     {
         $db           =& eZDB::instance();
         $uniqueNumber =  0;
@@ -1774,7 +1333,11 @@ class eZURLAliasML extends eZPersistentObject
         while ( true )
         {
             $textEsc = $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $text . $suffix ) ) . "'" );
-            $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL AND text_md5 = $textEsc AND is_original = 1";
+            $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL AND text_md5 = $textEsc";
+            if ( !$linkCheck )
+            {
+                $query .= " AND is_original = 1";
+            }
             $rows = $db->arrayQuery( $query );
             if ( count( $rows ) == 0 )
             {
@@ -1956,7 +1519,6 @@ class eZURLAliasML extends eZPersistentObject
      - eznode - argument is node ID, path is 'content/view/full/<nodeID>'
      - module - argument is module/view/args, path is the arguments
      - nop    - a no-op, path is '/'
-     TODO: Fix support for extensions.
      */
     function actionToUrl( $action )
     {
@@ -2059,7 +1621,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     function generateFullSelect( $table )
     {
-        $select = "{$table}.id AS {$table}_id, {$table}.parent AS {$table}_parent, {$table}.lang AS {$table}_lang, {$table}.lang_mask AS {$table}_lang_mask, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.link AS {$table}_link";
+        $select = "{$table}.id AS {$table}_id, {$table}.parent AS {$table}_parent, {$table}.lang_mask AS {$table}_lang_mask, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.link AS {$table}_link";
         return $select;
     }
 
