@@ -170,17 +170,8 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
             {
                 if ( $infoCode == 'no-errors' )
                 {
-                    if ( preg_match( "#^eznode:(.+)$#", $action, $matches ) )
-                    {
-                        $infoCode = "feedback-alias-created-for-node";
-                        $infoData['new_alias'] = $aliasText;
-                        $infoData['node_id'] = $matches[1];
-                    }
-                    else
-                    {
-                        $infoCode = "feedback-alias-created";
-                        $infoData['new_alias'] = $aliasText;
-                    }
+                    $infoCode = "feedback-alias-created";
+                    $infoData['new_alias'] = $aliasText;
                 }
                 $aliasText = false;
                 $aliasOutputText = false;
@@ -193,6 +184,10 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
                 $infoData['url'] = $lastElement->getPath();
                 $infoData['action_url'] = $lastElement->actionURL();
                 $aliasText = $origAliasText;
+            }
+            if ( preg_match( "#^eznode:(.+)$#", $action, $matches ) )
+            {
+                $infoData['node_id'] = $matches[1];
             }
         }
     }
