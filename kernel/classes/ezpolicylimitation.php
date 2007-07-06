@@ -229,17 +229,22 @@ class eZPolicyLimitation extends eZPersistentObject
 
     function &allValuesAsArrayWithNames()
     {
-        $valueList =& $this->attribute( 'values_as_array' );
-        $names = array();
-        $policy =& $this->attribute( 'policy' );
+        $returnValue =  null;
+        $valueList   =& $this->attribute( 'values_as_array' );
+        $names       =  array();
+        $policy      =& $this->attribute( 'policy' );
         if ( !$policy )
         {
-            $retValue = null;
-            return $retValue;
+            return $returnValue;
         }
 
         $currentModule = $policy->attribute( 'module_name' );
         $mod = & eZModule::exists( $currentModule );
+        if ( !is_object( $mod ) )
+        {
+            eZDebug::writeError( 'Failed to fetch instance for module ' . $currentModule );
+            return $returnValue;
+        }
         $functions =& $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
 
@@ -248,7 +253,6 @@ class eZPolicyLimitation extends eZPersistentObject
 
         $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
 
-//        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitation, "limitation" );
         if ( $limitation &&
              count( $limitation[ 'values' ] == 0 ) &&
              array_key_exists( 'class', $limitation ) )
@@ -261,7 +265,6 @@ class eZPolicyLimitation extends eZPersistentObject
             include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
-//            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueList, "limitationList" );
             foreach( $limitationValueList as $limitationValue )
             {
                 $limitationValuePair = array();
@@ -309,8 +312,6 @@ class eZPolicyLimitation extends eZPersistentObject
         foreach ( array_keys( $valueList ) as $key )
         {
             $value = $valueList[$key];
-//            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value, "value" );
-
             if ( isset( $limitationValueArray ) )
             {
                 reset( $limitationValueArray );
