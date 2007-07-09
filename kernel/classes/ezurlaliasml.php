@@ -1225,6 +1225,7 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \private
+     \static
      Perform reverse translation of uri, that is from system-url to url alias.
      */
     function reverseTranslate( &$uri, $uriString, $internalURIString )

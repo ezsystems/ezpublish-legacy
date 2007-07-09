@@ -3863,11 +3863,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Only set name if current node is not the content root
         $ini =& eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
-        $obj = $this->object();
-        $alwaysMask = ($obj->attribute( 'language_mask' ) & 1);
-        $languages   = $obj->languages();
-        $initialLanguageID = $obj->attribute( 'initial_language_id' );
-        $nameList    = array();
+        $obj           = $this->object();
+        $alwaysMask    = ($obj->attribute( 'language_mask' ) & 1);
+        $languages     = $obj->languages();
+        $nameList      = array();
+
+        $initialLanguageID      = $obj->attribute( 'initial_language_id' );
         $pathIdentificationName = false;
         foreach ( $languages as $key => $tmp )
         {
@@ -3894,11 +3895,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                  'language' => &$language );
         }
 
-//        $parentAction = "eznode:" . $parentNodeID;
-        $parentActionName = "eznode";
+        $parentActionName  = "eznode";
         $parentActionValue = $parentNodeID;
-
-        $isMoved = false;
 
         $parentElementID = false;
         $existingElements = eZURLAliasML::fetchByAction( "eznode", $nodeID );
@@ -3937,14 +3935,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         break;
                     }
                 }
-                if ( $oldParentElementID != $parentElementID )
-                {
-                    $isMoved = true;
-                }
             }
             else
             {
-//                    $parentElementID = (int)$parents[0]->attribute( 'id' );
                 $oldParentElementID = $parentElementID;
                 $parentElementID = 0;
                 foreach ( $parents as $paren )
@@ -3954,11 +3947,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $parentElementID = (int)$paren->attribute( 'link' );
                         break;
                     }
-                }
-//                    if ( $parents[0]->attribute( 'action' ) != $parentAction )
-                if ( $oldParentElementID != $parentElementID )
-                {
-                    $isMoved = true;
                 }
             }
         }
@@ -3971,10 +3959,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $languageID = $obj->attribute( 'initial_language_id' );
         foreach ( $nameList as $nameEntry )
         {
-            $text     = $nameEntry['text'];
+            $text     =  $nameEntry['text'];
             $language =& $nameEntry['language'];
-            eZDebug::writeDebug( "language for {$text}" );
-            eZDebug::writeDebug( $language );
             if ( eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID ) === true )
                 $changeCount++;
         }
