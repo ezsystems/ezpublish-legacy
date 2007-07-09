@@ -416,7 +416,7 @@ if ( $urlCount > 0 )
             $source      = $row['source_url'];
             $destination = $row['destination_url'];
             list( $action, $alwaysAvailable ) = decodeAction( $destination );
-            eZURLAliasML::storePath( $source, $action, false, $linkID, $alwaysAvailable );
+            eZURLAliasML::storePath( $source, $action, false, $linkID, $alwaysAvailable, false, true );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );

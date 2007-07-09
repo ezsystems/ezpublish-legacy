@@ -348,8 +348,9 @@ class eZURLAliasML extends eZPersistentObject
      \param $linkID Numeric ID for link field, if it is set to false the entry will point to itself. Use this for redirections.
      \param $alwaysAvailable If true the entry will be available in any language.
      \param $rootID ID of the parent element to start at, use 0/false for the very top.
+     \param $autoAdjustName If true it will adjust the name until it is unique in the path. Used together with $linkID.
      */
-    function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false )
+    function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false, $autoAdjustName = false )
     {
         $path = eZURLAliasML::cleanURL( $path );
 //        $existingElement = $this->fetchByAction( $action );
@@ -528,10 +529,14 @@ class eZURLAliasML extends eZPersistentObject
 
             // Step 2
             $originalTopElement = $topElement;
-            $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true );
-            if ( strcmp( $topElement, $originalTopElement ) != 0 )
+            while ( true )
             {
-                eZDebug::writeError( "The link name '{$topElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true );
+                if ( strcmp( $topElement, $originalTopElement ) == 0 || $autoAdjustName )
+                {
+                    break; // Name is unique, use it
+                }
+                eZDebug::writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
                 return EZ_URLALIAS_LINK_ALREADY_TAKEN;
             }
             $element = new eZURLAliasML( array( 'id'=> null,
