@@ -49,6 +49,11 @@
 </div>
 
 <div class="block">
+    <label>{'URL alias name pattern'|i18n( 'design/admin/class/view' )}:</label>
+    {$class.url_alias_name|wash}
+</div>
+
+<div class="block">
     <label>{'Container'|i18n( 'design/admin/class/view' )}:</label>
     {section show=$class.is_container|eq(1)}
         {'Yes'|i18n( 'design/admin/class/view' )}

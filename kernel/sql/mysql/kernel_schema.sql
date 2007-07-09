@@ -242,6 +242,7 @@ CREATE TABLE ezcontentclass (
   serialized_name_list longtext,
   sort_field int(11) NOT NULL default '1',
   sort_order int(11) NOT NULL default '1',
+  url_alias_name varchar(255) default NULL,
   version int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version),
   KEY ezcontentclass_version (version)
@@ -666,6 +667,46 @@ CREATE TABLE ezinfocollection_attribute (
   informationcollection_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezinfocollection_attr_co_id (contentobject_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezisbn_group (
+  description varchar(255) NOT NULL default '',
+  group_number int(11) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezisbn_group_range (
+  from_number int(11) NOT NULL default '0',
+  group_from varchar(32) NOT NULL default '',
+  group_length int(11) NOT NULL default '0',
+  group_to varchar(32) NOT NULL default '',
+  id int(11) NOT NULL auto_increment,
+  to_number int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezisbn_registrant_range (
+  from_number int(11) NOT NULL default '0',
+  id int(11) NOT NULL auto_increment,
+  isbn_group_id int(11) NOT NULL default '0',
+  registrant_from varchar(32) NOT NULL default '',
+  registrant_length int(11) NOT NULL default '0',
+  registrant_to varchar(32) NOT NULL default '',
+  to_number int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 
@@ -1350,6 +1391,7 @@ CREATE TABLE ezurlalias (
   destination_url longtext NOT NULL,
   forward_to_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
+  is_imported int(11) NOT NULL default '0',
   is_internal int(11) NOT NULL default '1',
   is_wildcard int(11) NOT NULL default '0',
   source_md5 varchar(32) default NULL,
@@ -1357,9 +1399,38 @@ CREATE TABLE ezurlalias (
   PRIMARY KEY  (id),
   KEY ezurlalias_desturl (destination_url(200)),
   KEY ezurlalias_forward_to_id (forward_to_id),
-  KEY ezurlalias_is_wildcard (is_wildcard),
+  KEY ezurlalias_imp_wcard_fwd (is_imported,is_wildcard,forward_to_id),
   KEY ezurlalias_source_md5 (source_md5),
-  KEY ezurlalias_source_url (source_url(255))
+  KEY ezurlalias_source_url (source_url(255)),
+  KEY ezurlalias_wcard_fwd (is_wildcard,forward_to_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezurlalias_ml (
+  action longtext NOT NULL,
+  action_type varchar(32) NOT NULL default '',
+  id int(11) NOT NULL default '0',
+  is_alias int(11) NOT NULL default '0',
+  is_original int(11) NOT NULL default '0',
+  lang_mask int(11) NOT NULL default '0',
+  link int(11) NOT NULL default '0',
+  parent int(11) NOT NULL default '0',
+  text longtext NOT NULL,
+  text_md5 varchar(32) NOT NULL default '',
+  PRIMARY KEY  (parent,text_md5),
+  KEY ezurlalias_ml_act_org (action(32),is_original),
+  KEY ezurlalias_ml_action (action(32),id,link),
+  KEY ezurlalias_ml_actt (action_type),
+  KEY ezurlalias_ml_actt_org_al (action_type,is_original,is_alias),
+  KEY ezurlalias_ml_id (id),
+  KEY ezurlalias_ml_par_act_id_lnk (parent,action(32),id,link),
+  KEY ezurlalias_ml_par_lnk_txt (parent,link,text(32)),
+  KEY ezurlalias_ml_par_txt (parent,text(32)),
+  KEY ezurlalias_ml_text (text(32),id,link),
+  KEY ezurlalias_ml_text_lang (text(32),lang_mask,parent)
 ) TYPE=MyISAM;
 
 
@@ -1613,30 +1684,4 @@ CREATE TABLE ezworkflow_process (
 ) TYPE=MyISAM;
 
 
-CREATE TABLE ezisbn_group (
-  id int(11) NOT NULL auto_increment,
-  description varchar(255) default NULL,
-  group_number int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
 
-CREATE TABLE ezisbn_group_range (
-  id int(11) NOT NULL auto_increment,
-  from_number int(11) NOT NULL default '0',
-  to_number int(11) NOT NULL default '0',
-  group_from varchar(32) default NULL,
-  group_to varchar(32) default NULL,
-  group_length int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
-CREATE TABLE ezisbn_registrant_range (
-  id int(11) NOT NULL auto_increment,
-  from_number int(11) NOT NULL default '0',
-  to_number int(11) NOT NULL default '0',
-  registrant_from varchar(32) default NULL,
-  registrant_to varchar(32) default NULL,
-  registrant_length int(11) NOT NULL default '0',
-  isbn_group_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;

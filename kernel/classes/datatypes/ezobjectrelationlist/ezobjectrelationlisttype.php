@@ -33,11 +33,12 @@
   \ingroup eZDatatype
   \brief A content datatype which handles object relations
 
-Bugs/missing features:
+Bugs/missing/deprecated features:
 - No identifier support yet
 - Validation and fixup for "Add new object" functionality
 - Proper embed views for admin classes
 - No translation page support yet (maybe?)
+- is_modified is deprecated and is used for BC only.
 
 */
 
@@ -1183,6 +1184,7 @@ class eZObjectRelationListType extends eZDataType
                                'priority' => $priority,
                                'contentobject_id' => $object->attribute( 'id' ),
                                'contentobject_version' => $object->attribute( 'current_version' ),
+                               'contentobject_remote_id' => $object->attribute( 'remote_id' ),
                                'node_id' => false,
                                'parent_node_id' => $nodePlacement,
                                'contentclass_id' => $class->attribute( 'id' ),
@@ -1201,6 +1203,7 @@ class eZObjectRelationListType extends eZDataType
                                'priority' => $priority,
                                'contentobject_id' => $object->attribute( 'id' ),
                                'contentobject_version' => $object->attribute( 'current_version' ),
+                               'contentobject_remote_id' => $object->attribute( 'remote_id' ),
                                'node_id' => $object->attribute( 'main_node_id' ),
                                'parent_node_id' => $object->attribute( 'main_parent_node_id' ),
                                'contentclass_id' => $class->attribute( 'id' ),
@@ -1456,11 +1459,23 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /*!
-     Returns the content of the string for use as a title
+     Returns the content of the string for use as a title,
+     for simplicity this is the name of the first object referenced or false.
     */
     function title( $contentObjectAttribute, $name = null )
     {
-        return false;
+        $objectAttributeContent = $this->objectAttributeContent( $contentObjectAttribute );
+
+        if ( count( $objectAttributeContent['relation_list'] ) > 0 )
+        {
+            $target = $objectAttributeContent['relation_list'][0];
+            $targetObject =& eZContentObject::fetch( $target['contentobject_id'], false );
+            return $targetObject['name'];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /*!

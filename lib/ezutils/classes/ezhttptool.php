@@ -542,6 +542,48 @@ class eZHTTPTool
             header( $_SERVER['SERVER_PROTOCOL'] .  " " . $status );
             eZHTTPTool::headerVariable( "Status", $status );
         }
+        // Parse URI and encode the path.
+        $data = parse_url( $uri );
+        if ( isset( $data['path'] ) )
+        {
+            $data['path'] = eZURI::encodeIRI( $data['path'] ); // Make sure it is encoded to IRI format
+        }
+
+        // Reconstruct the URI
+        $host    = '';
+        $preHost = '';
+        if ( isset( $data['user'] ) )
+        {
+            if ( isset( $data['pass'] ) )
+                $preHost .= $data['user'] . ':' . $data['pass'] . '@';
+            else
+                $preHost .= $data['user'] . '@';
+        }
+        if ( isset( $data['host'] ) )
+        {
+            if ( isset( $data['port'] ) )
+                $host = $preHost . $data['host'] . ':' . $data['port'];
+            else
+                $host = $preHost . $data['host'];
+        }
+        $uri = '';
+        if ( isset( $data['scheme'] ) )
+            $uri = $data['scheme'] . '://' . $host;
+        else if ( strlen( $host ) > 0 )
+            $uri = '//' . $host;
+        if ( isset( $data['path'] ) )
+        {
+            $uri .= $data['path'];
+        }
+        if ( isset( $data['query'] ) )
+        {
+            $uri .= '?' . $data['query'];
+        }
+        if ( isset( $data['fragment'] ) )
+        {
+            $uri .= '#' . $data['fragment'];
+        }
+
         eZHTTPTool::headerVariable( 'Location', $uri );
 
         /* Fix for redirecting using workflows and apache 2 */

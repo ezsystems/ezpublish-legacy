@@ -43,8 +43,87 @@ class eZFSFileHandler
     function eZFSFileHandler( $filePath = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::ctor( '$filePath' )" );
-        $this->metaData['name'] = $filePath;
+//        $this->metaData['name'] = $filePath;
+        $this->Mutex = null;
+        $this->filePath = $filePath;
+        $this->lifetime = 60; // Lifetime of lock
         $this->loadMetaData();
+    }
+
+    /*!
+     \private
+     Acquires an exclusive lock to the current file by using eZMutex.
+
+     If a lock is already present it will sleep 0.5 seconds and try again until
+     the lock lifetime is exceeded and the lock is stolen.
+
+     Note: Lock stealing might be removed.
+
+     \param $fname Name of the calling code (usually function name).
+     */
+    function _exclusiveLock( $fname = false )
+    {
+        $pid = getmypid();
+        $mutex =& $this->_mutex();
+        while ( true )
+        {
+            $timestamp  = $mutex->lockTS(); // Note: This does not lock, only checks what the timestamp is.
+            if ( $timestamp === false )
+            {
+                if ( !$mutex->lock() )
+                {
+                    eZDebug::writeWarning( "Failed to acquire lock for file " . $this->filePath );
+                    return false;
+                }
+                $mutex->setMeta( 'pid', getmypid() );
+                return true;
+            }
+            if ( $timestamp >= gmmktime() - $this->lifetime )
+            {
+                usleep( 500000 ); // Sleep 0.5 second
+                continue;
+            }
+
+            $oldPid = $mutex->meta( 'pid' );
+            if ( is_numeric( $oldPid ) &&
+                 $oldPid != 0 &&
+                 function_exists( 'posix_kill' ) )
+            {
+                posix_kill( $oldPid, 9 );
+            }
+            if ( !$mutex->steal() )
+            {
+                eZDebug::writeWarning( "Failed to steal lock for file " . $this->filePath . " from PID $oldPid" );
+                return false;
+            }
+            $mutex->setMeta( 'pid', getmypid() );
+            return true;
+        }
+    }
+
+    /*!
+     \private
+     Frees the current exclusive lock in use.
+
+     \param $fname Name of the calling code (usually function name).
+     */
+    function _freeExclusiveLock( $fname = false )
+    {
+        $mutex =& $this->_mutex();
+        $mutex->unlock();
+    }
+
+    /*!
+     \private
+     Returns the mutex object for the current file.
+     */
+    function &_mutex()
+    {
+        if ( $this->Mutex !== null )
+            return $this->Mutex;
+        include_once( "lib/ezutils/classes/ezmutex.php" );
+        $mutex = new eZMutex( $this->filePath );
+        return $mutex;
     }
 
     /*!
@@ -53,15 +132,15 @@ class eZFSFileHandler
     */
     function loadMetaData()
     {
-        if ( $this->metaData['name'] !== false )
+        if ( $this->filePath !== false )
         {
             $debug = eZDebug::instance();
             // fill $this->metaData
-            $filePath = $this->metaData['name'];
+            $filePath = $this->filePath;
             $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
             $this->metaData = @stat( $filePath );
             $debug->accumulatorStop( 'dbfile' );
-            $this->metaData['name'] = $filePath;
+//            $this->metaData['name'] = $filePath;
         }
     }
 
@@ -85,9 +164,9 @@ class eZFSFileHandler
      *
      * \public
      */
-    function fetch()
+    function fetch( $cacheLocally = false )
     {
-        $filePath = $this->metaData['name'];
+        $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetch( '$filePath' )" );
     }
 
@@ -99,7 +178,7 @@ class eZFSFileHandler
      */
     function fetchUnique( )
     {
-        $filePath = $this->metaData['name'];
+        $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchUnique( '$filePath' )" );
         return $filePath;
     }
@@ -156,10 +235,12 @@ class eZFSFileHandler
      *
      * \public
      * \static
+     *
+     * \param $storeLocally This parameter is ignored since it makes no sense for the FS file handler.
      */
-    function storeContents( $contents, $scope = false, $datatype = false )
+    function storeContents( $contents, $scope = false, $datatype = false, $storeLocally = false )
     {
-        $filePath = $this->metaData['name'];
+        $filePath = $this->filePath;
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::storeContents( '$filePath' )" );
 
@@ -167,7 +248,7 @@ class eZFSFileHandler
         $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
 
         include_once( 'lib/ezfile/classes/ezfile.php' );
-        eZFile::create( basename( $filePath ), dirname( $filePath ), $contents );
+        eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
         $debug->accumulatorStop( 'dbfile' );
     }
@@ -199,7 +280,7 @@ class eZFSFileHandler
      */
     function fetchContents()
     {
-        $filePath = $this->metaData['name'];
+        $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchContents( '$filePath' )" );
 
         $debug = eZDebug::instance();
@@ -210,6 +291,275 @@ class eZFSFileHandler
         return $rslt;
     }
 
+    /*!
+     Creates a single transaction out of the typical file operations for accessing caches.
+     Caches are normally ready from the database or local file, if the entry does not exist
+     or is expired then it generates the new cache data and stores it.
+     This method takes care of these operations and handles the custom code by performing
+     callbacks when needed.
+
+     The $retrieveCallback is used when the file contents can be used (ie. not re-generation) and
+     is called when the file is ready locally.
+     The function will be called with the file path as the first parameter, the mtime as the second
+     and optionally $extraData as the third.
+     The function must return the file contents or an instance of eZClusterFileFailure which can
+     be used to tell the system that the retrieve data cannot be used after all.
+     $retrieveCallback can be set to null which makes the system go directly to the generation.
+
+     The $generateCallback is used when the file content is expired or does not exist, in this
+     case the content must be re-generated and stored.
+     The function will be called with the file path as the first parameter and optionally $extraData
+     as the second.
+     The function must return an array with information on the contents, the array consists of:
+     - scope    - The current scope of the file, is optional.
+     - datatype - The current datatype of the file, is optional.
+     - content  - The file content, this can be any type except null.
+     - binarydata - The binary data which is written to the file.
+     - store      - Whether *content* or *binarydata* should be stored to the file, if false it will simply return the data. Optional, by default it is true.
+     Note: Set $generateCallback to false to disable generation callback.
+     Note: Set $generateCallback to null to tell the function to perform a write lock but not do any generation, the generation must done be done by the caller by calling storeCache().
+
+     Either *content* or *binarydata* must be supplied, if not an error is issued and it returns null.
+     If *content* is set it will be used as the return value of this function, if not it will return the binary data.
+     If *binarydata* is set it will be used as the binary data for the file, if not it will perform a var_export on *content* and use that as the binary data.
+
+     For convenience the $generateCallback function can return a string which will be considered as the
+     binary data for the file and returned as the content.
+
+     For controlling how long a cache entry can be used the parameters $expiry and $ttl is used.
+     $expiry can be set to a timestamp which controls the absolute max time for the cache, after this
+     time/date the cache will never be used. If the value is set to a negative value or null there the
+     expiration check is disabled.
+
+     $ttl (time to live) tells how many seconds the cache can live from the time it was stored. If the
+     value is set to negative or null there is no limit for the lifetime of the cache. A value of 0 means
+     that the cache will always expire and practically disables caching.
+     For the cache to be used both the $expiry and $ttl check must hold.
+     */
+    function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
+    {
+        $forceDB = false;
+        $fname = $this->filePath;
+        $args = array( $fname );
+        if ( $extraData !== null )
+            $args[] = $extraData;
+        $timestamp = null;
+        $curtime   = time();
+        $tries     = 0;
+
+        if ( $expiry < 0 )
+            $expiry = null;
+        if ( $ttl < 0 )
+            $ttl = null;
+
+        while ( true )
+        {
+            $forceGeneration = false;
+            $storeCache      = true;
+            $mtime = @filemtime( $fname );
+//            $mtime = $this->metaData['mtime'];
+            if ( !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+            {
+                $args = array( $fname, $mtime );
+                if ( $extraData !== null )
+                    $args[] = $extraData;
+                $retval = call_user_func_array( $retrieveCallback, $args );
+                if ( get_class( $retval ) != 'ezclusterfilefailure' )
+                {
+                    eZDebug::writeNotice( "Retrieved cache '{$fname}' with data of type " . gettype( $retval ), "cluster::fs::{$fname}" );
+                    return $retval;
+                }
+                $forceGeneration = true;
+            }
+
+            if ( $tries >= 2 )
+            {
+                eZDebugSetting::writeDebug( 'kernel-clustering', "Reading was retried $tries times and reached the maximum, returning null" );
+                $forceGeneration = true; // We will now generate the cache but not store it
+                $storeCache = false; // This disables the cache storage
+            }
+
+            // Generation part starts here
+            if ( isset( $retval ) &&
+                 get_class( $retval ) == 'ezclusterfilefailure' )
+            {
+                if ( $retval->errno() != 1 ) // check for non-expiry error codes
+                {
+                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
+                    return null;
+                }
+                $message = $retval->message();
+                if ( strlen( $message ) > 0 )
+                {
+                    eZDebugSetting::writeDebug( 'kernel-clustering', $retval->message(), "eZClusterFileFailure::processCache" );
+                }
+                // the retrieved data was expired so we need to generate it, let's continue
+            }
+
+            // We need to lock if we have a generate-callback or
+            // the generation is deferred to the caller.
+            // Note: false means no generation
+            if ( $generateCallback !== false &&
+                 $forceGeneration === false )
+            {
+                // Lock the entry for exclusive access, if the entry does not exist
+                // it will be inserted with mtime=-1
+                if ( !$this->_exclusiveLock( $fname, 'processCache' ) )
+                {
+                    // Cannot get exclusive lock, so return null.
+                    return null;
+                }
+
+                // This is where we perform a two-phase commit. If any other
+                // process or machine has generated the file data and it is valid
+                // we will retry the retrieval part and not do the generation.
+                @clearstatcache();
+                $mtime = @filemtime( $fname );
+//                $expiry = max( $curtime, $expiry );
+                if ( $mtime > 0 && !eZFSFileHandler::isExpired( $fname, $mtime, $expiry, $curtime, $ttl ) )
+                {
+                    eZDebugSetting::writeDebug( 'kernel-clustering', "File was generated while we were locked, use that instead" );
+                    $this->metaData = false;
+                    $this->_freeExclusiveLock( 'storeCache' );
+                    ++$tries;
+                    continue; // retry reading file
+                }
+            }
+
+            // File in DB is outdated or non-existing, call write-callback to generate content
+            if ( $generateCallback )
+            {
+                $args = array( $fname );
+                if ( $extraData !== null )
+                    $args[] = $extraData;
+                $fileData = call_user_func_array( $generateCallback, $args );
+                return $this->storeCache( $fileData, $storeCache );
+            }
+
+            break;
+        }
+        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        return new eZClusterFileFailure( 2, "Manual generation of file data is required, calling storeCache is required" );
+    }
+
+    /*!
+     \static
+     \private
+     Calculates if the file data is expired or not.
+
+     \param $fname Name of file, available for easy debugging.
+     \param $mtime Modification time of file, can be set to false if file does not exist.
+     \param $expiry Time when file is to be expired, a value of -1 will disable this check.
+     \param $curtime The current time to check against.
+     \param $ttl Number of seconds the data can live, set to null to disable TTL.
+     */
+    function isExpired( $fname, $mtime, $expiry, $curtime, $ttl )
+    {
+        if ( $mtime == false )
+        {
+            return true;
+        }
+        else if ( $ttl === null )
+        {
+            $ret = $mtime < $expiry;
+            return $ret;
+        }
+        else
+        {
+            $ret = $mtime < max( $expiry, $curtime - $ttl );
+            return $ret;
+        }
+    }
+
+    /*!
+     \private
+     Stores the data in $fileData to the remote and local file and commits the transaction.
+
+     The parameter $fileData must contain the same as information as the $generateCallback returns as explained in processCache().
+
+     \note This method is just a continuation of the code in processCache() and is not meant to be called alone since it relies on specific state in the database.
+     */
+    function storeCache( $fileData, $storeCache = true )
+    {
+        $fname = $this->filePath;
+
+        $scope       = false;
+        $datatype    = false;
+        $binaryData  = null;
+        $fileContent = null;
+        $store       = true;
+        if ( is_array( $fileData ) )
+        {
+            if ( isset( $fileData['scope'] ) )
+                $scope = $fileData['scope'];
+            if ( isset( $fileData['datatype'] ) )
+                $datatype = $fileData['datatype'];
+            if ( isset( $fileData['content'] ) )
+                $fileContent = $fileData['content'];
+            if ( isset( $fileData['binarydata'] ) )
+                $binaryData = $fileData['binarydata'];
+            if ( isset( $fileData['store'] ) )
+                $store = $fileData['store'];
+        }
+        else
+            $binaryData = $fileData;
+
+        // Disable storage if the caller of the function says so
+        if ( !$storeCache )
+            $store = false;
+
+        $mtime = false;
+        $result = null;
+        if ( $binaryData === null &&
+             $fileContent === null )
+        {
+            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
+            return null;
+        }
+
+        if ( $binaryData === null )
+            $binaryData = "<" . "?php\n\treturn ". var_export( $fileContent, true ) . ";\n?" . ">\n";
+
+        if ( $fileContent === null )
+            $result = $binaryData;
+        else
+            $result = $fileContent;
+
+        // Check if we are allowed to store the data, if not just return the result
+        if ( !$store )
+        {
+            return $result;
+        }
+
+        // Store content locally
+        $this->storeContents( $binaryData, $scope, $datatype, true );
+        eZDebug::writeNotice( "Stored cache '{$fname}' with data of length " . strlen( $binaryData ), "cluster::fs::{$fname}" );
+
+        $this->_freeExclusiveLock( 'storeCache' );
+
+        return $result;
+    }
+
+    /*!
+     Provides access to the file contents by downloading the file locally and
+     calling $callback with the local filename. The callback can then process the
+     contents and return the data in the same way as in processCache().
+     Downloading is only done once so the local copy is kept, while updates to the
+     remote DB entry is synced with the local one.
+
+     The parameters $expiry and $extraData is the same as for processCache().
+
+     \note Unlike processCache() this returns null if the file cannot be accessed.
+     */
+    function processFile( $callback, $expiry = false, $extraData = null )
+    {
+        $result = $this->processCache( $callback, false, null, $expiry, $extraData );
+        if ( get_class( $result ) == 'ezclusterfilefailure' )
+        {
+            return null;
+        }
+        return $result;
+    }
 
     /**
      * Returns file metadata.
@@ -252,7 +602,7 @@ class eZFSFileHandler
     function name()
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::name()" );
-        return isset( $this->metaData['name'] ) ? $this->metaData['name'] : null;
+        return $this->filePath;
     }
 
     /**
@@ -351,28 +701,41 @@ class eZFSFileHandler
      * \public
      * \static
      */
-    function fileDelete( $path )
+    function fileDelete( $path, $fnamePart = false )
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDelete( '$path' )" );
 
         $debug = eZDebug::instance();
         $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
 
-        if ( is_file( $path ) )
+        $list = array();
+        if ( $fnamePart !== false )
         {
-            include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-            $handler = eZFileHandler::instance( false );
-            $handler->unlink( $path );
-            if ( file_exists( $path ) )
-                $debug->writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+            $list = glob( $path . "/" . $fnamePart . "*" );
         }
         else
         {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::recursiveDelete( $path );
+            $list = array( $path );
         }
 
-        $debug->accumulatorStop( 'dbfile' );
+        foreach ( $list as $path )
+        {
+            if ( is_file( $path ) )
+            {
+                include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+                $handler =& eZFileHandler::instance( false );
+                $handler->unlink( $path );
+                if ( file_exists( $path ) )
+                    eZDebug::writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+            }
+            else
+            {
+                include_once( 'lib/ezfile/classes/ezdir.php' );
+                eZDir::recursiveDelete( $path );
+            }
+        }
+
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -385,11 +748,9 @@ class eZFSFileHandler
      */
     function delete()
     {
-        $path = $this->metaData['name'];
+        $path = $this->filePath;
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::delete( '$path' )" );
-
-        // FIXME: cut&paste from fileDelete()
 
         $debug = eZDebug::instance();
         $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
@@ -433,8 +794,48 @@ class eZFSFileHandler
      */
     function deleteLocal()
     {
-        $path = $this->metaData['name'];
+        $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteLocal( '$path' )" );
+    }
+
+    /*!
+     Purge local and remote file data for current file.
+     */
+    function purge( $printCallback = false, $microsleep = false, $max = false, $expiry = false )
+    {
+        $file = $this->filePath;
+        if ( $max === false )
+            $max = 100;
+        $count = 0;
+        if ( is_file( $file ) )
+            $list = array( $file );
+        else
+            $list = glob( $file . "/*" );
+        do
+        {
+            if ( ( $count % $max ) == 0 && $microsleep )
+                usleep( $microsleep ); // Sleep a bit to make the filesystem happier
+
+            $count = 0;
+            $file = array_shift( $list );
+
+            if ( is_file( $file ) )
+            {
+                $mtime = @filemtime( $file );
+                if ( $expiry === false ||
+                     $mtime < $expiry ) // remove it if it is too old
+                    @unlink( $file );
+                ++$count;
+            }
+            else if ( is_dir( $file ) )
+            {
+                $list = array_merge( $list, glob( $file . "/*" ) );
+            }
+
+            if ( $printCallback )
+                call_user_func_array( $printCallback,
+                                      array( $file, 1 ) );
+        } while ( count( $list ) > 0 );
     }
 
     /**
@@ -465,7 +866,7 @@ class eZFSFileHandler
      */
     function exists()
     {
-        $path = $this->metaData['name'];
+        $path = $this->filePath;
         $rc = isset( $this->metaData['mtime'] );
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::exists( '$path' ): " . ( $rc ? 'true' :'false' ) );
 
@@ -479,7 +880,7 @@ class eZFSFileHandler
      */
     function passthrough()
     {
-        $path = $this->metaData['name'];
+        $path = $this->filePath;
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough()" );
 
@@ -488,7 +889,8 @@ class eZFSFileHandler
 
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $path );
-        $mimeType = $mimeData['name'];
+//        $mimeType = $mimeData['name'];
+        $mimeType = 'application/octec-stream';
         $contentLength = filesize( $path );
 
         header( "Content-Length: $contentLength" );
@@ -559,7 +961,7 @@ class eZFSFileHandler
      */
     function move( $dstPath )
     {
-        $srcPath = $this->metaData['name'];
+        $srcPath = $this->filePath;
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::move( '$srcPath', '$dstPath' )" );
 

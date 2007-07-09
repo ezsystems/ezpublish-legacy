@@ -33,7 +33,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <td>
-    <label>{'Country'|i18n( 'design/admin/shop/editvatrule' )}:</label>
+    <label>{'Country/region'|i18n( 'design/admin/shop/editvatrule' )}:</label>
     </td>
     <td>
     {include uri='design:shop/country/edit.tpl' select_name='Country' select_size=1

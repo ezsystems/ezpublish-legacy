@@ -35,6 +35,19 @@
     {case match="invaliditemcount"}
        <h2>{"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
     {/case}
+    {case match="options"}
+       <h2>{"You have chosen invalid combnation of options"|i18n("design/standard/shop",,)}</h2>
+        <ul>
+          {section var=UnvalidatedOptions loop=$error_data}
+            <li>{$UnvalidatedOptions.item.name}</li>
+                  <ul>
+                      {section var=Errors loop=$UnvalidatedOptions.item.description}
+                          <li>{$Errors.item}</li>
+                      {/section}
+                  </ul>
+          {/section}
+        </ul>
+    {/case}
     {/switch}
 </div>
 {/section}

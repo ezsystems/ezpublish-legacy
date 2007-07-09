@@ -96,16 +96,21 @@ class eZNotificationCollectionItem extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                     null, array( 'send_date' => array( '<', $date ),
-                                                                 'send_date' => array( '!=', 0 ) ) , null,null,
+                                                                 'send_date' => array( '!=', 0 ) ) , null, null,
                                                     true );
     }
 
     static function fetchCountForEvent( $eventID )
     {
         $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                        array(), array( 'event_id' => $eventID ), array(),null,
-                                                        false,false, array( array( 'operation' => 'count(*)',
-                                                                                   'name' => 'count' ) ) );
+                                                       array(),
+                                                       array( 'event_id' => $eventID ),
+                                                       false,
+                                                       null,
+                                                       false,
+                                                       false,
+                                                       array( array( 'operation' => 'count( * )',
+                                                                     'name' => 'count' ) ) );
         return $result[0]['count'];
     }
 

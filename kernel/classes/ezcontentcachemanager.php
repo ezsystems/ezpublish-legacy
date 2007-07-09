@@ -589,7 +589,7 @@ class eZContentCacheManager
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $staticCache = new eZStaticCache();
             $staticCache->generateAlwaysUpdatedCache();
-            $staticCache->generateNodeListCache( eZContentObjectTreeNode::fetchAliasesFromNodeList( $nodeList ) );
+            $staticCache->generateNodeListCache( $nodeList );
         }
 
         include_once( 'kernel/classes/ezcontentcache.php' );

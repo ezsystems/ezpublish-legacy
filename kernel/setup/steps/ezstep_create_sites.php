@@ -46,6 +46,7 @@ include_once( 'lib/ezlocale/classes/ezlocale.php' );
   EZSW-003: Failed to initialize database schema
   EZSW-004: Failed to initialize database data
   EZSW-005: Failed to connect to database
+  EZSW-006: Failed to initialize datatype related database data
 
   EZSW-020: Failed to fetch administrator user object
   EZSW-021: Failed to fetch administrator content object
@@ -533,6 +534,24 @@ class eZStepCreateSites extends eZStepInstaller
                                                                           $db->errorMessage() ) );
                             $result = false;
                         }
+                    }
+                }
+            }
+
+            if ( $result )
+            {
+                // Inserting data from the dba-data files of the datatypes
+                include_once( 'kernel/classes/ezdatatype.php' );
+                eZDataType::loadAndRegisterAllTypes();
+                $registeredDataTypes =& eZDataType::registeredDataTypes();
+                foreach ( $registeredDataTypes as $dataType )
+                {
+                    if ( !$dataType->importDBDataFromDBAFile() )
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-002',
+                                                          'text' => "Failed importing datatype related data into database: \n" .
+                                                                    'datatype - ' . $dataType->DataTypeString . ", \n" .
+                                                                    'dba-data file - ' . $dataType->getDBAFilePath() );
                     }
                 }
             }

@@ -378,23 +378,16 @@ if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explo
   $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
 //Fetch newer drafts and count of newer drafts.
-$newerDraftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                           null, array(  'contentobject_id' => $object->attribute( 'id' ),
-                                                                         'status' => EZ_VERSION_STATUS_DRAFT,
-                                                                         'version' => array( '>', $object->attribute( 'current_version' ) ) ),
-                                                           array( 'modified' => false,
-                                                                  'initial_language_id' => true ),
-                                                           null,
-                                                           true );
+$newerDraftVersionList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                              null,
+                                                              array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                     'status' => EZ_VERSION_STATUS_DRAFT,
+                                                                     'version' => array( '>', $object->attribute( 'current_version' ) ) ),
+                                                              array( 'modified' => 'asc',
+                                                                     'initial_language_id' => 'desc' ),
+                                                              null, true );
+$newerDraftVersionListCount = is_array( $newerDraftVersionList ) ? count( $newerDraftVersionList ) : 0;
 
-$newerDraftVersionListCount =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                          array(), array( 'contentobject_id' => $object->attribute( 'id' ),
-                                                                       'status' => EZ_VERSION_STATUS_DRAFT,
-                                                                       'version' => array( '>', $object->attribute( 'current_version' ) ) ),
-                                                          null, null,
-                                                          false,false,
-                                                          array( array( 'operation' => 'count( * )',
-                                                                        'name' => 'count' ) ) );
 $versions =& $object->versions();
 
 $tpl->setVariable( 'newerDraftVersionList', $newerDraftVersionList );

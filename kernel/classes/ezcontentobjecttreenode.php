@@ -65,7 +65,7 @@ include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezurlalias.php" );
+include_once( "kernel/classes/ezurlaliasml.php" );
 
 class eZContentObjectTreeNode extends eZPersistentObject
 {
@@ -176,6 +176,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_view_embed' => 'canViewEmbed',
                                                       'is_main' => 'isMain',
                                                       'creator' => 'creator',
+                                                      "path_with_names" => "pathWithNames",
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
                                                       "parent" => "fetchParent",
@@ -2980,7 +2981,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &children()
     {
         $children =& $this->subTree( array( 'Depth' => 1,
-                                            'DepthOperator' => 'eq' ) );
+                                            'DepthOperator' => 'eq',
+                                            'SortBy' => $this->sortArray() ) );
         return $children;
     }
 
@@ -3277,7 +3279,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db = eZDB::instance();
         $nodeIDs = $db->implodeWithTypeCast( ', ', $nodeList, 'int' );
-        $query = "SELECT path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
+        $query = "SELECT node_id, path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
         $pathListArray = $db->arrayQuery( $query );
         return $pathListArray;
     }
@@ -3486,7 +3488,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                   FROM ezcontentobject_tree, ezcontentobject
                   WHERE ezcontentobject_tree.contentobject_id = '$contentObjectID' AND
                         ezcontentobject.id = '$contentObjectID' AND
-                        ezcontentobject_tree.contentobject_is_published = 1 AND
                         ezcontentobject_tree.parent_node_id = '$parentNodeID' AND ".
                         eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
@@ -3714,80 +3715,79 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return an url alias for the current node. It will generate a unique alias.
     */
-    function pathWithNames( $nodeID = 0 )
+    function &pathWithNames( $nodeID = 0, $regenerateCurrent = false )
     {
-        if ( $nodeID == 0 )
-        {
-            $node =& $this;
-        }
-        else
-        {
+        $node = $this;
+        if ( $nodeID != 0 )
             $node = eZContentObjectTreeNode::fetch( $nodeID );
-        }
-
-        $nodeList =& $node->attribute( 'path' );
-        if ( $node->attribute( 'depth' ) > 1 )
-        {
-            $parentNodeID = $node->attribute( 'parent_node_id' );
-            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID, false, false );
-            if ( ! is_null( $parentNode ) )
-            {
-                $parentNodePathString = $parentNode['path_identification_string'];
-            }
-            else
-            {
-                eZDebug::writeError( 'Parent node was null.', 'eZContentObjectTreeNode::pathWithNames()' );
-            }
-        }
-        else
-        {
-            $parentNodePathString = '';
-        }
-
-        if ( count( $nodeList ) > 0 )
-        {
-            $topLevelNode = $nodeList[0];
-            $topLevelName = $topLevelNode->getName();
-            $topLevelName = eZURLAlias::convertToAlias( $topLevelName, 'node_' . $topLevelNode->attribute( 'node_id' ) );
-
-            $pathElementArray = explode( '/', $parentNodePathString );
-            if ( count( $pathElementArray ) > 0 )
-            {
-                $parentNodePathString = implode( '/', $pathElementArray );
-            }
-            else
-            {
-                $parentNodePathString = '';
-            }
-        }
-        else
-        {
-            $parentNodePathString = '';
-        }
 
         // Only set name if current node is not the content root
-        $ini = eZINI::instance( 'content.ini' );
+        $ini =& eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
         if ( $node->attribute( 'node_id' ) != $contentRootID )
         {
-            $nodeName = $node->attribute( 'name' );
-            $nodeName = eZURLAlias::convertToAlias( $nodeName, 'node_' . $node->attribute( 'node_id' ) );
-
-            if ( $parentNodePathString != '' )
+            $pathArray = $node->pathArray();
+            // Get rid of node with ID 1 (a special node)
+            array_shift( $pathArray );
+            if ( $regenerateCurrent )
             {
-                $nodePath = $parentNodePathString . '/' . $nodeName ;
+                // Get rid of current node, path element for this will be calculated
+                array_pop( $pathArray );
+            }
+            if ( count( $pathArray ) == 0 )
+            {
+                $path = '';
             }
             else
             {
-                $nodePath = $nodeName ;
+                include_once( 'kernel/classes/ezurlaliasml.php' );
+                $path = eZURLAliasML::fetchPathByActionList( "eznode", $pathArray );
+            }
+
+            // Fallback in case fetchPathByActionList() fails,
+            // then we ask for the path from the parent and generate the current
+            // entry ourselves.
+            if ( $path === null )
+            {
+                if ( $node->attribute( 'depth' ) == 0 ) // Top node should just return empty string
+                {
+                    $path = '';
+                    return $path;
+                }
+
+                eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
+                $paren =& $node->fetchParent();
+                $path = $paren->pathWithNames();
+                // Return a perma-link when the path lookup failed, this link will always work
+                $path = 'content/view/full/' . $node->attribute( 'node_id' );
+                return $path;
+            }
+
+            if ( $regenerateCurrent )
+            {
+                $nodeName = $node->attribute( 'name' );
+                $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $node->attribute( 'node_id' ) );
+
+                if ( $path != '' )
+                {
+                    $path .= '/' . $nodeName ;
+                }
+                else
+                {
+                    $path  = $nodeName ;
+                }
             }
         }
         else
         {
-            $nodePath = '';
+            $path = '';
         }
-        $nodePath = $node->checkPath( $nodePath );
-        return $nodePath;
+
+        if ( $regenerateCurrent )
+        {
+            $path = $node->checkPath( $path );
+        }
+        return $path;
     }
 
     /*!
@@ -3795,142 +3795,56 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function checkPath( $path )
     {
-        $moduleINI = eZINI::instance( 'module.ini' );
-        $reserved = $moduleINI->variable( 'ModuleSettings', 'ModuleList' );
-        $reservedReg = implode( '|', $reserved );
-        $uniqueNumber = 0;
-        if ( preg_match( "#^($reservedReg)$#", $path ) )
+        $path = eZURLAliasML::cleanURL( $path );
+        $elements = explode( "/", $path );
+        $element = array_pop( $elements );
+        return $this->adjustPathElement( $element );
+    }
+
+    /*!
+     Checks the path element $element against reserved words and existing elements.
+     If the path element is already used, it will append a number and try again.
+
+     The adjusted path element is returned.
+
+     \code
+     echo $node->adjustPathElement( 'Content' ); // outputs Content1
+     \endcode
+     */
+    function adjustPathElement( $element )
+    {
+        $nodeID       = (int)$this->attribute( 'node_id' );
+        $parentNodeID = (int)$this->attribute( 'parent_node_id' );
+        $action       = "eznode:" . $nodeID;
+
+        $elements = eZURLAliasML::fetchByAction( 'eznode', $nodeID );
+        if ( count( $elements ) > 0 )
         {
-            ++$uniqueNumber;
+            $parentElementID = (int)$elements[0]->attribute( 'parent' );
+            return eZURLAliasML::findUniqueText( $parentElementID, $element, $action );
         }
-
-        $nodeID       =  $this->attribute( 'node_id' );
-        $parentNodeID =  $this->attribute( 'parent_node_id' );
-        $depth        =  $this->attribute( 'depth' );
-        $db           = eZDB::instance();
-
-        // common part for two queries
-        $pathLikeCheck = 'path_identification_string LIKE \'' . $path . '\\_\\_%\' ESCAPE \'' .  $db->escapeString( '\\' ) . '\'';
-
-        /* If current node has path equal to $path or matching to pattern "<$path>__<number>"
-         * then return its current path without changes.
-         */
-        $sql = 'SELECT path_identification_string
-                FROM ezcontentobject_tree
-                WHERE ( path_identification_string = \'' . $path . '\' OR ' . $pathLikeCheck . ' ) AND node_id = ' . $nodeID;
-        $rows = $db->arrayQuery( $sql );
-        foreach ( $rows as $idx => $row ) // exclude rows that do not match the pattern
-        {
-            if ( !preg_match( "#^$path(__\d+)?$#", $row['path_identification_string'] ) )
-                 unset( $rows[$idx] );
-        }
-        if ( count( $rows ) > 0 )
-            return $rows[0]['path_identification_string'];
-        unset( $rows );
-
-        // If the path matches a module ($uniqueNumber > 0 ) we should not check for existing path
-        if ( $uniqueNumber == 0 )
-        {
-            /* Else if there are no other nodes having path equal to $path
-             * then return $path.
-             */
-            $sql = 'SELECT COUNT(*) AS cnt
-                    FROM ezcontentobject_tree
-                    WHERE path_identification_string = \'' . $path . '\' AND node_id <> ' . $nodeID;
-            $rows = $db->arrayQuery( $sql );
-            if ( $rows[0]['cnt'] == 0 )
-                return $path;
-            unset( $rows );
-        }
-
-        /* Else if there are other nodes having path like "<$path>__<number>"
-         * then return computed unique path.
-         */
-        if ( $depth == 2 ) // in this case we should take into account toplevels that may have path equal to one we're checking
-            $depthCheck = ' depth IN ( 1, 2 )';
         else
-            $depthCheck = 'depth = ' . $depth . ' AND parent_node_id = ' . $parentNodeID;
-        $sql = 'SELECT path_identification_string
-                FROM ezcontentobject_tree
-                WHERE ' . $depthCheck . ' AND ' . $pathLikeCheck . ' AND node_id <> ' . $nodeID;
-        $rows = $db->arrayQuery( $sql );
-        foreach ( $rows as $row )
         {
-            $pathString =& $row['path_identification_string'];
-            if ( !preg_match( "#^${path}__(\d+)$#", $pathString, $matches ) )
-                continue;
-            if ( $matches[1] >= $uniqueNumber )
-                $uniqueNumber = $matches[1] + 1;
+            $parentElements = eZURLAliasML::fetchByAction( 'eznode', $parentNodeID );
+            if ( count( $parentElements ) > 0 && $parentElements[0]->attribute( 'text' ) != '' )
+            {
+                // Pick one of the parents and get the ID
+                $parentElementID = (int)$parentElements[0]->attribute( 'id' );
+                return eZURLAliasML::findUniqueText( $parentElementID, $element, $action );
+            }
         }
-        // If we have not found a number yet we set it to 1
-        if ( $uniqueNumber == 0 )
-            $uniqueNumber = 1;
-        return $path . '__' . $uniqueNumber;
+        return eZURLAliasML::findUniqueText( 0, $element, $action );
     }
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \deprecated Use updateSubTreePath() instead.
      */
     function updateURLAlias()
     {
-        $hasChanged = 0;
-        include_once( 'kernel/classes/ezurlalias.php' );
-        $newPathString = $this->pathWithNames();
-
-        $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
-
-        $db = eZDB::instance();
-        $db->begin();
-        if ( strtolower( get_class( $existingUrlAlias ) ) == 'ezurlalias' )
-        {
-            $alias =& $existingUrlAlias;
-            if ( $alias->attribute( 'source_url' ) != $newPathString )
-                $hasChanged++;
-            $alias->setAttribute( 'source_url', $newPathString );
-            $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
-            $alias->setAttribute( 'forward_to_id', 0 );
-            $alias->store();
-        }
-        else
-        {
-            $alias = eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
-            $alias->store();
-            $hasChanged++;
-        }
-
-        eZURLAlias::cleanupForwardingURLs( $newPathString );
-        eZURLAlias::cleanupWildcards( $newPathString );
-
-        $oldPathString = $this->attribute( 'path_identification_string' );
-
-        // Only update if the name has changed
-        if ( strcmp( $oldPathString, $newPathString ) != 0 )
-        {
-            $oldUrlAlias = false;
-            // Check if there exists an URL alias for this name already
-            if ( $oldPathString != "" )
-            {
-                $oldUrlAlias = eZURLAlias::fetchBySourceURL( $oldPathString );
-            }
-
-            // Update old url alias and old forwarding urls
-            if ( strtolower( get_class( $oldUrlAlias ) ) == 'ezurlalias' )
-            {
-                $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
-                $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
-                $oldUrlAlias->store();
-                eZURLAlias::updateForwardID( $alias->attribute( 'id' ), $oldUrlAlias->attribute( 'id' ) );
-            }
-        }
-
-        if ( $this->attribute( 'path_identification_string' ) != $newPathString )
-            $hasChanged++;
-        $this->setAttribute( 'path_identification_string', $newPathString );
-        $this->store();
-        $db->commit();
-
-        return $hasChanged;
+        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
+        return $this->updateSubTreePath();
     }
 
     /*!
@@ -3939,95 +3853,146 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function updateSubTreePath()
     {
-        include_once( 'kernel/classes/ezurlalias.php' );
-        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-        $oldPathString = $this->attribute( 'path_identification_string' );
+        include_once( 'kernel/classes/ezurlaliasml.php' );
 
-        $newPathString = $this->pathWithNames();
+        $changeCount = 0;
 
-        // Only update if the name has changed
-        if ( $oldPathString == $newPathString )
-            return;
+        $nodeID       = $this->attribute( 'node_id' );
+        $parentNodeID = $this->attribute( 'parent_node_id' );
 
-        $oldUrlAlias = false;
-        // Check if there exists an URL alias for this name already
-        if ( $oldPathString != "" )
+        // Only set name if current node is not the content root
+        $ini =& eZINI::instance( 'content.ini' );
+        $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
+        $obj           = $this->object();
+        $alwaysMask    = ($obj->attribute( 'language_mask' ) & 1);
+        $languages     = $obj->languages();
+        $nameList      = array();
+
+        $initialLanguageID      = $obj->attribute( 'initial_language_id' );
+        $pathIdentificationName = false;
+        foreach ( $languages as $key => $tmp )
         {
-            $oldUrlAlias = eZURLAlias::fetchBySourceURL( $oldPathString );
+            unset( $language );
+            $language =& $languages[$key];
+            $nodeName = '';
+            if ( $nodeID != $contentRootID )
+            {
+                $objClass = $obj->attribute( 'content_class' );
+                $nodeName = $objClass->urlAliasName( $obj, false, $language->attribute( 'locale' ) );
+                include_once( 'kernel/classes/ezurlaliasfilter.php' );
+                $nodeName = eZURLAliasFilter::processFilters( $nodeName, $language, $this );
+                $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $nodeID );
+                $nodeName = $this->adjustPathElement( $nodeName );
+
+                // Compatability mode:
+                // Store name for the 'path_identification_string' column.
+                if ( $initialLanguageID == $language->attribute( 'id' ) )
+                {
+                    $pathIdentificationName = eZURLAliasML::convertToAliasCompat( $nodeName, 'node_' . $nodeID );
+                }
+            }
+            $nameList[] = array( 'text'     => $nodeName,
+                                 'language' => &$language );
         }
 
-        // Remove existing aliases if they are forwarding aliases
-        $existingUrlAlias = eZURLAlias::fetchBySourceURL( $newPathString );
+        $parentActionName  = "eznode";
+        $parentActionValue = $parentNodeID;
 
-        $db = eZDB::instance();
-        $db->begin();
-
-        // Update children, part #1 (ezcontentobject_tree table)
-        $oldPathStringLength = strlen( $oldPathString );
-        $newPathStringText = $db->escapeString( $newPathString );
-        $oldPathStringText = $db->escapeString( $oldPathString );
-        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
-        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
-        $sql = "UPDATE ezcontentobject_tree SET path_identification_string = $newPathStringQueryPart " .
-               "WHERE  path_identification_string LIKE '$oldPathStringText/%'";
-        $db->query( $sql );
-
-        if ( strtolower( get_class( $existingUrlAlias ) ) == 'ezurlalias' )
+        $parentElementID = false;
+        $existingElements = eZURLAliasML::fetchByAction( "eznode", $nodeID );
+        $existingElementID = null;
+        if ( count( $existingElements ) > 0 )
         {
-            $alias =& $existingUrlAlias;
-            $alias->setAttribute( 'source_url', $newPathString );
-            $alias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
-            $alias->setAttribute( 'forward_to_id', 0 );
-            $alias->store();
+            $existingElementID = $existingElements[0]->attribute( 'id' );
+            $parentElementID = $existingElements[0]->attribute( 'parent' );
         }
+
+        // If we have parent element it means the node is already published
+        // and we have to see if it has been moved
+        if ( $parentNodeID != 1 )
+        {
+            $parents = eZURLAliasML::fetchByAction( "eznode", $parentNodeID );
+            if ( count( $parents ) == 0 )
+            {
+                $parentNode = $this->fetchParent();
+                $result = $parentNode->updateSubTreePath();
+                if ( !$result )
+                {
+                    return false;
+                }
+                $parents = eZURLAliasML::fetchByAction( $parentActionName, $parentActionValue );
+                if ( count( $parents ) == 0 )
+                {
+                    return false;
+                }
+                $oldParentElementID = $parentElementID;
+                foreach ( $parents as $paren )
+                {
+                    $parentElementID = 0;
+                    if ( $paren->attribute( 'text' ) != '' )
+                    {
+                        $parentElementID = (int)$paren->attribute( 'link' );
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                $oldParentElementID = $parentElementID;
+                $parentElementID = 0;
+                foreach ( $parents as $paren )
+                {
+                    if ( $paren->attribute( 'text' ) != '' )
+                    {
+                        $parentElementID = (int)$paren->attribute( 'link' );
+                        break;
+                    }
+                }
+            }
+        }
+        else // Parent is ID 1, ie. this node is top-level
+        {
+        }
+
+        $this->updatePathIdentificationString( $pathIdentificationName );
+
+        $languageID = $obj->attribute( 'initial_language_id' );
+        foreach ( $nameList as $nameEntry )
+        {
+            $text     =  $nameEntry['text'];
+            $language =& $nameEntry['language'];
+            if ( eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID ) === true )
+                $changeCount++;
+        }
+        return $changeCount;
+    }
+
+    /*!
+     \private
+     Updates the path_identification_string field in ezcontentobject_tree by
+     fetching the value from the parent and appending $pathIdentificationName.
+
+     \note This stores the current object to the database
+     */
+    function updatePathIdentificationString( $pathIdentificationName )
+    {
+        // Update the path_identification_string column for the node
+        $pathIdentificationString = '';
+        if ( $this->attribute( 'parent_node_id' ) != 1 )
+        {
+            if ( !isset( $parentNode ) )
+                $parentNode = $this->fetchParent();
+            $pathIdentificationString = $parentNode->attribute( 'path_identification_string' );
+        }
+        if ( strlen( $pathIdentificationString ) > 0 )
+            $pathIdentificationString .= '/' . $pathIdentificationName;
         else
+            $pathIdentificationString = $pathIdentificationName;
+        if ( $this->attribute( 'path_identification_string' ) != $pathIdentificationString )
         {
-            $alias = eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
-            $alias->store();
+            $this->setAttribute( 'path_identification_string', $pathIdentificationString );
+            $this->sync();
         }
-
-        eZURLAlias::cleanupForwardingURLs( $newPathString );
-        eZURLAlias::cleanupWildcards( $newPathString );
-
-        $subNodeCount = $this->subTreeCount( array( 'Limitation' => array() ) );
-        if ( $subNodeCount > 0 )
-        {
-            $wildcardAlias = eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
-            $wildcardAlias->store();
-        }
-
-        // Update old url alias and old forwarding urls
-        if ( strtolower( get_class( $oldUrlAlias ) ) == 'ezurlalias' )
-        {
-            $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
-            $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
-            $oldUrlAlias->store();
-            eZURLAlias::updateForwardID( $alias->attribute( 'id' ), $oldUrlAlias->attribute( 'id' ) );
-        }
-
-        // Check if any URL's is pointing to this node, if so update it
-        if ( include_once( 'kernel/classes/datatypes/ezurl/ezurltype.php' ) )
-            $url = eZURL::urlByURL( "/" . $oldPathString );
-
-        if ( $url && $oldPathString != "") // oldPathString=="" when url refers to site root, don't need to update url.
-        {
-            $url->setAttribute( 'url', '/' . $newPathString );
-            $url->store();
-        }
-
-        eZDebugSetting::writeDebug( 'kernel-content-treenode', $oldPathString .'  ' . strlen( $oldPathString ) . '  ' . $newPathString );
-        $this->setAttribute( 'path_identification_string', $newPathString );
-        $this->store();
-
-        // Update children, part #2 (ezurlalias table)
-        // This part is separated from the first one to avoid deadlocks in mysql.
-        // Only update children if the node has had an URL alias before.
-        // Which means that it has been published before
-        if ( $oldPathString != "" )
-            eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
-
-        eZURLAlias::expireWildcards();
-        $db->commit();
     }
 
     /*!
@@ -4109,12 +4074,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
-        // Clean up URL alias
-        $urlObject = eZURLAlias::fetchBySourceURL( $urlAlias );
-        if ( $urlObject )
-        {
-            $urlObject->cleanup();
-        }
+        // Clean up URL alias entries
+        eZURLAliasML::removeByAction( 'eznode', $node->attribute( 'node_id' ) );
 
         // Clean up content cache
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -5835,26 +5796,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         if ( $useURLAlias )
         {
+            $path = $this->pathWithNames();
             if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
                 $pathIdenStr = substr( $prepend, strlen( $prepend ) -1 ) == '/'
-                                ? $this->PathIdentificationString . '/'
-                                : $this->PathIdentificationString;
+                                ? $path . '/'
+                                : $path;
                 if ( strncmp( $pathIdenStr, $prepend, strlen( $prepend ) ) == 0 )
-                    $cleanURL = eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
+                    $cleanURL = eZUrlAliasML::cleanURL( substr( $path, strlen( $prepend ) ) );
                 else
-                    $cleanURL = eZUrlAlias::cleanURL( $this->PathIdentificationString );
+                    $cleanURL = eZUrlAliasML::cleanURL( $path );
             }
             else
             {
-                $cleanURL = eZUrlAlias::cleanURL( $this->PathIdentificationString );
+                $cleanURL = eZUrlAliasML::cleanURL( $path );
             }
         }
         else
         {
-            $cleanURL = eZUrlAlias::cleanURL( 'content/view/full/' . $this->NodeID );
+            $cleanURL = eZUrlAliasML::cleanURL( 'content/view/full/' . $this->NodeID );
         }
 
         return $cleanURL;

@@ -226,6 +226,10 @@ class eZContentStructureTreeOperator
         }
         else
         {
+            foreach ( $nodeListArray as $key => $row )
+            {
+                $nodeListArray[$key]['path_identification_string'] = eZContentObjectTreeNode::pathWithNames( $row['node_id'] );
+            }
             return $nodeListArray;
         }
     }
@@ -433,7 +437,7 @@ class eZContentStructureTreeOperator
                 if ( $viewNodeAllowed )
                 {
                     $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
-                                                        'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
+                                                        'path_identification_string' => $rootTreeNode->pathWithNames(),
                                                         'children_count' => $rootTreeNode->attribute( 'children_count' ),
                                                         'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
                                                         'path_string' => $rootTreeNode->attribute( 'path_string' ),

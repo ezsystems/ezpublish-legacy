@@ -36,10 +36,13 @@
   \brief Translation requested URLs into new URLs internally.
 
   Performs translation on supplied urls, currently only does tree node translation.
+
+  \note This class is deprecated and not in use.
+  \deprecated This class is deprecated and not in use.
 */
 
 include_once( 'lib/ezutils/classes/ezini.php' );
-include_once( 'kernel/classes/ezurlalias.php' );
+include_once( 'kernel/classes/ezurlaliasml.php' );
 
 class eZURLTranslator
 {
@@ -55,12 +58,7 @@ class eZURLTranslator
     */
     function &addURLAlias( $source, $destination, $isInternal = true )
     {
-        $alias = new eZURLAlias( array() );
-        $alias->setAttribute( 'source_url', $source );
-        $alias->setAttribute( 'destination_url', $destination );
-        $alias->setAttribute( 'is_internal', $isInternal );
-        $alias->store();
-        return $alias;
+        die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
     }
 
     /*!
@@ -69,6 +67,7 @@ class eZURLTranslator
     */
     function &translate( &$uri )
     {
+        die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $newURI = false;
         $functionList = array();
         $ini = eZINI::instance();
@@ -92,6 +91,7 @@ class eZURLTranslator
     */
     function translateNodeTree( &$uri )
     {
+        die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $nodePathString = $uri->elements();
         $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
         $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
@@ -114,6 +114,7 @@ class eZURLTranslator
     */
     static function instance()
     {
+        die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $instance =& $GLOBALS['eZURLTranslatorInstance'];
         if ( strtolower( get_class( $instance ) ) != 'ezurltranslator' )
         {

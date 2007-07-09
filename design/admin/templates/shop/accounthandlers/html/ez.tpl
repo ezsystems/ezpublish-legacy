@@ -39,7 +39,7 @@
     <td>{$order.account_information.state}</td>
 </tr>
 <tr>
-    <td>{'Country'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
+    <td>{'Country/region'|i18n( 'design/admin/shop/accounthandlers/html/ez' )}</td>
     <td>{$order.account_information.country}</td>
 </tr>
 </table>

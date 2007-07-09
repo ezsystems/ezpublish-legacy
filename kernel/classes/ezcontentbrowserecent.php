@@ -162,7 +162,7 @@ class eZContentBrowseRecent extends eZPersistentObject
                                                                 false,
                                                                 null,
                                                                 false,
-                                                                array( 'user_id' ),
+                                                                false,
                                                                 array( array( 'operation' => 'count( * )',
                                                                               'name' => 'count' ) ) );
         $matchingRecentList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),

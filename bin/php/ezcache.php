@@ -41,16 +41,48 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Cache Handl
 
 $script->startup();
 
-$options = $script->getOptions( "[clear-tag:][clear-id:][clear-all][list-tags][list-ids]",
+$options = $script->getOptions( "[clear-tag:][clear-id:][clear-all]" . /*[purge-tag:][purge-id:][purge-all]*/ "[iteration-sleep:][iteration-max:][expiry:][list-tags][list-ids][purge]",
                                 "",
                                 array( 'clear-tag' => 'Clears all caches related to a given tag',
                                        'clear-id' => 'Clears all caches related to a given id, separate multiple ids with a comma',
                                        'clear-all' => 'Clears all caches',
+                                       'purge' => 'Enforces purging of cache items which ensures that specified entries are physically removed (Useful for saving diskspace). Used together with the clear-* options.',
+                                       'iteration-sleep' => 'Amount of seconds to sleep between each iteration when performing a purge operation, can be a float.',
+                                       'iteration-max' => 'Amount of items to remove in each iteration when performing a purge operation.',
+                                       'expiry' => 'Date or relative time which specifies when cache items are to be considered expired, e.g \'now\', \'-2 days\' or \'last monday\'',
                                        'list-tags' => 'Lists all available tags',
                                        'list-ids' => 'Lists all available ids' ) );
 $sys = eZSys::instance();
 
 $script->initialize();
+
+$purgeSleep = false;
+if ( $options['iteration-sleep'] )
+{
+    $purgeSleep = (int)($options['iteration-sleep']*1000000); // Turn into microseconds
+}
+$purgeMax = false;
+if ( $options['iteration-max'] )
+{
+    $purgeMax = (int)$options['iteration-max'];
+}
+$purgeExpiry = false;
+if ( $options['expiry'] )
+{
+    $expiryText = trim( $options['expiry'] );
+    $purgeExpiry = strtotime( $expiryText );
+    if ( $purgeExpiry == -1 || $purgeExpiry === false )
+    {
+        $cli->error( "Invalid date supplied to --expiry, '$expiryText'" );
+        return $script->shutdown( 1 );
+    }
+}
+$purge = false;
+if ( $options['purge'] )
+{
+    $purge = true;
+}
+$noAction = true;
 
 include_once( 'kernel/classes/ezcache.php' );
 
@@ -58,6 +90,7 @@ $cacheList = eZCache::fetchList();
 
 if ( $options['list-tags'] )
 {
+    $noAction = false;
     $tagList = eZCache::fetchTagList( $cacheList );
     if ( $script->verboseOutputLevel() > 0 )
     {
@@ -96,6 +129,7 @@ if ( $options['list-tags'] )
 
 if ( $options['list-ids'] )
 {
+    $noAction = false;
     if ( $script->verboseOutputLevel() > 0 )
     {
         $cli->output( "The following ids are defined:" );
@@ -123,27 +157,11 @@ if ( $options['list-ids'] )
     return $script->shutdown();
 }
 
-if ( $options['clear-all'] )
+function clearItems( $cacheEntries, &$cli, $name )
 {
-    $cli->output( 'Clearing : ', false );
-    $i = 0;
-    foreach ( $cacheList as $cacheEntry )
-    {
-        if ( $i > 0 )
-            $cli->output( ', ', false );
-        $cli->output( $cli->stylize( 'emphasize', $cacheEntry['name'] ), false );
-        eZCache::clearItem( $cacheEntry );
-        ++$i;
-    }
-    $cli->output();
-    return $script->shutdown();
-}
-
-if ( $options['clear-tag'] )
-{
-    $tagName = $options['clear-tag'];
-    $cacheEntries = eZCache::fetchByTag( $tagName, $cacheList );
-    $cli->output( 'Clearing ' . $cli->stylize( 'emphasize', $tagName ) . ': ', false );
+    if ( $name )
+        $name = $cli->stylize( 'emphasize', $name );
+    $cli->output( 'Clearing ' . $name . ': ', false );
     $i = 0;
     foreach ( $cacheEntries as $cacheEntry )
     {
@@ -156,9 +174,70 @@ if ( $options['clear-tag'] )
     $cli->output();
 }
 
+function purgeItems( $cacheEntries, &$cli, $name )
+{
+    global $purgeSleep, $purgeMax, $purgeExpiry;
+    if ( $name )
+        $name = $cli->stylize( 'emphasize', $name );
+    $cli->output( 'Purging ' . $name . ': ', false );
+    $i = 0;
+    foreach ( $cacheEntries as $cacheEntry )
+    {
+        if ( $i > 0 )
+            $cli->output( ', ', false );
+        $cli->output( $cli->stylize( 'emphasize', $cacheEntry['name'] ), false );
+        eZCache::clearItem( $cacheEntry, true, 'reportProgress', $purgeSleep, $purgeMax, $purgeExpiry );
+        ++$i;
+    }
+    $cli->output();
+}
+
+function reportProgress( $filename, $count )
+{
+    global $cli;
+    static $progress = array( '|', '/', '-', '\\' );
+    if ( $count == 0 )
+    {
+        $cli->output( $cli->storePosition() . " " . $cli->restorePosition(), false );
+    }
+    else
+    {
+        $text = array_shift( $progress );
+        $cli->output( $cli->storePosition() . $text . $cli->restorePosition(), false );
+        $progress[] = $text;
+    }
+}
+
+if ( $options['clear-all'] )
+{
+    $noAction = false;
+    if ( $purge )
+        purgeItems( $cacheList, $cli, false );
+    else
+        clearItems( $cacheList, $cli, false );
+    return $script->shutdown();
+}
+
+if ( $options['clear-tag'] )
+{
+    $noAction = false;
+    $tagName = $options['clear-tag'];
+    $cacheEntries = eZCache::fetchByTag( $tagName, $cacheList );
+    if ( $purge )
+        purgeItems( $cacheEntries, $cli, $tagName );
+    else
+        clearItems( $cacheEntries, $cli, $tagName );
+}
+
+$idName = false;
 if ( $options['clear-id'] )
 {
+    $noAction = false;
     $idName = $options['clear-id'];
+}
+
+if ( $idName )
+{
     $idList = explode( ',', $idName );
     $missingIDList = array();
     $cacheEntries = array();
@@ -179,17 +258,22 @@ if ( $options['clear-id'] )
         $cli->warning( 'No such cache ID: ' . $cli->stylize( 'emphasize', implode( ', ', $missingIDList ) ) );
         $script->shutdown( 1 );
     }
-    $cli->output( 'Clearing ' . $cli->stylize( 'emphasize', $idName ) . ': ', false );
-    $i = 0;
-    foreach ( $cacheEntries as $cacheEntry )
+    if ( $options['clear-id'] )
     {
-        if ( $i > 0 )
-            $cli->output( ', ', false );
-        $cli->output( $cli->stylize( 'emphasize', $cacheEntry['name'] ), false );
-        eZCache::clearItem( $cacheEntry );
-        ++$i;
+        if ( $purge )
+            purgeItems( $cacheEntries, $cli, $idName );
+        else
+            clearItems( $cacheEntries, $cli, $idName );
     }
-    $cli->output();
+    else
+    {
+        return $script->shutdown( "Internal error" );
+    }
+}
+
+if ( $noAction )
+{
+    $cli->warning( "Clearing of caches is done using one of the options --clear-id, --clear-tag or --clear-all. Use --help for more details." );
 }
 
 $script->shutdown();

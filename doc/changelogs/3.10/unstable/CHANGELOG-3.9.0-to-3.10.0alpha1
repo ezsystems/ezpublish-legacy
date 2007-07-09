@@ -4,9 +4,14 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Added port option for shell database schema scripts.
 - Added SSL proxy support.
 - Added enhanced ISBN13 support.
-- Implemented feature: Possibility to disable 'tipafriend' view for module 'content'.
+- Implemented task #011008: Update ISBN range tables during setup wizard.
 - Implemented enhancement #010806: template override conditions for tipafriend.
 - Implemented enhancement #010860: As Object performance patch.
+- Implemented enhancement #009625: cannot disable tipafriend for anonymous.
+- Implemented enhancement #008851: spammer is abusing the "tipafriend" function.
+- Implemented enhancement #011015: template operator to check module(view) is enabled or not.
+- Implemented enhancement #010813: Patch to allow eZObjectRelationList in contentobject name.
+- Added ezmultioptiongroup datatype.
 
 *Design:
 - Added Bulgarian flag.
@@ -326,3 +331,19 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #10887: Image get lost when created a second language.
   (Merged from stable/3.8 (3.8.9) rev. 19024)
 - Fixed bug #10958: Missing 'content/datatype/view/ezxmltags/quote.tpl' template causes warning.
+- Fixed bug #11027: Fatal error: Call to a member function on a non-object in
+  kernel/user/ezuserfunctioncollection.php on line 202.
+- Fixed bug #11033: Compare tpl operator doesn't work properly
+  (Merged from stable/3.9 (3.9.3) rev. 19118)
+- Fixed bug #10788: PostgreSQL - sql error after setup wizard.
+  (Merged from stable/3.9 (3.9.3) rev. 19121)
+- Fixed bug #11034: Method removeAttributes() of eZContentClass may be unusable
+  due the use of a non-existing variable.
+- Fixed bug #11046: it is not possible to get relation list and table list using PostgreSQL db driver.
+- Fixed bug #010729: Inconsistency - Translation Button Lost from Admin Content Structure
+- Fixed bug #009772: RSS import extension does not work.
+- Fixed bug #10392: bug in ezurl operator (additionally fix for default siteaccess handling).
+- Fixed bug #10242: $node.children returns unsortet list.
+- Fixed bug #10319: Workflow crash with copied objects.
+- Fixed bug #010757: Class for handling atomic writing of files.
+- Fixed bug #11058: DebugByIP exists twice in site.ini

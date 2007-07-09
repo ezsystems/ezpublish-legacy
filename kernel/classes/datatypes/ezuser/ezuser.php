@@ -1554,56 +1554,26 @@ WHERE user_id = '" . $userID . "' AND
 
         if ( $accessArray == null )
         {
-            /* Figure out when the last update was done */
-            $expiredTimestamp = 0;
-            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-            $handler = eZExpiryHandler::instance();
-            if ( $handler->hasTimestamp( 'user-access-cache' ) )
-            {
-                $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
-            }
-
             $cacheFilePath = eZUser::getCacheFilename( $userID );
-
-            // VS-DBFILE
-
             if ( $cacheFilePath !== false )
             {
                 require_once( 'kernel/classes/ezclusterfilehandler.php' );
                 $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+                $accessArray = $cacheFile->processCache( array( $this, 'retrieveAccessArray' ),
+                                                         array( $this, 'generateAccessArray' ),
+                                                         null,
+                                                         $this->userInfoExpiry(),
+                                                         $userID );
+                eZDebug::writeDebug( $accessArray, "accessArray from cached file $cacheFilePath" );
 
-                if( $cacheFile->exists() && $cacheFile->mtime() > $expiredTimestamp )
+                $ini =& eZINI::instance();
+                $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+                if ( $enableCaching == 'true' )
                 {
-                    $fetchedFilePath = $cacheFile->fetchUnique();
-                    include( $fetchedFilePath );
-                    $cacheFile->fileDeleteLocal( $fetchedFilePath );
-//                    $cacheFile->fetch();
-//                    $accessArray = include( $cacheFilePath );
-//                    $cacheFile->deleteLocal();
+                    $http =& eZHTTPTool::instance();
+                    $http->setSessionVariable( 'AccessArray', $accessArray );
+                    $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
                 }
-            }
-        }
-
-        if ( $accessArray == null )
-        {
-            include_once( 'kernel/classes/ezrole.php' );
-            $accessArray = eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $userID ) ) );
-
-            if ( !isset( $cacheFilePath ) )
-                $cacheFilePath = eZUser::getCacheFilename( $userID );
-
-            if ( $cacheFilePath )
-            {
-                // VS-DBFILE
-
-                if ( !isset( $cacheFile ) )
-                {
-                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                    $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-                }
-
-                $fileContents = "<?php\n\treturn ". var_export( $accessArray, true ) . ";\n?>\n";
-                $cacheFile->storeContents( $fileContents, 'user-info-cache', 'php' );
             }
         }
 
@@ -1667,6 +1637,50 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         return array( 'accessWord' => 'limited', 'policies' => $functionArray );
+    }
+
+    /*!
+     \private
+     \static
+     Callback which figures out global expiry and returns it.
+     */
+    function userInfoExpiry()
+    {
+        /* Figure out when the last update was done */
+        $expiredTimestamp = 0;
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        if ( $handler->hasTimestamp( 'user-access-cache' ) )
+        {
+            $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
+        }
+
+        return $expiredTimestamp;
+    }
+
+    /*!
+     \private
+     \static
+     Callback which fetches access array from local file.
+     */
+    function retrieveAccessArray( $filePath, $mtime, $userID )
+    {
+        return include( $filePath );
+    }
+
+    /*!
+     \private
+     \static
+     Callback which generates the accessarray for the current user.
+     */
+    function generateAccessArray( $filePath, $userID )
+    {
+        include_once( 'kernel/classes/ezrole.php' );
+        $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $userID ) ) );
+
+        return array( 'content'  => $accessArray,
+                      'scope'    => 'user-info-cache',
+                      'datatype' => 'php' );
     }
 
     /*!

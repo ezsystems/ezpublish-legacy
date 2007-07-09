@@ -99,6 +99,7 @@ $debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "err
                         // Set moved permanently headers.
                         header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
                         header( "Status: 301 Moved Permanently" );
+                        $location = eZURI::encodeIRI( $location ); // Make sure it is encoded to IRI format
                         header( "Location: " . $location );
                     }
                 }

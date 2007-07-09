@@ -1,0 +1,31 @@
+*Title: Tipafriend as policy function.
+
+*Documentation:
+The 'tipafriend' function was added to the list of policy functions
+for the module 'content'. This provides posibility to differentiate
+rights for the tipafriend view between different groups of users.
+From now, you have to add 'content/tipafriend' policy to a role to
+make available tipafriend view for a specific user group. And also
+note that a group should have proper 'content/read' access to have
+possibility to get access to the tipafriend view.
+
+*Upgrading:
+After updating from previous versions of eZPublish, you will discover
+that all your users will not have access to the 'tipafriend' view
+by default, because there is no proper 'tipafriend' policy in roles
+assigned to your user groups.
+Thus there was added upgrade script to solve this problem. The script
+optionally adds a new role to your system and assigns it to every top
+user or user group. This role contains only one policy that enables
+access to 'tipafriend' view.
+The script is placed in 'update' subfolder and must be run from the
+root of the system:
+'update/common/scripts/3.10/updatetipafriendpolicy.php'
+
+The script requires three parameters:
+ --siteaccess=<siteaccessname>    admin siteaccess where new role
+                                  should be added in.
+ --login=<admin_login>            administrator's login
+ --password=<admin_password>      administartor's password to get
+                                  admin access to a system to be able
+				  to add new role.

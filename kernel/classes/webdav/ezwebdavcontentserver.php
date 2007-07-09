@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
-include_once( "kernel/classes/ezurlalias.php" );
+include_once( "kernel/classes/ezurlaliasml.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 // Get the path to the var directory.
@@ -1083,11 +1083,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( strlen( $nodePathString ) > 0 )
         {
-            $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
+            $nodePathString = eZURLAliasML::convertPathToAlias( $nodePathString );
         }
 
         // Attempt to translate the URL to something like "/content/view/full/84".
-        $translateResult = eZURLAlias::translate( $nodePathString );
+        $translateResult = eZURLAliasML::translate( $nodePathString );
 
         if ( !$translateResult )
         {
@@ -1149,10 +1149,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( strlen( $nodePathString ) == 0 )
             $nodePathString = '/';
 
-        $nodePathString = eZURLAlias::convertPathToAlias( $nodePathString );
+        $nodePathString = eZURLAliasML::convertPathToAlias( $nodePathString );
 
         // Attempt to translate the URL to something like "/content/view/full/84".
-        $translateResult = eZURLAlias::translate( $nodePathString );
+        $translateResult = eZURLAliasML::translate( $nodePathString );
 
         // Get the ID of the node (which is the last part of the translated path).
         if ( preg_match( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )

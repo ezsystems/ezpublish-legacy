@@ -102,10 +102,8 @@ foreach ( array_keys( $linkList ) as $key )
     }
     else
     {
-        include_once( 'kernel/classes/ezurlalias.php' );
-        $translateResult = eZURLAlias::translate( $url );
-        if ( !$translateResult )
-            $translateResult = eZURLAlias::translateByWildcard( $url );
+        include_once( 'kernel/classes/ezurlaliasml.php' );
+        $translateResult = eZURLAliasML::translate( $url );
 
         if ( !$translateResult )
         {

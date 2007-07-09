@@ -197,8 +197,13 @@ class eZUserFunctionCollection
         {
             $user = eZUser::currentUser();
         }
-        $result = $user->hasAccessTo( $module, $view );
-        return array( 'result' => $result['accessWord'] != 'no' );
+        if ( is_object( $user ) )
+        {
+            $result = $user->hasAccessTo( $module, $view );
+            return array( 'result' => $result['accessWord'] != 'no' );
+        }
+        else
+            return array( 'result' => false );
     }
 }
 

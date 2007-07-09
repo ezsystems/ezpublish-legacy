@@ -510,21 +510,23 @@ class eZModuleOperationInfo
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
-
-                            switch( $result['status'] )
-                            {
-                                case EZ_MODULE_OPERATION_CONTINUE:
-                                default:
+                            if ( $result && array_key_exists( 'status', $result ) )
+			    {
+                                switch( $result['status'] )
                                 {
-                                    $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
-                                    $bodyReturnValue = $result;
-                                } break;
+                                    case EZ_MODULE_OPERATION_CONTINUE:
+                                    default:
+                                    {
+                                        $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                                        $bodyReturnValue = $result;
+                                    } break;
 
-                                case EZ_MODULE_OPERATION_CANCELED:
-                                case EZ_MODULE_OPERATION_HALTED:
-                                {
-                                    return $result;
-                                } break;
+                                    case EZ_MODULE_OPERATION_CANCELED:
+                                    case EZ_MODULE_OPERATION_HALTED:
+                                    {
+                                        return $result;
+                                    } break;
+                                }
                             }
                         }
                     }

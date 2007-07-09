@@ -8,7 +8,7 @@
 <table width="100%" cellspacing="0" cellpadding="2">
 <tr>
 	<th align="left">{"Language"|i18n("design/standard/content")}</th>
-	<th align="left">{"Country"|i18n("design/standard/content")}</th>
+	<th align="left">{"Country/region"|i18n("design/standard/content")}</th>
 	<th align="left">{"Locale"|i18n("design/standard/content")}</th>
 {*	<th align="left">{"Edit"|i18n("design/standard/content")}</th>*}
         <th width="1%" align="right">{"Remove"|i18n("design/standard/content")}</th>

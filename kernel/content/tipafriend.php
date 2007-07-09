@@ -36,14 +36,6 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$ini =& eZINI::instance();
-
-if ( $ini->variable( 'TipAFriend', 'Enabled' ) == 'false' )
-{
-    return $Module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel',
-                                 array( 'check' => array( 'view_checked' => false,
-                                                          'module' => 'content' ) ) );
-}
 
 $http =& eZHTTPTool::instance();
 
@@ -79,6 +71,12 @@ if ( is_object( $node ) )
 else
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
+
+$object = $node->object();
+if ( !$object->canRead() )
+{
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
 }
 
 $hostName = eZSys::hostname();
@@ -142,7 +140,6 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
         // fetch
         $res =& eZTemplateDesignResource::instance();
-        $object = $node->attribute( 'object' );
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                               array( 'class',            $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
@@ -201,7 +198,6 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
 if ( !$overrideKeysAreSet )
 {
     $res =& eZTemplateDesignResource::instance();
-    $object = $node->attribute( 'object' );
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                           array( 'class',            $object->attribute( 'contentclass_id' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),

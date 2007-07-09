@@ -38,10 +38,50 @@ define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
 
 class eZNodeviewfunctions
 {
+    // Deprecated function for generating the view cache
     static function generateNodeView( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
                                 $cacheDir, $cachePath, $viewCacheEnabled,
                                 $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                 $collectionAttributes = false, $validation = false )
+    {
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $cachePath );
+        $args = compact( "tpl", "node", "object", "languageCode", "viewMode", "offset",
+                         "viewCacheEnabled",
+                         "viewParameters",
+                         "collectionAttributes", "validation" );
+        $Result = $cacheFile->processCache( null, // no retrieve, only generate is called
+                                            array( 'eZNodeviewfunctions', 'generateCallback' ),
+                                            null,
+                                            null,
+                                            $args );
+        return $Result;
+    }
+
+    // Note: This callback is needed to generate the array which is returned
+    //       back to eZClusterFileHandler for processing.
+    function generateCallback( $file, $args )
+    {
+        $res = call_user_func_array( array( 'eZNodeviewfunctions', 'generateNodeViewData' ),
+                                     $args );
+
+        // Check if cache time = 0 (viewcache disabled)
+        $store = $res['cache_ttl'] != 0;
+        // or if explicitly turned off
+        if ( !$args['viewCacheEnabled'] )
+            $store = false;
+        $retval = array( 'content' => $res,
+                         'scope'   => 'viewcache',
+                         'store'   => $store );
+        if ( $store )
+            $retval['binarydata'] = serialize( $res );
+
+        return $retval;
+    }
+
+    function &generateNodeViewData( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
+                                    $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
+                                    $collectionAttributes = false, $validation = false )
     {
         include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
@@ -170,43 +210,28 @@ class eZNodeviewfunctions
             $cacheTTL = -1;
         }
 
+/*
+// This checking is now handled outside of this function.
         // Check if cache time = 0 (disabled)
         if ( $cacheTTL == 0 )
         {
             $viewCacheEnabled = false;
         }
+*/
 
         $Result['cache_ttl'] = $cacheTTL;
 
+/*
+// File storage is now handled outside of this function
         // Store view cache
         if ( $viewCacheEnabled )
         {
             $serializeString = serialize( $Result );
 
-            if ( !file_exists( $cacheDir ) )
-            {
-                include_once( 'lib/ezfile/classes/ezdir.php' );
-                $ini = eZINI::instance();
-                $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
-                eZDir::mkdir( $cacheDir, $perm, true );
-            }
-            $oldumask = umask( 0 );
-            $pathExisted = file_exists( $cachePath );
-            $ini = eZINI::instance();
-            $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
-            $fp = @fopen( $cachePath, "w" );
-            if ( !$fp )
-                eZDebug::writeError( "Could not open file '$cachePath' for writing, perhaps wrong permissions" );
-            if ( $fp and
-                 !$pathExisted )
-                chmod( $cachePath, $perm );
-            umask( $oldumask );
-
-            if ( $fp )
-            {
-                fwrite( $fp, $serializeString );
-                fclose( $fp );
-            }
+            include_once( "lib/ezfile/classes/ezatomicfile.php" );
+            $cacheFile = new eZAtomicFile( $cachePath );
+            $cacheFile->write( $serializeString );
+            $cacheFile->close();
 
             // VS-DBFILE
 
@@ -214,6 +239,7 @@ class eZNodeviewfunctions
             $fileHandler = eZClusterFileHandler::instance();
             $fileHandler->fileStore( $cachePath, 'viewcache', true );
         }
+*/
 
         if ( $languageCode )
         {
@@ -304,6 +330,136 @@ class eZNodeviewfunctions
                       'cache_file' => $cacheFile );
     }
 
+
+    function contentViewRetrieve( $file, $mtime, $args )
+    {
+        extract( $args );
+
+        $cacheExpired = false;
+
+        // Read Cache file
+        if ( !eZContentObject::isCacheExpired( $mtime ) )
+        {
+//        $contents = $cacheFile->fetchContents();
+            $contents = file_get_contents( $file );
+            $Result = unserialize( $contents );
+
+            // Check if cache has expired when cache_ttl is set
+            $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;
+            if ( $cacheTTL > 0 )
+            {
+                $expiryTime = $mtime + $cacheTTL;
+                if ( time() > $expiryTime )
+                {
+                    $cacheExpired = true;
+                    $expiryReason = 'Content cache is expired by cache_ttl=' . $cacheTTL;
+                }
+            }
+
+            // Check if template source files are newer, but only if the cache is not expired
+            if ( !$cacheExpired )
+            {
+                $developmentModeEnabled = $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) == 'enabled';
+                // Only do filemtime checking when development mode is enabled.
+                if ( $developmentModeEnabled &&
+                     isset( $Result['template_list'] ) ) // And only if there is a list stored in the cache
+                {
+                    foreach ( $Result['template_list'] as $templateFile )
+                    {
+                        if ( @filemtime( $templateFile ) > $mtime )
+                        {
+                            $cacheExpired = true;
+                            $expiryReason = "Content cache is expired by template file '" . $templateFile . "'";
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if ( !$cacheExpired )
+            {
+                $keyArray = array( array( 'object', $Result['content_info']['object_id'] ),
+                                   array( 'node', $Result['content_info']['node_id'] ),
+                                   array( 'parent_node', $Result['content_info']['parent_node_id'] ),
+                                   array( 'class', $Result['content_info']['class_id'] ),
+                                   array( 'view_offset', $Result['content_info']['offset'] ),
+                                   array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
+                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                   array( 'depth', $Result['content_info']['node_depth'] ),
+                                   array( 'url_alias', $Result['content_info']['url_alias'] ),
+                                   array( 'persistent_variable', $Result['content_info']['persistent_variable'] ),
+                                   array( 'class_group', $Result['content_info']['class_group'] ),
+                                   array( 'parent_class_id', $Result['content_info']['parent_class_id'] ),
+                                   array( 'parent_class_identifier', $Result['content_info']['parent_class_identifier'] ) );
+
+                if ( isset( $Result['content_info']['class_identifier'] ) )
+                    $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
+
+                $res =& eZTemplateDesignResource::instance();
+                $res->setKeys( $keyArray );
+
+                // set section id
+                include_once( 'kernel/classes/ezsection.php' );
+                eZSection::setGlobalID( $Result['section_id'] );
+
+                return $Result;
+            }
+        }
+        else
+        {
+            $expiryReason = 'Content cache is expired by eZContentObject::isCacheExpired(' . $mtime . ")";
+        }
+
+        // Cache is expired so return specialized cluster object
+        if ( !isset( $expiryReason ) )
+            $expiryReason = 'Content cache is expired';
+        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+        return new eZClusterFileFailure( 1, $expiryReason );
+    }
+
+    function contentViewGenerate( $file, $args )
+    {
+        extract( $args );
+        $node = eZContentObjectTreeNode::fetch( $NodeID );
+
+        if ( !is_object( $node ) )
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+        $object =& $node->attribute( 'object' );
+
+        if ( !is_object( $object ) )
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+        if ( !get_class( $object ) == 'ezcontentobject' )
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+        if ( $node === null )
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+
+        if ( $object === null )
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+        if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+//    if ( !$object->attribute( 'can_read' ) )
+        if ( !$object->canRead() )
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
+        }
+
+        $Result =& eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
+                                                              $LanguageCode, $ViewMode, $Offset,
+                                                              $viewParameters, $collectionAttributes,
+                                                              $validation );
+
+        $retval = array( 'content' => $Result,
+                         'scope'   => 'viewcache',
+                         'store'   => $Result['cache_ttl'] != 0 );
+        if ( $file !== false && $retval['store'] )
+            $retval['binarydata'] = serialize( $Result );
+        return $retval;
+    }
 }
 
 ?>

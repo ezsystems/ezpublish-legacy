@@ -537,11 +537,11 @@ class eZTemplateArrayOperator
                     {
                         if ( $isString )
                         {
-                            $result = ( $inParam == $matchParam );
+                            $result = strcmp( $inParam, $matchParam ) === 0;
                         }
                         else if( $isArray )
                         {
-                            $result = ( array_diff( $matchParam, $inParam ) == array_diff( $inParam, $matchParam ) );
+                            $result = ( count( array_diff( $matchParam, $inParam ) == 0 ) and count( array_diff( $inParam, $matchParam ) ) == 0 );
                         }
 
                         return array( eZTemplateNodeTool::createBooleanElement( $result ) );
@@ -556,21 +556,21 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( ' . $inParamCode . ' == ' . $matchParamCode . ' );';
+                    $code = '%output% = strcmp( ' . $inParamCode . ', ' . $matchParamCode . ' ) === 0;';
                 }
                 else if ( $isArray )
                 {
-                    $code = '%output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) );';
+                    $code = '%output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) ) == 0 ) and ( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) == 0 ) ) );';
                 }
                 else
                 {
                     $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( ' . $inParamCode . ' == ' . $matchParamCode . ' );' . "\n" .
+                         '  %output% = strcmp( ' . $inParamCode . ', ' . $matchParamCode . ') === 0;' . "\n" .
                          '}' . "\n" .
                          'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) == array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) );' . "\n" .
+                         '  %output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) ) == 0 ) and ( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) ) == 0 ) );' . "\n" .
                          '}';
                 }
 
@@ -1977,7 +1977,7 @@ class eZTemplateArrayOperator
                 // Compare two strings:
                 case $this->CompareName:
                 {
-                    if ( $operatorValue == $namedParameters['compare'] )
+                    if ( strcmp( $operatorValue, $namedParameters['compare'] ) === 0 )
                     {
                         $operatorValue = true;
                     }

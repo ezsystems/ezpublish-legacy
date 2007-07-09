@@ -28,7 +28,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
-    <th class="tight">{'Country'|i18n( 'design/admin/shop/vatrules' )}</th>
+    <th class="tight">{'Country/region'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th class="wide">{'Product categories'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th>{'VAT type'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th class="tight">&nbsp;</th>

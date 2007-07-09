@@ -360,6 +360,45 @@ CREATE SEQUENCE ezinfocollection_attribute_s
 
 
 
+CREATE SEQUENCE ezisbn_group_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezisbn_group_range_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezisbn_registrant_range_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezkeyword_s
     START 1
     INCREMENT 1
@@ -1264,6 +1303,7 @@ CREATE TABLE ezcontentclass (
     serialized_name_list text,
     sort_field integer DEFAULT 1 NOT NULL,
     sort_order integer DEFAULT 1 NOT NULL,
+    url_alias_name character varying(255),
     "version" integer DEFAULT 0 NOT NULL
 );
 
@@ -1671,6 +1711,49 @@ CREATE TABLE ezinfocollection_attribute (
     data_text text,
     id integer DEFAULT nextval('ezinfocollection_attribute_s'::text) NOT NULL,
     informationcollection_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_group (
+    description character varying(255) DEFAULT ''::character varying NOT NULL,
+    group_number integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezisbn_group_s'::text) NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_group_range (
+    from_number integer DEFAULT 0 NOT NULL,
+    group_from character varying(32) DEFAULT ''::character varying NOT NULL,
+    group_length integer DEFAULT 0 NOT NULL,
+    group_to character varying(32) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezisbn_group_range_s'::text) NOT NULL,
+    to_number integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezisbn_registrant_range (
+    from_number integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT nextval('ezisbn_registrant_range_s'::text) NOT NULL,
+    isbn_group_id integer DEFAULT 0 NOT NULL,
+    registrant_from character varying(32) DEFAULT ''::character varying NOT NULL,
+    registrant_length integer DEFAULT 0 NOT NULL,
+    registrant_to character varying(32) DEFAULT ''::character varying NOT NULL,
+    to_number integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2352,10 +2435,30 @@ CREATE TABLE ezurlalias (
     destination_url text NOT NULL,
     forward_to_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezurlalias_s'::text) NOT NULL,
+    is_imported integer DEFAULT 0 NOT NULL,
     is_internal integer DEFAULT 1 NOT NULL,
     is_wildcard integer DEFAULT 0 NOT NULL,
     source_md5 character varying(32),
     source_url text NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezurlalias_ml (
+    "action" text NOT NULL,
+    action_type character varying(32) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT 0 NOT NULL,
+    is_alias integer DEFAULT 0 NOT NULL,
+    is_original integer DEFAULT 0 NOT NULL,
+    lang_mask integer DEFAULT 0 NOT NULL,
+    link integer DEFAULT 0 NOT NULL,
+    parent integer DEFAULT 0 NOT NULL,
+    text text NOT NULL,
+    text_md5 character varying(32) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -3420,7 +3523,7 @@ CREATE INDEX ezurlalias_forward_to_id ON ezurlalias USING btree (forward_to_id);
 
 
 
-CREATE INDEX ezurlalias_is_wildcard ON ezurlalias USING btree (is_wildcard);
+CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is_wildcard, forward_to_id);
 
 
 
@@ -3437,6 +3540,94 @@ CREATE INDEX ezurlalias_source_md5 ON ezurlalias USING btree (source_md5);
 
 
 CREATE INDEX ezurlalias_source_url ON ezurlalias USING btree (source_url);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_act_org ON ezurlalias_ml USING btree ("action", is_original);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_action ON ezurlalias_ml USING btree ("action", id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_actt ON ezurlalias_ml USING btree (action_type);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_actt_org_al ON ezurlalias_ml USING btree (action_type, is_original, is_alias);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_id ON ezurlalias_ml USING btree (id);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_act_id_lnk ON ezurlalias_ml USING btree (parent, "action", id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_lnk_txt ON ezurlalias_ml USING btree (parent, link, text);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_par_txt ON ezurlalias_ml USING btree (parent, text);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_text ON ezurlalias_ml USING btree (text, id, link);
+
+
+
+
+
+
+
+CREATE INDEX ezurlalias_ml_text_lang ON ezurlalias_ml USING btree (text, lang_mask, parent);
 
 
 
@@ -3837,6 +4028,33 @@ ALTER TABLE ONLY ezinfocollection_attribute
 
 
 
+ALTER TABLE ONLY ezisbn_group
+    ADD CONSTRAINT ezisbn_group_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezisbn_group_range
+    ADD CONSTRAINT ezisbn_group_range_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezisbn_registrant_range
+    ADD CONSTRAINT ezisbn_registrant_range_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezkeyword
     ADD CONSTRAINT ezkeyword_pkey PRIMARY KEY (id);
 
@@ -4215,6 +4433,15 @@ ALTER TABLE ONLY ezurlalias
 
 
 
+ALTER TABLE ONLY ezurlalias_ml
+    ADD CONSTRAINT ezurlalias_ml_pkey PRIMARY KEY (parent, text_md5);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezuser
     ADD CONSTRAINT ezuser_pkey PRIMARY KEY (contentobject_id);
 
@@ -4375,105 +4602,6 @@ ALTER TABLE ONLY ezworkflow_process
 
 
 
-CREATE SEQUENCE ezisbn_group_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
 
 
 
-
-
-
-
-CREATE TABLE ezisbn_group (
-  id integer DEFAULT nextval('ezisbn_group_s'::text) NOT NULL,
-  description character varying(255) default ''::character varying NOT NULL,
-  group_number integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_group
-    ADD CONSTRAINT ezisbn_group_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezisbn_group_range_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezisbn_group_range (
-  id integer DEFAULT nextval('ezisbn_group_range_s'::text) NOT NULL,
-  from_number  integer DEFAULT 0 NOT NULL,
-  to_number  integer DEFAULT 0 NOT NULL,
-  group_from  character varying(32) default ''::character varying NOT NULL,
-  group_to character varying(32) default ''::character varying NOT NULL,
-  group_length integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_group_range
-    ADD CONSTRAINT ezisbn_group_range_pkey PRIMARY KEY (id);
-
-
-
-
-
-
-
-CREATE SEQUENCE ezisbn_registrant_range_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
-CREATE TABLE ezisbn_registrant_range (
-  id integer DEFAULT nextval('ezisbn_registrant_range_s'::text) NOT NULL,
-  from_number integer DEFAULT 0 NOT NULL,
-  to_number integer DEFAULT 0 NOT NULL,
-  registrant_from character varying(32) default ''::character varying NOT NULL,
-  registrant_to character varying(32) default ''::character varying NOT NULL,
-  registrant_length integer DEFAULT 0 NOT NULL,
-  isbn_group_id integer DEFAULT 0 NOT NULL
-);
-
-
-
-
-
-
-
-ALTER TABLE ONLY ezisbn_registrant_range
-    ADD CONSTRAINT ezisbn_registrant_range_pkey PRIMARY KEY (id);

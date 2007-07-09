@@ -297,8 +297,14 @@ $basket = eZBasket::currentBasket();
 
 $tpl =& templateInit();
 if ( isset( $Params['Error'] ) )
+{
     $tpl->setVariable( 'error', $Params['Error'] );
-
+    if ( $Params['Error'] == 'options' )
+    {
+        $tpl->setVariable( 'error_data', $http->sessionVariable( 'BasketError') );
+        $http->removeSessionVariable( 'BasketError');
+    }
+}
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 $tpl->setVariable( "module_name", 'shop' );

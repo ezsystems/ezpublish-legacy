@@ -54,6 +54,37 @@ class eZURI
     }
 
     /*!
+     \static
+     Decodes a path string which is in IRI format and returns the new path in the internal encoding.
+
+     More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
+     */
+    function decodeIRI( $str )
+    {
+        $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
+        $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
+        return $codec->convertString( $str );
+    }
+
+    /*!
+     \static
+     Encodes path string in internal encoding to a new string which conforms to the IRI specification.
+
+     More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
+     */
+    function encodeIRI( $str )
+    {
+        $codec = eZTextCodec::instance( false, 'utf-8' );
+        $str = $codec->convertString( $str ); // Make sure the string is in utf-8
+        $out = explode( "/", $str ); // Don't encode the slashes
+        foreach ( $out as $i => $o )
+        {
+            $out[$i] = urlencode( $o ); // Let PHP do the rest
+        }
+        return join( "/", $out );
+    }
+
+    /*!
      Sets the current URI string to $uri, the URI is then split into array elements
      and index reset to 1.
     */
@@ -62,6 +93,8 @@ class eZURI
         if ( strlen( $uri ) > 0 and
              $uri[0] == '/' )
             $uri = substr( $uri, 1 );
+
+        $uri = eZURI::decodeIRI( $uri );
 
         $this->URI = $uri;
         $this->URIArray = explode( '/', $uri );

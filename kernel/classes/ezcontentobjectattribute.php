@@ -188,9 +188,13 @@ class eZContentObjectAttribute extends eZPersistentObject
                                           'name' => 'count' ) );
         }
         $objectList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                            $fieldFilters, $conditions,
-                                                            null, $limit, $asObject,
-                                                            null, $customFields );
+                                                           $fieldFilters,
+                                                           $conditions,
+                                                           ( $asCount ? false : null ),
+                                                           $limit,
+                                                           $asObject,
+                                                           null,
+                                                           $customFields );
         if ( $asCount )
             return $objectList[0]['count'];
         else
@@ -599,6 +603,20 @@ class eZContentObjectAttribute extends eZPersistentObject
             $this->unsetInputParameters();
         }
         return $this->IsValid;
+    }
+
+    /*!
+      Validates the data contents, returns true on success false if the data
+      does not validate.
+     */
+    function validateAddToBasket( $data, &$errors )
+    {
+        $dataType = $this->dataType();
+        if ( $dataType )
+        {
+            $this->AddToBasketIsValid = $dataType->validateAddToBasket( $this, $data, $errors );
+        }
+        return $this->AddToBasketIsValid;
     }
 
     /*!
@@ -1189,7 +1207,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             return false;
     }
 
-    
+
     /*!
      \static
      Goes trough all attributes and fetches metadata for the ones that is searchable.

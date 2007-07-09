@@ -552,17 +552,6 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     $asObject );
     }
 
-//     function &fetchListCount( $version = 0 )
-//     {
-//         $custom = array( array( 'name' => 'count',
-//                                 'operation' => 'count( id )' ) );
-//         $lst = eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
-//                                                      array(), array( 'version' => $version ), null, null,
-//                                                      false, null,
-//                                                      $custom );
-//         return $lst[0]['count'];
-//     }
-
     function currentEvent()
     {
     }

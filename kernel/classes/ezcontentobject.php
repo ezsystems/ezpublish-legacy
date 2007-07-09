@@ -912,7 +912,9 @@ class eZContentObject extends eZPersistentObject
     {
         $rows =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                       array(),
-                                                      $conditions, null, null,
+                                                      $conditions,
+                                                      false/* we don't want any sorting when counting. Sorting leads to error on postgresql 8.x */,
+                                                      null,
                                                       false, false,
                                                       array( array( 'operation' => 'count( * )',
                                                                     'name' => 'count' ) ) );
@@ -930,8 +932,8 @@ class eZContentObject extends eZPersistentObject
         $result = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                        array(),
                                                        array( "contentclass_id" => $contentClassID ),
-                                                       array(), null,
-                                                       false,false,
+                                                       false, null,
+                                                       false, false,
                                                        array( array( 'operation' => 'count( * )',
                                                                      'name' => 'count' ) ) );
         return $result[0]['count'];
@@ -1401,6 +1403,7 @@ class eZContentObject extends eZPersistentObject
         // Set new unique remote_id
         $newRemoteID = md5( (string)mt_rand() . (string)time() );
         $contentObject->setAttribute( 'remote_id', $newRemoteID );
+        $contentObject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
 
         $contentObject->store();
 
@@ -5499,6 +5502,16 @@ class eZContentObject extends eZPersistentObject
         }
 
         $version->setAlwaysAvailableLanguageID( $languageID );
+
+        // Update url alias for all locations
+        $nodeRows = eZContentObjectTreeNode::fetchByContentObjectID( $objectID, false );
+        $actions = array();
+        foreach ( $nodeRows as $nodeRow )
+        {
+            $nodeID = (int)$nodeRow['node_id'];
+            $actions[] = array( 'eznode', $nodeID );
+        }
+        eZURLAliasML::setLangMaskAlwaysAvailable( $languageID, $actions, null );
 
         $db->commit();
     }

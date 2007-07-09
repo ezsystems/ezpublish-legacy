@@ -167,16 +167,35 @@ $ViewList['search'] = array(
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['urlalias'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'urlalias.php',
+    'ui_context' => 'administration',
+    'single_post_actions' => array( 'NewAliasButton' => 'NewAlias',
+                                    'RemoveAliasButton' => 'RemoveAlias' ),
+    'post_action_parameters' => array( 'RemoveAlias' => array( 'ElementList' => 'ElementList' ),
+                                       'NewAlias' => array( 'LanguageCode' => 'LanguageCode',
+                                                            'AliasText' => 'AliasText' ) ),
+    'params' => array( 'NodeID' ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
+
 $ViewList['urltranslator'] = array(
     'functions' => array( 'urltranslator' ),
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'script' => 'urltranslator.php',
+    'script' => 'urlalias_global.php',
     'ui_context' => 'administration',
-    'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
+    'single_post_actions' => array( 'NewAliasButton' => 'NewAlias',
+                                    'RemoveAliasButton' => 'RemoveAlias' ),
+    'post_action_parameters' => array( 'RemoveAlias' => array( 'ElementList' => 'ElementList' ),
+                                       'NewAlias' => array( 'LanguageCode' => 'LanguageCode',
+                                                            'AliasSourceText' => 'AliasSourceText',
+                                                            'AliasDestinationText' => 'AliasDestinationText' ) ),
+/*    'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
                                     'NewForwardURLAliasButton' => 'NewForwardURLAlias',
                                     'NewWildcardURLAliasButton' => 'NewWildcardURLAlias',
                                     'RemoveURLAliasButton' => 'RemoveURLAlias',
-                                    'StoreURLAliasButton' => 'StoreURLAlias' ),
+                                    'StoreURLAliasButton' => 'StoreURLAlias' ),*/
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
@@ -342,7 +361,7 @@ $ViewList['diff'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'params' => array( 'ObjectID' ),
     'unordered_params' => array( 'offset' => 'Offset'  ) );
-    
+
 $ViewList['history'] = array(
     'functions' => array( 'read', 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
@@ -357,7 +376,7 @@ $ViewList['history'] = array(
                                                         'VersionKeyArray' => 'HistoryEditButton' ) ),
     'params' => array( 'ObjectID' ,'EditVersion' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
-    
+
 $ViewList['trash'] = array(
     'functions' => array( 'restore' ),
     'script' => 'trash.php',
@@ -382,7 +401,7 @@ $ViewList['translations'] = array(
     'params' => array( 'TranslationID' ) );
 
 $ViewList['tipafriend'] = array(
-    'functions' => array( 'read' ),
+    'functions' => array( 'tipafriend', 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'tipafriend.php',
     'params' => array( 'NodeID' ) );
@@ -664,9 +683,9 @@ $FunctionList['pdf'] = array( 'Class' => $ClassID,
 $FunctionList['translations'] = array();
 $FunctionList['urltranslator'] = array();
 $FunctionList['pendinglist'] = array();
-
-$FunctionList['restore'] = array( );
-$FunctionList['cleantrash'] = array( );
+$FunctionList['restore'] = array();
+$FunctionList['cleantrash'] = array();
+$FunctionList['tipafriend'] = array();
 
 /*
 $ViewArray['view'] = array(

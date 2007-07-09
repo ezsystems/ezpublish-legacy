@@ -139,6 +139,10 @@ class eZContentObjectTreeNodeOperations
 
             $result = true;
         }
+        else
+        {
+            eZDebug::writeError( "Node $nodeID was moved to $newParentNodeID but fetching the new node failed" );
+        }
 
         $db->commit();
 

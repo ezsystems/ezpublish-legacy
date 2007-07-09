@@ -73,7 +73,7 @@
 
 <div class="block">
 <label>
-{"Country"|i18n("design/standard/shop")}:*
+{"Country/region"|i18n("design/standard/shop")}:*
 </label><div class="labelbreak"></div>
 {include uri='design:shop/country/edit.tpl' select_name='Country' select_size=5 current_val=$country}
 </div>

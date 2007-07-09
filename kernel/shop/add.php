@@ -83,6 +83,33 @@ switch( $operationResult['status'] )
             return $Result;
        }
     }break;
+    case EZ_MODULE_OPERATION_CANCELED:
+    {
+        if ( isset( $operationResult['reason'] ) &&  $operationResult['reason'] == 'validation' )
+        {
+            $http =& eZHTTPTool::instance();
+            $http->setSessionVariable( "BasketError", $operationResult['error_data'] );
+            $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/options" );
+            return;
+        }
+        else if ( isset( $operationResult['result'] ) )
+        {
+            $result =& $operationResult['result'];
+            $resultContent = false;
+            if ( is_array( $result ) )
+            {
+                if ( isset( $result['content'] ) )
+                    $resultContent = $result['content'];
+                if ( isset( $result['path'] ) )
+                    $Result['path'] = $result['path'];
+            }
+            else
+                $resultContent =& $result;
+            $Result['content'] =& $resultContent;
+            return $Result;
+       }
+    }break;
+
 }
 
 

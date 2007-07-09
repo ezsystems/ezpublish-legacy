@@ -109,16 +109,7 @@ class eZURLObjectLink extends eZPersistentObject
     */
     static function hasObjectLinkList( $urlID )
     {
-        $rows = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
-                                                      array(),
-                                                      array( 'url_id' => $urlID ),
-                                                      array(),
-                                                      null,
-                                                      false,
-                                                      false,
-                                                      array( array( 'name' => 'count',
-                                                                    'operation' => 'count( url_id )' ) ) );
-        return ( $rows[0]['count'] > 0 );
+        return ( eZURLObjectLink::fetchObjectVersionCount( $urlID ) > 0 );
     }
 
     /*!
@@ -167,12 +158,16 @@ class eZURLObjectLink extends eZPersistentObject
     */
      static function fetchObjectVersionCount( $urlID )
      {
-         return count( eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
-                                                            null,
-                                                            array( 'url_id' => $urlID ),
-                                                            null,
-                                                            null,
-                                                            true ) );
+         $result = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                        array(),
+                                                        array( 'url_id' => $urlID ),
+                                                        false,
+                                                        null,
+                                                        false,
+                                                        false,
+                                                        array( array( 'operation' => 'count( * )',
+                                                                      'name' => 'count' ) ) );
+         return $result[0]['count'];
      }
 
     /*!

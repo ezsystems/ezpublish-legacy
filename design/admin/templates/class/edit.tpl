@@ -83,7 +83,13 @@
     {* Object name pattern. *}
     <div class="block">
     <label>{'Object name pattern'|i18n( 'design/admin/class/edit' )}:</label>
-    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated (also applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )}" />
+    <input class="box" type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" title="{'Use this field to configure how the name of the objects are generated. Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )}" />
+    </div>
+
+    {* URL alias name pattern. *}
+    <div class="block">
+    <label>{'URL alias name pattern'|i18n( 'design/admin/class/edit' )}:</label>
+    <input class="box" type="text" name="ContentClass_url_alias_name" size="30" value="{$class.url_alias_name|wash}" title="{'Use this field to configure how the url alias of the objects are generated (applies to nice URLs). Type in the identifiers of the attributes that should be used. The identifiers must be enclosed in angle brackets. Text outside angle brackets will be included as is.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
     {* Container. *}

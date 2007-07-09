@@ -14,7 +14,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" title="{'Invert selection.'|i18n( 'design/admin/content/translations' )}" onclick="ezjs_toggleCheckboxes( document.languageform, 'DeleteIDArray[]' ); return false;"/></th>
     <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
-	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
+	<th>{'Country/region'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
 	<th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
@@ -42,7 +42,7 @@
     {/section}</a>
     </td>
 
-    {* Country. *}
+    {* Country/region. *}
 	<td>{$Translations.item.translation.locale_object.country_name|wash}</td>
 
     {* Locale. *}

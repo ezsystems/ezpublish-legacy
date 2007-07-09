@@ -1109,6 +1109,12 @@ $schema = array (
         'not_null' => '1',
         'default' => 1,
       ),
+      'url_alias_name' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
       'version' => 
       array (
         'length' => 11,
@@ -3132,6 +3138,166 @@ $schema = array (
         'fields' => 
         array (
           0 => 'contentobject_id',
+        ),
+      ),
+    ),
+  ),
+  'ezisbn_group' => 
+  array (
+    'name' => 'ezisbn_group',
+    'fields' => 
+    array (
+      'description' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'group_number' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
+  'ezisbn_group_range' => 
+  array (
+    'name' => 'ezisbn_group_range',
+    'fields' => 
+    array (
+      'from_number' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'group_from' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'group_length' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'group_to' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'to_number' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
+  'ezisbn_registrant_range' => 
+  array (
+    'name' => 'ezisbn_registrant_range',
+    'fields' => 
+    array (
+      'from_number' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'isbn_group_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'registrant_from' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'registrant_length' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'registrant_to' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'to_number' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
         ),
       ),
     ),
@@ -6071,6 +6237,13 @@ $schema = array (
         'type' => 'auto_increment',
         'default' => false,
       ),
+      'is_imported' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'is_internal' => 
       array (
         'length' => 11,
@@ -6124,12 +6297,14 @@ $schema = array (
           0 => 'forward_to_id',
         ),
       ),
-      'ezurlalias_is_wildcard' => 
+      'ezurlalias_imp_wcard_fwd' => 
       array (
         'type' => 'non-unique',
         'fields' => 
         array (
-          0 => 'is_wildcard',
+          0 => 'is_imported',
+          1 => 'is_wildcard',
+          2 => 'forward_to_id',
         ),
       ),
       'ezurlalias_source_md5' => 
@@ -6146,6 +6321,197 @@ $schema = array (
         'fields' => 
         array (
           0 => 'source_url',
+        ),
+      ),
+      'ezurlalias_wcard_fwd' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_wildcard',
+          1 => 'forward_to_id',
+        ),
+      ),
+    ),
+  ),
+  'ezurlalias_ml' => 
+  array (
+    'name' => 'ezurlalias_ml',
+    'fields' => 
+    array (
+      'action' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'action_type' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'is_alias' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'is_original' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'lang_mask' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'link' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'parent' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'text' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'text_md5' => 
+      array (
+        'length' => 32,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'parent',
+          1 => 'text_md5',
+        ),
+      ),
+      'ezurlalias_ml_act_org' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'action',
+          1 => 'is_original',
+        ),
+      ),
+      'ezurlalias_ml_action' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'action',
+          1 => 'id',
+          2 => 'link',
+        ),
+      ),
+      'ezurlalias_ml_actt' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'action_type',
+        ),
+      ),
+      'ezurlalias_ml_actt_org_al' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'action_type',
+          1 => 'is_original',
+          2 => 'is_alias',
+        ),
+      ),
+      'ezurlalias_ml_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezurlalias_ml_par_act_id_lnk' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'parent',
+          1 => 'action',
+          2 => 'id',
+          3 => 'link',
+        ),
+      ),
+      'ezurlalias_ml_par_lnk_txt' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'parent',
+          1 => 'link',
+          2 => 'text',
+        ),
+      ),
+      'ezurlalias_ml_par_txt' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'parent',
+          1 => 'text',
+        ),
+      ),
+      'ezurlalias_ml_text' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'text',
+          1 => 'id',
+          2 => 'link',
+        ),
+      ),
+      'ezurlalias_ml_text_lang' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'text',
+          1 => 'lang_mask',
+          2 => 'parent',
         ),
       ),
     ),

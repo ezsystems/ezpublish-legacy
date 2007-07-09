@@ -122,11 +122,15 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
     static function fetchListCount( $userID )
     {
-        $custom = array( array( 'operation' => 'count( id )',
-                                'name' => 'count' ) );
         $countRes = eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                          array(), array( 'user_id' => $userID ),
-                                                          false, null, false, false, $custom );
+                                                         array(),
+                                                         array( 'user_id' => $userID ),
+                                                         false,
+                                                         null,
+                                                         false,
+                                                         false,
+                                                         array( array( 'operation' => 'count( id )',
+                                                                       'name' => 'count' ) ) );
         return $countRes[0]['count'];
     }
 

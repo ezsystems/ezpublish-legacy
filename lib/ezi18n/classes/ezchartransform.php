@@ -42,6 +42,9 @@
 /// The timestamp for when the format of the cache files were
 /// last changed. This must be updated when the format changes
 /// to invalidate existing cache files.
+/// 1101288452
+/// 30. Jan. 2007 - 1170165730
+/// 24. Apr. 2007 - 1177423380
 define( 'EZ_CHARTRANSFORM_CODEDATE', 1177423380 );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
@@ -297,6 +300,11 @@ class eZCharTransform
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
+            $ini =& eZINI::instance( 'transform.ini' );
+            if ( $ini->CacheFile && $time < filemtime( $ini->CacheFile ) )
+            {
+                return false;
+            }
             if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
                 //var_dump( file_get_contents( $filepath ) );
@@ -490,6 +498,53 @@ class eZCharTransform
         }
         else
             $text = 'null';
+        return $text;
+    }
+
+    function commandUrlCleanupCompat( $text, $charsetName )
+    {
+        // Old style of url alias with lowercase only and underscores for separators
+        $text = strtolower( $text );
+        $text = preg_replace( array( "#[^a-z0-9_ ]#",
+                                     "/ /",
+                                     "/__+/",
+                                     "/^_|_$/" ),
+                              array( " ",
+                                     "_",
+                                     "_",
+                                     "" ),
+                              $text );
+        return $text;
+    }
+
+    function commandUrlCleanup( $text, $charsetName )
+    {
+        $text = preg_replace( array( "#[^a-zA-Z0-9_!-]+#",
+                                     "#/\.\.?/#",
+                                     "/^-+|-+$/" ),
+                              array( "-",
+                                     "-",
+                                     "" ),
+                              $text );
+        return $text;
+    }
+
+    function commandUrlCleanupIRI( $text, $charsetName )
+    {
+        // With IRI support we keep all characters except some reserved ones,
+        // they are space, ampersand, semi-colon, forward slash, colon, equal sign, question mark,
+        //          square brackets, parenthesis.
+        //
+        // Note: Space is turned into a dash to make it easier for people to
+        //       paste urls from the system and have the whole url recognized
+        //       instead of being broken off
+        $text = preg_replace( array( "#[ \\\\%\#&;/:=?\[\]()-]+#",
+                                     "#/\.\.?/#",
+                                     "/^[ -.]+|[ -.]+$/" ),
+                              array( "-",
+                                     "-",
+                                     "" ),
+                              $text );
         return $text;
     }
 

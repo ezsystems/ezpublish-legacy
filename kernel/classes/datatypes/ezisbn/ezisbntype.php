@@ -297,53 +297,11 @@ class eZISBNType extends eZDataType
         {
             case 'ImportISBN13Data':
             {
-                $this->importISBN13RangeData( $http, $action, $classAttribute );
+                //$this->importISBN13RangeData();
+                $this->importDBDataFromDBAFile();
             }break;
         }
     }
-
-    /*!
-     Insert isbn range data from file. The datafile is located in:
-     kernel/classes/datatypes/ezisbn/share/db_data.dba and should contain data
-     for the tables ezisbn_group, ezisbn_group_range and ezisbn_registrant_range.
-    */
-    function importISBN13RangeData( &$http, $action, &$classAttribute )
-    {
-        if ( file_exists( EZ_DATATYPESTRING_ISBN_13_DBA_DATA ) )
-        {
-            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-            $db =& eZDB::instance();
-            $dbSchema = eZDBSchema::instance( $db );
-            $dataArray = eZDBSchema::read( EZ_DATATYPESTRING_ISBN_13_DBA_DATA, true );
-            if ( count( $dataArray ) > 0 )
-            {
-                $schemaArray = $dataArray;
-                $schemaArray['type'] = strtolower( $db->databaseName() );
-                $schemaArray['instance'] =& $db;
-                $dbSchema = eZDBSchema::instance( $schemaArray );
-
-                if ( $dbSchema )
-                {
-                    // This will insert the data and
-                    // run any sequence value correction SQL if required
-                    $params = array( 'schema' => false,
-                                     'data' => true );
-
-                    // Before adding the schema, make sure that the tables are emty.
-                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
-                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
-                    include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
-
-                    eZISBNGroup::cleanAll();
-                    eZISBNGroupRange::cleanAll();
-                    eZISBNRegistrantRange::cleanAll();
-
-                    $dbSchema->insertSchema( $params );
-                }
-            }
-        }
-    }
-
 
     /*!
      \reimp
@@ -493,6 +451,21 @@ class eZISBNType extends eZDataType
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE ) ) != '';
+    }
+
+    /*!
+      \reimp
+      See also eZDataType:cleanDBDataBeforeImport().
+    */
+    function cleanDBDataBeforeImport()
+    {
+        include_once( 'kernel/classes/datatypes/ezisbn/ezisbngroup.php' );
+        include_once( 'kernel/classes/datatypes/ezisbn/ezisbngrouprange.php' );
+        include_once( 'kernel/classes/datatypes/ezisbn/ezisbnregistrantrange.php' );
+        eZISBNGroup::cleanAll();
+        eZISBNGroupRange::cleanAll();
+        eZISBNRegistrantRange::cleanAll();
+        return true;
     }
 }
 

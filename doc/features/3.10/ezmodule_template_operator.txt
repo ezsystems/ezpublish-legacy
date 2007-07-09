@@ -1,0 +1,21 @@
+*Title: New 'ezmodule' template operator.
+
+*Documentation:
+New 'ezmodule' template operator checks module (or view) is enabled
+or not basing on Rules settings which are set under [SiteAccessRules]
+section of the 'settings/site.ini' file.
+Syntax:
+{ezmodule( uri )}
+
+If passed string as uri parameter contains uri to enabled module (or view)
+then the operator returns true, otherwise it returns false.
+Note, the operator doesn't check access permissions to a module functions
+or views per user, this can be checked only by using 'content/access'
+template fetch function.
+Example:
+
+{def $isTipafriendEnabled = ezmodule( 'content/tipafriend' )}
+{if $isTipafriendEnabled}
+<a href={'content/tipafriend/187'|ezurl()}>Click to tip this to your friend</a>
+{/if}
+{undef}

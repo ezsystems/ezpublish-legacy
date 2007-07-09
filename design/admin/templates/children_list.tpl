@@ -21,7 +21,8 @@
 
     {section var=Nodes loop=$children sequence=array( bglight, bgdark )}
     {let child_name=$Nodes.item.name|wash
-         node_name=$node.name}
+         node_name=$node.name
+         nodeContent=$Nodes.item.object}
 
         <tr class="{$Nodes.sequence}">
 
@@ -35,18 +36,16 @@
         </td>
 
         {* Name *}
-	{def $userEnabled='' $userLocked=''}
-	{def $nodeContent=fetch( 'content', 'object', hash( 'object_id', $Nodes.item.contentobject_id ) )}
+        <td>{node_view_gui view=line content_node=$Nodes.item}
 	{if $nodeContent.class_identifier|eq('user')}
 		{if not($nodeContent.data_map['user_account'].content.is_enabled)}
-		   {set $userEnabled=concat( '<span class="userstatus-disabled">', '(disabled)'|i18n("design/admin/node/view/full") ,'</span>')}
+		   <span class="userstatus-disabled">{'(disabled)'|i18n("design/admin/node/view/full")}</span>
 		{/if}
 		{if $nodeContent.data_map['user_account'].content.is_locked}
-		   {set $userLocked=concat( '<span class="userstatus-disabled">', '(locked)'|i18n("design/admin/node/view/full") ,'</span>')}
+		   <span class="userstatus-disabled">{'(locked)'|i18n("design/admin/node/view/full")}</span>
 		{/if}
 	{/if}		
-        <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled} {$userLocked}</td>
-    {undef $userEnabled $nodeContent $userLocked}
+         </td>
 
         {* Class type *}
         <td class="class">{$Nodes.item.class_name|wash()}</td>

@@ -22,7 +22,7 @@
 {'Zip'|i18n('design/standard/shop')}: {$order.account_information.zip}<br />
 {'Place'|i18n('design/standard/shop')}: {$order.account_information.place}<br />
 {'State'|i18n('design/standard/shop')}: {$order.account_information.state}<br />
-{'Country'|i18n('design/standard/shop')}: {$order.account_information.country}<br />
+{'Country/region'|i18n('design/standard/shop')}: {$order.account_information.country}<br />
 </p>
 </td>
 </tr>

@@ -1402,7 +1402,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     $node =& $nodeIDItem['node'];
                 else
                     $node = eZContentObjectTreeNode::fetch( $nodeIDItem['id'] );
-                $cli->notice( "Adding node /" . $node->attribute( 'path_identification_string' ) . " to package" );
+                $cli->notice( "Adding node /" . $node->pathWithNames() . " to package" );
             }
         }
         $options['include_classes'] = $parameters['include-classes'];

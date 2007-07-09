@@ -553,3 +553,65 @@ div.object-center
     margin-right: auto;
     text-align: center;
 }
+
+/* multioption */
+table.multioption, table.multioption table
+{
+    width: 100%;
+    margin: 0;
+    border-top: 1px solid #ecece4;
+    border-left: 1px solid #ecece4;
+}
+
+table.multioption table
+{
+    margin-top: 0.5em;
+}
+
+table.multioption th, table.multioption td
+{
+    padding: 0.25em;
+    border-right: 1px solid #ecece4;
+    border-bottom: 1px solid #ecece4;
+    vertical-align: top;
+    text-align: left;
+}
+
+table.multioption th
+{
+    background-color: #bfbfb7;
+}
+
+table.multioption div.controlbar div.block
+{
+    padding: 0;
+}
+
+table.multioption input.box
+{
+    width: 98%;
+}
+
+fieldset.multioption label
+{
+    font-weight: bold;
+    margin: 0.5em 0 0.5em 0;
+}
+
+option.disabled
+{
+    color: #a0a0a0;
+}    
+
+div.attribute-multioption ul
+{
+    margin: 0 0 0 1em;
+    padding: 0;
+}
+
+div.attribute-multioption li
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

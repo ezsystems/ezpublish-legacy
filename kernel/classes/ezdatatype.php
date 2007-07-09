@@ -922,6 +922,23 @@ class eZDataType
     }
 
     /*!
+     \return true if the datatype requires validation during add to basket procedure
+    */
+    function isAddToBasketValidationRequired()
+    {
+        return false;
+    }
+    /*!
+     Validates the input for an object attribute during add to basket process
+     and returns a validation state as defined in eZInputValidator.
+     \note Default implementation does nothing and returns accepted.
+    */
+    function validateAddToBasket( &$objectAttribute, $data, &$errors )
+    {
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
+    /*!
      Queries the datatype if the attribute containing this datatype can be
      removed from the class. This can be used by datatypes to ensure
      that very important datatypes that could cause system malfunction is
@@ -1260,6 +1277,76 @@ class eZDataType
         $diff->initDiffEngine();
         $diffObject = $diff->diff( $old, $new );
         return $diffObject;
+    }
+
+    /*!
+      Returns dba-data file name of the specific datatype.
+      This one is the default dba-data file name for all datatypes
+    */
+    function getDBAFileName()
+    {
+        return 'share/db_data.dba';
+    }
+
+    /*!
+      Returns dba-data file path (relative to the system root folder) for the specific datatype.
+    */
+    function getDBAFilePath()
+    {
+        return 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
+    }
+
+    /*!
+      Used by setup-wizard to update database data using per datatype dba file
+      which is usually placed in share subfolder of the datatype and (share/db_data.dba)
+      Any reimplementation of this method must return true if import is succesfully done,
+      otherwise false.
+    */
+    function importDBDataFromDBAFile( $dbaFilePath = false )
+    {
+        // If no file path is passed then get the common dba-data file name for the datatype
+        if ( !$dbaFilePath )
+            $dbaFilePath = $this->getDBAFilePath();
+
+        $result = true;
+        if ( file_exists( $dbaFilePath ) )
+        {
+            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            $dataArray = eZDBSchema::read( $dbaFilePath, true );
+            if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
+            {
+                $db =& eZDB::instance();
+                $dataArray['type'] = strtolower( $db->databaseName() );
+                $dataArray['instance'] =& $db;
+                $dbSchema = eZDBSchema::instance( $dataArray );
+
+                $name = get_class( $dbSchema );
+
+                $result = false;
+                if ( $dbSchema )
+                {
+                    // Before adding the schema, make sure that the tables are empty.
+                    if ( $this->cleanDBDataBeforeImport() )
+                    {
+                        // This will insert the data and
+                        // run any sequence value correction SQL if required
+                        $result = $dbSchema->insertSchema( array( 'schema' => false,
+                                                                  'data' => true ) );
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    /*!
+      \private
+      Used by updateDBDataByDBAFile() method
+      Must return true if successfull, or false otherwise.
+    */
+    function cleanDBDataBeforeImport()
+    {
+        return true;
     }
 
     /// \privatesection

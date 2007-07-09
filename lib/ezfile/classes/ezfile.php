@@ -67,8 +67,10 @@ class eZFile
      Creates a file called \a $filename.
      If \a $directory is specified the file is placed there, the directory will also be created if missing.
      if \a $data is specified the file will created with the content of this variable.
+
+     \param $atomic If true the file contents will be written to a temporary file and renamed to the correct file.
     */
-    static function create( $filename, $directory = false, $data = false )
+    static function create( $filename, $directory = false, $data = false, $atomic = false )
     {
         $filepath = $filename;
         if ( $directory )
@@ -80,13 +82,29 @@ class eZFile
             }
             $filepath = $directory . '/' . $filename;
         }
-        $file = fopen( $filepath, 'w' );
+        // If atomic creation is needed we will use a temporary
+        // file when writing the data, then rename it to the correct path.
+        if ( $atomic )
+        {
+            $realpath = $filepath;
+            $dirname  = dirname( $filepath );
+            if ( strlen( $dirname ) != 0 )
+                $dirname .= "/";
+            $filepath = $dirname . "ezfile-tmp." . md5( $filepath . getmypid() . mt_rand() );
+        }
+
+        $file = fopen( $filepath, 'wb' );
         if ( $file )
         {
 //             eZDebugSetting::writeNotice( 'ezfile-create', "Created file $filepath", 'eZFile::create' );
             if ( $data )
                 fwrite( $file, $data );
             fclose( $file );
+
+            if ( $atomic )
+            {
+                eZFile::rename( $filepath, $realpath );
+            }
             return true;
         }
 //         eZDebugSetting::writeNotice( 'ezfile-create', "Failed creating file $filepath", 'eZFile::create' );
