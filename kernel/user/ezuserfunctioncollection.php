@@ -203,7 +203,9 @@ class eZUserFunctionCollection
             return array( 'result' => $result['accessWord'] != 'no' );
         }
         else
+        {
             return array( 'result' => false );
+        }
     }
 }
 
