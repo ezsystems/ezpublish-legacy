@@ -105,7 +105,7 @@ function updateObjects()
                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ systems AS. All rights reserved." ) );
 
     $result = $installer->updateContentObjectAttributes( array( 'object_id' => $this->setting( 'template_look_object_id' ),
-                                                                'attributes_data' => $templateLookData ))
+                                                                'attributes_data' => $templateLookData ) );
 
     return $result;
 }
