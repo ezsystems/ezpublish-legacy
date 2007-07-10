@@ -1385,20 +1385,11 @@ WHERE user_id = '" . $userID . "' AND
                     if ( $http->hasSessionVariable( 'AccessArray' ) and
                          $http->hasSessionVariable( 'AccessArrayTimestamp' ) )
                     {
-                        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                        $handler =& eZExpiryHandler::instance();
-                        if ( $handler->hasTimestamp( 'user-access-cache' ) )
+                        $expiredTimestamp = $this->userInfoExpiry();
+                        $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
+                        if ( $userAccessTimestamp > $expiredTimestamp )
                         {
-                            $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
-                            $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
-                            if ( $userAccessTimestamp > $expiredTimestamp )
-                            {
-                                $accessArray = $http->sessionVariable( 'AccessArray' );
-                            }
-                        }
-                        else
-                        {
-                            $handler->setTimestamp( 'user-access-cache', mktime() );
+                            $accessArray = $http->sessionVariable( 'AccessArray' );
                         }
                     }
                 }
@@ -1406,7 +1397,7 @@ WHERE user_id = '" . $userID . "' AND
                 if ( !$accessArray )
                 {
                     $cacheFilePath = eZUser::getCacheFilename( $userID );
-                    if ( $cacheFilePath !== false )
+                    if ( $cacheFilePath )
                     {
                         require_once( 'kernel/classes/ezclusterfilehandler.php' );
                         $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
@@ -1472,12 +1463,16 @@ WHERE user_id = '" . $userID . "' AND
     function userInfoExpiry()
     {
         /* Figure out when the last update was done */
-        $expiredTimestamp = 0;
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         if ( $handler->hasTimestamp( 'user-access-cache' ) )
         {
             $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
+        }
+        else
+        {
+            $expiredTimestamp = mktime();
+            $handler->setTimestamp( 'user-access-cache', $expiredTimestamp );
         }
 
         return $expiredTimestamp;
