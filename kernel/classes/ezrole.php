@@ -569,12 +569,8 @@ class eZRole extends eZPersistentObject
 
     /*!
       \static
-      Fetch access array by user id
-
       \param user id
-
       \return array containing complete access limitation description
-
       Returns newly generated access array which corresponds to the array of user/group ids list.
     */
     function accessArrayByUserID( $userIDArray )
