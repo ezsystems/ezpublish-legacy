@@ -4,6 +4,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Added port option for shell database schema scripts.
 - Added SSL proxy support.
 - Added enhanced ISBN13 support.
+- Added ezmultioptiongroup datatype.
 - Implemented task #011008: Update ISBN range tables during setup wizard.
 - Implemented enhancement #010806: template override conditions for tipafriend.
 - Implemented enhancement #010860: As Object performance patch.
@@ -11,7 +12,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Implemented enhancement #008851: spammer is abusing the "tipafriend" function.
 - Implemented enhancement #011015: template operator to check module(view) is enabled or not.
 - Implemented enhancement #010813: Patch to allow eZObjectRelationList in contentobject name.
-- Added ezmultioptiongroup datatype.
+- Implemented enhancement #009904: Crypt password hashing method.
 
 *Design:
 - Added Bulgarian flag.

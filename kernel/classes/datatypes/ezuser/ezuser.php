@@ -53,6 +53,8 @@ define( 'EZ_USER_PASSWORD_HASH_MD5_SITE', 3 );
 define( 'EZ_USER_PASSWORD_HASH_MYSQL', 4 );
 /// Passwords in plaintext, should not be used for real sites
 define( 'EZ_USER_PASSWORD_HASH_PLAINTEXT', 5 );
+// Crypted passwords
+define( 'EZ_USER_PASSWORD_HASH_CRYPT', 6 );
 
 /// Authenticate by matching the login field
 define( 'EZ_USER_AUTHENTICATE_LOGIN', 1 << 0 );
@@ -144,6 +146,10 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
+            case EZ_USER_PASSWORD_HASH_CRYPT:
+            {
+                return 'crypt';
+            } break;
         }
     }
 
@@ -174,6 +180,10 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return EZ_USER_PASSWORD_HASH_PLAINTEXT;
+            } break;
+            case 'crypt':
+            {
+                return EZ_USER_PASSWORD_HASH_CRYPT;
             } break;
         }
     }
@@ -586,6 +596,8 @@ WHERE user_id = '" . $userID . "' AND
             return EZ_USER_PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return EZ_USER_PASSWORD_HASH_PLAINTEXT;
+        else if ( $type == 'crypt' )
+            return EZ_USER_PASSWORD_HASH_CRYPT;
         else
             return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
     }
@@ -1387,7 +1399,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function authenticateHash( $user, $password, $site, $type, $hash )
     {
-        return eZUser::createHash( $user, $password, $site, $type ) == $hash;
+        return eZUser::createHash( $user, $password, $site, $type, $hash ) == $hash;
     }
 
     /*!
@@ -1483,10 +1495,9 @@ WHERE user_id = '" . $userID . "' AND
      \static
      Will create a hash of the given string. This is used to store the passwords in the database.
     */
-    function createHash( $user, $password, $site, $type )
+    function createHash( $user, $password, $site, $type, $hash = false )
     {
         $str = '';
-//         eZDebugSetting::writeDebug( 'kernel-user', "'$user' '$password' '$site'", "ezuser($type)" );
         if( $type == EZ_USER_PASSWORD_HASH_MD5_USER )
         {
             $str = md5( "$user\n$password" );
@@ -1502,6 +1513,17 @@ WHERE user_id = '" . $userID . "' AND
         else if ( $type == EZ_USER_PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
+        }
+        else if ( $type == EZ_USER_PASSWORD_HASH_CRYPT )
+        {
+            if ( $hash )
+            {
+                $str = crypt( $password, $hash );
+            }
+            else
+            {
+                $str = crypt( $password );
+            }
         }
         else // EZ_USER_PASSWORD_HASH_MD5_PASSWORD
         {
