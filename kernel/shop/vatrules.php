@@ -61,13 +61,13 @@ function findErrors( $vatRules )
     for ( $i=0; $i < $vatRulesCount; $i++ )
     {
         $iRule       = $vatRules[$i];
-        $iCountry    = $iRule->attribute( 'country' );
+        $iCountry    = $iRule->attribute( 'country_code' );
         $iCategories = $iRule->attribute( 'product_categories_names' );
 
         for ( $j=$i+1; $j < $vatRulesCount; $j++ )
         {
             $jRule       = $vatRules[$j];
-            $jCountry    = $jRule->attribute( 'country' );
+            $jCountry    = $jRule->attribute( 'country_code' );
 
             if ( $iCountry != $jCountry )
                 continue;

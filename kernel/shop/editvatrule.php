@@ -80,7 +80,7 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
         foreach ( $vatRules as $i )
         {
             if ( $i->attribute( 'id' ) == $ruleID ||
-                 $i->attribute( 'country' ) != $country ||
+                 $i->attribute( 'country_code' ) != $country ||
                  $i->attribute( 'product_categories' ) )
                 continue;
 
@@ -105,7 +105,7 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories, 
         foreach ( $vatRules as $i )
         {
             if ( $i->attribute( 'id' ) == $ruleID ||
-                 $i->attribute( 'country' ) != $country ||
+                 $i->attribute( 'country_code' ) != $country ||
                  !$i->attribute( 'product_categories' ) )
                 continue;
 
@@ -185,7 +185,7 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
         $addID = create_function('$i', "return array( 'id' => \$i ) ;" );
         $chosenCategories = array_map( $addID, $chosenCategories );
 
-        $vatRule->setAttribute( 'country', $chosenCountry );
+        $vatRule->setAttribute( 'country_code', $chosenCountry );
         $vatRule->setAttribute( 'product_categories', $chosenCategories );
         $vatRule->setAttribute( 'vat_type', $chosenVatType );
         $vatRule->store();
@@ -198,7 +198,7 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
 if ( is_numeric( $ruleID ) )
 {
     $tplVatRule      = eZVatRule::fetch( $ruleID );
-    $tplCountry      = $tplVatRule->attribute( 'country' );
+    $tplCountry      = $tplVatRule->attribute( 'country_code' );
     $tplCategoryIDs  = $tplVatRule->attribute( 'product_categories_ids' );
     $tplVatTypeID    = $tplVatRule->attribute( 'vat_type' );
 
@@ -232,7 +232,7 @@ $tpl->setVariable( 'all_vat_types', $vatTypes );
 $tpl->setVariable( 'all_product_categories', $productCategories );
 
 $tpl->setVariable( 'rule',         $tplVatRule );
-$tpl->setVariable( 'country',      $tplCountry );
+$tpl->setVariable( 'country_code', $tplCountry );
 $tpl->setVariable( 'category_ids', $tplCategoryIDs );
 $tpl->setVariable( 'vat_type_id',  $tplVatTypeID );
 

@@ -166,12 +166,13 @@ class eZDefaultVATHandler
         require_once( 'kernel/classes/ezvatrule.php' );
 
         $vatRules = eZVatRule::fetchList();
+
         $catID = $productCategory->attribute( 'id' );
 
         $vatPriorities = array();
         foreach ( $vatRules as $rule )
         {
-            $ruleCountry = $rule->attribute( 'country' );
+            $ruleCountry = $rule->attribute( 'country_code' );
             $ruleCatIDs  = $rule->attribute( 'product_categories_ids' );
             $ruleVatID   = $rule->attribute( 'vat_type' );
 

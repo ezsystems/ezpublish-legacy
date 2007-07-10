@@ -38,7 +38,7 @@
     <td>
     {include uri='design:shop/country/edit.tpl' select_name='Country' select_size=1
              default_val='*' default_desc='Any'|i18n( 'design/admin/shop/editvatrule' )
-             current_val=$country}
+             current_val=$country use_country_code=1}
     </td>
 </tr>
 

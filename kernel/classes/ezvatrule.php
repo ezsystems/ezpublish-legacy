@@ -54,10 +54,10 @@ class eZVatRule extends eZPersistentObject
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-                                         "country" => array( 'name' => "Country",
-                                                          'datatype' => 'string',
-                                                          'default' => null,
-                                                          'required' => true ),
+                                         "country_code"=> array ( 'name' => 'CountryCode',
+                                                                  'datatype' => 'string',
+                                                                  'default' => null,
+                                                                  'required' => true ),
                                          "vat_type" => array( 'name' => "VatType",
                                                               'datatype' => 'integer',
                                                               'default' => null,
@@ -67,7 +67,8 @@ class eZVatRule extends eZPersistentObject
                                                       'product_categories_ids' => 'productCategoriesIDs',
                                                       'product_categories_names' => 'productCategoriesNames',
                                                       'vat_type_object' => 'vatTypeObject',
-                                                      'vat_type_name' => 'vatTypeName' ),
+                                                      'vat_type_name' => 'vatTypeName',
+                                                      'country' => 'country' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZVatRule",
@@ -173,7 +174,7 @@ class eZVatRule extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "country" => null,
+            "country_code" => null,
             "vat_type" => null
             );
         return new eZVatRule( $row );
@@ -324,6 +325,23 @@ class eZVatRule extends eZPersistentObject
         require_once( 'kernel/classes/ezvattype.php' );
         $retObject = eZVatType::fetch( $this->attribute( 'vat_type' ) );
         return $retObject;
+    }
+
+    /*
+    * Returns country name
+    */
+    function country()
+    {
+        if ( $this->attribute( 'country_code' ) != '*' )
+        {
+            $countryINI = eZINI::instance( 'country.ini' );
+            $countryName = $countryINI->variable( $this->attribute( 'country_code' ) , 'Name' );
+        }
+        else
+        {
+            $countryName = '*';
+        }
+        return $countryName;
     }
 
     /**
