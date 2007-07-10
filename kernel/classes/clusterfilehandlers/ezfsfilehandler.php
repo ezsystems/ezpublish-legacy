@@ -364,7 +364,7 @@ class eZFSFileHandler
                 if ( $extraData !== null )
                     $args[] = $extraData;
                 $retval = call_user_func_array( $retrieveCallback, $args );
-                if ( get_class( $retval ) != 'ezclusterfilefailure' )
+                if ( $retval instanceof eZClusterFileFailure )
                 {
                     eZDebug::writeNotice( "Retrieved cache '{$fname}' with data of type " . gettype( $retval ), "cluster::fs::{$fname}" );
                     return $retval;
@@ -381,7 +381,7 @@ class eZFSFileHandler
 
             // Generation part starts here
             if ( isset( $retval ) &&
-                 get_class( $retval ) == 'ezclusterfilefailure' )
+                 $retval instanceof eZClusterFileFailure )
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
@@ -554,7 +554,7 @@ class eZFSFileHandler
     function processFile( $callback, $expiry = false, $extraData = null )
     {
         $result = $this->processCache( $callback, false, null, $expiry, $extraData );
-        if ( get_class( $result ) == 'ezclusterfilefailure' )
+        if ( $result instanceof eZClusterFileFailure )
         {
             return null;
         }

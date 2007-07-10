@@ -328,7 +328,7 @@ class eZDBFileHandler
                         if ( $extraData !== null )
                             $args[] = $extraData;
                         $retval = call_user_func_array( $retrieveCallback, $args );
-                        if ( get_class( $retval ) == 'ezclusterfilefailure' )
+                        if ( $retval instanceof eZClusterFileFailure )
                         {
                             break;
                         }
@@ -367,7 +367,7 @@ class eZDBFileHandler
                         if ( $extraData !== null )
                             $args[] = $extraData;
                         $retval = call_user_func_array( $retrieveCallback, $args );
-                        if ( get_class( $retval ) == 'ezclusterfilefailure' )
+                        if ( $retval instanceof eZClusterFileFailure )
                         {
                             break;
                         }
@@ -384,7 +384,7 @@ class eZDBFileHandler
                             $args[] = $extraData;
                         $retval = call_user_func_array( $retrieveCallback, $args );
                         $this->deleteLocal();
-                        if ( get_class( $retval ) == 'ezclusterfilefailure' )
+                        if ( $retval instanceof eZClusterFileFailure )
                         {
                             break;
                         }
@@ -403,7 +403,7 @@ class eZDBFileHandler
 
             // Generation part starts here
             if ( isset( $retval ) &&
-                 get_class( $retval ) == 'ezclusterfilefailure' )
+                 $retval instanceof eZClusterFileFailure )
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
@@ -426,7 +426,7 @@ class eZDBFileHandler
                 // Lock the entry for exclusive access, if the entry does not exist
                 // it will be inserted with mtime=-1
                 $res = $this->backend->_exclusiveLock( $fname, 'processCache' );
-                if ( !$res || get_class( $res ) == 'ezmysqlbackenderror' )
+                if ( !$res || $res instanceof eZMySQLBackendError )
                 {
                     // Cannot get exclusive lock, so return null.
                     return null;
@@ -595,7 +595,7 @@ class eZDBFileHandler
     function processFile( $callback, $expiry = false, $extraData = null )
     {
         $result = $this->processCache( $callback, false, null, $expiry, $extraData );
-        if ( get_class( $result ) == 'ezclusterfilefailure' )
+        if ( $result instanceof eZClusterFileFailure )
         {
             return null;
         }
