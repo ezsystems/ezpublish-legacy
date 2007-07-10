@@ -1409,10 +1409,9 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Chooses the most prioritized row (based on language) of $rows and returns it.
     */
-    static private function choosePrioritizedRow( $rows )
+    static public function choosePrioritizedRow( $rows )
     {
         $result = false;
         $score = 0;
