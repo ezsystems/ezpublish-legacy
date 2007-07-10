@@ -60,7 +60,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static public function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -148,7 +148,7 @@ class eZPathElement extends eZPersistentObject
      Fetches path elements which has the parent $parentID and name $name.
      \return An array of path element objects.
      */
-    function fetchNamedByParentID( $parentID, $name )
+    static public function fetchNamedByParentID( $parentID, $name )
     {
         include_once( 'kernel/classes/ezurlaliasquery.php' );
         $filter = new eZURLAliasQuery();

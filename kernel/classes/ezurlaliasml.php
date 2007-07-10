@@ -110,7 +110,7 @@ class eZURLAliasML extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    static public function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -267,7 +267,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Removes all path elements which matches the action name $actionName and value $actionValue.
      */
-    function removeByAction( $actionName, $actionValue )
+    static public function removeByAction( $actionName, $actionValue )
     {
         // If this is an original element we must get rid of all elements which points to it.
         $db =& eZDB::instance();
@@ -334,7 +334,7 @@ class eZURLAliasML extends eZPersistentObject
      \param $rootID ID of the parent element to start at, use 0/false for the very top.
      \param $autoAdjustName If true it will adjust the name until it is unique in the path. Used together with $linkID.
      */
-    function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false, $autoAdjustName = false )
+    static public function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false, $autoAdjustName = false )
     {
         $path = eZURLAliasML::cleanURL( $path );
 //        $existingElement = $this->fetchByAction( $action );
@@ -578,7 +578,7 @@ class eZURLAliasML extends eZPersistentObject
      2   6    0      'spam'      'eznode:55'
      === ==== ====== =========== ==========
      */
-    function fetchByAction( $actionName, $actionValue, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = false )
+    static public function fetchByAction( $actionName, $actionValue, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = false )
     {
         $action = $actionName . ":" . $actionValue;
         $db =& eZDB::instance();
@@ -650,7 +650,7 @@ class eZURLAliasML extends eZPersistentObject
      4   4    0      'superman'  'nop:'
      === ==== ====== =========== ==========
     */
-    function &fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
+    static public function &fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
     {
         $db =& eZDB::instance();
         $id = (int)$id;
@@ -704,7 +704,7 @@ class eZURLAliasML extends eZPersistentObject
      \note This function is faster than getPath() since it can fetch all elements in one SQL.
      \note If the fetched elements does not point to each other (parent/id) then null is returned.
      */
-    function fetchPathByActionList( $actionName, $actionValues )
+    static public function fetchPathByActionList( $actionName, $actionValues )
     {
         if ( count( $actionValues ) == 0 )
         {
@@ -837,7 +837,7 @@ class eZURLAliasML extends eZPersistentObject
      6   6    3      'repoman'   'eznode:55'
      === ==== ====== =========== ==========
      */
-    function fetchByPath( $uriString, $glob = false )
+    static public function fetchByPath( $uriString, $glob = false )
     {
         $uriString = eZURLAliasML::cleanURL( $uriString );
 
@@ -1057,7 +1057,7 @@ class eZURLAliasML extends eZPersistentObject
      'bicycle/repoman'
      \endcode
     */
-    function translate( &$uri, $reverse = false )
+    static public function translate( &$uri, $reverse = false )
     {
         if ( get_class( $uri ) == "ezuri" )
         {
@@ -1217,7 +1217,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Perform reverse translation of uri, that is from system-url to url alias.
      */
-    function reverseTranslate( &$uri, $uriString, $internalURIString )
+    static public function reverseTranslate( &$uri, $uriString, $internalURIString )
     {
         $db =& eZDB::instance();
 
@@ -1290,7 +1290,7 @@ class eZURLAliasML extends eZPersistentObject
      \param $action The action string which is to be excluded from the check. Set to empty string to disable the exclusion.
      \param $linkCheck If true then it will see all existing entries as taken.
      */
-    function findUniqueText( $parentElementID, $text, $action, $linkCheck = false )
+    static public function findUniqueText( $parentElementID, $text, $action, $linkCheck = false )
     {
         $db           =& eZDB::instance();
         $uniqueNumber =  0;
@@ -1344,7 +1344,7 @@ class eZURLAliasML extends eZPersistentObject
      Updates the lang_mask field for path elements which matches action $actionName and value $actionValue.
      If $langID is false then bit 0 (the *always available* bit) will be removed, otherwise it will set bit 0 for the chosen language and remove it for other languages.
      */
-    function setLangMaskAlwaysAvailable( $langID, $actionName, $actionValue )
+    static public function setLangMaskAlwaysAvailable( $langID, $actionName, $actionValue )
     {
         $db =& eZDB::instance();
         if ( is_array( $actionName ) )
@@ -1412,7 +1412,7 @@ class eZURLAliasML extends eZPersistentObject
      \private
      Chooses the most prioritized row (based on language) of $rows and returns it.
     */
-    function choosePrioritizedRow( $rows )
+    static private function choosePrioritizedRow( $rows )
     {
         $result = false;
         $score = 0;
@@ -1443,7 +1443,7 @@ class eZURLAliasML extends eZPersistentObject
      path element and returns the new row list.
      \param $onlyPrioritized If false all rows are returned, if true filtering is performed.
      */
-    function filterRows( $rows, $onlyPrioritized )
+    static private function filterRows( $rows, $onlyPrioritized )
     {
         if ( !$onlyPrioritized )
         {
@@ -1475,7 +1475,7 @@ class eZURLAliasML extends eZPersistentObject
      prioritized languages and returns it.
      \note The higher the value the more the language is prioritized.
      */
-    function languageScore( $mask )
+    static private function languageScore( $mask )
     {
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
         $scores = array();
@@ -1502,7 +1502,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Decodes the action string $action into an internal path string and returns it.
 
      The following actions are supported:
@@ -1510,7 +1509,7 @@ class eZURLAliasML extends eZPersistentObject
      - module - argument is module/view/args, path is the arguments
      - nop    - a no-op, path is '/'
      */
-    function actionToUrl( $action )
+    static public function actionToUrl( $action )
     {
         if ( !preg_match( "#^([a-zA-Z0-9_]+):(.+)?$#", $action, $matches ) )
         {
@@ -1550,7 +1549,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Takes the url string $url and returns the action string for it.
 
      The following path are supported:
@@ -1560,7 +1558,7 @@ class eZURLAliasML extends eZPersistentObject
 
      \return false if the action could not be figured out.
      */
-    function urlToAction( $url )
+    static public function urlToAction( $url )
     {
         if ( preg_match( "#^content/view/full/([0-9]+)$#", $url, $matches ) )
         {
@@ -1581,7 +1579,7 @@ class eZURLAliasML extends eZPersistentObject
      Makes sure the URL \a $url does not contain leading and trailing slashes (/).
      \return the clean URL
     */
-    function cleanURL( $url )
+    static public function cleanURL( $url )
     {
         return trim( $url, '/ ' );
     }
@@ -1591,7 +1589,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Generates partial SELECT part of SQL based on table $table, counter $i and total length $len.
      */
-    function generateSelect( $table, $i, $len )
+    static private function generateSelect( $table, $i, $len )
     {
         if ( $i == $len - 1 )
         {
@@ -1609,7 +1607,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Generates full SELECT part of SQL based on table $table.
      */
-    function generateFullSelect( $table )
+    static private function generateFullSelect( $table )
     {
         $select = "{$table}.id AS {$table}_id, {$table}.parent AS {$table}_parent, {$table}.lang_mask AS {$table}_lang_mask, {$table}.text AS {$table}_text, {$table}.text_md5 AS {$table}_text_md5, {$table}.action AS {$table}_action, {$table}.link AS {$table}_link";
         return $select;
@@ -1620,7 +1618,7 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Generates WHERE part of SQL based on table $table, previous table $prevTable, counter $i, language mask $langMask and text $element.
      */
-    function generateCond( $table, $prevTable, $i, $langMask, $element )
+    static private function generateCond( $table, $prevTable, $i, $langMask, $element )
     {
         $db =& eZDB::instance();
         if ( $i == 0 )
@@ -1640,7 +1638,7 @@ class eZURLAliasML extends eZPersistentObject
      Generates WHERE part of SQL for a wildcard match based on table $table, previous table $prevTable, counter $i, language mask $langMask and wildcard text $glob.
      \note $glob does not contain the wildcard character * but only the beginning of the matching text.
      */
-    function generateGlobCond( $table, $prevTable, $i, $langMask, $glob )
+    static private function generateGlobCond( $table, $prevTable, $i, $langMask, $glob )
     {
         $db =& eZDB::instance();
         if ( $i == 0 )
@@ -1673,7 +1671,7 @@ class eZURLAliasML extends eZPersistentObject
      'øæå' => 'oeaeaa'
      \endexample
     */
-    function convertToAlias( $urlElement, $defaultValue = false )
+    static public function convertToAlias( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
@@ -1714,7 +1712,7 @@ class eZURLAliasML extends eZPersistentObject
 
      \note Provided for creating url alias as they were before 3.10. Also used to make path_identification_string.
     */
-    function convertToAliasCompat( $urlElement, $defaultValue = false )
+    static public function convertToAliasCompat( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
@@ -1740,7 +1738,7 @@ class eZURLAliasML extends eZPersistentObject
      \note each element in the path (separated by / (slash) ) is converted separately.
      \return the converted path
     */
-    function convertPathToAlias( $pathURL )
+    static public function convertPathToAlias( $pathURL )
     {
         $result = array();
 

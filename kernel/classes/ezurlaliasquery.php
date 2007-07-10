@@ -223,7 +223,7 @@ class eZURLAliasQuery
      \private
      Generates the common part of the SQL using the properties as filters and returns it.
      */
-    function generateSQL()
+    private function generateSQL()
     {
         if ( !in_array( $this->type, array( 'name', 'alias', 'all' ) ) )
         {
@@ -332,7 +332,7 @@ class eZURLAliasQuery
      Takes an array with database data in $row and turns them into eZPathElement objects.
      Entries which have multiple languages will be turned into multiple objects.
      */
-    function makeList( $rows )
+    static public function makeList( $rows )
     {
         if ( !is_array( $rows ) || count( $rows ) == 0 )
             return array();
