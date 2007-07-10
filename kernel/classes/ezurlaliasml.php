@@ -1059,7 +1059,7 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function translate( &$uri, $reverse = false )
     {
-        if ( get_class( $uri ) == "ezuri" )
+        if ( $uri instanceof eZURI )
         {
             $uriString = $uri->elements();
         }
@@ -1199,7 +1199,7 @@ class eZURLAliasML extends eZPersistentObject
                 $return = true;
             }
 
-            if ( get_class( $uri ) == "ezuri" )
+            if ( $uri instanceof eZURI )
             {
                 $uri->setURIString( $uriString, false );
             }
@@ -1262,7 +1262,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                 }
                 $uriString = join( '/', $path );
-                if ( get_class( $uri ) == "ezuri" )
+                if ( $uri instanceof eZURI )
                 {
                     $uri->setURIString( $uriString, false );
                 }
