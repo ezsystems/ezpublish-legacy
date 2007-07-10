@@ -6806,7 +6806,7 @@ $schema = array (
     'name' => 'ezvatrule',
     'fields' => 
     array (
-      'country' => 
+      'country_code' => 
       array (
         'length' => 255,
         'type' => 'varchar',

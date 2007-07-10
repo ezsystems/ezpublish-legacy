@@ -197,7 +197,7 @@ class eZVATManager
             {
                 foreach ( $countryContent['value'] as $item )
                 {
-                    $country = $item['Name'];
+                    $country = $item['Alpha2'];
                     break;
                 }
             }
