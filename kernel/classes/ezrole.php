@@ -539,48 +539,14 @@ class eZRole extends eZPersistentObject
 
       \return array containing complete access limitation description
 
-      Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
+      Returns newly generated access array which corresponds to the array of user/group ids list.
     */
-    function &accessArrayByUserID( $userIDArray )
+    function accessArrayByUserID( $userIDArray )
     {
-        if ( isset( $this->AccessArray ) )
-            return $this->AccessArray;
-
-        $ini =& eZINI::instance();
-        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+        $roles = eZRole::fetchByUser( $userIDArray );
+        $userLimitation = false;
 
         $accessArray = array();
-
-        if ( $enableCaching == 'true' )
-        {
-            $http =& eZHTTPTool::instance();
-
-            if ( $http->hasSessionVariable( 'AccessArray' ) )
-            {
-                $expiredTimeStamp = 0;
-                $handler =& eZExpiryHandler::instance();
-                if ( $handler->hasTimestamp( 'user-access-cache' ) )
-                {
-                    $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
-                }
-                else
-                {
-                    $handler->setTimestamp( 'user-access-cache', mktime() );
-                }
-
-                $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
-
-                if ( $userAccessTimestamp > $expiredTimeStamp )
-                {
-                    $this->AccessArray =& $http->sessionVariable( 'AccessArray' );
-                    return $this->AccessArray;
-                }
-            }
-        }
-
-        $roles = eZRole::fetchByUser( $userIDArray );
-
-        $userLimitation = false;
         foreach ( array_keys ( $roles )  as $roleKey )
         {
             $accessArray = array_merge_recursive( $accessArray, $roles[$roleKey]->accessArray() );
@@ -613,17 +579,7 @@ class eZRole extends eZPersistentObject
                 }
             }
         }
-
-        if ( $enableCaching == 'true' )
-        {
-            $http =& eZHTTPTool::instance();
-            $http->setSessionVariable( 'AccessArray', $accessArray );
-            $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
-        }
-
-        $this->AccessArray =& $accessArray;
-
-        return $this->AccessArray;
+        return $accessArray;
     }
 
     /*!
