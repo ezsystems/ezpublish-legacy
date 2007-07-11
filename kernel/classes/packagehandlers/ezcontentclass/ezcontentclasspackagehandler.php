@@ -83,9 +83,21 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $content =& $dom->root();
                 $className = $content->elementTextContentByName( 'name' );
                 $classIdentifier = $content->elementTextContentByName( 'identifier' );
-                return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
+
+                // get info about translations.
+                $languageInfo = array();
+                $serializedNameList = $content->elementTextContentByName( 'serialized-name-list' );
+                if( $serializedNameList )
+                {
+                    $nameList = new eZContentClassNameList( $serializedNameList );
+                    $languageInfo = $nameList->languageLocaleList();
+                }
+
+                $explainInfo = array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
                                                        array( '%classname' => $className,
-                                                              '%classidentifier' => $classIdentifier ) ) );
+                                                              '%classidentifier' => $classIdentifier ) ),
+                                      'language_info' => $languageInfo );
+                return $explainInfo;
             }
         }
     }
@@ -154,10 +166,12 @@ class eZContentClassPackageHandler extends eZPackageHandler
                       &$content, &$installParameters,
                       &$installData )
     {
+        $languageMap = $installParameters['language_map'];
+
         $classNameList = new eZContentClassNameList( $content->elementTextContentByName( 'serialized-name-list' ) );
         if ( $classNameList->isEmpty() )
             $classNameList->initFromString( $content->elementTextContentByName( 'name' ) ); // for backward compatibility( <= 3.8 )
-        $classNameList->validate();
+        $classNameList->validate( $languageMap );
 
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classRemoteID = $content->elementTextContentByName( 'remote-id' );
@@ -298,7 +312,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeSerializedNameList = new eZContentClassAttributeNameList( $classAttributeNode->elementTextContentByName( 'serialized-name-list' ) );
             if ( $attributeSerializedNameList->isEmpty() )
                 $attributeSerializedNameList->initFromString( $classAttributeNode->elementTextContentByName( 'name' ) ); // for backward compatibility( <= 3.8 )
-            $attributeSerializedNameList->validate();
+            $attributeSerializedNameList->validate( $languageMap );
             $attributeIdentifier = $classAttributeNode->elementTextContentByName( 'identifier' );
             $attributePlacement = $classAttributeNode->elementTextContentByName( 'placement' );
             $attributeDatatypeParameterNode = $classAttributeNode->elementByName( 'datatype-parameters' );

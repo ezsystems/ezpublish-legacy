@@ -29,6 +29,7 @@ Changes from 3.9.0 to 3.10.0alpha1
   o  Implemented suggestion #010001: 'ezinstallscript' and 'ezextension' items are
      supported by 'add' command.
   o  Implemented suggestion : Allow ezpm to set vendor.
+- Implemented enhancement #010041: Import of content objects and classes with a language not activated on site.
 
 *Scripts:
 - Implemented enhancement #010347: Progress output for correctxmltext.php and

@@ -4721,6 +4721,9 @@ class eZContentObject extends eZPersistentObject
                 }
                 else
                 {
+                    if ( $importedLanguage == 'skip' )
+                        continue;
+
                     // if there is no needed translation in system then add it
                     $locale =& eZLocale::instance( $importedLanguage );
                     $translationName = $locale->internationalLanguageName();
