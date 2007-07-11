@@ -281,14 +281,6 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
 
-<h1>TEST</h1>
-
-{if ezhttp_hasvariable( 'pass', 'get' )}
-INSIDE PASS: {ezhttp( 'pass', 'get' )}
-{/if}
-
-OUTSIDE PASS: {ezhttp( 'pass', 'get' )}
-
 <!-- Maincontent START -->
 {* Main area START *}
 
