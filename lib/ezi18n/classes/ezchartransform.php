@@ -493,13 +493,9 @@ class eZCharTransform
     {
         // Old style of url alias with lowercase only and underscores for separators
         $text = strtolower( $text );
-        $text = preg_replace( array( "#[^a-z0-9_ ]#",
-                                     "/ /",
-                                     "/__+/",
-                                     "/^_|_$/" ),
-                              array( " ",
-                                     "_",
-                                     "_",
+        $text = preg_replace( array( "#[^a-z0-9_]+#",
+                                     "/^_+|_+$/" ),
+                              array( "_",
                                      "" ),
                               $text );
         return $text;
