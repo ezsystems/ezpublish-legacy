@@ -37,14 +37,14 @@ set_time_limit ( 0 );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
-                                                         "Will go trough and remake all nice urls" .
-                                                         "\n" .
-                                                         "updateniceurls.php" ),
-                                      'use-session' => true,
-                                      'use-modules' => true,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
+                                                        "Will go trough and remake all nice urls" .
+                                                        "\n" .
+                                                        "updateniceurls.php" ),
+                                     'use-session' => true,
+                                     'use-modules' => true,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 
@@ -75,7 +75,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
@@ -173,7 +173,7 @@ function displayProgress( $statusCharacter, $startTime, $currentCount, $totalCou
 
 function fetchMaskByNodeID( $nodeID )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = "SELECT language_mask FROM ezcontentobject, ezcontentobject_tree
             WHERE ezcontentobject.id = ezcontentobject_tree.contentobject_id
             AND   ezcontentobject_tree.node_id = " . (int)$nodeID;
@@ -211,7 +211,7 @@ function decodeAction( $destination )
 
 function fetchHistoricURLCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id = 0';
     $rows = $db->arrayQuery( $sql );
@@ -220,7 +220,7 @@ function fetchHistoricURLCount()
 
 function fetchHistoricRedirectionCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id != 0';
     $rows = $db->arrayQuery( $sql );
@@ -229,7 +229,7 @@ function fetchHistoricRedirectionCount()
 
 function fetchHistoricWildcardCount()
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT count(*) AS count FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 1';
     $rows = $db->arrayQuery( $sql );
@@ -238,7 +238,7 @@ function fetchHistoricWildcardCount()
 
 function fetchHistoricURLChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, source_url, destination_url FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id = 0';
     $rows = $db->arrayQuery( $sql,
@@ -249,7 +249,7 @@ function fetchHistoricURLChunk( $offset, $fetchLimit )
 
 function fetchHistoricRedirectionChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, forward_to_id, source_url, destination_url FROM ezurlalias
             WHERE is_imported = 0 AND is_wildcard = 0 AND forward_to_id != 0';
     $rows = $db->arrayQuery( $sql,
@@ -260,7 +260,7 @@ function fetchHistoricRedirectionChunk( $offset, $fetchLimit )
 
 function fetchHistoricWildcardChunk( $offset, $fetchLimit )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $sql = 'SELECT id, is_wildcard, source_url, destination_url
             FROM ezurlalias WHERE is_imported = 0 AND is_wildcard = 1';
     $rows = $db->arrayQuery( $sql,
@@ -329,9 +329,9 @@ function removeURLList( $rows )
 {
     if ( count( $rows ) == 0 )
         return;
-    $db   =& eZDB::instance();
-    $cond =  createURLListCondition( $rows );
-    $sql  =  "DELETE FROM ezurlalias WHERE $cond";
+    $db   = eZDB::instance();
+    $cond = createURLListCondition( $rows );
+    $sql  = "DELETE FROM ezurlalias WHERE $cond";
     $db->query( $sql );
 }
 
@@ -339,9 +339,9 @@ function markAsImported( $rows )
 {
     if ( count( $rows ) == 0 )
         return;
-    $db   =& eZDB::instance();
-    $cond =  createURLListCondition( $rows );
-    $sql  =  "UPDATE ezurlalias SET is_imported = 1 WHERE $cond";
+    $db   = eZDB::instance();
+    $cond = createURLListCondition( $rows );
+    $sql  = "UPDATE ezurlalias SET is_imported = 1 WHERE $cond";
     $db->query( $sql );
 }
 
@@ -478,7 +478,7 @@ if ( $urlCount > 0 )
         $cli->output();
 
 //    $cli->output( "Removing urlalias data which have been imported" );
-//    $db =& eZDB::instance();
+//    $db = eZDB::instance();
 //    $db->query( "DELETE FROM ezurlalias WHERE is_imported = 1" ); // Removing all aliases which have been imported
 
     $rows = $db->arrayQuery( "SELECT count(*) AS count FROM ezurlalias WHERE is_imported = 0" );
@@ -516,12 +516,11 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $nodeStartTime = microtimeFloat();
     while ( !$done )
     {
-        $nodes =& $rootNode->subTree( array( 'Offset' => $offset,
-                                             'Limit' => $fetchLimit,
-                                             'Limitation' => array() ) );
-        foreach ( array_keys( $nodes ) as $key )
+        $nodeList = $rootNode->subTree( array( 'Offset' => $offset,
+                                               'Limit' => $fetchLimit,
+                                               'Limitation' => array() ) );
+        foreach ( $nodeList as $node )
         {
-            $node =& $nodes[ $key ];
             $hasChanged = $node->updateSubTreePath();
             if ( $hasChanged )
             {

@@ -3870,10 +3870,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $initialLanguageID      = $obj->attribute( 'initial_language_id' );
         $pathIdentificationName = false;
-        foreach ( $languages as $key => $tmp )
+        foreach ( $languages as $language )
         {
-            unset( $language );
-            $language =& $languages[$key];
             $nodeName = '';
             if ( $nodeID != $contentRootID )
             {
@@ -3959,8 +3957,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $languageID = $obj->attribute( 'initial_language_id' );
         foreach ( $nameList as $nameEntry )
         {
-            $text     =  $nameEntry['text'];
-            $language =& $nameEntry['language'];
+            $text     = $nameEntry['text'];
+            $language = $nameEntry['language'];
             if ( eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID ) === true )
                 $changeCount++;
         }
