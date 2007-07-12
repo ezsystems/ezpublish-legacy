@@ -103,8 +103,9 @@ CREATE INDEX ezurlalias_ml_actt_org_al ON ezurlalias_ml USING btree (action_type
 CREATE INDEX ezurlalias_ml_actt ON ezurlalias_ml USING btree (action_type);
 
 -- Update old urlalias table for the import
-ALTER TABLE ezurlalias ADD COLUMN is_imported integer NOT NULL DEFAULT 0;
+ALTER TABLE ezurlalias ADD COLUMN is_imported integer;
+ALTER TABLE ezurlalias ALTER COLUMN is_imported SET DEFAULT 0;
+ALTER TABLE ezurlalias ALTER COLUMN is_imported SET NOT NULL;
 CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is_wildcard, forward_to_id);
-
-DROP INDEX ezurlalias_is_wildcard;
 CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);
+DROP INDEX ezurlalias_is_wildcard;
