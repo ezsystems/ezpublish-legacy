@@ -352,3 +352,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #11087: 'has_access_to' fetch function and role-policy caching problem.
 - Fixed bug #010170: Country sensitive VAT Rules broken
 - Fixed bug #010821: Wrong HTTP (RFC1123) dates in Expires, Last-Modified
+- Fixed bug #10817: IDE debug warning
+  (Merged from stable/3.8 (3.8.9) rev. 18923)
