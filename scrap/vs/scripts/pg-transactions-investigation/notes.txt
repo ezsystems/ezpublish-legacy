@@ -1,8 +1,0 @@
-Dump: 
-pg_dump -b -Ft -f trunk_clustering.tar trunk_clustering
-
-Restore (preserving reference to large objects):
-dropdb   trunk_clustering
-createdb trunk_clustering
-
-pg_restore -Ft -d trunk_clustering trunk_clustering.tar
