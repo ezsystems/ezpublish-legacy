@@ -107,7 +107,7 @@ class eZStepPackageLanguageOptions extends eZStepInstaller
         $packageLanguageLocaleList = array();
 
         $sitePackageName = $this->chosenSitePackage();
-        $sitePackage = eZPackage::fetch( $sitePackageName );
+        $sitePackage = eZPackage::fetch( $sitePackageName, false, false, false );
         if( is_object( $sitePackage ) )
         {
             $dependencies = $sitePackage->attribute( 'dependencies' );

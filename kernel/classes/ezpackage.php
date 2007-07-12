@@ -3141,7 +3141,7 @@ class eZPackage
         $languageInfo = array();
         foreach( $packageNameList as $packageName )
         {
-            $package = eZPackage::fetch( $packageName );
+            $package = eZPackage::fetch( $packageName, false, false, false );
             if( is_object( $package ) )
             {
                 $packageLanguageInfo = $package->languageInfo( $withLanguageNames );
