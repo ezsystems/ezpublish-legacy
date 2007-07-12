@@ -159,7 +159,8 @@ class eZPostgreSQLDB extends eZDBInterface
         {
             if ( $this->OutputSQL )
             {
-                eZDebug::accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
+                $debug = eZDebug::instance();
+                $debug->accumulatorStart( 'postgresql_query', 'postgresql_total', 'Postgresql_queries' );
                 $this->startTimer();
 
             }
@@ -170,7 +171,8 @@ class eZPostgreSQLDB extends eZDBInterface
 
                 if ($this->timeTaken() > $this->SlowSQLTimeout)
                 {
-                    eZDebug::accumulatorStop( 'postgresql_query' );
+                    eZDebug::instance();
+                    $debug->accumulatorStop( 'postgresql_query' );
                     $this->reportQuery( 'eZPostgreSQLDB', $sql, false, $this->timeTaken() );
                 }
             }

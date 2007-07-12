@@ -1330,14 +1330,13 @@ showDebug();
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
-        $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
-        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
+        if ( ! array_key_exists( $key, $this->TimeAccumulatorList ) )
         {
-            $debug->createAccumulator( $key, $inGroup, $name );
+            $this->createAccumulator( $key, $inGroup, $name );
         }
 
-        $accumulator =& $debug->TimeAccumulatorList[$key];
+        $accumulator =& $this->TimeAccumulatorList[$key];
         if ( $recursive )
         {
             if ( isset( $accumulator['recursive_counter'] ) )
@@ -1347,7 +1346,7 @@ showDebug();
             }
             $accumulator['recursive_counter'] = 0;
         }
-        $accumulator['temp_time'] = $debug->timeToFloat( microtime() );
+        $accumulator['temp_time'] = $this->timeToFloat( microtime() );
     }
 
     /*!

@@ -919,14 +919,15 @@ class eZDBFileHandlerMysqlBackend
      */
     function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
-        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
         $time = array_sum( split( " ", microtime() ) );
 
         $res = mysql_query( $query, $this->db );
         if ( !$res )
         {
             $this->_error( $query, $fname, $error );
-            eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            $debug->accumulatorStop( 'mysql_cluster_query' );
             return false;
         }
 
@@ -934,7 +935,7 @@ class eZDBFileHandlerMysqlBackend
         if ( $nRows > 1 )
         {
             $this->_error( $query, $fname, "Duplicate entries found." );
-            eZDebug::accumulatorStop( 'mysql_cluster_query' );
+            $debug->accumulatorStop( 'mysql_cluster_query' );
             // For PHP 5 throw an exception.
         }
 
@@ -944,7 +945,7 @@ class eZDBFileHandlerMysqlBackend
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
         $time = array_sum( split( " ", microtime() ) ) - $time;
-        eZDebug::accumulatorStop( 'mysql_cluster_query' );
+        $debug->accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time );
         return $row;
@@ -1230,7 +1231,8 @@ class eZDBFileHandlerMysqlBackend
      */
     function _query( $query, $fname = false, $reportError = true )
     {
-        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
         $time = array_sum( split( " ", microtime() ) );
 
         $res = mysql_query( $query, $this->db );
@@ -1242,7 +1244,7 @@ class eZDBFileHandlerMysqlBackend
         $numRows = mysql_affected_rows( $this->db );
 
         $time = array_sum( split( " ", microtime() ) ) - $time;
-        eZDebug::accumulatorStop( 'mysql_cluster_query' );
+        $debug->accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time, $numRows );
         return $res;

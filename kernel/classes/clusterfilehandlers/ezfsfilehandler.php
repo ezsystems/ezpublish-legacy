@@ -735,7 +735,8 @@ class eZFSFileHandler
             }
         }
 
-        eZDebug::accumulatorStop( 'dbfile' );
+        $debug = eZDebug::instance();
+        $debug->accumulatorStop( 'dbfile' );
     }
 
     /**

@@ -551,9 +551,13 @@ class eZTemplateCompiler
         $php->addSpace();
 
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
-            $php->addCodePiece( "eZDebug::accumulatorStart( 'template_compiled_execution', 'template_total', 'Template compiled execution', true );\n" );
+        {
+            $php->addCodePiece( "eZDebug::instance()->accumulatorStart( 'template_compiled_execution', 'template_total', 'Template compiled execution', true );\n" );
+        }
         if ( eZTemplateCompiler::isTimingPointsEnabled() )
+        {
             $php->addCodePiece( "eZDebug::addTimingPoint( 'Script start $cacheFileName' );\n" );
+        }
 
 //         $php->addCodePiece( "if ( !isset( \$vars ) )\n    \$vars =& \$tpl->Variables;\n" );
 //         $php->addSpace();
@@ -609,7 +613,7 @@ class eZTemplateCompiler
         if ( eZTemplateCompiler::isTimingPointsEnabled() )
             $php->addCodePiece( "eZDebug::addTimingPoint( 'Script end $cacheFileName' );\n" );
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
-            $php->addCodePiece( "eZDebug::accumulatorStop( 'template_compiled_execution', true );\n" );
+            $php->addCodePiece( "eZDebug::instance()->accumulatorStop( 'template_compiled_execution', true );\n" );
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
