@@ -98,7 +98,8 @@ else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 else if ( $Module->isCurrentAction( 'NewAlias' ) )
 {
     $aliasText = trim( $Module->actionParameter( 'AliasSourceText' ) );
-    $aliasDestinationText = trim( $Module->actionParameter( 'AliasDestinationText' ), " \t\r\n\0\x0B/" );
+    $aliasDestinationTextUnmodified = $Module->actionParameter( 'AliasDestinationText' );
+    $aliasDestinationText = trim( $aliasDestinationTextUnmodified, " \t\r\n\0\x0B/" );
     $isAlwaysAvailable = $http->hasPostVariable( 'AllLanguages' ) && strlen( trim( $http->postVariable( 'AllLanguages' ) ) ) > 0;
     $languageCode = $Module->actionParameter( 'LanguageCode' );
     $language = eZContentLanguage::fetchByLocale( $languageCode );
@@ -111,7 +112,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     {
         $infoCode = "error-no-alias-text";
     }
-    else if ( strlen( $aliasDestinationText ) == 0 )
+    else if ( strlen( trim( $aliasDestinationTextUnmodified ) ) == 0 )
     {
         $infoCode = "error-no-alias-destination-text";
     }
