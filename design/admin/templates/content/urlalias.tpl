@@ -73,7 +73,7 @@
     <tr class="{$seq}">
         {* Remove. *}
         <td>
-            <input type="checkbox" name="ElementList[]" value="{$element.id}-{$element.parent}" />
+            <input type="checkbox" name="ElementList[]" value="{$element.parent}.{$element.text_md5}.{$element.language_object.locale}" />
         </td>
 
         <td>
