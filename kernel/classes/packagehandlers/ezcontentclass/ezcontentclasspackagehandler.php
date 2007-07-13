@@ -176,6 +176,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIdentifier = $content->elementTextContentByName( 'identifier' );
         $classRemoteID = $content->elementTextContentByName( 'remote-id' );
         $classObjectNamePattern = $content->elementTextContentByName( 'object-name-pattern' );
+        $classURLAliasPattern = $content->elementTextContentByName( 'url-alias-pattern' );
         $classIsContainer = $content->attributeValue( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
@@ -282,6 +283,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                 'identifier' => $classIdentifier,
                                                 'remote_id' => $classRemoteID,
                                                 'contentobject_name' => $classObjectNamePattern,
+                                                'url_alias_name' => $classURLAliasPattern,
                                                 'is_container' => $classIsContainer,
                                                 'created' => $classCreated,
                                                 'modified' => $classModified ) );
@@ -504,6 +506,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                         $class->attribute( 'remote_id' ) ) );
         $classNode->appendChild( eZDOMDocument::createElementTextNode( 'object-name-pattern',
                                                                        $class->attribute( 'contentobject_name' ) ) );
+        $classNode->appendChild( eZDOMDocument::createElementTextNode( 'url-alias-pattern',
+                                                                       $class->attribute( 'url_alias_name' ) ) );
         $classNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-container',
                                                                          $class->attribute( 'is_container' ) ? 'true' : 'false' ) );
 
