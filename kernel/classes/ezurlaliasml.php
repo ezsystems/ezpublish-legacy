@@ -1161,12 +1161,14 @@ class eZURLAliasML extends eZPersistentObject
             $redirectOffset = false;
             $lastID = false;
             $action = false;
+            $verifiedPath = array();
             for ( $i = 0; $i < $len; ++$i )
             {
                 $table = "e" . $i;
                 $id   = $pathRow[$table . "_id"];
                 $link = $pathRow[$table . "_link"];
                 $text = $pathRow[$table . "_text"];
+                $verifiedPath[] = $text;
                 if ( $i == $len - 1 )
                 {
                     $action = $pathRow[$table . "_action"];
@@ -1179,7 +1181,12 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $lastID = $link;
             }
+            $doRedirect = false;
             if ( $redirectLink )
+                $doRedirect = true;
+            else if ( strcmp( join( "/", $verifiedPath ), $internalURIString ) != 0 ) // Check for case difference
+                $doRedirect = true;
+            if ( $doRedirect )
             {
                 $id = (int)$lastID;
                 $pathData = array();
