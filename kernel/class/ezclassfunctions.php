@@ -31,7 +31,7 @@
 
 class eZClassFunctions
 {
-    function addGroup( $classID, $classVersion, $selectedGroup )
+    static function addGroup( $classID, $classVersion, $selectedGroup )
     {
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         list ( $groupID, $groupName ) = split( '/', $selectedGroup );
@@ -40,7 +40,7 @@ class eZClassFunctions
         return true;
     }
 
-    function removeGroup( $classID, $classVersion, $selectedGroup )
+    static function removeGroup( $classID, $classVersion, $selectedGroup )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );

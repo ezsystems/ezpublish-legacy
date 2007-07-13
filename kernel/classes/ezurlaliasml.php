@@ -178,7 +178,7 @@ class eZURLAliasML extends eZPersistentObject
     /*!
      Unicode-aware strtolower, performs the conversion by using eZCharTransform
      */
-    function strtolower( $text )
+    static function strtolower( $text )
     {
         $char = eZCharTransform::instance();
         return $char->transformByGroup( $text, 'lowercase' );
@@ -226,7 +226,7 @@ class eZURLAliasML extends eZPersistentObject
         if ( $this->ID === null )
         {
             $locked = true;
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->lock( "ezurlalias_ml" );
             $query = "SELECT max( id ) + 1 AS id FROM ezurlalias_ml";
             $rows = $db->arrayQuery( $query );
@@ -270,7 +270,7 @@ class eZURLAliasML extends eZPersistentObject
     static public function removeByAction( $actionName, $actionValue )
     {
         // If this is an original element we must get rid of all elements which points to it.
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $actionStr = $db->escapeString( $actionName . ':' . $actionValue );
         $query = "DELETE FROM ezurlalias_ml WHERE action = '{$actionStr}'";
         $db->query( $query );
@@ -360,7 +360,7 @@ class eZURLAliasML extends eZPersistentObject
         $path = eZURLAliasML::cleanURL( $path );
         $elements = split( "/", $path );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $parentID = 0;
 
         // If the root ID is specified we will start the parent search from that
@@ -490,6 +490,7 @@ class eZURLAliasML extends eZPersistentObject
         }
         else
         {
+            $debug = eZDebug::instance();
             $linkID = (int)$linkID;
             // Step 1, find existing ID
             $query = "SELECT * FROM ezurlalias_ml WHERE id = '{$linkID}'";
@@ -497,12 +498,12 @@ class eZURLAliasML extends eZPersistentObject
             // Some sanity checking
             if ( count( $rows ) == 0 )
             {
-                eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                $debug->writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
                 return EZ_URLALIAS_LINK_ID_NOT_FOUND;
             }
             if ( $rows[0]['action'] != $action )
             {
-                eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
+                $debug->writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
                 return EZ_URLALIAS_LINK_ID_WRONG_ACTION;
             }
             // If the element which is pointed to is a link, then grab the link id from that instead
@@ -520,7 +521,7 @@ class eZURLAliasML extends eZPersistentObject
                 {
                     break; // Name is unique, use it
                 }
-                eZDebug::writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                $debug->writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
                 return EZ_URLALIAS_LINK_ALREADY_TAKEN;
             }
             $element = new eZURLAliasML( array( 'id'=> null,
@@ -581,7 +582,7 @@ class eZURLAliasML extends eZPersistentObject
     static public function fetchByAction( $actionName, $actionValue, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = false )
     {
         $action = $actionName . ":" . $actionValue;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $actionStr = $db->escapeString( $action );
         $langMask = '';
         if ( $maskLanguages )
@@ -706,12 +707,13 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function fetchPathByActionList( $actionName, $actionValues )
     {
+        $debug = eZDebug::instance();
         if ( count( $actionValues ) == 0 )
         {
-            eZDebug::writeError( "Action value array must not be empty" );
+            $debug->writeError( "Action value array must not be empty" );
             return null;
         }
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $actionList = array();
         foreach ( $actionValues as $i => $value )
         {
@@ -738,7 +740,7 @@ class eZURLAliasML extends eZPersistentObject
             $action = $actionName . ":" . $actionValue;
             if ( !isset( $actionMap[$action] ) )
             {
-//                eZDebug::writeError( "The action '{$action}' was not found in the database for the current language language filter, cannot calculate path." );
+//                $debug->writeError( "The action '{$action}' was not found in the database for the current language language filter, cannot calculate path." );
                 return null;
             }
             $actionRows = $actionMap[$action];
@@ -777,7 +779,7 @@ class eZURLAliasML extends eZPersistentObject
                 // Check for a valid path
                 if ( $lastID !== false && $lastID != $paren )
                 {
-                    eZDebug::writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting" );
+                    $debug->writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting" );
                     return null;
                 }
                 $lastID = $id;
@@ -785,7 +787,7 @@ class eZURLAliasML extends eZPersistentObject
             else
             {
                 // No row was found
-                eZDebug::writeError( "Fatal error, no row was chosen for action " . $actionName . ":" . $actionValue );
+                $debug->writeError( "Fatal error, no row was chosen for action " . $actionName . ":" . $actionValue );
                 return null;
             }
         }
@@ -1071,7 +1073,7 @@ class eZURLAliasML extends eZPersistentObject
         $internalURIString = $uriString;
         $originalURIString = $uriString;
 
-        $ini =& eZIni::instance();
+        $ini = eZIni::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
              $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
         {
@@ -1097,7 +1099,7 @@ class eZURLAliasML extends eZPersistentObject
             }
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $elements = split( "/", $internalURIString );
         $len      = count( $elements );
         if ( $reverse )
@@ -1219,7 +1221,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function reverseTranslate( &$uri, $uriString, $internalURIString )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $action = eZURLAliasML::urlToAction( $internalURIString );
         if ( $action !== false )
@@ -1257,7 +1259,8 @@ class eZURLAliasML extends eZPersistentObject
                     }
                     else
                     {
-                        eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
+                        $debug = eZDebug::instance();
+                        $debug->writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
                         return false;
                     }
                 }
@@ -1292,12 +1295,12 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function findUniqueText( $parentElementID, $text, $action, $linkCheck = false )
     {
-        $db           =& eZDB::instance();
+        $db = eZDB::instance();
         $uniqueNumber =  0;
         // If there is no parent we need to check against reserved words
         if ( $parentElementID == 0 )
         {
-            $moduleINI =& eZINI::instance( 'module.ini' );
+            $moduleINI = eZINI::instance( 'module.ini' );
             $reserved = $moduleINI->variable( 'ModuleSettings', 'ModuleList' );
             foreach ( $reserved as $res )
             {
@@ -1346,7 +1349,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function setLangMaskAlwaysAvailable( $langID, $actionName, $actionValue )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( is_array( $actionName ) )
         {
             $actions = array();
@@ -1510,9 +1513,10 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function actionToUrl( $action )
     {
+        $debug = eZDebug::instance();
         if ( !preg_match( "#^([a-zA-Z0-9_]+):(.+)?$#", $action, $matches ) )
         {
-            eZDebug::writeError( "Action is not of valid syntax '{$action}'" );
+            $debug->writeError( "Action is not of valid syntax '{$action}'" );
             return false;
         }
 
@@ -1525,7 +1529,7 @@ class eZURLAliasML extends eZPersistentObject
             case 'eznode':
                 if ( !is_numeric( $args ) )
                 {
-                    eZDebug::writeError( "Arguments to eznode action must be an integer, got '{$args}'" );
+                    $debug->writeError( "Arguments to eznode action must be an integer, got '{$args}'" );
                     return false;
                 }
                 $url = 'content/view/full/' . $args;
@@ -1566,7 +1570,7 @@ class eZURLAliasML extends eZPersistentObject
         if ( preg_match( "#^([a-zA-Z0-9]+)/#", $url, $matches ) )
         {
             $name = $matches[1];
-            $module =& eZModule::exists( $name );
+            $module = eZModule::exists( $name );
             if ( $module !== null )
                 return 'module:' . $url;
         }
@@ -1673,9 +1677,9 @@ class eZURLAliasML extends eZPersistentObject
     static public function convertToAlias( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $group = $ini->variable( 'URLTranslator', 'TransformationGroup' );
 
         $urlElement = $trans->transformByGroup( $urlElement, $group );
@@ -1714,7 +1718,7 @@ class eZURLAliasML extends eZPersistentObject
     static public function convertToAliasCompat( $urlElement, $defaultValue = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-        $trans =& eZCharTransform::instance();
+        $trans = eZCharTransform::instance();
 
         $urlElement = $trans->transformByGroup( $urlElement, "urlalias_compat" );
         if ( strlen( $urlElement ) == 0 )

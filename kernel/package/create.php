@@ -42,7 +42,7 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
     $creatorID = $module->actionParameter( 'CreatorItemID' );
     if ( $creatorID )
     {
-        $creator =& eZPackageCreationHandler::instance( $creatorID );
+        $creator = eZPackageCreationHandler::instance( $creatorID );
         $persistentData = array();
         $http->setSessionVariable( 'eZPackageCreatorData' . $creatorID, $persistentData );
         $initializeStep = true;
@@ -57,7 +57,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
     if ( $module->hasActionParameter( 'CreatorItemID' ) )
     {
         $creatorID = $module->actionParameter( 'CreatorItemID' );
-        $creator =& eZPackageCreationHandler::instance( $creatorID );
+        $creator = eZPackageCreationHandler::instance( $creatorID );
         if ( $http->hasSessionVariable( 'eZPackageCreatorData' . $creatorID ) )
             $persistentData = $http->sessionVariable( 'eZPackageCreatorData' . $creatorID );
         else

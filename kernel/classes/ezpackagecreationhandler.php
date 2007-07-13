@@ -296,7 +296,7 @@ class eZPackageCreationHandler
      \static
      \return a list of the available creators usable as a limitation in the role system.
     */
-    function creatorLimitationList()
+    static function creatorLimitationList()
     {
         $creators =& eZPackageCreationHandler::creatorList();
         $list = array();
@@ -312,7 +312,7 @@ class eZPackageCreationHandler
      \static
      \return a list of the available creators.
     */
-    function &creatorList( $checkRoles = false )
+    static function &creatorList( $checkRoles = false )
     {
         $allowedCreators = false;
 

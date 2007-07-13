@@ -110,7 +110,7 @@ class eZContentBrowse
      Most data will be automatically derived from the \c action_name value taken from settings/browse.ini, other
      values will override default values.
     */
-    function browse( $parameters = array(), &$module )
+    static function browse( $parameters = array(), &$module )
     {
         $ini = eZINI::instance( 'browse.ini' );
 
@@ -243,7 +243,7 @@ class eZContentBrowse
      \static
      \return the node ID for the node alias \a $nodeName or \c false if no ID could be found.
     */
-    function nodeAliasID( $nodeName )
+    static function nodeAliasID( $nodeName )
     {
         if ( is_numeric( $nodeName ) )
             return $nodeName;
@@ -277,7 +277,7 @@ class eZContentBrowse
      \return the result of the previous browse operation or \c false if no result was found.
              It uses the action name \a $actionName to determine which result to look for.
     */
-    function result( $actionName, $asObject = false )
+    static function result( $actionName, $asObject = false )
     {
         $ini = eZINI::instance( 'browse.ini' );
         $isNodeSelection = $ini->variable( $actionName, 'ReturnType' ) == 'NodeID';

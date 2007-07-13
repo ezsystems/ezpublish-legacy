@@ -78,7 +78,7 @@ class eZFSFileHandler
                 $mutex->setMeta( 'pid', getmypid() );
                 return true;
             }
-            if ( $timestamp >= gmmktime() - $this->lifetime )
+            if ( $timestamp >= time() - $this->lifetime )
             {
                 usleep( 500000 ); // Sleep 0.5 second
                 continue;
@@ -385,7 +385,8 @@ class eZFSFileHandler
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
-                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
                     return null;
                 }
                 $message = $retval->message();
@@ -508,12 +509,13 @@ class eZFSFileHandler
         if ( !$storeCache )
             $store = false;
 
+        $debug = eZDebug::instance();
         $mtime = false;
         $result = null;
         if ( $binaryData === null &&
              $fileContent === null )
         {
-            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
+            $debug->writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
             return null;
         }
 
@@ -533,7 +535,7 @@ class eZFSFileHandler
 
         // Store content locally
         $this->storeContents( $binaryData, $scope, $datatype, true );
-        eZDebug::writeNotice( "Stored cache '{$fname}' with data of length " . strlen( $binaryData ), "cluster::fs::{$fname}" );
+        $debug->writeNotice( "Stored cache '{$fname}' with data of length " . strlen( $binaryData ), "cluster::fs::{$fname}" );
 
         $this->_freeExclusiveLock( 'storeCache' );
 
@@ -726,7 +728,7 @@ class eZFSFileHandler
                 $handler =& eZFileHandler::instance( false );
                 $handler->unlink( $path );
                 if ( file_exists( $path ) )
-                    eZDebug::writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+                    $debug->writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
             }
             else
             {
@@ -735,7 +737,6 @@ class eZFSFileHandler
             }
         }
 
-        $debug = eZDebug::instance();
         $debug->accumulatorStop( 'dbfile' );
     }
 

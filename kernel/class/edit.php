@@ -133,7 +133,7 @@ else
 
     if ( is_numeric( $GroupID ) and is_string( $GroupName ) and $GroupName != '' )
     {
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $user_id = $user->attribute( 'contentobject_id' );
         $class = eZContentClass::create( $user_id, array(), $EditLanguage );
         $class->setName( ezi18n( 'kernel/class/edit', 'New Class' ), $EditLanguage );

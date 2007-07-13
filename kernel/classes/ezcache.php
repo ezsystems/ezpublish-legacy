@@ -433,7 +433,7 @@ class eZCache
      forces a browser to load the content tree menu from a server rather than
      to use a cached copy.
     */
-    function clearContentTreeMenu( $cacheItem )
+    static function clearContentTreeMenu( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $expiryHandler = eZExpiryHandler::instance();
@@ -508,11 +508,11 @@ class eZCache
      \static
      Clears all user-info caches by setting a new expiry value for the key *user-access-cache*.
     */
-    function clearUserInfoCache( $cacheItem )
+    static function clearUserInfoCache( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
     }
 
@@ -521,11 +521,11 @@ class eZCache
      \static
      Clears all content caches by setting a new expiry value for the key *content-view-cache*.
     */
-    function clearContentCache( $cacheItem )
+    static function clearContentCache( $cacheItem )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-view-cache', mktime() );
+        $handler = eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-view-cache', time() );
         $handler->store();
     }
 

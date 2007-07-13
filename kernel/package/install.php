@@ -115,7 +115,7 @@ elseif ( !$persistentData['doItemInstall'] )
     $installElements = array();
     foreach ( $installItemArray as $installItem )
     {
-        $handler =& eZPackage::packageHandler( $installItem['type'] );
+        $handler = eZPackage::packageHandler( $installItem['type'] );
         if ( $handler )
         {
             $installElement = $handler->explainInstallItem( $package, $installItem );

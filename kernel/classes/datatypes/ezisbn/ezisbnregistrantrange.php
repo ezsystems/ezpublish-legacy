@@ -114,7 +114,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
      \return A new eZISBNRegistrantRange object.
     */
-    function create( $ISBNGroupID, $fromNumber, $toNumber, $registrantFrom, $registrantTo, $length )
+    static function create( $ISBNGroupID, $fromNumber, $toNumber, $registrantFrom, $registrantTo, $length )
     {
         $row = array(
             'id' => null,
@@ -132,7 +132,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \static
      Removes the registrant area based on ID \a $id.
     */
-    function removeByID( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZISBNRegistrantRange::definition(),
                                           array( 'id' => $id ) );
@@ -150,7 +150,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \param $asObject If the result should be returned as object or an array.
      \return the registrant list for a isbn registration group id.
     */
-    function fetchListByGroupID( $groupID, &$count, $asObject = true )
+    static function fetchListByGroupID( $groupID, &$count, $asObject = true )
     {
         $conditions = array( 'isbn_group_id' => $groupID );
         $sortArray = array( array( 'from_number' => 'asc' ) );
@@ -177,7 +177,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
 
      \return the registrant range object if found and false if not found.
     */
-    function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
+    static function extractRegistrant( $isbnNr, $group, $groupRange, &$registrantLength )
     {
         $registrant = false;
         if ( get_class( $group ) == 'ezisbngroup' and
@@ -213,9 +213,9 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \static
      Removes all ISBN group ranges from the database.
     */
-    function cleanAll()
+    static function cleanAll()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $definition = eZISBNRegistrantRange::definition();
         $table = $definition['name'];
         $sql = "TRUNCATE TABLE " . $table;

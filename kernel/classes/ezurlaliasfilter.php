@@ -75,7 +75,7 @@ class eZURLAliasFilter
 
      Note: The filter list will be cached in memory to improve performance of subsequent calls.
      */
-    function processFilters( $text, &$languageObject, &$caller )
+    static function processFilters( $text, &$languageObject, &$caller )
     {
         $filters = array();
         if ( isset( $GLOBALS['eZURLAliasFilters'] ) )
@@ -86,7 +86,7 @@ class eZURLAliasFilter
         {
             // No filters are cached in memory, load them and cache for later use
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $extensionList = $ini->variable( 'URLTranslator', 'Extensions' );
             include_once( 'lib/ezutils/classes/ezextension.php' );
             $pathList = eZExtension::expandedPathList( $extensionList, 'urlfilters' );

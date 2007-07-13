@@ -92,7 +92,8 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeError( $str, 'eZCodeMapper::error' );
+            $debug = eZDebug::instance();
+            $debug->writeError( $str, 'eZCodeMapper::error' );
         }
     }
 
@@ -117,7 +118,8 @@ class eZCodeMapper
         }
         else
         {
-            eZDebug::writeWarning( $str, 'eZCodeMapper::warning' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( $str, 'eZCodeMapper::warning' );
         }
     }
 
@@ -1021,7 +1023,8 @@ class eZCodeMapper
                 $subTable = $this->mappingTable( $identifier );
                 if ( !$subTable )
                 {
-                    eZDebug::writeError( "Failed to fetch mapping table for identifier: '$identifier'" );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Failed to fetch mapping table for identifier: '$identifier'" );
                 }
                 else
                 {
@@ -1428,7 +1431,8 @@ class eZCodeMapper
         $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
-            eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Failed to create textcodec for charset '$charset'" );
             return false;
         }
 
@@ -1533,7 +1537,8 @@ class eZCodeMapper
                 {
                     break;
                 }
-                eZDebug::writeError( "Unknown command '$name'",
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown command '$name'",
                                      'eZCharTransform::decodeCommand' );
             } break;
         }
@@ -1643,12 +1648,12 @@ class eZCodeMapper
                        '{' . "\n" .
                        '    $text = preg_replace( "#(\s+)#", " ", $text );' . "\n" .
                        '}' );
-                       
+
             return $code;
         }
         else
         {
-            $ini =& eZINI::instance( 'transform.ini' );
+            $ini = eZINI::instance( 'transform.ini' );
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
@@ -1663,7 +1668,8 @@ class eZCodeMapper
                 }
                 else
                 {
-                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
                 }
             }
         }
@@ -1777,7 +1783,7 @@ class eZCodeMapper
         }
         else
         {
-            $ini =& eZINI::instance( 'transform.ini' );
+            $ini = eZINI::instance( 'transform.ini' );
             $commands = $ini->variable( 'Extensions', 'Commands' );
             if ( isset( $commands[$command['command']] ) )
             {
@@ -1791,7 +1797,8 @@ class eZCodeMapper
                 }
                 else
                 {
-                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
                 }
             }
         }

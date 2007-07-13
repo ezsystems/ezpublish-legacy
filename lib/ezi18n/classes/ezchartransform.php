@@ -300,7 +300,7 @@ class eZCharTransform
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
-            $ini =& eZINI::instance( 'transform.ini' );
+            $ini = eZINI::instance( 'transform.ini' );
             if ( $ini->CacheFile && $time < filemtime( $ini->CacheFile ) )
             {
                 return false;
@@ -501,7 +501,7 @@ class eZCharTransform
         return $text;
     }
 
-    function commandUrlCleanupCompat( $text, $charsetName )
+    static function commandUrlCleanupCompat( $text, $charsetName )
     {
         // Old style of url alias with lowercase only and underscores for separators
         $text = strtolower( $text );
@@ -517,7 +517,7 @@ class eZCharTransform
         return $text;
     }
 
-    function commandUrlCleanup( $text, $charsetName )
+    static function commandUrlCleanup( $text, $charsetName )
     {
         $text = preg_replace( array( "#[^a-zA-Z0-9_!-]+#",
                                      "#/\.\.?/#",
@@ -529,7 +529,7 @@ class eZCharTransform
         return $text;
     }
 
-    function commandUrlCleanupIRI( $text, $charsetName )
+    static function commandUrlCleanupIRI( $text, $charsetName )
     {
         // With IRI support we keep all characters except some reserved ones,
         // they are space, ampersand, semi-colon, forward slash, colon, equal sign, question mark,

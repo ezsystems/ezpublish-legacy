@@ -82,7 +82,7 @@ class eZISBNGroup extends eZPersistentObject
      \param $description a small description of the registration group area.
      \return a new eZISBNGroup object containing group number and a description.
     */
-    function create( $groupNumber, $description = "" )
+    static function create( $groupNumber, $description = "" )
     {
         $row = array( 'id' => null,
                       'description' => $description,
@@ -96,7 +96,7 @@ class eZISBNGroup extends eZPersistentObject
      Removes the ISBN group based on ID \a $id.
      \param $id is the id the object will be removed based on.
     */
-    function removeByID( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZISBNGroup::definition(),
                                           array( 'id' => $id ) );
@@ -108,7 +108,7 @@ class eZISBNGroup extends eZPersistentObject
      \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for isbn groups.
     */
-    function fetchList( &$count, $asObject = true )
+    static function fetchList( &$count, $asObject = true )
     {
         $sortArray = array( 'id' => 'asc' );
         $groupArray = eZPersistentObject::fetchObjectList( eZISBNGroup::definition(),
@@ -124,7 +124,7 @@ class eZISBNGroup extends eZPersistentObject
      \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for isbn groups.
     */
-    function fetchByGroup( $groupNumber, $asObject = true )
+    static function fetchByGroup( $groupNumber, $asObject = true )
     {
         $conditions = array( 'group_number' => $groupNumber );
         $group = false;
@@ -142,9 +142,9 @@ class eZISBNGroup extends eZPersistentObject
      \static
      Removes all ISBN groups from the database.
     */
-    function cleanAll()
+    static function cleanAll()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $definition = eZISBNGroup::definition();
         $table = $definition['name'];
         $sql = "TRUNCATE TABLE " . $table;

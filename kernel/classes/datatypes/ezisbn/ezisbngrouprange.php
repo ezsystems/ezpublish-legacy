@@ -103,7 +103,7 @@ class eZISBNGroupRange extends eZPersistentObject
      \param $length     How many characters $groupFrom and $groupTo should have.
      \return a new eZISBNGroupRange object.
     */
-    function create( $fromNumber, $toNumber, $groupFrom, $groupTo, $length )
+    static function create( $fromNumber, $toNumber, $groupFrom, $groupTo, $length )
     {
         $row = array(
             'id' => null,
@@ -120,7 +120,7 @@ class eZISBNGroupRange extends eZPersistentObject
      \static
      Removes the ISBN group based on ID \a $id.
     */
-    function removeByID( $id )
+    static function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZISBNGroupRange::definition(),
                                           array( 'id' => $id ) );
@@ -131,7 +131,7 @@ class eZISBNGroupRange extends eZPersistentObject
                    back in the reference variable.
      \return the group range list for isbn groups.
     */
-    function fetchList( &$count, $asObject = true )
+    static function fetchList( &$count, $asObject = true )
     {
         $sortArray = array( 'from_number' => 'asc' );
         $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
@@ -150,7 +150,7 @@ class eZISBNGroupRange extends eZPersistentObject
                          Is sent back in the reference variable.
      \return the group range object if found and false if not found.
     */
-    function extractGroup( $isbnNr, &$groupLength )
+    static function extractGroup( $isbnNr, &$groupLength )
     {
         $groupRange = false;
         $testSegment = substr( $isbnNr, 3, 5 );
@@ -175,9 +175,9 @@ class eZISBNGroupRange extends eZPersistentObject
      \static
      Removes all ISBN group ranges from the database.
     */
-    function cleanAll()
+    static function cleanAll()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $definition = eZISBNGroupRange::definition();
         $table = $definition['name'];
         $sql = "TRUNCATE TABLE " . $table;

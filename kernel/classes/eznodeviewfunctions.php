@@ -60,7 +60,7 @@ class eZNodeviewfunctions
 
     // Note: This callback is needed to generate the array which is returned
     //       back to eZClusterFileHandler for processing.
-    function generateCallback( $file, $args )
+    static function generateCallback( $file, $args )
     {
         $res = call_user_func_array( array( 'eZNodeviewfunctions', 'generateNodeViewData' ),
                                      $args );
@@ -79,7 +79,7 @@ class eZNodeviewfunctions
         return $retval;
     }
 
-    function &generateNodeViewData( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
+    static function generateNodeViewData( &$tpl, &$node, &$object, $languageCode, $viewMode, $offset,
                                     $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                     $collectionAttributes = false, $validation = false )
     {
@@ -331,7 +331,7 @@ class eZNodeviewfunctions
     }
 
 
-    function contentViewRetrieve( $file, $mtime, $args )
+    static function contentViewRetrieve( $file, $mtime, $args )
     {
         extract( $args );
 
@@ -395,7 +395,7 @@ class eZNodeviewfunctions
                 if ( isset( $Result['content_info']['class_identifier'] ) )
                     $keyArray[] = array( 'class_identifier', $Result['content_info']['class_identifier'] );
 
-                $res =& eZTemplateDesignResource::instance();
+                $res = eZTemplateDesignResource::instance();
                 $res->setKeys( $keyArray );
 
                 // set section id
@@ -417,7 +417,7 @@ class eZNodeviewfunctions
         return new eZClusterFileFailure( 1, $expiryReason );
     }
 
-    function contentViewGenerate( $file, $args )
+    static function contentViewGenerate( $file, $args )
     {
         extract( $args );
         $node = eZContentObjectTreeNode::fetch( $NodeID );
@@ -448,7 +448,7 @@ class eZNodeviewfunctions
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
         }
 
-        $Result =& eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
+        $Result = eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
                                                               $LanguageCode, $ViewMode, $Offset,
                                                               $viewParameters, $collectionAttributes,
                                                               $validation );

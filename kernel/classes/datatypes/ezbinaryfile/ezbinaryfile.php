@@ -234,7 +234,7 @@ class eZBinaryFile extends eZPersistentObject
                 if ( $file->exists() )
                 {
                     $fetchedFilePath = $file->fetchUnique();
-                    $metaData =& $parserObject->parseFile( $fetchedFilePath );
+                    $metaData = $parserObject->parseFile( $fetchedFilePath );
                     $file->fileDeleteLocal( $fetchedFilePath );
 //                    $file->fetch();
 //                    $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );

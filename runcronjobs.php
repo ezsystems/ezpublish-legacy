@@ -362,12 +362,12 @@ class eZRunCronjobs
         }
         // If the cronjob part has been blocked for  2 * eZRunCronjobs_MaxScriptExecutionTime,
         // force stealing of the cronjob part
-        else if ( $lockTS < gmmktime() - 2 * eZRunCronjobs_MaxScriptExecutionTime )
+        else if ( $lockTS < time() - 2 * eZRunCronjobs_MaxScriptExecutionTime )
         {
             $cli->output( 'Forcing to steal the mutex lock: ' . $scriptFile );
             $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex, true );
         }
-        else if ( $lockTS < gmmktime() - eZRunCronjobs_MaxScriptExecutionTime )
+        else if ( $lockTS < time() - eZRunCronjobs_MaxScriptExecutionTime )
         {
             $cli->output( 'Trying to steal the mutex lock: ' . $scriptFile );
             $runScript = eZRunCronjobs::stealMutex( $cli, $scriptMutex );

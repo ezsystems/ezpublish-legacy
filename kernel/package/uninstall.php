@@ -100,7 +100,7 @@ else
     $uninstallElements = array();
     foreach ( $uninstallItems as $uninstallItem )
     {
-        $handler =& eZPackage::packageHandler( $uninstallItem['type'] );
+        $handler = eZPackage::packageHandler( $uninstallItem['type'] );
         if ( $handler )
         {
             $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem, true );
@@ -125,7 +125,7 @@ if ( $doItemInstall )
     {
         $uninstallItem = $uninstallItems[$currentItem];
         $result = $package->uninstallItem( $uninstallItem, $persistentData );
-    
+
         if ( !$result )
         {
             $templateName = "design:package/uninstall_error.tpl";

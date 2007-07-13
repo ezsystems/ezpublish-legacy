@@ -925,7 +925,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $version = $contentClass->Version;
             $classAttributes =& $contentClass->fetchAttributes( );
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $classAttributes as $classAttribute )
             {
@@ -1617,7 +1617,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
     function setAlwaysAvailableLanguageID( $languageID, $updateChilds = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $languageLocale = false;

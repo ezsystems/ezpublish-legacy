@@ -1213,7 +1213,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      Goes trough all attributes and fetches metadata for the ones that is searchable.
      \return an array with metadata information.
     */
-    function metaDataArray( &$attributes )
+    static function metaDataArray( &$attributes )
     {
         $metaDataArray = array();
         if ( !is_array( $attributes ) )

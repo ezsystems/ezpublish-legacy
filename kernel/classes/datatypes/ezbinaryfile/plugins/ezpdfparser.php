@@ -37,14 +37,14 @@
 
 class eZPDFParser
 {
-    function &parseFile( $fileName )
+    function parseFile( $fileName )
     {
         $binaryINI = eZINI::instance( 'binaryfile.ini' );
 
         $textExtractionTool = $binaryINI->variable( 'PDFHandlerSettings', 'TextExtractionTool' );
 
         // save the buffer contents
-        $buffer =& ob_get_contents();
+        $buffer = ob_get_contents();
         ob_end_clean();
 
         // fetch the module printout

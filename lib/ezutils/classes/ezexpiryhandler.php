@@ -66,10 +66,10 @@ class eZExpiryHandler
     }
 
     /*!
-     \private
+     \static
      Includes the expiry file and extracts the $Timestamps variable from it.
      */
-    function fetchData( $path )
+    static function fetchData( $path )
     {
         include( $path );
         return $Timestamps;
@@ -121,7 +121,8 @@ class eZExpiryHandler
     {
         if ( !isset( $this->Timestamps[$name] ) )
         {
-            eZDebug::writeError( "Unknown expiry timestamp called '$name'", 'eZExpiryHandler::timestamp' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Unknown expiry timestamp called '$name'", 'eZExpiryHandler::timestamp' );
             return false;
         }
         return $this->Timestamps[$name];
@@ -131,9 +132,9 @@ class eZExpiryHandler
      \static
      \return the timestamp value for the expiry key \a $name if it exists or \c false if not,
     */
-    function getTimestamp( $name, $default = false )
+    static function getTimestamp( $name, $default = false )
     {
-        $handler =& eZExpiryHandler::instance();
+        $handler = eZExpiryHandler::instance();
         if ( !isset( $handler->Timestamps[$name] ) )
         {
             return $default;

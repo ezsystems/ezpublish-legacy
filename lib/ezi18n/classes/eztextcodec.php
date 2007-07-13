@@ -318,6 +318,7 @@ class eZTextCodec
     {
         $debug = eZDebug::instance();
         $debug->accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
+        //$debug->writeDebug( $this->ConversionFunction, 'conversion function' );
         $conversionFunction = $this->ConversionFunction;
         $tmp = $this->$conversionFunction( $str );
         $debug->accumulatorStop( 'textcodec_conversion' );

@@ -120,7 +120,7 @@ class eZMutex
             if ( flock( $fp, LOCK_EX ) )
             {
                 $this->clearMeta();
-                $this->setMeta( 'timestamp', gmmktime() );
+                $this->setMeta( 'timestamp', time() );
                 return true;
             }
         }

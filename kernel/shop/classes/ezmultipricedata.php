@@ -86,7 +86,7 @@ class eZMultiPriceData extends eZPersistentObject
                       'name' => "ezmultipricedata" );
     }
 
-    function create( $contentObjectID, $contentObjectVersion, $currencyCode, $value, $type )
+    static function create( $contentObjectID, $contentObjectVersion, $currencyCode, $value, $type )
     {
         $price = new eZMultiPriceData( array( 'contentobject_attr_id' => $contentObjectID,
                                               'contentobject_attr_version' => $contentObjectVersion,
@@ -102,7 +102,7 @@ class eZMultiPriceData extends eZPersistentObject
      \params
        codeList     - specifies currencies to fetch. If 'false' then all prices for '$contentAttributeID/$contentObjectVersion' will be retrieved.
     */
-    function fetch( $contentAttributeID, $contentObjectVersion, $currencyCode = false, $type = false, $asObjects = true )
+    static function fetch( $contentAttributeID, $contentObjectVersion, $currencyCode = false, $type = false, $asObjects = true )
     {
         $priceList = null;
         $conds = array();
@@ -190,7 +190,7 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
      \static
     */
-    function createPriceListForCurrency( $currencyCode )
+    static function createPriceListForCurrency( $currencyCode )
     {
         $db = eZDB::instance();
 
@@ -218,7 +218,7 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
      \static
     */
-    function fetchDataListWithoutPriceInCurrency( $currencyCode, $limit = false )
+    static function fetchDataListWithoutPriceInCurrency( $currencyCode, $limit = false )
     {
         $db = eZDB::instance();
         $currencyCode = $db->escapeString( $currencyCode );
@@ -247,7 +247,7 @@ class eZMultiPriceData extends eZPersistentObject
         return $dataList;
     }
 
-    function removePriceListForCurrency( $currencyCodeList, $currentVersionOnly = true )
+    static function removePriceListForCurrency( $currencyCodeList, $currentVersionOnly = true )
     {
         $db = eZDB::instance();
 
@@ -303,7 +303,7 @@ class eZMultiPriceData extends eZPersistentObject
         $db->commit();
     }
 
-    function changeCurrency( $oldCurrencyCode, $newCurrencyCode, $currentVersionOnly = true )
+    static function changeCurrency( $oldCurrencyCode, $newCurrencyCode, $currentVersionOnly = true )
     {
         $db = eZDB::instance();
 
@@ -348,7 +348,7 @@ class eZMultiPriceData extends eZPersistentObject
         }
     }
 
-    function updateAutoprices()
+    static function updateAutoprices()
     {
         // use direct sql-queries to speed up the process.
 

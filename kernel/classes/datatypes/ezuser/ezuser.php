@@ -120,7 +120,7 @@ class eZUser extends eZPersistentObject
     /*!
      \return a textual identifier for the hash type $id
     */
-    function passwordHashTypeName( $id )
+    static function passwordHashTypeName( $id )
     {
         switch ( $id )
         {
@@ -150,7 +150,7 @@ class eZUser extends eZPersistentObject
     /*!
      \return the hash type for the textual identifier $identifier
     */
-    function passwordHashTypeID( $identifier )
+    static function passwordHashTypeID( $identifier )
     {
         switch ( $identifier )
         {
@@ -193,7 +193,7 @@ class eZUser extends eZPersistentObject
         return $retValue;
     }
 
-    function create( $contentObjectID )
+    static function create( $contentObjectID )
     {
         $row = array(
             'contentobject_id' => $contentObjectID,
@@ -532,7 +532,7 @@ WHERE user_id = '" . $userID . "' AND
      Removes the user from the ezuser table.
      \note Will also remove any notifications and session related to the user.
     */
-    function removeUser( $userID )
+    static function removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
@@ -558,7 +558,7 @@ WHERE user_id = '" . $userID . "' AND
      \return a list of valid and enabled users, the data returned is an array
              with ezcontentobject database data.
     */
-    function fetchContentList()
+    static function fetchContentList()
     {
         $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
         $query = "SELECT ezcontentobject.*
@@ -606,7 +606,7 @@ WHERE user_id = '" . $userID . "' AND
      Fetches a builtin user and returns it, this helps avoid special cases where
      user is not logged in.
     */
-    function &fetchBuiltin( $id )
+    static function fetchBuiltin( $id )
     {
         if ( !in_array( $id, $GLOBALS['eZUserBuiltins'] ) )
             $id = EZ_USER_ANONYMOUS_ID;
@@ -657,7 +657,7 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return \c true if there can only be one instance of an email address on the site.
     */
-    function requireUniqueEmail()
+    static function requireUniqueEmail()
     {
         $ini = eZINI::instance();
         return $ini->variable( 'UserSettings', 'RequireUniqueEmail' ) == 'true';
@@ -1564,15 +1564,16 @@ WHERE user_id = '" . $userID . "' AND
                                                          null,
                                                          $this->userInfoExpiry(),
                                                          $userID );
-                eZDebug::writeDebug( $accessArray, "accessArray from cached file $cacheFilePath" );
+                $debug = eZDebug::instance();
+                $debug->writeDebug( $accessArray, "accessArray from cached file $cacheFilePath" );
 
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
                 if ( $enableCaching == 'true' )
                 {
-                    $http =& eZHTTPTool::instance();
+                    $http = eZHTTPTool::instance();
                     $http->setSessionVariable( 'AccessArray', $accessArray );
-                    $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
+                    $http->setSessionVariable( 'AccessArrayTimestamp', time() );
                 }
             }
         }
@@ -1649,7 +1650,7 @@ WHERE user_id = '" . $userID . "' AND
         /* Figure out when the last update was done */
         $expiredTimestamp = 0;
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
+        $handler = eZExpiryHandler::instance();
         if ( $handler->hasTimestamp( 'user-access-cache' ) )
         {
             $expiredTimestamp = $handler->timestamp( 'user-access-cache' );

@@ -1121,6 +1121,7 @@ static function definition()
     */
     function &attribute( $attr, $noFunction = false )
     {
+        $debug = eZDebug::instance();
         $def = $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
@@ -1135,7 +1136,7 @@ static function definition()
             }
             else
             {
-                eZDebug::writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
+                $debug->writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
                                      'eZPersistentObject::attribute()' );
             }
             return $retVal;
@@ -1156,7 +1157,7 @@ static function definition()
         }
         else
         {
-            eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
+            $debug->writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
             $attrValue = null;
             return $attrValue;
         }
