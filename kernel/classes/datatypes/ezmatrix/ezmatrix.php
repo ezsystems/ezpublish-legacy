@@ -38,8 +38,6 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-
 class eZMatrix
 {
     /*!
@@ -79,7 +77,7 @@ class eZMatrix
             $this->Cells =& $cells;
 
 
-            $xmlString =& $this->xmlString();
+            $xmlString = $this->xmlString();
             $this->decodeXML( $xmlString );
         }
     }
@@ -710,40 +708,39 @@ class eZMatrix
     */
     function decodeXML( $xmlString )
     {
-        $xml = new eZXML();
-        $dom = $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlString );
         if ( $xmlString != "" )
         {
             // set the name of the node
-            $nameArray = $dom->elementsByName( "name" );
-            $this->setName( $nameArray[0]->textContent() );
+            $nameArray = $dom->getElementsByTagName( "name" );
+            $this->setName( $nameArray->item( 0 )->textContent );
 
-            $columns = $dom->elementsByName( "columns" );
-            $numColumns = $columns[0]->attributeValue( 'number');
+            $columnsNode = $dom->getElementsByTagName( "columns" )->item( 0 );
+            $numColumns = $columnsNode->getAttribute( 'number');
 
-            $rows = $dom->elementsByName( "rows" );
-            $numRows = $rows[0]->attributeValue( 'number');
+            $rowsNode = $dom->getElementsByTagName( "rows" )->item( 0 );
+            $numRows = $rowsNode->getAttribute( 'number' );
 
-            $namedColumns = $dom->elementsByName( "column" );
+            $namedColumns = $dom->getElementsByTagName( "column" );
             $namedColumnList = array();
-            if ( count( $namedColumns ) > 0 )
+            if ( $namedColumns->length > 0 )
             {
                 foreach ( $namedColumns as $namedColumn )
                 {
-                    $columnName = $namedColumn->textContent();
-                    $columnID = $namedColumn->attributeValue( 'id' );
-                    $columnNumber = $namedColumn->attributeValue( 'num' );
+                    $columnName = $namedColumn->textContent;
+                    $columnID = $namedColumn->getAttribute( 'id' );
+                    $columnNumber = $namedColumn->getAttribute( 'num' );
                     $namedColumnList[$columnNumber] = array( 'name' => $columnName,
                                                              'column_number' => $columnNumber,
                                                              'column_id' => $columnID );
                 }
             }
-            $cellArray = $dom->elementsByName( "c" );
-            $cellCount = count( $cellArray );
+            $cellNodes = $dom->getElementsByTagName( "c" );
             $cellList = array();
-            for ( $i = 0; $i < $cellCount; ++$i )
+            foreach ( $cellNodes as $cellNode )
             {
-                $cellList[] = $cellArray[$i]->textContent();
+                $cellList[] = $cellNode->textContent;
             }
 
             $rows = array( 'sequential' => array() );
@@ -818,7 +815,7 @@ class eZMatrix
              It will take of care of the necessary charset conversions
              for content storage.
     */
-    function domString( &$domDocument )
+    function domString( $domDocument )
     {
         $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
@@ -836,7 +833,7 @@ class eZMatrix
             include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
         }
-        $domString = $domDocument->toString( $charset );
+        $domString = $domDocument->saveXML();
         return $domString;
     }
 
@@ -845,25 +842,18 @@ class eZMatrix
     */
     function &xmlString( )
     {
-        $doc = new eZDOMDocument( "Matrix" );
-        $root = $doc->createElementNode( "ezmatrix" );
-        $doc->setRoot( $root );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( "ezmatrix" );
+        $doc->appendChild( $root );
 
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
-
-        $name->setContent( $this->Name() );
+        $name = $doc->createElement( "name", $this->Name );
         $root->appendChild( $name );
 
-
-        $columnsNode = $doc->createElementNode( "columns" );
-
+        $columnsNode = $doc->createElement( "columns" );
 
         $sequentalColumns =& $this->Matrix['columns']['sequential'];
-//        $columnAmount = count(  $sequentalColumns );
         $columnAmount = $this->NumColumns;
-        $columnsNode->appendAttribute( $doc->createAttributeNode( 'number', $columnAmount ) );
+        $columnsNode->setAttribute( 'number', $columnAmount );
         $root->appendChild( $columnsNode );
 
         if ( $sequentalColumns != null )
@@ -874,38 +864,28 @@ class eZMatrix
                 if( $column != null && $column['identifier'] != 'col_'. $i+1 )
                 {
                     unset( $columnNode );
-                    $columnNode = $doc->createElementNode( 'column' );
-                    $columnNode->appendAttribute( $doc->createAttributeNode( 'num', $i ) );
-                    $columnNode->appendAttribute( $doc->createAttributeNode( 'id', $column['identifier'] ) );
+                    $columnNode = $doc->createElement( 'column', $column['name'] );
+                    $columnNode->setAttribute( 'num', $i );
+                    $columnNode->setAttribute( 'id', $column['identifier'] );
 
-                    unset( $columnValueNode );
-                    $columnValueNode = $doc->createTextNode( $column["name"] );
-
-                    $columnNode->appendChild( $columnValueNode );
                     $columnsNode->appendChild( $columnNode );
                 }
             }
 
         }
-//        $rows = & $dom->elementsByName( "rows" );
 
-        $rowsNode =  $doc->createElementNode( "rows" );
-//        $rowAmount = count( $this->Matrix['rows'] );
+        $rowsNode =  $doc->createElement( "rows" );
         $rowAmount = $this->NumRows;
 
-        $rowsNode->appendAttribute( $doc->createAttributeNode( 'number', $rowAmount ) );
+        $rowsNode->setAttribute( 'number', $rowAmount );
 
         $root->appendChild( $rowsNode );
 
         foreach ( $this->Cells as $cell )
         {
             unset( $cellNode );
-            $cellNode = $doc->createElementNode( 'c' );
+            $cellNode = $doc->createElement( 'c', $cell );
 
-            unset( $columnValueNode );
-            $columnValueNode = $doc->createTextNode( $cell );
-
-            $cellNode->appendChild( $columnValueNode );
             $root->appendChild( $cellNode );
         }
 
@@ -927,35 +907,6 @@ class eZMatrix
 
     public $NumRows;
     public $Cells;
-
-
-
 }
-/*
-$content = array( 'rows' => array( array( 'identifier' => 'some',
-                                         'name' => 'Some',
-                                         'columns' => array( 1, "test", 5 ) ),
-                                  array( 'identifier' => 'some2',
-                                         'name' => 'Some2',
-                                         'columns' => array( 2, "test2", 10 ) ) ),
-                 'columns' => array( 'id' => array( 'c1' => &array( 'identifier' => 'c1',
-                                                                    'name' => 'C1',
-                                                                    'index' => 1,
-                                                                    'columns' => array( 1, 2 ) ) ),
-                                     'sequential' => array( array( 'identifier' => 'c1',
-                                                                   'name' => 'C1',
-                                                                   'columns' => array( 1, 2 ) ),
-                                                            array( 'identifier' => 'c2',
-                                                                   'name' => 'C2',
-                                                                   'columns' => array( "test", "test2" ) ),
-                                                            array( 'identifier' => 'c3',
-                                                                   'name' => 'C3',
-                                                                   'columns' => array( 5, 10 ) ) ) );
 
-'<input type="text" name="_c1_r1" ';
-
-$matrix = array( array( 1, "test", 5 ),
-                array( 2, "test2", 10 ) );
-$matrix[1][1] = 42;
-*/
 ?>

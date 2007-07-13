@@ -416,11 +416,11 @@ class eZUserType extends eZDataType
         $user = eZUser::fetch( $userID );
         if ( is_object( $user ) )
         {
-            $userNode = eZDOMDocument::createElementNode( 'account' );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'login', $user->attribute( 'login' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'email', $user->attribute( 'email' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash', $user->attribute( 'password_hash' ) ) );
-            $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) ) );
+            $userNode = $node->ownerDocument->createElement( 'account' );
+            $userNode->setAttribute( 'login', $user->attribute( 'login' ) );
+            $userNode->setAttribute( 'email', $user->attribute( 'email' ) );
+            $userNode->setAttribute( 'password_hash', $user->attribute( 'password_hash' ) );
+            $userNode->setAttribute( 'password_hash_type', eZUser::passwordHashTypeName( $user->attribute( 'password_hash_type' ) ) );
             $node->appendChild( $userNode );
         }
 
@@ -435,7 +435,7 @@ class eZUserType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $userNode = $attributeNode->elementByName( 'account' );
+        $userNode = $attributeNode->getElementsByTagName( 'account' )->item( 0 );
         if ( is_object( $userNode ) )
         {
             $userID = $objectAttribute->attribute( 'contentobject_id' );
@@ -444,10 +444,10 @@ class eZUserType extends eZDataType
             {
                 $user = eZUser::create( $userID );
             }
-            $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
-            $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );
-            $user->setAttribute( 'password_hash', $userNode->attributeValue( 'password_hash' ) );
-            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->attributeValue( 'passsword_hash_type' ) ) );
+            $user->setAttribute( 'login', $userNode->getAttribute( 'login' ) );
+            $user->setAttribute( 'email', $userNode->getAttribute( 'email' ) );
+            $user->setAttribute( 'password_hash', $userNode->getAttribute( 'password_hash' ) );
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->getAttribute( 'passsword_hash_type' ) ) );
             $user->store();
         }
     }

@@ -327,20 +327,21 @@ class eZDateType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
+        $dom = $attributeParametersNode->ownerDocument;
+
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATE_DEFAULT );
+        $defaultValueNode = $dom->createElement( 'default-value' );
         switch ( $defaultValue )
         {
             case EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'empty' ) ) );
-            } break;
+                $defaultValueNode->setAttribute( 'type', 'empty' );
+                break;
+
             case EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'current-date' ) ) );
-            } break;
+                $defaultValueNode->setAttribute( 'type', 'current-date' );
+                break;
         }
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
@@ -348,8 +349,8 @@ class eZDateType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
-        $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
+        $defaultValue = strtolower( $defaultNode->getAttribute( 'type' ) );
         switch ( $defaultValue )
         {
             case 'empty':
@@ -378,7 +379,8 @@ class eZDateType extends eZDataType
         if ( !is_null( $stamp ) )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'date', eZDateUtils::rfc1123Date( $stamp ) ) );
+            $dateNode = $node->ownerDocument->createElement( 'date', eZDateUtils::rfc1123Date( $stamp ) );
+            $node->appendChild( $dateNode );
         }
         return $node;
     }
@@ -387,17 +389,16 @@ class eZDateType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $timeNode = $attributeNode->elementByName( 'date' );
-        if ( is_object( $timeNode ) )
-            $timestampNode = $timeNode->firstChild();
-        if ( is_object( $timestampNode ) )
+        $dateNode = $attributeNode->getElementsByTagName( 'date' )->item( 0 );
+        if ( is_object( $dateNode ) )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $objectAttribute->setAttribute( 'data_int', eZDateUtils::textToDate( $timestampNode->content() ) );
+            $timestamp = eZDateUtils::textToDate( $dateNode->textContent );
+            $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
 }

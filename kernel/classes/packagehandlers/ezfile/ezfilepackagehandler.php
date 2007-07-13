@@ -37,7 +37,6 @@
 
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
 class eZFilePackageHandler extends eZPackageHandler
@@ -611,17 +610,17 @@ class eZFilePackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function createInstallNode( &$package, &$installNode, $installItem, $installType )
+    function createInstallNode( $package, $installNode, $installItem, $installType )
     {
-        $installNode->appendAttribute( eZDOMDocument::createAttributeNode( 'collection', $installItem['collection'] ) );
+        $installNode->setAttribute( 'collection', $installItem['collection'] );
     }
 
     /*!
      \reimp
     */
-    function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
+    function parseInstallNode( $package, $installNode, $installParameters, $isInstall )
     {
-        $collection = $installNode->attributeValue( 'collection' );
+        $collection = $installNode->getAttribute( 'collection' );
         $installParameters['collection'] = $collection;
     }
 }

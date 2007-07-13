@@ -1055,7 +1055,7 @@ class eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         if ( !$this->Attributes['properties']['serialize_supported'] )
-            $attributeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );
+            $attributeNode->setAttribute( 'unsupported', 'true' );
     }
 
     /*!
@@ -1075,14 +1075,14 @@ class eZDataType
     */
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
-        $node = new eZDOMNode();
+        $dom = new DOMDocument();
 
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+        $node = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:attribute' );
+
+        $node->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:id', $objectAttribute->attribute( 'id' ) );
+        $node->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:identifier', $objectAttribute->contentClassAttributeIdentifier() );
+        $node->setAttribute( 'name', $objectAttribute->contentClassAttributeName() );
+        $node->setAttribute( 'type', $this->isA() );
 
         if ( $this->Attributes["properties"]['object_serialize_map'] )
         {
@@ -1092,7 +1092,9 @@ class eZDataType
                 if ( $objectAttribute->hasAttribute( $attributeName ) )
                 {
                     $value = $objectAttribute->attribute( $attributeName );
-                    $node->appendChild( eZDOMDocument::createElementTextNode( $xmlName, (string)$value ) );
+                    unset( $attributeNode );
+                    $attributeNode = $dom->createElement( $xmlName, (string)$value );
+                    $node->appendChild( $attributeNode );
                 }
                 else
                 {
@@ -1103,9 +1105,12 @@ class eZDataType
         }
         else
         {
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) ) );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'data-text', $objectAttribute->attribute( 'data_text' ) ) );
+            $dataIntNode = $dom->createElement( 'data-int', (string)$objectAttribute->attribute( 'data_int' ) );
+            $node->appendChild( $dataIntNode );
+            $dataFloatNode = $dom->createElement( 'data-float', (string)$objectAttribute->attribute( 'data_float' ) );
+            $node->appendChild( $dataFloatNode );
+            $dataTextNode = $dom->createElement( 'data-text', $objectAttribute->attribute( 'data_text' ) );
+            $node->appendChild( $dataTextNode );
         }
         return $node;
     }
@@ -1126,9 +1131,10 @@ class eZDataType
             {
                 if ( $objectAttribute->hasAttribute( $attributeName ) )
                 {
-                    if ( $attributeNode->elementByName( $xmlName ) !== false )
+                    $elements = $attributeNode->getElementsByTagName( $xmlName );
+                    if ( $elements->length !== 0 )
                     {
-                        $value = $attributeNode->elementTextContentByName( $xmlName );
+                        $value = $elements->item( 0 )->textContent;
                         $objectAttribute->setAttribute( $attributeName, $value );
                     }
                     else
@@ -1146,9 +1152,9 @@ class eZDataType
         }
         else
         {
-            $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->elementTextContentByName( 'data-int' ) );
-            $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->elementTextContentByName( 'data-float' ) );
-            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'data-text' ) );
+            $objectAttribute->setAttribute( 'data_int', (int)$attributeNode->getElementsByTagName( 'data-int' )->item( 0 )->textContent );
+            $objectAttribute->setAttribute( 'data_float', (float)$attributeNode->getElementsByTagName( 'data-float' )->item( 0 )->textContent );
+            $objectAttribute->setAttribute( 'data_text', $attributeNode->getElementsByTagName( 'data-text' )->item( 0 )->textContent );
         }
     }
 
@@ -1252,14 +1258,14 @@ class eZDataType
      */
     function createContentObjectAttributeDOMNode( $objectAttribute )
     {
-        $node = new eZDOMNode();
+        $dom = new DOMDocument();
 
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+        $node = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:attribute' );
+
+        $node->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:id', $objectAttribute->attribute( 'id' ) );
+        $node->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:identifier', $objectAttribute->contentClassAttributeIdentifier() );
+        $node->setAttribute( 'name', $objectAttribute->contentClassAttributeName() );
+        $node->setAttribute( 'type', $this->isA() );
 
         return $node;
     }
@@ -1315,7 +1321,7 @@ class eZDataType
             $dataArray = eZDBSchema::read( $dbaFilePath, true );
             if ( is_array( $dataArray ) and count( $dataArray ) > 0 )
             {
-                $db =& eZDB::instance();
+                $db = eZDB::instance();
                 $dataArray['type'] = strtolower( $db->databaseName() );
                 $dataArray['instance'] =& $db;
                 $dbSchema = eZDBSchema::instance( $dataArray );

@@ -309,7 +309,9 @@ class eZKeywordType extends eZDataType
         $keyword = new eZKeyword();
         $keyword->fetch( $objectAttribute );
         $keyWordString = $keyword->keywordString();
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'keyword-string', $keyWordString ) );
+        $dom = $node->ownerDocument;
+        $keywordStringNode = $dom->createElement( 'keyword-string', $keyWordString );
+        $node->appendChild( $keywordStringNode );
 
         return $node;
     }
@@ -320,11 +322,11 @@ class eZKeywordType extends eZDataType
 
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $keyWordString = $attributeNode->elementTextContentByName( 'keyword-string' );
+        $keyWordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
         $keyword = new eZKeyword();
         $keyword->initializeKeyword( $keyWordString );
         $objectAttribute->setContent( $keyword );

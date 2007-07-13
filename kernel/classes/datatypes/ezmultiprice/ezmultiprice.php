@@ -379,7 +379,8 @@ class eZMultiPrice extends eZSimplePrice
         if ( !$this->updatePrice( $currencyCode, $value, $type ) &&
              !$this->addPrice( $currencyCode, $value, $type ) )
         {
-            eZDebug::writeWarning( "Unable to set price in '$currencyCode'", 'eZMultiPrice::setPrice' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "Unable to set price in '$currencyCode'", 'eZMultiPrice::setPrice' );
             return false;
         }
 
@@ -393,7 +394,7 @@ class eZMultiPrice extends eZSimplePrice
     function updateAutoPriceList()
     {
         include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
-        $converter =& eZCurrencyConverter::instance();
+        $converter = eZCurrencyConverter::instance();
 
         $basePrice = $this->basePrice();
         $basePriceValue = $basePrice ? $basePrice->attribute( 'value' ) : 0;
@@ -565,11 +566,11 @@ class eZMultiPrice extends eZSimplePrice
 
     function DOMDocument()
     {
-        $doc = new eZDOMDocument( 'Multiprice' );
-        $root = $doc->createElementNode( 'ezmultiprice' );
-        $doc->setRoot( $root );
+        $doc = new DOMDocument();
+        $root = $doc->createElement( 'ezmultiprice' );
+        $doc->appendChild( $root );
 
-        $priceListNode = $doc->createElementNode( 'price-list' );
+        $priceListNode = $doc->createElement( 'price-list' );
 
         $priceList =& $this->attribute( 'price_list' );
         foreach ( $priceList as $price )
@@ -578,11 +579,11 @@ class eZMultiPrice extends eZSimplePrice
             $value =& $price->attribute( 'value' );
             $type =& $price->attribute( 'type' );
 
-            $priceNode = $doc->createElementNode( 'price' );
+            $priceNode = $doc->createElement( 'price' );
 
-            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'currency-code', $currencyCode ) );
-            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $value ) );
-            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $type ) );
+            $priceNode->setAttribute( 'currency-code', $currencyCode );
+            $priceNode->setAttribute( 'value', $value );
+            $priceNode->setAttribute( 'type', $type );
 
             $priceListNode->appendChild( $priceNode );
             unset( $priceNode );
@@ -595,14 +596,15 @@ class eZMultiPrice extends eZSimplePrice
 
     function decodeDOMTree( $rootNode )
     {
-        $priceNodes = $rootNode->elementChildrenByName( 'price-list' );
-        if ( $priceNodes )
+        $priceNode = $rootNode->getElementsByTagName( 'price-list' )->item( 0 );
+        $priceNodes = $priceNode->getElementsByTagName( 'price' );
+        if ( $priceNodes->length > 0 )
         {
-            foreach( $priceNodes as $priceNode )
+            foreach ( $priceNodes as $priceNode )
             {
-                $currencyCode = $priceNode->attributeValue( 'currency-code');
-                $value = $priceNode->attributeValue( 'value');
-                $type = $priceNode->attributeValue( 'type');
+                $currencyCode = $priceNode->getAttribute( 'currency-code' );
+                $value = $priceNode->getAttribute( 'value' );
+                $type = $priceNode->getAttribute( 'type' );
 
                 $this->setPriceByCurrency( $currencyCode, $value, $type );
             }

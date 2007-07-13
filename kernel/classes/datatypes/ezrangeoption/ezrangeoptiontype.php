@@ -254,7 +254,8 @@ class eZRangeOptionType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultName = $classAttribute->attribute( 'data_text1' );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
+        $defaultNameNode = $attributeParametersNode->ownerDocument->createElement( 'default-name', $defaultName );
+        $attributeParametersNode->appendChild( $defaultNameNode );
     }
 
     /*!
@@ -262,7 +263,7 @@ class eZRangeOptionType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
+        $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );
     }
 
@@ -273,9 +274,11 @@ class eZRangeOptionType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $domDocument = new DOMDocument();
+        $success = $domDocument->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $importedRoot = $node->ownerDocument->importNode( $domDocument->documentElement, true );
+        $node->appendChild( $importedRoot );
 
         return $node;
     }
@@ -285,8 +288,8 @@ class eZRangeOptionType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezrangeoption' )->item( 0 );
+        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 }

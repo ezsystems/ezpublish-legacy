@@ -475,8 +475,6 @@ class eZIniSettingType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-
         $file =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
         $section =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
         $parameter =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
@@ -484,12 +482,19 @@ class eZIniSettingType extends eZDataType
         $iniInstance =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD );
         $siteAccess =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD );
 
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'file', $file ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'section', $section ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'parameter', $parameter ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'ini_instance', $iniInstance ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'site_access_list', $siteAccess ) );
+        $dom = $attributeParametersNode->ownerDocument;
+        $fileNode = $dom->createElement( 'file', $file );
+        $attributeParametersNode->appendChild( $fileNode );
+        $sectionNode = $dom->createElement( 'section', $section );
+        $attributeParametersNode->appendChild( $sectionNode );
+        $parameterNode = $dom->createElement( 'parameter', $parameter );
+        $attributeParametersNode->appendChild( $parameterNode );
+        $typeNode = $dom->createElement( 'type', $type );
+        $attributeParametersNode->appendChild( $typeNode );
+        $iniInstanceNode = $dom->createElement( 'ini_instance', $iniInstance );
+        $attributeParametersNode->appendChild( $iniInstanceNode );
+        $siteAccessListNode = $dom->createElement( 'site_access_list', $siteAccess );
+        $attributeParametersNode->appendChild( $siteAccessListNode );
     }
 
     /*!
@@ -499,10 +504,10 @@ class eZIniSettingType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $file = $attributeParametersNode->elementTextContentByName( 'file' );
-        $section = $attributeParametersNode->elementTextContentByName( 'section' );
-        $parameter = $attributeParametersNode->elementTextContentByName( 'parameter' );
-        $type = $attributeParametersNode->elementTextContentByName( 'type' );
+        $file = $attributeParametersNode->getElementsByTagName( 'file' )->item( 0 )->textContent;
+        $section = $attributeParametersNode->getElementsByTagName( 'section' )->item( 0 )->textContent;
+        $parameter = $attributeParametersNode->getElementsByTagName( 'parameter' )->item( 0 )->textContent;
+        $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
 
         $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD, $file );
         $classAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD, $section );
@@ -511,8 +516,8 @@ class eZIniSettingType extends eZDataType
 
 
         /* Get and check if site access settings exist in this setup */
-        $remoteIniInstanceList = $attributeParametersNode->elementTextContentByName( 'ini_instance' );
-        $remoteSiteAccessList = $attributeParametersNode->elementTextContentByName( 'site_access_list' );
+        $remoteIniInstanceList = $attributeParametersNode->getElementsByTagName( 'ini_instance' )->item( 0 )->textContent;
+        $remoteSiteAccessList = $attributeParametersNode->getElementsByTagName( 'site_access_list' )->item( 0 )->textContent;
         $remoteIniInstanceArray = explode( ';', $remoteIniInstanceList );
         $remoteSiteAccessArray = explode( ';', $remoteSiteAccessList );
 
@@ -636,8 +641,12 @@ class eZIniSettingType extends eZDataType
         $makeEmptyArray = $objectAttribute->attribute( 'data_int' );
         $value = $objectAttribute->attribute( 'data_text' );
 
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'make_empty_array', $makeEmptyArray ) );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+        $dom = $node->ownerDocument;
+
+        $makeEmptyArrayNode = $dom->createElement( 'make_empty_array', $makeEmptyArray );
+        $node->appendChild( $makeEmptyArrayNode );
+        $valueNode = $dom->createElement( 'value', $value );
+        $node->appendChild( $valueNode );
 
         return $node;
     }
@@ -647,8 +656,8 @@ class eZIniSettingType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $makeEmptyArray = $attributeNode->elementTextContentByName( 'make_empty_array' );
-        $value = $attributeNode->elementTextContentByName( 'value' );
+        $makeEmptyArray = $attributeNode->getElementsByTagName( 'make_empty_array' )->item( 0 )->textContent;
+        $value = $attributeNode->getElementsByTagName( 'value' )->item( 0 )->textContent;
 
         if ( $makeEmptyArray === false )
             $makeEmptyArray = 0;

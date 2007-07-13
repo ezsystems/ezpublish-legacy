@@ -476,11 +476,20 @@ class eZIntegerType extends eZDataType
         $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
         $maxValue = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
         $minMaxState = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
+
+        $dom = $attributeParametersNode->ownerDocument;
+        $defaultValueNode = $dom->createElement( 'default-value', $defaultValue );
+        $attributeParametersNode->appendChild( $defaultValueNode );
         if ( $minMaxState == EZ_INTEGER_HAS_MIN_VALUE or $minMaxState == EZ_INTEGER_HAS_MIN_MAX_VALUE )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'min-value', $minValue ) );
+        {
+            $minValueNode = $dom->createElement( 'min-value', $minValue );
+            $attributeParametersNode->appendChild( $minValueNode );
+        }
         if ( $minMaxState == EZ_INTEGER_HAS_MAX_VALUE or $minMaxState == EZ_INTEGER_HAS_MIN_MAX_VALUE )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-value', $maxValue ) );
+        {
+            $maxValueNode = $dom->createElement( 'max-value', $maxValue );
+            $attributeParametersNode->appendChild( $maxValueNode );
+        }
     }
 
     /*!
@@ -488,9 +497,9 @@ class eZIntegerType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
-        $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );
-        $maxValue = $attributeParametersNode->elementTextContentByName( 'max-value' );
+        $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
+        $minValue = $attributeParametersNode->getElementsByTagName( 'min-value' )->item( 0 )->textContent;
+        $maxValue = $attributeParametersNode->getElementsByTagName( 'max-value' )->item( 0 )->textContent;
 
         if ( strlen( $minValue ) > 0 and strlen( $maxValue ) > 0 )
             $minMaxState = EZ_INTEGER_HAS_MIN_MAX_VALUE;

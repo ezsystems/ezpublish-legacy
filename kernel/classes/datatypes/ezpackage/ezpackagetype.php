@@ -248,7 +248,8 @@ class eZPackageType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $type = $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $type ) );
+        $typeNode = $attributeParametersNode->ownerDocument->createElement( 'type', $type );
+        $attributeParametersNode->appendChild( $typeNode );
     }
 
     /*!
@@ -256,7 +257,7 @@ class eZPackageType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $type = $attributeParametersNode->elementTextContentByName( 'type' );
+        $type = $attributeParametersNode->getElementsByTagName( 'type' )->item( 0 )->textContent;
         $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
     }
 

@@ -37,7 +37,6 @@
 
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
 class eZDBPackageHandler extends eZPackageHandler
@@ -227,10 +226,8 @@ class eZDBPackageHandler extends eZPackageHandler
         if ( $installNode->attributeValue( 'type' ) == 'sql' )
         {
             if ( !$export )
-                $installNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-path',
-                                                                                   $installItem['path'] ) );
-            $installNode->appendAttribute( eZDOMDocument::createAttributeNode( 'database-type',
-                                                                               $installItem['database-type'] ) );
+                $installNode->setAttribute( 'original-path', $installItem['path'] );
+            $installNode->setAttribute( 'database-type', $installItem['database-type'] );
             if ( $export )
             {
                 $originalPath = $package->path() . '/' . eZDBPackageHandler::sqlDirectory();
@@ -263,10 +260,10 @@ class eZDBPackageHandler extends eZPackageHandler
     */
     function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
     {
-        if ( $installNode->attributeValue( 'type' ) == 'sql' )
+        if ( $installNode->getAttribute( 'type' ) == 'sql' )
         {
-            $installParameters['path'] = $installNode->attributeValue( 'original-path' );
-            $installParameters['database-type'] = $installNode->attributeValue( 'database-type' );
+            $installParameters['path'] = $installNode->getAttribute( 'original-path' );
+            $installParameters['database-type'] = $installNode->getAttribute( 'database-type' );
         }
     }
 }

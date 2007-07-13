@@ -148,7 +148,8 @@ class eZSubtreeSubscriptionType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $value = $objectAttribute->attribute( 'data_int' );
-        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+        $valueNode = $node->ownerDocument->createElement( 'value', $value );
+        $node->appendChild( $valueNode );
 
         return $node;
     }
@@ -158,11 +159,8 @@ class eZSubtreeSubscriptionType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $value = $attributeNode->elementTextContentByName( 'value' );
-
-        if ( $value === false )
-            $value = 0;
-
+        $valueNode = $attributeNode->getElementsByTagName( 'value' )->item( 0 );
+        $value = $valueNode ? $valueNode->textContent : 0;
         $objectAttribute->setAttribute( 'data_int', $value );
     }
 

@@ -478,16 +478,22 @@ class eZMatrixType extends eZDataType
             $defaultName = $classAttribute->attribute( 'data_text1' );
             $defaultRowCount = $classAttribute->attribute( 'data_int1' );
             $columns = $content->attribute( 'columns' );
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-row-count', $defaultRowCount ) );
-            $columnsNode = eZDOMDocument::createElementNode( 'columns' );
+
+            $dom = $attributeParametersNode->ownerDocument;
+            $defaultNameNode = $dom->createElement( 'default-name', $defaultName );
+            $attributeParametersNode->appendChild( $defaultNameNode );
+            $defaultRowCountNode = $dom->createElement( 'default-row-count', $defaultRowCount );
+            $attributeParametersNode->appendChild( $defaultRowCountNode );
+            $columnsNode = $dom->createElement( 'columns' );
             $attributeParametersNode->appendChild( $columnsNode );
             foreach ( $columns as $column )
             {
-                $columnsNode->appendChild( eZDOMDocument::createElementNode( 'column',
-                                                                             array( 'name' => $column['name'],
-                                                                                    'identifier' => $column['identifier'],
-                                                                                    'index' => $column['index'] ) ) );
+                unset( $columnNode );
+                $columnNode = $dom->createElement( 'column' );
+                $columnNode->setAttribute( 'name', $column['name'] );
+                $columnNode->setAttribute( 'identifier', $column['identifier'] );
+                $columnNode->setAttribute( 'index', $column['index'] );
+                $columnsNode->appendChild( $columnNode );
             }
         }
     }
@@ -497,18 +503,18 @@ class eZMatrixType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
-        $defaultRowCount = $attributeParametersNode->elementTextContentByName( 'default-row-count' );
+        $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
+        $defaultRowCount = $attributeParametersNode->getElementsByTagName( 'default-row-count' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );
         $classAttribute->setAttribute( 'data_int1', $defaultRowCount );
 
         $matrixDefinition = new eZMatrixDefinition();
-        $columnsNode =& $attributeParametersNode->elementByName( 'columns' );
-        $columnsList = $columnsNode->children();
+        $columnsNode = $attributeParametersNode->getElementsByTagName( 'columns' )->item( 0 );
+        $columnsList = $columnsNode->getElementsByTagName( 'column' );
         foreach ( $columnsList  as $columnNode )
         {
-            $columnName = $columnNode->attributeValue( 'name' );
-            $columnIdentifier = $columnNode->attributeValue( 'identifier' );
+            $columnName = $columnNode->getAttribute( 'name' );
+            $columnIdentifier = $columnNode->getAttribute( 'identifier' );
             $matrixDefinition->addColumn( $columnName, $columnIdentifier );
         }
         $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
@@ -521,9 +527,11 @@ class eZMatrixType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $importedRoot = $node->ownerDocument->importNode( $dom->documentElement, true );
+        $node->appendChild( $importedRoot );
 
         return $node;
     }
@@ -533,8 +541,8 @@ class eZMatrixType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezmatrix' )->item( 0 );
+        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 }

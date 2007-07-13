@@ -421,11 +421,18 @@ class eZIdentifierType extends eZDataType
         $startValue = $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD );
         $identifier = $classAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD );
 
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'digits', $digits ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'pre-text', $preText ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'post-text', $postText ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'start-value', $startValue ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier', $identifier ) );
+        $dom = $attributeParametersNode->ownerDocument;
+
+        $digitsNode = $dom->createElement( 'digits', $digits );
+        $attributeParametersNode->appendChild( $digitsNode );
+        $preTextNode = $dom->createElement( 'pre-text', $preText );
+        $attributeParametersNode->appendChild( $preTextNode );
+        $postTextNode = $dom->createElement( 'post-text', $postText );
+        $attributeParametersNode->appendChild( $postTextNode );
+        $startValueNode = $dom->createElement( 'start-value', $startValue );
+        $attributeParametersNode->appendChild( $startValueNode );
+        $identifierNode = $dom->createElement( 'identifier', $identifier );
+        $attributeParametersNode->appendChild( $identifierNode );
     }
 
     /*!
@@ -433,11 +440,11 @@ class eZIdentifierType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $digits     = $attributeParametersNode->elementTextContentByName( 'digits' );
-        $preText    = $attributeParametersNode->elementTextContentByName( 'pre-text' );
-        $postText   = $attributeParametersNode->elementTextContentByName( 'post-text' );
-        $startValue = $attributeParametersNode->elementTextContentByName( 'start-value' );
-        $identifier = $attributeParametersNode->elementTextContentByName( 'identifier' );
+        $digits     = $attributeParametersNode->getElementsByTagName( 'digits' )->item( 0 )->textContent;
+        $preText    = $attributeParametersNode->getElementsByTagName( 'pre-text' )->item( 0 )->textContent;
+        $postText   = $attributeParametersNode->getElementsByTagName( 'post-text' )->item( 0 )->textContent;
+        $startValue = $attributeParametersNode->getElementsByTagName( 'start-value' )->item( 0 )->textContent;
+        $identifier = $attributeParametersNode->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
 
         if ( $digits !== false )
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD,      $digits );

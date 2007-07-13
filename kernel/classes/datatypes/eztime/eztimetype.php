@@ -344,20 +344,21 @@ class eZTimeType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
+        $dom = $attributeParametersNode->ownerDocument;
+
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
+        $defaultValueNode = $dom->createElement( 'default-value' );
         switch ( $defaultValue )
         {
             case EZ_DATATYPESTRING_TIME_DEFAULT_EMTPY:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' =>'empty' ) ) );
-            } break;
+                $defaultValueNode->setAttribute( 'type', 'empty' );
+                break;
+
             case EZ_DATATYPESTRING_TIME_DEFAULT_CURRENT_DATE:
-            {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' =>'current-date' ) ) );
-            } break;
+                $defaultValueNode->setAttribute( 'type', 'current-date' );
+                break;
         }
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
@@ -365,17 +366,17 @@ class eZTimeType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
-        $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+        $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
+        $defaultValue = strtolower( $defaultNode->getAttribute( 'type' ) );
         switch ( $defaultValue )
         {
             case 'empty':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT, EZ_DATATYPESTRING_TIME_DEFAULT_EMTPY );
             } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT, EZ_DATATYPESTRING_TIME_DEFAULT_CURRENT_DATE );
             } break;
         }
     }
@@ -395,7 +396,8 @@ class eZTimeType extends eZDataType
         if ( !is_null( $stamp ) )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'time', eZDateUtils::rfc1123Date( $stamp ) ) );
+            $dateNode = $node->ownerDocument->createElement( 'time', eZDateUtils::rfc1123Date( $stamp ) );
+            $node->appendChild( $dateNode );
         }
         return $node;
     }
@@ -408,13 +410,11 @@ class eZTimeType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $timeNode = $attributeNode->elementByName( 'time' );
+        $timeNode = $attributeNode->getElementsByTagName( 'time' )->item( 0 );
         if ( is_object( $timeNode ) )
-            $timestampNode = $timeNode->firstChild();
-        if ( is_object( $timestampNode ) )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
+            $timestamp = eZDateUtils::textToDate( $timeNode->textContent );
             $timeOfDay = null;
             if ( $timestamp >= 0 )
             {

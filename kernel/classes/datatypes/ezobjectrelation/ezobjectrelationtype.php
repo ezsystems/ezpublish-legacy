@@ -534,13 +534,19 @@ class eZObjectRelationType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'selection-type',
-                                                                                 array( 'id' => $content['selection_type'] ) ) );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'fuzzy-match',
-                                                                                 array( 'id' => $content['fuzzy_match'] ) ) );
+        $dom = $attributeParametersNode->ownerDocument;
+        $selectionTypeNode = $dom->createElement( 'selection-type' );
+        $selectionTypeNode->setAttribute( 'id', $content['selection_type'] );
+        $attributeParametersNode->appendChild( $selectionTypeNode );
+        $fuzzyMatchNode = $dom->createElement( 'fuzzy-match' );
+        $fuzzyMatchNode->setAttribute( 'id', $content['fuzzy_match'] );
+        $attributeParametersNode->appendChild( $fuzzyMatchNode );
         if ( $content['default_selection_node'] )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-selection',
-                                                                                     array( 'node-id' => $content['default_selection_node'] ) ) );
+        {
+            $defaultSelectionNode = $dom->createElement( 'default-selection' );
+            $defaultSelectionNode->setAttribute( 'node-id', $content['default_selection_node'] );
+            $attributeParametersNode->appendChild( $defaultSelectionNode );
+        }
     }
 
     /*!
@@ -549,20 +555,20 @@ class eZObjectRelationType extends eZDataType
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
-        $selectionTypeNode = $attributeParametersNode->elementByName( 'selection-type' );
+        $selectionTypeNode = $attributeParametersNode->getElementsByTagName( 'selection-type' )->item( 0 );
         $content['selection_type'] = 0;
         if ( $selectionTypeNode )
-            $content['selection_type'] = $selectionTypeNode->attributeValue( 'id' );
+            $content['selection_type'] = $selectionTypeNode->getAttribute( 'id' );
 
-        $fuzzyMatchNode = $attributeParametersNode->elementByName( 'fuzzy-match' );
+        $fuzzyMatchNode = $attributeParametersNode->getElementsByTagName( 'fuzzy-match' )->item( 0 );
         $content['fuzzy_match'] = false;
         if ( $fuzzyMatchNode )
-            $content['fuzzy_match'] = $fuzzyMatchNode->attributeValue( 'id' );
+            $content['fuzzy_match'] = $fuzzyMatchNode->getAttribute( 'id' );
 
-        $defaultSelectionNode = $attributeParametersNode->elementByName( 'default-selection' );
+        $defaultSelectionNode = $attributeParametersNode->getElementsByTagName( 'default-selection' )->item( 0 );
         $content['default_selection_node'] = false;
         if ( $defaultSelectionNode )
-            $content['default_selection_node'] = $defaultSelectionNode->attributeValue( 'node-id' );
+            $content['default_selection_node'] = $defaultSelectionNode->getAttribute( 'node-id' );
 
         $classAttribute->setContent( $content );
         $classAttribute->store();
@@ -588,7 +594,9 @@ class eZObjectRelationType extends eZDataType
             else
             {
                 $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
-                $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID ) );
+                $dom = $node->ownerDocument;
+                $relatedObjectRemoteIDNode = $dom->createElement( 'related-object-remote-id', $relatedObjectRemoteID );
+                $node->appendChild( $relatedObjectRemoteIDNode );
             }
         }
 
@@ -600,11 +608,12 @@ class eZObjectRelationType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $relatedObjectRemoteID = $attributeNode->elementTextContentByName( 'related-object-remote-id' );
+        $relatedObjectRemoteIDNode = $attributeNode->getElementsByTagName( 'related-object-remote-id' )->item( 0 );
         $relatedObjectID = null;
 
-        if ( $relatedObjectRemoteID != false )
+        if ( $relatedObjectRemoteIDNode )
         {
+            $relatedObjectRemoteID = $relatedObjectRemoteIDNode->textContent;
             $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
             if ( $object )
             {

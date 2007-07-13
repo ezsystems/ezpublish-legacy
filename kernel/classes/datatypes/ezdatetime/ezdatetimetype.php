@@ -305,11 +305,10 @@ class eZDateTimeType extends eZDataType
         $classAttribute->store();
     }
 
-    function &parseXML( $xmlText )
+    function parseXML( $xmlText )
     {
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-        $xml = new eZXML();
-        $dom = $xml->domTree( $xmlText );
+        $dom = new DOMDocument;
+        $success = $dom->loadXML( $xmlText );
         return $dom;
     }
 
@@ -317,36 +316,36 @@ class eZDateTimeType extends eZDataType
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
-        {  
+        {
             $classAttrContent = eZDateTimeType::defaultClassAttributeContent();
             return $classAttrContent;
-        }  
-        $doc =& eZDateTimeType::parseXML( $xmlText );
-        $root =& $doc->root();
-        $type = $root->elementByName( 'year' );
-        if ( $type )
-        {
-            $content['year'] = $type->attributeValue( 'value' );
         }
-        $type = $root->elementByName( 'month' );
+        $doc = eZDateTimeType::parseXML( $xmlText );
+        $root = $doc->documentElement;
+        $type = $root->getElementsByTagName( 'year' )->item( 0 );
         if ( $type )
         {
-            $content['month'] = $type->attributeValue( 'value' );
+            $content['year'] = $type->getAttribute( 'value' );
         }
-        $type = $root->elementByName( 'day' );
+        $type = $root->getElementsByTagName( 'month' )->item( 0 );
         if ( $type )
         {
-            $content['day'] = $type->attributeValue( 'value' );
+            $content['month'] = $type->getAttribute( 'value' );
         }
-        $type = $root->elementByName( 'hour' );
+        $type = $root->getElementsByTagName( 'day' )->item( 0 );
         if ( $type )
         {
-            $content['hour'] = $type->attributeValue( 'value' );
+            $content['day'] = $type->getAttribute( 'value' );
         }
-        $type = $root->elementByName( 'minute' );
+        $type = $root->getElementsByTagName( 'hour' )->item( 0 );
         if ( $type )
         {
-            $content['minute'] = $type->attributeValue( 'value' );
+            $content['hour'] = $type->getAttribute( 'value' );
+        }
+        $type = $root->getElementsByTagName( 'minute' )->item( 0 );
+        if ( $type )
+        {
+            $content['minute'] = $type->getAttribute( 'value' );
         }
         return $content;
     }
@@ -399,18 +398,19 @@ class eZDateTimeType extends eZDataType
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT,  $defaultValue );
             if ( $defaultValue == EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
             {
-                $doc = new eZDOMDocument( 'DateTimeAdjustments' );
-                $root = $doc->createElementNode( 'adjustment' );
+                $doc = new DOMDocument();
+                $root = $doc->createElement( 'adjustment' );
                 $contentList = eZDateTimeType::contentObjectArrayXMLMap();
                 foreach ( $contentList as $key => $value )
                 {
                     $postValue = $http->postVariable( $base . '_ezdatetime_' . $value . '_' . $classAttribute->attribute( 'id' ) );
                     unset( $elementType );
-                    $elementType = $doc->createElementNode( $key, array( 'value' => $postValue ) );
+                    $elementType = $doc->createElement( $key );
+                    $elementType->setAttribute( 'value', $postValue );
                     $root->appendChild( $elementType );
                 }
-                $doc->setRoot( $root );
-                $docText = $doc->toString();
+                $doc->appendChild( $root );
+                $docText = $doc->saveXML();
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
             }
         }
@@ -464,42 +464,46 @@ class eZDateTimeType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
+        $defaultValueNode = $attributeParametersNode->ownerDocument->createElement( 'default-value' );
+
         switch ( $defaultValue )
         {
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE:
             {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'current-date' ) ) );
+                $defaultValueNode->setAttribute( 'type', 'current-date' );
             } break;
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT:
             {
-                $xml = new eZXML();
+                $defaultValueNode->setAttribute( 'type', 'adjustment' );
+
+                $adjustDOMValue = new DOMDocument();
                 $adjustValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );
-                $adjustDOMValue =& $xml->domTree( $adjustValue );
-                $defaultNode = eZDOMDocument::createElementNode( 'default-value', array( 'type' => 'adjustment' ) );
-                if ( $adjustDOMValue )
+                $success = $adjustDOMValue->loadXML( $adjustValue );
+
+                if ( $success )
                 {
-                    $adjustmentNodeList =& $adjustDOMValue->elementsByName( 'adjustment' );
-                    if ( $adjustmentNodeList )
+                    $adjustmentNode = $adjustDOMValue->getElementsByTagName( 'adjustment' )->item( 0 );
+
+                    if ( $adjustmentNode )
                     {
-                        $defaultNode->appendChild( $adjustmentNodeList[0] );
+                        $importedAdjustmentNode = $defaultValueNode->ownerDocument->importNode( $adjustmentNode, true );
+                        $defaultValueNode->appendChild( $importedAdjustmentNode );
                     }
                 }
-                $attributeParametersNode->appendChild( $defaultNode );
             } break;
             case EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY:
             {
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'empty' ) ) );
+                $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
             default:
             {
                 eZDebug::writeError( 'Unknown type of DateTime default value. Empty type used instead.',
                                      'eZDateTimeType::serializeContentClassAttribute()' );
-                $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',
-                                                                                         array( 'type' => 'empty' ) ) );
+                $defaultValueNode->setAttribute( 'type', 'empty' );
             } break;
         }
+
+        $attributeParametersNode->appendChild( $defaultValueNode );
     }
 
     /*!
@@ -508,10 +512,10 @@ class eZDateTimeType extends eZDataType
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = '';
-        $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
+        $defaultNode = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 );
         if ( $defaultNode )
         {
-            $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );
+            $defaultValue = strtolower( $defaultNode->getAttribute( 'type' ) );
         }
         switch ( $defaultValue )
         {
@@ -522,12 +526,13 @@ class eZDateTimeType extends eZDataType
             case 'adjustment':
             {
                 $adjustmentValue = '';
-                $adjustmentNode =& $defaultNode->elementByName( 'adjustment' );
+                $adjustmentNode = $defaultNode->getElementsByTagName( 'adjustment' )->item( 0 );
                 if ( $adjustmentNode )
                 {
-                    $adjustmentDOMValue = new eZDOMDocument();
-                    $adjustmentDOMValue->setRoot( $adjustmentNode );
-                    $adjustmentValue = $adjustmentDOMValue->toString();
+                    $adjustmentDOMValue = new DOMDocument();
+                    $importedAdjustmentNode = $adjustmentDOMValue->importNode( $adjustmentNode, true );
+                    $adjustmentDOMValue->appendChild( $importedAdjustmentNode );
+                    $adjustmentValue = $adjustmentDOMValue->saveXML();
                 }
 
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT );
@@ -558,8 +563,8 @@ class eZDateTimeType extends eZDataType
         if ( $stamp )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $datetext = eZDateUtils::rfc1123Date( $stamp );
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'date_time', $datetext ) );
+            $dateTimeNode = $node->ownerDocument->createElement( 'date_time', eZDateUtils::rfc1123Date( $stamp ) );
+            $node->appendChild( $dateTimeNode );
         }
 
         return $node;
@@ -570,16 +575,12 @@ class eZDateTimeType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $dateTimeNode = $attributeNode->elementByName( 'date_time' );
+        $dateTimeNode = $attributeNode->getElementsByTagName( 'date_time' )->item( 0 );
         if ( is_object( $dateTimeNode ) )
         {
-            $timestampNode = $dateTimeNode->firstChild();
-            if ( is_object( $timestampNode ) )
-            {
-                include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-                $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
-                $objectAttribute->setAttribute( 'data_int', $timestamp );
-            }
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $timestamp = eZDateUtils::textToDate( $dateTimeNode->textContent );
+            $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
 }

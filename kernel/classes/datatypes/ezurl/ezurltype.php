@@ -297,23 +297,26 @@ class eZURLType extends eZDataType
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $dom = $node->ownerDocument;
 
         $url = eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
-            $urlNode = eZDOMDocument::createElementNode( 'url' );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-url-md5', $url->attribute( 'original_url_md5' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-valid', $url->attribute( 'is_valid' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'last-checked', $url->attribute( 'last_checked' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', $url->attribute( 'created' ) ) );
-            $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', $url->attribute( 'modified' ) ) );
-            $urlNode->appendChild( eZDOMDocument::createTextNode( $url->attribute( 'url' ) ) );
+            $urlNode = $dom->createElement( 'url', $url->attribute( 'url' ) );
+            $urlNode->setAttribute( 'original-url-md5', $url->attribute( 'original_url_md5' ) );
+            $urlNode->setAttribute( 'is-valid', $url->attribute( 'is_valid' ) );
+            $urlNode->setAttribute( 'last-checked', $url->attribute( 'last_checked' ) );
+            $urlNode->setAttribute( 'created', $url->attribute( 'created' ) );
+            $urlNode->setAttribute( 'modified', $url->attribute( 'modified' ) );
             $node->appendChild( $urlNode );
         }
 
         if ( $objectAttribute->attribute( 'data_text' ) )
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'text', $objectAttribute->attribute( 'data_text' ) ) );
+        {
+            $textNode = $dom->createElement( 'text', $objectAttribute->attribute( 'data_text' ) );
+            $node->appendChild( $textNode );
+        }
 
         return $node;
     }
@@ -322,25 +325,25 @@ class eZURLType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $urlNode =& $attributeNode->elementByName( 'url' );
-        $urlTextNode = is_object( $urlNode ) ? $urlNode->firstChild() : null;
-        if ( is_object( $urlTextNode ) )
+        $urlNode = $attributeNode->getElementsByTagName( 'url' )->item( 0 );
+
+        if ( is_object( $urlNode ) )
         {
             unset( $url );
-            $url =& $urlTextNode->content();
+            $url = $urlNode->textContent;
 
             $urlID = eZURL::registerURL( $url );
             if ( $urlID )
             {
                 $urlObject = eZURL::fetch( $urlID );
 
-                $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
-                $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );
-                $urlObject->setAttribute( 'last_checked', $urlNode->attributeValue( 'last-checked' ) );
+                $urlObject->setAttribute( 'original_url_md5', $urlNode->getAttribute( 'original-url-md5' ) );
+                $urlObject->setAttribute( 'is_valid', $urlNode->getAttribute( 'is-valid' ) );
+                $urlObject->setAttribute( 'last_checked', $urlNode->getAttribute( 'last-checked' ) );
                 $urlObject->setAttribute( 'created', time() );
                 $urlObject->setAttribute( 'modified', time() );
                 $urlObject->store();
@@ -348,8 +351,10 @@ class eZURLType extends eZDataType
                 $objectAttribute->setAttribute( 'data_int', $urlID );
             }
         }
-        if ( $attributeNode->elementTextContentByName( 'text' ) )
-            $objectAttribute->setAttribute( 'data_text', $attributeNode->elementTextContentByName( 'text' ) );
+
+        $textNode = $attributeNode->getElementsByTagName( 'text' )->item( 0 );
+        if ( $textNode )
+            $objectAttribute->setAttribute( 'data_text', $textNode->textContent );
     }
 }
 

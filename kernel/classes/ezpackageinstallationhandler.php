@@ -315,7 +315,7 @@ class eZPackageInstallationHandler
                 }
                 else
                 {
-                    $handler =& new $handlerClassName( $package, $handlerName, $installItem );
+                    $handler = new $handlerClassName( $package, $handlerName, $installItem );
                     $handlers[$result['type']] =& $handler;
                 }
 
@@ -328,7 +328,7 @@ class eZPackageInstallationHandler
                     $handlerFile = $customInstallHandler['file-path'];
 
                     include_once( $handlerFile );
-                    $handler =& new $handlerClassName( $package, $handlerName, $installItem );
+                    $handler = new $handlerClassName( $package, $handlerName, $installItem );
                 }
             }
         }
@@ -370,10 +370,10 @@ class eZPackageInstallationHandler
 
             $filepath = $this->Package->path() . '/' . $filepath;
 
-            $dom =& $this->Package->fetchDOMFromFile( $filepath );
+            $dom = $this->Package->fetchDOMFromFile( $filepath );
             if ( $dom )
             {
-                $this->InstallItem['content'] =& $dom->root();
+                $this->InstallItem['content'] = $dom->documentElement;
             }
             else
             {

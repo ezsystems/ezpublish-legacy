@@ -2414,6 +2414,7 @@ class eZContentObject extends eZPersistentObject
     */
     function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
     {
+        $debug = eZDebug::instance();
         if ( $attributeID !== 0 )
         {
             $relationType = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
@@ -2423,7 +2424,7 @@ class eZContentObject extends eZPersistentObject
         if ( ( $relationType & EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE ) != 0 &&
              $relationType != EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
         {
-            eZDebug::writeWarning( "Object relation type conflict", "eZContentObject::addContentObjectRelation");
+            $debug->writeWarning( "Object relation type conflict", "eZContentObject::addContentObjectRelation");
         }
 
         $db = eZDB::instance();
@@ -2436,7 +2437,6 @@ class eZContentObject extends eZPersistentObject
 
         if ( !is_numeric( $toObjectID ) )
         {
-            $debug = eZDebug::instance();
             $debug->writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
                                  "eZContentObject::addContentObjectRelation" );
             return false;
@@ -4663,25 +4663,25 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function &unserialize( &$package, &$domNode, &$options, $ownerID = false, $handlerType = 'ezcontentobject' )
+    static function unserialize( $package, $domNode, &$options, $ownerID = false, $handlerType = 'ezcontentobject' )
     {
-        if ( $domNode->name() != 'object' )
+        if ( $domNode->localName != 'object' )
         {
             $retValue = false;
             return $retValue;
         }
 
-        $sectionID = $domNode->attributeValue( 'section_id' );
+        $sectionID = $domNode->getAttribute( 'section_id' );
         if ( $ownerID === false )
         {
-            $ownerID = $domNode->attributeValue( 'owner_id' );
+            $ownerID = $domNode->getAttribute( 'owner_id' );
         }
-        $remoteID = $domNode->attributeValue( 'remote_id' );
-        $name = $domNode->attributeValue( 'name' );
-        $classRemoteID = $domNode->attributeValue( 'class_remote_id' );
-        $classIdentifier = $domNode->attributeValue( 'class_identifier' );
-        $initialLanguage = eZContentObject::mapLanguage( $domNode->attributeValue( 'initial_language' ), $options );
-        $alwaysAvailable = ( $domNode->attributeValue( 'always_available' ) == '1' );
+        $remoteID = $domNode->getAttribute( 'remote_id' );
+        $name = $domNode->getAttribute( 'name' );
+        $classRemoteID = $domNode->getAttribute( 'class_remote_id' );
+        $classIdentifier = $domNode->getAttribute( 'class_identifier' );
+        $initialLanguage = eZContentObject::mapLanguage( $domNode->getAttribute( 'initial_language' ), $options );
+        $alwaysAvailable = ( $domNode->getAttribute( 'always_available' ) == '1' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
         /*if ( !$contentClass )
@@ -4698,18 +4698,14 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
-        $versionListNode =& $domNode->elementByName( 'version-list' );
+        $versionListNode = $domNode->getElementsByTagName( 'version-list' )->item( 0 );
 
         $importedLanguages = array();
-        foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
+        foreach( $versionListNode->getElementsByTagName( 'version' ) as $versionDOMNode )
         {
-            foreach ( $versionDOMNode->children() as $versionDOMNodeChild )
+            foreach ( $versionDOMNode->getElementsByTagName( 'object-translation' ) as $versionDOMNodeChild )
             {
-                if ( $versionDOMNodeChild->name() != 'object-translation' )
-                {
-                    continue;
-                }
-                $importedLanguage = eZContentObject::mapLanguage( $versionDOMNodeChild->attributeValue( 'language' ), $options );
+                $importedLanguage = eZContentObject::mapLanguage( $versionDOMNodeChild->getAttribute( 'language' ), $options );
                 $language = eZContentLanguage::fetchByLocale( $importedLanguage );
                 // Check if the language is allowed in this setup.
                 if ( $language )
@@ -4814,7 +4810,7 @@ class eZContentObject extends eZPersistentObject
         $activeVersion = false;
         $lastVersion = false;
         $firstVersion = true;
-        $versionListActiveVersion = $versionListNode->attributeValue( 'active_version' );
+        $versionListActiveVersion = $versionListNode->getAttribute( 'active_version' );
 
         $contentObject->setAttribute( 'remote_id', $remoteID );
         $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
@@ -4822,7 +4818,7 @@ class eZContentObject extends eZPersistentObject
 
         $options['language_array'] = $importedLanguages;
         $versionList = array();
-        foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
+        foreach( $versionListNode->getElementsByTagName( 'version' ) as $versionDOMNode )
         {
             unset( $nodeList );
             $nodeList = array();
@@ -4844,14 +4840,14 @@ class eZContentObject extends eZPersistentObject
                 return $retValue;
             }
 
-            $versionStatus = $versionDOMNode->attributeValue( 'status' ); // we're really getting value of ezremote:status here
-            $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList,
-                                                                                'status' =>    $versionStatus );
+            $versionStatus = $versionDOMNode->getAttributeNS( 'http://ez.no/ezobject', 'status' );
+            $versionList[$versionDOMNode->getAttributeNS( 'http://ez.no/ezobject', 'version' )] = array( 'node_list' => $nodeList,
+                                                                                                         'status' =>    $versionStatus );
             unset( $versionStatus );
 
             $firstVersion = false;
             $lastVersion = $contentObjectVersion->attribute( 'version' );
-            if ( $versionDOMNode->attributeValue( 'version' ) == $versionListActiveVersion )
+            if ( $versionDOMNode->getAttribute( 'version' ) == $versionListActiveVersion )
             {
                 $activeVersion = $contentObjectVersion->attribute( 'version' );
             }
@@ -4938,24 +4934,6 @@ class eZContentObject extends eZPersistentObject
                 $parentNode->store( array( 'priority' ) );
             }
         }
-        /*if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
-            $contentObject = eZContentObject::fetch( $contentObject->attribute( 'id' ) );
-            $contentObject->setAttribute( 'published', $published );
-            $contentObject->store( array( 'published' ) );
-        }*/
-
-        /*if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
-
-            unset( $contentObject );
-            $contentObject = eZContentObject::fetch( $objectID );
-            $contentObject->setAttribute( 'modified', $modified );
-        }*/
 
         $db->commit();
 
@@ -5001,34 +4979,32 @@ class eZContentObject extends eZPersistentObject
         }
 
         include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
-        include_once( 'lib/ezxml/classes/ezdomnode.php' );
-        $objectNode = new eZDOMNode();
 
-        $objectNode->setName( 'object' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'ezremote', 'http://ez.no/ezobject', 'xmlns' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $this->ID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->Name ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'section_id', $this->SectionID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'owner_id', $this->OwnerID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_id', $this->ClassID, 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ), 'ezremote' ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
+        $dom = new DomDocument();
+        $objectNode = $dom->createElementNS( 'http://ez.no/ezobject', 'ezremote:object' );
+
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:id', $this->ID );
+        $objectNode->setAttribute( 'name', $this->Name );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:section_id', $this->SectionID );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:owner_id', $this->OwnerID );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:class_id', $this->ClassID );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ) );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ) );
         if ( !$this->attribute( 'remote_id' ) )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() ) . (string)time() );
             $this->store();
         }
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote_id', $this->attribute( 'remote_id' ) ) );
+        $objectNode->setAttribute( 'remote_id', $this->attribute( 'remote_id' ) );
         $contentClass =& $this->attribute( 'content_class' );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_remote_id', $contentClass->attribute( 'remote_id' ) ) );
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'class_identifier', $contentClass->attribute( 'identifier' ), 'ezremote' ) );
+        $objectNode->setAttribute( 'class_remote_id', $contentClass->attribute( 'remote_id' ) );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:class_identifier', $contentClass->attribute( 'identifier' ) );
         $alwaysAvailableText = '0';
         if ( (int)$this->attribute( 'language_mask' ) & 1 )
         {
             $alwaysAvailableText = '1';
         }
-        $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'always_available', $alwaysAvailableText, 'ezremote' ) );
+        $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:always_available', $alwaysAvailableText );
 
         $versions = array();
         $oneLanguagePerVersion = false;
@@ -5055,10 +5031,8 @@ class eZContentObject extends eZPersistentObject
 
         $exportedLanguages = array();
 
-        $versionsNode = new eZDOMNode();
-        $versionsNode->setName( 'version-list' );
-        $versionsNode->appendAttribute( eZDOMDocument::createAttributeNode( 'active_version', $this->CurrentVersion ) );
-        $versionsNode->appendAttribute( eZDOMDocument::createAttributeNamespaceDefNode( "ezobject", "http://ez.no/object/" ) );
+        $versionsNode = $dom->createElementNS( 'http://ez.no/object/', 'ezobject:version-list' );
+        $versionsNode->setAttribute( 'active_version', $this->CurrentVersion );
         foreach ( $versions as $version )
         {
             if ( !$version )
@@ -5069,14 +5043,11 @@ class eZContentObject extends eZPersistentObject
             $versionNode = $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             if ( $versionNode )
             {
-                $versionsNode->appendChild( $versionNode );
-                foreach ( $versionNode->children() as $versionNodeChild )
+                $importedVersionNode = $dom->importNode( $versionNode, true );
+                $versionsNode->appendChild( $importedVersionNode );
+                foreach ( $versionNode->getElementsByTagName( 'object-translation' ) as $versionNodeChild )
                 {
-                    if ( $versionNodeChild->name() != 'object-translation' )
-                    {
-                        continue;
-                    }
-                    $exportedLanguage = $versionNodeChild->attributeValue( 'language' );
+                    $exportedLanguage = $versionNodeChild->getAttribute( 'language' );
                     $exportedLanguages[] = $exportedLanguage;
                     $exportedLanguages = array_unique( $exportedLanguages );
                 }
@@ -5087,7 +5058,7 @@ class eZContentObject extends eZPersistentObject
         $initialLanguageCode = $this->attribute( 'initial_language_code' );
         if ( in_array( $initialLanguageCode, $exportedLanguages ) )
         {
-            $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'initial_language', $initialLanguageCode ) );
+            $objectNode->setAttribute( 'initial_language', $initialLanguageCode );
         }
         $objectNode->appendChild( $versionsNode );
         return $objectNode;

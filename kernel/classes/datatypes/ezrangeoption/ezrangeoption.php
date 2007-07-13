@@ -128,21 +128,16 @@ class eZRangeOption
 
     function decodeXML( $xmlString )
     {
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-
-        $xml = new eZXML();
-
-
-        $dom = $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlString );
 
         if ( $xmlString != "" )
         {
             // set the name of the node
-            $rangeOptionElement =& $dom->root( );
-//            $rangeOptionElement =& $rangeoptionElements[0];
-            $startValue = $rangeOptionElement->attributeValue( 'start_value' );
-            $stopValue = $rangeOptionElement->attributeValue( 'stop_value' );
-            $stepValue = $rangeOptionElement->attributeValue( 'step_value' );
+            $rangeOptionElement = $dom->documentElement;
+            $startValue = $rangeOptionElement->getAttribute( 'start_value' );
+            $stopValue = $rangeOptionElement->getAttribute( 'stop_value' );
+            $stepValue = $rangeOptionElement->getAttribute( 'step_value' );
             if ( $stepValue == 0 )
                 $stepValue = 1;
             $this->StartValue = $startValue;
@@ -150,10 +145,10 @@ class eZRangeOption
             $this->StepValue = $stepValue;
 
 
-            $nameArray =& $dom->elementsByName( "name" );
-            $this->setName( $nameArray[0]->textContent() );
+            $nameNode = $dom->getElementsByTagName( "name" )->item( 0 );
+            $this->setName( $nameNode->textContent );
 
-            for ( $i=$startValue;$i<=$stopValue;$i+=$stepValue )
+            for ( $i = $startValue; $i <= $stopValue; $i += $stepValue )
             {
                 $this->addOption( array( 'value' => $i,
                                          'additional_price' => 0 ) );
@@ -170,27 +165,20 @@ class eZRangeOption
     /*!
      Will return the XML string for this option set.
     */
-    function &xmlString( )
+    function xmlString( )
     {
-        include_once( 'lib/ezxml/classes/ezdomdocument.php' );
+        $doc = new DOMDocument();
 
-        $doc = new eZDOMDocument( "Option" );
+        $root = $doc->createElement( "ezrangeoption" );
+        $root->setAttribute( "start_value", $this->StartValue );
+        $root->setAttribute( "stop_value", $this->StopValue );
+        $root->setAttribute( "step_value", $this->StepValue );
+        $doc->appendChild( $root );
 
-        $root = $doc->createElementNode( "ezrangeoption" );
-        $root->appendAttribute( $doc->createAttributeNode( "start_value", $this->StartValue ) );
-        $root->appendAttribute( $doc->createAttributeNode( "stop_value", $this->StopValue ) );
-        $root->appendAttribute( $doc->createAttributeNode( "step_value", $this->StepValue ) );
-        $doc->setRoot( $root );
-
-        $name = $doc->createElementNode( "name" );
-        $nameValue = $doc->createTextNode( $this->Name );
-        $name->appendChild( $nameValue );
-
-        $name->setContent( $this->Name() );
-
+        $name = $doc->createElement( "name", $this->Name );
         $root->appendChild( $name );
 
-        $xml = $doc->toString();
+        $xml = $doc->saveXML();
 
         return $xml;
     }

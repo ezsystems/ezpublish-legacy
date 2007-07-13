@@ -318,9 +318,12 @@ class eZAuthorType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-        $node->appendChild( $domDocument->root() );
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
+
+        $nodeDOM = $node->ownerDocument;
+        $importedElement = $nodeDOM->importNode( $dom->documentElement, true );
+        $node->appendChild( $importedElement );
 
         return $node;
     }
@@ -330,12 +333,13 @@ class eZAuthorType extends eZDataType
 
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+        $rootNode = $attributeNode->getElementsByTagName( 'ezauthor' )->item( 0 );
+        $xmlString = $rootNode->ownerDocument->saveXML( $rootNode );
+        $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
 }

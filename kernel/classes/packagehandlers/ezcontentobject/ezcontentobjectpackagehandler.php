@@ -49,7 +49,6 @@ define( 'EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_TO', 100 );
 define( 'EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_FROM', 101 );
 define( 'EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_TO', 200 );
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
@@ -75,7 +74,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         if ( $dom )
         {
-            $objectNode =& $dom->root();
+            $objectNode = $dom->documentElement;
         }
         else
         {
@@ -89,9 +88,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
     function getRealObjectNode( $objectNode )
     {
-        if ( $objectNode->nodeName == 'object' )
+        if ( $objectNode->localName == 'object' )
         {
-            $realObjectNode =& $objectNode;
+            $realObjectNode = $objectNode;
         }
         else
         {
@@ -130,22 +129,22 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             $filepath = $package->path() . '/' . $filepath;
 
-            $dom =& $package->fetchDOMFromFile( $filepath );
+            $dom = $package->fetchDOMFromFile( $filepath );
 
             if ( !$dom )
                 return null;
 
-            $content =& $dom->root();
-            $objectListNode = $content->elementByName( 'object-list' );
+            $content = $dom->documentElement;
+            $objectListNode = $content->getElementsByTagName( 'object-list' )->item( 0 );
             if ( $objectListNode )
             {
-                $realObjectNodes =& $objectListNode->Children;
+                $realObjectNodes = $objectListNode->getElementsByTagName( 'object' );
             }
             else
             {
                 // If objects are stored in separate files (new format)
-                $objectListNode = $content->elementByName( 'object-files-list' );
-                $objectNodes = $objectListNode->Children;
+                $objectListNode = $content->getElementsByTagName( 'object-files-list' )->item( 0 );
+                $objectNodes = $objectListNode->getElementsByTagName( 'object-file' );
 
                 if ( count( $objectNodes ) > EZ_PACKAGE_CONTENTOBJECT__MAX_LISTED_OBJECTS_NUMBER )
                 {
@@ -169,11 +168,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $objectNames = array();
             foreach( $realObjectNodes as $objectNode )
             {
-                // We use attributeValue() method to get value of 'ezremote:class_identifier' attribute
-                // since getAttribute() does not support specifying prefixes.
                 $objectName =
                     $objectNode->getAttribute( 'name' ) .
-                    ' (' . $objectNode->attributeValue( 'class_identifier' ) .')';
+                    ' (' . $objectNode->getAttributeNS( 'http://ez.no/ezobject', 'class_identifier' ) .')';
                 $objectNames[] = array( 'description' =>
                                          ezi18n( 'kernel/package', 'Content object %objectname', false,
                                                  array( '%objectname' => $objectName ) ) );
@@ -240,30 +237,38 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
         }
 
-        $packageRoot = eZDOMDocument::createElementNode( 'content-object' );
+        $dom = new DOMDocument();
+        $packageRoot = $dom->createElement( 'content-object' );
+        $dom->appendChild( $packageRoot );
 
         $objectListDOMNode = $this->createObjectListNode( $options );
-        $packageRoot->appendChild( $objectListDOMNode );
+        $importedObjectListDOMNode = $dom->importNode( $objectListDOMNode, true );
+        $packageRoot->appendChild( $importedObjectListDOMNode );
 
         $overrideSettingsArray = false;
         $templateFilenameArray = false;
         if ( $options['include_templates'] )
         {
-            $overrideSettingsListNode =& $this->generateOverrideSettingsArray( $options['site_access_array'], $options['minimal_template_set'] );
-            $packageRoot->appendChild( $overrideSettingsListNode );
+            $overrideSettingsListNode = $this->generateOverrideSettingsArray( $options['site_access_array'], $options['minimal_template_set'] );
+            $importedOverrideSettingsListNode = $dom->importNode( $overrideSettingsListNode, true );
+            $packageRoot->appendChild( $importedOverrideSettingsListNode );
 
-            $designTemplateListNode =& $this->generateTemplateFilenameArray();
-            $packageRoot->appendChild( $designTemplateListNode );
+            $designTemplateListNode = $this->generateTemplateFilenameArray();
+            $importedDesignTemplateListNode = $dom->importNode( $designTemplateListNode, true );
+            $packageRoot->appendChild( $importedDesignTemplateListNode );
 
-            $fetchAliasListNode =& $this->generateFetchAliasArray();
-            $packageRoot->appendChild( $fetchAliasListNode );
+            $fetchAliasListNode = $this->generateFetchAliasArray();
+            $importedFetchAliasListNode = $dom->importNode( $fetchAliasListNode, true );
+            $packageRoot->appendChild( $importedFetchAliasListNode );
         }
 
         $siteAccessListDOMNode = $this->createSiteAccessListNode( $options );
-        $packageRoot->appendChild( $siteAccessListDOMNode );
+        $importedSiteAccessListDOMNode = $dom->importNode( $siteAccessListDOMNode, true );
+        $packageRoot->appendChild( $importedSiteAccessListDOMNode );
 
         $topNodeListDOMNode = $this->createTopNodeListDOMNode( $options );
-        $packageRoot->appendChild( $topNodeListDOMNode );
+        $importedTopNodeListDOMNode = $dom->importNode( $topNodeListDOMNode, true );
+        $packageRoot->appendChild( $importedTopNodeListDOMNode );
 
         //$filename = substr( md5( mt_rand() ), 0, 8 );
         $filename = 'contentobjects';
@@ -283,13 +288,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function createTopNodeListDOMNode( $options )
     {
-        $topNodeListDOMNode = eZDOMDocument::createElementNode( 'top-node-list' );
+        $dom = new DOMDocument();
+        $topNodeListDOMNode = $dom->createElement( 'top-node-list' );
+        $dom->appendChild( $topNodeListDOMNode );
 
-        foreach( $this->RootNodeObjectArray as $topNode )
+        foreach( $this->RootNodeObjectArray as $rootNode )
         {
-            $topNodeListDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'top-node', $topNode->attribute( 'name' ),
-                                                                                    array( 'node-id' => $topNode->attribute( 'node_id' ),
-                                                                                           'remote-id' => $topNode->attribute( 'remote_id' ) ) ) );
+            unset( $topNode );
+            $topNode = $dom->createElement( 'top-node', $rootNode->attribute( 'name' ) );
+            $topNode->setAttribute( 'node-id', $rootNode->attribute( 'node_id' ) );
+            $topNode->setAttribute( 'remote-id', $rootNode->attribute( 'remote_id' ) );
+            $topNodeListDOMNode->appendChild( $topNode );
         }
 
         return $topNodeListDOMNode;
@@ -303,10 +312,15 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function createSiteAccessListNode( $options )
     {
-        $siteAccessListDOMNode = eZDOMDocument::createElementNode( 'site-access-list' );
+        $dom = new DOMDocument();
+        $siteAccessListDOMNode = $dom->createElement( 'site-access-list' );
+        $dom->appendChild( $siteAccessListDOMNode );
+
         foreach( $options['site_access_array'] as $siteAccess )
         {
-            $siteAccessListDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'site-access', $siteAccess ) );
+            unset( $siteAccessNode );
+            $siteAccessNode = $dom->createElement( 'site-access', $siteAccess );
+            $siteAccessListDOMNode->appendChild( $siteAccessNode );
         }
 
         return $siteAccessListDOMNode;
@@ -333,12 +347,16 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( !file_exists( $path ) )
                 eZDir::mkdir( $path, eZDir::directoryPermission(), true );
 
+        $dom = new DOMDocument();
+
         // Store objects to separate files or not
         $storeToMultiple = count( $this->ObjectArray ) >= EZ_PACKAGE_CONTENTOBJECT__STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD ? true : false;
         if ( $storeToMultiple )
-            $objectListNode = eZDOMDocument::createElementNode( 'object-files-list' );
+            $objectListNode = $dom->createElement( 'object-files-list' );
         else
-            $objectListNode = eZDOMDocument::createElementNode( 'object-list' );
+            $objectListNode = $dom->createElement( 'object-list' );
+
+        $dom->appendChild( $objectListNode );
 
         foreach( array_keys( $this->ObjectArray ) as $objectID )
         {
@@ -349,19 +367,21 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $fileName = 'object-' . $objectNode->getAttribute( 'remote_id' ) . '.xml';
                 $filePath = $path . '/' . $fileName;
 
-                $objectFileNode = eZDOMDocument::createElementNode( 'object-file' );
+                $objectFileNode = $dom->createElement( 'object-file' );
                 $objectFileNode->setAttribute( 'filename', $fileName );
                 $objectListNode->appendChild( $objectFileNode );
 
-                $partDOM = new eZDOMDocument();
-                $partDOM->setRoot( $objectNode );
+                $partDOM = new DOMDocument();
+                $importedObjectNode = $partDOM->importNode( $objectNode, true );
+                $partDOM->appendChild( $importedObjectNode );
                 $this->Package->storeDOM( $filePath, $partDOM );
                 unset( $partDOM );
                 unset( $objectFileNode );
             }
             else
             {
-                $objectListNode->appendChild( $objectNode );
+                $importedObjectNode = $dom->importNode( $objectNode, true );
+                $objectListNode->appendChild( $importedObjectNode );
             }
             unset( $objectNode );
         }
@@ -399,7 +419,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function &generateFetchAliasArray()
     {
-        $fetchAliasListDOMNode = eZDOMDocument::createElementNode( 'fetch-alias-list' );
+        $dom = new DOMDocument();
+        $fetchAliasListDOMNode = $dom->createElement( 'fetch-alias-list' );
         $registeredAliases = array();
 
         foreach( array_keys( $this->TemplateFileArray ) as $siteAccess )
@@ -433,8 +454,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     $registeredAliases[$fetchAlias] = true;
 
                     unset( $fetchAliasDOMNode );
-                    $fetchAliasDOMNode = eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
-                                                                                                  'site-access' => $siteAccess ) );
+                    $fetchAliasDOMNode = $dom->createElement( 'fetch-alias' );
+                    $fetchAliasDOMNode->setAttribute( 'name', $fetchAlias );
+                    $fetchAliasDOMNode->setAttribute( 'site-access', $siteAccess );
 
                     $fetchBlock = $aliasINI->group( $fetchAlias );
                     if ( isset( $fetchBlock['Constant'] ) )
@@ -467,7 +489,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                             }
                         }
                     }
-                    $fetchAliasDOMNode->appendChild( eZDOMDocument::createElementNodeFromArray( $fetchAlias,  $fetchBlock ) );
+                    $fetchAliasDOMNode->appendChild( eZContentObjectPackageHandler::createElementNodeFromArray( $fetchAlias,  $fetchBlock ) );
                     $fetchAliasListDOMNode->appendChild( $fetchAliasDOMNode );
                 }
             }
@@ -480,7 +502,10 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function &generateTemplateFilenameArray()
     {
-        $templateListDOMNode = eZDOMDocument::createElementNode( 'template-list' );
+        $dom = new DOMDocument();
+
+        $templateListDOMNode = $dom->createElement( 'template-list' );
+        $dom->appendChild( $templateListDOMNode );
 
         include_once( 'kernel/common/eztemplatedesignresource.php' );
 
@@ -503,7 +528,10 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     else if ( count( array_diff( $customMatch['conditions'], $override['Match'] ) ) == 0 &&
                               count( array_diff( $override['Match'], $customMatch['conditions'] ) ) == 0 )
                     {
-                        $templateListDOMNode->appendChild( $this->createDOMNodeFromFile( $customMatch['match_file'], $siteAccess, 'design' ) );
+                        unset( $node );
+                        $node = $this->createDOMNodeFromFile( $customMatch['match_file'], $siteAccess, 'design' );
+                        $importedNode = $dom->importNode( $node, true );
+                        $templateListDOMNode->appendChild( $importedNode );
                         $this->TemplateFileArray[$siteAccess][] = $customMatch['match_file'];
                     }
                 }
@@ -532,9 +560,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         $path = substr( $filename, strpos( $filename, '/', 7 ) );
 
-        $fileDOMNode = eZDOMDocument::createElementNode( 'file', $fileAttributes );
-        $fileDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'original-path', $filename ) );
-        $fileDOMNode->appendChild( eZDOMDocument::createElementTextNode( 'path', $path ) );
+        $dom = new DOMDocument();
+        $fileDOMNode = $dom->createElement( 'file', $fileAttributes );
+        $dom->appendChild( $fileDOMNode );
+        $originalPathNode = $dom->createElement( 'original-path', $filename );
+        $fileDOMNode->appendChild( $originalPathNode );
+        $pathNode = $dom->createElement( 'path', $path );
+        $fileDOMNode->appendChild( $pathNode );
 
         $destinationPath = $this->Package->path() . '/' .  eZContentObjectPackageHandler::contentObjectDirectory() . '/' . $path;
         eZDir::mkdir( eZDir::dirpath( $destinationPath ),  eZDir::directoryPermission(),  true );
@@ -568,8 +600,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 // Extract some information that will be used
                 unset( $contentNode, $contentObject, $contentClass );
                 $contentNode =& $this->NodeObjectArray[$nodeID];
-                $contentObject =& $contentNode->attribute( 'object' );
-                $contentClass =& $contentObject->attribute( 'content_class' );
+                $contentObject = $contentNode->attribute( 'object' );
+                $contentClass = $contentObject->attribute( 'content_class' );
                 $attributeList = $contentClass->fetchAttributes( false, false, false );
                 $datatypeList = array();
                 foreach ( $attributeList as $attribute )
@@ -757,15 +789,19 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $this->OverrideSettingsArray[$siteAccess] = $blockMatchArray;
         }
 
-        $overrideSettingsListDOMNode = eZDOMDocument::createElementNode( 'override-list' );
+        $dom = new DOMDocument();
+
+        $overrideSettingsListDOMNode = $dom->createElement( 'override-list' );
+        $dom->appendChild( $overrideSettingsListDOMNode );
         foreach ( $this->OverrideSettingsArray as $siteAccess => $blockMatchArray )
         {
             foreach( $blockMatchArray as $blockName => $iniGroup )
             {
                 unset( $blockMatchNode );
-                $blockMatchNode = eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName,
-                                                                                    'site-access' => $siteAccess ) );
-                $blockMatchNode->appendChild( eZDOMDocument::createElementNodeFromArray( $blockName,  $iniGroup ) );
+                $blockMatchNode = $dom->createElement( 'block' );
+                $blockMatchNode->setAttribute( 'name', $blockName );
+                $blockMatchNode->setAttribute( 'site-access', $siteAccess );
+                $blockMatchNode->appendChild( eZContentObjectPackageHandler::createElementNodeFromArray( $blockName,  $iniGroup ) );
                 $overrideSettingsListDOMNode->appendChild( $blockMatchNode );
             }
         }
@@ -809,19 +845,26 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( !$errorCode || ( $errorCode >= EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_FROM &&
                               $errorCode <= EZ_PACKAGE_CONTENTOBJECT__UNINSTALL_OBJECTS_ERROR_RANGE_TO ) )
         {
-            $objectListNode = $content->elementByName( 'object-list' );
-            if ( !$objectListNode )
+            $objectListNode = $content->getElementsByTagName( 'object-list' )->item( 0 );
+            if ( $objectListNode )
             {
-                $objectListNode = $content->elementByName( 'object-files-list' );
+                $objectNodes = $objectListNode->getElementsByTagName( 'object' );
             }
-            $objectNodes = array_reverse( $objectListNode->Children );
-
-            foreach( $objectNodes as $objectNode )
+            else
             {
+                $objectListNode = $content->getElementsByTagName( 'object-files-list' )->item( 0 );
+                $objectNodes = $objectListNode->getElementsByTagName( 'object-file' );
+            }
+
+            // loop intentionally from the last until the first
+            // objects need to be uninstalled in reverse order of installation
+            for ( $i = $objectNodes->length - 1; $i >=0; $i-- )
+            {
+                $objectNode = $objectNodes->item( $i );
                 $realObjectNode = $this->getRealObjectNode( $objectNode );
 
                 $objectRemoteID = $realObjectNode->getAttribute( 'remote_id' );
-                $name = $realObjectNode->attributeValue( 'name' );
+                $name = $realObjectNode->getAttribute( 'name' );
 
                 if ( isset( $installParameters['error']['error_code'] ) &&
                      !$this->isErrorElement( $objectRemoteID, $installParameters ) )
@@ -932,32 +975,37 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( !$errorCode || ( $errorCode >= EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_FROM &&
                               $errorCode <= EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_TO ) )
         {
-            $objectListNode = $content->elementByName( 'object-list' );
-            if ( !$objectListNode )
+            $objectListNode = $content->getElementsByTagName( 'object-list' )->item( 0 );
+            if ( $objectListNode )
             {
-                $objectListNode = $content->elementByName( 'object-files-list' );
+                $objectNodes = $objectListNode->getElementsByTagName( 'object' );
             }
-            $objectNodes = $objectListNode->Children;
+            else
+            {
+                $objectListNode = $content->getElementsByTagName( 'object-files-list' )->item( 0 );
+                $objectNodes = $objectListNode->getElementsByTagName( 'object-file' );
+            }
+
 
             if ( !$this->installContentObjects( $objectNodes,
-                                                $content->elementByName( 'top-node-list' ),
+                                                $content->getElementsByTagName( 'top-node-list' )->item( 0 ),
                                                 $installParameters ) )
                 return false;
             $errorCode = false;
         }
 
-        if ( !$this->installTemplates( $content->elementByName( 'template-list' ),
+        if ( !$this->installTemplates( $content->getElementsByTagName( 'template-list' )->item( 0 ),
                                        $package,
                                        $subdirectory,
                                        $installParameters ) )
             return false;
 
 
-        if ( !$this->installOverrides( $content->elementByName( 'override-list' ),
+        if ( !$this->installOverrides( $content->getElementsByTagName( 'override-list' )->item( 0 ),
                                        $installParameters ) )
             return false;
 
-        if ( !$this->installFetchAliases( $content->elementByName( 'fetch-alias-list' ),
+        if ( !$this->installFetchAliases( $content->getElementsByTagName( 'fetch-alias-list' )->item( 0 ),
                                           $installParameters ) )
             return false;
 
@@ -990,11 +1038,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             // Cycle until we reach an element where error has occured.
             // If action has been choosen, try install this item again, else skip it.
             if ( isset( $installParameters['error']['error_code'] ) &&
-                 !$this->isErrorElement( $realObjectNode->attributeValue( 'remote_id' ), $installParameters ) )
+                 !$this->isErrorElement( $realObjectNode->getAttribute( 'remote_id' ), $installParameters ) )
                 continue;
 
             if ( !$firstInstalledID )
-                $firstInstalledID = $realObjectNode->attributeValue( 'remote_id' );
+                $firstInstalledID = $realObjectNode->getAttribute( 'remote_id' );
 
             $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
             if ( !$newObject )
@@ -1017,7 +1065,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         // Call postUnserialize on all installed objects
         foreach( $objectNodes as $objectNode )
         {
-            if ( $objectNode->nodeName == 'object' )
+            if ( $objectNode->localName == 'object' )
             {
                 $remoteID = $objectNode->getAttribute( 'remote_id' );
             }
@@ -1160,9 +1208,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         $siteAccessDesignPathArray = array();
         $templateRootPath = $package->path() . '/' . $subdirectory;
-        foreach( $templateList->elementsByName( 'file' ) as $fileNode )
+        foreach( $templateList->getElementsByTagName( 'file' ) as $fileNode )
         {
-            $originalSiteAccess = $fileNode->attributeValue( 'site-access' );
+            $originalSiteAccess = $fileNode->getAttribute( 'site-access' );
             if ( isset( $installParameters['site_access_map'][$originalSiteAccess] ) )
             {
                 $newSiteAccess = $installParameters['site_access_map'][$originalSiteAccess];
@@ -1223,11 +1271,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         $debug = eZDebug::instance();
         $overrideINIArray = array();
-        foreach( $overrideListNode->elementsByName( 'block' ) as $blockNode )
+        foreach( $overrideListNode->getElementsByTagName( 'block' ) as $blockNode )
         {
-            if ( isset( $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            if ( isset( $parameters['site_access_map'][$blockNode->getAttribute( 'site-access' )] ) )
             {
-                $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+                $newSiteAccess = $parameters['site_access_map'][$blockNode->getAttribute( 'site-access' )];
             }
             else
             {
@@ -1236,7 +1284,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !$newSiteAccess )
             {
-                $debug->writeError( 'SiteAccess map for : ' . $blockNode->attributeValue( 'site-access' ) . ' not set.',
+                $debug->writeError( 'SiteAccess map for : ' . $blockNode->getAttribute( 'site-access' ) . ' not set.',
                                      'eZContentObjectPackageHandler::installOverrides()' );
                 continue;
             }
@@ -1247,8 +1295,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
 
             $blockArray = array();
-            $blockName = $blockNode->attributeValue( 'name' );
-            $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
+            $blockName = $blockNode->getAttribute( 'name' );
+            $blockArray[$blockName] = eZContentObjectPackageHandler::createArrayFromDOMNode( $blockNode->getElementsByTagName( $blockName )->item( 0 ) );
 
             if ( isset( $blockArray[$blockName][$this->OverrideObjectRemoteID] ) )
             {
@@ -1316,11 +1364,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         }
 
         $fetchAliasINIArray = array();
-        foreach( $fetchAliasListNode->elementsByName( 'fetch-alias' ) as $blockNode )
+        foreach( $fetchAliasListNode->getElementsByTagName( 'fetch-alias' ) as $blockNode )
         {
-            if ( isset( $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )] ) )
+            if ( isset( $parameters['site_access_map'][$blockNode->getAttribute( 'site-access' )] ) )
             {
-                $newSiteAccess = $parameters['site_access_map'][$blockNode->attributeValue( 'site-access' )];
+                $newSiteAccess = $parameters['site_access_map'][$blockNode->getAttribute( 'site-access' )];
             }
             else
             {
@@ -1333,8 +1381,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
 
             $blockArray = array();
-            $blockName = $blockNode->attributeValue( 'name' );
-            $blockArray[$blockName] = eZDOMDocument::createArrayFromDOMNode( $blockNode->elementByName( $blockName ) );
+            $blockName = $blockNode->getAttribute( 'name' );
+            $blockArray[$blockName] = eZContentObjectPackageHandler::createArrayFromDOMNode( $blockNode->getElementsByTagName( $blockName )->item( 0 ) );
 
             //$blockArray[$blockName] = $blockArray[$blockName][0];
 
@@ -1612,44 +1660,91 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     }
 
     /*!
-     \reimp
+      \static
+      Creates DOMNodeElement recursivly from recursive array
     */
-    /*function createInstallNode( &$package, &$installNode, $installItem, $installType )
+    static function createElementNodeFromArray( $name, $array )
     {
-        if ( $installNode->attributeValue( 'type' ) == 'ezcontentobject' )
+        $dom = new DOMDocument();
+        $node = $dom->createElement( $name );
+        $dom->appendChild( $node );
+
+        foreach ( $array as $arrayKey => $value )
         {
-            if ( $export )
+            if ( is_array( $value ) and
+                 count( $valueKeys = array_keys( $value ) ) > 0 )
             {
-                $objectFile = $installItem['filename'] . '.xml';
-
-                if ( $installItem['sub-directory'] )
-                    $objectFile = $installItem['sub-directory'] . '/' . $objectFile;
-                $originalPath = $package->path() . '/' . $objectFile;
-                $exportPath = $export['path'];
-                $installDirectory = $exportPath . '/' . eZContentObjectPackageHandler::contentObjectDirectory();
-                if ( !file_exists(  $installDirectory ) )
-                    eZDir::mkdir( $installDirectory, eZDir::directoryPermission(), true );
-
-                include_once( 'lib/ezfile/classes/ezfile.php' );
-                $eZXML = new eZXML();
-                $domDocument = $eZXML->domTree( eZFile::getContents( $originalPath ) );
-                $rootNode = $domDocument->root();
-                $templateListNode = $rootNode->elementByName( 'template-list' );
-                foreach( $templateListNode ? $templateListNode->elementsByName( 'file' ) : array() as $fileNode )
+                if ( is_int( $valueKeys[0] ) )
                 {
-                    $newFilePath = $installDirectory . $fileNode->elementTextContentByName( 'path' );
-                    if ( !file_exists( eZDir::dirpath( $newFilePath ) ) )
+                    foreach( $value as $child )
                     {
-                        eZDir::mkdir( eZDir::dirpath( $newFilePath ), eZDir::directoryPermission(), true );
+                        unset( $childNode );
+                        unset( $importedChildNode );
+                        $childNode = eZContentObjectPackageHandler::createElementNodeFromArray( $arrayKey, $child );
+                        $importedChildNode = $dom->importNode( $childNode, true );
+                        $node->appendChild( $importedChildNode );
                     }
-                    eZFileHandler::copy( $package->path() . '/' . eZContentObjectPackageHandler::contentObjectDirectory() . $fileNode->elementTextContentByName( 'path' ),
-                                         $newFilePath );
                 }
-                eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] . '.xml' );
+                else
+                {
+                        unset( $valueNode );
+                        unset( $importedValueNode );
+                        $valueNode = eZContentObjectPackageHandler::createElementNodeFromArray( $arrayKey, $value );
+                        $importedValueNode = $dom->importNode( $valueNode, true );
+                        $node->appendChild( $importedValueNode );
+                }
+            }
+            else
+            {
+                $node->setAttribute( $arrayKey, $value );
             }
         }
+
+        return $node;
     }
+
+    /*!
+      \static
+      Creates recursive array from DOMNodeElement
     */
+    static function createArrayFromDOMNode( $domNode )
+    {
+        if ( !$domNode )
+        {
+            return null;
+        }
+
+        $retArray = array();
+        foreach ( $domNode->childNodes as $childNode )
+        {
+            if ( $childNode->nodeType != XML_ELEMENT_NODE )
+            {
+                continue;
+            }
+
+            if ( !isset( $retArray[$childNode->localName] ) )
+            {
+                $retArray[$childNode->localName] = array();
+            }
+
+            // If the node has children we create an array for this element
+            // and append to it, if not we assign it directly
+            if ( $childNode->hasChildNodes() )
+            {
+                $retArray[$childNode->localName][] = eZContentObjectPackageHandler::createArrayFromDOMNode( $childNode );
+            }
+            else
+            {
+                $retArray[$childNode->localName] = eZContentObjectPackageHandler::createArrayFromDOMNode( $childNode );
+            }
+        }
+        foreach( $domNode->attributes as $attributeNode )
+        {
+            $retArray[$attributeNode->name] = $attributeNode->value;
+        }
+
+        return $retArray;
+    }
 
     public $NodeIDArray = array();
     public $RootNodeIDArray = array();

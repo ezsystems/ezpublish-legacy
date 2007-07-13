@@ -493,8 +493,9 @@ class eZImageType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
-                                                                                     array( 'unit-size' => 'mega' ) ) );
+        $maxSizeNode = $attributeParametersNode->ownerDocument->createElement( 'max-size', $maxSize );
+        $maxSizeNode->setAttribute( 'unit-size', 'mega' );
+        $attributeParametersNode->appendChild( $maxSizeNode );
     }
 
     /*!
@@ -502,9 +503,9 @@ class eZImageType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
-        $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
-        $unitSize = $sizeNode->attributeValue( 'unit-size' );
+        $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
+        $maxSize = $sizeNode->textContent;
+        $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD, $maxSize );
     }
 
@@ -525,10 +526,10 @@ class eZImageType extends eZDataType
             $imageKey = md5( mt_rand() );
 
             $package->appendSimpleFile( $imageKey, $original['url'] );
-            $node->appendAttribute( eZDomDocument::createAttributeNode( 'image-file-key', $imageKey ) );
+            $node->setAttribute( 'image-file-key', $imageKey );
         }
 
-        $node->appendAttribute( eZDomDocument::createAttributeNode( 'alternative-text', $original['alternative_text'] ) );
+        $node->setAttribute( 'alternative-text', $original['alternative_text'] );
 
         return $node;
     }
@@ -537,7 +538,7 @@ class eZImageType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
@@ -545,12 +546,12 @@ class eZImageType extends eZDataType
         // so initial language's image alias will not be removed in 'initializeFromFile'
         $objectAttribute->setAttribute( 'data_text', '' );
 
-        $alternativeText = $attributeNode->attributeValue( 'alternative-text' );
+        $alternativeText = $attributeNode->getAttribute( 'alternative-text' );
         // Backwards compatability with older node name
         if ( $alternativeText === false )
-            $alternativeText = $attributeNode->attributeValue( 'alternativ-text' );
+            $alternativeText = $attributeNode->getAttribute( 'alternativ-text' );
         $content =& $objectAttribute->attribute( 'content' );
-        $imageFileKey = $attributeNode->attributeValue( 'image-file-key' );
+        $imageFileKey = $attributeNode->getAttribute( 'image-file-key' );
         if ( $imageFileKey )
         {
             $content->initializeFromFile( $package->simpleFilePath( $imageFileKey ), $alternativeText );
@@ -576,7 +577,7 @@ class eZImageType extends eZDataType
     function fromString( &$objectAttribute, $string )
     {
         $content =& $objectAttribute->attribute( 'content' );
-        $content->initializeFromFile(  $string, "" );
+        $content->initializeFromFile( $string, "" );
         $content->store( $objectAttribute );
         return true;
     }

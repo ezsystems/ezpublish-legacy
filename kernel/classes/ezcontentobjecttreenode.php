@@ -784,7 +784,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         default:
                         {
-                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::getSortingInfo' );
+                            $debug = eZDebug::instance();
+                            $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::getSortingInfo' );
                             continue;
                         };
                     }
@@ -1232,7 +1233,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             default :
                             {
                                 $hasFilterOperator = false;
-                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                $debug = eZDebug::instance();
+                                $debug->writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
                             }break;
 
                         }
@@ -1256,7 +1258,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 if( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
                 {
-                    eZDebug::writeNotice( "Attribute filter returned false" );
+                    $debug = eZDebug::instance();
+                    $debug->writeNotice( "Attribute filter returned false" );
                     $filterSQL = $invalidFilterSQL;
                 }
                 else
@@ -1775,7 +1778,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
         {
-            eZDebug::writeNotice( "Class filter returned false" );
+            $debug = eZDebug::instance();
+            $debug->writeNotice( "Class filter returned false" );
             $retValue = null;
             return $retValue;
         }
@@ -1915,9 +1919,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function subTreeMultiPaths( $nodesParams, $listParams = NULL )
     {
+        $debug = eZDebug::instance();
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
-            eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+            $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
             $retValue = null;
             return $retValue;
         }
@@ -1949,7 +1954,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
             {
-                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+                $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
                 $retValue = null;
                 return $retValue;
             }
@@ -2127,7 +2132,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown field type $type",
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown field type $type",
                                      'eZContentObjectTreeNode::subTreeGroupByDateField' );
             }
         }
@@ -2146,6 +2152,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function &subTreeCount( $params = array(), $nodeID = 0 )
     {
+        $debug = eZDebug::instance();
+
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
             $retVal = 0;
@@ -2606,7 +2614,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             default :
                             {
                                 $hasFilterOperator = false;
-                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                $debug->writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
                             }break;
 
                         }
@@ -2632,7 +2640,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $attributeFilterFromSQL = "";
                     $attributeFilterWhereSQL = "";
 
-                    eZDebug::writeNotice( "Attribute filter returned false" );
+                    $debug->writeNotice( "Attribute filter returned false" );
                     $retVal = 0;
                     return $retVal;
                 }
@@ -3021,7 +3029,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         switch ( $sortOrder )
         {
             default:
-                eZDebug::writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
             case 1:
                 return 'path';
             case 2:
@@ -3054,7 +3063,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         switch ( $sortFieldName )
         {
             default:
-                eZDebug::writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
             case 'path':
                 return 1;
             case 'published':
@@ -3231,7 +3241,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &fetchByCRC( $pathStr )
     {
-        eZDebug::writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
         $retValue = null;
         return $retValue;
     }
@@ -3265,7 +3276,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( $pathString == "" )
         {
-            eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
             return null;
         }
 
@@ -3302,7 +3314,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeListArray = $db->arrayQuery( $query );
         if ( count( $nodeListArray ) > 1 )
         {
-            eZDebug::writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
+            $debug = eZDebug::instance();
+            $debug->writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
         }
         else
         {
@@ -3429,7 +3442,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $sqlCondition == '' )
             {
-                eZDebug::writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
                 return $returnValue;
             }
 
@@ -3722,7 +3736,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $node = eZContentObjectTreeNode::fetch( $nodeID );
 
         // Only set name if current node is not the content root
-        $ini =& eZINI::instance( 'content.ini' );
+        $ini = eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
         if ( $node->attribute( 'node_id' ) != $contentRootID )
         {
@@ -3755,7 +3769,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     return $path;
                 }
 
-                eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
+                $debug = eZDebug::instance();
+                $debug->writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
                 $paren =& $node->fetchParent();
                 $path = $paren->pathWithNames();
                 // Return a perma-link when the path lookup failed, this link will always work
@@ -3843,7 +3858,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function updateURLAlias()
     {
-        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
         return $this->updateSubTreePath();
     }
 
@@ -3861,7 +3877,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $parentNodeID = $this->attribute( 'parent_node_id' );
 
         // Only set name if current node is not the content root
-        $ini =& eZINI::instance( 'content.ini' );
+        $ini = eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
         $obj           = $this->object();
         $alwaysMask    = ($obj->attribute( 'language_mask' ) & 1);
@@ -4328,7 +4344,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
             $tempPathString = $contentObjectTreeNode['path_string'];
 
-            // Create WHERE section 
+            // Create WHERE section
             $pathStringArray[] = "tree.path_string like '$tempPathString%'";
             $path2StringArray[] = "tree2.path_string like '$tempPathString%'";
         }
@@ -5549,7 +5565,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $parentNodeID = -1;
 
-        $remoteID = $contentNodeDOMNode->attributeValue( 'remote-id' );
+        $remoteID = $contentNodeDOMNode->getAttribute( 'remote-id' );
         $node = eZContentObjectTreeNode::fetchByRemoteID( $remoteID );
         if ( is_object( $node ) )
         {
@@ -5587,7 +5603,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
-        $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
+        $parentNodeRemoteID = $contentNodeDOMNode->getAttribute( 'parent-node-remote-id' );
         if ( $parentNodeRemoteID )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
@@ -5598,9 +5614,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            if ( isset( $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'] ) )
+            if ( isset( $options['top_nodes_map'][$contentNodeDOMNode->getAttribute( 'node-id' )]['new_node_id'] ) )
             {
-                $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->attributeValue( 'node-id' )]['new_node_id'];
+                $parentNodeID = $options['top_nodes_map'][$contentNodeDOMNode->getAttribute( 'node-id' )]['new_node_id'];
             }
             else if ( isset( $options['top_nodes_map']['*'] ) )
             {
@@ -5608,20 +5624,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->attributeValue( 'name' ),
+                $debug = eZDebug::instance();
+                $debug->writeError( 'New parent node not set ' . $contentNodeDOMNode->getAttribute( 'name' ),
                                      'eZContentObjectTreeNode::unserialize()' );
             }
         }
 
-        $isMain = ( $isMain && $contentNodeDOMNode->attributeValue( 'is-main-node' ) );
+        $isMain = ( $isMain && $contentNodeDOMNode->getAttribute( 'is-main-node' ) );
 
         $nodeInfo = array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                            'contentobject_version' => $version,
                            'is_main' => $isMain,
                            'parent_node' => $parentNodeID,
                            'parent_remote_id' => $remoteID,     // meaning processed node remoteID (not parent)
-                           'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
-                           'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
+                           'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->getAttribute( 'sort-field' ) ),
+                           'sort_order' => $contentNodeDOMNode->getAttribute( 'sort-order' ) );
 
         if ( $parentNodeID == -1 && $parentNodeRemoteID )
         {
@@ -5631,14 +5648,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $options['suspended-nodes'][$parentNodeRemoteID] = array( 'nodeinfo' => $nodeInfo,
-                                                                      'priority' => $contentNodeDOMNode->attributeValue( 'priority' ) );
+                                                                      'priority' => $contentNodeDOMNode->getAttribute( 'priority' ) );
             return true;
         }
 
         $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                    null,
                                                    $nodeInfo );
-        $nodeInfo['priority'] = $contentNodeDOMNode->attributeValue( 'priority' );
+        $nodeInfo['priority'] = $contentNodeDOMNode->getAttribute( 'priority' );
         if( !is_object( $existNodeAssignment ) )
         {
             $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
@@ -5668,23 +5685,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return false;
         }
 
-        $nodeAssignmentNode = new eZDOMNode();
-        $nodeAssignmentNode->setName( 'node-assignment' );
+        $dom = new DOMDocument();
+
+        $nodeAssignmentNode = $dom->createElement( 'node-assignment' );
         if ( $this->attribute( 'main_node_id' ) == $this->attribute( 'node_id' ) )
         {
-            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-main-node', 1 ) );
+            $nodeAssignmentNode->setAttribute( 'is-main-node', 1 );
         }
         if( !in_array( $this->attribute( 'node_id'), $topNodeIDArray ) )
         {
             $parentNode = $this->attribute( 'parent' );
-            $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'parent-node-remote-id', $parentNode->attribute( 'remote_id' ) ) );
+            $nodeAssignmentNode->setAttribute( 'parent-node-remote-id', $parentNode->attribute( 'remote_id' ) );
         }
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $this->attribute( 'name' ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'node-id', $this->attribute( 'node_id' ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'remote-id', $this->attribute( 'remote_id' ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-field', eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'sort-order', $this->attribute( 'sort_order' ) ) );
-        $nodeAssignmentNode->appendAttribute( eZDOMDocument::createAttributeNode( 'priority', $this->attribute( 'priority' ) ) );
+        $nodeAssignmentNode->setAttribute( 'name', $this->attribute( 'name' ) );
+        $nodeAssignmentNode->setAttribute( 'node-id', $this->attribute( 'node_id' ) );
+        $nodeAssignmentNode->setAttribute( 'remote-id', $this->attribute( 'remote_id' ) );
+        $nodeAssignmentNode->setAttribute( 'sort-field', eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ) );
+        $nodeAssignmentNode->setAttribute( 'sort-order', $this->attribute( 'sort_order' ) );
+        $nodeAssignmentNode->setAttribute( 'priority', $this->attribute( 'priority' ) );
         return $nodeAssignmentNode;
     }
 
@@ -5953,7 +5971,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $node->updateAndStoreModified();
-        
+
         $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
@@ -6029,15 +6047,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function updateNodeVisibility( $node, $parentNode, $recursive = true )
     {
+        $debug = eZDebug::instance();
         if ( !$node )
         {
-            eZDebug::writeWarning( 'No such node to update visibility for.' );
+            $debug->writeWarning( 'No such node to update visibility for.' );
             return;
         }
 
         if ( !$parentNode )
         {
-            eZDebug::writeWarning( 'No parent node found when updating node visibility' );
+            $debug->writeWarning( 'No parent node found when updating node visibility' );
             return;
         }
 
@@ -6075,7 +6094,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( !$node )
         {
-            eZDebug::writeWarning( "No such subtree to clear view cache for" );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "No such subtree to clear view cache for" );
             return false;
         }
 

@@ -96,11 +96,11 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
             $persistentData['site_access_map'] = array();
             $persistentData['site_access_available'] = $availableSiteAccessArray;
             $rootDOMNode = $this->rootDOMNode();
-            $siteAccessListNode = $rootDOMNode->elementByName( 'site-access-list' );
+            $siteAccessListNode = $rootDOMNode->getElementsByTagName( 'site-access-list' )->item( 0 );
 
-            foreach( $siteAccessListNode->elementsByName( 'site-access' ) as $siteAccessNode )
+            foreach( $siteAccessListNode->getElementsByTagName( 'site-access' ) as $siteAccessNode )
             {
-                $originalSiteAccessName = $siteAccessNode->textContent();
+                $originalSiteAccessName = $siteAccessNode->textContent;
                 if ( in_array( $originalSiteAccessName, $availableSiteAccessArray ) )
                 {
                     $persistentData['site_access_map'][$originalSiteAccessName] = $originalSiteAccessName;
@@ -143,16 +143,16 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
         {
             $persistentData['top_nodes_map'] = array();
             $rootDOMNode = $this->rootDOMNode();
-            $topNodeListNode = $rootDOMNode->elementByName( 'top-node-list' );
+            $topNodeListNode = $rootDOMNode->getElementsByTagName( 'top-node-list' )->item( 0 );
 
             $ini = eZINI::instance( 'content.ini' );
             $defaultPlacementNodeID = $ini->variable( 'NodeSettings', 'RootNode' );
             $defaultPlacementNode = eZContentObjectTreeNode::fetch( $defaultPlacementNodeID );
             $defaultPlacementName = $defaultPlacementNode->attribute( 'name' );
-            foreach ( $topNodeListNode->elementsByName( 'top-node' ) as $topNodeDOMNode )
+            foreach ( $topNodeListNode->getElementsByTagName( 'top-node' ) as $topNodeDOMNode )
             {
-                $persistentData['top_nodes_map'][(string)$topNodeDOMNode->attributeValue( 'node-id' )] = array( 'old_node_id' => $topNodeDOMNode->attributeValue( 'node-id' ),
-                                                                                                                'name' => $topNodeDOMNode->textContent(),
+                $persistentData['top_nodes_map'][(string)$topNodeDOMNode->getAttribute( 'node-id' )] = array( 'old_node_id' => $topNodeDOMNode->getAttribute( 'node-id' ),
+                                                                                                                'name' => $topNodeDOMNode->textContent,
                                                                                                                 'new_node_id' => $defaultPlacementNodeID,
                                                                                                                 'new_parent_name' => $defaultPlacementName );
             }
@@ -212,6 +212,8 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     */
     function finalize( &$package, &$http, &$persistentData )
     {
+        $debug = eZDebug::instance();
+        $debug->writeDebug( 'finalize is called', 'eZContentObjectPackageInstaller::finalize' );
         $package->installItem( $this->InstallItem, $persistentData );
     }
 

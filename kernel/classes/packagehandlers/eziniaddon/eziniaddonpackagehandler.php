@@ -37,7 +37,6 @@
 
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
 class eZINIAddonPackageHandler extends eZPackageHandler
@@ -66,14 +65,14 @@ class eZINIAddonPackageHandler extends eZPackageHandler
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
 
-        $siteAccess = $content->attributeValue( 'site-access' );
+        $siteAccess = $content->getAttribute( 'site-access' );
         if ( isset( $installParameters['site_access_map'] ) &&
              isset( $installParameters['site_access_map'][$siteAccess] ) )
         {
             $siteAccess = $installParameters['site_access_map'][$siteAccess];
         }
 
-        $filename = $content->attributeValue( 'filename' );
+        $filename = $content->getAttribute( 'filename' );
 
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $filename, 'settings', null, null, true );
@@ -81,17 +80,17 @@ class eZINIAddonPackageHandler extends eZPackageHandler
         $ini->loadCache();
 
         $blocks =& $content->elementByName( 'blocks' );
-        $blockArray =& $blocks->elementsByName( 'block' );
+        $blockArray =& $blocks->getElementsByTagName( 'block' );
 
         foreach ( $blockArray as $block )
         {
-            $blockname = $block->attributeValue( 'name' );
+            $blockname = $block->getAttribute( 'name' );
 
-            $blockVariableArray = $block->elementsByName( 'block-variable' );
+            $blockVariableArray = $block->getElementsByTagName( 'block-variable' );
             foreach( $blockVariableArray as $blockVariable )
             {
-                $variableName = $blockVariable->attributeValue( 'name' );
-                $variableValues = $blockVariable->elementsByName( 'value' );
+                $variableName = $blockVariable->getAttribute( 'name' );
+                $variableValues = $blockVariable->getElementsByTagName( 'value' );
 
                 if ( count( $variableValues ) == 1 )
                 {
@@ -103,7 +102,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                     $valueArray = array();
                     foreach( $variableValues as $variableNode )
                     {
-                        $valueName = $variableNode->attributeValue( 'name' );
+                        $valueName = $variableNode->getAttribute( 'name' );
                         $value = eZINIAddonPackageHandler::currentID( $variableNode, $db );
                         $valueArray[$valueName] = $value;
                     }
@@ -123,10 +122,10 @@ class eZINIAddonPackageHandler extends eZPackageHandler
      \param value DOMNode
      \param db connection
     */
-    function &currentID( &$valueNode, &$db )
+    static function currentID( $valueNode, $db )
     {
-        $remoteIDType = $valueNode->attributeValue( 'remote-id' );
-        $value = $valueNode->textContent();
+        $remoteIDType = $valueNode->getAttribute( 'remote-id' );
+        $value = $valueNode->textContent;
 
         if ( $remoteIDType !== false )
         {

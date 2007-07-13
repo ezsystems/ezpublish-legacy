@@ -37,7 +37,6 @@
 
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
@@ -78,7 +77,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
             $dom =& $package->fetchDOMFromFile( $filepath );
             if ( $dom )
             {
-                $root =& $dom->root();
+                $root = $dom->documentElement;
                 $extensionName = $root->getAttribute( 'name' );
                 return array( 'description' => ezi18n( 'kernel/package', 'Extension \'%extensionname\'', false,
                                                        array( '%extensionname' => $extensionName ) ) );
@@ -171,8 +170,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-        $files = $content->Children;
-        foreach( $files as $file )
+        $files = $content->getElementsByTagName( 'file' );
+        foreach ( $files as $file )
         {
             $path = $file->getAttribute( 'path' );
             $destPath = $extensionDir . $path . '/' . $file->getAttribute( 'name' );
@@ -235,9 +234,9 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
             eZDir::recursiveList( $targetDir, '', $fileList );
 
-            $doc = new eZDOMDocument;
+            $doc = new DOMDocument;
 
-            $packageRoot =& $doc->createElement( 'extension' );
+            $packageRoot = $doc->createElement( 'extension' );
             $packageRoot->setAttribute( 'name', $extensionName );
 
             foreach( $fileList as $file )
@@ -249,7 +248,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
                     $fileNode->setAttribute( 'path', $file['path'] );
 
                 $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
-                //$fileNode->setAttribute( 'full-path', $fullPath );
                 $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
 
                 if ( $file['type'] == 'dir' )

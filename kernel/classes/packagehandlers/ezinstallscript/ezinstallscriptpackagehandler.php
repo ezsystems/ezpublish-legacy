@@ -64,7 +64,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         if ( !$dom )
             return false;
 
-        $mainNode =& $dom->root();
+        $mainNode =& $dom->documentElement;
 
         $description = $mainNode->getAttribute( 'description' );
         if ( !$description )

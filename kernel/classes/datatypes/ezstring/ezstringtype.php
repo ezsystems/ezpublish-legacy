@@ -378,11 +378,18 @@ class eZStringType extends eZDataType
     {
         $maxLength = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
         $defaultString = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-length', $maxLength ) );
+        $dom = $attributeParametersNode->ownerDocument;
+        $maxLengthNode = $dom->createElement( 'max-length', $maxLength );
+        $attributeParametersNode->appendChild( $maxLengthNode );
         if ( $defaultString )
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-string', $defaultString ) );
+        {
+            $defaultStringNode = $dom->createElement( 'default-string', $defaultString );
+        }
         else
-            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-string' ) );
+        {
+            $defaultStringNode = $dom->createElement( 'default-string' );
+        }
+        $attributeParametersNode->appendChild( $defaultStringNode );
     }
 
     /*!
@@ -390,8 +397,8 @@ class eZStringType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $maxLength = $attributeParametersNode->elementTextContentByName( 'max-length' );
-        $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );
+        $maxLength = $attributeParametersNode->getElementsByTagName( 'max-length' )->item( 0 )->textContent;
+        $defaultString = $attributeParametersNode->getElementsByTagName( 'default-string' )->item( 0 )->textContent;
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_LEN_FIELD, $maxLength );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
     }

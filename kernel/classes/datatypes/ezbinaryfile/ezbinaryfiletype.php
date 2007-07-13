@@ -69,7 +69,7 @@ class eZBinaryFileType extends eZDataType
     */
     function &viewTemplate( &$contentobjectAttribute )
     {
-        $handler =& $this->fileHandler();
+        $handler = $this->fileHandler();
         $handlerTemplate = $handler->viewTemplate( $contentobjectAttribute );
         $template = $this->DataTypeString;
         if ( $handlerTemplate !== false )
@@ -87,7 +87,7 @@ class eZBinaryFileType extends eZDataType
     */
     function &editTemplate( &$contentobjectAttribute )
     {
-        $handler =& $this->fileHandler();
+        $handler = $this->fileHandler();
         $handlerTemplate = $handler->editTemplate( $contentobjectAttribute );
         $template = $this->DataTypeString;
         if ( $handlerTemplate !== false )
@@ -587,9 +587,11 @@ class eZBinaryFileType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
+        $dom = $attributeParametersNode->ownerDocument;
         $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,
-                                                                                     array( 'unit-size' => 'mega' ) ) );
+        $maxSizeNode = $dom->createElement( 'max-size', $maxSize );
+        $maxSizeNode->setAttribute( 'unit-size', 'mega' );
+        $attributeParametersNode->appendChild( $maxSizeNode );
     }
 
     /*!
@@ -597,9 +599,9 @@ class eZBinaryFileType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
-        $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
-        $unitSize = $sizeNode->attributeValue( 'unit-size' );
+        $sizeNode = $attributeParametersNode->getElementsByTagName( 'max-size' )->item( 0 );
+        $maxSize = $sizeNode->textContent;
+        $unitSize = $sizeNode->getAttribute( 'unit-size' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD, $maxSize );
     }
 
@@ -651,12 +653,13 @@ class eZBinaryFileType extends eZDataType
             $fileKey = md5( mt_rand() );
             $package->appendSimpleFile( $fileKey, $binaryFile->attribute( 'filepath' ) );
 
-            $fileNode = eZDOMDocument::createElementNode( 'binary-file' );
-            $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $binaryFile->attribute( 'filesize' ) ) );
-            $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $binaryFile->attribute( 'filename' ) ) );
-            $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $binaryFile->attribute( 'original_filename' ) ) );
-            $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'mime-type', $binaryFile->attribute( 'mime_type' ) ) );
-            $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filekey', $fileKey ) );
+            $dom = $node->ownerDocument;
+            $fileNode = $dom->createElement( 'binary-file' );
+            $fileNode->setAttribute( 'filesize', $binaryFile->attribute( 'filesize' ) );
+            $fileNode->setAttribute( 'filename', $binaryFile->attribute( 'filename' ) );
+            $fileNode->setAttribute( 'original-filename', $binaryFile->attribute( 'original_filename' ) );
+            $fileNode->setAttribute( 'mime-type', $binaryFile->attribute( 'mime_type' ) );
+            $fileNode->setAttribute( 'filekey', $fileKey );
             $node->appendChild( $fileNode );
         }
 
@@ -667,13 +670,13 @@ class eZBinaryFileType extends eZDataType
      \reimp
      \param package
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $debug = eZDebug::instance();
 
-        $fileNode = $attributeNode->elementByName( 'binary-file' );
+        $fileNode = $attributeNode->getElementsByTagName( 'binary-file' )->item( 0 );
         if ( !is_object( $fileNode ) or !$fileNode->hasAttributes() )
         {
             return;
@@ -681,7 +684,7 @@ class eZBinaryFileType extends eZDataType
 
         $binaryFile = eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
-        $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
+        $sourcePath = $package->simpleFilePath( $fileNode->getAttribute( 'filekey' ) );
 
         if ( !file_exists( $sourcePath ) )
         {
@@ -692,7 +695,7 @@ class eZBinaryFileType extends eZDataType
 
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $ini = eZINI::instance();
-        $mimeType = $fileNode->attributeValue( 'mime-type' );
+        $mimeType = $fileNode->getAttribute( 'mime-type' );
         list( $mimeTypeCategory, $mimeTypeName ) = explode( '/', $mimeType );
         $destinationPath = eZSys::storageDirectory() . '/original/' . $mimeTypeCategory . '/';
         if ( !file_exists( $destinationPath ) )
@@ -706,10 +709,10 @@ class eZBinaryFileType extends eZDataType
             umask( $oldumask );
         }
 
-        $basename = basename( $fileNode->attributeValue( 'filename' ) );
+        $basename = basename( $fileNode->getAttribute( 'filename' ) );
         while ( file_exists( $destinationPath . $basename ) )
         {
-            $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->attributeValue( 'filename' ) );
+            $basename = substr( md5( mt_rand() ), 0, 8 ) . '.' . eZFile::suffix( $fileNode->getAttribute( 'filename' ) );
         }
 
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
@@ -719,8 +722,8 @@ class eZBinaryFileType extends eZDataType
 
         $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );
         $binaryFile->setAttribute( 'filename', $basename );
-        $binaryFile->setAttribute( 'original_filename', $fileNode->attributeValue( 'original-filename' ) );
-        $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime-type' ) );
+        $binaryFile->setAttribute( 'original_filename', $fileNode->getAttribute( 'original-filename' ) );
+        $binaryFile->setAttribute( 'mime_type', $fileNode->getAttribute( 'mime-type' ) );
 
         $binaryFile->store();
 
