@@ -56,7 +56,32 @@ $infoCode = 'no-errors'; // This will be modified if info/warning is given to us
 $infoData = array(); // Extra parameters can be added to this array
 $aliasText = false;
 
-if ( $Module->isCurrentAction( 'RemoveAlias' ) )
+if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
+{
+    include_once( 'kernel/classes/ezurlaliasquery.php' );
+    $filter = new eZURLAliasQuery();
+    $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
+    $filter->type = 'alias';
+    $filter->offset = 0;
+    $filter->limit = 50;
+
+    while ( true )
+    {
+        $aliasList = $filter->fetchAll();
+        if ( count( $aliasList ) == 0 )
+            break;
+        foreach ( $aliasList as $alias )
+        {
+            $parentID = (int)$alias->attribute( 'parent' );
+            $textMD5  = $alias->attribute( 'text_md5' );
+            $language = $alias->attribute( 'language_object' );
+            eZURLAliasML::removeSingleEntry( $parentID, $textMD5, $language );
+        }
+        $filter->prepare();
+    }
+    $infoCode = "feedback-removed-all";
+}
+else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 {
     if ( $http->hasPostVariable( 'ElementList' ) )
     {
