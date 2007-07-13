@@ -1,8 +1,10 @@
 {* Window controls. *}
 <div class="menu-block{section show=fetch( content, translation_list )|count|eq( 1 )} notranslations{/section}">
 
-{def $li_width=""}
-{if le(ezpreference( 'admin_navigation_translations' ), 1 )}
+{def $translations_count=count($node.object.available_languages)
+    $li_width="" }
+
+{if le($translations_count, 1) }
     {set $li_width="_25"}
 {/if}
 
@@ -39,7 +41,7 @@
 
     {section show=fetch( content, translation_list )|count|gt( 1 )}
     {* Translations. *}
-    {if gt(ezpreference( 'admin_navigation_translations' ), 1 )}
+    {if gt($translations_count, 1) }
     {section show=ezpreference( 'admin_navigation_translations' )}
     <li class="enabled {$li_width}">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
@@ -88,5 +90,7 @@
 </ul>
 
 <div class="break"></div>
+
+{undef $li_width $translations_count}
 
 </div>
