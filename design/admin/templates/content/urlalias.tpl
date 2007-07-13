@@ -120,7 +120,7 @@
 <div class="button-left">
 {if $node.can_edit}
     {if $aliasList|count|gt( 0 )}
-    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias' )}" />
+    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias' )}" onclick="return confirm( '{'Are you sure you want to discard the selected aliases?'|i18n( 'design/admin/content/urlalias' )}' );" />
     {else}
     <input class="button-disabled" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
     {/if}

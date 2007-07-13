@@ -150,7 +150,7 @@
 <div class="block">
 <div class="button-left">
     {if $aliasList|count|gt( 0 )}
-    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="return confirm( '{'Are you sure you want to discard the selected aliases?'|i18n( 'design/admin/content/urlalias_global' )}' );"/>
     {else}
     <input class="button-disabled" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias_global' )}" disabled="disabled" />
     {/if}
