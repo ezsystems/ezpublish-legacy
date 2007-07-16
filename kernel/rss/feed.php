@@ -54,7 +54,7 @@ $cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 if ( $cacheTime <= 0 )
 {
     $xmlDoc = $RSSExport->attribute( 'rss-xml' );
-    $rssContent = $xmlDoc->toString();
+    $rssContent = $xmlDoc->saveXML();
 }
 else
 {
@@ -86,7 +86,7 @@ else
         // Get current charset
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         $charset = eZTextCodec::internalCharset();
-        $rssContent = $xmlDoc->toString( $charset );
+        $rssContent = $xmlDoc->saveXML();
         $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else

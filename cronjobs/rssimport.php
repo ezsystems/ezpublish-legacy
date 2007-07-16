@@ -33,7 +33,6 @@ include_once( 'kernel/classes/ezrssimport.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezpersistentobject.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
@@ -67,11 +66,11 @@ foreach ( $rssImportArray as $rssImport )
         continue;
     }
 
-    // Create DomDocumnt from http data
-    $xmlObject = new eZXML();
-    $domDocument = $xmlObject->domTree( $xmlData );
+    // Create DomDocument from http data
+    $domDocument = new DOMDocument();
+    $success = $domDocument->loadXML( $xmlData );
 
-    if ( $domDocument == null or $domDocument === false )
+    if ( !$success )
     {
         if ( !$isQuiet )
         {
@@ -80,18 +79,9 @@ foreach ( $rssImportArray as $rssImport )
         continue;
     }
 
-    $root =& $domDocument->root();
+    $root = $domDocument->documentElement;
 
-    if ( $root == null )
-    {
-        if ( !$isQuiet )
-        {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS document.' );
-        }
-        continue;
-    }
-
-    switch( $root->attributeValue( 'version' ) )
+    switch( $root->getAttribute( 'version' ) )
     {
         default:
         case '1.0':
@@ -103,7 +93,7 @@ foreach ( $rssImportArray as $rssImport )
         case '0.92':
         case '2.0':
         {
-            $version = $root->attributeValue( 'version' );
+            $version = $root->getAttribute( 'version' );
         } break;
     }
 
@@ -117,7 +107,7 @@ foreach ( $rssImportArray as $rssImport )
         continue;
     }
 
-    switch( $root->attributeValue( 'version' ) )
+    switch( $root->getAttribute( 'version' ) )
     {
         default:
         case '1.0':
@@ -152,8 +142,8 @@ function rssImport1( &$root, &$rssImport, &$cli )
     $addCount = 0;
 
     // Get all items in rss feed
-    $itemArray = $root->elementsByName( 'item' );
-    $channel = $root->firstElementByName( 'channel' );
+    $itemArray = $root->getElementsByTagName( 'item' );
+    $channel = $root->getElementsByTagName( 'channel' )->item( 0 );
 
     // Loop through all items in RSS feed
     foreach ( $itemArray as $item )
@@ -182,10 +172,10 @@ function rssImport2( &$root, &$rssImport, &$cli )
     $addCount = 0;
 
     // Get all items in rss feed
-    $channel =& $root->firstElementByName( 'channel' );
+    $channel = $root->getElementsByTagName( 'channel' )->item( 0 );
 
     // Loop through all items in RSS feed
-    foreach ( $channel->elementsByName( 'item' ) as $item )
+    foreach ( $channel->getElementsByTagName( 'item' ) as $item )
     {
         $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
@@ -224,10 +214,10 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     }
 
     $parentContentObject = $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
-    $titleElement = $item->firstElementByName( 'title' );
-    $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
-    $link = $item->firstElementByName( 'link' );
-    $linkURL = $link->textContent() . getCDATA( $link );
+    $titleElement = $item->getElementsByTagName( 'title' )->item( 0 );
+    $title = is_object( $titleElement ) ? $titleElement->textContent : '';
+    $link = $item->getElementsByTagName( 'link' )->item( 0 );
+    $linkURL = $link->textContent;
     $md5Sum = md5( $linkURL );
 
     // Try to fetch RSSImport object with md5 sum matching link.
@@ -399,23 +389,6 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
 
     return 1;
 }
-/*
- * Returns CDATA content of all $xmlDomNode children
-*/
-function getCDATA( $xmlDomNode )
-{
-    $textCDATA = '';
-    if ( is_object( $xmlDomNode ) and $xmlDomNode->hasChildren() )
-    {
-        $elementChildren = $xmlDomNode->children();
-        foreach ( $elementChildren as $children )
-        {
-            if ( $children->type() == eZDOMNode::TYPE_CDATASECTION )
-                $textCDATA .= $children->content() ;
-        }
-    }
-    return $textCDATA;
-}
 
 function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
 {
@@ -432,22 +405,22 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
         {
             if ( count( $importDescriptionArray ) == 1 )
             {
-                $element = $xmlDomNode->firstElementByName( $importDescriptionArray[0] );
-                // We should check if text contains CDATA content
-                $resultText = is_object( $element ) ? $element->textContent() . getCDATA( $element ) : false;
+                $element = $xmlDomNode->getElementsByTagName( $importDescriptionArray[0] )->item( 0 );
+
+                $resultText = is_object( $element ) ? $element->textContent : false;
                 return $resultText;
             }
             else
             {
                 $elementName = $importDescriptionArray[0];
                 array_shift( $importDescriptionArray );
-                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->firstElementByName( $elementName ) );
+                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->getElementsByTagName( $elementName )->item( 0 ) );
             }
         }
 
         case 'attributes':
         {
-            return $xmlDomNode->attributeValue( $importDescriptionArray[0] );
+            return $xmlDomNode->getAttribute( $importDescriptionArray[0] );
         } break;
     }
 }

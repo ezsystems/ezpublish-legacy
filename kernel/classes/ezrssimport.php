@@ -337,23 +337,19 @@ class eZRSSImport extends eZPersistentObject
             return false;
 
         include_once( 'lib/ezxml/classes/ezxml.php' );
-        // Create DomDocumnt from http data
-        $xmlObject = new eZXML();
-        $domDocument = $xmlObject->domTree( $xmlData );
+        // Create DomDocument from http data
 
-        if ( $domDocument == null or $domDocument === false )
+        $domDocument = new DOMDocument();
+        $success = $domDocument->loadXML( $xmlData );
+
+        if ( !$success )
         {
             return false;
         }
 
-        $root = $domDocument->root();
+        $root = $domDocument->documentElement;
 
-        if ( $root == null )
-        {
-            return false;
-        }
-
-        switch( $root->attributeValue( 'version' ) )
+        switch( $root->getAttribute( 'version' ) )
         {
             default:
             case '1.0':
@@ -365,7 +361,7 @@ class eZRSSImport extends eZPersistentObject
             case '0.92':
             case '2.0':
             {
-                return $root->attributeValue( 'version' );
+                return $root->getAttribute( 'version' );
             } break;
         }
     }
