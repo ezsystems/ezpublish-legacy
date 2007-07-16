@@ -88,7 +88,7 @@ function minBit( $value )
 
 set_time_limit( 0 );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $script =& eZScript::instance( array( 'description' => "Update database for the multilingual suport.",
                                       'use-session' => true,

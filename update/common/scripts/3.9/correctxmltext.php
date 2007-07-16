@@ -38,7 +38,7 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $script =& eZScript::instance( array( 'description' => "\nThis script performs tasks needed to upgrade to 3.9:\n" .
                                                        "\n- Converting <object> tags to <embed> tags" .
@@ -154,7 +154,7 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
     {
         if ( !$isQuiet )
         {
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
             if ( $dumpOnly )
                     $action = " is not defined.";
                 else
@@ -198,7 +198,7 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
             $customAttrs[] = $attr->LocalName;
             if ( !$isQuiet )
             {
-                $cli =& eZCLI::instance();
+                $cli = eZCLI::instance();
                 if ( $dumpOnly )
                     $action = " is not defined.";
                 else

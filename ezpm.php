@@ -33,7 +33,7 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
@@ -48,7 +48,7 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]... COMMAND [COMMAND OPTION]... [-- COMMAND [COMMAND OPTION]...]...\n" .
                   "eZ publish package manager.\n" .
                   "\n" .
@@ -76,7 +76,7 @@ function help()
 
 function helpCreate()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "create: Create a new package.\n" .
                   "usage: create NAME [SUMMARY [VERSION [INSTALLTYPE]]] [PARAMETERS]\n" .
                   "\n" .
@@ -90,7 +90,7 @@ function helpCreate()
 
 function helpExport()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "export: Export a part of the eZ publish installation into a package.\n" .
                   "usage: export TYPE [PARAMETERS]... [TYPE [PARAMETERS]...]...\n" .
                   "\n" .
@@ -101,7 +101,7 @@ function helpExport()
 
 function helpInstall()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "import: Install an eZ publish package.\n" .
                   "usage: install PACKAGE\n" .
                   "\n" .
@@ -113,7 +113,7 @@ function helpInstall()
 
 function helpImport()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "import: Import an eZ publish package.\n" .
                   "usage: import PACKAGE [ARCHIVENAME]\n" .
                   "\n" .
@@ -125,7 +125,7 @@ function helpImport()
 
 function helpList()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "list (ls): Lists all the packages\n" .
                   "If repository ID is given (-r option) it will show packages\n" .
                   "only from the given repository" .
@@ -135,7 +135,7 @@ function helpList()
 
 function helpInfo()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "info: Displays information on a given package.\n" .
                   "usage: info PACKAGE\n"
                   );
@@ -143,7 +143,7 @@ function helpInfo()
 
 function helpAdd()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "add: Adds an eZ publish item to the package.\n" .
                   "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
@@ -156,7 +156,7 @@ function helpAdd()
 
 function helpSet()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "set: Sets an attribute in the package.\n" .
                   "usage: set PACKAGE ATTRIBUTE ATTRIBUTEVALUE\n" .
                   "\n" .
@@ -177,7 +177,7 @@ function helpSet()
 
 function helpDelete()
 {
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "delete (del, remove, rm): Removes an eZ publish item from the package.\n" .
                   "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
                   "\n" .
@@ -188,7 +188,7 @@ function helpDelete()
 function helpHelp()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "help: Displays help information on commands.\n" .
                   "usage: help COMMAND\n" .
                   "\n" .
@@ -211,7 +211,7 @@ function helpHelp()
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;

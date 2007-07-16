@@ -43,7 +43,7 @@ $fileNameSql = 'cleandata.sql';
 $stdOutSQL = null;
 $stdOutDBA = null;
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Isbn data dump\n\n" .
                                                          "Dump sql data to file or standard output from the tables:\n" .
                                                          "  ezisbn_group\n" .

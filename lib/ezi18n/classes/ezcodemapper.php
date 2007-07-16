@@ -87,7 +87,7 @@ class eZCodeMapper
         if ( class_exists( 'ezcli' ) )
         {
             include_once( 'lib/ezutils/classes/ezcli.php' );
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
             $cli->error( $str );
         }
         else
@@ -113,7 +113,7 @@ class eZCodeMapper
         if ( class_exists( 'ezcli' ) )
         {
             include_once( 'lib/ezutils/classes/ezcli.php' );
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
             $cli->warning( $str );
         }
         else

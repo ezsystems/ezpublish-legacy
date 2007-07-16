@@ -34,7 +34,7 @@ include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
@@ -48,7 +48,7 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
                   "eZ publish content object name update.\n" .
                   "Goes trough all objects and updates all content object names\n" .
@@ -73,7 +73,7 @@ function help()
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;

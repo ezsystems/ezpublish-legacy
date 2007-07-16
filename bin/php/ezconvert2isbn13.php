@@ -65,7 +65,7 @@ include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbntype.php' );
 include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish ISBN10 to ISBN13 converter\n\n" .
                                                          "Converts a ISBN10 number to ISBN 13\n" ),
                                       'use-session' => false,

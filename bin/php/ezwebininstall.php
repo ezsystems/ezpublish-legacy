@@ -56,7 +56,7 @@ include_once( '../ezbacktrace.php' );
 
 
 // script initializing
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "\n" .
                                                          "Install eZWebin package\n" ),
                                       'use-session' => false,

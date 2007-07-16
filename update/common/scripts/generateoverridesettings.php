@@ -30,7 +30,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 include_once( "lib/ezutils/classes/ezini.php" );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
 $script =& eZScript::instance( array( 'description' => ( "eZ publish overridesettings generate.".

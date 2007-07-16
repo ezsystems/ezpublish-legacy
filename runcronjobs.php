@@ -46,7 +46,7 @@ include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 eZContentLanguage::setCronjobMode();
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
@@ -60,7 +60,7 @@ $webOutput = $cli->isWebOutput();
 function help()
 {
     $argv = $_SERVER['argv'];
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]... [PART]\n" .
                   "Executes eZ publish cronjobs.\n" .
                   "\n" .
@@ -80,7 +80,7 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
     global $cronPart;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;

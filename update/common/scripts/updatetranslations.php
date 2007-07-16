@@ -35,7 +35,7 @@ set_time_limit( 0 );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
 $script =& eZScript::instance( array( 'description' => ( "eZ publish update of translations.\n\n".
@@ -65,7 +65,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;

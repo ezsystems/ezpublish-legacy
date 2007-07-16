@@ -30,7 +30,7 @@
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $script =& eZScript::instance( array( 'description' => "\nThis script is optional for upgrading to 3.10.\n" .
                                                        "The script adds a role which contains a policy 'content/tipafriend' and" .

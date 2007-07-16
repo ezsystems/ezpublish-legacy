@@ -46,7 +46,7 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
                                                          "Updates <link> tags in 'ezxmltext' type attributes.\n" .

@@ -130,7 +130,7 @@ function copyFilesFromDB( $copyFiles, $copyImages, $remove )
     $cli->output();
 }
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish (un)clusterize\n" .
                                                          "Script for moving var_dir files from " .
                                                          "filesystem to database and vice versa\n" .

@@ -40,7 +40,7 @@
 
   A typical usage:
 \code
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $cli->setUseStyles( true ); // enable colors
 
@@ -573,7 +573,7 @@ class eZCLI
         if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcli' )
             $cli =& $this;
         else
-            $cli =& eZCLI::instance();
+            $cli = eZCLI::instance();
 
         if ( is_string( $config ) )
             $config = eZCLI::parseOptionString( $config, $optionConfig );

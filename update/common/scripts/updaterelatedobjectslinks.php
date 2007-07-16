@@ -49,7 +49,7 @@ if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' 
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
 $script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
                                                          "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
@@ -88,7 +88,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;

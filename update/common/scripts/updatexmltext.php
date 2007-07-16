@@ -46,7 +46,7 @@ $fixAllAttributes = true;
 $fixAttribute = true;
 $fixURL = true;
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
 $script =& eZScript::instance( array( 'description' => ( "eZ publish xml text field updater.\n\n".
@@ -76,7 +76,7 @@ if ( $siteAccess )
 function changeSiteAccessSetting( &$siteaccess, $optionData )
 {
     global $isQuiet;
-    $cli =& eZCLI::instance();
+    $cli = eZCLI::instance();
     if ( file_exists( 'settings/siteaccess/' . $optionData ) )
     {
         $siteaccess = $optionData;
