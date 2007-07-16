@@ -189,12 +189,33 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     }
 }
 
+// User preferences
+$limitList = array( array( 'id'    => 1,
+                           'value' => 10 ),
+                    array( 'id'    => 2,
+                           'value' => 25 ),
+                    array( 'id'    => 3,
+                           'value' => 50 ),
+                    array( 'id'    => 4,
+                           'value' => 100 ) );
+include_once( 'kernel/classes/ezpreferences.php' );
+$limitID = eZPreferences::value( 'admin_urlalias_list_limit' );
+foreach ( $limitList as $limitEntry )
+{
+    $limitIDs[]                     = $limitEntry['id'];
+    $limitValues[$limitEntry['id']] = $limitEntry['value'];
+}
+if ( !in_array( $limitID, $limitIDs ) )
+{
+    $limitID = 2;
+}
+
 // Fetch global custom aliases (excluding eznode)
 include_once( 'kernel/classes/ezurlaliasquery.php' );
 $filter = new eZURLAliasQuery();
 $filter->actionTypesEx = array( 'eznode', 'nop' );
 $filter->offset = $Offset;
-$filter->limit = 15;
+$filter->limit = $limitValues[$limitID];
 
 // Prime the internal data for the template, for PHP5 this is no longer needed since objects will not be copied anymore in the template code.
 $count = $filter->count();
@@ -212,6 +233,8 @@ $tpl->setVariable( 'info_code', $infoCode );
 $tpl->setVariable( 'info_data', $infoData );
 $tpl->setVariable( 'aliasSourceText', $aliasOutputText );
 $tpl->setVariable( 'aliasDestinationText', $aliasOutputDestinationText );
+$tpl->setVariable( 'limitList', $limitList );
+$tpl->setVariable( 'limitID', $limitID );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();

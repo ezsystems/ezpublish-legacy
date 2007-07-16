@@ -88,6 +88,26 @@
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{* Items per page selector. *}
+<div class="context-toolbar">
+<div class="block">
+<div class="left">
+    <p>
+    {foreach $limitList as $limitEntry}
+        {if eq($limitID, $limitEntry['id'])}
+            <span class="current">{$limitEntry['value']}</span>
+        {else}
+            <a href={concat('/user/preferences/set/admin_urlalias_list_limit/', $limitEntry['id'])|ezurl} title="{'Show %number_of items per page.'|i18n( 'design/admin/content/urlalias_global',, hash( '%number_of', $limitEntry['value'] ) )}">{$limitEntry['value']}</a>
+        {/if}
+    {/foreach}
+    </p>
+</div>
+<div class="break"></div>
+
+</div>
+</div>
+
+
 {* list here *}
 {if eq( count( $aliasList ), 0)}
 <div class="block">
