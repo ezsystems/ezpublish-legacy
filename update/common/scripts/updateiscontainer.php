@@ -37,7 +37,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish is_container update script\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish is_container update script\n\n" .
                                                          "This script will set the is_container attribute on known eZ publish classes\n" .
                                                          "\n" .
                                                          "Note: The script must be run for each siteaccess" .

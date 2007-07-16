@@ -44,7 +44,7 @@ $stdOutSQL = null;
 $stdOutDBA = null;
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Isbn data dump\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish SQL Isbn data dump\n\n" .
                                                          "Dump sql data to file or standard output from the tables:\n" .
                                                          "  ezisbn_group\n" .
                                                          "  ezisbn_group_range\n" .

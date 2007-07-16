@@ -49,7 +49,7 @@ $fixURL = true;
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish xml text field updater.\n\n".
+$script = eZScript::instance( array( 'description' => ( "eZ publish xml text field updater.\n\n".
                                                          "Goes trough all objects with XML fields and corrects any broken XML structures and content." .
                                                          "\n" .
                                                          "updatexmltext.php" ),

@@ -47,7 +47,7 @@ include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode();
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'debug-message' => '',
+$script = eZScript::instance( array( 'debug-message' => '',
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );

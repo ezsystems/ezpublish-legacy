@@ -213,7 +213,7 @@ function updateINI()
 
 // script initializing
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will upgrade ezwebin 1.1-1 to 1.2-0\n" ),
                                       'use-session' => false,
                                       'use-modules' => true,

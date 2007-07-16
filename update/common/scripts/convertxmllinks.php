@@ -48,7 +48,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
                                                          "Updates <link> tags in 'ezxmltext' type attributes.\n" .
                                                          "Run this script before using database created with eZ publish version 3.5.* or lower." ),
                                       'use-session' => false,

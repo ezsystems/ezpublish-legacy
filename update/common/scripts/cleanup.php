@@ -35,7 +35,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish database cleanup.\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish database cleanup.\n\n" .
                                                          "Will cleanup various data from the currently used database in eZ publish\n" .
                                                          "\n" .
                                                          "Possible values for NAME is:\n" .

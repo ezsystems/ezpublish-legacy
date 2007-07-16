@@ -32,7 +32,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "\nThis script is optional for upgrading to 3.10.\n" .
+$script = eZScript::instance( array( 'description' => "\nThis script is optional for upgrading to 3.10.\n" .
                                                        "The script adds a role which contains a policy 'content/tipafriend' and" .
                                                        "\nassigns this role to all user groups except anonymous. That will give " .
                                                        "\npossibility to use tipafriend view for all users except anonymous." .

@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish update of class/classattribute names translations.\n\n".
+$script = eZScript::instance( array( 'description' => ( "eZ publish update of class/classattribute names translations.\n\n".
                                                          "Will go over class/classattributes and reinitialize their names for missing translations" .
                                                          "\n" .
                                                          "updateclasstranslations.php" ),

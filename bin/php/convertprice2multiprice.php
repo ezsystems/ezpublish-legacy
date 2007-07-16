@@ -47,7 +47,7 @@ global $currencyList;
 $currencyList = false;
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will convert objects with 'price' datatype to\n" .
                                                          "the objects with 'multiprice' datatype.\n" ),
                                       'use-session' => false,

@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Remote ID Generator\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish Remote ID Generator\n\n" .
                                                          "This script will go over all objects, classes and nodes and make sure they have a remote id,\n" .
                                                          "\n" .
                                                          "updateremoteid.php" ),

@@ -35,7 +35,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\n" .
+$script = eZScript::instance( array( 'description' => ( "\n" .
                                                          "This script will make a copy of a content object subtree and place it in a specified\n" .
                                                          "location.\n" ),
                                       'use-session' => false,

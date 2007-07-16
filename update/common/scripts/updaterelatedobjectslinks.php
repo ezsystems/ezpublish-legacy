@@ -51,7 +51,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
+$script = eZScript::instance( array( 'description' => ( "\nDatabase converter for eZ publish 3.6.\n" .
                                                          "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
                                                          "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
                                                          "Run this script before using a database created with eZ publish version 3.5.* or lower.\n" .

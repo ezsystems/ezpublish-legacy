@@ -90,7 +90,7 @@ set_time_limit( 0 );
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "Update database for the multilingual suport.",
+$script = eZScript::instance( array( 'description' => "Update database for the multilingual suport.",
                                       'use-session' => true,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );

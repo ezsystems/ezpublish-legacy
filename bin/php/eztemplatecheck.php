@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Template Syntax Checker\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish Template Syntax Checker\n" .
                                                          "\n" .
                                                          "./bin/php/eztemplatecheck.php -sadmin\n" .
                                                          "or\n" .

@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Database Converter\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish Database Converter\n\n" .
                                                          "Convert the database to the given type\n".
                                                          "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
                                       'use-session' => false,

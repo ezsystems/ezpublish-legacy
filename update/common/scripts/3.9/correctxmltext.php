@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => "\nThis script performs tasks needed to upgrade to 3.9:\n" .
+$script = eZScript::instance( array( 'description' => "\nThis script performs tasks needed to upgrade to 3.9:\n" .
                                                        "\n- Converting <object> tags to <embed> tags" .
                                                        "\n- Adding existing 'class' attibute values to AvailableClasses arrays of content.ini" .
                                                        "\n- Adding existing custom attibutes to CustomAttributes arrays of content.ini\n" .

@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezrssimport.php' );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "Update RSS import settings.\n\n" .
+$script = eZScript::instance( array( 'description' => ( "Update RSS import settings.\n\n" .
                                                          "Goes through all RSS imports and upgrades them." .
                                                          "\n" .
                                                          "updaterssimport.php"),

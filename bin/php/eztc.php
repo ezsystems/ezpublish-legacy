@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
                                                          "\n" .
                                                          "./bin/php/eztc.php -snews --www-dir='/mypath' --index-file='/index.php' --access-path='news'" ),
                                       'use-session' => false,

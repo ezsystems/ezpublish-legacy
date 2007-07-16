@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish static cache generator\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish static cache generator\n" .
                                                          "\n" .
                                                          "./bin/makestaticcache.php --siteaccess user" ),
                                       'use-session' => false,

@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish DB file verifier\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish DB file verifier\n\n" .
                                                          "Checks the database update files and gives a report on them.\n" .
                                                          "It will show which files are missing and which should not be present.\n" .
                                                          "\n" .

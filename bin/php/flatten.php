@@ -35,7 +35,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli = eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish database flattening.\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish database flattening.\n\n" .
                                                          "Will remove data that is not considered currently in use to minimize the amount of database data it consumes\n" .
                                                          "\n" .
                                                          "Possible values for NAME is:\n" .

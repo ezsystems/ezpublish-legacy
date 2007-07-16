@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Changelog converter\n\n" .
+$script = eZScript::instance( array( 'description' => ( "eZ publish Changelog converter\n\n" .
                                                          "Converts a Changelog into XML text format usable in eZ publish\n" .
                                                          "The result is printed to the standard output" ),
                                       'use-session' => false,
