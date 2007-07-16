@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'RemoveGroupButton' ) && $http->hasPostVariable( 'g
 else if ( $http->hasPostVariable( 'SetSorting' ) &&
           $http->hasPostVariable( 'ContentClass_default_sorting_exists' ) )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $db->begin();
     if ( $http->hasPostVariable( 'ContentClass_default_sorting_field' ) )
     {

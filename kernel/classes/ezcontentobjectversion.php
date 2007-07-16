@@ -1057,7 +1057,7 @@ class eZContentObjectVersion extends eZPersistentObject
             if ( count( $versions ) < 1 )
                 break;
 
-            $db =& eZDB::instance();
+            $db = eZDB::instance();
             $db->begin();
             foreach ( $versions as $version )
             {

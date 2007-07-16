@@ -44,7 +44,7 @@ $options = $script->getOptions(  );
 
 $script->initialize();
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 
 $countries = $db->query( "SELECT country from ezvatrule;" );
 $iniCountries = eZCountryType::fetchCountryList();

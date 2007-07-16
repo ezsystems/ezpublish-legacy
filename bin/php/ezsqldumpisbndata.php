@@ -71,7 +71,7 @@ $options = $script->getOptions( "[stdout-sql][stdout-dba][filename-sql:][filenam
                                        'filename-dba' => "Custom name for the dba file. Will be stored in the directory: \n" .
                                                          "kernel/classes/datatypes/ezisbn/share/" ) );
 $script->initialize();
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $dbSchema = eZDBSchema::instance( $db );
 
 if ( isset( $options['filename-sql'] ) )

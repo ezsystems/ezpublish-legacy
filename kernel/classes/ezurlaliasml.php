@@ -296,7 +296,7 @@ class eZURLAliasML extends eZPersistentObject
         if ( !is_object( $language ) )
             $language = eZContentLanguage::fetchByLocale( $language );
         $languageID = $language->attribute( 'id' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $db->databaseName() == "oracle" )
         {
             $bitDel   = "bitand( lang_mask, " . (~$languageID) . " )";

@@ -182,7 +182,7 @@ class eZURLAliasQuery
         if ( $this->query === false )
             return 0;
         $query = "SELECT count(*) AS count {$this->query}";
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) == 0 )
             $this->count = 0;
@@ -210,7 +210,7 @@ class eZURLAliasQuery
         $query = "SELECT * {$this->query} ORDER BY {$this->order}";
         $params = array( 'offset' => $this->offset,
                          'limit'  => $this->limit );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $query, $params );
         if ( count( $rows ) == 0 )
             $this->items = array();
@@ -231,7 +231,7 @@ class eZURLAliasQuery
             return null;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $this->languages === true )
         {
             $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );

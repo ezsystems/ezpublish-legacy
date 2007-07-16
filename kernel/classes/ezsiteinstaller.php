@@ -274,7 +274,7 @@ class eZSiteInstaller
     */
     function dbBegin( $params )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
     }
 
@@ -285,7 +285,7 @@ class eZSiteInstaller
     */
     function dbCommit( $params )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->commit();
     }
 
@@ -1105,7 +1105,7 @@ class eZSiteInstaller
         $node->setAttribute( 'contentobject_id', $selectedObjectID );
         $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $node->store();
         $selectedNode->setAttribute( 'contentobject_id', $objectID );
@@ -1581,7 +1581,7 @@ class eZSiteInstaller
     */
     function setVersion( $params = false )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
 
         $name = strtolower( $this->solutionName() );
         $version = $this->solutionVersion();

@@ -76,7 +76,7 @@ function copyMediafilesToDB( $remove )
 {
     global $cli, $dbFileHandler;
 
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 
     $cli->output( "Importing media files to database:");
     $rows = $db->arrayQuery('select filename, mime_type from ezmedia' );

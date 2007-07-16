@@ -133,7 +133,7 @@ class eZISBN13
     */
     function hasRangeData()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $tableList = $db->eZTableList();
         if ( array_key_exists( 'ezisbn_group', $tableList ) and
              array_key_exists( 'ezisbn_group_range', $tableList ) and

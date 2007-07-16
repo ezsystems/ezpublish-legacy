@@ -81,12 +81,12 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 }
 
 if ( !$db->isConnected() )
@@ -103,7 +103,7 @@ $xml = new eZXML();
 
 function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $relationType )
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
     $relationBaseType = EZ_CONTENT_OBJECT_RELATION_COMMON |
                         EZ_CONTENT_OBJECT_RELATION_EMBED |
                         EZ_CONTENT_OBJECT_RELATION_LINK;

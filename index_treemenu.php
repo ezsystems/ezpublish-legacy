@@ -102,7 +102,7 @@ $access = accessType( $uri,
 $access = changeAccess( $access );
 $GLOBALS['eZCurrentAccess'] =& $access;
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 if ( $db->isConnected() )
 {
     eZSessionStart();

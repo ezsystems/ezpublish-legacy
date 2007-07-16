@@ -88,7 +88,7 @@ include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
 $language = eZContentLanguage::fetchByLocale( $languageLocale );
@@ -100,7 +100,7 @@ if ( !$language )
 }
 
 
-$db =& eZDB::instance();
+$db = eZDB::instance();
 $db->begin();
 
 for ( $offset = 0; ; $offset += QUERY_LIMIT )

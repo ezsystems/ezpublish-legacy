@@ -1776,7 +1776,7 @@ You will need to change the class of the node by using the swap functionality.' 
             return false;
         }
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
 
         $classID = $this->attribute( 'id' );
