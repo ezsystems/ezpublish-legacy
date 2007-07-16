@@ -37,7 +37,7 @@ include_once( "kernel/common/template.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $NodeID = (int)$Params['NodeID'];
 $Module =& $Params['Module'];

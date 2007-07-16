@@ -87,7 +87,7 @@ switch( $operationResult['status'] )
     {
         if ( isset( $operationResult['reason'] ) &&  $operationResult['reason'] == 'validation' )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             $http->setSessionVariable( "BasketError", $operationResult['error_data'] );
             $module->redirectTo( $module->functionURI( "basket" ) . "/(error)/options" );
             return;

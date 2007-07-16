@@ -34,7 +34,7 @@ include_once( 'kernel/classes/ezurlaliasml.php' );
 include_once( 'kernel/classes/ezpathelement.php' );
 
 $Module =& $Params['Module'];
-$http =& eZHTTPTool::instance();
+$http = eZHTTPTool::instance();
 
 $NodeID = $Params['NodeID'];
 $Offset = $Params['Offset'];

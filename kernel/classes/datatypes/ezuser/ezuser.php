@@ -1635,7 +1635,7 @@ WHERE user_id = '" . $userID . "' AND
             {
                 if ( $userID == $currentUserID )
                 {
-                    $http =& eZHTTPTool::instance();
+                    $http = eZHTTPTool::instance();
                     if ( $http->hasSessionVariable( 'AccessArray' ) and
                          $http->hasSessionVariable( 'AccessArrayTimestamp' ) )
                     {
