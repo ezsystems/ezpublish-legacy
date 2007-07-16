@@ -1623,7 +1623,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         if ( !isset( $this->AccessArray ) )
         {
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $isRoleCachingEnabled = ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' );
 
             $userID = $this->attribute( 'contentobject_id' );

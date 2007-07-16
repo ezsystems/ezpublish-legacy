@@ -779,7 +779,7 @@ class eZContentCacheManager
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
             $nodes = array();
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $staticCache = new eZStaticCache();
             $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
             $pathPrefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );

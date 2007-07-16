@@ -147,7 +147,7 @@ class eZTemplateStringOperator
                                                                   }'
                                                      ),
                                    'upfirst' => array( 'return' => 'string',
-                                                       'code' => '$i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                       'code' => '$i18nIni = eZINI::instance( \'i18n.ini\' );
                                                                   $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
                                                                   function_exists( "mb_strtoupper" ) and
                                                                   function_exists( "mb_substr" ) and
@@ -166,7 +166,7 @@ class eZTemplateStringOperator
                                                                   }'
                                                      ),
                                    'upword' => array( 'return' => 'string',
-                                                      'code' => ' $i18nIni =& eZINI::instance( \'i18n.ini\' );
+                                                      'code' => ' $i18nIni = eZINI::instance( \'i18n.ini\' );
                                                                   $hasMBString = ( $i18nIni->variable( \'CharacterSettings\', \'MBStringExtension\' ) == \'enabled\' and
                                                                                    function_exists( "mb_strtoupper" ) and
                                                                                    function_exists( "mb_substr" ) and
@@ -593,7 +593,7 @@ class eZTemplateStringOperator
             // Convert the first character to uppercase.
             case $this->UpfirstName:
             {
-                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $i18nIni = eZINI::instance( 'i18n.ini' );
                 $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
                                  function_exists( "mb_strtoupper" ) and
                                  function_exists( "mb_substr" ) and
@@ -631,7 +631,7 @@ class eZTemplateStringOperator
             // Convert all first characters [in all words] to uppercase.
             case $this->UpwordName:
             {
-                $i18nIni =& eZINI::instance( 'i18n.ini' );
+                $i18nIni = eZINI::instance( 'i18n.ini' );
                 $hasMBString = ( $i18nIni->variable( 'CharacterSettings', 'MBStringExtension' ) == 'enabled' and
                                  function_exists( "mb_strtoupper" ) and
                                  function_exists( "mb_substr" ) and

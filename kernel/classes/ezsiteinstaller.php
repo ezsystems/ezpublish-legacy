@@ -1545,7 +1545,7 @@ class eZSiteInstaller
         eZDir::copy( $srcSiteaccessDir, $dstSiteaccessDir, false, true );
 
         // Update settings
-        $siteINI =& eZINI::instance( "site.ini.append.php", $dstSiteaccessDir, null, false, null, true );
+        $siteINI = eZINI::instance( "site.ini.append.php", $dstSiteaccessDir, null, false, null, true );
 
         if( $dstLocale )
         {
@@ -1596,7 +1596,7 @@ class eZSiteInstaller
         foreach( $params['groups'] as $settingsData )
         {
             $iniFilename = $settingsData['name'] . '.append.php';
-            $ini =& eZINI::instance( $iniFilename, $params['settings_dir'] );
+            $ini = eZINI::instance( $iniFilename, $params['settings_dir'] );
             if( isset( $settingsData['discard_old_values'] ) && $settingsData['discard_old_values'] )
                 $ini->reset();
 

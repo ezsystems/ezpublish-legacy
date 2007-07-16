@@ -697,7 +697,7 @@ class eZSys
                 // https case
                 $host = preg_replace( '/:\d+$/', '', $host );
 
-                $ini =& eZINI::instance();
+                $ini = eZINI::instance();
                 $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
 
                 $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";

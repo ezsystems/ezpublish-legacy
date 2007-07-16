@@ -74,7 +74,7 @@ eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 $_SERVER['SCRIPT_FILENAME'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['SCRIPT_FILENAME'] );
 $_SERVER['PHP_SELF'] = str_replace( '/index_treemenu.php', '/index.php', $_SERVER['PHP_SELF'] );
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 $timezone = $ini->variable( 'TimeZoneSettings', 'TimeZone' );
 if ( $timezone )
@@ -113,7 +113,7 @@ else
     return;
 }
 
-$moduleINI =& eZINI::instance( 'module.ini' );
+$moduleINI = eZINI::instance( 'module.ini' );
 $globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
 eZModule::setGlobalPathList( $globalModuleRepositories );
 

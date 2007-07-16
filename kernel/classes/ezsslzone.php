@@ -264,7 +264,7 @@ class eZSSLZone
             $host = eZSys::serverVariable( 'HTTP_HOST' );
             $host = preg_replace( '/:\d+$/', '', $host );
 
-            $ini =& eZINI::instance();
+            $ini = eZINI::instance();
             $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
             $sslPortString = ( $sslPort == EZSSLZONE_DEFAULT_SSL_PORT ) ? '' : ":$sslPort";
             $sslZoneRedirectionURL = "https://" . $host  . $sslPortString . $indexDir . $requestURI;

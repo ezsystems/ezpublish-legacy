@@ -252,7 +252,7 @@ class eZISBN13
     */
     function extractISBNNumber( $isbnNr = false, &$error )
     {
-        $ini =& eZINI::instance( 'content.ini' );
+        $ini = eZINI::instance( 'content.ini' );
         $ean = preg_replace( "/[\s|\-]+/", "", $isbnNr );
         if ( is_numeric( $ean ) and strlen( $ean ) == EZ_DATATYPESTRING_ISBN_13_LENGTH )
         {

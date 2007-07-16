@@ -124,12 +124,12 @@ $xml = new eZXML();
 
 if ( !$skipClasses || !$skipCustom )
 {
-    $contentIni =& eZINI::instance( 'content.ini' );
+    $contentIni = eZINI::instance( 'content.ini' );
     if ( $global )
         $iniPath = "settings/override";
     else
         $iniPath = "settings/siteaccess/$siteaccess";
-    $contentIniDirect =& eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
+    $contentIniDirect = eZINI::instance( 'content.ini.append', $iniPath, null, null, null, true, true );
 
     include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
     $XMLSchema =& eZXMLSchema::instance();

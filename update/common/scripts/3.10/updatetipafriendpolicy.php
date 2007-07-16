@@ -54,10 +54,10 @@ $script->initialize();
 
 $cli->notice( "\nStart." );
 
-$contentIni =& eZINI::instance( 'content.ini' );
+$contentIni = eZINI::instance( 'content.ini' );
 $userRootNodeID = $contentIni->variable( 'NodeSettings', 'UserRootNode' );
 
-$siteIni =& eZINI::instance( 'site.ini' );
+$siteIni = eZINI::instance( 'site.ini' );
 $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
 $anonymousUser = eZUser::fetch( $anonymousUserID );
 $anonymousUsers = array();

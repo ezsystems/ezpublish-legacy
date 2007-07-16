@@ -96,8 +96,8 @@ if ( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) )
 
 $nodeID = (int) $_GET['node_id'];
 
-$siteINI =& eZINI::instance();
-$contentstructuremenuINI =& eZINI::instance( 'contentstructuremenu.ini' );
+$siteINI = eZINI::instance();
+$contentstructuremenuINI = eZINI::instance( 'contentstructuremenu.ini' );
 
 if ( $contentstructuremenuINI->variable( 'TreeMenu', 'Dynamic' ) != 'enabled' )
 {

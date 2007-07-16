@@ -1531,7 +1531,7 @@ class eZCodeMapper
 
             default:
             {
-                $ini =& eZINI::instance( 'transform.ini' );
+                $ini = eZINI::instance( 'transform.ini' );
                 $commands = $ini->variable( 'Extensions', 'Commands' );
                 if ( isset( $commands[$name] ) )
                 {

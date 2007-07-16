@@ -295,7 +295,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    $contentINI =& eZINI::instance( 'content.ini' );
+    $contentINI = eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
     $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );

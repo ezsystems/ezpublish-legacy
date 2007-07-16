@@ -163,7 +163,7 @@ function updateINI()
                 {
                     //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
                     $iniToModify = $iniName . '.append.php';
-                    $tmpINI =& eZINI::instance( $iniToModify, $saPath );
+                    $tmpINI = eZINI::instance( $iniToModify, $saPath );
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
                     $tmpINI->setReadOnlySettingsCheck( false );
                     $tmpINI->setVariables( $settings );
@@ -196,7 +196,7 @@ function updateINI()
         if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
              file_exists( 'settings/override/' . $iniName . '.append.php' ) )
         {
-            $tmpINI =& eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+            $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
         }
         else
         {
@@ -303,7 +303,7 @@ $packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/
 $packageURL = $scriptOptions['url'];
 if ( !$packageURL )
 {
-    $packageINI =& eZINI::instance( 'package.ini' );
+    $packageINI = eZINI::instance( 'package.ini' );
     $packageURL = $packageINI->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 }
 

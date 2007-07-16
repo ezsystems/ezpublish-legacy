@@ -54,7 +54,7 @@ class eZLog
     */
     function write( $message, $logName = 'common.log', $dir = '' )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $dir = $ini->variable( 'FileSettings', 'VarDir' ). '/' .$ini->variable( 'FileSettings', 'LogDir' );
         $fileName = $dir . '/' . $logName;
         if ( !file_exists( $dir ) )

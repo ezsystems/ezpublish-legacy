@@ -58,7 +58,7 @@ $print = true;
 if ( $options['no-print'] )
     $print = false;
 
-$ini =& eZINI::instance();
+$ini = eZINI::instance();
 
 $pathList = $options['arguments'];
 $error = false;

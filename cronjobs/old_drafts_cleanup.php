@@ -37,7 +37,7 @@ if ( !$isQuiet )
     $cli->output( "Cleaning up user's drafts..." );
 
 // Cleaning up usual drafts
-$ini =& eZINI::instance( 'content.ini' );
+$ini = eZINI::instance( 'content.ini' );
 $draftsCleanUpLimit = $ini->hasVariable( 'VersionManagement', 'DraftsCleanUpLimit' ) ?
                          $ini->variable( 'VersionManagement', 'DraftsCleanUpLimit' ) : 0;
 $durationSetting = $ini->hasVariable( 'VersionManagement', 'DraftsDuration' ) ?

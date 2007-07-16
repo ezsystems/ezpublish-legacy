@@ -140,7 +140,7 @@ $packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/
 $packageURL = $scriptOptions['url'];
 if ( !$packageURL )
 {
-    $packageINI =& eZINI::instance( 'package.ini' );
+    $packageINI = eZINI::instance( 'package.ini' );
     $packageURL = $packageINI->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
 }
 
@@ -174,7 +174,7 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
         $locales = eZContentLanguage::fetchLocaleList();
         $primaryLanguage = eZContentLanguage::topPriorityLanguage();
 
-        $siteINI =& eZINI::instance();
+        $siteINI = eZINI::instance();
         $matchOrder = $siteINI->variableArray( 'SiteAccessSettings', 'MatchOrder' );
         $accessType = $matchOrder[0];
         $accessTypeValue = 'ezwebin_site';
