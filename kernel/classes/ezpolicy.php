@@ -276,7 +276,7 @@ class eZPolicy extends eZPersistentObject
     */
     function accessArray( $ignoreLimitIdentifier = false )
     {
-        $limitations =& $this->limitationList( true, $ignoreLimitIdentifier );
+        $limitations = $this->limitationList( true, $ignoreLimitIdentifier );
         if ( $this->Disabled === true )
         {
             return array();

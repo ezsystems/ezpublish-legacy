@@ -241,7 +241,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
 
         $currentModule = $policy->attribute( 'module_name' );
-        $mod = & eZModule::exists( $currentModule );
+        $mod = eZModule::exists( $currentModule );
         if ( !is_object( $mod ) )
         {
             eZDebug::writeError( 'Failed to fetch instance for module ' . $currentModule );

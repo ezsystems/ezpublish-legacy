@@ -55,7 +55,7 @@ $currentFunction = $policy->attribute( 'function_name' );
 $roleID = $policy->attribute( 'role_id' );
 $role = eZRole::fetch( $roleID );
 $roleName = $role->attribute( 'name' );
-$limitationValueList =& $policy->limitationList();
+$limitationValueList = $policy->limitationList();
 $nodeList = array();
 $subtreeList = array();
 
@@ -65,7 +65,7 @@ if ( $currentModule == "*" )
 }
 else
 {
-    $mod = & eZModule::exists( $currentModule );
+    $mod = eZModule::exists( $currentModule );
     $functions = $mod->attribute( 'available_functions' );
 }
 $currentFunctionLimitations = array();
