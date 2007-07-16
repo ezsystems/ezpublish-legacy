@@ -189,7 +189,7 @@ $filter->limit = false;
 $elements = $filter->fetchAll();
 
 // Fetch custom aliases for node
-$limit = 10;
+$limit = 25;
 $filter->prepare(); // Reset SQLs from previous calls
 $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
 $filter->type = 'alias';
