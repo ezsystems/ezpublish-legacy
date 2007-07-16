@@ -6,6 +6,11 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The selected aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
 </div>
 {/case}
+{case match='feedback-removed-all'}
+<div class="message-feedback">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All global aliases were successfully removed.'|i18n( 'design/admin/content/urlalias_global' )}</h2>
+</div>
+{/case}
 {case match='error-invalid-language'}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified language code <%language> is not valid.'|i18n( 'design/admin/content/urlalias_global',, hash('%language', $info_data['language']) )|wash}</h2>
@@ -100,7 +105,7 @@
     <tr class="{$seq}">
         {* Remove. *}
         <td>
-            <input type="checkbox" name="ElementList[]" value="{$element.id}-{$element.parent}" />
+            <input type="checkbox" name="ElementList[]" value="{$element.parent}.{$element.text_md5}.{$element.language_object.locale}" />
         </td>
 
         <td>
@@ -150,9 +155,11 @@
 <div class="block">
 <div class="button-left">
     {if $aliasList|count|gt( 0 )}
-    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove selected aliases from the list above.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="return confirm( '{'Are you sure you want to remove the selected aliases?'|i18n( 'design/admin/content/urlalias_global' )}' );"/>
+    <input class="button" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Remove all global aliases.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="return confirm( '{'Are you sure you want to remove all global aliases?'|i18n( 'design/admin/content/urlalias_global' )}' );"/>
     {else}
     <input class="button-disabled" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias_global' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias_global' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias_global' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias_global' )}" disabled="disabled" />
     {/if}
 </div>
 <div class="break"></div>
@@ -181,13 +188,13 @@
 <div class="block">
 {* Alias name field. *}
     <label>{'Name/Path of alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="text" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <input class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
     <label>{'Path to existing funtionality or resource'|i18n( 'design/admin/content/urlalias_global' )}:</label>
-    <input class="text" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
+    <input class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">

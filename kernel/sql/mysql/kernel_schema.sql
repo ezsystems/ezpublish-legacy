@@ -1513,7 +1513,7 @@ CREATE TABLE ezuservisit (
 
 
 CREATE TABLE ezvatrule (
-  country varchar(255) NOT NULL default '',
+  country_code varchar(255) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   vat_type int(11) NOT NULL default '0',
   PRIMARY KEY  (id)

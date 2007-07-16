@@ -2547,7 +2547,7 @@ CREATE TABLE ezuservisit (
 
 
 CREATE TABLE ezvatrule (
-    country character varying(255) DEFAULT ''::character varying NOT NULL,
+    country_code character varying(255) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezvatrule_s'::text) NOT NULL,
     vat_type integer DEFAULT 0 NOT NULL
 );

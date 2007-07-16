@@ -67,7 +67,7 @@ if ( !$res = mysql_query( $sql, $db ) )
 }
 
 $row = mysql_fetch_row( $res );
-if ( $row['size'] != $metaData['size'] )
+if ( $row[0] != $metaData['size'] )
 {
     header( $_SERVER['SERVER_PROTOCOL'] . " 500 Internal Server Error" );
     exit();

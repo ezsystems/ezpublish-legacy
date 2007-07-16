@@ -171,9 +171,25 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $objectName =
                     $objectNode->getAttribute( 'name' ) .
                     ' (' . $objectNode->getAttributeNS( 'http://ez.no/ezobject', 'class_identifier' ) .')';
+
+                // get info about translations.
+                $languageInfo = array();
+                $versionList = $objectNode->getElementsByTagName('version-list')->item( 0 );
+                $versions = $versionList->chilNodes;
+                foreach( $versions as $version )
+                {
+                    $versionInfo = $version->childNodes;
+                    foreach( $versionInfo as $info )
+                    {
+                        if( $info->localName == 'object-translation' )
+                            $languageInfo[] = $info->getAttribute( 'language' );
+                    }
+                }
+
                 $objectNames[] = array( 'description' =>
                                          ezi18n( 'kernel/package', 'Content object %objectname', false,
-                                                 array( '%objectname' => $objectName ) ) );
+                                                 array( '%objectname' => $objectName ) ),
+                                        'language_info' => $languageInfo );
             }
             return $objectNames;
         }

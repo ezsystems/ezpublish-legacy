@@ -56,7 +56,32 @@ $infoCode = 'no-errors'; // This will be modified if info/warning is given to us
 $infoData = array(); // Extra parameters can be added to this array
 $aliasText = false;
 
-if ( $Module->isCurrentAction( 'RemoveAlias' ) )
+if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
+{
+    include_once( 'kernel/classes/ezurlaliasquery.php' );
+    $filter = new eZURLAliasQuery();
+    $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
+    $filter->type = 'alias';
+    $filter->offset = 0;
+    $filter->limit = 50;
+
+    while ( true )
+    {
+        $aliasList = $filter->fetchAll();
+        if ( count( $aliasList ) == 0 )
+            break;
+        foreach ( $aliasList as $alias )
+        {
+            $parentID = (int)$alias->attribute( 'parent' );
+            $textMD5  = $alias->attribute( 'text_md5' );
+            $language = $alias->attribute( 'language_object' );
+            eZURLAliasML::removeSingleEntry( $parentID, $textMD5, $language );
+        }
+        $filter->prepare();
+    }
+    $infoCode = "feedback-removed-all";
+}
+else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 {
     if ( $http->hasPostVariable( 'ElementList' ) )
     {
@@ -65,11 +90,12 @@ if ( $Module->isCurrentAction( 'RemoveAlias' ) )
             $elementList = array();
         foreach ( $elementList as $element )
         {
-            if ( preg_match( "#^([0-9]+)-([0-9]+)$#", $element, $matches ) )
+            if ( preg_match( "#^([0-9]+).([a-fA-F0-9]+).([a-zA-Z0-9-]+)$#", $element, $matches ) )
             {
-                $elementID = (int)$matches[1];
-                $parentID = (int)$matches[2];
-                eZURLAliasML::removeByIDParentID( $elementID, $parentID );
+                $parentID = (int)$matches[1];
+                $textMD5  = $matches[2];
+                $language = $matches[3];
+                eZURLAliasML::removeSingleEntry( $parentID, $textMD5, $language );
             }
         }
         $infoCode = "feedback-removed";

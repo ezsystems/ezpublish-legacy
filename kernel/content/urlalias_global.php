@@ -51,7 +51,31 @@ $aliasDestinationText = false;
 $aliasOutputText = false;
 $aliasOutputDestinationText = false;
 
-if ( $Module->isCurrentAction( 'RemoveAlias' ) )
+if ( $Module->isCurrentAction( 'RemoveAllAliases' ) )
+{
+    include_once( 'kernel/classes/ezurlaliasquery.php' );
+    $filter = new eZURLAliasQuery();
+    $filter->actionTypesEx = array( 'eznode', 'nop' );
+    $filter->offset = 0;
+    $filter->limit = 50;
+
+    while ( true )
+    {
+        $aliasList = $filter->fetchAll();
+        if ( count( $aliasList ) == 0 )
+            break;
+        foreach ( $aliasList as $alias )
+        {
+            $parentID = (int)$alias->attribute( 'parent' );
+            $textMD5  = $alias->attribute( 'text_md5' );
+            $language = $alias->attribute( 'language_object' );
+            eZURLAliasML::removeSingleEntry( $parentID, $textMD5, $language );
+        }
+        $filter->prepare();
+    }
+    $infoCode = "feedback-removed-all";
+}
+else if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 {
     if ( $http->hasPostVariable( 'ElementList' ) )
     {
@@ -60,11 +84,12 @@ if ( $Module->isCurrentAction( 'RemoveAlias' ) )
             $elementList = array();
         foreach ( $elementList as $element )
         {
-            if ( preg_match( "#^([0-9]+)-([0-9]+)$#", $element, $matches ) )
+            if ( preg_match( "#^([0-9]+).([a-fA-F0-9]+).([a-zA-Z0-9-]+)$#", $element, $matches ) )
             {
-                $elementID = (int)$matches[1];
-                $parentID = (int)$matches[2];
-                eZURLAliasML::removeByIDParentID( $elementID, $parentID );
+                $parentID = (int)$matches[1];
+                $textMD5  = $matches[2];
+                $language = $matches[3];
+                eZURLAliasML::removeSingleEntry( $parentID, $textMD5, $language );
             }
         }
         $infoCode = "feedback-removed";
@@ -73,7 +98,8 @@ if ( $Module->isCurrentAction( 'RemoveAlias' ) )
 else if ( $Module->isCurrentAction( 'NewAlias' ) )
 {
     $aliasText = trim( $Module->actionParameter( 'AliasSourceText' ) );
-    $aliasDestinationText = trim( $Module->actionParameter( 'AliasDestinationText' ), " \t\r\n\0\x0B/" );
+    $aliasDestinationTextUnmodified = $Module->actionParameter( 'AliasDestinationText' );
+    $aliasDestinationText = trim( $aliasDestinationTextUnmodified, " \t\r\n\0\x0B/" );
     $isAlwaysAvailable = $http->hasPostVariable( 'AllLanguages' ) && strlen( trim( $http->postVariable( 'AllLanguages' ) ) ) > 0;
     $languageCode = $Module->actionParameter( 'LanguageCode' );
     $language = eZContentLanguage::fetchByLocale( $languageCode );
@@ -86,7 +112,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     {
         $infoCode = "error-no-alias-text";
     }
-    else if ( strlen( $aliasDestinationText ) == 0 )
+    else if ( strlen( trim( $aliasDestinationTextUnmodified ) ) == 0 )
     {
         $infoCode = "error-no-alias-destination-text";
     }

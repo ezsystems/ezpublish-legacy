@@ -53,6 +53,8 @@ define( 'EZ_USER_PASSWORD_HASH_MD5_SITE', 3 );
 define( 'EZ_USER_PASSWORD_HASH_MYSQL', 4 );
 /// Passwords in plaintext, should not be used for real sites
 define( 'EZ_USER_PASSWORD_HASH_PLAINTEXT', 5 );
+// Crypted passwords
+define( 'EZ_USER_PASSWORD_HASH_CRYPT', 6 );
 
 /// Authenticate by matching the login field
 define( 'EZ_USER_AUTHENTICATE_LOGIN', 1 << 0 );
@@ -144,6 +146,10 @@ class eZUser extends eZPersistentObject
             {
                 return 'plaintext';
             } break;
+            case EZ_USER_PASSWORD_HASH_CRYPT:
+            {
+                return 'crypt';
+            } break;
         }
     }
 
@@ -174,6 +180,10 @@ class eZUser extends eZPersistentObject
             case 'plaintext':
             {
                 return EZ_USER_PASSWORD_HASH_PLAINTEXT;
+            } break;
+            case 'crypt':
+            {
+                return EZ_USER_PASSWORD_HASH_CRYPT;
             } break;
         }
     }
@@ -587,6 +597,8 @@ WHERE user_id = '" . $userID . "' AND
             return EZ_USER_PASSWORD_HASH_MD5_USER;
         else if ( $type == 'plaintext' )
             return EZ_USER_PASSWORD_HASH_PLAINTEXT;
+        else if ( $type == 'crypt' )
+            return EZ_USER_PASSWORD_HASH_CRYPT;
         else
             return EZ_USER_PASSWORD_HASH_MD5_PASSWORD;
     }
@@ -1390,7 +1402,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function authenticateHash( $user, $password, $site, $type, $hash )
     {
-        return eZUser::createHash( $user, $password, $site, $type ) == $hash;
+        return eZUser::createHash( $user, $password, $site, $type, $hash ) == $hash;
     }
 
     /*!
@@ -1486,10 +1498,9 @@ WHERE user_id = '" . $userID . "' AND
      \static
      Will create a hash of the given string. This is used to store the passwords in the database.
     */
-    static function createHash( $user, $password, $site, $type )
+    static function createHash( $user, $password, $site, $type, $hash = false )
     {
         $str = '';
-//         eZDebugSetting::writeDebug( 'kernel-user', "'$user' '$password' '$site'", "ezuser($type)" );
         if( $type == EZ_USER_PASSWORD_HASH_MD5_USER )
         {
             $str = md5( "$user\n$password" );
@@ -1505,6 +1516,17 @@ WHERE user_id = '" . $userID . "' AND
         else if ( $type == EZ_USER_PASSWORD_HASH_PLAINTEXT )
         {
             $str = $password;
+        }
+        else if ( $type == EZ_USER_PASSWORD_HASH_CRYPT )
+        {
+            if ( $hash )
+            {
+                $str = crypt( $password, $hash );
+            }
+            else
+            {
+                $str = crypt( $password );
+            }
         }
         else // EZ_USER_PASSWORD_HASH_MD5_PASSWORD
         {
@@ -1529,54 +1551,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function hasAccessTo( $module, $function = false )
     {
-        $accessArray = null;
-        $ini = eZINI::instance();
-        $userID = $this->attribute( 'contentobject_id' );
-        if ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' )
-        {
-            $http = eZHTTPTool::instance();
-            if ( $http->hasSessionVariable( 'AccessArray' ) )
-            {
-                $expiredTimeStamp = 0;
-                include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-                $handler = eZExpiryHandler::instance();
-                if ( $handler->hasTimestamp( 'user-access-cache' ) )
-                {
-                    $expiredTimeStamp = $handler->timestamp( 'user-access-cache' );
-                }
-                $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
-                if ( $userAccessTimestamp > $expiredTimeStamp )
-                {
-                    $accessArray = $http->sessionVariable( 'AccessArray' );
-                }
-            }
-        }
-
-        if ( $accessArray == null )
-        {
-            $cacheFilePath = eZUser::getCacheFilename( $userID );
-            if ( $cacheFilePath !== false )
-            {
-                require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-                $accessArray = $cacheFile->processCache( array( $this, 'retrieveAccessArray' ),
-                                                         array( $this, 'generateAccessArray' ),
-                                                         null,
-                                                         $this->userInfoExpiry(),
-                                                         $userID );
-                $debug = eZDebug::instance();
-                $debug->writeDebug( $accessArray, "accessArray from cached file $cacheFilePath" );
-
-                $ini = eZINI::instance();
-                $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-                if ( $enableCaching == 'true' )
-                {
-                    $http = eZHTTPTool::instance();
-                    $http->setSessionVariable( 'AccessArray', $accessArray );
-                    $http->setSessionVariable( 'AccessArrayTimestamp', time() );
-                }
-            }
-        }
+        $accessArray =& $this->accessArray();
 
         $access = 'no';
         $functionArray = array();
@@ -1597,7 +1572,6 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $functionArray = array_merge_recursive( $functionArray, $accessArray['*'][$function] );
             }
-
         }
         if ( isset( $accessArray[$module] ) )
         {
@@ -1610,34 +1584,124 @@ WHERE user_id = '" . $userID . "' AND
                 foreach( array_keys( $accessArray[$module] ) as $key )
                 {
                     if ( $functionArray !== $accessArray[$module][$key] )
+                    {
                         $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$key] );
+                    }
                 }
             }
             elseif ( isset( $accessArray[$module][$function] ) )
             {
                 if ( $functionArray !== $accessArray[$module][$function] )
+                {
                     $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$function] );
+                }
             }
         }
 
         if ( !$functionArray )
         {
-            $accessList = array(
-                'FunctionRequired' => array ( 'Module' => $module,
-                                              'Function' => $function,
-                                              'ClassID' => '',
-                                              'MainNodeID' => '' ),
-                'PolicyList' => array() );
             return array( 'accessWord' => 'no',
-                          'accessList' => $accessList );
+                          'accessList' => array( 'FunctionRequired' => array ( 'Module' => $module,
+                                                                               'Function' => $function,
+                                                                               'ClassID' => '',
+                                                                               'MainNodeID' => '' ),
+                                                 'PolicyList' => array() )
+                          );
         }
 
-        if ( isset( $functionArray['*'] ) && ( $functionArray['*'] == '*' || in_array( '*',  $functionArray['*'] ) ) )
+        if ( isset( $functionArray['*'] ) &&
+                  ( $functionArray['*'] == '*' || in_array( '*',  $functionArray['*'] ) ) )
         {
             return array( 'accessWord' => 'yes' );
         }
 
         return array( 'accessWord' => 'limited', 'policies' => $functionArray );
+    }
+
+    /*
+     \private
+     Returns either cached or newly generated accessArray for the user.
+    */
+    function &accessArray()
+    {
+        if ( !isset( $this->AccessArray ) )
+        {
+            $ini =& eZINI::instance();
+            $isRoleCachingEnabled = ( $ini->variable( 'RoleSettings', 'EnableCaching' ) == 'true' );
+
+            $userID = $this->attribute( 'contentobject_id' );
+            $currentUserID = eZUser::currentUserID();
+
+            $accessArray = false;
+
+            if ( $isRoleCachingEnabled )
+            {
+                if ( $userID == $currentUserID )
+                {
+                    $http =& eZHTTPTool::instance();
+                    if ( $http->hasSessionVariable( 'AccessArray' ) and
+                         $http->hasSessionVariable( 'AccessArrayTimestamp' ) )
+                    {
+                        $expiredTimestamp = $this->userInfoExpiry();
+                        $userAccessTimestamp = $http->sessionVariable( 'AccessArrayTimestamp' );
+                        if ( $userAccessTimestamp > $expiredTimestamp )
+                        {
+                            $accessArray = $http->sessionVariable( 'AccessArray' );
+                        }
+                    }
+                }
+
+                if ( !$accessArray )
+                {
+                    $cacheFilePath = eZUser::getCacheFilename( $userID );
+                    if ( $cacheFilePath )
+                    {
+                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+                        $accessArray = $cacheFile->processCache( array( $this, 'retrieveAccessArrayFromCache' ),
+                                                                 array( $this, 'generateAccessArrayForCache' ),
+                                                                 null,
+                                                                 $this->userInfoExpiry(),
+                                                                 $userID );
+                        if ( $userID == $currentUserID )
+                        {
+                            // here is no need to get $http instance again because it is initialized
+                            // already above by the same condition's case ( userID == currentUserID ).
+                            $http->setSessionVariable( 'AccessArray', $accessArray );
+                            $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
+                        }
+                    }
+                    else
+                    {
+                        // if there is no cache file and no access array was fetched from
+                        // the current session then generate access array on-the-fly.
+                        $accessArray = $this->generateAccessArray();
+                    }
+                }
+            }
+            else
+            {
+                // if role caching is disabled then generate access array on-the-fly.
+                $accessArray = $this->generateAccessArray();
+            }
+
+            $this->AccessArray =& $accessArray;
+        }
+
+        return $this->AccessArray;
+    }
+
+    /*
+     \private
+     Generates the accessArray for the user (for $this).
+    */
+    function generateAccessArray()
+    {
+        include_once( 'kernel/classes/ezrole.php' );
+        $idList = $this->groups();
+        $idList[] = $this->attribute( 'contentobject_id' );
+
+        return eZRole::accessArrayByUserID( $idList );
     }
 
     /*!
@@ -1648,12 +1712,16 @@ WHERE user_id = '" . $userID . "' AND
     function userInfoExpiry()
     {
         /* Figure out when the last update was done */
-        $expiredTimestamp = 0;
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         if ( $handler->hasTimestamp( 'user-access-cache' ) )
         {
             $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
+        }
+        else
+        {
+            $expiredTimestamp = mktime();
+            $handler->setTimestamp( 'user-access-cache', $expiredTimestamp );
         }
 
         return $expiredTimestamp;
@@ -1664,22 +1732,18 @@ WHERE user_id = '" . $userID . "' AND
      \static
      Callback which fetches access array from local file.
      */
-    function retrieveAccessArray( $filePath, $mtime, $userID )
+    function retrieveAccessArrayFromCache( $filePath, $mtime, $userID )
     {
         return include( $filePath );
     }
 
     /*!
      \private
-     \static
      Callback which generates the accessarray for the current user.
      */
-    function generateAccessArray( $filePath, $userID )
+    function generateAccessArrayForCache( $filePath, $userID )
     {
-        include_once( 'kernel/classes/ezrole.php' );
-        $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $userID ) ) );
-
-        return array( 'content'  => $accessArray,
+        return array( 'content'  => $this->generateAccessArray(),
                       'scope'    => 'user-info-cache',
                       'datatype' => 'php' );
     }
@@ -2096,7 +2160,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', time() );
+        $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
     }

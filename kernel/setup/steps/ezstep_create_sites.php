@@ -851,13 +851,15 @@ language_locale='eng-GB'";
 
                 if ( is_object( $package ) )
                 {
+                    $languageMap = $this->PersistenceList['package_info']['language_map'];
+
                     $requiredPackages[] = $package;
                     if ( $package->attribute( 'install_type' ) == 'install' )
                     {
                         $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccessName ),
                                                     'top_nodes_map' => array( '*' => 2 ),
                                                     'design_map' => array( '*' => $userDesignName ),
-                                                    'language_map' => array( 'eng-GB' => $primaryLanguageLocaleCode ), // Map english languages to chosen language
+                                                    'language_map' => $languageMap,
                                                     'restore_dates' => true,
                                                     'user_id' => $user->attribute( 'contentobject_id' ),
                                                     'non-interactive' => true );

@@ -280,6 +280,7 @@ div#leftmenu-design { margin: 0.5em 4px 0.5em 0.5em; }
 
 <div id="maincontent"><div id="fix">
 <div id="maincontent-design">
+
 <!-- Maincontent START -->
 {* Main area START *}
 

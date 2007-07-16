@@ -6,6 +6,11 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The selected aliases were successfully removed.'|i18n( 'design/admin/content/urlalias' )}</h2>
 </div>
 {/case}
+{case match='feedback-removed-all'}
+<div class="message-feedback">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'All aliases for this node were successfully removed.'|i18n( 'design/admin/content/urlalias' )}</h2>
+</div>
+{/case}
 {case match='error-invalid-language'}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The specified language code <%language> is not valid.'|i18n( 'design/admin/content/urlalias',, hash('%language', $info_data['language']) )|wash}</h2>
@@ -73,7 +78,7 @@
     <tr class="{$seq}">
         {* Remove. *}
         <td>
-            <input type="checkbox" name="ElementList[]" value="{$element.id}-{$element.parent}" />
+            <input type="checkbox" name="ElementList[]" value="{$element.parent}.{$element.text_md5}.{$element.language_object.locale}" />
         </td>
 
         <td>
@@ -120,12 +125,15 @@
 <div class="button-left">
 {if $node.can_edit}
     {if $aliasList|count|gt( 0 )}
-    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias' )}" />
+    <input class="button" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'Remove selected alias from the list above.'|i18n( 'design/admin/content/urlalias' )}" onclick="return confirm( '{'Are you sure you want to remove the selected aliases?'|i18n( 'design/admin/content/urlalias' )}' );" />
+    <input class="button" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'Remove all aliases for this node.'|i18n( 'design/admin/content/urlalias' )}" onclick="return confirm( '{'Are you sure you want to remove all aliases for this node?'|i18n( 'design/admin/content/urlalias' )}' );" />
     {else}
     <input class="button-disabled" type="submit" name="RemoveAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" )}' );" />
     {/if}
 {else}
     <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" title="{'You can not remove any aliases because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" />
+    <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'You can not remove any aliases because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
 {/if}
 </div>
 <div class="break"></div>

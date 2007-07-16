@@ -501,17 +501,57 @@ class eZCharTransform
         return $text;
     }
 
+    /*!
+     \static
+     Returns the current word separator, if none is found it will read from site.ini URLTranslator/WordSeparator
+     \sa setWordSeparator
+     */
+    static function wordSeparator()
+    {
+        if ( isset( $GLOBALS['eZCharTransform_wordSeparator'] ) )
+        {
+            return $GLOBALS['eZCharTransform_wordSeparator'];
+        }
+        else
+        {
+            $ini = eZINI::instance();
+            $separator = strtolower( $ini->variable( "URLTranslator", "WordSeparator" ) );
+            switch ( $separator )
+            {
+                case 'dash':
+                    $separator = '-';
+                    break;
+                case 'underscore':
+                    $separator = '_';
+                    break;
+                case 'space':
+                    $separator = ' ';
+                    break;
+                default:
+                    return '-';
+            }
+            $GLOBALS['eZCharTransform_wordSeparator'] = $separator;
+            return $separator;
+        }
+    }
+
+    /*!
+     Sets the current word separator, set it to \c null to use default value.
+     */
+    function setWordSeparator( $char )
+    {
+        $GLOBALS['eZCharTransform_wordSeparator'] = $char;
+    }
+
     static function commandUrlCleanupCompat( $text, $charsetName )
     {
         // Old style of url alias with lowercase only and underscores for separators
         $text = strtolower( $text );
-        $text = preg_replace( array( "#[^a-z0-9_ ]#",
-                                     "/ /",
-                                     "/__+/",
-                                     "/^_|_$/" ),
-                              array( " ",
-                                     "_",
-                                     "_",
+        $sep  = eZCharTransform::wordSeparator();
+        $sepQ = preg_quote( $sep );
+        $text = preg_replace( array( "#[^a-z0-9]+#",
+                                     "#^{$sepQ}+|{$sepQ}+$#" ),
+                              array( $sep,
                                      "" ),
                               $text );
         return $text;
@@ -519,11 +559,17 @@ class eZCharTransform
 
     static function commandUrlCleanup( $text, $charsetName )
     {
-        $text = preg_replace( array( "#[^a-zA-Z0-9_!-]+#",
-                                     "#/\.\.?/#",
-                                     "/^-+|-+$/" ),
-                              array( "-",
-                                     "-",
+        $sep  = eZCharTransform::wordSeparator();
+        $sepQ = preg_quote( $sep );
+        $text = preg_replace( array( "#[^a-zA-Z0-9_!.-]+#",
+                                     "#^[.]+|[.]+$#", # Remove dots at beginning/end
+                                     "#\.\.+#", # Remove double dots
+                                     "#[{$sepQ}]+#", # Turn multiple separators into one
+                                     "#^[{$sepQ}]+|[{$sepQ}]+$#" ), # Strip separator from beginning/end
+                              array( $sep,
+                                     $sep,
+                                     $sep,
+                                     $sep,
                                      "" ),
                               $text );
         return $text;
@@ -533,16 +579,25 @@ class eZCharTransform
     {
         // With IRI support we keep all characters except some reserved ones,
         // they are space, ampersand, semi-colon, forward slash, colon, equal sign, question mark,
-        //          square brackets, parenthesis.
+        //          square brackets, parenthesis, plus.
         //
         // Note: Space is turned into a dash to make it easier for people to
         //       paste urls from the system and have the whole url recognized
         //       instead of being broken off
-        $text = preg_replace( array( "#[ \\\\%\#&;/:=?\[\]()-]+#",
-                                     "#/\.\.?/#",
-                                     "/^[ -.]+|[ -.]+$/" ),
-                              array( "-",
-                                     "-",
+        $sep  = eZCharTransform::wordSeparator();
+        $sepQ = preg_quote( $sep );
+        $prepost = " ." . $sepQ;
+        if ( $sep != "-" )
+            $prepost .= "-";
+        $text = preg_replace( array( "#[ \\\\%\#&;/:=?\[\]()+]+#",
+                                     "#^[.]+|[.]+$#", # Remove dots at beginning/end
+                                     "#\.\.+#", # Remove double dots
+                                     "#[{$sepQ}]+#", # Turn multiple separators into one
+                                     "#^[{$prepost}]+|[{$prepost}]+$#" ),
+                              array( $sep,
+                                     $sep,
+                                     $sep,
+                                     $sep,
                                      "" ),
                               $text );
         return $text;

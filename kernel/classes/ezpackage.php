@@ -2914,6 +2914,117 @@ class eZPackage
         return $installed;
     }
 
+    /*!
+     \static
+     Fetch info about languages for packages specified in $packageNameList.
+     Return ex:  array( 'eng-GB', 'rus-RU', ... );
+                 if $withLanguageNames == true
+                    array( 'eng-GB' => "English",
+                           'rus-RU' => "Russian",
+                           ... );
+    */
+    static function languageInfoFromPackageList( $packageNameList, $withLanguageNames = false )
+    {
+        $languageInfo = array();
+        foreach( $packageNameList as $packageName )
+        {
+            $package = eZPackage::fetch( $packageName, false, false, false );
+            if( is_object( $package ) )
+            {
+                $packageLanguageInfo = $package->languageInfo( $withLanguageNames );
+                // merge arrays
+                if( $withLanguageNames )
+                {
+                    // we have array like 'locale' => 'name'. can use array_merge
+                    $languageInfo = array_merge( $languageInfo, $packageLanguageInfo );
+                }
+                else
+                {
+                    foreach( $packageLanguageInfo as $languageLocale )
+                    {
+                        if( !in_array( $languageLocale, $languageInfo ) )
+                        {
+                            $languageInfo[] = $languageLocale;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Unable to fetch package '$packageName'", 'eZPackage::languageInfoFromPackageList' );
+            }
+        }
+
+        return $languageInfo;
+    }
+
+    /*!
+     Fetch info about languages for package.
+    */
+    function languageInfo( $withLanguageNames = false )
+    {
+        $langaugeInfo = array();
+
+        $classHandler  = eZPackage::packageHandler( 'ezcontentclass' );
+        $objectHandler = eZPackage::packageHandler( 'ezcontentobject' );
+
+        $packageItems = $this->installItemsList();
+        foreach( $packageItems as $item )
+        {
+            $itemLanguageInfo = array();
+
+            if( $item['type'] == 'ezcontentclass' )
+            {
+                $classInfo = $classHandler->explainInstallItem( $this, $item );
+                $itemLanguageInfo = isset( $classInfo['language_info'] ) ? $classInfo['language_info'] : array();
+            }
+            else if( $item['type'] == 'ezcontentobject' )
+            {
+                $objectsInfo = $objectHandler->explainInstallItem( $this, $item );
+
+                // merge objects info
+                foreach( $objectsInfo as $objectInfo )
+                {
+                    $objectLanguages = isset( $objectInfo['language_info'] ) ? $objectInfo['language_info'] : array();
+                    foreach( $objectLanguages as $objectLanguage )
+                    {
+                        if( !in_array( $objectLanguage, $itemLanguageInfo ) )
+                        {
+                            $itemLanguageInfo[] = $objectLanguage;
+                        }
+                    }
+                }
+            }
+
+            // merge class and objects infos
+            foreach( $itemLanguageInfo as $languageLocale )
+            {
+                if( !in_array( $languageLocale, $langaugeInfo ) )
+                {
+                    $langaugeInfo[] = $languageLocale;
+                }
+            }
+        }
+
+        if( $withLanguageNames )
+        {
+            $langaugeInfoWithNames = array();
+            foreach( $langaugeInfo as $languageLocale )
+            {
+                $language = eZContentLanguage::fetchByLocale( $languageLocale );
+                $languageName = $language->attribute( 'name' );
+                $langaugeInfoWithNames[$languageLocale] = $languageName;
+            }
+
+            $langaugeInfo = $langaugeInfoWithNames;
+        }
+
+        return $langaugeInfo;
+    }
+
+
+
     public $isInstalled = false;
     /// \privatesection
     /// All interal data

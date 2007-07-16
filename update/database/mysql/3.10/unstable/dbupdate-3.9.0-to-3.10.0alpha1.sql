@@ -66,5 +66,5 @@ CREATE TABLE ezurlalias_ml (
 -- Update old urlalias table for the import
 ALTER TABLE ezurlalias ADD COLUMN is_imported integer NOT NULL DEFAULT 0;
 ALTER TABLE ezurlalias ADD KEY ezurlalias_imp_wcard_fwd (is_imported, is_wildcard, forward_to_id);
-
+ALTER TABLE ezurlalias ADD KEY ezurlalias_wcard_fwd (is_wildcard, forward_to_id);
 ALTER TABLE ezurlalias DROP KEY ezurlalias_is_wildcard;

@@ -189,13 +189,13 @@ switch( $operationResult['status'] )
 
             if ( !$object->attribute( 'can_read' ) )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-                
+
             if ( !$node->attribute( 'can_pdf' ) )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
             if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-                
+
 
             $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
                                                             array( 'view_parameters' => $viewParameters ) );
@@ -247,11 +247,22 @@ switch( $operationResult['status'] )
 */
 function contentPDFPassthrough( $cacheFile )
 {
+    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+    $file = eZClusterFileHandler::instance( $cacheFile );
+
+    if( !$file->exists() )
+    {
+        eZDebug::writeEror( "Cache-file for pdf doesn't exist", 'content::pdf::contentPDFPassthrough' );
+        return;
+    }
+
+    $file->fetch( true );
+
     ob_clean();
 
     header( 'X-Powered-By: eZ publish' );
 
-    header( 'Content-Length: '. filesize( $cacheFile ) );
+    header( 'Content-Length: '. $file->size() );
     header( 'Content-Type: application/pdf' );
     header( 'Content-Transfer-Encoding: binary' );
     header( 'Accept-Ranges: bytes' );
@@ -260,6 +271,7 @@ function contentPDFPassthrough( $cacheFile )
 
     $fp = @fopen( $cacheFile, 'r' );
     @fpassthru( $fp );
+    fclose( $fp );
 
     include_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::cleanExit();

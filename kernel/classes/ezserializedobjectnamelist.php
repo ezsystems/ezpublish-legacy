@@ -570,19 +570,56 @@ class eZSerializedObjectNameList
     }
 
     /*!
-     Validates names: removes names if appropriate language doesn't exist and can't be created.
+     Make sure that languages namelist corresponds to languages in the system.
+     \param $param. TRUE - create languages if they don't exist in the system.
+                    FALSE - remove names form namelist if corresponding language doesn't exist in the system.
+                    array - language map. The name will be removed if its language is not in the map.
+                            Ex: array( 'language_locale_1' => 'map_to_language_locale',
+                                       'language_locale_2' => 'skip' );
+                                will map name in 'language_locale_1' language to 'map_to_language_locale' and
+                                remove name in 'language_locale_2'. 'map_to_language_locale' language will be
+                                created If it doesn't exist in the system.
     */
-    function validate( $createLanguageIfNotExist = true )
+    function validate( $param )
     {
+        $languageMap = is_array( $param ) ? $param : array();
+        $createLanguageIfNotExist = ( $param === true ) ? true : false;
+
         $nameList = $this->nameList();
-        foreach ( $nameList as $languageLocale => $name )
+        foreach ( $nameList as $nameLanguageLocale => $name )
         {
-            if ( $languageLocale != EZ_ALWAYS_AVAILABLE_STR )
+            if ( $nameLanguageLocale != EZ_ALWAYS_AVAILABLE_STR )
             {
-                $language = eZContentLanguage::fetchByLocale( $languageLocale, $createLanguageIfNotExist );
-                if ( !is_object( $language ) )
+                $language = false;
+
+                if( $createLanguageIfNotExist )
                 {
-                    $this->removeName( $languageLocale );
+                    $language = eZContentLanguage::fetchByLocale( $nameLanguageLocale, true );
+                }
+                else
+                {
+                    $languageLocale = isset( $languageMap[$nameLanguageLocale] ) ? $languageMap[$nameLanguageLocale] : false;
+
+                    if( $languageLocale && $languageLocale != 'skip' )
+                    {
+                        $language = eZContentLanguage::fetchByLocale( $languageLocale, true );
+                    }
+                }
+
+                $languageLocale = is_object( $language ) ? $language->attribute( 'locale' ) : false;
+
+                if( $languageLocale != $nameLanguageLocale )
+                {
+                    if( $languageLocale )
+                    {
+                        // map name's language.
+                        $this->removeName( $nameLanguageLocale );
+                        $this->setName( $name, $languageLocale );
+                    }
+                    else
+                    {
+                        $this->removeName( $nameLanguageLocale );
+                    }
                 }
             }
         }

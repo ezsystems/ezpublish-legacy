@@ -178,6 +178,8 @@ class eZStepData
                                    'class' => 'SiteTypes'),
                            // array( 'file' => 'site_packages',
                            //        'class' => 'SitePackages' ),
+                            array( 'file' => 'package_language_options',
+                                   'class' => 'PackageLanguageOptions' ),
                             array( 'file' => 'site_access',
                                    'class' => 'SiteAccess'),
                             array( 'file' => 'site_details',

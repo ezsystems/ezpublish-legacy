@@ -82,9 +82,20 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $content = $dom->documentElement;
                 $className = $content->getElementsByTagName( 'name' )->item( 0 )->textContent;
                 $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
+
+                // get info about translations.
+                $languageInfo = array();
+                $serializedNameList = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 )->textContent;
+                if( $serializedNameList )
+                {
+                    $nameList = new eZContentClassNameList( $serializedNameList );
+                    $languageInfo = $nameList->languageLocaleList();
+                }
+
                 return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
                                                        array( '%classname' => $className,
-                                                              '%classidentifier' => $classIdentifier ) ) );
+                                                              '%classidentifier' => $classIdentifier ) ),
+                              'language_info' => $languageInfo );
             }
         }
     }
@@ -271,6 +282,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                 'identifier' => $classIdentifier,
                                                 'remote_id' => $classRemoteID,
                                                 'contentobject_name' => $classObjectNamePattern,
+                                                'url_alias_name' => $classURLAliasPattern,
                                                 'is_container' => $classIsContainer,
                                                 'created' => $classCreated,
                                                 'modified' => $classModified ) );

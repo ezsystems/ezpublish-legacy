@@ -213,6 +213,10 @@ class eZURLAliasML extends eZPersistentObject
         {
             $this->TextMD5 = md5( eZURLALiasML::strtolower( $value ) );
         }
+        else if ( $name == 'action' )
+        {
+            $this->ActionType = null;
+        }
     }
 
     /*!
@@ -274,6 +278,64 @@ class eZURLAliasML extends eZPersistentObject
         $actionStr = $db->escapeString( $actionName . ':' . $actionValue );
         $query = "DELETE FROM ezurlalias_ml WHERE action = '{$actionStr}'";
         $db->query( $query );
+    }
+
+    /*!
+     \static
+     Removes a URL-Alias which has parent $parentID, MD5 text $textMD5 and language $language.
+     If the entry has only the specified language and there are existing children the entry will be disabled instead of removed.
+     If the entry has other languages other than the one which was specified the language bit is removed.
+
+     \param $parentID ID of the parent element
+     \param $textMD5  MD5 of the lowercase version of the text, see eZURLAliasML::strtolower().
+     \param $language The language entry to remove, can be a string with the locale or a language object (eZContentLanguage).
+     */
+    function removeSingleEntry( $parentID, $textMD5, $language )
+    {
+        $parentID = (int)$parentID;
+        if ( !is_object( $language ) )
+            $language = eZContentLanguage::fetchByLocale( $language );
+        $languageID = $language->attribute( 'id' );
+        $db =& eZDB::instance();
+        if ( $db->databaseName() == "oracle" )
+        {
+            $bitDel   = "bitand( lang_mask, " . (~$languageID) . " )";
+            $bitMatch = "bitand( lang_mask, $languageID ) > 0";
+            $bitMask  = "bitand( lang_mask, " . (~1) . " )";
+        }
+        else
+        {
+            $bitDel   = "(lang_mask & ~$languageID)";
+            $bitMatch = "(lang_mask & $languageID) > 0";
+            $bitMask  = "(lang_mask & ~1)";
+        }
+
+        // Fetch data for the given entry
+        $rows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = '" . $db->escapeString( $textMD5 ) . "' AND $bitMatch" );
+        if ( count( $rows ) == 0 )
+            return false;
+
+        $id   = (int)$rows[0]['id'];
+        $mask = (int)$rows[0]['lang_mask'];
+        if ( ($mask & ~($languageID | 1)) == 0 )
+        {
+            // No more languages for this entry so we need to check for children
+            $childRows = $db->arrayQuery( "SELECT * FROM ezurlalias_ml WHERE parent = {$id}" );
+            if ( count( $childRows ) > 0 )
+            {
+                // Turn entry into a nop: to disable it
+                $element = new eZURLAliasML( $rows[0] );
+                $element->LangMask = 1;
+                $element->Action = "nop:";
+                $element->ActionType = "nop";
+                $element->IsAlias = 0;
+                $element->store();
+                return;
+            }
+        }
+        // Remove language bit from selected entries and remove entries which have no languages.
+        $db->query( "UPDATE ezurlalias_ml SET lang_mask = $bitDel WHERE parent = {$parentID} AND text_md5 = '" . $db->escapeString( $textMD5 ) . "' AND $bitMatch" );
+        $db->query( "DELETE FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = '" . $db->escapeString( $textMD5 ) . "' AND $bitMask = 0" );
     }
 
     /*!
@@ -1147,12 +1209,14 @@ class eZURLAliasML extends eZPersistentObject
             $redirectOffset = false;
             $lastID = false;
             $action = false;
+            $verifiedPath = array();
             for ( $i = 0; $i < $len; ++$i )
             {
                 $table = "e" . $i;
                 $id   = $pathRow[$table . "_id"];
                 $link = $pathRow[$table . "_link"];
                 $text = $pathRow[$table . "_text"];
+                $verifiedPath[] = $text;
                 if ( $i == $len - 1 )
                 {
                     $action = $pathRow[$table . "_action"];
@@ -1165,7 +1229,12 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $lastID = $link;
             }
+            $doRedirect = false;
             if ( $redirectLink )
+                $doRedirect = true;
+            else if ( strcmp( join( "/", $verifiedPath ), $internalURIString ) != 0 ) // Check for case difference
+                $doRedirect = true;
+            if ( $doRedirect )
             {
                 $id = (int)$lastID;
                 $pathData = array();
