@@ -158,7 +158,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     foreach ( $selectedNodeIDArray as $selectedNodeID )
     {
         $parentNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
-        $parentNodeObject =& $parentNode->attribute( 'object' );
+        $parentNodeObject = $parentNode->attribute( 'object' );
 
         $canCreate = $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1;
 

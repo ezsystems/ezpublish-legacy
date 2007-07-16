@@ -1285,7 +1285,7 @@ language_locale='eng-GB'";
             return false;
         }
 
-        $userObject =& $userAccount->attribute( 'contentobject' );
+        $userObject = $userAccount->attribute( 'contentobject' );
         if ( !is_object( $userObject ) )
         {
             $resultArray['errors'][] = array( 'code' => 'EZSW-021',
@@ -1307,7 +1307,7 @@ language_locale='eng-GB'";
                                                   'text' => "Could not create new version of administrator content object" );
                 return false;
             }
-            $dataMap =& $newUserObject->attribute( 'data_map' );
+            $dataMap = $newUserObject->attribute( 'data_map' );
             $error = false;
             if ( !isset( $dataMap['first_name'] ) )
             {

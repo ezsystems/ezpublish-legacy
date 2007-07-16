@@ -80,21 +80,22 @@ class eZPersistentObject
      data \a $row. Each field will be fetch from the definition and then
      use that fieldname to fetch from the row and set the data.
     */
-    function fill( &$row )
+    function fill( $row )
     {
         if ( $row == false )
             return;
         $def = $this->definition();
-        $fields =& $def["fields"];
+        $fields = $def["fields"];
 
-        foreach ( $fields as $key => $value )
+        foreach ( array_intersect( array_keys( $fields ),
+                                   array_keys( $row ) ) as $key )
         {
             $item = $fields[$key];
             if ( is_array( $item ) )
             {
                 $item = $item['name'];
             }
-            $this->$item =& $row[$key];
+            $this->$item = $row[$key];
         }
     }
 
@@ -178,14 +179,14 @@ class eZPersistentObject
     function remove( $conditions = null, $extraConditions = null )
     {
         $def = $this->definition();
-        $keys =& $def["keys"];
+        $keys = $def["keys"];
         if ( !is_array( $conditions ) )
         {
             $conditions = array();
             foreach ( $keys as $key )
             {
-                $value =& $this->attribute( $key );
-                $conditions[$key] =& $value;
+                $value = $this->attribute( $key );
+                $conditions[$key] = $value;
             }
         }
         eZPersistentObject::removeObject( $def, $conditions, $extraConditions );
@@ -203,7 +204,7 @@ class eZPersistentObject
     {
         $db = eZDB::instance();
 
-        $table =& $def["name"];
+        $table = $def["name"];
         if ( is_array( $extraConditions ) )
         {
             foreach ( $extraConditions as $key => $cond )
@@ -215,7 +216,7 @@ class eZPersistentObject
         /* substitute fields mentioned the conditions whith their
            short names (if any)
          */
-        $fields =& $def['fields'];
+        $fields = $def['fields'];
         eZPersistentObject::replaceFieldsWithShortNames( $db, $fields, $conditions );
 
         $cond_text = eZPersistentObject::conditionText( $conditions );
@@ -259,15 +260,15 @@ class eZPersistentObject
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
         $def = $obj->definition();
-        $fields =& $def["fields"];
-        $keys =& $def["keys"];
-        $table =& $def["name"];
-        $relations =& $def["relations"];
+        $fields = $def["fields"];
+        $keys = $def["keys"];
+        $table = $def["name"];
+        $relations = isset( $def["relations"] ) ? $def["relations"] : null;
         $insert_object = false;
         $exclude_fields = array();
         foreach ( $keys as $key )
         {
-            $value =& $obj->attribute( $key );
+            $value = $obj->attribute( $key );
             if ( is_null( $value ) )
             {
                 $insert_object = true;
@@ -289,7 +290,7 @@ class eZPersistentObject
         foreach ( $use_fields as $field_name  )
         {
             $field_def = $fields[$field_name];
-            $value =& $obj->attribute( $field_name );
+            $value = $obj->attribute( $field_name );
 
             if ( is_null( $value ) )
             {
@@ -350,7 +351,7 @@ class eZPersistentObject
         $key_conds = array();
         foreach ( $keys as $key )
         {
-            $value =& $obj->attribute( $key );
+            $value = $obj->attribute( $key );
             $key_conds[$key] = $value;
         }
         unset( $value );
@@ -429,8 +430,7 @@ class eZPersistentObject
             }
             foreach ( $doNotEscapeFields as $key )
             {
-                $value =& $changedValueFields[$key];
-                $use_values_hash[$key] = $value;
+                $use_values_hash[$key] = $changedValueFields[$key];
             }
             $use_values = array();
             foreach ( $use_field_names as $field )
@@ -443,7 +443,7 @@ class eZPersistentObject
 
             if ( isset( $def["increment_key"] ) && !($obj->attribute( $def["increment_key"]) > 0) )
             {
-                $inc =& $def["increment_key"];
+                $inc = $def["increment_key"];
                 $id = $db->lastSerialID( $table, $inc );
                 if ( $id !== false )
                     $obj->setAttribute( $inc, $id );
@@ -684,9 +684,9 @@ class eZPersistentObject
                               $custom_conds = null )
     {
         $db = eZDB::instance();
-        $fields =& $def["fields"];
-        $tables =& $def["name"];
-        $class_name =& $def["class_name"];
+        $fields = $def["fields"];
+        $tables = $def["name"];
+        $class_name = $def["class_name"];
         if ( is_array( $custom_tables ) )
         {
             foreach( $custom_tables as $custom_table )
@@ -707,7 +707,7 @@ class eZPersistentObject
                     $custom_text = $custom_field["operation"];
                     if ( isset( $custom_field["name"] ) )
                     {
-                        $field_name =& $custom_field["name"];
+                        $field_name = $custom_field["name"];
                         $custom_text .= " AS $field_name";
                     }
                 }
@@ -739,9 +739,15 @@ class eZPersistentObject
         $sort_text = "";
         if ( $sorts !== false and ( isset( $def["sort"] ) or is_array( $sorts ) ) )
         {
-            $sort_list =& $def["sort"];
+            $sort_list = array();
             if ( is_array( $sorts ) )
-                $sort_list =& $sorts;
+            {
+                $sort_list = $sorts;
+            }
+            else if ( isset( $def['sort'] ) )
+            {
+                $sort_list = $def["sort"];
+            }
             if ( count( $sort_list ) > 0 )
             {
                 $sort_text = "\nORDER BY ";
@@ -762,9 +768,9 @@ class eZPersistentObject
         $grouping_text = "";
         if ( isset( $def["grouping"] ) or ( is_array( $grouping ) and count( $grouping ) > 0 ) )
         {
-            $grouping_list =& $def["grouping"];
+            $grouping_list = $def["grouping"];
             if ( is_array( $grouping ) )
-                $grouping_list =& $grouping;
+                $grouping_list = $grouping;
             if ( count( $grouping_list ) > 0 )
             {
                 $grouping_text = "\nGROUP BY ";
@@ -866,8 +872,8 @@ class eZPersistentObject
     static function newObjectOrder( $def, $orderField, $conditions )
     {
         $db = eZDB::instance();
-        $table =& $def["name"];
-        $keys =& $def["keys"];
+        $table = $def["name"];
+        $keys = $def["keys"];
         $cond_text = eZPersistentObject::conditionText( $conditions );
         $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
@@ -895,8 +901,8 @@ class eZPersistentObject
                             $down = true )
     {
         $db = eZDB::instance();
-        $table =& $def["name"];
-        $keys =& $def["keys"];
+        $table = $def["name"];
+        $keys = $def["keys"];
 
         reset( $orderField );
         $order_id = key( $orderField );
@@ -1014,13 +1020,13 @@ static function definition()
     static function updateObjectList( $parameters )
     {
         $db = eZDB::instance();
-        $def =& $parameters['definition'];
-        $table =& $def['name'];
-        $fields =& $def['fields'];
-        $keys =& $def['keys'];
+        $def = $parameters['definition'];
+        $table = $def['name'];
+        $fields = $def['fields'];
+        $keys = $def['keys'];
 
-        $updateFields =& $parameters['update_fields'];
-        $conditions =& $parameters['conditions'];
+        $updateFields = $parameters['update_fields'];
+        $conditions = $parameters['conditions'];
 
         $query = "UPDATE $table SET ";
         $i = 0;
@@ -1028,7 +1034,7 @@ static function definition()
 
         foreach( $updateFields as $field => $value )
         {
-            $fieldDef =& $fields[ $field ];
+            $fieldDef = $fields[ $field ];
             $numericDataTypes = array( 'integer', 'float', 'double' );
             if ( strlen( $value ) == 0 &&
                  is_array( $fieldDef ) &&
@@ -1119,13 +1125,13 @@ static function definition()
      \return the attribute data for \a $attr, this is either returned from the member variables
              or a member function depending on whether the definition field or function attributes matched.
     */
-    function &attribute( $attr, $noFunction = false )
+    function attribute( $attr, $noFunction = false )
     {
         $debug = eZDebug::instance();
         $def = $this->definition();
-        $fields =& $def["fields"];
-        $functions =& $def["functions"];
-        $attrFunctions =& $def["function_attributes"];
+        $fields = $def["fields"];
+        $functions = isset( $def["functions"] ) ? $def["functions"] : null;
+        $attrFunctions = isset( $def["function_attributes"] ) ? $def["function_attributes"] : null;
         if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
@@ -1146,7 +1152,7 @@ static function definition()
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
             {
-                $attrName =& $attrName['name'];
+                $attrName = $attrName['name'];
             }
             return $this->$attrName;
         }
@@ -1170,14 +1176,14 @@ static function definition()
     function setAttribute( $attr, $val )
     {
         $def = $this->definition();
-        $fields =& $def["fields"];
-        $functions =& $def["set_functions"];
+        $fields = $def["fields"];
+        $functions = isset( $def["set_functions"] ) ? $def["set_functions"] : null;
         if ( isset( $fields[$attr] ) )
         {
             $attrName = $fields[$attr];
             if ( is_array( $attrName ) )
             {
-                $attrName =& $attrName['name'];
+                $attrName = $attrName['name'];
             }
 
             $oldValue = null;
@@ -1224,7 +1230,7 @@ static function definition()
     */
     static function getShortAttributeName( &$db, $def, $attrName )
     {
-        $fields =& $def['fields'];
+        $fields = $def['fields'];
 
         if ( $db->useShortNames() && isset( $fields[$attrName] ) && array_key_exists( 'short_name', $fields[$attrName] ) && $fields[$attrName]['short_name'] )
             return $fields[$attrName]['short_name'];

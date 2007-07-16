@@ -132,20 +132,18 @@ class eZPathElement extends eZPersistentObject
     /*!
      Returns the eZContentLanguage object which maches the element language mask.
      */
-    function &getLanguage()
+    function getLanguage()
     {
-        $lang = eZContentLanguage::fetch( $this->LangMask );
-        return $lang;
+        return eZContentLanguage::fetch( $this->LangMask );
     }
 
     /*!
      Converts the action property into a real url which responds to the
      module/view on the site.
      */
-    function &actionURL()
+    function actionURL()
     {
-        $url = eZURLAliasML::actionToUrl( $this->Action );
-        return $url;
+        return eZURLAliasML::actionToUrl( $this->Action );
     }
 
     /*!
@@ -168,7 +166,7 @@ class eZPathElement extends eZPersistentObject
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function &getPath()
+    function getPath()
     {
         if ( $this->Path !== null )
             return $this->Path;
@@ -176,7 +174,7 @@ class eZPathElement extends eZPersistentObject
         // Fetch path 'text' elements of correct parent path
         $path = array( $this->Text );
         $id = (int)$this->Parent;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         while ( $id != 0 )
         {
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
@@ -197,7 +195,7 @@ class eZPathElement extends eZPersistentObject
         return $this->Path;
     }
 
-    function &getPathArray()
+    function getPathArray()
     {
         if ( $this->PathArray !== null )
             return $this->PathArray;
@@ -205,7 +203,7 @@ class eZPathElement extends eZPersistentObject
         // Fetch path 'text' elements of correct parent path
         $path = array( $this );
         $id = (int)$this->Parent;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         while ( $id != 0 )
         {
             $query = "SELECT * FROM ezurlalias_ml WHERE id={$id}";

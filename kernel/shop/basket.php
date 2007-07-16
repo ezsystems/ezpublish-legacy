@@ -68,7 +68,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 
     if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count( $itemIDList ) && is_object( $basket ) )
     {
-        $productCollectionID =& $basket->attribute( 'productcollection_id' );
+        $productCollectionID = $basket->attribute( 'productcollection_id' );
         $item = $http->postVariable( "RemoveProductItemButton" );
         if ( $http->hasPostVariable( "RemoveProductItemDeleteList" ) )
             $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
@@ -282,7 +282,6 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
         else
         {
             $basket = eZBasket::currentBasket();
-            $itemList =& $verifyResult;
             $removedItems = array();
             foreach ( $itemList as $item )
             {

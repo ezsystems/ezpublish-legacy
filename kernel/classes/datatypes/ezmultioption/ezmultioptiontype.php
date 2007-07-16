@@ -310,7 +310,7 @@ class eZMultiOptionType extends eZDataType
     */
     function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
     {
-        $multioption =& $objectAttribute->attribute( 'content' );
+        $multioption = $objectAttribute->attribute( 'content' );
 
         foreach ( $multioption->attribute( 'multioption_list' ) as $multioptionElement )
         {

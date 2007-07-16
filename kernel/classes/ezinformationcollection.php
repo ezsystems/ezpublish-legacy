@@ -671,7 +671,7 @@ class eZInformationCollection extends eZPersistentObject
         // collection attribute
         foreach ( $informationCollectionAttributes as $informationAttribute )
         {
-            $contentClassAttribute =& $informationAttribute->attribute( 'contentclass_attribute' );
+            $contentClassAttribute = $informationAttribute->attribute( 'contentclass_attribute' );
             $id = $contentClassAttribute->attribute( 'identifier' );
             $retArray[$id] = $informationAttribute;
         }

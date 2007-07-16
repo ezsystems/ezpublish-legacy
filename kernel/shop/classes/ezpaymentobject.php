@@ -171,7 +171,7 @@ class eZPaymentObject extends eZPersistentObject
                 return $operationResult;
             }
             $bodyMementoData =  $bodyMemento->data();
-            $mainMemento     =& $bodyMemento->attribute( 'main_memento' );
+            $mainMemento     = $bodyMemento->attribute( 'main_memento' );
             if ( !$mainMemento )
             {
                 return $operationResult;
@@ -179,7 +179,7 @@ class eZPaymentObject extends eZPersistentObject
 
             $mementoData = $bodyMemento->data();
             $mainMementoData = $mainMemento->data();
-            $mementoData['main_memento'] =& $mainMemento;
+            $mementoData['main_memento'] = $mainMemento;
             $mementoData['skip_trigger'] = false;
             $mementoData['memento_key'] = $theProcess->attribute( 'memento_key' );
             $bodyMemento->remove();

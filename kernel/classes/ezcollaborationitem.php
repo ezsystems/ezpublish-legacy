@@ -155,7 +155,7 @@ class eZCollaborationItem extends eZPersistentObject
     */
     function createNotificationEvent( $subType = false )
     {
-        $handler =& $this->attribute( 'handler' );
+        $handler = $this->attribute( 'handler' );
         $info = $handler->attribute( 'info' );
         $type = $info['type-identifier'];
         if ( $subType )
@@ -178,38 +178,33 @@ class eZCollaborationItem extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &creator()
+    function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::fetch( $this->CreatorID );
+            return eZUser::fetch( $this->CreatorID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &isCreator()
+    function isCreator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $isCreator = ( eZUser::currentUserID() == $this->CreatorID );
+            return ( eZUser::currentUserID() == $this->CreatorID );
         }
-        else
-            $isCreator = false;
-        return $isCreator;
+        return false;
     }
 
-    function &participantList()
+    function participantList()
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-        $list =& eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
-        return $list;
+        return eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
     }
 
-    function &userStatus()
+    function userStatus()
     {
         include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
@@ -217,39 +212,38 @@ class eZCollaborationItem extends eZPersistentObject
         return eZCollaborationItemStatus::fetch( $this->ID, $userID );
     }
 
-    function &handler()
+    function handler()
     {
         include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-        $handler = eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
-        return $handler;
+        return eZCollaborationItemHandler::instantiate( $this->attribute( 'type_identifier' ) );
     }
 
     /*!
      \return true if the item uses messages.
      \note It's up to each handler to control this.
     */
-    function &useMessages()
+    function useMessages()
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $useMessages = false;
-        else
-            $useMessages = $handler->useMessages( $this );
-        return $useMessages;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->useMessages( $this );
+        }
+        return null;
     }
 
     /*!
      \return the number of messages in this item.
      \note The message count is purely abstract and it's up to each handler to return a valid count.
     */
-    function &messageCount()
+    function messageCount()
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $messageCount = 0;
-        else
-            $messageCount = $handler->messageCount( $this );
-        return $messageCount;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->messageCount( $this );
+        }
+        return 0;
     }
 
     /*!
@@ -257,34 +251,34 @@ class eZCollaborationItem extends eZPersistentObject
      \note The message count is purely abstract and it's up to each handler to return a valid count.
            It's also up the handler to keep track of which messages are read or not.
     */
-    function &unreadMessageCount()
+    function unreadMessageCount()
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $unreadMessageCount = 0;
-        else
-            $unreadMessageCount = $handler->unreadMessageCount( $this );
-        return $unreadMessageCount;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->unreadMessageCount( $this );
+        }
+        return 0;
     }
 
-    function &content()
+    function content()
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $content = null;
-        else
-            $content = $handler->content( $this );
-        return $content;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->content( $this );
+        }
+        return null;
     }
 
-    function &title()
+    function title()
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $title = null;
-        else
-            $title = $handler->title( $this );
-        return $title;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->title( $this );
+        }
+        return null;
     }
 
 
@@ -298,14 +292,14 @@ class eZCollaborationItem extends eZPersistentObject
         return $hasContentAttribute;
     }
 
-    function &contentAttribute( $attribute )
+    function contentAttribute( $attribute )
     {
-        $handler =& $this->handler();
-        if ( !$handler )
-            $contentAttribute = null;
-        else
-            $contentAttribute = $handler->contentAttribute( $this, $attribute );
-        return $contentAttribute;
+        $handler = $this->handler();
+        if ( $handler )
+        {
+            return $handler->contentAttribute( $this, $attribute );
+        }
+        return null;
     }
 
     function setIsActive( $active, $userID = false )

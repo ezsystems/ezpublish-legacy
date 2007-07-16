@@ -671,7 +671,7 @@ class eZLDAPUser extends eZUser
         {
             $userID = $contentObjectID = $user->attribute( 'contentobject_id' );
             $contentObject = eZContentObject::fetch( $userID );
-            $version =& $contentObject->attribute( 'current' );
+            $version = $contentObject->attribute( 'current' );
             //$currentVersion = $contentObject->attribute( 'current_version' );
         }
 
@@ -708,7 +708,7 @@ class eZLDAPUser extends eZUser
             $lastNameAttribute->store();
         }
 
-        $contentClass =& $contentObject->attribute( 'content_class' );
+        $contentClass = $contentObject->attribute( 'content_class' );
         $name = $contentClass->contentObjectName( $contentObject );
         $contentObject->setName( $name );
 

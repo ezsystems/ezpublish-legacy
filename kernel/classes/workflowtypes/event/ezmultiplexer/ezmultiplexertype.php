@@ -239,7 +239,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                     }
                 }
                 $sectionID = $object->attribute( 'section_id' );
-                $class =& $object->attribute( 'content_class' );
+                $class = $object->attribute( 'content_class' );
                 if ( $class )
                 {
                     $classID = $class->attribute( 'id' );

@@ -139,9 +139,9 @@ class eZMultiPriceData extends eZPersistentObject
             foreach ( $keys as $key )
             {
                 if ( $asObjects )
-                    $priceList[$rows[$key]->attribute( 'currency_code' )] =& $rows[$key];
+                    $priceList[$rows[$key]->attribute( 'currency_code' )] = $rows[$key];
                 else
-                    $priceList[$rows[$key]['currency_code']] =& $rows[$key];
+                    $priceList[$rows[$key]['currency_code']] = $rows[$key];
             }
         }
 

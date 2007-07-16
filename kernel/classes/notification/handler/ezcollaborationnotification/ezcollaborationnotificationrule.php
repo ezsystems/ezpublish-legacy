@@ -73,19 +73,17 @@ class eZCollaborationNotificationRule extends eZPersistentObject
                       "name" => "ezcollab_notification_rule" );
     }
 
-    function &user()
+    function user()
     {
-        $user = eZUser::fetch( $this->attribute( 'user_id' ) );
-        return $user;
+        return eZUser::fetch( $this->attribute( 'user_id' ) );
     }
 
     static function create( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
             $userID = eZUser::currentUserID();
-        $rule = new eZCollaborationNotificationRule( array( 'user_id' => $userID,
-                                                            'collab_identifier' => $collaborationIdentifier ) );
-        return $rule;
+        return new eZCollaborationNotificationRule( array( 'user_id' => $userID,
+                                                           'collab_identifier' => $collaborationIdentifier ) );
     }
 
     static function fetchList( $userID = false, $asObject = true )

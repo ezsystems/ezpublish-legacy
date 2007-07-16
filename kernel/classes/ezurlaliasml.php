@@ -170,7 +170,7 @@ class eZURLAliasML extends eZPersistentObject
     /*!
      \return the URL alias object this URL alias points to or \c null if no such URL exists.
     */
-    function &forwardURL()
+    function forwardURL()
     {
         die( __CLASS__ . "::" . __FUNCTION__ ."NOT YET IMPLEMENTED" );
     }
@@ -343,10 +343,9 @@ class eZURLAliasML extends eZPersistentObject
 
      For more control over the list use fetchByParentID().
      */
-    function &getChildren()
+    function getChildren()
     {
-        $objectList =& eZUrlAliasML::fetchByParentID( $this->ID, true, true, false );
-        return $objectList;
+        return eZUrlAliasML::fetchByParentID( $this->ID, true, true, false );
     }
 
     /*!
@@ -363,7 +362,7 @@ class eZURLAliasML extends eZPersistentObject
         // Fetch path 'text' elements of correct parent path
         $path = array( $this->Text );
         $id = (int)$this->Parent;
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         while ( $id != 0 )
         {
             $query = "SELECT parent, lang_mask, text FROM ezurlalias_ml WHERE id={$id}";
@@ -715,7 +714,7 @@ class eZURLAliasML extends eZPersistentObject
     */
     static public function &fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $id = (int)$id;
         $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
         $redirSQL = '';
@@ -905,7 +904,7 @@ class eZURLAliasML extends eZPersistentObject
     {
         $uriString = eZURLAliasML::cleanURL( $uriString );
 
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $uriString == '' && $glob !== false )
             $elements = array();
         else
@@ -1692,7 +1691,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static private function generateCond( $table, $prevTable, $i, $langMask, $element )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $i == 0 )
         {
             $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $element ) ) . "'" );
@@ -1712,7 +1711,7 @@ class eZURLAliasML extends eZPersistentObject
      */
     static private function generateGlobCond( $table, $prevTable, $i, $langMask, $glob )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         if ( $i == 0 )
         {
             $cond = "{$table}.parent = 0 AND ({$langMask}) AND {$table}.text LIKE '" . $db->escapeString( $glob ) . "%'";

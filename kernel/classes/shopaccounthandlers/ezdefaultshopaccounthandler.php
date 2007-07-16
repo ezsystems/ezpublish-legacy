@@ -59,7 +59,7 @@ class eZDefaultShopAccountHandler
         if ( $order === false )
             $user = eZUser::currentUser();
         else
-            $user =& $order->attribute( 'user' );
+            $user = $order->attribute( 'user' );
 
         if ( is_object( $user ) )
             return $user->attribute( 'email' );
@@ -75,7 +75,7 @@ class eZDefaultShopAccountHandler
         if ( $order === false )
             $user = eZUser::currentUser();
         else
-            $user =& $order->attribute( 'user' );
+            $user = $order->attribute( 'user' );
 
         if ( is_object( $user ) )
         {
@@ -96,14 +96,13 @@ class eZDefaultShopAccountHandler
 
     function accountInformation( $order )
     {
-        $user =& $order->user();
-        $userObject =& $user->attribute( "contentobject" );
-        $dataMap =& $userObject->dataMap();
+        $user = $order->user();
+        $userObject = $user->attribute( "contentobject" );
+        $dataMap = $userObject->dataMap();
 
         return array( 'first_name' => $dataMap['first_name']->content(),
                       'last_name' => $dataMap['last_name']->content(),
-                      'email' => $user->attribute( "email" )
-                      );
+                      'email' => $user->attribute( "email" ) );
     }
 }
 

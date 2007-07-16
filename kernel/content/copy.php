@@ -80,7 +80,7 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
 
     if ( !$newParentNode->checkAccess( 'create', $classID ) )
     {
-        $objectID =& $object->attribute( 'id' );
+        $objectID = $object->attribute( 'id' );
         eZDebug::writeError( "Cannot copy object $objectID to node $newParentNodeID, " .
                              "the current user does not have create permission for class ID $classID",
                              'content/copy' );
@@ -95,9 +95,9 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     $newObject->setAttribute( 'section_id', 0 );
     $newObject->store();
 
-    $curVersion        =& $newObject->attribute( 'current_version' );
-    $curVersionObject  =& $newObject->attribute( 'current' );
-    $newObjAssignments =& $curVersionObject->attribute( 'node_assignments' );
+    $curVersion        = $newObject->attribute( 'current_version' );
+    $curVersionObject  = $newObject->attribute( 'current' );
+    $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
     unset( $curVersionObject );
 
     // remove old node assignments
@@ -120,7 +120,7 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                               'version'   => $curVersion ) );
     // Update "is_invisible" attribute for the newly created node.
-    $newNode =& $newObject->attribute( 'main_node' );
+    $newNode = $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
 
     $db->commit();
@@ -139,9 +139,9 @@ function browse( &$Module, &$object )
         $languageCode = false;
     }
 
-    $objectID =& $object->attribute( 'id' );
-    $node     =& $object->attribute( 'main_node' );
-    $class    =& $object->contentClass();
+    $objectID = $object->attribute( 'id' );
+    $node     = $object->attribute( 'main_node' );
+    $class    = $object->contentClass();
 
     $ignoreNodesSelect = array();
     $ignoreNodesClick = array();

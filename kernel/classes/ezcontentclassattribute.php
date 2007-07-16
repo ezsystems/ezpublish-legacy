@@ -48,8 +48,9 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->Content = null;
         $this->DisplayInfo = null;
         $this->Module = null;
+        $serializedNameList = isset( $row['serialized_name_list'] ) ? $row['serialized_name_list'] : '';
 
-        $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
+        $this->NameList = new eZContentClassAttributeNameList( $serializedNameList );
     }
 
     static function definition()
@@ -234,10 +235,9 @@ class eZContentClassAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &instantiateTemporary( $contentobjectID = false )
+    function instantiateTemporary( $contentobjectID = false )
     {
-        $attribute = eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
-        return $attribute;
+        return eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
     }
 
     function store()
@@ -439,11 +439,10 @@ class eZContentClassAttribute extends eZPersistentObject
                                            $down );
     }
 
-    function &dataType()
+    function dataType()
     {
         include_once( 'kernel/classes/ezdatatype.php' );
-        $datatype = eZDataType::create( $this->DataTypeString );
-        return $datatype;
+        return eZDataType::create( $this->DataTypeString );
     }
 
     /*!
@@ -451,7 +450,7 @@ class eZContentClassAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
@@ -474,7 +473,7 @@ class eZContentClassAttribute extends eZPersistentObject
      \return Information on how to display the class attribute.
              See eZDataType::classDisplayInformation() for more information on what is returned.
     */
-    function &displayInfo()
+    function displayInfo()
     {
         if ( !$this->DisplayInfo )
         {
@@ -503,7 +502,7 @@ class eZContentClassAttribute extends eZPersistentObject
      \return the module which uses this attribute or \c null if no module set.
      \note Currently only customHTTPAction sets this.
     */
-    function &currentModule()
+    function currentModule()
     {
         return $this->Module;
     }
@@ -619,10 +618,9 @@ class eZContentClassAttribute extends eZPersistentObject
         return eZContentClassAttributeNameList::nameFromSerializedString( $serailizedNameList, $languageLocale );
     }
 
-    function &name( $languageLocale = false )
+    function name( $languageLocale = false )
     {
-        $name = $this->NameList->name( $languageLocale );
-        return $name;
+        return $this->NameList->name( $languageLocale );
     }
 
     function setName( $name, $languageLocale = false )
@@ -630,10 +628,9 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->NameList->setName( $name, $languageLocale );
     }
 
-    function &nameList()
+    function nameList()
     {
-        $nameList = $this->NameList->nameList();
-        return $nameList;
+        return $this->NameList->nameList();
     }
 
     function setAlwaysAvailableLanguage( $languageLocale )

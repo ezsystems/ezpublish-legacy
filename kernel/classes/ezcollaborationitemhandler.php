@@ -170,7 +170,7 @@ class eZCollaborationItemHandler
         else
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
 
-        $itemHandler =& $item->attribute( 'handler' );
+        $itemHandler = $item->attribute( 'handler' );
         $collectionHandling = $itemHandler->notificationCollectionHandling();
 
         $db = eZDB::instance();

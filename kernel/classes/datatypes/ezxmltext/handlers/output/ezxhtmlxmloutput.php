@@ -241,7 +241,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $object =& $this->ObjectArray["$objectID"];
             if ( $object )
             {
-                $node =& $object->attribute( 'main_node' );
+                $node = $object->attribute( 'main_node' );
                 if ( $node )
                 {
                     $nodeID = $node->attribute( 'node_id' );

@@ -112,7 +112,7 @@ class eZObjectRelationType extends eZDataType
             if ( $fuzzyMatchText != '' )
             {
                 $fuzzyMatchText = $trans->transformByGroup( $fuzzyMatchText, 'lowercase' );
-                $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 if ( $classAttribute )
                 {
                     $classContent =& $classAttribute->content();

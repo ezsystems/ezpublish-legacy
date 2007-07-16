@@ -117,7 +117,7 @@ class eZImageType extends eZDataType
         }
         else
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+            $imageHandler = $contentObjectAttribute->attribute( 'content' );
             if ( $imageHandler )
                 $imageHandler->removeAliases( $contentObjectAttribute );
         }
@@ -135,8 +135,8 @@ class eZImageType extends eZDataType
 
         if( $contentObjectAttribute->validateIsRequired() )
         {
-            $tmpImgObj =& $contentObjectAttribute->attribute( 'content' );
-            $original =& $tmpImgObj->attribute( 'original' );
+            $tmpImgObj = $contentObjectAttribute->attribute( 'content' );
+            $original = $tmpImgObj->attribute( 'original' );
             if ( !$original['is_valid'] )
             {
                 $mustUpload = true;
@@ -212,7 +212,7 @@ class eZImageType extends eZDataType
             $hasImageAltText = true;
         }
 
-        $content =& $contentObjectAttribute->attribute( 'content' );
+        $content = $contentObjectAttribute->attribute( 'content' );
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
 
         if ( eZHTTPFile::canFetch( $httpFileName ) )
@@ -245,7 +245,7 @@ class eZImageType extends eZDataType
     {
         $debug = eZDebug::instance();
         //$debug->writeDebug( 'storing ezimage attribute' , 'eZImageType::storeObjectAttribute' );
-        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+        $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
             //$debug->writeDebug( 'image handler class: ' . get_class( $imageHandler ), 'eZImageType::storeObjectAttribute' );
@@ -375,7 +375,7 @@ class eZImageType extends eZDataType
         $hasContent = $contentObjectAttribute->hasContent();
         if ( $hasContent )
         {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
+            $imageHandler = $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
@@ -426,7 +426,7 @@ class eZImageType extends eZDataType
     {
         if( $action == "delete_image" )
         {
-            $content =& $contentObjectAttribute->attribute( 'content' );
+            $content = $contentObjectAttribute->attribute( 'content' );
             if ( $content )
             {
                 $content->removeAliases( $contentObjectAttribute );
@@ -550,7 +550,7 @@ class eZImageType extends eZDataType
         // Backwards compatability with older node name
         if ( $alternativeText === false )
             $alternativeText = $attributeNode->getAttribute( 'alternativ-text' );
-        $content =& $objectAttribute->attribute( 'content' );
+        $content = $objectAttribute->attribute( 'content' );
         $imageFileKey = $attributeNode->getAttribute( 'image-file-key' );
         if ( $imageFileKey )
         {
@@ -576,7 +576,7 @@ class eZImageType extends eZDataType
 
     function fromString( &$objectAttribute, $string )
     {
-        $content =& $objectAttribute->attribute( 'content' );
+        $content = $objectAttribute->attribute( 'content' );
         $content->initializeFromFile( $string, "" );
         $content->store( $objectAttribute );
         return true;

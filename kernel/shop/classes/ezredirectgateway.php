@@ -64,8 +64,8 @@ class eZRedirectGateway extends eZPaymentGateway
         $this->logger->writeTimedString("execute");
         //___end____
 
-        $processParameters =& $process->attribute( 'parameter_list' );
-        $processID         =  $process->attribute( 'id' );
+        $processParameters = $process->attribute( 'parameter_list' );
+        $processID         = $process->attribute( 'id' );
 
         switch ( $process->attribute( 'event_state' ) )
         {
@@ -101,7 +101,7 @@ class eZRedirectGateway extends eZPaymentGateway
             default:
             {
                 $orderID        = $processParameters['order_id'];
-                $paymentObject  =& $this->createPaymentObject( $processID, $orderID );
+                $paymentObject  = $this->createPaymentObject( $processID, $orderID );
 
                 if( is_object( $paymentObject ) )
                 {

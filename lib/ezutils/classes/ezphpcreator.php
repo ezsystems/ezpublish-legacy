@@ -809,7 +809,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $this->FileResource = @fopen( $this->FilePrefix . $path, "w" );
             if ( !$this->FileResource )
-                eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
+                eZDebug::instance()->writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
             if ( $this->FileResource and
                  !$pathExisted )
                 chmod( $path, $perm );
@@ -960,8 +960,8 @@ print( $values['MyValue'] );
                 $returnVariables[$variableReturnName] = ${$variableName};
             }
             else if ( $variableRequired )
-                eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'",
-                                     'eZPHPCreator::restore' );
+                eZDebug::instance()->writeError( "Variable '$variableName' is not present in cache '$path'",
+                                                 'eZPHPCreator::restore' );
             else
                 $returnVariables[$variableReturnName] = $variableDefault;
         }
@@ -992,8 +992,8 @@ print( $values['MyValue'] );
         }
         else
         {
-            eZDebug::writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
-                                 'eZPHPCreator::store' );
+            eZDebug::instance()->writeError( "Failed to open file '" . $this->PHPDir . '/' . $this->PHPFile . "'",
+                                             'eZPHPCreator::store' );
             return false;
         }
     }

@@ -110,7 +110,7 @@ class eZKeyword
     {
         $db = eZDB::instance();
 
-        $object =& $attribute->attribute( 'object' );
+        $object = $attribute->attribute( 'object' );
         $classID = $object->attribute( 'contentclass_id' );
 
         // Get already existing keywords
@@ -269,7 +269,7 @@ class eZKeyword
     */
     function setKeywordArray( $keywords )
     {
-        $this->KeywordArray =& $keywords;
+        $this->KeywordArray = $keywords;
     }
 
     /*!

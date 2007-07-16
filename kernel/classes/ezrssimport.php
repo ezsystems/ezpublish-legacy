@@ -298,7 +298,7 @@ class eZRSSImport extends eZPersistentObject
             $objectNode = eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
             if ( isset( $objectNode ) )
             {
-                $path_array =& $objectNode->attribute( 'path_array' );
+                $path_array = $objectNode->attribute( 'path_array' );
                 $path_array_count = count( $path_array );
                 for ( $i = 0; $i < $path_array_count; ++$i )
                 {

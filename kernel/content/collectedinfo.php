@@ -38,7 +38,7 @@ if ( !$nodeID )
 $node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-$object =& $node->attribute( 'object' );
+$object = $node->attribute( 'object' );
 if ( !$object )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 if ( !$object->attribute( 'can_read' ) )
@@ -88,7 +88,7 @@ if ( $tpl->hasVariable( 'title' ) )
     $title = $tpl->variable( 'title' );
 
 // create path
-$parents =& $node->attribute( 'path' );
+$parents = $node->attribute( 'path' );
 
 $path = array();
 $titlePath = array();
@@ -119,7 +119,7 @@ $titlePath[] = array( 'text' => $title,
                       'url_alias' => $node->attribute( 'url_alias' ),
                       'node_id' => $node->attribute( 'node_id' ) );
 
-$Result['path'] =& $path;
-$Result['title_path'] =& $titlePath;
+$Result['path'] = $path;
+$Result['title_path'] = $titlePath;
 
 ?>

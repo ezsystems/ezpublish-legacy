@@ -85,17 +85,17 @@ class eZPolicy extends eZPersistentObject
                       'name' => 'ezpolicy' );
     }
 
-    function &limitIdentifier()
+    function limitIdentifier()
     {
         return $this->LimitIdentifier;
     }
 
-    function &limitValue()
+    function limitValue()
     {
         return $this->LimitValue;
     }
 
-    function &userRoleID()
+    function userRoleID()
     {
         return $this->UserRoleID;
     }
@@ -304,7 +304,7 @@ class eZPolicy extends eZPersistentObject
 
      \param use limitation cache, true by default.
     */
-    function &limitationList( $useCache = true, $ignoreLimitIdentifier = false )
+    function limitationList( $useCache = true, $ignoreLimitIdentifier = false )
     {
         if ( !isset( $this->Limitations ) || !$useCache )
         {
@@ -330,7 +330,7 @@ class eZPolicy extends eZPersistentObject
                         {
                             $limitationTouched = true;
 
-                            $values =& $limitation->attribute( 'values' );
+                            $values = $limitation->attribute( 'values' );
 
                             foreach ( array_keys( $values ) as $key )
                             {
@@ -386,16 +386,15 @@ class eZPolicy extends eZPersistentObject
         return $this->Limitations;
     }
 
-    function &role()
+    function role()
     {
         if ( $this->ID )
         {
-            $role = eZPersistentObject::fetchObject( eZRole::definition(),
-                                                      null, array( 'id' => $this->RoleID ), true );
+            return eZPersistentObject::fetchObject( eZRole::definition(),
+                                                    null, array( 'id' => $this->RoleID ), true );
         }
-        else
-            $role = false;
-        return $role;
+
+        return false;
     }
 
     static function fetch( $policyID )

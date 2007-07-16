@@ -163,7 +163,7 @@ class eZISBN10To13Converter
      */
     function addAllClasses()
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $this->Cli->output( $this->Cli->stylize( 'strong', 'Fetch All' ) . ' classes:' );
         $sql = "SELECT id, data_int1 FROM ezcontentclass_attribute WHERE " .
                "data_type_string='ezisbn' and version='0'";
@@ -390,7 +390,7 @@ class eZISBN10To13Converter
      */
     function updateContentObjectAttribute( $contentObjectAttribute )
     {
-        $isbnNumber =& $contentObjectAttribute->attribute( 'data_text' );
+        $isbnNumber = $contentObjectAttribute->attribute( 'data_text' );
         $isbnValue = trim( $isbnNumber );
         $error = false;
 
@@ -448,7 +448,7 @@ class eZISBN10To13Converter
     */
     function updateClassAttributeToISBN13( $classAttributeID )
     {
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $sql = "UPDATE ezcontentclass_attribute SET data_int1='1' WHERE id='" . $classAttributeID . "'";
         $db->query( $sql );
     }
@@ -461,9 +461,9 @@ class eZISBN10To13Converter
     */
     function updateContentISBNNumber( $contentObjectAttribute, $formatedISBN13Value )
     {
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $version =& $contentObjectAttribute->attribute( 'version' );
-        $db =& eZDB::instance();
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $version = $contentObjectAttribute->attribute( 'version' );
+        $db = eZDB::instance();
         $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $db->escapeString( $formatedISBN13Value ) .
                "' WHERE id='" .  $contentObjectAttributeID . "' AND version='" . $version . "'" ;
         $db->query( $sql );

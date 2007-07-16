@@ -138,7 +138,7 @@ class eZImageAliasHandler
     */
     function &attributeFromOriginal( $attributeName )
     {
-        $originalAlias =& $this->attribute( 'original' );
+        $originalAlias = $this->attribute( 'original' );
         if ( $originalAlias )
             return $originalAlias[$attributeName];
         $retValue = null;
@@ -360,8 +360,8 @@ class eZImageAliasHandler
         if ( $contentVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED or
              !$isImageOwner )
         {
-            $contentObject =& $contentVersion->attribute( 'contentobject' );
-            $mainNode =& $contentObject->attribute( 'main_node' );
+            $contentObject = $contentVersion->attribute( 'contentobject' );
+            $mainNode = $contentObject->attribute( 'main_node' );
             if ( !$mainNode )
             {
                 $ini = eZINI::instance( 'image.ini' );
@@ -659,7 +659,7 @@ class eZImageAliasHandler
     {
         // VS-DBFILE
 
-        $handler =& $contentObjectAttribute->attribute( 'content' );
+        $handler = $contentObjectAttribute->attribute( 'content' );
         if ( !$handler->isImageOwner() )
         {
             return;
@@ -975,10 +975,10 @@ class eZImageAliasHandler
     {
         $imageInformation = array();
 
-        $attributes = $imageInfoNode->attributes();
+        $attributes = $imageInfoNode->attributes;
         foreach ( $attributes as $attribute )
         {
-            $imageInformation[$attribute->name()] = $attribute->value;
+            $imageInformation[$attribute->name] = $attribute->value;
         }
 
         $children = $imageInfoNode->childNodes;

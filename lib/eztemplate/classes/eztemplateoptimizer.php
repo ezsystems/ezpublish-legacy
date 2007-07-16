@@ -214,7 +214,7 @@ class eZTemplateOptimizer
     static function fetchClassDeclaration( $classID )
     {
         include_once "kernel/classes/ezcontentclass.php";
-        $attributes = eZContentClass::fetchAttributes( $classID );
+        $attributes = eZContentClass::fetch( $classID )->fetchAttributes();
         $attributeArray = array();
         foreach ( $attributes as $attribute )
         {

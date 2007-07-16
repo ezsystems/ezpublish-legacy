@@ -163,7 +163,7 @@ class eZISBNGroupRange extends eZPersistentObject
             if ( count( $groupRangeArray ) == 1 )
             {
                 $groupRange = $groupRangeArray[0];
-                $length =& $groupRange->attribute( 'group_length' );
+                $length = $groupRange->attribute( 'group_length' );
 
                 $groupLength = $length;
             }

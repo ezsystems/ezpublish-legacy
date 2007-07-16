@@ -129,9 +129,8 @@ class eZWaitUntilDate
     function &classAttributeIDList()
     {
         $attributeIDList = array();
-        foreach ( array_keys( $this->Entries ) as $key )
+        foreach ( $this->Entries as $entry )
         {
-            $entry =& $this->Entries[$key];
             $attributeIDList[] = $entry->attribute( 'contentclass_attribute_id' );
         }
         return $attributeIDList;
@@ -140,9 +139,8 @@ class eZWaitUntilDate
     function setVersion( $version )
     {
         eZWaitUntilDateValue::removeAllElements( $this->WorkflowEventID, 0 );
-        for ( $i = 0; $i < count( $this->Entries ); $i++ )
+        foreach( $this->Entries as $entry )
         {
-            $entry =& $this->Entries[$i];
             $oldversion = $entry->attribute( "workflow_event_version" );
             $id = $entry->attribute( "id" );
             $workflowEventID = $entry->attribute( "workflow_event_id" );

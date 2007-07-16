@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
 if ( $http->hasPostVariable( 'ContentObjectPlacementID' ) )
     $placementID = $http->postVariable( 'ContentObjectPlacementID' );
 
-$nodeAssignments =& $versionObject->attribute( 'node_assignments' );
+$nodeAssignments = $versionObject->attribute( 'node_assignments' );
 $virtualNodeID = null;
 if ( is_array( $nodeAssignments ) and
      count( $nodeAssignments ) == 1 )
@@ -152,7 +152,7 @@ if ( $assignment !== null )
     $node =& $assignment->getParentNode();
     if ( $node !== null )
     {
-        $nodeObject =& $node->attribute( "object" );
+        $nodeObject = $node->attribute( "object" );
         $sectionID = $nodeObject->attribute( "section_id" );
     }
 }
@@ -173,7 +173,7 @@ $ini = eZINI::instance();
 
 if ( $assignment )
 {
-    $parentNodeObject =& $assignment->attribute( 'parent_node_obj' );
+    $parentNodeObject = $assignment->attribute( 'parent_node_obj' );
 }
 
 $navigationPartIdentifier = false;
@@ -296,7 +296,7 @@ $res->setKeys( $designKeys );
 include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
 unset( $contentObject );
-$contentObject =& $node->attribute( 'object' ); // do not remove &
+$contentObject = $node->attribute( 'object' ); // do not remove &
 
 $Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
                                                  false, false, false );

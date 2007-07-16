@@ -99,20 +99,20 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
     function handlePublishEvent( &$event, &$parameters )
     {
-        $versionObject =& $event->attribute( 'content' );
+        $versionObject = $event->attribute( 'content' );
         if ( !$versionObject )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         $contentObject = $versionObject->attribute( 'contentobject' );
         if ( !$contentObject )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
-        $contentNode =& $contentObject->attribute( 'main_node' );
+        $contentNode = $contentObject->attribute( 'main_node' );
         if ( !$contentNode )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
 
         // Notification should only be sent out when the object is published (is visible)
         if ( $contentNode->attribute( 'is_invisible' ) == 1 )
            return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
-        $contentClass =& $contentObject->attribute( 'content_class' );
+        $contentClass = $contentObject->attribute( 'content_class' );
         if ( !$contentClass )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         if ( // $versionObject->attribute( 'version' ) != 1 ||
@@ -124,9 +124,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $tpl =& templateInit();
         $tpl->resetVariables();
 
-        $parentNode =& $contentNode->attribute( 'parent' );
-        $parentContentObject =& $parentNode->attribute( 'object' );
-        $parentContentClass =& $parentContentObject->attribute( 'content_class' );
+        $parentNode = $contentNode->attribute( 'parent' );
+        $parentContentObject = $parentNode->attribute( 'object' );
+        $parentContentClass = $parentContentObject->attribute( 'content_class' );
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
@@ -170,11 +170,10 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $collection->setAttribute( 'data_text', $result );
         $collection->store();
 
-        $assignedNodes =& $contentObject->parentNodes( true );
+        $assignedNodes = $contentObject->parentNodes( true );
         $nodeIDList = array();
-        foreach( array_keys( $assignedNodes ) as $key )
+        foreach( $assignedNodes as $node )
         {
-            $node =& $assignedNodes[$key];
             if ( $node )
             {
                 $pathString = $node->attribute( 'path_string' );
@@ -239,7 +238,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         if ( !$collection )
             return;
 
-        $items =& $collection->attribute( 'items_to_send' );
+        $items = $collection->attribute( 'items_to_send' );
 
         if ( !$items )
         {
@@ -247,13 +246,13 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             return;
         }
         $addressList = array();
-        foreach ( array_keys( $items ) as $key )
+        foreach ( $items as $item )
         {
-            $addressList[] = $items[$key]->attribute( 'address' );
-            $items[$key]->remove();
+            $addressList[] = $item->attribute( 'address' );
+            $item->remove();
         }
 
-        $transport =& eZNotificationTransport::instance( 'ezmail' );
+        $transport = eZNotificationTransport::instance( 'ezmail' );
         $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ), null,
                           $parameters );
         if ( $collection->attribute( 'item_count' ) == 0 )

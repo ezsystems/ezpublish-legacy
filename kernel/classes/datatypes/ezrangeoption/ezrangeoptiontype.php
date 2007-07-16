@@ -176,7 +176,7 @@ class eZRangeOptionType extends eZDataType
     */
     function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
     {
-        $option =& $objectAttribute->attribute( 'content' );
+        $option = $objectAttribute->attribute( 'content' );
         foreach( $option->attribute( 'option_list' ) as $optionArray )
         {
             if ( $optionArray['id'] == $optionID )

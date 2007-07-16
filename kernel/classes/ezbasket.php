@@ -98,7 +98,7 @@ class eZBasket extends eZPersistentObject
                       "name" => "ezbasket" );
     }
 
-    function &items( $asObject = true )
+    function items( $asObject = true )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                              null,
@@ -165,12 +165,11 @@ class eZBasket extends eZPersistentObject
     /*!
      Fetching calculated information about the product items.
     */
-    function &itemsInfo()
+    function itemsInfo()
     {
         $basketInfo = array();
         // Build a price summary for the items based on VAT.
-        $items =& $this->items();
-        foreach ( $items as $item )
+        foreach ( $this->items() as $item )
         {
             $vatValue = $item['vat_value'];
             $itemCount = abs( $item['item_count'] );
@@ -249,9 +248,9 @@ class eZBasket extends eZPersistentObject
         return true;
     }
 
-    function &totalIncVAT()
+    function totalIncVAT()
     {
-        $items =& $this->items();
+        $items = $this->items();
 
         $total = 0.0;
         foreach ( $items as $item )
@@ -261,9 +260,9 @@ class eZBasket extends eZPersistentObject
         return $total;
     }
 
-    function &totalExVAT()
+    function totalExVAT()
     {
-        $items =& $this->items();
+        $items = $this->items();
 
         $total = 0.0;
         foreach ( $items as $item )
@@ -286,19 +285,10 @@ class eZBasket extends eZPersistentObject
         }
     }
 
-    function &isEmpty()
+    function isEmpty()
     {
         $items = $this->items();
-        if ( count( $items ) > 0 )
-        {
-            $result = false;
-        }
-        else
-        {
-            $result = true;
-        }
-
-        return $result;
+        return count( $items ) < 1;
     }
 
     /*!
@@ -308,10 +298,9 @@ class eZBasket extends eZPersistentObject
     */
     static function fetch( $sessionKey )
     {
-        $basket =& eZPersistentObject::fetchObject( eZBasket::definition(),
-                                                    null, array( "session_id" => $sessionKey ),
-                                                    true );
-        return $basket;
+        return eZPersistentObject::fetchObject( eZBasket::definition(),
+                                                null, array( "session_id" => $sessionKey ),
+                                                true );
     }
 
     /*!
@@ -357,7 +346,7 @@ class eZBasket extends eZPersistentObject
         }
         else
         {
-            $currentBasket =& $basketList[0];
+            $currentBasket = $basketList[0];
         }
         return $currentBasket;
     }
@@ -405,21 +394,20 @@ class eZBasket extends eZPersistentObject
      */
     function updatePrices()
     {
-        $productCollection =& $this->attribute( 'productcollection' );
+        $productCollection = $this->attribute( 'productcollection' );
         if ( $productCollection )
         {
             include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
             $currencyCode = '';
-            $items =& $this->items();
+            $items = $this->items();
 
             $db = eZDB::instance();
             $db->begin();
-            foreach( array_keys( $items ) as $key )
+            foreach( $items as $itemArray )
             {
-                $itemArray =& $items[ $key ];
-                $item =& $itemArray['item_object'];
-                $productContentObject =& $item->attribute( 'contentobject' );
+                $item = $itemArray['item_object'];
+                $productContentObject = $item->attribute( 'contentobject' );
                 $priceObj = null;
                 $price = 0.0;
                 $attributes =&  $productContentObject->contentObjectAttributes();
@@ -436,7 +424,7 @@ class eZBasket extends eZPersistentObject
                 if ( !is_object( $priceObj ) )
                     break;
 
-                $currency =& $priceObj->attribute( 'currency' );
+                $currency = $priceObj->attribute( 'currency' );
                 $optionsPrice = $item->calculatePriceWithOptions( $currency );
 
                 $price += $optionsPrice;
@@ -571,7 +559,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
         if ( is_array( $productCollectionItemList ) && count( $productCollectionItemList ) === 1 )
         {
-            $product =& $productCollectionItemList[0]->attribute( 'contentobject' );
+            $product = $productCollectionItemList[0]->attribute( 'contentobject' );
             if ( is_object( $product ) )
             {
                 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
@@ -610,10 +598,9 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         return $error;
     }
 
-    function &productCollection()
+    function productCollection()
     {
-        $productCollection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
-        return $productCollection;
+        return eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
     }
 
     /*!
@@ -634,7 +621,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
 
         if ( $removeBasket )
         {
-            $basket =& eZBasket::currentBasket();
+            $basket = eZBasket::currentBasket();
             if ( !is_object( $basket ) )
                 return false;
             $db = eZDB::instance();

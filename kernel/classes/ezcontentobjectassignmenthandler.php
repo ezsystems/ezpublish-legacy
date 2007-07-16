@@ -128,7 +128,7 @@ class eZContentObjectAssignmentHandler
         $assignments = false;
         $sectionIDWanted = $parameters['section-id-wanted'];
         $sectionID = 0;
-        $contentClass =& $this->CurrentObject->attribute( 'content_class' );
+        $contentClass = $this->CurrentObject->attribute( 'content_class' );
         $contentClassIdentifier = $contentClass->attribute( 'identifier' );
         $contentClassID = $contentClass->attribute( 'id' );
         foreach ( $specificAssignments as $specificAssignment )
@@ -189,7 +189,7 @@ class eZContentObjectAssignmentHandler
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !$node )
                     continue;
-                $parentContentObject =& $node->attribute( 'object' );
+                $parentContentObject = $node->attribute( 'object' );
 
                 eZDebug::writeDebug( "Checking for '$nodeID'" );
                 if ( $parentContentObject->checkAccess( 'create',

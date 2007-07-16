@@ -340,8 +340,8 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
     {
         foreach ( $subTree as $innerNode )
         {
-            $object =& $innerNode->attribute( 'object' );
-            $class =& $object->contentClass();
+            $object = $innerNode->attribute( 'object' );
+            $class = $object->contentClass();
             $object->setName( $class->contentObjectName( $object ) );
             $object->store();
             unset( $object );

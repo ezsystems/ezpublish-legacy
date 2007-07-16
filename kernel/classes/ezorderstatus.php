@@ -116,10 +116,9 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return \c true if the status is considered an internal status.
     */
-    function &isInternal()
+    function isInternal()
     {
-        $isInternal = $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
-        return $isInternal;
+        return $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
     }
 
     /*!

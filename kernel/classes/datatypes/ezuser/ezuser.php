@@ -100,6 +100,7 @@ class eZUser extends eZPersistentObject
                                                                         'default' => 1,
                                                                         'required' => true ) ),
                       'keys' => array( 'contentobject_id' ),
+                      'sort' => array( 'contentobject_id' => 'asc' ),
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'groups' => 'groups',
                                                       'has_stored_login' => 'hasStoredLogin',
@@ -191,16 +192,15 @@ class eZUser extends eZPersistentObject
     /*!
      Check if current user has "content/manage_locations" access
     */
-    function &hasManageLocations()
+    function hasManageLocations()
     {
-        $retValue = false;
         $accessResult = $this->hasAccessTo( 'content', 'manage_locations' );
         if ( $accessResult['accessWord'] != 'no' )
         {
-            $retValue = true;
+            return true;
         }
 
-        return $retValue;
+        return false;
     }
 
     static function create( $contentObjectID )
@@ -231,7 +231,7 @@ class eZUser extends eZPersistentObject
         eZPersistentObject::store();
     }
 
-    function &originalPassword()
+    function originalPassword()
     {
         return $this->OriginalPassword;
     }
@@ -241,7 +241,7 @@ class eZUser extends eZPersistentObject
         $this->OriginalPassword = $password;
     }
 
-    function &originalPasswordConfirm()
+    function originalPasswordConfirm()
     {
         return $this->OriginalPasswordConfirm;
     }
@@ -251,14 +251,13 @@ class eZUser extends eZPersistentObject
         $this->OriginalPasswordConfirm = $password;
     }
 
-    function &hasStoredLogin()
+    function hasStoredLogin()
     {
         $db = eZDB::instance();
         $contentObjectID = $this->attribute( 'contentobject_id' );
         $sql = "SELECT * FROM ezuser WHERE contentobject_id='$contentObjectID' AND LENGTH( login ) > 0";
         $rows = $db->arrayQuery( $sql );
-        $hasStoredLogin = count( $rows ) > 0;
-        return $hasStoredLogin;
+        return count( $rows ) > 0;
     }
 
     /*!
@@ -1227,7 +1226,7 @@ WHERE user_id = '" . $userID . "' AND
     /*!
       Returns the last visit timestamp to the current user.
     */
-    function &lastVisit()
+    function lastVisit()
     {
         $db = eZDB::instance();
 
@@ -1238,8 +1237,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
-            $retValue = time();
-            return $retValue;
+            return time();
         }
     }
 
@@ -1344,21 +1342,20 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return \c true if the user is enabled and can be used on the site.
     */
-    function &isEnabled()
+    function isEnabled()
     {
         if ( $this == eZUser::currentUser() )
         {
-            $retValue = true;
-            return $retValue;
+            return true;
         }
 
         include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting = eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
-            $retValue = false;
-        else
-            $retValue = true;
-        return $retValue;
+        {
+            return false;
+        }
+        return true;
     }
 
     /*!
@@ -1751,19 +1748,18 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return an array of roles which the user is assigned to
     */
-    function &roles()
+    function roles()
     {
         include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
-        $roles = eZRole::fetchByUser( $groups );
-        return $roles;
+        return eZRole::fetchByUser( $groups );
     }
 
     /*!
      \return an array of role ids which the user is assigned to
     */
-    function &roleIDList()
+    function roleIDList()
     {
         $http = eZHTTPTool::instance();
 
@@ -1822,7 +1818,7 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return an array of values of limited assignments
     */
-    function &limitValueList()
+    function limitValueList()
     {
         $limitValueList = array();
 
@@ -1859,31 +1855,28 @@ WHERE user_id = '" . $userID . "' AND
         return $limitValueList;
     }
 
-    function &contentObject()
+    function contentObject()
     {
         if ( isset( $this->ContentObjectID ) and $this->ContentObjectID )
         {
             include_once( 'kernel/classes/ezcontentobject.php' );
-            $object = eZContentObject::fetch( $this->ContentObjectID );
+            return eZContentObject::fetch( $this->ContentObjectID );
         }
-        else
-            $object = null;
-        return $object;
+        return null;
     }
 
     /*!
      Returns true if it's a real user which is logged in. False if the user
      is the default user or the fallback buildtin user.
     */
-    function &isLoggedIn()
+    function isLoggedIn()
     {
-        $return = true;
         if ( $this->ContentObjectID == EZ_USER_ANONYMOUS_ID or
              $this->ContentObjectID == -1 )
         {
-            $return = false;
+            return false;
         }
-        return $return;
+        return true;
     }
 
     /*!

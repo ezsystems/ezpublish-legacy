@@ -60,10 +60,9 @@ foreach( $rootNodeIDList as $nodeID )
 
         $offset += $limit;
 
-        foreach ( array_keys( $nodeArray ) as $key )
+        foreach ( $nodeArray as $node )
         {
-            $node =& $nodeArray[$key];
-            $dataMap =& $node->attribute( 'data_map' );
+            $dataMap = $node->attribute( 'data_map' );
 
             $dateAttributeName = $hideAttributeArray[$node->attribute( 'class_identifier' )];
 
@@ -72,7 +71,7 @@ foreach( $rootNodeIDList as $nodeID )
                 continue;
             }
 
-            $dateAttribute =& $dataMap[$dateAttributeName];
+            $dateAttribute = $dataMap[$dateAttributeName];
 
             if ( is_null( $dateAttribute ) || !$dateAttribute->hasContent() )
             {

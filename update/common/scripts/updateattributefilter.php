@@ -111,7 +111,7 @@ for ( $i = 0; $i < count( $attributeList ); ++$i )
     $classDataTypeString = $attribute->attribute( 'data_type_string' );
     if ( !isset( $classDataTypeList[$classDataTypeString] ) )
     {
-        $classDataType =& $attribute->attribute( 'data_type' );
+        $classDataType = $attribute->attribute( 'data_type' );
         $sortKeyType = $classDataType->sortKeyType();
         if ( $sortKeyType )
         {

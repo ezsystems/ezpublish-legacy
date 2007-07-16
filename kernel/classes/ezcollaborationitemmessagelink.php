@@ -117,7 +117,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
      */
     static function &addMessage( &$collaborationItem, &$message, $messageType, $participantID = false )
     {
-        $messageID =& $message->attribute( 'id' );
+        $messageID = $message->attribute( 'id' );
         eZDebug::writeDebug( $message );
         eZDebug::writeDebug( $messageID );
         if ( !$messageID )
@@ -130,7 +130,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $user = eZUser::currentUser();
-            $participantID =& $user->attribute( 'contentobject_id' );
+            $participantID = $user->attribute( 'contentobject_id' );
         }
         $collaborationID = $collaborationItem->attribute( 'id' );
         $timestamp = time();
@@ -205,34 +205,31 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
     }
 
 
-    function &collaborationItem()
+    function collaborationItem()
     {
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
+            return eZCollaborationItem::fetch( $this->CollaborationID );
         }
-        else
-            $item = null;
-        return $item;
+
+        return null;
     }
 
-    function &participant()
+    function participant()
     {
-        $participantLink =& eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
-        return $participantLink;
+        return eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
     }
 
-    function &simpleMessage()
+    function simpleMessage()
     {
         if ( isset( $this->MessageID ) and $this->MessageID )
         {
             include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-            $message = eZCollaborationSimpleMessage::fetch( $this->MessageID );
+            return eZCollaborationSimpleMessage::fetch( $this->MessageID );
         }
-        else
-            $message = null;
-        return $message;
+
+        return null;
     }
 
     /// \privatesection

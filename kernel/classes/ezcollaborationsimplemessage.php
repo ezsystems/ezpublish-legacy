@@ -117,22 +117,20 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                       'name' => 'ezcollab_simple_message' );
     }
 
-    function &create( $type, $text = false, $creatorID = false )
+    function create( $type, $text = false, $creatorID = false )
     {
         $date_time = time();
         if ( $creatorID === false )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             $user = eZUser::currentUser();
-            $creatorID =& $user->attribute( 'contentobject_id' );
+            $creatorID = $user->attribute( 'contentobject_id' );
         }
-        $row = array( 'message_type' => $type,
-                      'data_text1' => $text,
-                      'creator_id' => $creatorID,
-                      'created' => $date_time,
-                      'modified' => $date_time );
-        $object = new eZCollaborationSimpleMessage( $row );
-        return $object;
+        return new eZCollaborationSimpleMessage( array( 'message_type' => $type,
+                                                        'data_text1' => $text,
+                                                        'creator_id' => $creatorID,
+                                                        'created' => $date_time,
+                                                        'modified' => $date_time ) );
     }
 
     function fetch( $id, $asObject = true )
@@ -143,11 +141,10 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &participant()
+    function participant()
     {
         // TODO: Get participant trough participant link from item
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /// \privatesection

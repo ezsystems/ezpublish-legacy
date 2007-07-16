@@ -30,14 +30,14 @@
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
-                                                         "Allows for easy clearing of Cache files\n" .
-                                                         "\n" .
-                                                         "./bin/php/ezcache.php --clear-tag=content" ),
-                                      'use-session' => false,
-                                      'use-modules' => false,
-                                      'use-extensions' => true ) );
+$cli = eZCLI::instance();
+$script = eZScript::instance( array( 'description' => ( "eZ publish Cache Handler\n" .
+                                                        "Allows for easy clearing of Cache files\n" .
+                                                        "\n" .
+                                                        "./bin/php/ezcache.php --clear-tag=content" ),
+                                     'use-session' => false,
+                                     'use-modules' => false,
+                                     'use-extensions' => true ) );
 
 $script->startup();
 

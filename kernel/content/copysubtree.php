@@ -258,7 +258,7 @@ function copyPublishContentObject( &$sourceObject,
     // Refetch the object data since it might change in the database.
     $newObjectID = $newObject->attribute( 'id' );
     $newObject = eZContentObject::fetch( $newObjectID );
-    $newNodeList =& $newObject->attribute( 'assigned_nodes' );
+    $newNodeList = $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
@@ -716,9 +716,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         {
             continue;
         }
-        foreach ( array_keys( $attributeList ) as $key )
+        foreach ( $attributeList as $relationListAttribute )
         {
-            $relationListAttribute =& $attributeList[ $key ];
             $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
             $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
             $relationItems = $relationsDom->elementsByName( 'relation-item' ) ? $relationsDom->elementsByName( 'relation-item' ) : array();

@@ -220,9 +220,8 @@ else
 }
 
 $db->begin();
-foreach ( array_keys ( $LDAPUsers ) as $key )
+foreach ( $LDAPUsers as $LDAPUser )
 {
-    $LDAPUser =& $LDAPUsers[$key];
     $login = $LDAPUser['login'];
     $userID = $LDAPUser['contentobject_id'];
 
@@ -262,7 +261,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
         $currentVersion = $contentObject->attribute( 'current_version' );
 
-        $version =& $contentObject->attribute( 'current' );
+        $version = $contentObject->attribute( 'current' );
         $contentObjectAttributes =& $version->contentObjectAttributes();
 
         if ( $isUtf8Encoding )
@@ -284,7 +283,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         $contentObjectAttributes[1]->setAttribute( 'data_text', $lastName );
         $contentObjectAttributes[1]->store();
 
-        $contentClass =& $contentObject->attribute( 'content_class' );
+        $contentClass = $contentObject->attribute( 'content_class' );
         $name = $contentClass->contentObjectName( $contentObject );
         $contentObject->setName( $name );
 
@@ -305,9 +304,8 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
             $LDAPNodeArray = array();
             $newLDAPNodeArray = array();
             $parentNodes =& $contentObject->parentNodes( $currentVersion );;
-            foreach(  array_keys( $parentNodes ) as $key )
+            foreach( $parentNodes as $parentNode )
             {
-                $parentNode =& $parentNodes[$key];
                 $parentNodeID = $parentNode->attribute( 'node_id' );
                 $parentNodeName = $parentNode->attribute( 'name' );
                 $nodeAssignment = eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $currentVersion, $parentNodeID );
@@ -487,11 +485,10 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
 
                 $newVersion = $contentObject->createNewVersion();
                 $newVersionNr = $newVersion->attribute( 'version' );
-                $nodeAssignmentList =& $newVersion->attribute( 'node_assignments' );
+                $nodeAssignmentList = $newVersion->attribute( 'node_assignments' );
                 $noAddAssignmentList = array();
-                foreach ( array_keys( $nodeAssignmentList ) as $key  )
+                foreach ( $nodeAssignmentList as $nodeAssignment )
                 {
-                    $nodeAssignment =& $nodeAssignmentList[$key];
                     $parentNodeID = $nodeAssignment->attribute( 'parent_node' );
                     if ( array_key_exists( $parentNodeID, $noRemoveAssignmentList ) )
                     {

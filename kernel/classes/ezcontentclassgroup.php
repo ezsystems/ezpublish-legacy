@@ -99,28 +99,24 @@ class eZContentClassGroup extends eZPersistentObject
         return new eZContentClassGroup( $row );
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &creator()
+    function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->CreatorID );
+            return eZUser::fetch( $this->CreatorID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
     /*!
@@ -175,7 +171,7 @@ class eZContentClassGroup extends eZPersistentObject
      \return the class group link object.
      \note tranaction unsafe.
     */
-    function &appendClass( &$class, $version = false )
+    function appendClass( $class, $version = false )
     {
         if ( strtolower( get_class( $class ) ) == 'ezcontentclass' )
         {
@@ -184,7 +180,8 @@ class eZContentClassGroup extends eZPersistentObject
         }
         else
             $classID = $class;
-        $classGroupLink = eZContentClassClassGroup::create( $classID, $version,
+        $classGroupLink = eZContentClassClassGroup::create( $classID,
+                                                            $version,
                                                             $this->attribute( 'id' ),
                                                             $this->attribute( 'name' ) );
         $classGroupLink->store();

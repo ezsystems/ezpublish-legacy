@@ -183,8 +183,8 @@ class eZISBNRegistrantRange extends eZPersistentObject
         if ( get_class( $group ) == 'ezisbngroup' and
              get_class( $groupRange ) == 'ezisbngrouprange' )
         {
-            $groupLength =& $groupRange->attribute( 'group_length' );
-            $groupID =& $group->attribute( 'id' );
+            $groupLength = $groupRange->attribute( 'group_length' );
+            $groupID = $group->attribute( 'id' );
 
             $registrantOffset = 3 + $groupLength;
             $testSegment = substr( $isbnNr, $registrantOffset, 5 );
@@ -198,7 +198,7 @@ class eZISBNRegistrantRange extends eZPersistentObject
                                                                         true );
                 if ( count( $groupRangeArray ) == 1 )
                 {
-                    $length =& $groupRangeArray[0]->attribute( 'registrant_length' );
+                    $length = $groupRangeArray[0]->attribute( 'registrant_length' );
 
                     // Copy the length to send it back as a reference.
                     $registrantLength = $length;

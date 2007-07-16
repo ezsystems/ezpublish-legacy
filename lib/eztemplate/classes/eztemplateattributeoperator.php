@@ -172,7 +172,7 @@ class eZTemplateAttributeOperator
             $attrs = $value->attributes();
             foreach ( $attrs as $key )
             {
-                $item =& $value->attribute( $key );
+                $item = $value->attribute( $key );
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . strtolower( get_class( $item ) ) . "]";

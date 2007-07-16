@@ -136,7 +136,7 @@ class eZTemplateSectionIterator
                   method_exists( $item, 'attribute' ) )
         {
             unset( $tempValue );
-            $tempValue =& $item->attribute( $name );
+            $tempValue = $item->attribute( $name );
             return $tempValue;
         }
         eZDebug::writeError( "Attribute '$name' does not exist", 'eZTemplateSectionIterator::attribute' );

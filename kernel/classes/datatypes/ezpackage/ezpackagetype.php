@@ -83,7 +83,7 @@ class eZPackageType extends eZDataType
             $data = $http->postVariable( $base . '_ezpackage_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
 
             // Save in ini files if the package type is sitestyle.
-            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
             if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
             {
                 $package = eZPackage::fetch( $data );

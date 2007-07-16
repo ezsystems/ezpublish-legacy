@@ -111,7 +111,7 @@ class eZRole extends eZPersistentObject
      \note This will only be available when fetching roles for a specific user
      \sa limitValue
     */
-    function &limitIdentifier()
+    function limitIdentifier()
     {
         return $this->LimitIdentifier;
     }
@@ -121,7 +121,7 @@ class eZRole extends eZPersistentObject
      \note This will only be available when fetching roles for a specific user
      \sa limitIdentifier
     */
-    function &limitValue()
+    function limitValue()
     {
         return $this->LimitValue;
     }
@@ -131,7 +131,7 @@ class eZRole extends eZPersistentObject
     \note This will only be available when fetching roles for a specific user
     \sa userRoleID
     */
-    function &userRoleID()
+    function userRoleID()
     {
         return $this->UserRoleID;
     }
@@ -430,7 +430,7 @@ class eZRole extends eZPersistentObject
 
         foreach( $limitationsToFix as $limitation )
         {
-            $values =& $limitation->attribute( 'values' );
+            $values = $limitation->attribute( 'values' );
             $valueCount = count( $values );
             if ( $valueCount > 0 )
             {
@@ -457,7 +457,7 @@ class eZRole extends eZPersistentObject
 
         foreach( $limitationsToFixNode as $limitation )
         {
-            $values =& $limitation->attribute( 'values' );
+            $values = $limitation->attribute( 'values' );
             $valueCount = count( $values );
             if ( $valueCount > 0 )
             {
@@ -621,7 +621,7 @@ class eZRole extends eZPersistentObject
     {
         $accessArray = array();
 
-        $policies =& $this->attribute( 'policies' );
+        $policies = $this->attribute( 'policies' );
         foreach ( array_keys( $policies ) as $policyKey )
         {
             $accessArray = array_merge_recursive( $accessArray, $policies[$policyKey]->accessArray( $ignoreLimitIdentifier ) );
@@ -630,7 +630,7 @@ class eZRole extends eZPersistentObject
         return $accessArray;
     }
 
-    function &policyList()
+    function policyList()
     {
         if ( !isset( $this->Policies ) )
         {

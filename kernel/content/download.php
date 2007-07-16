@@ -58,17 +58,16 @@ if ( $contentObjectID != $contentObjectIDAttr or !$contentObject->attribute( 'ca
 }
 
 // Get locations.
-$nodeAssignments =& $contentObject->attribute( 'assigned_nodes' );
+$nodeAssignments = $contentObject->attribute( 'assigned_nodes' );
 if ( count( $nodeAssignments ) === 0 )
 {
     // oops, no locations. probably it's related object. Let's check his owners
     $ownerList =& eZContentObject::reverseRelatedObjectList( false, $contentObjectID, false, false, false );
-    foreach ( array_keys( $ownerList ) as $key )
+    foreach ( $ownerList as $owner )
     {
-        $owner =& $ownerList[$key];
         if ( is_object( $owner ) )
         {
-            $ownerNodeAssignments =& $owner->attribute( 'assigned_nodes' );
+            $ownerNodeAssignments = $owner->attribute( 'assigned_nodes' );
             $nodeAssignments = array_merge( $nodeAssignments, $ownerNodeAssignments );
         }
     }

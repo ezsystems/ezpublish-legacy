@@ -321,7 +321,7 @@ class eZTextFileUser extends eZUser
                             $parentNodeID = $contentObject->attribute( 'main_parent_node_id' );
                             $currentVersion = $contentObject->attribute( 'current_version' );
 
-                            $version =& $contentObject->attribute( 'current' );
+                            $version = $contentObject->attribute( 'current' );
                             $contentObjectAttributes =& $version->contentObjectAttributes();
 
                             $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );

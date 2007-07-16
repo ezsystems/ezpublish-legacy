@@ -128,7 +128,7 @@ class eZCollaborationGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    static function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
+    static function instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
     {
         $depth = 0;
         $pathString = '';
@@ -185,11 +185,10 @@ class eZCollaborationGroup extends eZPersistentObject
     /*!
      \return an array with collaboration items which are in this group.
     */
-    function &itemList( $parameters = array() )
+    function itemList( $parameters = array() )
     {
-        $itemList = eZCollaborationItem::fetchList( array_merge( array( 'parent_group_id' => $this->ID ),
+        return eZCollaborationItem::fetchList( array_merge( array( 'parent_group_id' => $this->ID ),
                                                                  $parameters ) );
-        return $itemList;
     }
 
     static function &subTree( $parameters = array() )
@@ -314,7 +313,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return $returnGroupList;
     }
 
-    function &itemCount( $parameters = array() )
+    function itemCount( $parameters = array() )
     {
         $parameters = array_merge( array( 'as_object' => true ),
                                    $parameters );
@@ -334,25 +333,23 @@ class eZCollaborationGroup extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    function &user()
+    function user()
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::fetch( $this->UserID );
+            return eZUser::fetch( $this->UserID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &parentGroup()
+    function parentGroup()
     {
         if ( isset( $this->ParentGroupID ) and $this->ParentGroupID )
-            $parentGroup = eZCollaborationGroup::fetch( $this->ParentGroupID );
-        else
-            $parentGroup = null;
-        return $parentGroup;
+        {
+            return eZCollaborationGroup::fetch( $this->ParentGroupID );
+        }
+        return null;
     }
 
     /// \privatesection

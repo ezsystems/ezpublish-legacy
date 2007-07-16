@@ -162,7 +162,7 @@ class eZAuthorType extends eZDataType
         else
         {
             $user = eZUser::currentUser();
-            $userobject =& $user->attribute( 'contentobject' );
+            $userobject = $user->attribute( 'contentobject' );
             if ( $userobject )
             {
                 $author->addAuthor( $userobject->attribute( 'id' ), $userobject->attribute( 'name' ), $user->attribute( 'email' ) );
@@ -183,7 +183,7 @@ class eZAuthorType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content();
+        $author = $contentObjectAttribute->content();
         if ( !$author )
             return false;
 

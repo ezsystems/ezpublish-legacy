@@ -92,22 +92,22 @@ class eZWaitUntilDateValue extends eZPersistentObject
                       "name" => "ezwaituntildatevalue" );
     }
 
-    function &className()
+    function className()
     {
         if ( $this->ClassName === null )
         {
             $contentClass = eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
-            $this->ClassName =& $contentClass->attribute( 'name' );
+            $this->ClassName = $contentClass->attribute( 'name' );
         }
         return $this->ClassName;
     }
 
-    function &classAttributeName()
+    function classAttributeName()
     {
         if ( $this->ClassAttributeName === null )
         {
-            $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
-            $this->ClassAttributeName =& $contentClassAttribute->attribute( 'name' );
+            $contentClassAttribute = eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
+            $this->ClassAttributeName = $contentClassAttribute->attribute( 'name' );
         }
         return $this->ClassAttributeName;
     }

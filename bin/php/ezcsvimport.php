@@ -142,7 +142,7 @@ while ( $objectData = fgetcsv( $fp, $csvLineLength , ';', '"' ) )
 
     $contentObjectID = $contentObject->attribute( 'id' );
 
-    $attributes =& $contentObject->attribute( 'contentobject_attributes' );
+    $attributes = $contentObject->attribute( 'contentobject_attributes' );
 
 
 

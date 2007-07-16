@@ -738,7 +738,7 @@ class eZContentLanguage extends eZPersistentObject
     /**
      * \return The count of objects containing the translation in this language.
      */
-    function &objectCount()
+    function objectCount()
     {
         $db = eZDB::instance();
 
@@ -753,9 +753,7 @@ class eZContentLanguage extends eZPersistentObject
         }
 
         $count = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject WHERE $whereSQL" );
-        $count = $count[0]['count'];
-
-        return $count;
+        return $count[0]['count'];
     }
 
     /**
@@ -775,7 +773,7 @@ class eZContentLanguage extends eZPersistentObject
     /**
      * \return Reference to itself. Kept because of the backward compatibility.
      */
-    function &translation()
+    function translation()
     {
         return $this;
     }

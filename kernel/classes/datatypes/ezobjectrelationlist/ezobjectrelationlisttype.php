@@ -295,7 +295,7 @@ class eZObjectRelationListType extends eZDataType
     function createNewObject( &$contentObjectAttribute, $name )
     {
         $debug = eZDebug::instance();
-        $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
         $classContent = $classAttribute->content();
         $classID = $classContent['object_class'];
         if ( !isset( $classID ) or !is_numeric( $classID ) )
@@ -337,7 +337,7 @@ class eZObjectRelationListType extends eZDataType
         if ( !$class )
             return false;
 
-        $currentObject =& $contentObjectAttribute->attribute( 'object' );
+        $currentObject = $contentObjectAttribute->attribute( 'object' );
         $sectionID = $currentObject->attribute( 'section_id' );
         //instantiate object, same section, currentuser as owner (i.e. provide false as param)
         $newObjectInstance =& $class->instantiate( false, $sectionID );
@@ -856,7 +856,7 @@ class eZObjectRelationListType extends eZDataType
                 $class = eZContentClass::fetch( $classID );
             if ( $class )
             {
-                $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 $class_content = $classAttribute->content();
                 $content = $contentObjectAttribute->content();
                 $priority = 0;
@@ -1001,7 +1001,7 @@ class eZObjectRelationListType extends eZDataType
 
             // Fetch the list of "allowed" classes .
             // A user can select objects of only those allowed classes when browsing.
-            $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
             $classContent   =& $classAttribute->content();
             if ( isset( $classContent['class_constraint_list'] ) )
                 $classConstraintList =& $classContent['class_constraint_list'];
@@ -1133,7 +1133,7 @@ class eZObjectRelationListType extends eZDataType
             return;
         }
 
-        $hostObject =& $contentObjectAttribute->attribute( 'object' );
+        $hostObject = $contentObjectAttribute->attribute( 'object' );
         $hostObjectVersions =& $hostObject->versions();
         $isDeletionAllowed = true;
 
@@ -1192,7 +1192,7 @@ class eZObjectRelationListType extends eZDataType
 
     function createInstance( &$class, $priority, &$contentObjectAttribute, $nodePlacement = false )
     {
-        $currentObject =& $contentObjectAttribute->attribute( 'object' );
+        $currentObject = $contentObjectAttribute->attribute( 'object' );
         $sectionID = $currentObject->attribute( 'section_id' );
         $object = $class->instantiate( false, $sectionID );
         if ( !is_numeric( $nodePlacement ) or $nodePlacement <= 0 )
@@ -1215,7 +1215,7 @@ class eZObjectRelationListType extends eZDataType
     function appendObject( $objectID, $priority, &$contentObjectAttribute )
     {
         $object = eZContentObject::fetch( $objectID );
-        $class =& $object->attribute( 'content_class' );
+        $class = $object->attribute( 'content_class' );
         $sectionID = $object->attribute( 'section_id' );
         $relationItem = array( 'identifier' => false,
                                'priority' => $priority,

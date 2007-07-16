@@ -119,9 +119,9 @@ class eZMatrixType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
+        $matrix = $contentObjectAttribute->content();
+        $columnsArray = $matrix->attribute( 'columns' );
+        $columns = $columnsArray['sequential'];
         $count = 0;
         foreach ( $columns as $column )
         {
@@ -136,8 +136,8 @@ class eZMatrixType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         $matrix =& $contentObjectAttribute->content();
-        $columnsArray =& $matrix->attribute( 'columns' );
-        $columns =& $columnsArray['sequential'];
+        $columnsArray = $matrix->attribute( 'columns' );
+        $columns = $columnsArray['sequential'];
         $metaDataArray = array();
         foreach ( $columns as $column )
         {
@@ -164,7 +164,7 @@ class eZMatrixType extends eZDataType
             {
                 $cells[] = $cell;
             }
-            $matrix =& $contentObjectAttribute->attribute( 'content' );
+            $matrix = $contentObjectAttribute->attribute( 'content' );
             $matrix->Cells =& $cells;
 
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
@@ -322,8 +322,8 @@ class eZMatrixType extends eZDataType
             $columnNameList = $http->postVariable( $columnNameVariable );
             $columnIDList = $http->postVariable( $columnIDVariable );
 
-            $matrixDefinition =& $classAttribute->attribute( 'content' );
-            $columnNames =& $matrixDefinition->attribute( 'columns' );
+            $matrixDefinition = $classAttribute->attribute( 'content' );
+            $columnNames = $matrixDefinition->attribute( 'columns' );
             foreach ( $columnNames as $columnName )
             {
                 $columnID = '';
@@ -442,7 +442,7 @@ class eZMatrixType extends eZDataType
     {
         if ( $string != '' )
         {
-            $matrix =& $contentObjectAttribute->attribute( 'content' );
+            $matrix = $contentObjectAttribute->attribute( 'content' );
             $matrixRowsList = eZStringUtils::explodeStr( $string, "&" );
             $cells = array();
             $matrix->Matrix['rows']['sequential'] = array();

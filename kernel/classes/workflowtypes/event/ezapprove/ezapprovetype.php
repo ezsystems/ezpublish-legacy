@@ -228,8 +228,8 @@ class eZApproveType extends eZWorkflowEventType
             {
                 foreach( $assignedNodes as $assignedNode )
                 {
-                    $parent =& $assignedNode->attribute( 'parent' );
-                    $parentObject =& $parent->object();
+                    $parent = $assignedNode->attribute( 'parent' );
+                    $parentObject = $parent->object();
                     $section = $parentObject->attribute( 'section_id');
 
                     if ( in_array( $section, $workflowSections ) )

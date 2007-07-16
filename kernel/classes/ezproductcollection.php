@@ -138,7 +138,7 @@ class eZProductCollection extends eZPersistentObject
         if ( !is_object( $collection ) )
              return $invalidItemArray;
 
-        $currency =& $collection->attribute( 'currency_code' );
+        $currency = $collection->attribute( 'currency_code' );
         $productItemList = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                                  null, array( "productcollection_id" => $id ),
                                                                  null,

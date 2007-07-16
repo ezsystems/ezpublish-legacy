@@ -114,12 +114,12 @@ class eZOrderItem extends eZPersistentObject
 
     }
 
-    function &vatValue()
+    function vatValue()
     {
         return $this->VATValue;
     }
 
-    function &priceIncVAT()
+    function priceIncVAT()
     {
         if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
@@ -133,16 +133,14 @@ class eZOrderItem extends eZPersistentObject
 
     }
 
-    function &priceExVAT()
+    function priceExVAT()
     {
         if ( $this->attribute( 'is_vat_inc' ) == 1 )
         {
-            $exVATPrice = $this->Price / ( $this->vatValue() + 100 ) * 100;
-            return $exVATPrice;
+            return $this->Price / ( $this->vatValue() + 100 ) * 100;
         }
-        else
-            return $this->Price;
 
+        return $this->Price;
     }
 
     /*!

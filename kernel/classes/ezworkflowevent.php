@@ -140,12 +140,11 @@ class eZWorkflowEvent extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
     function fetchFilteredList( $cond, $asObject = true )
@@ -182,34 +181,32 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function attributes()
     {
-        $eventType =& $this->eventType();
-        return array_merge( eZPersistentObject::attributes(), $eventType->typeFunctionalAttributes() );
+        return array_merge( eZPersistentObject::attributes(), $this->eventType()->typeFunctionalAttributes() );
     }
 
     function hasAttribute( $attr )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         return eZPersistentObject::hasAttribute( $attr ) or
                in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
-            $attributeDecoder =& $eventType->attributeDecoder( $this, $attr );
-            return $attributeDecoder;
+            return $eventType->attributeDecoder( $this, $attr );
         }
-        else
-            return eZPersistentObject::attribute( $attr );
+
+        return eZPersistentObject::attribute( $attr );
     }
 
-    function &eventType()
+    function eventType()
     {
-        if ( ! isset (  $this->EventType ) )
+        if ( ! isset ( $this->EventType ) )
         {
-            $this->EventType =& eZWorkflowType::createType( $this->TypeString );
+            $this->EventType = eZWorkflowType::createType( $this->TypeString );
         }
         return $this->EventType;
     }
@@ -217,12 +214,12 @@ class eZWorkflowEvent extends eZPersistentObject
     /*!
      Returns the content for this event.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
-            $eventType =& $this->eventType();
-            $this->Content =& $eventType->workflowEventContent( $this );
+            $eventType = $this->eventType();
+            $this->Content = $eventType->workflowEventContent( $this );
         }
 
         return $this->Content;
@@ -233,7 +230,7 @@ class eZWorkflowEvent extends eZPersistentObject
     */
     function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
 
@@ -242,7 +239,7 @@ class eZWorkflowEvent extends eZPersistentObject
     */
     function customHTTPAction( &$http, $action )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->customWorkflowEventHTTPAction( $http, $action, $this );
     }
 
@@ -256,7 +253,7 @@ class eZWorkflowEvent extends eZPersistentObject
         $db->begin();
         $stored = eZPersistentObject::store();
 
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->storeEventData( $this, $this->attribute( 'version' ) );
         $db->commit();
 

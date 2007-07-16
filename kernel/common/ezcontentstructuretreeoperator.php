@@ -355,11 +355,9 @@ class eZContentStructureTreeOperator
             if ( $depthLeft != 0 )
             {
                 $children =& $contentTree['children'];
-                $children_keys = array_keys( $children );
 
-                foreach( $children_keys as $key )
+                foreach( $children as $child )
                 {
-                    $child =& $children[$key];
                     $currentDepth = $depthLeft;
 
                     if ( $unfoldNodeID != 0 and $unfoldNodeID != $child['parent_node']['node']['node_id'] )
@@ -423,12 +421,12 @@ class eZContentStructureTreeOperator
             }
             else
             {
-                $contentObject =& $rootTreeNode->attribute( 'object' );
+                $contentObject = $rootTreeNode->attribute( 'object' );
 
                 $viewNodeAllowed = true;
                 if ( is_array( $classFilter ) && count( $classFilter ) > 0 )
                 {
-                    $contentClassIdentifier =& $contentObject->attribute( 'class_identifier' );
+                    $contentClassIdentifier = $contentObject->attribute( 'class_identifier' );
 
                     if ( !in_array( $contentClassIdentifier, $classFilter ) )
                         $viewNodeAllowed = false;

@@ -101,7 +101,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     {
         $objectID = $object->attribute( 'id' );
 
-        $assignedNodes =& $object->attribute( 'assigned_nodes' );
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         $assignedNodesIDs = array();
         foreach ( $assignedNodes as $node )
             $assignedNodesIDs = $node->attribute( 'node_id' );
@@ -204,7 +204,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         {
             include_once( 'kernel/classes/ezcontentobjectassignmenthandler.php' );
             $user = eZUser::currentUser();
-            $userID =& $user->attribute( 'contentobject_id' );
+            $userID = $user->attribute( 'contentobject_id' );
             if ( $http->hasPostVariable( 'SectionID' ) )
             {
                 $sectionID = $http->postVariable( 'SectionID' );
@@ -220,7 +220,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $relatedContentObject = $class->instantiate( $userID, $sectionID );
             $db->commit();
             $newObjectID = $relatedContentObject->attribute( 'id' );
-            $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
+            $relatedContentVersion = $relatedContentObject->attribute( 'current' );
 
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {

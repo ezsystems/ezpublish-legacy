@@ -785,7 +785,7 @@ class eZModule
             $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
             if ( isset( $postParameters[$parameterName] ) )
             {
-                $postVariables =& $http->attribute( 'post' );
+                $postVariables = $http->attribute( 'post' );
                 $postVariableNameMatch = $postParameters[$parameterName];
                 $regMatch = "/^" . $postVariableNameMatch . "_(.+)$/";
                 foreach ( $postVariables as $postVariableName => $postVariableValue )
@@ -825,7 +825,7 @@ class eZModule
             $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
             if ( isset( $postParameters[$parameterName] ) )
             {
-                $postVariables =& $http->attribute( 'post' );
+                $postVariables = $http->attribute( 'post' );
                 $postVariableNameMatch = $postParameters[$parameterName];
                 $regMatch = "/^" . $postVariableNameMatch . "_(.+)$/";
                 foreach ( $postVariables as $postVariableName => $postVariableValue )

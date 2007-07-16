@@ -264,25 +264,22 @@ class eZRSSExport extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &itemList()
+    function itemList()
     {
-        $items = $this->fetchItems();
-        return $items;
+        return $this->fetchItems();
     }
 
-    function &imageNode()
+    function imageNode()
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
             include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-            $node = eZContentObjectTreeNode::fetch( $this->ImageID );
+            return eZContentObjectTreeNode::fetch( $this->ImageID );
         }
-        else
-            $node = null;
-        return $node;
+        return null;
     }
 
-    function &imagePath()
+    function imagePath()
     {
         if ( isset( $this->ImageID ) and $this->ImageID )
         {
@@ -297,50 +294,46 @@ class eZRSSExport extends eZPersistentObject
                     if( $i == 0 )
                         $retValue = $treenode['name'];
                     else
-                        $retValue .= '/'.$treenode['name'];
+                        $retValue .= '/' . $treenode['name'];
                 }
+                return $retValue;
             }
-            else
-                $retValue = null;
         }
-        else
-            $retValue = null;
+        return null;
 
-        return $retValue;
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &rssXml()
+    function rssXml()
     {
         switch( $this->attribute( 'rss_version' ) )
         {
             case '1.0':
             {
-                $retRSSXml = $this->fetchRSS1_0();
+                return $this->fetchRSS1_0();
             } break;
 
             case '2.0':
             {
-                $retRSSXml = $this->fetchRSS2_0();
+                return $this->fetchRSS2_0();
             } break;
+
             default:
             {
-                $retRSSXml = null;
+                return null;
             } break;
         }
 
-        return $retRSSXml;
+        return null;
     }
 
     /*!

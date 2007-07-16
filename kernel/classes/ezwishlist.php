@@ -121,7 +121,7 @@ class eZWishList extends eZPersistentObject
         return $countRes[0]['count'];
     }
 
-    function &items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
+    function items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,

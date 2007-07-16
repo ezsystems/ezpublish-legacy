@@ -99,7 +99,7 @@ class eZMultiPriceType extends eZDataType
 
     function storeObjectAttribute( &$attribute )
     {
-        $multiprice =& $attribute->attribute( 'content' );
+        $multiprice = $attribute->attribute( 'content' );
         $multiprice->store();
     }
 

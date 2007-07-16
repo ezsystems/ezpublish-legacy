@@ -334,8 +334,8 @@ if ( $EditLanguage == false )
             return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $firstLanguage->attribute( 'locale' ) ) );
         }
 
-        $canCreateLanguageList =& $obj->attribute( 'can_create_languages' );
-        $canEditLanguageList =& $obj->attribute( 'can_edit_languages' );
+        $canCreateLanguageList = $obj->attribute( 'can_create_languages' );
+        $canEditLanguageList = $obj->attribute( 'can_edit_languages' );
         if ( count( $canCreateLanguageList ) == 0 && count( $canEditLanguageList ) == 1 )
         {
             $firstLanguage = array_shift( $canEditLanguageList );
@@ -752,8 +752,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $assignedNodes = $object->assignedNodes( true );
             foreach ( $assignedNodes as $node )
             {
-                $nodeID               =& $node->attribute( 'node_id' );
-                $parentNodeID         =& $node->attribute( 'parent_node_id' );
+                $nodeID               = $node->attribute( 'node_id' );
+                $parentNodeID         = $node->attribute( 'parent_node_id' );
                 $updateNodeVisibility =  false;
                 $postVarName          = "FutureNodeHiddenState_$parentNodeID";
 

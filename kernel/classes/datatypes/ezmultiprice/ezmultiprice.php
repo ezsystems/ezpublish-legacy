@@ -69,7 +69,7 @@ class eZMultiPrice extends eZSimplePrice
         eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 
         $isVatIncluded = ( $classAttribute->attribute( EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_FIELD ) == 1 );
-        $VATID =& $classAttribute->attribute( EZ_DATATYPESTRING_MULTIPRICE_VAT_ID_FIELD );
+        $VATID = $classAttribute->attribute( EZ_DATATYPESTRING_MULTIPRICE_VAT_ID_FIELD );
 
         $this->setVatIncluded( $isVatIncluded );
         $this->setVatType( $VATID );
@@ -572,12 +572,12 @@ class eZMultiPrice extends eZSimplePrice
 
         $priceListNode = $doc->createElement( 'price-list' );
 
-        $priceList =& $this->attribute( 'price_list' );
+        $priceList = $this->attribute( 'price_list' );
         foreach ( $priceList as $price )
         {
-            $currencyCode =& $price->attribute( 'currency_code' );
-            $value =& $price->attribute( 'value' );
-            $type =& $price->attribute( 'type' );
+            $currencyCode = $price->attribute( 'currency_code' );
+            $value = $price->attribute( 'value' );
+            $type = $price->attribute( 'type' );
 
             $priceNode = $doc->createElement( 'price' );
 

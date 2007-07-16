@@ -141,7 +141,7 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'validation', $validation );
         $tpl->setVariable( 'persistent_variable', false );
 
-        $parents =& $node->attribute( 'path' );
+        $parents = $node->attribute( 'path' );
 
         $path = array();
         $titlePath = array();
@@ -167,11 +167,11 @@ class eZNodeviewfunctions
 
         $Result = array();
         $Result['content'] =& $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
-        $Result['view_parameters'] =& $viewParameters;
-        $Result['path'] =& $path;
-        $Result['title_path'] =& $titlePath;
-        $Result['section_id'] =& $object->attribute( 'section_id' );
-        $Result['node_id'] =& $node->attribute( 'node_id' );
+        $Result['view_parameters'] = $viewParameters;
+        $Result['path'] = $path;
+        $Result['title_path'] = $titlePath;
+        $Result['section_id'] = $object->attribute( 'section_id' );
+        $Result['node_id'] = $node->attribute( 'node_id' );
         $Result['navigation_part'] = $navigationPartIdentifier;
 
         $contentInfoArray = array();
@@ -425,7 +425,7 @@ class eZNodeviewfunctions
         if ( !is_object( $node ) )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
         if ( !is_object( $object ) )
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );

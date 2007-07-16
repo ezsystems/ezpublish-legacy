@@ -200,7 +200,7 @@ if ( $file != '' and $scriptFound === true )
 
             $isbnGroup = eZISBNGroup::create( $isbnRegGroupElement, $isbnItem['text'] );
             $isbnGroup->store();
-            $isbnGroupID =& $isbnGroup->attribute( 'id' );
+            $isbnGroupID = $isbnGroup->attribute( 'id' );
             $pubRangeArray = $isbnItem['pubrange'];
             if ( is_array( $pubRangeArray ) )
             {

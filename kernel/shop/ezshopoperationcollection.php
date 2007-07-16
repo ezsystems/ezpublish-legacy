@@ -117,7 +117,7 @@ class eZShopOperationCollection
         // Recalculate VAT for order's product collection items
         // according to the specified user country.
 
-        $productCollection =& $order->attribute( 'productcollection' );
+        $productCollection = $order->attribute( 'productcollection' );
         if ( !$productCollection )
         {
             eZDebug::writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
@@ -131,10 +131,9 @@ class eZShopOperationCollection
         $db = eZDB::instance();
         $db->begin();
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        foreach( array_keys( $items ) as $key )
+        foreach( $items as $item )
         {
-            $item =& $items[$key];
-            $productContentObject =& $item->attribute( 'contentobject' );
+            $productContentObject = $item->attribute( 'contentobject' );
 
             // Look up price object.
             $priceObj = null;
@@ -221,7 +220,7 @@ class eZShopOperationCollection
             $order = eZOrder::fetch( $orderID );
             if ( !$order )
                 break;
-            $productCollectionID =& $order->attribute( 'productcollection_id' );
+            $productCollectionID = $order->attribute( 'productcollection_id' );
 
             require_once( 'kernel/classes/ezshippingmanager.php' );
             $shippingInfo = eZShippingManager::getShippingInfo( $productCollectionID );
@@ -301,7 +300,7 @@ class eZShopOperationCollection
             $basket =& eZBasket::currentBasket();
             if ( is_object( $basket ) )
             {
-                $productCollectionID =& $basket->attribute( 'productcollection_id' );
+                $productCollectionID = $basket->attribute( 'productcollection_id' );
 
                 $i = 0;
                 foreach ( $itemIDList as $id )
@@ -406,7 +405,7 @@ class eZShopOperationCollection
 
         /* Check if the item with the same options is not already in the basket: */
         $itemID = false;
-        $collection =& $basket->attribute( 'productcollection' );
+        $collection = $basket->attribute( 'productcollection' );
         if ( !$collection )
         {
             eZDebug::writeError( 'Unable to find product collection.' );

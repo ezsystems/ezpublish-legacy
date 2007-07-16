@@ -102,15 +102,14 @@ class eZNotificationCollection extends eZPersistentObject
         return $item;
     }
 
-    function &items()
+    function items()
     {
-        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                       null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
-                                                       true );
-        return $items;
+        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                    null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
+                                                    true );
     }
 
-    function &itemCount()
+    function itemCount()
     {
         $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                        array(),
@@ -124,13 +123,12 @@ class eZNotificationCollection extends eZPersistentObject
         return $result[0]['count'];
     }
 
-    function &itemsToSend()
+    function itemsToSend()
     {
-        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                       null, array( 'collection_id' => $this->attribute( 'id' ),
-                                                                    'send_date' => 0 ),
-                                                       null, null, true );
-        return $items;
+        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                    null, array( 'collection_id' => $this->attribute( 'id' ),
+                                                                 'send_date' => 0 ),
+                                                    null, null, true );
     }
 
     function fetchForHandler( $handler, $eventID, $transport )

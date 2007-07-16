@@ -84,11 +84,11 @@ $attributeDataBaseName = 'ContentObjectAttribute';
 
 
 $class = eZContentClass::fetch( $classID );
-$contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
+$contentObjectAttributes = $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
 {
-    $contentObjectAttributes =& $version->contentObjectAttributes();
+    $contentObjectAttributes = $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
 }
 
@@ -142,8 +142,8 @@ else
 }
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
-$assignments =& $version->attribute( 'parent_nodes' );
-$assignedNodes =& $object->attribute( 'assigned_nodes' );
+$assignments = $version->attribute( 'parent_nodes' );
+$assignedNodes = $object->attribute( 'assigned_nodes' );
 
 // Figure out how many locations it has (or will get)
 $locationIDList = array();
@@ -310,9 +310,8 @@ elseif ( $storingAllowed )
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
     eZContentObject::recursionProtectionStart();
-    foreach( array_keys( $contentObjectAttributes ) as $key )
+    foreach( $contentObjectAttributes as $contentObjectAttribute )
     {
-        $contentObjectAttribute =& $contentObjectAttributes[$key];
         $object->handleCustomHTTPActions( $contentObjectAttribute,  $attributeDataBaseName,
                                           $customActionAttributeArray,
                                           array( 'module' => &$Module,
@@ -326,7 +325,7 @@ $invalidNodeAssignmentList = array();
 if ( $Module->isCurrentAction( 'Publish' ) )
 {
     $mainFound = false;
-    $assignments =& $version->attribute( 'parent_nodes' );
+    $assignments = $version->attribute( 'parent_nodes' );
     $db = eZDB::instance();
     $db->begin();
     foreach ( array_keys( $assignments ) as $key )
@@ -378,7 +377,7 @@ if ( $inputValidated == true )
 }
 
 if ( isset( $Params['TemplateObject'] ) )
-    $tpl =& $Params['TemplateObject'];
+    $tpl = $Params['TemplateObject'];
 
 if ( !isset( $tpl ) || strtolower( get_class( $tpl ) ) != 'eztemplate' )
     $tpl =& templateInit();
@@ -391,7 +390,7 @@ $tpl->setVariable( 'invalid_node_assignment_list', $invalidNodeAssignmentList );
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
 $res = eZTemplateDesignResource::instance();
 
-$assignments =& $version->attribute( 'parent_nodes' );
+$assignments = $version->attribute( 'parent_nodes' );
 $mainAssignment = false;
 foreach ( array_keys( $assignments ) as $key )
 {
@@ -409,18 +408,17 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
 
 if ( $mainAssignment )
 {
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    $parentNode = $mainAssignment->attribute( 'parent_node_obj' );
     if ( $parentNode )
     {
-        $parentObject =& $parentNode->attribute( 'object' );
+        $parentObject = $parentNode->attribute( 'object' );
         if ( $parentObject )
         {
-            $parentClass =& $parentObject->attribute( 'content_class' );
+            $parentClass = $parentObject->attribute( 'content_class' );
             if ( $parentClass )
             {
                 $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
-                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
-                                      ) );
+                                      array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) ) ) );
             }
         }
     }
@@ -502,10 +500,10 @@ $titlePath = array();
 $hasPath = false;
 if ( $mainAssignment )
 {
-    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    $parentNode = $mainAssignment->attribute( 'parent_node_obj' );
     if ( $parentNode )
     {
-        $parents =& $parentNode->attribute( 'path' );
+        $parents = $parentNode->attribute( 'path' );
 
         foreach ( $parents as $parent )
         {
@@ -543,7 +541,7 @@ if ( !$hasPath )
     $existingNode = $object->attribute( 'main_node' );
     if ( $existingNode )
     {
-        $parents =& $existingNode->attribute( 'path' );
+        $parents = $existingNode->attribute( 'path' );
 
         foreach ( $parents as $parent )
         {

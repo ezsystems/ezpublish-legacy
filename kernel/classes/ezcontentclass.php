@@ -277,7 +277,7 @@ class eZContentClass extends eZPersistentObject
         $user = eZUser::currentUser();
         if ( $userID === false )
         {
-            $userID =& $user->attribute( 'contentobject_id' );
+            $userID = $user->attribute( 'contentobject_id' );
         }
 
         if ( $languageCode == false )
@@ -897,9 +897,8 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $db = eZDB::instance();
             $db->begin();
-            for ( $i = 0; $i < count( $removeAttributes ); ++$i )
+            foreach( $removeAttributes as $attribute )
             {
-                $attribute =& $removeAttributes[$i];
                 $attribute->remove();
             }
             $db->commit();
@@ -949,10 +948,10 @@ You will need to change the class of the node by using the swap functionality.' 
         if ( !is_array( $attributes ) )
             return;
         usort( $attributes, array( $this, "compareAttributes" ) );
-        for ( $i = 0; $i < count( $attributes ); ++$i )
+        $i = 0;
+        foreach( $attributes as $attribute )
         {
-            $attribute =& $attributes[$i];
-            $attribute->setAttribute( "placement", $i + 1 );
+            $attribute->setAttribute( "placement", ++$i );
         }
     }
 
@@ -964,19 +963,23 @@ You will need to change the class of the node by using the swap functionality.' 
         $db = eZDB::instance();
         $db->begin();
 
-        if ( is_array( $store_childs ) or $store_childs )
+        if ( is_array( $store_childs ) ||
+             $store_childs )
         {
             if ( is_array( $store_childs ) )
-                $attributes =& $store_childs;
-            else
-                $attributes =& $this->fetchAttributes();
-
-           for ( $i = 0; $i < count( $attributes ); ++$i )
             {
-                $attribute =& $attributes[$i];
-                if ( is_object ( $attribute ) )
-                    $attribute->store();
+                $attributes = $store_childs;
             }
+            else
+            {
+                $attributes = $this->fetchAttributes();
+            }
+
+           foreach( $attributes as $attribute )
+           {
+               if ( is_object ( $attribute ) )
+                   $attribute->store();
+           }
         }
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
@@ -1053,9 +1056,8 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( "modified", time() );
         $this->adjustAttributePlacements( $attributes );
 
-        for ( $i = 0; $i < count( $attributes ); ++$i )
+        foreach( $attributes as $attribute )
         {
-            $attribute =& $attributes[$i];
             $attribute->storeDefined();
         }
 
@@ -1073,9 +1075,8 @@ You will need to change the class of the node by using the swap functionality.' 
         // Recreate class member entries
         eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_DEFINED );
         $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-        for ( $i = 0; $i < count( $classgroups ); $i++ )
+        foreach( $classgroups as $classgroup )
         {
-            $classgroup =& $classgroups[$i];
             $classgroup->setAttribute( 'contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );
             $classgroup->store();
         }
@@ -1101,12 +1102,15 @@ You will need to change the class of the node by using the swap functionality.' 
         if ( is_array( $set_childs ) or $set_childs )
         {
             if ( is_array( $set_childs ) )
-                $attributes =& $set_childs;
-            else
-                $attributes =& $this->fetchAttributes();
-            for ( $i = 0; $i < count( $attributes ); ++$i )
             {
-                $attribute =& $attributes[$i];
+                $attributes = $set_childs;
+            }
+            else
+            {
+                $attributes = $this->fetchAttributes();
+            }
+            foreach( $attributes as $attribute )
+            {
                 $attribute->setAttribute( "version", $version );
             }
         }
@@ -1336,12 +1340,14 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         if ( $id === false )
         {
+            // START OLD CODE -- Old code to support static class // TODO - Remove
             if ( isset( $this ) and
                  strtolower( get_class( $this ) ) == "ezcontentclass" )
             {
                 $id = $this->ID;
                 $version = $this->Version;
             }
+            // END OLD CODE --
             else
             {
                 $attributes = null;

@@ -135,7 +135,7 @@ for ( $i=0;$i<count( $workflow_list );$i++ )
     for ( $j=0;$j<count( $list_in_group );$j++ )
     {
         $id =  $workflow_list[$i]->attribute("id");
-        $workflow_id =  $list_in_group[$j]->attribute("workflow_id");
+        $workflow_id = $list_in_group[$j]->attribute("workflow_id");
         if ( $id === $workflow_id )
         {
             $list[] =& $workflow_list[$i];

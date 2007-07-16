@@ -1422,7 +1422,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         $classIdentifier = $node->attribute( 'class_identifier' );
 
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
         // By default, everything is displayed as a folder:
         // Trim the name of the node, it is in some cases whitespace in eZ publish
@@ -1435,7 +1435,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         $isObjectFolder = $this->isObjectFolder( $object, $class );
 
         if ( $isObjectFolder )

@@ -51,15 +51,15 @@ foreach( $rootNodeIDList as $nodeID )
 {
     $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
 
-    $articleNodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
+    $articleNodeArray = $rootNode->subTree( array( 'ClassFilterType' => 'include',
                                                     'ClassFilterArray' => $unpublishClasses ) );
 
-    foreach ( array_keys( $articleNodeArray ) as $key )
+    foreach ( $articleNodeArray as $articleNode )
     {
-        $article =& $articleNodeArray[$key]->attribute( 'object' );
-        $dataMap =& $article->attribute( 'data_map' );
+        $article = $articleNode->attribute( 'object' );
+        $dataMap = $article->attribute( 'data_map' );
 
-        $dateAttribute =& $dataMap['unpublish_date'];
+        $dateAttribute = $dataMap['unpublish_date'];
 
         if ( is_null( $dateAttribute ) )
             continue;
@@ -72,7 +72,7 @@ foreach( $rootNodeIDList as $nodeID )
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearContentCacheIfNeeded( $article->attribute( 'id' ) );
 
-            $article->remove( $article->attribute( 'id' ), $articleNodeArray[$key]->attribute( 'node_id' ) );
+            $article->remove( $article->attribute( 'id' ), $articleNode->attribute( 'node_id' ) );
         }
     }
 }

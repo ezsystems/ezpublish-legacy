@@ -77,7 +77,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         else if ( $attr == 'all_week_days' )
         {
             $locale = eZLocale::instance();
-            $nameList =& $locale->attribute( 'weekday_name_list' );
+            $nameList = $locale->attribute( 'weekday_name_list' );
             return $nameList;
         }
         else if ( $attr == 'all_month_days' )

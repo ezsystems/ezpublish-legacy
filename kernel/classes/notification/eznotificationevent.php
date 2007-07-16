@@ -135,7 +135,7 @@ class eZNotificationEvent extends eZPersistentObject
 
     function &eventType()
     {
-        if ( ! isset (  $this->EventType ) )
+        if ( ! isset ( $this->EventType ) )
         {
             $this->EventType = eZNotificationEventType::create( $this->TypeString );
         }
@@ -146,11 +146,11 @@ class eZNotificationEvent extends eZPersistentObject
     /*!
      Returns the content for this event.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
-            $eventType =& $this->eventType();
+            $eventType = $this->eventType();
             $this->Content = $eventType->eventContent( $this );
         }
         return $this->Content;

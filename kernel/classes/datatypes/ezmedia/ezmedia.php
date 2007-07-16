@@ -116,7 +116,7 @@ class eZMedia extends eZPersistentObject
                       "name" => "ezmedia" );
     }
 
-    function &fileSize()
+    function fileSize()
     {
         $fileInfo = $this->storedFileInfo();
 
@@ -125,25 +125,26 @@ class eZMedia extends eZPersistentObject
         $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
 
         if ( $file->exists() )
-            $fileSize = $file->size();
-        else
-            $fileSize = 0;
-        return $fileSize;
+        {
+            return $file->size();
+        }
+
+        return 0;
     }
 
-    function &filePath()
+    function filePath()
     {
         $fileInfo = $this->storedFileInfo();
         return $fileInfo['filepath'];
     }
 
-    function &mimeTypeCategory()
+    function mimeTypeCategory()
     {
         $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
         return $types[0];
     }
 
-    function &mimeTypePart()
+    function mimeTypePart()
     {
         $types = explode( "/", eZPersistentObject::attribute( "mime_type" ) );
         return $types[1];

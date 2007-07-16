@@ -114,7 +114,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $title = $tpl->variable( 'title' );
 
         // create path
-        $parents =& $node->attribute( 'path' );
+        $parents = $node->attribute( 'path' );
 
         $path = array();
         $titlePath = array();

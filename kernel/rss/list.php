@@ -84,19 +84,17 @@ else if ( $http->hasPostVariable( 'RemoveImportButton' ) )
 // Get all RSS Exports
 $exportArray = eZRSSExport::fetchList();
 $exportList = array();
-foreach( array_keys( $exportArray ) as $exportID )
+foreach( $exportArray as $export )
 {
-    $export =& $exportArray[$exportID];
-    $exportList[$export->attribute( 'id' )] =& $export;
+    $exportList[$export->attribute( 'id' )] = $export;
 }
 
 // Get all RSS imports
 $importArray = eZRSSImport::fetchList();
 $importList = array();
-foreach( array_keys( $importArray ) as $importID )
+foreach( $importArray as $import )
 {
-    $import =& $importArray[$importID];
-    $importList[$import->attribute( 'id' )] =& $import;
+    $importList[$import->attribute( 'id' )] = $import;
 }
 
 $tpl =& templateInit();

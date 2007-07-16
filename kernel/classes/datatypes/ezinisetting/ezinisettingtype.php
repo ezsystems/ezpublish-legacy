@@ -76,10 +76,10 @@ class eZIniSettingType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            $iniFile =& eZIniSettingType::iniFile( $contentClassAttribute );
-            $iniSection =& eZIniSettingType::iniSection( $contentClassAttribute );
-            $iniParameterName =& eZIniSettingType::iniParameterName( $contentClassAttribute );
+            $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $iniFile = eZIniSettingType::iniFile( $contentClassAttribute );
+            $iniSection = eZIniSettingType::iniSection( $contentClassAttribute );
+            $iniParameterName = eZIniSettingType::iniParameterName( $contentClassAttribute );
 
             $config = eZINI::instance( $iniFile );
             if ( $config == null )
@@ -166,12 +166,12 @@ class eZIniSettingType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $objectAttribute->attribute( 'contentclass_attribute' );
+            $contentClassAttribute = $objectAttribute->attribute( 'contentclass_attribute' );
             $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
             $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-            $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
-            $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-            $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+            $filename = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+            $section = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
+            $parameter = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
 
             if ( ! in_array( 0, $iniInstanceArray ) )  /* Makes sure it check 'settings' and 'settings/override' last */
                 array_unshift( $iniInstanceArray,  0 );
@@ -310,12 +310,12 @@ class eZIniSettingType extends eZDataType
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
-        $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-        $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+        $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $section = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
+        $parameter = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
         $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
         $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-        $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $filename = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
         $makeEmptyArray = $contentObjectAttribute->attribute( 'data_int' );
 
         foreach ( $iniInstanceArray as $iniInstance )
@@ -408,17 +408,17 @@ class eZIniSettingType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-        $section =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+        $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+        $section = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
+        $parameter = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
 
         $iniInstanceArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD ) );
         $siteAccessArray = explode( ';', $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD ) );
-        $filename =& $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $filename = $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
 
         $modified = array();
 
-        $contentObject =& $contentObjectAttribute->attribute( 'object' );
+        $contentObject = $contentObjectAttribute->attribute( 'object' );
         foreach ( $iniInstanceArray as $iniInstance )
         {
             if ( $iniInstance == 0 )
@@ -475,12 +475,12 @@ class eZIniSettingType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $file =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
-        $section =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
-        $parameter =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
-        $type =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD );
-        $iniInstance =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD );
-        $siteAccess =& $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD );
+        $file = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
+        $section = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
+        $parameter = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
+        $type = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD );
+        $iniInstance = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_INI_INSTANCE_FIELD );
+        $siteAccess = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD );
 
         $dom = $attributeParametersNode->ownerDocument;
         $fileNode = $dom->createElement( 'file', $file );

@@ -149,7 +149,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
             }
 
-            $contentObject =& $contentObjectAttribute->attribute( 'object' );
+            $contentObject = $contentObjectAttribute->attribute( 'object' );
             $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
             $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
 

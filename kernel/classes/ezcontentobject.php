@@ -242,7 +242,7 @@ class eZContentObject extends eZPersistentObject
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
             $contentClass =& $this->contentClass();
-            $inList =& $contentClass->attribute( 'ingroup_id_list' );
+            $inList = $contentClass->attribute( 'ingroup_id_list' );
         }
         return $inList;
     }
@@ -568,7 +568,7 @@ class eZContentObject extends eZPersistentObject
     function &contentClassGroupIDList()
     {
         $contentClass =& $this->contentClass();
-        $groupIDList =& $contentClass->attribute( 'ingroup_id_list' );
+        $groupIDList = $contentClass->attribute( 'ingroup_id_list' );
         return $groupIDList;
     }
 
@@ -1115,7 +1115,7 @@ class eZContentObject extends eZPersistentObject
         // This is required for BC since scripts might traverse the node-assignments and mark
         // some of them for removal.
         $parentMap = array();
-        $copiedNodeAssignmentList =& $copiedVersion->attribute( 'node_assignments' );
+        $copiedNodeAssignmentList = $copiedVersion->attribute( 'node_assignments' );
         foreach ( $copiedNodeAssignmentList as $copiedNodeAssignment )
         {
             $parentMap[$copiedNodeAssignment->attribute( 'parent_node' )] = $copiedNodeAssignment;
@@ -1155,9 +1155,9 @@ class eZContentObject extends eZPersistentObject
     function copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT, $languageCode = false, $copyFromLanguageCode = false )
     {
         $user = eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+        $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeAssignmentList =& $version->attribute( 'node_assignments' );
+        $nodeAssignmentList = $version->attribute( 'node_assignments' );
 
         $db = eZDB::instance();
         $db->begin();
@@ -1177,7 +1177,7 @@ class eZContentObject extends eZPersistentObject
         }
 
         $currentVersionNumber = $version->attribute( "version" );
-        $contentObjectTranslations =& $version->translations();
+        $contentObjectTranslations = $version->translations();
 
         $clonedVersion = $version->cloneVersion( $newVersionNumber, $userID, $contentObjectID, $status );
 
@@ -1321,7 +1321,7 @@ class eZContentObject extends eZPersistentObject
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
         $user = eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+        $userID = $user->attribute( 'contentobject_id' );
 
         $contentObject = clone $this;
         $contentObject->setAttribute( 'current_version', 1 );
@@ -1369,7 +1369,7 @@ class eZContentObject extends eZPersistentObject
             if ( $currentVersionNumber == $this->attribute( 'current_version' ) )
             {
                 $parentMap = array();
-                $copiedNodeAssignmentList =& $contentObjectVersion->attribute( 'node_assignments' );
+                $copiedNodeAssignmentList = $contentObjectVersion->attribute( 'node_assignments' );
                 foreach ( $copiedNodeAssignmentList as $$copiedNodeAssignment )
                 {
                     $parentMap[$copiedNodeAssignment->attribute( 'parent_node' )] = $copiedNodeAssignment;
@@ -1909,7 +1909,7 @@ class eZContentObject extends eZPersistentObject
             $i = 0;
             foreach ( $keys as $key )
             {
-                $object =& $nodeList[$key]->attribute( 'object' );
+                $object = $nodeList[$key]->attribute( 'object' );
 
                 $language = $object->currentLanguage();
                 $tmpLanguageObjectList[$object->attribute( 'id' )] = $language;
@@ -2163,7 +2163,7 @@ class eZContentObject extends eZPersistentObject
 
         $defaultLanguage = $this->initialLanguageCode();
 
-        $dataMap =& $this->attribute( 'data_map' );
+        $dataMap = $this->attribute( 'data_map' );
         foreach ( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
@@ -3461,7 +3461,7 @@ class eZContentObject extends eZPersistentObject
         if ( $origFunctionName == 'remove' or
              $origFunctionName == 'move' )
         {
-            $mainNode =& $this->attribute( 'main_node' );
+            $mainNode = $this->attribute( 'main_node' );
             // We do not allow these actions on objects placed at top-level
             // - remove
             // - move
@@ -3585,12 +3585,12 @@ class eZContentObject extends eZPersistentObject
 
                         case 'ParentDepth':
                         {
-                            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+                            $assignedNodes = $this->attribute( 'assigned_nodes' );
                             if ( count( $assignedNodes ) > 0 )
                             {
                                 foreach ( $assignedNodes as  $assignedNode )
                                 {
-                                    $depth =& $assignedNode->attribute( 'depth' );
+                                    $depth = $assignedNode->attribute( 'depth' );
                                     if ( in_array( $depth, $limitationArray[$key] ) )
                                     {
                                         $access = 'allowed';
@@ -4897,7 +4897,7 @@ class eZContentObject extends eZPersistentObject
 
         $versions   =& $contentObject->versions();
         $objectName =& $contentObject->name();
-        $objectID   =& $contentObject->attribute( 'id' );
+        $objectID   = $contentObject->attribute( 'id' );
         foreach ( $versions as $version )
         {
             $versionNum       = $version->attribute( 'version' );
@@ -4999,7 +4999,7 @@ class eZContentObject extends eZPersistentObject
             $this->store();
         }
         $objectNode->setAttribute( 'remote_id', $this->attribute( 'remote_id' ) );
-        $contentClass =& $this->attribute( 'content_class' );
+        $contentClass = $this->attribute( 'content_class' );
         $objectNode->setAttribute( 'class_remote_id', $contentClass->attribute( 'remote_id' ) );
         $objectNode->setAttributeNS( 'http://ez.no/ezobject', 'ezremote:class_identifier', $contentClass->attribute( 'identifier' ) );
         $alwaysAvailableText = '0';

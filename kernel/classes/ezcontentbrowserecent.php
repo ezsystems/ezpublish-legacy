@@ -216,23 +216,23 @@ class eZContentBrowseRecent extends eZPersistentObject
     /*!
      \return the tree node which this item refers to.
     */
-    function &fetchNode()
+    function fetchNode()
     {
-        $node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
     }
 
     /*!
      \return the content object ID of the tree node which this item refers to.
     */
-    function &contentObjectID()
+    function contentObjectID()
     {
-        $node =& $this->fetchNode();
+        $node = $this->fetchNode();
         if ( $node )
-            $objectID = $node->attribute( 'contentobject_id' );
-        else
-            $objectID = false;
-        return $objectID;
+        {
+            return $node->attribute( 'contentobject_id' );
+        }
+
+        return false;
     }
 
     /*!

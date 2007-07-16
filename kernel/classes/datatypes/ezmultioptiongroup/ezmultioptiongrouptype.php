@@ -507,7 +507,7 @@ class eZMultioptionGroupType extends eZDataType
     */
     function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
     {
-        $optiongroup =& $objectAttribute->attribute( 'content' );
+        $optiongroup = $objectAttribute->attribute( 'content' );
 
         $option = $optiongroup->findOption( false, $optionID );
         if ( $option )

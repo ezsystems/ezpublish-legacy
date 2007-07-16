@@ -138,7 +138,7 @@ class eZNodeAssignment extends eZPersistentObject
                       'name' => 'eznode_assignment' );
     }
 
-    function &tempNode()
+    function tempNode()
     {
         if ( $this->TempNode == null )
         {
@@ -166,50 +166,45 @@ class eZNodeAssignment extends eZPersistentObject
      * Returns true if the assignment is a nop (no operation) operation.
      * \return bool
      */
-    function &isNopOperation()
+    function isNopOperation()
     {
-        $isNopOperation = ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;   
-        return $isNopOperation;
+        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;   
     }
 
     /*!
      * Returns true if the assignment is a create operation.
      * \return bool
      */
-    function &isCreateOperation()
-    {   
-        $isCreateOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
-        return $isCreateOperation;
+    function isCreateOperation()
+    {
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
     }
 
     /*!
      * Returns true if the assignment is a move operation.
      * \return bool
      */
-    function &isMoveOperation()
+    function isMoveOperation()
     {
-        $isMoveOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
-        return $isMoveOperation;
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
     }
 
     /*!
      * Returns true if the assignment is a remove operation.
      * \return bool
      */
-    function &isRemoveOperation()
+    function isRemoveOperation()
     {
-        $isRemoveOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
-        return $isRemoveOperation;
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
     }
 
     /*!
      * Returns true if the assignment is a set (update/create) operation.
      * \return bool
      */
-    function &isSetOperation()
+    function isSetOperation()
     {
-        $isSetOperation = $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
-        return $isSetOperation;
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
     }
 
     static function create( $parameters = array() )
@@ -276,7 +271,7 @@ class eZNodeAssignment extends eZPersistentObject
         $db = eZDB::instance();
         if ( $parentNodeID == false and $contentObjectID == false )
         {
-            $nodeAssignment =& $this;
+            $nodeAssignment = $this;
         }
         else
         {
@@ -284,10 +279,10 @@ class eZNodeAssignment extends eZPersistentObject
             $contentObjectID =(int) $contentObjectID;
             $cond = array( 'parent_node' => $parentNodeID,
                            'contentobject_id' => $contentObjectID );
-            $nodeAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                                null,
-                                                                $cond,
-                                                                true );
+            $nodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                               null,
+                                                               $cond,
+                                                               true );
         }
         $nodeAssignment->setAttribute( "op_code", EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE );
         $nodeAssignment->store();
@@ -345,8 +340,7 @@ class eZNodeAssignment extends eZPersistentObject
         $db = eZDB::instance();
         if ( $parentNodeID == false and $contentObjectID == false )
         {
-            $nodeAssignment =& $this;
-            $nodeAssignmentID = $nodeAssignment->attribute( 'id' );
+            $nodeAssignmentID = $this->attribute( 'id' );
             $sqlQuery = "DELETE FROM eznode_assignment WHERE id='$nodeAssignmentID'";
             $db->query( $sqlQuery );
         }
@@ -430,10 +424,9 @@ class eZNodeAssignment extends eZPersistentObject
      \return An eZContentObjectTreeNode object or \c null if no node was found.
       \sa eZContentObjectTreeNode::fetchNode
     */
-    function &fetchNode()
+    function fetchNode()
     {
-        $node = eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
-        return $node;
+        return eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
     }
 
     /*!
@@ -475,19 +468,17 @@ class eZNodeAssignment extends eZPersistentObject
         return eZNodeAssignment::create( $assignmentRow );
     }
 
-    function &getParentNode()
+    function getParentNode()
     {
-        $parent = eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
-        return $parent;
+        return eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
     }
 
     /*!
      \return The contentobject which the parent node points to.
     */
-    function &getParentObject( )
+    function getParentObject( )
     {
-        $parentObject = eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
-        return $parentObject;
+        return eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
     }
 
     /*!

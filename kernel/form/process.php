@@ -48,7 +48,7 @@ $tpl =& templateInit();
 $formProcessed = false;
 
 $http = eZHTTPTool::instance();
-$postVariables =& $http->attribute( 'post' );
+$postVariables = $http->attribute( 'post' );
 
 if ( count( $postVariables ) > 0 )
 {

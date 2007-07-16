@@ -192,7 +192,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                 $currentFunction = $http->postVariable( 'CurrentFunction' );
 
                 $mod = & eZModule::exists( $currentModule );
-                $functions =& $mod->attribute( 'available_functions' );
+                $functions = $mod->attribute( 'available_functions' );
                 $currentFunctionLimitations = $functions[ $currentFunction ];
                 foreach ( $currentFunctionLimitations as $functionLimitation )
                 {
@@ -225,7 +225,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                                                         'Limitation' => '' ) );
 
         $mod = & eZModule::exists( $currentModule );
-        $functions =& $mod->attribute( 'available_functions' );
+        $functions = $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
 
@@ -282,7 +282,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
     if ( $currentModule != '*' )
     {
         $mod = & eZModule::exists( $currentModule );
-        $functions =& $mod->attribute( 'available_functions' );
+        $functions = $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
     }
     else
@@ -371,7 +371,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $currentModule = $http->postVariable( 'CurrentModule' );
 
     $mod = & eZModule::exists( $currentModule );
-    $functions =& $mod->attribute( 'available_functions' );
+    $functions = $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 
     $showModules = false;
@@ -708,7 +708,7 @@ if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( '
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
     $mod = & eZModule::exists( $currentModule );
-    $functions =& $mod->attribute( 'available_functions' );
+    $functions = $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 
     $showModules = false;

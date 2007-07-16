@@ -68,9 +68,8 @@ class eZSimpleShippingType extends eZWorkflowEventType
             $order = eZOrder::fetch( $orderID );
             $orderItems = $order->attribute( 'order_items' );
             $addShipping = true;
-            foreach ( array_keys( $orderItems ) as $key )
+            foreach ( $orderItems as $orderItem )
             {
-                $orderItem =& $orderItems[$key];
                 if ( $orderItem->attribute( 'type' ) == 'ezsimpleshipping' )
                 {
                     $addShipping = false;
@@ -79,8 +78,8 @@ class eZSimpleShippingType extends eZWorkflowEventType
             }
             if ( $addShipping )
             {
-                $productCollection =& $order->attribute( 'productcollection' );
-                $orderCurrency =& $productCollection->attribute( 'currency_code' );
+                $productCollection = $order->attribute( 'productcollection' );
+                $orderCurrency = $productCollection->attribute( 'currency_code' );
 
                 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
                 $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );

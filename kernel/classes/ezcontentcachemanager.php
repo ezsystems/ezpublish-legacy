@@ -749,7 +749,7 @@ class eZContentCacheManager
                         $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true, $viewParameters );
 
                         // Cache the parent node
-                        $parentNode =& $node->attribute( 'parent' );
+                        $parentNode = $node->attribute( 'parent' );
                         $objectID = $parentNode->attribute( 'contentobject_id' );
                         // if parent objectID is null or is 0 we should not create cache.
                         if ( $objectID )

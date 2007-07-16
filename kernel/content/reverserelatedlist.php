@@ -156,7 +156,7 @@ $tpl->setVariable( 'node_id',  $NodeID );
 
 $Result = array();
 
-$contentObject =& $contentObjectTreeNode->attribute( 'object' );
+$contentObject = $contentObjectTreeNode->attribute( 'object' );
 if ( $contentObject )
 {
     $section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );

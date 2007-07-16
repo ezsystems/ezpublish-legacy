@@ -257,7 +257,7 @@ class eZIdentifierType extends eZDataType
         {
             // If this is not a copy we need to see if a unique ID must be
             // assigned. This is handled in assignValue().
-            $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
             $ret = eZIdentifierType::assignValue( $contentClassAttribute, $contentObjectAttribute );
         }
     }

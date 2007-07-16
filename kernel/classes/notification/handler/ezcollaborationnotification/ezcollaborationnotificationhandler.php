@@ -122,10 +122,10 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 
     function handleCollaborationEvent( &$event, &$parameters )
     {
-        $collaborationItem =& $event->attribute( 'content' );
+        $collaborationItem = $event->attribute( 'content' );
         if ( !$collaborationItem )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
-        $collaborationHandler =& $collaborationItem->attribute( 'handler' );
+        $collaborationHandler = $collaborationItem->attribute( 'handler' );
         return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem, $parameters );
     }
 
@@ -137,7 +137,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         foreach ( array_keys( $collections ) as $collectionKey )
         {
             $collection =& $collections[$collectionKey];
-            $items =& $collection->attribute( 'items_to_send' );
+            $items = $collection->attribute( 'items_to_send' );
             $addressList = array();
             foreach ( array_keys( $items ) as $key )
             {

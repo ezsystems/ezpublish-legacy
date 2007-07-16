@@ -253,42 +253,38 @@ class eZPDFExport extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+
+        return null;
     }
 
-    function &sourceNode()
+    function sourceNode()
     {
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $sourceNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+            return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
-        else
-            $sourceNode = null;
-        return $sourceNode;
+
+        return null;
     }
 
-    function &filepath()
+    function filepath()
     {
         $sys = eZSys::instance();
         $storage_dir = $sys->storageDirectory();
-        $filePath = $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
-        return $filePath;
+        return $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
     }
 
-    function &exportClassesArray()
+    function exportClassesArray()
     {
-        $exportClassesArray = explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
-        return $exportClassesArray;
+        return explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
     }
 
     function countGeneratingOnceExports( $filename = '' )

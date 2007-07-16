@@ -1248,7 +1248,7 @@ class eZTemplate
                                 if ( $value->hasAttribute( $attributeValue ) )
                                 {
                                     unset( $tempValue );
-                                    $tempValue =& $value->attribute( $attributeValue );
+                                    $tempValue = $value->attribute( $attributeValue );
                                     unset( $value );
                                     $value =& $tempValue;
                                 }
@@ -1498,7 +1498,7 @@ class eZTemplate
                             if ( $return_value->hasAttribute( $attr_value ) )
                             {
                                 unset( $return_attribute_value );
-                                $return_attribute_value =& $return_value->attribute( $attr_value );
+                                $return_attribute_value = $return_value->attribute( $attr_value );
                                 unset( $return_value );
                                 $return_value =& $return_attribute_value;
                             }
@@ -1701,7 +1701,7 @@ class eZTemplate
                 if ( is_object( $ptr ) )
                 {
                     if ( $ptr->hasAttribute( $attr ) )
-                        $tmp =& $ptr->attribute( $attr );
+                        $tmp = $ptr->attribute( $attr );
                     else
                         return false;
                 }
@@ -1743,7 +1743,7 @@ class eZTemplate
                     if ( is_object( $ptr ) )
                     {
                         if ( $ptr->hasAttribute( $attr ) )
-                            $tmp =& $ptr->attribute( $attr );
+                            $tmp = $ptr->attribute( $attr );
                         else
                             return $val;
                     }
@@ -1786,7 +1786,7 @@ class eZTemplate
                 if ( is_object( $ptr ) )
                 {
                     if ( $ptr->hasAttribute( $attr ) )
-                        $tmp =& $ptr->attribute( $attr );
+                        $tmp = $ptr->attribute( $attr );
                     else
                         return $val;
                 }

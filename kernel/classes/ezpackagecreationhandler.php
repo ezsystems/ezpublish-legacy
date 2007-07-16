@@ -661,7 +661,7 @@ class eZPackageCreationHandler
             $host = $_SERVER['HTTP_HOST'];
         $persistentData['host'] = $host;
         $user = eZUser::currentUser();
-        $userObject =& $user->attribute( 'contentobject' );
+        $userObject = $user->attribute( 'contentobject' );
         $packager = false;
         if ( $userObject )
             $packager = $userObject->attribute( 'name' );
@@ -772,7 +772,7 @@ class eZPackageCreationHandler
     function initializePackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
     {
         $user = eZUser::currentUser();
-        $userObject =& $user->attribute( 'contentobject' );
+        $userObject = $user->attribute( 'contentobject' );
         if ( $userObject )
             $changelogPerson = $userObject->attribute( 'name' );
         $changelogEmail = $user->attribute( 'email' );
@@ -875,7 +875,7 @@ class eZPackageCreationHandler
         $maintainerPerson = false;
         $maintainerEmail = false;
         $user = eZUser::currentUser();
-           $userObject =& $user->attribute( 'contentobject' );
+           $userObject = $user->attribute( 'contentobject' );
         if ( $userObject )
             $maintainerPerson = $userObject->attribute( 'name' );
         $maintainerEmail = $user->attribute( 'email' );
@@ -941,7 +941,7 @@ class eZPackageCreationHandler
             {
                 $maintainerPerson = false;
                 $user = eZUser::currentUser();
-                   $userObject =& $user->attribute( 'contentobject' );
+                   $userObject = $user->attribute( 'contentobject' );
                 if ( $userObject )
                     $maintainerPerson = $userObject->attribute( 'name' );
 

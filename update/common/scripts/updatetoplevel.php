@@ -194,7 +194,7 @@ foreach ( $checkNodes as $checkNode )
             foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
             {
                 $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
-                $contentClassAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+                $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 $contentClassAttributeIdentifier = $contentClassAttribute->attribute( 'identifier' );
                 $contentObjectAttributeType = $contentObjectAttribute->attribute( 'data_type_string' );
                 if ( ( $contentObjectAttributeType == 'ezstring' or

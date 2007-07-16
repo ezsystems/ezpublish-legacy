@@ -78,7 +78,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 //            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
-                $dateTime =& $objectAttribute->attribute( 'content' );
+                $dateTime = $objectAttribute->attribute( 'content' );
                 if ( strtolower( get_class( $dateTime ) ) == 'ezdatetime' or
                      strtolower( get_class( $dateTime ) ) == 'eztime' or
                      strtolower( get_class( $dateTime ) ) == 'ezdate' )

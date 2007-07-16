@@ -214,7 +214,7 @@ class eZOptionType extends eZDataType
             $optionValue = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
 
             $collectionAttribute->setAttribute( 'data_int', $optionValue );
-            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $attr = $contentObjectAttribute->attribute( 'contentclass_attribute' );
 
             return true;
         }
@@ -277,7 +277,7 @@ class eZOptionType extends eZDataType
     */
     function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
     {
-        $option =& $objectAttribute->attribute( 'content' );
+        $option = $objectAttribute->attribute( 'content' );
         foreach( $option->attribute( 'option_list' ) as $optionArray )
         {
             if ( $optionArray['id'] == $optionID )

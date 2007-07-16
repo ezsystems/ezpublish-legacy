@@ -66,7 +66,7 @@ if ( $currentModule == "*" )
 else
 {
     $mod = & eZModule::exists( $currentModule );
-    $functions =& $mod->attribute( 'available_functions' );
+    $functions = $mod->attribute( 'available_functions' );
 }
 $currentFunctionLimitations = array();
 if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )

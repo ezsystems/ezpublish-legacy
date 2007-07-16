@@ -182,7 +182,7 @@ function copyPublishContentObject( &$sourceObject,
     $newObjectID = $newObject->attribute( 'id' );
     $newObject = eZContentObject::fetch( $newObjectID );
     // JB end
-    $newNodeList =& $newObject->attribute( 'assigned_nodes' );
+    $newNodeList = $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
@@ -239,7 +239,7 @@ function copyPublishContentObject( &$sourceObject,
     }
 
     // Update "is_invisible" attribute for the newly created node.
-    $newNode =& $newObject->attribute( 'main_node' );
+    $newNode = $newObject->attribute( 'main_node' );
     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode ); // ??? do we need this here?
 
     // if $keepCreator == true then keep owner of contentobject being
@@ -439,9 +439,8 @@ if ( !$db )
 $idListStr = implode( ',', $syncObjectIDListNew );
 $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
-foreach ( array_keys( $relatedRecordsList ) as $key )
+foreach ( $relatedRecordsList as $relatedEntry )
 {
-    $relatedEntry =& $relatedRecordsList[ $key ];
     $kindex = array_search( $relatedEntry[ 'to_contentobject_id' ], $syncObjectIDListSrc );
     if ( $kindex !== false )
     {
@@ -466,9 +465,8 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     {
         continue;
     }
-    foreach ( array_keys( $attributeList ) as $key )
+    foreach ( $attributeList as $xmlAttribute )
     {
-        $xmlAttribute =& $attributeList[ $key ];
         $xmlText = $xmlAttribute->attribute( 'data_text' );
         $xmlTextLen = strlen ( $xmlText );
         $isTextModified = false;
@@ -599,9 +597,8 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     {
         continue;
     }
-    foreach ( array_keys( $attributeList ) as $key )
+    foreach ( $attributeList as $relationListAttribute )
     {
-        $relationListAttribute =& $attributeList[ $key ];
         $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
         $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
         $relationItems = $relationsDom->elementsByName( 'relation-item' ) ? $relationsDom->elementsByName( 'relation-item' ) : array();

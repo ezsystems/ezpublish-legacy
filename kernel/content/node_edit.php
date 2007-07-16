@@ -317,9 +317,8 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         foreach ( $setPlacementNodeIDArray as $setPlacementRemoteID => $setPlacementNodeID )
         {
             $hasAssignment = false;
-            foreach ( array_keys( $nodeAssignments ) as $key )
+            foreach ( $nodeAssignments as $nodeAssignment )
             {
-                $nodeAssignment =& $nodeAssignments[$key];
                 if ( $nodeAssignment->attribute( 'remote_id' ) == $setPlacementRemoteID )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-edit', "Remote ID $setPlacementRemoteID already in use for node " . $nodeAssignment->attribute( 'parent_node' ), 'node_edit' );
@@ -356,9 +355,8 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
         $sortFieldMap = $http->postVariable( 'SortFieldMap' );
 
 //     $assigedNodes = eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
-    foreach ( array_keys( $nodeAssignments ) as $key )
+    foreach ( $nodeAssignments as $nodeAssignment )
     {
-        $nodeAssignment =& $nodeAssignments[$key];
         eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeAssignment, "nodeAssignment" );
         if ( $sortFieldMap !== false )
         {
@@ -574,8 +572,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
                 $assignmentID     =  $assignment->attribute( 'id' );
                 $assignmentsIDs[] =  $assignmentID;
-                $assignments[]    =& $assignment;
-                $node             =& $assignment->attribute( 'node' );
+                $assignments[]    = $assignment;
+                $node             = $assignment->attribute( 'node' );
 
                 if( !$node )
                     continue;
@@ -643,7 +641,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 }
 
                 // we don't allow moving object to itself, to its descendants or parent object(s)
-                $objectAssignedNodes =& $object->attribute( 'assigned_nodes' );
+                $objectAssignedNodes = $object->attribute( 'assigned_nodes' );
 
                 // nodes that are not allowed to select (via checkbox or radiobutton) when browsing
                 $ignoreNodesSelectArray = array();
@@ -691,7 +689,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     // version of the object does not have node-assignments/
     // When the object is a draft we use the normal node-assignment list
     $assignedNodeArray = array();
-    $versionedAssignedNodeArray =& $version->attribute( 'parent_nodes' );
+    $versionedAssignedNodeArray = $version->attribute( 'parent_nodes' );
     $parentNodeIDMap = array();
     $nodes = $object->assignedNodes();
     $i = 0;
@@ -748,10 +746,9 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
 
     $db = eZDB::instance();
     $db->begin();
-    foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
+    foreach ( $assignedNodeArray as $assignedNode )
     {
-        $assignedNode =& $assignedNodeArray[$assignedNodeKey];
-        $node =& $assignedNode->getParentNode();
+        $node = $assignedNode->getParentNode();
         if ( $node !== null )
         {
             $remoteID = $assignedNode->attribute( 'remote_id' );
@@ -783,10 +780,10 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     $db->commit();
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
 
-    $currentVersion =& $object->version( $editVersion );
+    $currentVersion = $object->version( $editVersion );
     $publishedNodeArray = array();
     if ( $currentVersion )
-        $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
+        $publishedNodeArray = $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
 
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );

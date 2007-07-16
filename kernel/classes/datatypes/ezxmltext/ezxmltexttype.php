@@ -165,7 +165,7 @@ class eZXMLTextType extends eZDataType
         /// Get object for input validation
         // To do: only validate, not save data
         $xmlText = $this->objectAttributeContent( $contentObjectAttribute );
-        $input =& $xmlText->attribute( 'input' );
+        $input = $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );
 
         return $isValid;
@@ -190,7 +190,7 @@ class eZXMLTextType extends eZDataType
     {
         // To do: Data should be saved here.
         /*$xmlText = $this->objectAttributeContent( $contentObjectAttribute );
-        $input =& $xmlText->attribute( 'input' );
+        $input = $xmlText->attribute( 'input' );
         $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );*/
         return true;
     }
@@ -254,7 +254,7 @@ class eZXMLTextType extends eZDataType
     function &viewTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
-        $outputHandler =& $content->attribute( 'output' );
+        $outputHandler = $content->attribute( 'output' );
         $suffix = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
         return $suffix;
     }
@@ -265,7 +265,7 @@ class eZXMLTextType extends eZDataType
     function &editTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
-        $inputHandler =& $content->attribute( 'input' );
+        $inputHandler = $content->attribute( 'input' );
         $suffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
         return $suffix;
     }
@@ -276,7 +276,7 @@ class eZXMLTextType extends eZDataType
     function &informationTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
-        $inputHandler =& $content->attribute( 'input' );
+        $inputHandler = $content->attribute( 'input' );
         $suffix =& $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
         return $suffix;
     }
@@ -479,7 +479,7 @@ class eZXMLTextType extends eZDataType
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $content = $this->objectAttributeContent( $contentObjectAttribute );
-        $inputHandler =& $content->attribute( 'input' );
+        $inputHandler = $content->attribute( 'input' );
         $inputHandler->customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute );
     }
 
@@ -529,7 +529,7 @@ class eZXMLTextType extends eZDataType
                             $urlObj = eZURL::fetch( $linkID );
                             if ( !$urlObj ) // an error occured
                                 continue;
-                            $url =& $urlObj->attribute( 'url' );
+                            $url = $urlObj->attribute( 'url' );
                             $tag->setAttribute( 'href', $url );
                             $tag->removeAttribute( 'url_id' );
                             unset( $urlObj );
@@ -637,7 +637,7 @@ class eZXMLTextType extends eZDataType
         $allTags = array_merge( $links, $embeds, $embedsInline, $objects );
         $modified = false;
 
-        $contentObject =& $objectAttribute->attribute( 'object' );
+        $contentObject = $objectAttribute->attribute( 'object' );
         foreach( array_keys( $allTags ) as $key )
         {
             $tag =& $allTags[$key];

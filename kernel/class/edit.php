@@ -613,9 +613,9 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
     $basicClassPropertiesValid = true;
     {
-        $className       =& $class->attribute( 'name' );
-        $classIdentifier =& $class->attribute( 'identifier' );
-        $classID         =& $class->attribute( 'id' );
+        $className       = $class->attribute( 'name' );
+        $classIdentifier = $class->attribute( 'identifier' );
+        $classID         = $class->attribute( 'id' );
 
         // validate class name
         if( trim( $className ) == '' )

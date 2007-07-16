@@ -318,7 +318,7 @@ class eZWorkflow extends eZPersistentObject
 
       \returns array of allowed workflows limited by trigger
     */
-    static function &fetchLimited( $moduleName, $functionName, $connectType )
+    static function fetchLimited( $moduleName, $functionName, $connectType )
     {
         $workflowArray = eZWorkflow::fetchList();
         $returnArray = array();
@@ -351,7 +351,7 @@ class eZWorkflow extends eZPersistentObject
 
         foreach ( array_keys( $eventArray ) as $key )
         {
-            $eventType =& $eventArray[$key]->attribute( 'workflow_type' );
+            $eventType = $eventArray[$key]->attribute( 'workflow_type' );
             if ( !is_object( $eventType ) or !$eventType->isAllowed( $moduleName, $functionName, $connectType ) )
             {
                 return false;
@@ -371,7 +371,7 @@ class eZWorkflow extends eZPersistentObject
                                                     $asObject );
     }
 
-    static function &fetchListCount( $version = 0, $enabled = 1 )
+    static function fetchListCount( $version = 0, $enabled = 1 )
     {
         $list = eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
                                                      array(),
@@ -405,7 +405,7 @@ class eZWorkflow extends eZPersistentObject
         return null;
     }
 
-    function &fetchEvents( $id = false, $asObject = true, $version = 0 )
+    function fetchEvents( $id = false, $asObject = true, $version = 0 )
     {
         if ( $id === false )
         {
@@ -426,7 +426,7 @@ class eZWorkflow extends eZPersistentObject
         return $filteredList;
     }
 
-    function &fetchEventCount( $id = false, $version = 0 )
+    function fetchEventCount( $id = false, $version = 0 )
     {
         if ( $id === false )
         {
@@ -455,31 +455,29 @@ class eZWorkflow extends eZPersistentObject
         return $list[0]["count"];
     }
 
-    function &creator()
+    function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->CreatorID );
+            return eZUser::fetch( $this->CreatorID );
         }
-        else
-            $user = null;
-        return $user;
+
+        return null;
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+
+        return null;
     }
 
-    function &ingroupList()
+    function ingroupList()
     {
         $this->InGroups = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                                $this->attribute("version"),
@@ -487,7 +485,7 @@ class eZWorkflow extends eZPersistentObject
         return $this->InGroups;
     }
 
-    function &ingroupIDList()
+    function ingroupIDList()
     {
         $list = eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
                                                      $this->attribute("version"),
@@ -501,17 +499,16 @@ class eZWorkflow extends eZPersistentObject
         return $this->InGroupIDs;
     }
 
-    function &groupList()
+    function groupList()
     {
         $this->AllGroups = eZWorkflowGroup::fetchList();
         return $this->AllGroups;
     }
 
-    function &workflowType()
+    function workflowType()
     {
         include_once( "kernel/classes/ezworkflowtype.php" );
-        $workflowType =& eZWorkflowType::createType( $this->WorkflowTypeString );
-        return $workflowType;
+        return eZWorkflowType::createType( $this->WorkflowTypeString );
     }
 
     /*!

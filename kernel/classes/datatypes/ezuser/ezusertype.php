@@ -292,7 +292,7 @@ class eZUserType extends eZDataType
         $reasons =& $result['list'];
 
         $currentUser = eZUser::currentUser();
-        $userObject  =& $currentUser->attribute( 'contentobject' );
+        $userObject  = $currentUser->attribute( 'contentobject' );
         $ini         = eZINI::instance();
         $anonID      = (int)$ini->variable( 'UserSettings', 'AnonymousUserID' );
         $classID     = (int)$contentClassAttribute->attribute( 'contentclass_id' );

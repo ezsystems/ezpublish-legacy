@@ -69,7 +69,7 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) || $http->hasPostVariable( '
 // Merge post variables and variables that were used before login
 if ( $http->hasSessionVariable( 'LastPostVars' ) )
 {
-    $post =& $http->attribute( 'post' );
+    $post = $http->attribute( 'post' );
     $post = array_merge( $post, $http->sessionVariable( 'LastPostVars' ) );
     unset( $post );
     $http->removeSessionVariable( 'LastPostVars' );
@@ -150,11 +150,11 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
 
         if ( is_object( $node ) )
         {
-            $parentContentObject =& $node->attribute( 'object' );
+            $parentContentObject = $node->attribute( 'object' );
             if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), false, $languageCode ) == '1' )
             {
                 $user = eZUser::currentUser();
-                $userID =& $user->attribute( 'contentobject_id' );
+                $userID = $user->attribute( 'contentobject_id' );
                 // Set section of the newly created object to the section's value of it's parent object
                 $sectionID = $parentContentObject->attribute( 'section_id' );
 
@@ -437,9 +437,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $selectedObject =& $selectedNode->object();
-    $selectedObjectID =& $selectedObject->attribute( 'id' );
-    $selectedObjectVersion =& $selectedObject->attribute( 'current_version' );
-    $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
+    $selectedObjectID = $selectedObject->attribute( 'id' );
+    $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
+    $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
 
 
     /* In order to swap node1 and node2 a user should have the following permissions:
@@ -450,10 +450,10 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
      *
      * The First two has already been checked. Let's check the rest.
      */
-    $nodeParent            =& $node->attribute( 'parent' );
-    $selectedNodeParent    =& $selectedNode->attribute( 'parent' );
-    $objectClassID         =& $object->attribute( 'contentclass_id' );
-    $selectedObjectClassID =& $selectedObject->attribute( 'contentclass_id' );
+    $nodeParent            = $node->attribute( 'parent' );
+    $selectedNodeParent    = $selectedNode->attribute( 'parent' );
+    $objectClassID         = $object->attribute( 'contentclass_id' );
+    $selectedObjectClassID = $selectedObject->attribute( 'contentclass_id' );
 
     if ( !$nodeParent || !$selectedNodeParent )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -612,7 +612,7 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
         }
 
         $existingMainNodeID = false;
-        $existingMainNode =& $object->attribute( 'main_node' );
+        $existingMainNode = $object->attribute( 'main_node' );
         if ( $existingMainNode )
             $existingMainNodeID = $existingMainNode->attribute( 'node_id' );
         if ( $existingMainNodeID === false or
@@ -735,7 +735,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
             if ( !in_array( $selectedNodeID, $parentNodeIDArray ) )
             {
                 $parentNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
-                $parentNodeObject =& $parentNode->attribute( 'object' );
+                $parentNodeObject = $parentNode->attribute( 'object' );
 
                 $canCreate = ( ( $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1 ) ||
                                ( $parentNode->canAddLocation() && $node->canRead() ) );
@@ -1230,7 +1230,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         {
             $contentNodeID = $http->postVariable( 'ContentNodeID' );
             $node = eZContentObjectTreeNode::fetch( $contentNodeID );
-            $parentNodeID =& $node->attribute( 'parent_node_id' );
+            $parentNodeID = $node->attribute( 'parent_node_id' );
         }
         $contentObjectID = 1;
         if ( $http->hasPostVariable( 'ContentObjectID' ) )

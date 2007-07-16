@@ -82,7 +82,7 @@ class eZPolicyLimitation extends eZPersistentObject
                       "name" => "ezpolicy_limitation" );
     }
 
-    function &limitValue()
+    function limitValue()
     {
         return $this->LimitValue;
     }
@@ -90,11 +90,10 @@ class eZPolicyLimitation extends eZPersistentObject
     /*!
      Get policy object of this policy limitation
     */
-    function &policy()
+    function policy()
     {
         include_once( 'kernel/classes/ezpolicy.php' );
-        $policy = eZPolicy::fetch( $this->attribute( 'policy_id' ) );
-        return $policy;
+        return eZPolicy::fetch( $this->attribute( 'policy_id' ) );
     }
 
     /*!
@@ -214,7 +213,7 @@ class eZPolicyLimitation extends eZPersistentObject
         $db->commit();
     }
 
-    function &allValuesAsString()
+    function allValuesAsString()
     {
         $str='';
         foreach ( $this->attribute( 'values' ) as $value )
@@ -230,12 +229,12 @@ class eZPolicyLimitation extends eZPersistentObject
         return $str;
     }
 
-    function &allValuesAsArrayWithNames()
+    function allValuesAsArrayWithNames()
     {
-        $returnValue =  null;
-        $valueList   =& $this->attribute( 'values_as_array' );
-        $names       =  array();
-        $policy      =& $this->attribute( 'policy' );
+        $returnValue = null;
+        $valueList   = $this->attribute( 'values_as_array' );
+        $names       = array();
+        $policy      = $this->attribute( 'policy' );
         if ( !$policy )
         {
             return $returnValue;
@@ -248,7 +247,7 @@ class eZPolicyLimitation extends eZPersistentObject
             eZDebug::writeError( 'Failed to fetch instance for module ' . $currentModule );
             return $returnValue;
         }
-        $functions =& $mod->attribute( 'available_functions' );
+        $functions = $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
 
         $currentFunction = $policy->attribute( 'function_name' );
@@ -336,7 +335,7 @@ class eZPolicyLimitation extends eZPersistentObject
     */
     function limitArray()
     {
-        $limitValues =& $this->attribute( 'values' );
+        $limitValues = $this->attribute( 'values' );
 
         $valueArray = array();
 
@@ -348,7 +347,7 @@ class eZPolicyLimitation extends eZPersistentObject
         return array( $this->attribute( 'identifier' ) => $valueArray );
     }
 
-    function &allValues()
+    function allValues()
     {
         $values = array();
         foreach ( $this->attribute( 'values' ) as $value )
@@ -359,13 +358,13 @@ class eZPolicyLimitation extends eZPersistentObject
         return $values;
     }
 
-    function &valueList()
+    function valueList()
     {
         if ( !isset( $this->Values ) )
         {
             $values = eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
-                                                            null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
-                                                            true);
+                                                           null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
+                                                           true);
 
             if ( $this->LimitValue )
             {
@@ -373,7 +372,7 @@ class eZPolicyLimitation extends eZPersistentObject
                                                                  'value' => $this->LimitValue ) );
             }
 
-            $this->Values =& $values;
+            $this->Values = $values;
         }
 
         return $this->Values;

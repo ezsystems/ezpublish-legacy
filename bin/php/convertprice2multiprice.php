@@ -81,12 +81,11 @@ $classList = eZContentClass::fetchList();
 
 $db = eZDB::instance();
 $db->begin();
-foreach ( array_keys( $classList ) as $classListKey )
+foreach ( $classList as $class )
 {
-    $class =& $classList[$classListKey];
     if ( eZShopFunctions::isSimplePriceClass( $class ) )
     {
-        $classID =& $class->attribute( 'id' );
+        $classID = $class->attribute( 'id' );
         $objectListCount = eZContentObject::fetchSameClassListCount( $classID );
         if ( $objectListCount == 0 )
         {
@@ -101,10 +100,10 @@ foreach ( array_keys( $classList ) as $classListKey )
         if ( !$defaultCurrency )
             $script->shutdown( 1 );
 
-        $defaultCurrencyCode =& $defaultCurrency->attribute( 'code' );
+        $defaultCurrencyCode = $defaultCurrency->attribute( 'code' );
 
         $priceClassAttribute = eZShopFunctions::priceAttribute( $class );
-        $priceClassAttributeID =& $priceClassAttribute->attribute( 'id' );
+        $priceClassAttributeID = $priceClassAttribute->attribute( 'id' );
 
         // replace 'ezprice' class attribute with 'ezmultiprice'.
         $priceClassAttribute->setAttribute( 'data_type_string', 'ezmultiprice' );
@@ -123,21 +122,18 @@ foreach ( array_keys( $classList ) as $classListKey )
             $objectList = eZContentObject::fetchSameClassList( $class->attribute( 'id' ), true, $offset, $limit );
             $offset += count( $objectList );
 
-            foreach ( array_keys( $objectList ) as $key )
+            foreach ( $objectList as $object )
             {
-                $object =& $objectList[$key];
-                $contentObjectID =& $object->attribute( 'id' );
+                $contentObjectID = $object->attribute( 'id' );
                 $objectVersions =& $object->versions();
                 foreach ( $objectVersions as $objectVersion )
                 {
                     $version = $objectVersion->attribute( 'version' );
                     $objectAttributeList = eZContentObjectAttribute::fetchSameClassAttributeIDList( $priceClassAttributeID, true, $version, $contentObjectID );
 
-                    foreach ( array_keys( $objectAttributeList ) as $objectAttributeKey )
+                    foreach ( $objectAttributeList as $objectAttribute )
                     {
-                        $objectAttribute =& $objectAttributeList[$objectAttributeKey];
-
-                        $priceValue =& $objectAttribute->attribute( 'data_float' );
+                        $priceValue = $objectAttribute->attribute( 'data_float' );
 
                         $multiprice = eZMultiPriceData::create( $objectAttribute->attribute( 'id' ),
                                                                 $version,
@@ -214,7 +210,7 @@ function currencyForLocale( $localeString = false )
                 {
                     $cli->output( 'Ok' );
                     $currency->store();
-                    $currencyList[$currencyCode] =& $currency;
+                    $currencyList[$currencyCode] = $currency;
                 }
                 else
                 {
@@ -223,7 +219,7 @@ function currencyForLocale( $localeString = false )
             }
             else
             {
-                $currency =& $currencyList[$currencyCode];
+                $currency = $currencyList[$currencyCode];
             }
         }
         else

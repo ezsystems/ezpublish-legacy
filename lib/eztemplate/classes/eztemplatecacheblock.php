@@ -120,7 +120,7 @@ class eZTemplateCacheBlock
         $nodeID = (int)$nodeID;
         $sql = "SELECT modified_subnode FROM ezcontentobject_tree WHERE node_id=$nodeID";
         include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
             return $rows[0]['modified_subnode'];
@@ -230,14 +230,13 @@ class eZTemplateCacheBlock
                 else
                 {
                     include_once( 'lib/ezdb/classes/ezdb.php' );
-                    $db =& eZDB::instance();
+                    $db = eZDB::instance();
                     // 'subtree_expiry' is url_alias
                     $nodePathStringSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='" . $db->escapeString( $subtree ) . "'";
                     $nodes = $db->arrayQuery( $nodePathStringSQL );
                     if ( count( $nodes ) != 1 )
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Could not find path_string '$subtree' for 'subtree_expiry' node.", 'eZTemplateCacheBlock::subtreeExpiryCacheDir()' );
+                        eZDebug::instance()->writeError( "Could not find path_string '$subtree' for 'subtree_expiry' node.", 'eZTemplateCacheBlock::subtreeExpiryCacheDir()' );
                     }
                     else
                     {

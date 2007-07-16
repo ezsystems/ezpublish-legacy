@@ -94,6 +94,7 @@ class eZProductCollectionItem extends eZPersistentObject
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'option_list' => 'optionList' ),
                       "keys" => array( "id" ),
+                      'sort' => array( 'id' => 'asc' ),
                       "increment_key" => "id",
                       "relations" => array( "contentobject_id" => array( "class" => "ezcontentobject",
                                                                          "field" => "id" ),
@@ -129,16 +130,15 @@ class eZProductCollectionItem extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy( $collectionID )
+    function copy( $collectionID )
     {
         $item = clone $this;
         $item->setAttribute( 'productcollection_id', $collectionID );
         $item->store();
-        $oldItemOptionList =& $this->optionList();
-        foreach ( array_keys( $oldItemOptionList ) as $oldItemOptionKey )
+        $oldItemOptionList = $this->optionList();
+        foreach ( $oldItemOptionList as $oldItemOption )
         {
-            $oldItemOption =& $oldItemOptionList[$oldItemOptionKey];
-            $itemOption =& $oldItemOption->copy( $item->attribute( 'id' ) );
+            $itemOption = $oldItemOption->copy( $item->attribute( 'id' ) );
         }
         return $item;
     }
@@ -177,24 +177,22 @@ class eZProductCollectionItem extends eZPersistentObject
     /*!
      \return Returns the content object defining the product.
     */
-    function &contentObject()
+    function contentObject()
     {
         if ( $this->ContentObject === null )
         {
             if ( $this->ContentObjectID == 0 )
             {
-                $retValue = null;
-                return $retValue;
+                return null;
             }
             $this->ContentObject = eZContentObject::fetch( $this->ContentObjectID );
         }
         return $this->ContentObject;
     }
 
-    function &optionList()
+    function optionList()
     {
-        $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-        return $optionList;
+        return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
     }
 
     /*!
@@ -207,9 +205,8 @@ class eZProductCollectionItem extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        foreach( array_keys( $itemOptionList ) as $key )
+        foreach( $itemOptionList as $itemOption )
         {
-            $itemOption =& $itemOptionList[$key];
             $itemOption->remove();
         }
         eZPersistentObject::remove();
@@ -226,8 +223,8 @@ class eZProductCollectionItem extends eZPersistentObject
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
         $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-        $contentObject =& $this->contentObject();
-        $contentObjectVersion =& $contentObject->attribute( 'current_version' );
+        $contentObject = $this->contentObject();
+        $contentObjectVersion = $contentObject->attribute( 'current_version' );
         $optionsPrice = 0.0;
         if ( count( $optionList ) > 0 )
         {
@@ -262,7 +259,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function verify( $currency = false )
     {
-        $contentObject =& $this->attribute( 'contentobject' );
+        $contentObject = $this->attribute( 'contentobject' );
         if ( $contentObject != null && $contentObject->attribute( 'main_node_id' ) > 0 )
         {
             include_once( 'kernel/shop/classes/ezshopfunctions.php' );
@@ -280,7 +277,7 @@ class eZProductCollectionItem extends eZPersistentObject
                 $dataType = $attribute->dataType();
                 if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
-                    $priceObj =& $attribute->content();
+                    $priceObj = $attribute->content();
 
                     $price = $priceObj->attribute( 'price' );
                     $priceWithOptions = $price + $optionsPrice;

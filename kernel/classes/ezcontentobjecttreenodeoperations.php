@@ -127,7 +127,7 @@ class eZContentObjectTreeNodeOperations
 
             // modify assignment
             include_once( "kernel/classes/eznodeassignment.php" );
-            $curVersion     =& $object->attribute( 'current_version' );
+            $curVersion     = $object->attribute( 'current_version' );
             $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
 
             if ( $nodeAssignment )

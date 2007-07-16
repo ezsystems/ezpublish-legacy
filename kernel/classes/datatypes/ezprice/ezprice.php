@@ -50,7 +50,7 @@ class eZPrice extends eZSimplePrice
         eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 
         $isVatIncluded = ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 1 );
-        $VATID =& $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
+        $VATID = $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
         $this->setVatIncluded( $isVatIncluded );
         $this->setVatType( $VATID );
     }

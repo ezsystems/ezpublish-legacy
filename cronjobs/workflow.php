@@ -58,9 +58,8 @@ if ( !$isQuiet )
 $removedProcessCount = 0;
 $processCount = 0;
 $statusMap = array();
-foreach( array_keys( $workflowProcessList ) as $key )
+foreach( $workflowProcessList as $process )
 {
-    $process =& $workflowProcessList[ $key ];
     $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
     if ( $process->attribute( "event_id" ) != 0 )
@@ -88,9 +87,8 @@ foreach( array_keys( $workflowProcessList ) as $key )
             $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
             $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
             $bodyMemento->remove();
-            for ( $i = 0; $i < count( $mementoList ); ++$i )
+            foreach( $mementoList as $memento )
             {
-                $memento =& $mementoList[$i];
                 $memento->remove();
             }
         }
@@ -104,13 +102,13 @@ foreach( array_keys( $workflowProcessList ) as $key )
             continue;
         }
         $bodyMementoData = $bodyMemento->data();
-        $mainMemento =& $bodyMemento->attribute( 'main_memento' );
+        $mainMemento = $bodyMemento->attribute( 'main_memento' );
         if ( !$mainMemento )
             continue;
 
         $mementoData = $bodyMemento->data();
         $mainMementoData = $mainMemento->data();
-        $mementoData['main_memento'] =& $mainMemento;
+        $mementoData['main_memento'] = $mainMemento;
         $mementoData['skip_trigger'] = true;
         $mementoData['memento_key'] = $process->attribute( 'memento_key' );
         $bodyMemento->remove();

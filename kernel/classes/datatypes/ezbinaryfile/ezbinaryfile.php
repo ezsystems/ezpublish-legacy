@@ -88,7 +88,7 @@ class eZBinaryFile extends eZPersistentObject
     }
 
 
-    function &fileSize()
+    function fileSize()
     {
         $fileInfo = $this->storedFileInfo();
 
@@ -99,26 +99,25 @@ class eZBinaryFile extends eZPersistentObject
         if ( $file->exists() )
         {
             $stat = $file->stat();
-            $fileSize = $stat['size'];
+            return $stat['size'];
         }
-        else
-            $fileSize = 0;
-        return $fileSize;
+
+        return 0;
     }
 
-    function &filePath()
+    function filePath()
     {
         $fileInfo = $this->storedFileInfo();
         return $fileInfo['filepath'];
     }
 
-    function &mimeTypeCategory()
+    function mimeTypeCategory()
     {
         $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
         return $types[0];
     }
 
-    function &mimeTypePart()
+    function mimeTypePart()
     {
         $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
         return $types[1];

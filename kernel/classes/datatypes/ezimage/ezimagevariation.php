@@ -274,7 +274,7 @@ class eZImageVariation extends eZPersistentObject
         return $imageVariation;
     }
 
-    function &fullPath()
+    function fullPath()
     {
         $sys = eZSys::instance();
         $ini = eZINI::instance();
@@ -291,8 +291,7 @@ class eZImageVariation extends eZPersistentObject
         else
             $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
 
-        $retFullPath = eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
-        return $retFullPath;
+        return eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
     }
 
     public $Version;

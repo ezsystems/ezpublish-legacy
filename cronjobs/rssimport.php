@@ -46,11 +46,10 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $rssImportArray = eZRSSImport::fetchActiveList();
 
 // Loop through all configured and active rss imports. If something goes wrong while processing them, continue to next import
-foreach ( array_keys( $rssImportArray ) as $rssImportKey )
+foreach ( $rssImportArray as $rssImport )
 {
     // Get RSSImport object
-    $rssImport =& $rssImportArray[$rssImportKey];
-    $rssSource =& $rssImport->attribute( 'url' );
+    $rssSource = $rssImport->attribute( 'url' );
     $addCount = 0;
 
     if ( !$isQuiet )
@@ -224,7 +223,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
         return 0;
     }
 
-    $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
+    $parentContentObject = $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
     $titleElement = $item->firstElementByName( 'title' );
     $title = is_object( $titleElement ) ? $titleElement->textContent() . getCDATA( $titleElement ) : '';
     $link = $item->firstElementByName( 'link' );
@@ -503,7 +502,7 @@ function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
     $document = $parser->process( $attributeValue );
     if ( !is_object( $document ) )
     {
-        $cli =& eZCLI::instance();
+        $cli = eZCLI::instance();
         $cli->output( 'Error in xml parsing' );
         return;
     }

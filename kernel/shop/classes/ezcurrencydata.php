@@ -123,14 +123,14 @@ class eZCurrencyData extends eZPersistentObject
                 foreach ( $keys as $key )
                 {
                     if ( $asObjects )
-                        $currencyList[$rows[$key]->attribute( 'code' )] =& $rows[$key];
+                        $currencyList[$rows[$key]->attribute( 'code' )] = $rows[$key];
                     else
-                        $currencyList[$rows[$key]['code']] =& $rows[$key];
+                        $currencyList[$rows[$key]['code']] = $rows[$key];
                 }
             }
             else
             {
-                $currencyList =& $rows;
+                $currencyList = $rows;
             }
         }
 

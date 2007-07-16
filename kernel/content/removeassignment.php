@@ -93,7 +93,7 @@ $removeList = array();
 $canRemoveAll = true;
 foreach ( $assignmentsToRemove as $assignment )
 {
-    $node =& $assignment->attribute( 'node' );
+    $node = $assignment->attribute( 'node' );
 
     // skip assignments which don't have associated node or node with no children
     if ( !$node )

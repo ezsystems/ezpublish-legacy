@@ -61,7 +61,7 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
             $selectedSectionID = 1;
 
         $objectID = $object->attribute( 'id' );
-        $assignedNodes =& $object->attribute( 'assigned_nodes' );
+        $assignedNodes = $object->attribute( 'assigned_nodes' );
         foreach ( $assignedNodes as $node )
         {
             eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );

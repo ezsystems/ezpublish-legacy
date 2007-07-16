@@ -243,9 +243,9 @@ class eZEnumType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $id = $contentClassAttribute->attribute( 'id' );
         $version = $contentClassAttribute->attribute( 'version' );
         $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
@@ -385,11 +385,11 @@ class eZEnumType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $id =& $contentClassAttribute->attribute( 'id' );
-        $version =& $contentClassAttribute->attribute( 'version' );
+        $id = $contentClassAttribute->attribute( 'id' );
+        $version = $contentClassAttribute->attribute( 'version' );
         $ismultiple = $contentClassAttribute->attribute( 'data_int1' );
         $isoption = $contentClassAttribute->attribute( 'data_int2' );
 
@@ -513,8 +513,8 @@ class eZEnumType extends eZDataType
     {
         $isOption = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
         $isMultiple = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD );
-        $content =& $classAttribute->attribute( 'content' );
-        $enumList =& $content->attribute( 'enum_list' );
+        $content = $classAttribute->attribute( 'content' );
+        $enumList = $content->attribute( 'enum_list' );
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-option', $isOption ? 'true' : 'false' ) );
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-multiple', $isMultiple ? 'true' : 'false' ) );
         $elementListNode = eZDOMDocument::createElementNode( 'elements' );
@@ -544,9 +544,8 @@ class eZEnumType extends eZDataType
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
         $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
         $elementList = $elementListNode->children();
-        foreach ( array_keys( $elementList ) as $elementKey )
+        foreach ( $elementList as $element )
         {
-            $element =& $elementList[$elementKey];
             $elementID = $element->attributeValue( 'id' );
             $elementName = $element->attributeValue( 'name' );
             $elementValue = $element->attributeValue( 'value' );

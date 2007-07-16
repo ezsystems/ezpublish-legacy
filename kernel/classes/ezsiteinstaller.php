@@ -1026,7 +1026,7 @@ class eZSiteInstaller
             return false;
         }
 
-        $nodeParentNodeID =& $node->attribute( 'parent_node_id' );
+        $nodeParentNodeID = $node->attribute( 'parent_node_id' );
 
         $object =& $node->object();
         if( !is_object( $object ) )
@@ -1062,9 +1062,9 @@ class eZSiteInstaller
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
         $selectedObject =& $selectedNode->object();
-        $selectedObjectID =& $selectedObject->attribute( 'id' );
-        $selectedObjectVersion =& $selectedObject->attribute( 'current_version' );
-        $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
+        $selectedObjectID = $selectedObject->attribute( 'id' );
+        $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
+        $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
 
 
         /* In order to swap node1 and node2 a user should have the following permissions:
@@ -1075,10 +1075,10 @@ class eZSiteInstaller
          *
          * The First two has already been checked. Let's check the rest.
          */
-        $nodeParent            =& $node->attribute( 'parent' );
-        $selectedNodeParent    =& $selectedNode->attribute( 'parent' );
-        $objectClassID         =& $object->attribute( 'contentclass_id' );
-        $selectedObjectClassID =& $selectedObject->attribute( 'contentclass_id' );
+        $nodeParent            = $node->attribute( 'parent' );
+        $selectedNodeParent    = $selectedNode->attribute( 'parent' );
+        $objectClassID         = $object->attribute( 'contentclass_id' );
+        $selectedObjectClassID = $selectedObject->attribute( 'contentclass_id' );
 
         if( !$nodeParent || !$selectedNodeParent )
         {

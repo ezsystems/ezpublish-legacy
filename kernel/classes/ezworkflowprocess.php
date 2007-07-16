@@ -151,7 +151,7 @@ class eZWorkflowProcess extends eZPersistentObject
                       'name' => 'ezworkflow_process' );
     }
 
-    function &create( $processKey, $parameters )
+    function create( $processKey, $parameters )
 //                      $workflowID, $userID,
 //                      $contentID, $contentVersion, $nodeID, $sessionKey = '' )
     {
@@ -174,8 +174,7 @@ class eZWorkflowProcess extends eZPersistentObject
                       'created' => $dateTime,
                       'modified' => $dateTime,
                       'parameters' => serialize( $parameters ) );
-        $newWorkflowProccess = new eZWorkflowProcess( $row );
-        return $newWorkflowProccess;
+        return new eZWorkflowProcess( $row );
     }
 
     function reset()
@@ -319,11 +318,11 @@ class eZWorkflowProcess extends eZPersistentObject
                     $currentEventStatus = $eventType->execute( $this, $workflowEvent );
                     $this->setAttribute( "event_status", $currentEventStatus );
 
-                    $workflowParameters =& $this->attribute( 'parameter_list' );
+                    $workflowParameters = $this->attribute( 'parameter_list' );
 
                     if ( isset( $workflowParameters['cleanup_list'] ) )
                     {
-                        $cleanupList =& $workflowParameters['cleanup_list'];
+                        $cleanupList = $workflowParameters['cleanup_list'];
                     }
                     else
                     {
@@ -560,7 +559,7 @@ class eZWorkflowProcess extends eZPersistentObject
     {
     }
 
-    function &setParameters( $parameterList = null )
+    function setParameters( $parameterList = null )
     {
         if ( !is_null( $parameterList ) )
         {
@@ -568,83 +567,70 @@ class eZWorkflowProcess extends eZPersistentObject
             unset( $this->ParameterList );
         }
         $this->setAttribute( 'parameters', serialize( $this->Parameters ) );
-        $parameterList = $this->attribute( 'parameter_list' );
-        return $parameterList;
+        return $this->attribute( 'parameter_list' );
     }
 
-    function &user()
+    function user()
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::instance( $this->UserID );
+            return eZUser::instance( $this->UserID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &content()
+    function content()
     {
         if ( isset( $this->ContentID ) and $this->ContentID )
         {
             include_once( 'kernel/classes/ezcontentobject.php' );
-            $content = eZContentObject::fetch( $this->ContentID );
+            return eZContentObject::fetch( $this->ContentID );
         }
-        else
-            $content = null;
-        return $content;
+        return null;
     }
 
-    function &node()
+    function node()
     {
         if ( isset( $this->NodeID ) and $this->NodeID )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $node = eZContentObjectTreeNode::fetch( $this->NodeID );
+            return eZContentObjectTreeNode::fetch( $this->NodeID );
         }
-        else
-            $node = null;
-        return $node;
+        return null;
     }
 
-    function &workflow()
+    function workflow()
     {
         if ( isset( $this->WorkflowID ) and $this->WorkflowID )
         {
             include_once( 'kernel/classes/ezworkflow.php' );
-            $workflow = eZWorkflow::fetch( $this->WorkflowID );
+            return eZWorkflow::fetch( $this->WorkflowID );
         }
-        else
-            $workflow = null;
-        return $workflow;
+        return null;
     }
 
-    function &workflowEvent()
+    function workflowEvent()
     {
         if ( isset( $this->EventID ) and $this->EventID )
         {
             include_once( 'kernel/classes/ezworkflowevent.php' );
-            $event = eZWorkflowEvent::fetch( $this->EventID );
+            return eZWorkflowEvent::fetch( $this->EventID );
         }
-        else
-            $event = null;
-        return $event;
+        return null;
     }
 
-    function &lastWorkflowEvent()
+    function lastWorkflowEvent()
     {
         if ( isset( $this->LastEventID ) and $this->LastEventID )
         {
             include_once( 'kernel/classes/ezworkflowevent.php' );
-            $lastEvent = eZWorkflowEvent::fetch( $this->LastEventID );
+            return eZWorkflowEvent::fetch( $this->LastEventID );
         }
-        else
-            $lastEvent = null;
-        return $lastEvent;
+        return null;
     }
 
-    function &parameterList()
+    function parameterList()
     {
         if ( !isset( $this->ParameterList ) )
         {
