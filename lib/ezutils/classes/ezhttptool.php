@@ -727,7 +727,7 @@ class eZHTTPTool
      \param $justCheckURL if true, we should check url only not downloading data.
      \return data from \p $url, false if invalid URL
     */
-    function getDataByURL( $url, $justCheckURL = false )
+    static function getDataByURL( $url, $justCheckURL = false )
     {
         // First try CURL
         if ( extension_loaded( 'curl' ) )

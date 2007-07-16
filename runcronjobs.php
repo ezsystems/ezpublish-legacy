@@ -321,9 +321,10 @@ foreach ( $scripts as $cronScript )
         }
         $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
 
-        eZDebug::addTimingPoint( "Script $scriptFile starting" );
+        $debug = eZDebug::instance();
+        $debug->addTimingPoint( "Script $scriptFile starting" );
         eZRunCronjobs::runScript( $cli, $scriptFile );
-        eZDebug::addTimingPoint( "Script $scriptFile done" );
+        $debug->addTimingPoint( "Script $scriptFile done" );
         ++$index;
         // The transaction check
         $transactionCounterCheck = eZDB::checkTransactionCounter();
@@ -343,7 +344,7 @@ class eZRunCronjobs
      \static
      Function for running a cronjob script.
     */
-    function runScript( &$cli, $scriptFile )
+    static function runScript( &$cli, $scriptFile )
     {
         $scriptMutex = new eZMutex( $scriptFile );
         $lockTS = $scriptMutex->lockTS();
@@ -397,7 +398,7 @@ class eZRunCronjobs
 
      \return true if mutex is stole successfully
     */
-    function stealMutex( &$cli, $scriptMutex, $force = false )
+    static function stealMutex( &$cli, $scriptMutex, $force = false )
     {
         $cli->output( 'Stealing mutex. Old process has run too long.' );
         $oldPid = $scriptMutex->meta( 'pid' );
