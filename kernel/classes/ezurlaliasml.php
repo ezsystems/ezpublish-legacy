@@ -1373,7 +1373,7 @@ class eZURLAliasML extends eZPersistentObject
         {
             $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
             $actionStr = $db->escapeString( $action );
-            $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1";
+            $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1 AND is_alias = 0";
             $rows = $db->arrayQuery( $query );
             $path = array();
             $count = count( $rows );
@@ -1389,7 +1389,7 @@ class eZURLAliasML extends eZPersistentObject
                 // We have the parent so now do an iterative lookup until we have the top element
                 while ( $paren != 0 )
                 {
-                    $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1";
+                    $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1 AND is_alias = 0";
                     $rows = $db->arrayQuery( $query );
                     $count = count( $rows );
                     if ( $count != 0 )
