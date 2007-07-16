@@ -129,6 +129,7 @@
         </td>
 
         <td>
+            /
             {foreach $element.path_array as $el}
             {if ne( $el.action, "nop:" )}
             <a href={concat("/",$el.path)|ezurl}>
