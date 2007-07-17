@@ -217,15 +217,17 @@ class eZShopFunctionCollection
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $wishList = eZWishList::items( true, $production_id, $offset, $limit );
-        return array ( 'result' => &$wishList );
+        $wishList = new eZWishList();
+        $wishListItems = $wishList->items( true, $production_id, $offset, $limit );
+        return array ( 'result' => $wishListItems );
     }
 
     function fetchWishListCount( $production_id )
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $count = eZWishList::itemCount( $production_id );
+        $wishList = new eZWishList();
+        $count = $wishList->itemCount( $production_id );
         return array ( 'result' => $count );
     }
 

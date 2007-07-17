@@ -54,7 +54,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
         if ( $ini->variable( 'ShopSettings', 'ClearBasketOnCheckout' ) == 'enabled' )
         {
             include_once( "kernel/classes/ezbasket.php" );
-            $basket =& eZBasket::currentBasket();
+            $basket = eZBasket::currentBasket();
             $basket->remove();
         }
         $module->redirectTo( '/shop/checkout/' );
@@ -71,7 +71,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
     $tpl->setVariable( "order", $order );
 }
 
-$basket =& eZBasket::currentBasket();
+$basket = eZBasket::currentBasket();
 $basket->updatePrices();
 
 $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );

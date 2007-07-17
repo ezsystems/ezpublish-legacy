@@ -252,7 +252,7 @@ class eZURI
                 $char = urldecode( $char );
 
                 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-                $codec =& eZTextCodec::instance( 'utf-8', false );
+                $codec = eZTextCodec::instance( 'utf-8', false );
                 if ( $codec )
                     $char = $codec->convertString( $char );
             }

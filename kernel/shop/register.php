@@ -67,7 +67,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     if ( $inputIsValid == true )
     {
         // Check for validation
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
         $order = $basket->createOrder();
 
         $doc = new eZDOMDocument( 'account_information' );
@@ -95,7 +95,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         $order->setAttribute( 'account_identifier', "simple" );
         $order->store();
 
-        eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+        $http->setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 
         $module->redirectTo( '/shop/confirmorder/' );
         return;

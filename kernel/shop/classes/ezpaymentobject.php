@@ -119,19 +119,18 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Returns eZPaymentObject by 'id'.
     */
-    function fetchByID( $transactionID )
+    static function fetchByID( $transactionID )
     {
-        $object = eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                   null,
-                                                   array( 'id' => $transactionID ) );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                null,
+                                                array( 'id' => $transactionID ) );
     }
 
     /*!
      \static
     Returns eZPaymentObject by 'id' of eZOrder.
     */
-    function fetchByOrderID( $orderID )
+    static function fetchByOrderID( $orderID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                 null,
@@ -142,7 +141,7 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Returns eZPaymentObject by 'id' of eZWorkflowProcess.
     */
-    function fetchByProcessID( $workflowprocessID )
+    static function fetchByProcessID( $workflowprocessID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                 null,

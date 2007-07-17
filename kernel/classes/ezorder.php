@@ -164,9 +164,9 @@ class eZOrder extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &detachProductCollection()
+    function detachProductCollection()
     {
-        $collection =& $this->productCollection();
+        $collection = $this->productCollection();
         if ( !$collection )
         {
             $retValue = false;
@@ -175,7 +175,7 @@ class eZOrder extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        $newCollection =& $collection->copy();
+        $newCollection = $collection->copy();
         if ( !$newCollection )
         {
             $db->commit();
@@ -467,11 +467,9 @@ class eZOrder extends eZPersistentObject
                                          ORDER BY order_nr" );
         }
         $retOrders = array();
-        for( $i=0; $i < count( $orderArray ); $i++ )
+        foreach( $orderArray as $orderRows )
         {
-            $order =& $orderArray[$i];
-            $order = new eZOrder( $order );
-            $retOrders[] = $order;
+            $retOrders[] = new eZOrder( $orderRows );
         }
         return $retOrders;
     }
@@ -1053,7 +1051,7 @@ class eZOrder extends eZPersistentObject
     {
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
-        $accountHandler =& eZShopAccountHandler::instance();
+        $accountHandler = eZShopAccountHandler::instance();
 
         return $accountHandler->email( $this );
     }
@@ -1096,7 +1094,7 @@ class eZOrder extends eZPersistentObject
 
         if ( $accessWord == 'limited' )
         {
-            $limitationList =& $accessResult['policies'];
+            $limitationList = $accessResult['policies'];
             $access = true;
             foreach ( $limitationList as $pid => $limit )
             {

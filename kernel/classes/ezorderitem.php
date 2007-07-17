@@ -92,18 +92,17 @@ class eZOrderItem extends eZPersistentObject
                       'name' => 'ezorder_item' );
     }
 
-    function fetchList( $orderID, $asObject = true )
+    static function fetchList( $orderID, $asObject = true )
     {
-        $returnValue = eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,
                                                     array( "order_id" => $orderID ),
                                                     null,
                                                     null,
                                                     $asObject );
-        return $returnValue;
     }
 
-    function fetchListByType( $orderID, $itemType, $asObject = true )
+    static function fetchListByType( $orderID, $itemType, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,

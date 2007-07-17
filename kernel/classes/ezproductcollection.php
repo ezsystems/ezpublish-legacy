@@ -97,11 +97,10 @@ class eZProductCollection extends eZPersistentObject
         $db->begin();
         $collection->store();
 
-        $oldItems =& $this->itemList();
-        foreach ( array_keys( $oldItems ) as $oldItemKey )
+        $oldItems = $this->itemList();
+        foreach ( $oldItems as $oldItem )
         {
-            $oldItem =& $oldItems[$oldItemKey];
-            $item =& $oldItem->copy( $collection->attribute( 'id' ) );
+            $item = $oldItem->copy( $collection->attribute( 'id' ) );
         }
         $db->commit();
         return $collection;
@@ -121,14 +120,13 @@ class eZProductCollection extends eZPersistentObject
     /*!
      \return all production collection items as an array.
     */
-    function &itemList( $asObject = true )
+    function itemList( $asObject = true )
     {
-        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                              null, array( "productcollection_id" => $this->ID ),
-                                                              null,
-                                                              null,
-                                                              $asObject );
-        return $productItems;
+        return eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                    null, array( "productcollection_id" => $this->ID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     static function &verify( $id )

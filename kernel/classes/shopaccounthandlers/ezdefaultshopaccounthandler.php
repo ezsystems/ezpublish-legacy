@@ -89,8 +89,9 @@ class eZDefaultShopAccountHandler
 
     function fetchAccountInformation( &$module )
     {
-        eZHTTPTool::setSessionVariable( 'RedirectAfterLogin', '/shop/basket/' );
-        eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
+        $http = eZHTTPTool::instance();
+        $http->setSessionVariable( 'RedirectAfterLogin', '/shop/basket/' );
+        $http->setSessionVariable( 'DoCheckoutAutomatically', true );
         $module->redirectTo( '/user/login/' );
     }
 

@@ -246,7 +246,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 
     // Fetch the shop account handler
     include_once( 'kernel/classes/ezshopaccounthandler.php' );
-    $accountHandler =& eZShopAccountHandler::instance();
+    $accountHandler = eZShopAccountHandler::instance();
 
     // Do we have all the information we need to start the checkout
     if ( !$accountHandler->verifyAccountInformation() )

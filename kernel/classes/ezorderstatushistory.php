@@ -175,7 +175,7 @@ class eZOrderStatusHistory extends eZPersistentObject
      \param $asObject If \c true return them as objects.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchListByOrder( $orderID, $asObject = true )
+    static function fetchListByOrder( $orderID, $asObject = true )
     {
         $db = eZDB::instance();
 
@@ -194,7 +194,7 @@ class eZOrderStatusHistory extends eZPersistentObject
      \param $asObject If \c true return them as objects.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchCount( $orderID, $asObject = true )
+    static function fetchCount( $orderID, $asObject = true )
     {
         $db = eZDB::instance();
 
@@ -207,12 +207,16 @@ class eZOrderStatusHistory extends eZPersistentObject
      \static
      \return A new eZOrderStatusHistory object initialized with the input parameters.
     */
-    function create( $orderID, $statusID, $userID = false, $timestamp = false )
+    static function create( $orderID, $statusID, $userID = false, $timestamp = false )
     {
         if ( $timestamp === false )
+        {
             $timestamp = time();
+        }
         if ( $userID === false )
+        {
             $userID = eZUser::currentUserID();
+        }
         $row = array( 'id' => null,
                       'order_id' => $orderID,
                       'status_id' => $statusID,

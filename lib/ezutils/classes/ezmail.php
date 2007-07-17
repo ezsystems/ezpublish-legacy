@@ -829,7 +829,7 @@ class eZMail
     {
         if ( !$this->TextCodec )
         {
-             $this->TextCodec =& eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
+             $this->TextCodec = eZTextCodec::instance( $this->contentCharset(), $this->outputCharset() );
         }
 
         if ( function_exists( "mb_encode_mimeheader" ) )

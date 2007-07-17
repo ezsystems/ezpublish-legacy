@@ -143,7 +143,7 @@ class eZShopOperationCollection
                 $dataType = $attribute->dataType();
                 if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
-                    $priceObj =& $attribute->content();
+                    $priceObj = $attribute->content();
                     break;
                 }
             }
@@ -287,7 +287,7 @@ class eZShopOperationCollection
     */
     function updateShippingInfo( $objectID, $optionList )
     {
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
         require_once( 'kernel/classes/ezshippingmanager.php' );
         $shippingInfo = eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
@@ -297,7 +297,7 @@ class eZShopOperationCollection
     {
         if ( is_array( $itemCountList ) && is_array( $itemIDList ) && count( $itemCountList ) == count ( $itemIDList ) )
         {
-            $basket =& eZBasket::currentBasket();
+            $basket = eZBasket::currentBasket();
             if ( is_object( $basket ) )
             {
                 $productCollectionID = $basket->attribute( 'productcollection_id' );
@@ -344,7 +344,7 @@ class eZShopOperationCollection
             $dataType = $attribute->dataType();
             if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
             {
-                $priceObj =& $attribute->content();
+                $priceObj = $attribute->content();
                 $price += $priceObj->attribute( 'price' );
                 $priceFound = true;
             }
@@ -401,7 +401,7 @@ class eZShopOperationCollection
                           'error_data' => $unvalidatedAttributes );
         }
 
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
 
         /* Check if the item with the same options is not already in the basket: */
         $itemID = false;
@@ -549,12 +549,12 @@ class eZShopOperationCollection
         $db->begin();
         $order->activate();
 
-        $basket =& eZBasket::currentBasket( true, $orderID);
+        $basket = eZBasket::currentBasket( true, $orderID);
         $basket->remove();
         $db->commit();
 
         include_once( "lib/ezutils/classes/ezhttptool.php" );
-        eZHTTPTool::setSessionVariable( "UserOrderID", $orderID );
+        eZHTTPTool::instance()->setSessionVariable( "UserOrderID", $orderID );
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 
@@ -566,7 +566,7 @@ class eZShopOperationCollection
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
 
-        $accountHandler =& eZShopAccountHandler::instance();
+        $accountHandler = eZShopAccountHandler::instance();
         $email = $accountHandler->email( $order );
 
         // Fetch the confirm order handler

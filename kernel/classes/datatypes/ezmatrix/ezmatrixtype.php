@@ -472,7 +472,7 @@ class eZMatrixType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         if ( $content )
         {
             $defaultName = $classAttribute->attribute( 'data_text1' );

@@ -376,7 +376,7 @@ class eZMultiPriceType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $price =& $classAttribute->content();
+        $price = $classAttribute->content();
         if ( $price )
         {
             $vatIncluded = $price->attribute( 'is_vat_included' );

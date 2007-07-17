@@ -882,7 +882,7 @@ class eZSiteInstaller
 
                 case 'ezuser':
                 {
-                    $user =& $attribute->content();
+                    $user = $attribute->content();
                     if( $user === null )
                     {
                         $user = eZUser::create( $objectID );

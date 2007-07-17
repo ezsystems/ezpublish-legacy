@@ -416,7 +416,7 @@ class eZBasket extends eZPersistentObject
                     $dataType = $attribute->dataType();
                     if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                     {
-                        $priceObj =& $attribute->content();
+                        $priceObj = $attribute->content();
                         $price += $priceObj->attribute( 'price' );
                         break;
                     }

@@ -65,7 +65,7 @@ class eZMailTransport
      \static
      Sends the contents of the email object \a $mail using the default transport.
     */
-    function send( &$mail )
+    static function send( $mail )
     {
         if ( strtolower( get_class( $mail ) ) != 'ezmail' )
         {

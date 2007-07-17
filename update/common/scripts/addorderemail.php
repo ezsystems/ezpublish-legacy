@@ -125,7 +125,7 @@ $orderCount = count( $orderArray );
 print( $endl . $orderCount . " order email will be updated" . $endl );
 // Fetch the shop account handler
 include_once( 'kernel/classes/ezshopaccounthandler.php' );
-$accountHandler =& eZShopAccountHandler::instance();
+$accountHandler = eZShopAccountHandler::instance();
 
 $i = 0;
 $dotMax = 70;

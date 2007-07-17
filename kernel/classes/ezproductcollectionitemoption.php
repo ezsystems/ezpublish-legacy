@@ -128,7 +128,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
         return $item;
     }
 
-    function fetchList( $productCollectionItemID, $asObject = true )
+    static function fetchList( $productCollectionItemID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZProductCollectionItemOption::definition(),
                                                     null, array( "item_id" => $productCollectionItemID ),

@@ -109,7 +109,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     if ( $inputIsValid == true )
     {
         // Check for validation
-        $basket =& eZBasket::currentBasket();
+        $basket = eZBasket::currentBasket();
 
         $db = eZDB::instance();
         $db->begin();
@@ -169,7 +169,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         $db->commit();
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         eZShopFunctions::setPreferredUserCountry( $country );
-        eZHTTPTool::setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
+        $http->setSessionVariable( 'MyTemporaryOrderID', $order->attribute( 'id' ) );
 
         $module->redirectTo( '/shop/confirmorder/' );
         return;

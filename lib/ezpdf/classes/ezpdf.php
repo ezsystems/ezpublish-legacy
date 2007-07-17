@@ -333,7 +333,7 @@ class eZPDF
                 $outputCharset = $config->hasVariable( 'PDFGeneral', 'OutputCharset' ) 
                                  ? $config->variable( 'PDFGeneral', 'OutputCharset' ) 
                                  : 'iso-8859-1'; 
-                $codec =& eZTextCodec::instance( $httpCharset, $outputCharset ); 
+                $codec = eZTextCodec::instance( $httpCharset, $outputCharset ); 
                 // Convert current text to $outputCharset (by default iso-8859-1) 
                 $text =& $codec->convertString( $text );
 

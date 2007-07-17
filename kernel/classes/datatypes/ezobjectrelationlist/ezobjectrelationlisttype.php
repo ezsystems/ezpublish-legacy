@@ -1002,7 +1002,7 @@ class eZObjectRelationListType extends eZDataType
             // Fetch the list of "allowed" classes .
             // A user can select objects of only those allowed classes when browsing.
             $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            $classContent   =& $classAttribute->content();
+            $classContent   = $classAttribute->content();
             if ( isset( $classContent['class_constraint_list'] ) )
                 $classConstraintList =& $classContent['class_constraint_list'];
             else
@@ -1385,7 +1385,7 @@ class eZObjectRelationListType extends eZDataType
             } break;
             case 'disable_placement':
             {
-                $content =& $classAttribute->content();
+                $content = $classAttribute->content();
                 $content['default_placement'] = false;
                 $classAttribute->setContent( $content );
             } break;
@@ -1511,7 +1511,7 @@ class eZObjectRelationListType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         if ( $content['default_placement'] )
         {
             $defaultPlacementNode = $dom->createElement( 'default-placement' );
@@ -1544,7 +1544,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         $defaultPlacementNode = $attributeParametersNode->getElementsByTagName( 'default-placement' )->item( 0 );
         $content['default_placement'] = false;
 

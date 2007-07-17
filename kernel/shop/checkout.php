@@ -64,7 +64,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
         $order = eZOrder::fetch( $orderID );
         if (  $order->attribute( 'is_temporary' ) == 1 && $paymentObj == null  )
         {
-            $email =& $order->accountEmail();
+            $email = $order->accountEmail();
             $order->setAttribute( 'email', $email );
             $order->store();
 
@@ -83,18 +83,22 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                     }
                     else if ( isset( $operationResult['result'] ) )
                     {
-                        $result =& $operationResult['result'];
+                        $result = $operationResult['result'];
                         $resultContent = false;
                         if ( is_array( $result ) )
                         {
                             if ( isset( $result['content'] ) )
+                            {
                                 $resultContent = $result['content'];
+                            }
                             if ( isset( $result['path'] ) )
+                            {
                                 $Result['path'] = $result['path'];
+                            }
                         }
                         else
-                            $resultContent =& $result;
-                        $Result['content'] =& $resultContent;
+                            $resultContent = $result;
+                        $Result['content'] = $resultContent;
                         return;
                     }
                 }break;

@@ -108,10 +108,9 @@ class eZProductCollectionItem extends eZPersistentObject
      Creates a new empty collection item which belongs to
      collection \a $collectionID and returns it.
     */
-    function create( $productCollectionID )
+    static function create( $productCollectionID )
     {
-        $row = array( "productcollection_id" => $productCollectionID );
-        return new eZProductCollectionItem( $row );
+        return new eZProductCollectionItem( array( "productcollection_id" => $productCollectionID ) );
     }
 
     /*!
@@ -143,7 +142,7 @@ class eZProductCollectionItem extends eZPersistentObject
         return $item;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
                                                 null,
@@ -151,7 +150,7 @@ class eZProductCollectionItem extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
+    static function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
     {
         $limitation = null;
         if ( $offset !== false or $limit !== false )

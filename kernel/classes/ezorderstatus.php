@@ -136,7 +136,7 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return the status object with the given DB ID.
     */
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrderStatus::definition(),
                                                 null,
@@ -149,7 +149,7 @@ class eZOrderStatus extends eZPersistentObject
      \note It is safe to call this with ID 0, instead of fetching the DB
            data it calls createUndefined() and returns that data.
     */
-    function fetchByStatus( $statusID, $asObject = true )
+    static function fetchByStatus( $statusID, $asObject = true )
     {
         if ( $statusID == 0 )
             return eZOrderStatus::createUndefined();

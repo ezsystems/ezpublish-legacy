@@ -240,7 +240,7 @@ class eZSimplePrice
      */
     function VATPercent( $object = false, $country = false )
     {
-        $VATType =& $this->VATType();
+        $VATType = $this->VATType();
 
         if ( $object === false )
         {
@@ -411,9 +411,8 @@ class eZSimplePrice
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
         $vatTypes = eZVATType::fetchList();
-        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        foreach ( $vatTypes as $vatType )
         {
-            $vatType =& $vatTypes[$vatTypeKey];
             if ( $vatType->attribute( 'name' ) == $vatName and
                  $vatType->attribute( 'percentage' ) == $vatPercentage )
             {

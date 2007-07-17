@@ -115,7 +115,7 @@ class eZObjectRelationType extends eZDataType
                 $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
                 if ( $classAttribute )
                 {
-                    $classContent =& $classAttribute->content();
+                    $classContent = $classAttribute->content();
                     if ( $classContent['default_selection_node'] )
                     {
                         $nodeID = $classContent['default_selection_node'];
@@ -384,8 +384,8 @@ class eZObjectRelationType extends eZDataType
     */
     function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
     {
-        $classAttribute =& $objectAttribute->contentClassAttribute();
-        $content =& eZObjectRelationType::classAttributeContent( $classAttribute );
+        $classAttribute = $objectAttribute->contentClassAttribute();
+        $content = eZObjectRelationType::classAttributeContent( $classAttribute );
         $editGrouped = ( $content['selection_type'] == 0 or
                          ( $content['selection_type'] == 1 and $content['fuzzy_match'] ) );
 
@@ -410,15 +410,14 @@ class eZObjectRelationType extends eZDataType
         return 'int';
     }
 
-    function &classAttributeContent( &$classObjectAttribute )
+    function classAttributeContent( &$classObjectAttribute )
     {
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
         $defaultSelectionNode = $classObjectAttribute->attribute( "data_int2" );
         $fuzzyMatch = $classObjectAttribute->attribute( "data_int3" );
-        $content = array( 'selection_type' => $selectionType,
-                          'default_selection_node' => $defaultSelectionNode,
-                          'fuzzy_match' => $fuzzyMatch );
-        return $content;
+        return array( 'selection_type' => $selectionType,
+                      'default_selection_node' => $defaultSelectionNode,
+                      'fuzzy_match' => $fuzzyMatch );
     }
 
     function customClassAttributeHTTPAction( $http, $action, $classAttribute )
@@ -455,7 +454,7 @@ class eZObjectRelationType extends eZDataType
             } break;
             case 'disable_selection_node':
             {
-                $content =& $classAttribute->content();
+                $content = $classAttribute->content();
                 $content['default_selection_node'] = false;
                 $classAttribute->setContent( $content );
             } break;
@@ -533,7 +532,7 @@ class eZObjectRelationType extends eZDataType
 
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         $dom = $attributeParametersNode->ownerDocument;
         $selectionTypeNode = $dom->createElement( 'selection-type' );
         $selectionTypeNode->setAttribute( 'id', $content['selection_type'] );
@@ -554,7 +553,7 @@ class eZObjectRelationType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $content =& $classAttribute->content();
+        $content = $classAttribute->content();
         $selectionTypeNode = $attributeParametersNode->getElementsByTagName( 'selection-type' )->item( 0 );
         $content['selection_type'] = 0;
         if ( $selectionTypeNode )
