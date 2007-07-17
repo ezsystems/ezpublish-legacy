@@ -58,6 +58,7 @@ class eZImageShellHandler extends eZImageHandler
         $this->PostParameters = false;
         $this->UseTypeTag = false;
         $this->QualityParameters = false;
+        $this->FrameRangeParameters = false;
     }
 
     /*!
@@ -81,6 +82,7 @@ class eZImageShellHandler extends eZImageHandler
             $argumentList[] = $this->PreParameters;
 
         $qualityParameters = $this->QualityParameters;
+        $frameRangeParameters = $this->FrameRangeParameters;
 
         if ( $qualityParameters and
              isset( $qualityParameters[$destinationMimeData['name']] ) )
@@ -102,6 +104,11 @@ class eZImageShellHandler extends eZImageHandler
             }
         }
 
+        if ( $frameRangeParameters && isset( $frameRangeParameters[$sourceMimeData['name']] ) )
+        {
+            $sourceMimeData['url'] .= $frameRangeParameters[$sourceMimeData['name']];
+        }
+
         $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
 
         $destinationURL = $destinationMimeData['url'];
@@ -119,7 +126,7 @@ class eZImageShellHandler extends eZImageHandler
         {
             if ( !file_exists( $destinationMimeData['url'] ) )
             {
-                eZDebug::writeError( "Unknown destination file: " . $destinationMimeData['url'], "eZImageShellHandler(" . $this->HandlerName . ")" );
+                eZDebug::writeError( 'Unknown destination file: ' . $destinationMimeData['url'] . " when executing '$systemString'", 'eZImageShellHandler(' . $this->HandlerName . ')' );
                 return false;
             }
             $this->changeFilePermissions( $destinationMimeData['url'] );
@@ -174,6 +181,15 @@ class eZImageShellHandler extends eZImageHandler
                     $qualityParameters[$elements[0]] = $elements[1];
                 }
             }
+            if ( $ini->hasVariable( $iniGroup, 'FrameRangeParameters' ) )
+            {
+                foreach ( $ini->variable( $iniGroup, 'FrameRangeParameters' ) as $frameRangeParameter )
+                {
+                    $elements = explode( ';', $frameRangeParameter );
+                    $frameRangeParameters[$elements[0]] = $elements[1];
+                }
+            }
+
             $conversionRules = false;
             if ( $ini->hasVariable( $iniGroup, 'ConversionRules' ) )
             {
@@ -260,6 +276,7 @@ class eZImageShellHandler extends eZImageHandler
             $handler->PostParameters = $postParameters;
             $handler->UseTypeTag = $useTypeTag;
             $handler->QualityParameters = $qualityParameters;
+            $handler->FrameRangeParameters = $frameRangeParameters;
             return $handler;
         }
         return $handler;
