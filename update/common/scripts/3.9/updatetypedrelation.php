@@ -134,7 +134,7 @@ function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $rel
     }
 }
 
-function AddNewRelations( $objectID, $version, $relatedObjectIDArray, &$cli )
+function AddNewRelations( $objectID, $version, $relatedObjectIDArray, $cli )
 {
     $relationCount = 0;
     foreach ( $relatedObjectIDArray as $relationType => $relatedObjectIDSubArray )

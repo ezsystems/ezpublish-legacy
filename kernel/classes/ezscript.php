@@ -594,7 +594,7 @@ class eZScript
         $this->IterationMax = $iterationMax;
     }
 
-    function iterate( &$cli, $status, $text = false )
+    function iterate( $cli, $status, $text = false )
     {
         if ( !$this->IterationNumericStrings )
             $status = (bool)$status;

@@ -211,7 +211,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, &$cli, $parameters )
+    function add( $packageType, &$package, $cli, $parameters )
     {
         //eZDebug::writeDebug( $parameters, 'extension add parameters' );
         include_once( 'lib/ezutils/classes/ezini.php' );
@@ -271,7 +271,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, &$package, $cli, $arguments )
     {
         $arguments = array_unique( $arguments );
         $extensionsToAdd = array();

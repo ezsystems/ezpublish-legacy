@@ -812,7 +812,7 @@ class eZPackage
         return '=';
     }
 
-    function createDependencyText( &$cli, $dependencyItem, $dependencySection )
+    function createDependencyText( $cli, $dependencyItem, $dependencySection )
     {
         $text = ( $cli->stylize( 'emphasize', $dependencyItem['type'] ) .
                   '(' .

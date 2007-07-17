@@ -344,7 +344,7 @@ class eZRunCronjobs
      \static
      Function for running a cronjob script.
     */
-    static function runScript( &$cli, $scriptFile )
+    static function runScript( $cli, $scriptFile )
     {
         $scriptMutex = new eZMutex( $scriptFile );
         $lockTS = $scriptMutex->lockTS();
@@ -398,7 +398,7 @@ class eZRunCronjobs
 
      \return true if mutex is stole successfully
     */
-    static function stealMutex( &$cli, $scriptMutex, $force = false )
+    static function stealMutex( $cli, $scriptMutex, $force = false )
     {
         $cli->output( 'Stealing mutex. Old process has run too long.' );
         $oldPid = $scriptMutex->meta( 'pid' );

@@ -78,7 +78,7 @@ if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 
 
-function handleContextNode( $context, &$cli, &$data )
+function handleContextNode( $context, $cli, &$data )
 {
     $contextName = null;
     $messages = array();
@@ -124,7 +124,7 @@ function handleContextNode( $context, &$cli, &$data )
     return true;
 }
 
-function handleMessageNode( $contextName, &$message, &$cli, &$data, $requireTranslation )
+function handleMessageNode( $contextName, &$message, $cli, &$data, $requireTranslation )
 {
     $source = null;
     $translation = null;

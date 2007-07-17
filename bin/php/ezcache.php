@@ -157,7 +157,7 @@ if ( $options['list-ids'] )
     return $script->shutdown();
 }
 
-function clearItems( $cacheEntries, &$cli, $name )
+function clearItems( $cacheEntries, $cli, $name )
 {
     if ( $name )
         $name = $cli->stylize( 'emphasize', $name );
@@ -174,7 +174,7 @@ function clearItems( $cacheEntries, &$cli, $name )
     $cli->output();
 }
 
-function purgeItems( $cacheEntries, &$cli, $name )
+function purgeItems( $cacheEntries, $cli, $name )
 {
     global $purgeSleep, $purgeMax, $purgeExpiry;
     if ( $name )

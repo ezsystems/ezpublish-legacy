@@ -115,12 +115,12 @@ class eZDBPackageHandler extends eZPackageHandler
         }
     }
 
-    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, &$package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
 
-    function handleParameters( $packageType, &$package, &$cli, $type, $arguments )
+    function handleParameters( $packageType, &$package, $cli, $type, $arguments )
     {
         $sqlFileList = array();
         $currentType = false;

@@ -128,7 +128,7 @@ class eZPackageHandler
      \param $cli         Command line interface object, can be used to output errors etc.
      \param $arguments   An array with string values taken from the command line after the add command.
     */
-    function handleAddParameters( $packageType, &$package, &$cli, $arguments )
+    function handleAddParameters( $packageType, &$package, $cli, $arguments )
     {
     }
 

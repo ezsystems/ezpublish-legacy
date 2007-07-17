@@ -120,7 +120,7 @@ if ( strlen( trim( $matchType ) ) == 0 )
 
 $ini = eZINI::instance();
 
-function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cli )
+function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, $cli )
 {
     $dbSchema = false;
     if ( file_exists( $db ) and is_file( $db ) )
@@ -189,7 +189,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
     }
 }
 
-function &loadLintSchema( &$dbSchema, &$cli )
+function &loadLintSchema( &$dbSchema, $cli )
 {
     include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
     $lintSchema = new eZLintSchema( false, $dbSchema );
