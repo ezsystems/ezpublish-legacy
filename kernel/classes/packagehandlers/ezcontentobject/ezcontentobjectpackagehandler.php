@@ -174,14 +174,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                 // get info about translations.
                 $languageInfo = array();
-                $versionList = $objectNode->getElementsByTagName('version-list')->item( 0 );
-                $versions = $versionList->chilNodes;
+                $versionList = $objectNode->getElementsByTagName( 'version-list' )->item( 0 );
+                $versions = $versionList->getElementsByTagName( 'version' );
                 foreach( $versions as $version )
                 {
-                    $versionInfo = $version->childNodes;
+                    $versionInfo = $version->getElementsByTagName( 'object-translation' );
                     foreach( $versionInfo as $info )
                     {
-                        if( $info->localName == 'object-translation' )
                             $languageInfo[] = $info->getAttribute( 'language' );
                     }
                 }
