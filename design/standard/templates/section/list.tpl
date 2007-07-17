@@ -25,11 +25,15 @@
         <a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}><img src={"edit.gif"|ezimage} alt="{'Edit'|i18n('design/standard/section')}" /></a>
     </td>
     <td>
+	{if $allowed_assign_sections|contains( $Sections.item.id )}
         <a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}><img src={"assign.gif"|ezimage} alt="{'Assign'|i18n('design/standard/section')}" /></a>
+	{else}
+		<img src={"assign-disabled.gif"|ezimage} alt="{'Denied'|i18n('design/standard/section')}" />
+	{/if}
     </td>
     <td width="1" align="right">
         <input type="checkbox" name="SectionIDArray[]" value="{$Section:item.id}" />
-    </td>    
+    </td>
 </tr>
 {/section}
 <tr>

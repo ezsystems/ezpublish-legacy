@@ -52,7 +52,41 @@ $ViewList['assign'] = array(
     'script' => 'assign.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
-    'params' => array( 'SectionID' ) );
+    'params' => array( 'SectionID' ),
+    'functions' => array( 'assign' ) );
 
+$ClassID = array(
+    'name'=> 'Class',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentclass.php',
+    'class' => 'eZContentClass',
+    'function' => 'fetchList',
+    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
+    );
+
+$SectionID = array(
+    'name'=> 'Section',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezsection.php',
+    'class' => 'eZSection',
+    'function' => 'fetchList',
+    'parameter' => array( false )
+    );
+
+$Assigned = array(
+    'name'=> 'Owner',
+    'values'=> array(
+        array(
+            'Name' => 'Self',
+            'value' => '1')
+        )
+    );
+
+$FunctionList = array();
+$FunctionList['assign'] = array( 'Class' => $ClassID,
+                                 'Section' => $SectionID,
+                                 'Owner' => $Assigned );
 
 ?>

@@ -13,6 +13,7 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Implemented enhancement #011015: template operator to check module(view) is enabled or not.
 - Implemented enhancement #010813: Patch to allow eZObjectRelationList in contentobject name.
 - Implemented enhancement #009904: Crypt password hashing method.
+- Implemented enhancement #009905: Add limitations to section assignment policy.
 
 *Design:
 - Added Bulgarian flag.

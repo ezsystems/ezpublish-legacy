@@ -99,10 +99,15 @@ $viewParameters = array( 'offset' => $offset );
 $sectionArray = eZSection::fetchByOffset( $offset, $limit );
 $sectionCount = eZSection::sectionCount();
 
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+$currentUser =& eZUser::currentUser();
+$allowedAssignSectionList = $currentUser->canAssignSectionList();
+
 $tpl->setVariable( "limit", $limit );
 $tpl->setVariable( 'section_array', $sectionArray );
 $tpl->setVariable( 'section_count', $sectionCount );
 $tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'allowed_assign_sections', $allowedAssignSectionList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:section/list.tpl" );

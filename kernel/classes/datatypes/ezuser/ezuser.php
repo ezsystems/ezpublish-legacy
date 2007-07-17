@@ -1745,6 +1745,203 @@ WHERE user_id = '" . $userID . "' AND
                       'datatype' => 'php' );
     }
 
+
+    /*
+     Returns list of sections which are allowed to assign to the given content object by the user.
+    */
+    function canAssignToObjectSectionList( $contentObject )
+    {
+        $access = $this->hasAccessTo( 'section', 'assign' );
+
+        if ( $access['accessWord'] == 'yes' )
+        {
+            return array( '*' );
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            $userID = $this->attribute( 'contentobject_id' );
+            $classID = $contentObject->attribute( 'contentclass_id' );
+            $ownerID = $contentObject->attribute( 'owner_id' );
+
+            $allowedSectionIDList = array();
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
+                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) )
+                {
+                    continue;
+                }
+
+                if ( isset( $policy['Section'] ) and count( $policy['Section'] > 0 ) )
+                {
+                    $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['Section'] );
+                }
+                else
+                {
+                    return array( '*' );
+                }
+            }
+            $allowedSectionIDList = array_unique( $allowedSectionIDList );
+            return $allowedSectionIDList;
+        }
+        return array();
+    }
+
+    /*
+     Checks whether user can assign the section to the given content object or not.
+    */
+    function canAssignSectionToObject( $sectionID, $contentObject )
+    {
+        $access = $this->hasAccessTo( 'section', 'assign' );
+
+        if ( $access['accessWord'] == 'yes' )
+        {
+            return true;
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            $userID = $this->attribute( 'contentobject_id' );
+            $classID = $contentObject->attribute( 'contentclass_id' );
+            $ownerID = $contentObject->attribute( 'owner_id' );
+
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
+                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) )
+                {
+                    continue;
+                }
+                if ( isset( $policy['Section'] ) )
+                {
+                    if ( is_array( $policy['Section'] ) and in_array( $sectionID, $policy['Section'] ) )
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
+     Checks whether user has privileges to assign the section or not at all.
+    */
+    function canAssignSection( $sectionID )
+    {
+        $access = $this->hasAccessTo( 'section', 'assign' );
+
+        if ( $access['accessWord'] == 'yes' )
+        {
+            return true;
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( isset( $policy['Section'] ) )
+                {
+                    if ( in_array( $sectionID, $policy['Section'] ) )
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
+     Returns list of sections allowed to assign for the user.
+    */
+    function canAssignSectionList()
+    {
+        $access = $this->hasAccessTo( 'section', 'assign' );
+
+        if ( $access['accessWord'] == 'yes' )
+        {
+            return array( '*' );
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            $allowedSectionIDList = array();
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( isset( $policy['Section'] ) )
+                {
+                    if ( is_array( $policy['Section'] ) and count( $policy['Section'] ) > 0 )
+                    {
+                        $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['Section'] );
+                    }
+                }
+                else
+                {
+                    return array( '*' );
+                }
+            }
+            $allowedSectionIDList = array_unique( $allowedSectionIDList );
+            return $allowedSectionIDList;
+        }
+        return array();
+    }
+
+    /*
+     Returns list of classes allowed to assign to the given section for the user.
+    */
+    function canAssignSectionToClassList( $sectionID )
+    {
+        $access = $this->hasAccessTo( 'section', 'assign' );
+
+        if ( $access['accessWord'] == 'yes' )
+        {
+            return array( '*' );
+        }
+        else if ( $access['accessWord'] == 'limited' )
+        {
+            $allowedClassList = array();
+            foreach ( $access['policies'] as $policy )
+            {
+                if ( !isset( $policy['Section'] ) or in_array( $sectionID, $policy['Section'] ) )
+                {
+                    if ( isset( $policy['Class'] ) )
+                    {
+                        $allowedClassList = array_merge( $allowedClassList, $policy['Class'] );
+                    }
+                    else
+                    {
+                        return array( '*' );
+                    }
+                }
+            }
+
+            if ( count( $allowedClassList ) > 0 )
+            {
+                // Now we are trying to fetch classes by collected ids list to return
+                // class list consisting of existing classes's identifiers only.
+                $allowedClassList = array_unique( $allowedClassList );
+                include_once( 'kernel/classes/ezcontentclass.php' );
+                $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false, false, null, null, $allowedClassList );
+                if ( is_array( $classList ) and count( $classList ) > 0 )
+                {
+                    $classIdentifierList = array();
+                    foreach( $classList as $class )
+                    {
+                        $classIdentifierList[] = $class['identifier'];
+                    }
+                    return $classIdentifierList;
+                }
+            }
+        }
+        return array();
+    }
+
     /*!
      \return an array of roles which the user is assigned to
     */
