@@ -904,7 +904,7 @@ class eZImageManager
                 {
                     $sourceFile = $sourceMimeData['url'];
                     $destinationDir = $destinationMimeData['dirpath'];
-                    eZDebug::writeError( "Failed converting $sourceFile to alias $referenceAlias in directory $destinationDir",
+                    eZDebug::writeError( "Failed converting $sourceFile to alias '$referenceAlias' in directory '$destinationDir'",
                                          'eZImageManager::createImageAlias' );
                     // VS-DBFILE
                     $aliasFile->deleteLocal();
