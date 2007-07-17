@@ -15,7 +15,7 @@
     </blockquote>
 {else}
   <p>
-    {"Please choose a site package you would like to test or base your site on."i18n("design/standard/setup/init")}
+    {"Please choose a site package you would like to test or base your site on."|i18n("design/standard/setup/init")}
   </p>
 {/if}
 {section show=$error}

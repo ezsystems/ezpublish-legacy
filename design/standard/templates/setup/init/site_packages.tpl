@@ -8,7 +8,7 @@
   </div>
 
   <p>
-    {"Please choose what kind of functionality you want on your site."i18n("design/standard/setup/init")}
+    {"Please choose what kind of functionality you want on your site."|i18n("design/standard/setup/init")}
   </p>
 
 {section show=$error}
