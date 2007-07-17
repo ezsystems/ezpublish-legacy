@@ -275,7 +275,7 @@ class eZKeyword
     /*!
      Returns the keyword index
     */
-    function &keywordArray( )
+    function keywordArray( )
     {
         return $this->KeywordArray;
     }

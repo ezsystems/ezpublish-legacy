@@ -128,7 +128,7 @@ class eZImageType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_FIELD );
         $mustUpload = false;
@@ -293,9 +293,9 @@ class eZImageType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
+        $errors = $result['errors'];
 
-        $handler =& $objectAttribute->content();
+        $handler = $objectAttribute->content();
         if ( !$handler )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
@@ -318,9 +318,9 @@ class eZImageType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
+        $errors = $result['errors'];
 
-        $handler =& $objectAttribute->content();
+        $handler = $objectAttribute->content();
         if ( !$handler )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
@@ -350,7 +350,7 @@ class eZImageType extends eZDataType
     function storedFileInformation( &$object, $objectVersion, $objectLanguage,
                                     &$objectAttribute )
     {
-        $content =& $objectAttribute->content();
+        $content = $objectAttribute->content();
         if ( $content )
         {
             $original = $content->attribute( 'original' );
@@ -379,10 +379,10 @@ class eZImageType extends eZDataType
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
-                $publishedNode =& $publishedNodes[$publishedNodeKey];
+                $publishedNode = $publishedNodes[$publishedNodeKey];
                 if ( $publishedNode->attribute( 'main_node_id' ) )
                 {
-                    $mainNode =& $publishedNode;
+                    $mainNode = $publishedNode;
                     break;
                 }
             }
@@ -443,7 +443,7 @@ class eZImageType extends eZDataType
     */
     function title( $contentObjectAttribute, $name = 'original_filename' )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         if ( trim( $value ) == '' )
@@ -459,7 +459,7 @@ class eZImageType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $handler =& $contentObjectAttribute->content();
+        $handler = $contentObjectAttribute->content();
         if ( !$handler )
             return false;
         return $handler->attribute( 'is_valid' );
@@ -481,7 +481,7 @@ class eZImageType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         $original = $content->attribute( 'original' );
         $value = $original['alternative_text'];
         return $value;

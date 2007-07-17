@@ -77,7 +77,7 @@ class eZSimplePrice
         $discountPercent = 0.0;
         if ( strtolower( get_class( $contentObjectAttribute ) ) == 'ezcontentobjectattribute' )
         {
-            $object =& $contentObjectAttribute->object();
+            $object = $contentObjectAttribute->object();
             $this->ContentObject = $object;
             $discountPercent = eZDiscount::discountPercent( eZUser::currentUser(),
                                                             array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
@@ -135,7 +135,7 @@ class eZSimplePrice
         }
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -156,15 +156,13 @@ class eZSimplePrice
 
             case 'vat_type' :
             {
-                $VATType =& $this->VATType();
-                return $VATType->VATTypeList();
+                return $this->VATType();
 
             } break;
 
             case 'vat_percent' :
             {
-                $vatPercent = $this->VATPercent();
-                return $vatPercent;
+                return $this->VATPercent();
             } break;
 
             case 'is_vat_included':
@@ -211,16 +209,17 @@ class eZSimplePrice
             {
                 $debug = eZDebug::instance();
                 $debug->writeError( "Attribute '$attr' does not exist", 'eZSimplePrice::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             } break;
         }
     }
 
-    function &VATType()
+    function VATType()
     {
         if ( !$this->VATType )
+        {
             $this->VATType = eZVatType::create();
+        }
 
         return $this->VATType;
     }
@@ -254,7 +253,7 @@ class eZSimplePrice
         return $VATType->getPercentage( $object, $country );
     }
 
-    function &VATIncluded()
+    function VATIncluded()
     {
         return $this->IsVATIncluded;
     }
@@ -264,7 +263,7 @@ class eZSimplePrice
         $this->IsVATIncluded = $VATIncluded ;
     }
 
-    function &price()
+    function price()
     {
         return $this->Price;
     }
@@ -274,17 +273,17 @@ class eZSimplePrice
         $this->Price = $value;
     }
 
-    function &incVATPrice()
+    function incVATPrice()
     {
         return $this->calcIncVATPrice( $this->price() );
     }
 
-    function &exVATPrice()
+    function exVATPrice()
     {
         return $this->calcExVATPrice( $this->price() );
     }
 
-    function &discountPercent()
+    function discountPercent()
     {
         return $this->DiscountPercent;
     }
@@ -294,22 +293,17 @@ class eZSimplePrice
         $this->DiscountPercent = $percent;
     }
 
-    function &hasDiscount()
+    function hasDiscount()
     {
-        $hasDiscount = false;
-        $discountPercent = $this->discountPercent();
-        if ( $discountPercent != 0 )
-            $hasDiscount = true;
-
-        return $hasDiscount;
+        return ( $this->discountPercent() != 0 );
     }
 
-    function &discountIncVATPrice()
+    function discountIncVATPrice()
     {
         return $this->calcDiscountIncVATPrice( $this->price() );
     }
 
-    function &discountExVATPrice()
+    function discountExVATPrice()
     {
         return $this->calcDiscountExVATPrice( $this->price() );
     }
@@ -322,23 +316,21 @@ class eZSimplePrice
         return $this->discountPercent();
     }
 
-    function &calcDiscountIncVATPrice( $priceValue )
+    function calcDiscountIncVATPrice( $priceValue )
     {
-        $discountPercent =& $this->discountPercent();
-        $incVATPrice =& $this->calcIncVATPrice( $priceValue );
-        $discountPrice = $incVATPrice * ( 100 - $discountPercent ) / 100;
-        return $discountPrice;
+        $discountPercent = $this->discountPercent();
+        $incVATPrice = $this->calcIncVATPrice( $priceValue );
+        return $incVATPrice * ( 100 - $discountPercent ) / 100;
     }
 
-    function &calcDiscountExVATPrice( $priceValue )
+    function calcDiscountExVATPrice( $priceValue )
     {
-        $discountPercent =& $this->discountPercent();
-        $exVATPrice =& $this->calcExVATPrice( $priceValue );
-        $discountPrice = $exVATPrice * ( 100 - $discountPercent ) / 100;
-        return $discountPrice;
+        $discountPercent = $this->discountPercent();
+        $exVATPrice = $this->calcExVATPrice( $priceValue );
+        return $exVATPrice * ( 100 - $discountPercent ) / 100;
     }
 
-    function &calcIncVATPrice( $priceValue )
+    function calcIncVATPrice( $priceValue )
     {
         $incVATPrice = $priceValue;
         if ( !$this->VATIncluded() )
@@ -353,7 +345,7 @@ class eZSimplePrice
         return $incVATPrice;
     }
 
-    function &calcExVATPrice( $priceValue )
+    function calcExVATPrice( $priceValue )
     {
         $exVATPrice = $priceValue;
         if ( $this->VATIncluded() )
@@ -368,10 +360,9 @@ class eZSimplePrice
         return $exVATPrice;
     }
 
-    function &currency()
+    function currency()
     {
-        $currencyCode = '';
-        return $currencyCode;
+        return '';
     }
 
     /*!
@@ -379,7 +370,7 @@ class eZSimplePrice
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $price =& $classAttribute->content();
+        $price = $classAttribute->content();
         if ( $price )
         {
             $vatIncluded = $price->attribute( 'is_vat_included' );

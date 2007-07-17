@@ -79,7 +79,7 @@ class eZStringType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_text1" );
             if ( $default !== "" )
             {
@@ -115,7 +115,7 @@ class eZStringType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -143,7 +143,7 @@ class eZStringType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezstring_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {

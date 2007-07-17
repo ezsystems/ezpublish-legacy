@@ -85,7 +85,7 @@ class eZSearchEngine
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
             $metaData = array();
-            $classAttribute =& $attribute->contentClassAttribute();
+            $classAttribute = $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
                 // Fetch attribute translations

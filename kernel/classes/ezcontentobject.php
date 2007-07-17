@@ -2049,10 +2049,9 @@ class eZContentObject extends eZPersistentObject
 
         $editVersion = null;
         $defaultLanguage = $this->initialLanguageCode();
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$key];
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $editVersion = $contentObjectAttribute->attribute('version');
 
             // Check if this is a translation
@@ -2164,10 +2163,9 @@ class eZContentObject extends eZPersistentObject
         $defaultLanguage = $this->initialLanguageCode();
 
         $dataMap = $this->attribute( 'data_map' );
-        foreach ( array_keys( $contentObjectAttributes ) as $key )
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$key];
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
             // Check if this is a translation
             $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
@@ -4463,7 +4461,7 @@ class eZContentObject extends eZPersistentObject
             $contentActionList = array();
             foreach ( $attributeList as $attribute )
             {
-                $contentActions =& $attribute->contentActionList();
+                $contentActions = $attribute->contentActionList();
                 if ( count( $contentActions ) > 0 )
                 {
                     $contentActionList = $attribute->contentActionList();

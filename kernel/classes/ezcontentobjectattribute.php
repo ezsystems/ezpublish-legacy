@@ -168,7 +168,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    static function &fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
+    static function fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
     {
         $conditions = array();
         if ( is_array( $id ) )
@@ -196,9 +196,13 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                            null,
                                                            $customFields );
         if ( $asCount )
+        {
             return $objectList[0]['count'];
+        }
         else
+        {
             return $objectList;
+        }
     }
 
     static function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
@@ -290,7 +294,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
 
         $dataType = $classAttribute->dataType();
         if ( $dataType )
@@ -328,7 +332,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
         $this->updateSortKey( false );
@@ -344,7 +348,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function updateSortKey( $storeData = true )
     {
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
 
         $return = false;
@@ -402,54 +406,50 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &language( $languageCode = false, $asObject = true )
+    function language( $languageCode = false, $asObject = true )
     {
         if ( !$languageCode )
         {
-            $object =& $this->object();
+            $object = $this->object();
             if ( !$object )
             {
-                $result = null;
-                return $result;
+                return null;
             }
             $languageCode = $object->initialLanguageCode();
         }
-        $language = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
-                                                     null,
-                                                     array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                                                            "contentobject_id" => $this->ContentObjectID,
-                                                            "version" => $this->Version,
-                                                            "language_code" => $languageCode ),
-                                                     $asObject );
-        return $language;
+        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                null,
+                                                array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                       "contentobject_id" => $this->ContentObjectID,
+                                                       "version" => $this->Version,
+                                                       "language_code" => $languageCode ),
+                                                $asObject );
     }
 
     /*!
     */
-    function &object()
+    function object()
     {
         if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
-            $object = eZContentObject::fetch( $this->ContentObjectID );
-        else
-            $object = null;
-        return $object;
+        {
+            return eZContentObject::fetch( $this->ContentObjectID );
+        }
+        return null;
     }
 
-    function &objectVersion()
+    function objectVersion()
     {
-        $version = eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
-
-        return $version;
+        return eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
     }
 
     /*!
       Returns the attribute  for the current data attribute instance
     */
-    function &contentClassAttribute()
+    function contentClassAttribute()
     {
         $debug = eZDebug::instance();
         $debug->accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
-        $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+        $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
         $debug->accumulatorStop( 'instantiate_class_attribute' );
         return $classAttribute;
     }
@@ -483,14 +483,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &contentClassAttributeIsRequired()
+    function contentClassAttributeIsRequired()
     {
         if ( $this->ContentClassAttributeIsRequired === null )
         {
             $debug = eZDebug::instance();
             $debug->accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
 
-            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsRequired = $classAttribute->attribute( 'is_required' );
             $debug->accumulatorStop( 'class_a_is_req' );
         }
@@ -503,14 +503,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &contentClassAttributeIsInformationCollector()
+    function contentClassAttributeIsInformationCollector()
     {
         if ( $this->ContentClassAttributeIsInformationCollector === null )
         {
             $debug = eZDebug::instance();
             $debug->accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
 
-            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsInformationCollector = $classAttribute->attribute( 'is_information_collector' );
             $debug->accumulatorStop( 'class_a_is_ic' );
         }
@@ -523,14 +523,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &contentClassAttributeName()
+    function contentClassAttributeName()
     {
         if ( $this->ContentClassAttributeName === null )
         {
             $debug = eZDebug::instance();
             $debug->accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
 
-            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeName = $classAttribute->attribute( 'name' );
             $debug->accumulatorStop( 'class_a_name' );
         }
@@ -543,14 +543,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &contentClassAttributeCanTranslate()
+    function contentClassAttributeCanTranslate()
     {
         if ( $this->ContentClassAttributeCanTranslate === null )
         {
             $debug = eZDebug::instance();
             $debug->accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
 
-            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
             $dataType = $classAttribute->dataType();
 
@@ -571,14 +571,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &contentClassAttributeIdentifier()
+    function contentClassAttributeIdentifier()
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
             $debug = eZDebug::instance();
             $debug->accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
 
-            $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
+            $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
             $debug->accumulatorStop( 'class_a_id' );
         }
@@ -626,9 +626,9 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The input parameters will only be available for the duration of validateInput().
      \sa inputParameters
     */
-    function setInputParameters( &$parameters )
+    function setInputParameters( $parameters )
     {
-        $this->InputParameters =& $parameters;
+        $this->InputParameters = $parameters;
     }
 
     /*!
@@ -645,7 +645,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \return the current input parameters or \c false if no parameters has been set.
      \sa setInputParameters, unsetInputParameters
     */
-    function &inputParameters()
+    function inputParameters()
     {
         return $this->InputParameters;
     }
@@ -657,9 +657,9 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The validation parameters will only be available for the duration of validateInput().
      \sa validationParameters
     */
-    function setValidationParameters( &$parameters )
+    function setValidationParameters( $parameters )
     {
-        $this->ValidationParameters =& $parameters;
+        $this->ValidationParameters = $parameters;
     }
 
     /*!
@@ -676,7 +676,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \return the current validation parameters or \c false if no parameters has been set.
      \sa setValidationParameters, unsetValidationParameters
     */
-    function &validationParameters()
+    function validationParameters()
     {
         return $this->ValidationParameters;
     }
@@ -686,8 +686,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function validateIsRequired()
     {
-        $classAttribute =& $this->contentClassAttribute();
-        $validationParameters =& $this->validationParameters();
+        $classAttribute = $this->contentClassAttribute();
+        $validationParameters = $this->validationParameters();
         if ( !( isset( $validationParameters['skip-isRequired'] ) && $validationParameters['skip-isRequired'] === true ) && $classAttribute->attribute( "is_required" ) )
             return true;
 
@@ -801,7 +801,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                              &$result )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -826,7 +826,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                 &$result )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -851,7 +851,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                  &$result )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -868,7 +868,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -884,7 +884,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function storedFileInformation( &$object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -900,7 +900,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function handleDownload( &$object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
-            $object =& $this->object();
+            $object = $this->object();
         if ( $objectVersion === false )
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
@@ -919,7 +919,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $originalContentObjectAttribute === null )
             $originalContentObjectAttribute = $this;
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
         if ( $dataType )
             $dataType->initializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
@@ -932,7 +932,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $originalContentObjectAttribute === null )
             $originalContentObjectAttribute = $this;
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
         if ( $dataType )
             $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
@@ -1040,7 +1040,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      the calls within a db transaction; thus within db->begin and db->commit.
      \note Deprecated.
     */
-    function &translateTo( $languageCode, $updateLanguageMask = true )
+    function translateTo( $languageCode, $updateLanguageMask = true )
     {
         $languageID = eZContentLanguage::idByLocale( $languageCode );
 
@@ -1099,24 +1099,24 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &classContent()
+    function classContent()
     {
-        $attribute =& $this->contentClassAttribute();
+        $attribute = $this->contentClassAttribute();
         return $attribute->content();
     }
 
     /*!
      Sets the content of variable for the content of the relevant value(s) submitted in HTTP form.
     */
-    function setHTTPValue( &$value )
+    function setHTTPValue( $value )
     {
-        $this->HTTPValue =& $value;
+        $this->HTTPValue = $value;
     }
 
     /*!
      Returns the content of the relevant value(s) submitted in HTTP form.
     */
-    function &value()
+    function value()
     {
         if ( $this->HTTPValue !== null )
             return $this->HTTPValue;
@@ -1129,19 +1129,19 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &hasHTTPValue()
+    function hasHTTPValue()
     {
         if ( $this->HTTPValue !== null )
-            $hasValue = true;
-        else
-            $hasValue = false;
-        return $hasValue;
+        {
+            return true;
+        }
+        return false;
     }
 
     /*!
      Returns the content for this attribute.
     */
-    function &content()
+    function content()
     {
         if ( $this->Content === null )
         {
@@ -1159,15 +1159,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &hasContent()
+    function hasContent()
     {
-        $hasContent = false;
         $dataType = $this->dataType();
         if ( $dataType )
         {
-            $hasContent = $dataType->hasObjectAttributeContent( $this );
+            return $dataType->hasObjectAttributeContent( $this );
         }
-        return $hasContent;
+        return false;
     }
 
     /*!
@@ -1218,10 +1217,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         $metaDataArray = array();
         if ( !is_array( $attributes ) )
             return false;
-        foreach( array_keys( $attributes ) as $key )
+        foreach( $attributes as $attribute )
         {
-            $attribute =& $attributes[$key];
-            $classAttribute =& $attribute->contentClassAttribute();
+            $classAttribute = $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( 'is_searchable' ) )
             {
                 $attributeMetaData = $attribute->metaData();
@@ -1252,7 +1250,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \return Information on how to display the current attribute.
              See eZDataType::objectDisplayInformation() for more information on what is returned.
     */
-    function &displayInfo()
+    function displayInfo()
     {
         if ( !$this->DisplayInfo )
         {
@@ -1268,15 +1266,15 @@ class eZContentObjectAttribute extends eZPersistentObject
              See eZDataType::classDisplayInformation() for more information on what is returned.
      \note This is a copy of eZContentClassAttribute::displayInfo()
     */
-    function &classDisplayInfo()
+    function classDisplayInfo()
     {
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         if ( !$classAttribute->DisplayInfo )
         {
             $dataType = $this->dataType();
             if ( $dataType )
             {
-                $classAttribute->DisplayInfo =& $dataType->classDisplayInformation( $classAttribute, false );
+                $classAttribute->DisplayInfo = $dataType->classDisplayInformation( $classAttribute, false );
             }
         }
         return $classAttribute->DisplayInfo;
@@ -1285,17 +1283,14 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Returns the content action(s) for this attribute
     */
-    function &contentActionList()
+    function contentActionList()
     {
         $dataType = $this->dataType();
-        $result = false;
-
         if ( $dataType )
         {
-            $result = $dataType->contentActionList( $this->contentClassAttribute() );
+            return $dataType->contentActionList( $this->contentClassAttribute() );
         }
-
-        return $result;
+        return false;
     }
 
     function setValidationError()
@@ -1321,7 +1316,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &hasValidationError()
+    function hasValidationError()
     {
         return $this->HasValidationError;
     }
@@ -1359,7 +1354,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &validationError()
+    function validationError()
     {
         return $this->ValidationError;
     }
@@ -1368,7 +1363,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &validationLog()
+    function validationLog()
     {
         return $this->ValidationLog;
     }
@@ -1407,14 +1402,14 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
     */
-    function &isA()
+    function isA()
     {
-        $result = false;
         $dataType = $this->dataType();
         if ( $dataType )
-            $result = $dataType->isA();
-
-        return $result;
+        {
+            return $dataType->isA();
+        }
+        return false;
     }
 
     /*!
@@ -1424,28 +1419,27 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa editTemplate, informationTemplate
     */
-    function &viewTemplateName()
+    function viewTemplateName()
     {
         /* This will not work, datatypes should be able to override this .e.g Online Editor
         // Don't need to do lookup since we already know the datatype string, which is the result
         return $this->DataTypeString;
         */
 
-        $classAttribute =& $this->contentClassAttribute();
+        $classAttribute = $this->contentClassAttribute();
         if ( $classAttribute->attribute( 'is_information_collector' ) )
-            $retValue =& $this->informationTemplate();
-        else
-            $retValue =& $this->viewTemplate();
-        return $retValue;
+        {
+            return $this->informationTemplate();
+        }
+        return $this->viewTemplate();
     }
 
     /*!
      \return the template name to use for editing the attribute.
     */
-    function &editTemplateName()
+    function editTemplateName()
     {
-        $editTemplate =& $this->editTemplate();
-        return $editTemplate;
+        return $this->editTemplate();
     }
 
     /*!
@@ -1453,20 +1447,18 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa editTemplate, informationTemplate
     */
-    function &viewTemplate()
+    function viewTemplate()
     {
         /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
         // We really don't need to do a lookup via the datatype since we already have the string
         */
-
-        $result = false;
         $dataType = $this->dataType();
-
         if ( $dataType )
-            $result =& $dataType->viewTemplate( $this );
-
-        return $result;
+        {
+            return $dataType->viewTemplate( $this );
+        }
+        return false;
     }
 
     /*!
@@ -1474,15 +1466,14 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, informationTemplate
     */
-    function &editTemplate()
+    function editTemplate()
     {
-        $result = false;
         $dataType = $this->dataType();
         if ( $dataType )
-            $result =& $dataType->editTemplate( $this );
-
-        return $result;
-
+        {
+            return $dataType->editTemplate( $this );
+        }
+        return false;
     }
 
     /*!
@@ -1490,18 +1481,17 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, editTemplate
     */
-    function &informationTemplate()
+    function informationTemplate()
     {
         /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
         */
-
-        $result = false;
         $dataType = $this->dataType();
         if ( $dataType )
-            $result =& $dataType->informationTemplate( $this );
-
-        return $result;
+        {
+            return $dataType->informationTemplate( $this );
+        }
+        return false;
     }
 
     /*!
@@ -1509,18 +1499,17 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, editTemplate, informationTemplate
     */
-    function &resultTemplate()
+    function resultTemplate()
     {
         /* This will not work, datatypes should be able to override this .e.g Online Editor
         return $this->DataTypeString;
         */
-
-        $result = false;
         $dataType = $this->dataType();
         if ( $dataType )
-            $result = $dataType->resultTemplate( $this );
-
-        return $result;
+        {
+            return $dataType->resultTemplate( $this );
+        }
+        return false;
     }
 
     /// Contains the value(s) submitted in HTTP form

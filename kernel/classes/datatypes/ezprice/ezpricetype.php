@@ -79,7 +79,7 @@ class eZPriceType extends eZDataType
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale = eZLocale::instance();
             $data = $locale->internalCurrency( $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -172,7 +172,7 @@ class eZPriceType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $storedPrice = $contentObjectAttribute->attribute( "data_float" );
         $price = new eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 
@@ -268,7 +268,7 @@ class eZPriceType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $price =& $classAttribute->content();
+        $price = $classAttribute->content();
         if ( $price )
         {
             $vatIncluded = $price->attribute( 'is_vat_included' );
@@ -315,9 +315,8 @@ class eZPriceType extends eZDataType
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
         $vatTypes = eZVATType::fetchList();
-        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        foreach ( $vatTypes as $vatType )
         {
-            $vatType =& $vatTypes[$vatTypeKey];
             if ( $vatType->attribute( 'name' ) == $vatName and
                  $vatType->attribute( 'percentage' ) == $vatPercentage )
             {

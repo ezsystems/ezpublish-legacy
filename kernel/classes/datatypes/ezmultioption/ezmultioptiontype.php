@@ -73,10 +73,10 @@ class eZMultiOptionType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $count = 0;
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             $multioptionIDArray = $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) );
 
             foreach ( $multioptionIDArray as $id )
@@ -151,7 +151,7 @@ class eZMultiOptionType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $multioption =& $contentObjectAttribute->content();
+        $multioption = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $multioption->xmlString() );
     }
 
@@ -255,7 +255,7 @@ class eZMultiOptionType extends eZDataType
         $actionlist = explode( "_", $action );
         if ( $actionlist[0] == "new-option" )
         {
-            $multioption =& $contentObjectAttribute->content();
+            $multioption = $contentObjectAttribute->content();
 
             $multioption->addOption( ( $actionlist[1] - 1 ), "", "", "");
             $contentObjectAttribute->setContent( $multioption );
@@ -263,7 +263,7 @@ class eZMultiOptionType extends eZDataType
         }
         else if ( $actionlist[0] == "remove-selected-option" )
         {
-            $multioption =& $contentObjectAttribute->content();
+            $multioption = $contentObjectAttribute->content();
             $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" ) . "_" . $actionlist[1];
             $array_remove = $http->hasPostVariable( $postvarname ) ? $http->postVariable( $postvarname ) : array();
             $multioption->removeOptions( $array_remove, $actionlist[1] - 1 );
@@ -276,7 +276,7 @@ class eZMultiOptionType extends eZDataType
             {
                 case "new_multioption" :
                 {
-                    $multioption =& $contentObjectAttribute->content();
+                    $multioption = $contentObjectAttribute->content();
                     $newID = $multioption->addMultiOption( "" ,0,false );
                     $multioption->addOption( $newID, "", "", "" );
                     $multioption->addOption( $newID, "" ,"", "" );
@@ -286,7 +286,7 @@ class eZMultiOptionType extends eZDataType
 
                 case "remove_selected_multioption":
                 {
-                    $multioption =& $contentObjectAttribute->content();
+                    $multioption = $contentObjectAttribute->content();
                     $postvarname = "ContentObjectAttribute" . "_data_multioption_remove_" . $contentObjectAttribute->attribute( "id" );
                     $array_remove = $http->hasPostVariable( $postvarname )? $http->postVariable( $postvarname ) : array();
                     $multioption->removeMultiOptions( $array_remove );
@@ -332,9 +332,8 @@ class eZMultiOptionType extends eZDataType
     */
     function title( $contentObjectAttribute, $name = "name" )
     {
-        $multioption =& $contentObjectAttribute->content();
-        $value = $multioption->attribute( $name );
-        return $value;
+        $multioption = $contentObjectAttribute->content();
+        return $multioption->attribute( $name );
     }
 
     /*!
@@ -343,7 +342,7 @@ class eZMultiOptionType extends eZDataType
     */
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $multioption =& $contentObjectAttribute->content();
+        $multioption = $contentObjectAttribute->content();
         $multioptions = $multioption->attribute( 'multioption_list' );
         return count( $multioptions ) > 0;
     }
@@ -355,10 +354,10 @@ class eZMultiOptionType extends eZDataType
     {
         if ( $currentVersion == false )
         {
-            $multioption =& $contentObjectAttribute->content();
+            $multioption = $contentObjectAttribute->content();
             if ( $multioption )
             {
-                $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+                $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 $multioption->setName( $contentClassAttribute->attribute( 'data_text1' ) );
                 $contentObjectAttribute->setAttribute( "data_text", $multioption->xmlString() );
                 $contentObjectAttribute->setContent( $multioption );

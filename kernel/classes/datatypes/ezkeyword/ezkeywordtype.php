@@ -67,7 +67,7 @@ class eZKeywordType extends eZDataType
             if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
             {
                 // copy keywords links as well
-                $keyword =& $originalContentObjectAttribute->content();
+                $keyword = $originalContentObjectAttribute->content();
                 if ( is_object( $keyword ) )
                 {
                     $keyword->store( $contentObjectAttribute );
@@ -85,7 +85,7 @@ class eZKeywordType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -124,7 +124,7 @@ class eZKeywordType extends eZDataType
     function storeObjectAttribute( &$attribute )
     {
         // create keyword index
-        $keyword =& $attribute->content();
+        $keyword = $attribute->content();
         if ( is_object( $keyword ) )
         {
             $keyword->store( $attribute );
@@ -260,7 +260,7 @@ class eZKeywordType extends eZDataType
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $contentObjectAttribute );
-        $array =& $keyword->keywordArray();
+        $array = $keyword->keywordArray();
 
         return count( $array ) > 0;
     }
