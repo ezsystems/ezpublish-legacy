@@ -7,5 +7,4 @@
     {section-else}
 {/section}
     {include uri='design:content/datatype/edit/multioptiongroup/multioption_rule.tpl' name=ChildOption attribute=$attribute group=$group parent_group_id=$parent_group_id parent_multioption=$parent_multioption depth=$depth attribute_base=$attribute_base rules=$rules}
-
-
+{/default}
