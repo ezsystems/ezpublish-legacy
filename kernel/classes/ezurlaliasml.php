@@ -188,10 +188,9 @@ class eZURLAliasML extends eZPersistentObject
      Converts the action property into a real url which responds to the
      module/view on the site.
      */
-    function &actionURL()
+    function actionURL()
     {
-        $url = eZURLAliasML::actionToUrl( $this->Action );
-        return $url;
+        return eZURLAliasML::actionToUrl( $this->Action );
     }
 
     /*!
@@ -364,7 +363,7 @@ class eZURLAliasML extends eZPersistentObject
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function &getPath()
+    function getPath()
     {
         if ( $this->Path !== null )
             return $this->Path;
