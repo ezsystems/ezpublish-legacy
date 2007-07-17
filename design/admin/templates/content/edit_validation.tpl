@@ -24,21 +24,22 @@
 
     {section-else}
 
-    {section show=$validation_log}
-        <div class="message-warning">
-            <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft was only partially stored.'|i18n( 'design/admin/content/edit' )}</h2>
-            {section var=ValidationLogs loop=$validation_log}
-                <p>{$ValidationLogs.item.name|wash}:</p>
-                <ul>
-                    {section var=LogMessages loop=$ValidationLogs.item.description}
-                        <li>{$LogMessages.item}</li>
-                    {/section}
-                </ul>
-            {/section}
-        </div>
-        {section-else}
-        <div class="message-feedback">
-            <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft was successfully stored.'|i18n( 'design/admin/content/edit' )}</h2>
-        </div>
+        {section show=$validation_log}
+            <div class="message-warning">
+                <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft was only partially stored.'|i18n( 'design/admin/content/edit' )}</h2>
+                {section var=ValidationLogs loop=$validation_log}
+                    <p>{$ValidationLogs.item.name|wash}:</p>
+                    <ul>
+                        {section var=LogMessages loop=$ValidationLogs.item.description}
+                            <li>{$LogMessages.item}</li>
+                        {/section}
+                    </ul>
+                {/section}
+            </div>
+            {section-else}
+            <div class="message-feedback">
+                <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The draft was successfully stored.'|i18n( 'design/admin/content/edit' )}</h2>
+            </div>
+        {/section}
     {/section}
 {/section}
