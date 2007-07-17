@@ -482,7 +482,7 @@ class eZMySQLDB extends eZDBInterface
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
                 $this->RecordError = false;
-                $this->unlock();
+                mysql_query( 'UNLOCK TABLES', $connection );
                 $this->RecordError = $oldRecordError;
 
                 $this->reportError();
