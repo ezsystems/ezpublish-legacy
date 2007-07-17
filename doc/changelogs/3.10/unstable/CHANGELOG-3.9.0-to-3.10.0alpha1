@@ -360,3 +360,5 @@ Changes from 3.9.0 to 3.10.0alpha1
 - Fixed bug #11038: eZP might go into an infinite loop if MySQL closes it connections causing apache 
   to segfault.
 - Fixed bug #11131: Image Shell Handler cannot convert PSD files
+- Fixed bug #11080: eZ Publish Email Validation Excludes Google Mail Wildcards
+  from Approved Email Validation Codes.
