@@ -44,9 +44,9 @@ $tpl =& templateInit();
 
 $http = eZHTTPTool::instance();
 
-$customerArray =& eZOrder::customerList( $offset, $limit );
+$customerArray = eZOrder::customerList( $offset, $limit );
 
-$customerCount =& eZOrder::customerCount();
+$customerCount = eZOrder::customerCount();
 
 $tpl->setVariable( "customer_list", $customerArray );
 $tpl->setVariable( "customer_list_count", $customerCount );

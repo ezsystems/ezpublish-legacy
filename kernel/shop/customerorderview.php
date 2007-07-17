@@ -43,8 +43,8 @@ $http = eZHTTPTool::instance();
 $tpl =& templateInit();
 
 $Email = urldecode( $Email );
-$productList =& eZOrder::productList( $CustomerID, $Email );
-$orderList =& eZOrder::orderList( $CustomerID, $Email );
+$productList = eZOrder::productList( $CustomerID, $Email );
+$orderList = eZOrder::orderList( $CustomerID, $Email );
 
 $tpl->setVariable( "product_list", $productList );
 

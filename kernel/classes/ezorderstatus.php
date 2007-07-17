@@ -244,7 +244,7 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders sorted by name.
     */
-    function fetchOrderedList( $asObject = true, $showInactive = false )
+    static function fetchOrderedList( $asObject = true, $showInactive = false )
     {
         $list =& $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive];
         if ( !isset( $list ) )

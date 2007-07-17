@@ -107,7 +107,7 @@ class eZDiscountSubRule extends eZPersistentObject
         }
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),
                                                 null,
@@ -115,15 +115,14 @@ class eZDiscountSubRule extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
-    function fetchByRuleID( $discountRuleID, $asObject = true )
+    static function fetchByRuleID( $discountRuleID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
                                                     null,
@@ -133,7 +132,7 @@ class eZDiscountSubRule extends eZPersistentObject
                                                     $asObject );
     }
 
-    function create( $discountRuleID )
+    static function create( $discountRuleID )
     {
         $row = array(
             "id" => null,
