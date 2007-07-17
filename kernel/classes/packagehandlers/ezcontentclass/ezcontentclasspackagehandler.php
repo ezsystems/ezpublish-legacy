@@ -175,6 +175,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
         $classRemoteID = $content->getElementsByTagName( 'remote-id' )->item( 0 )->textContent;
         $classObjectNamePattern = $content->getElementsByTagName( 'object-name-pattern' )->item( 0 )->textContent;
+        $classURLAliasPattern = $content->getElementsByTagName( 'url-alias-pattern' )->item( 0 )->textContent;
         $classIsContainer = $content->getAttribute( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
@@ -509,6 +510,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classNode->appendChild( $remoteIDNode );
         $objectNamePatternNode = $dom->createElement( 'object-name-pattern', $class->attribute( 'contentobject_name' ) );
         $classNode->appendChild( $objectNamePatternNode );
+        $urlAliasPatternNode = $dom->createElement( 'url-alias-pattern', $class->attribute( 'url_alias_name' ) );
+        $classNode->appendChild( $urlAliasPatternNode );
         $isContainer = $class->attribute( 'is_container' ) ? 'true' : 'false';
         $classNode->setAttribute( 'is-container', $isContainer );
 
