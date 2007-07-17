@@ -172,10 +172,18 @@ class eZSiteInstaller
         foreach( $steps as $step )
         {
             $this->execFunction( $step );
-            if( $this->lastErrorCode() == EZSITE_INSTALLER_ERR_ABORT )
+
+            if( $this->lastErrorCode() !== EZSITE_INSTALLER_ERR_OK )
             {
-                $this->reportError( "Aborting execution on step number $stepNum: '". $step['_function'] ."'", 'eZSiteInstaller::postInstall' );
-                break;
+                $res = $this->handleError();
+                if( $res === false )
+                    $res = $this->defaultErrorHandler();
+
+                if( $res === EZSITE_INSTALLER_ERR_ABORT )
+                {
+                    $this->reportError( "Aborting execution on step number $stepNum: '". $step['_function'] ."'", 'eZSiteInstaller::postInstall' );
+                    break;
+                }
             }
 
             ++$stepNum;
@@ -1690,6 +1698,24 @@ class eZSiteInstaller
         }
 
         return $value;
+    }
+
+    /*!
+     Default error handler
+    */
+    function defaultErrorHandler()
+    {
+        return $this->lastErrorCode();
+    }
+
+    /*!
+     Virtual function to re-implement in derived classes to handle error.
+     Default error handler will be called if returns FALSE.
+    */
+    function handleError()
+    {
+        // call default error handler
+        return false;
     }
 
     // store data to use in your steps.

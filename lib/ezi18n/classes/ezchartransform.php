@@ -547,11 +547,9 @@ class eZCharTransform
     {
         // Old style of url alias with lowercase only and underscores for separators
         $text = strtolower( $text );
-        $sep  = eZCharTransform::wordSeparator();
-        $sepQ = preg_quote( $sep );
         $text = preg_replace( array( "#[^a-z0-9]+#",
-                                     "#^{$sepQ}+|{$sepQ}+$#" ),
-                              array( $sep,
+                                     "#^_+|_+$#" ),
+                              array( "_",
                                      "" ),
                               $text );
         return $text;

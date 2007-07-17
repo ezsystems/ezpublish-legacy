@@ -6282,7 +6282,7 @@ INSERT INTO ezcontentobject_tree (
   0,
   0,
   1,
-  1101387881,
+  1184592117,
   1,
   1,
   '',
@@ -6632,10 +6632,10 @@ INSERT INTO ezcontentobject_tree (
   0,
   0,
   48,
-  1082016653,
+  1184592117,
   48,
   1,
-  'setup',
+  'setup2',
   '/1/48/',
   0,
   '182ce1b5af0c09fa378557c462ba2617',
@@ -6772,10 +6772,10 @@ INSERT INTO ezcontentobject_tree (
   0,
   0,
   54,
-  1082016591,
+  1184592117,
   54,
   48,
-  'setup/common_ini_settings',
+  'setup2/common_ini_settings',
   '/1/48/54/',
   0,
   'fa9f3cff9cf90ecfae335718dcbddfe2',
@@ -22552,7 +22552,7 @@ INSERT INTO ezurlalias (
   'content/view/full/2',
   0,
   12,
-  0,
+  1,
   1,
   0,
   'd41d8cd98f00b204e9800998ecf8427e',
@@ -22571,7 +22571,7 @@ INSERT INTO ezurlalias (
   'content/view/full/5',
   0,
   13,
-  0,
+  1,
   1,
   0,
   '9bc65c2abec141778ffaa729489f3e87',
@@ -22590,7 +22590,7 @@ INSERT INTO ezurlalias (
   'content/view/full/12',
   0,
   15,
-  0,
+  1,
   1,
   0,
   '02d4e844e3a660857a3f81585995ffe1',
@@ -22609,7 +22609,7 @@ INSERT INTO ezurlalias (
   'content/view/full/13',
   0,
   16,
-  0,
+  1,
   1,
   0,
   '1b1d79c16700fd6003ea7be233e754ba',
@@ -22628,7 +22628,7 @@ INSERT INTO ezurlalias (
   'content/view/full/14',
   0,
   17,
-  0,
+  1,
   1,
   0,
   '0bb9dd665c96bbc1cf36b79180786dea',
@@ -22647,7 +22647,7 @@ INSERT INTO ezurlalias (
   'content/view/full/15',
   0,
   18,
-  0,
+  1,
   1,
   0,
   'f1305ac5f327a19b451d82719e0c3f5d',
@@ -22666,7 +22666,7 @@ INSERT INTO ezurlalias (
   'content/view/full/43',
   0,
   20,
-  0,
+  1,
   1,
   0,
   '62933a2951ef01f4eafd9bdf4d3cd2f0',
@@ -22685,7 +22685,7 @@ INSERT INTO ezurlalias (
   'content/view/full/44',
   0,
   21,
-  0,
+  1,
   1,
   0,
   '3ae1aac958e1c82013689d917d34967a',
@@ -22704,7 +22704,7 @@ INSERT INTO ezurlalias (
   'content/view/full/45',
   0,
   22,
-  0,
+  1,
   1,
   0,
   'aad93975f09371695ba08292fd9698db',
@@ -22723,7 +22723,7 @@ INSERT INTO ezurlalias (
   'content/view/full/48',
   0,
   25,
-  0,
+  1,
   1,
   0,
   'a0f848942ce863cf53c0fa6cc684007d',
@@ -22742,7 +22742,7 @@ INSERT INTO ezurlalias (
   'content/view/full/50',
   0,
   27,
-  0,
+  1,
   1,
   0,
   'c60212835de76414f9bfd21eecb8f221',
@@ -22761,7 +22761,7 @@ INSERT INTO ezurlalias (
   'content/view/full/51',
   0,
   28,
-  0,
+  1,
   1,
   0,
   '38985339d4a5aadfc41ab292b4527046',
@@ -22780,7 +22780,7 @@ INSERT INTO ezurlalias (
   'content/view/full/52',
   0,
   29,
-  0,
+  1,
   1,
   0,
   'ad5a8c6f6aac3b1b9df267fe22e7aef6',
@@ -22799,7 +22799,7 @@ INSERT INTO ezurlalias (
   'content/view/full/53',
   0,
   30,
-  0,
+  1,
   1,
   0,
   '562a0ac498571c6c3529173184a2657c',
@@ -22818,7 +22818,7 @@ INSERT INTO ezurlalias (
   'content/view/full/54',
   0,
   31,
-  0,
+  1,
   1,
   0,
   'e501fe6c81ed14a5af2b322d248102d8',
@@ -22837,7 +22837,7 @@ INSERT INTO ezurlalias (
   'content/view/full/56',
   0,
   32,
-  0,
+  1,
   1,
   0,
   '2dd3db5dc7122ea5f3ee539bb18fe97d',
@@ -22856,11 +22856,817 @@ INSERT INTO ezurlalias (
   'content/view/full/58',
   0,
   33,
-  0,
+  1,
   1,
   0,
   '31c13f47ad87dd7baa2d558a91e0fbb9',
   'design'
+);
+
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:2',
+  'eznode',
+  1,
+  0,
+  1,
+  3,
+  1,
+  0,
+  '',
+  'd41d8cd98f00b204e9800998ecf8427e'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:5',
+  'eznode',
+  2,
+  0,
+  1,
+  3,
+  2,
+  0,
+  'Users',
+  '9bc65c2abec141778ffaa729489f3e87'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  3,
+  0,
+  0,
+  1,
+  3,
+  0,
+  'users2',
+  '86425c35a33507d479f71ade53a669aa'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:12',
+  'eznode',
+  26,
+  0,
+  0,
+  1,
+  4,
+  3,
+  'guest_accounts',
+  '70bb992820e73638731aa8de79b3329e'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:13',
+  'eznode',
+  27,
+  0,
+  0,
+  1,
+  5,
+  3,
+  'administrator_users',
+  'aeb8609aa933b0899aa012c71139c58c'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:14',
+  'eznode',
+  29,
+  0,
+  0,
+  1,
+  6,
+  3,
+  'editors',
+  'a147e136bfa717592f2bd70bd4b53b17'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  7,
+  0,
+  0,
+  1,
+  7,
+  3,
+  'administrator_users2',
+  'a7da338c20bf65f9f789c87296379c2a'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:15',
+  'eznode',
+  28,
+  0,
+  0,
+  1,
+  8,
+  7,
+  'administrator_user',
+  'a3cca2de936df1e2f805710399989971'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:43',
+  'eznode',
+  9,
+  0,
+  1,
+  3,
+  9,
+  0,
+  'Media',
+  '62933a2951ef01f4eafd9bdf4d3cd2f0'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:44',
+  'eznode',
+  30,
+  0,
+  0,
+  1,
+  10,
+  3,
+  'anonymous_users',
+  'e9e5ad0c05ee1a43715572e5cc545926'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  11,
+  0,
+  0,
+  1,
+  11,
+  3,
+  'anonymous_users2',
+  '505e93077a6dde9034ad97a14ab022b1'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:45',
+  'eznode',
+  31,
+  0,
+  0,
+  1,
+  12,
+  11,
+  'anonymous_user',
+  'c593ec85293ecb0e02d50d4c5c6c20eb'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:48',
+  'eznode',
+  13,
+  0,
+  1,
+  3,
+  13,
+  0,
+  'Setup2',
+  '475e97c0146bfb1c490339546d9e72ee'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  14,
+  0,
+  0,
+  1,
+  14,
+  0,
+  'foo_bar_folder',
+  '0288b6883046492fa92e4a84eb67acc9'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  15,
+  0,
+  0,
+  1,
+  15,
+  14,
+  'images',
+  '59b514174bffe4ae402b3d63aad79fe0'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:50',
+  'eznode',
+  16,
+  0,
+  1,
+  2,
+  16,
+  15,
+  'vbanner',
+  'c54e2d1b93642e280bdc5d99eab2827d'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  17,
+  0,
+  0,
+  1,
+  17,
+  0,
+  'media2',
+  '50e2736330de124f6edea9b008556fe6'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:51',
+  'eznode',
+  32,
+  0,
+  0,
+  1,
+  18,
+  17,
+  'images',
+  '59b514174bffe4ae402b3d63aad79fe0'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:52',
+  'eznode',
+  33,
+  0,
+  0,
+  1,
+  19,
+  17,
+  'files',
+  '45b963397aa40d4a0063e0d85e4fe7a1'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:53',
+  'eznode',
+  34,
+  0,
+  0,
+  1,
+  20,
+  17,
+  'multimedia',
+  '2e5bc8831f7ae6a29530e7f1bbf2de9c'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'nop:',
+  'nop',
+  21,
+  0,
+  0,
+  1,
+  21,
+  0,
+  'setup3',
+  '732cefcf28bf4547540609fb1a786a30'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:54',
+  'eznode',
+  35,
+  0,
+  0,
+  1,
+  22,
+  21,
+  'common_ini_settings',
+  'e59d6834e86cee752ed841f9cd8d5baf'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:58',
+  'eznode',
+  25,
+  0,
+  1,
+  3,
+  25,
+  0,
+  'Design',
+  '31c13f47ad87dd7baa2d558a91e0fbb9'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:56',
+  'eznode',
+  36,
+  0,
+  0,
+  1,
+  24,
+  23,
+  'ez_publish',
+  '9e08708348b66ed6047eccc802dd1c7e'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:12',
+  'eznode',
+  4,
+  0,
+  1,
+  3,
+  4,
+  2,
+  'Guest-accounts',
+  'e57843d836e3af8ab611fde9e2139b3a'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:13',
+  'eznode',
+  5,
+  0,
+  1,
+  3,
+  5,
+  2,
+  'Administrator-users',
+  'f89fad7f8a3abc8c09e1deb46a420007'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:15',
+  'eznode',
+  8,
+  0,
+  1,
+  3,
+  8,
+  5,
+  'Administrator-User',
+  '5a9d7b0ec93173ef4fedee023209cb61'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:14',
+  'eznode',
+  6,
+  0,
+  1,
+  3,
+  6,
+  2,
+  'Editors',
+  'a147e136bfa717592f2bd70bd4b53b17'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:44',
+  'eznode',
+  10,
+  0,
+  1,
+  3,
+  10,
+  2,
+  'Anonymous-Users',
+  'c2803c3fa1b0b5423237b4e018cae755'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:45',
+  'eznode',
+  12,
+  0,
+  1,
+  3,
+  12,
+  10,
+  'Anonymous-User',
+  'ccb62ebca03a31272430bc414bd5cd5b'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:51',
+  'eznode',
+  18,
+  0,
+  1,
+  3,
+  18,
+  9,
+  'Images',
+  '59b514174bffe4ae402b3d63aad79fe0'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:52',
+  'eznode',
+  19,
+  0,
+  1,
+  3,
+  19,
+  9,
+  'Files',
+  '45b963397aa40d4a0063e0d85e4fe7a1'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:53',
+  'eznode',
+  20,
+  0,
+  1,
+  3,
+  20,
+  9,
+  'Multimedia',
+  '2e5bc8831f7ae6a29530e7f1bbf2de9c'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:54',
+  'eznode',
+  22,
+  0,
+  1,
+  2,
+  22,
+  13,
+  'Common-INI-settings',
+  '4434993ac013ae4d54bb1f51034d6401'
+);
+INSERT INTO ezurlalias_ml (
+  action,
+  action_type,
+  id,
+  is_alias,
+  is_original,
+  lang_mask,
+  link,
+  parent,
+  text,
+  text_md5
+) VALUES (
+  'eznode:56',
+  'eznode',
+  24,
+  0,
+  1,
+  2,
+  24,
+  25,
+  'eZ-publish',
+  '10e4c3cb527fb9963258469986c16240'
 );
 
 INSERT INTO ezuser (

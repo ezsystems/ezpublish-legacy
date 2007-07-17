@@ -142,69 +142,40 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         $mask |= $alwaysMask;
 
         $origAliasText = $aliasText;
-        $path = explode( "/", $aliasText );
-        $topEntry = array_pop( $path );
-        foreach ( $path as $index => $entry )
+        $result = eZURLAliasML::storePath( $aliasText, 'eznode:' . $node->attribute( 'node_id' ),
+                                           $language, $linkID, $alwaysMask, $parentID,
+                                           false, false );
+        if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
         {
-            $entry = eZURLAliasML::convertToAlias( $entry );
-            $newEntries[$index] = array( 'action' => 'nop:',
-                                         'text'   => $entry );
-        }
-        $topEntry = eZURLAliasML::convertToAlias( $topEntry, 'node_' . $node->attribute( 'node_id' ) );
-        $newEntries[] = array( 'action' => 'eznode:' . $node->attribute( 'node_id' ),
-                               'text'   => $topEntry );
-        $path[] = $topEntry;
-        $createCount = 0;
-        $lastElement = false;
-        $path = array();
-        foreach ( $newEntries as $entry )
-        {
-            $action = $entry['action'];
-            $text   = $entry['text'];
-            $rows   = eZPathElement::fetchNamedByParentID( $parentID, $text );
-            if ( count( $rows ) == 0 )
+            $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
+            if ( count ( $lastElements ) > 0 )
             {
-                $text = eZURLAliasML::findUniqueText( $parentID, $text, '' );
-                $element = eZUrlAliasML::create( $text, $action, $parentID, $mask, $languageCode );
-                if ( $action != "nop:" )
-                {
-                    $element->setAttribute( 'link', $linkID );
-                    $element->setAttribute( 'is_alias', true );
-                }
-                $element->store();
-                ++$createCount;
-                $parentID = (int)$element->attribute( 'link' );
+                $lastElement  = $lastElements[0];
+                $infoCode = "feedback-alias-exists";
+                $infoData['new_alias'] = $aliasText;
+                $infoData['url'] = $lastElement->attribute( 'path' );
+                $infoData['action_url'] = $lastElement->actionURL();
+                $aliasText = $origAliasText;
+            }
+        }
+        else if ( $result['status'] === true )
+        {
+            $aliasText = $result['path'];
+            if ( strcmp( $aliasText, $origAliasText ) != 0 )
+            {
+                $infoCode = "feedback-alias-cleanup";
+                $infoData['orig_alias']  = $origAliasText;
+                $infoData['new_alias'] = $aliasText;
             }
             else
             {
-                $parentID = (int)$rows[0]->attribute( 'link' );
-                $lastElement = $rows[0];
+                $infoData['new_alias'] = $aliasText;
             }
-            $path[] = $text;
-        }
-        $aliasText = join( "/", $path );
-        if ( strcmp( $aliasText, $origAliasText ) != 0 )
-        {
-            $infoCode = "feedback-alias-cleanup";
-            $infoData['orig_alias']  = $origAliasText;
-            $infoData['new_alias'] = $aliasText;
-        }
-        if ( $createCount > 0 )
-        {
             if ( $infoCode == 'no-errors' )
             {
                 $infoCode = "feedback-alias-created";
-                $infoData['new_alias'] = $aliasText;
             }
             $aliasText = false;
-        }
-        else
-        {
-            $infoCode = "feedback-alias-exists";
-            $infoData['new_alias'] = $aliasText;
-            $infoData['url'] = $lastElement->getPath();
-            $infoData['action_url'] = $lastElement->actionURL();
-            $aliasText = $origAliasText;
         }
     }
 }
@@ -218,7 +189,7 @@ $filter->limit = false;
 $elements = $filter->fetchAll();
 
 // Fetch custom aliases for node
-$limit = 10;
+$limit = 25;
 $filter->prepare(); // Reset SQLs from previous calls
 $filter->actions = array( 'eznode:' . $node->attribute( 'node_id' ) );
 $filter->type = 'alias';

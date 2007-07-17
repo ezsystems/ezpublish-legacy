@@ -3975,7 +3975,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $text     = $nameEntry['text'];
             $language = $nameEntry['language'];
-            if ( eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID ) === true )
+            $result = eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID );
+            if ( $result['status'] === true )
                 $changeCount++;
         }
         return $changeCount;

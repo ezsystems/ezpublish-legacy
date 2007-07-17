@@ -185,6 +185,16 @@ class eZURLAliasML extends eZPersistentObject
     }
 
     /*!
+     Converts the action property into a real url which responds to the
+     module/view on the site.
+     */
+    function &actionURL()
+    {
+        $url = eZURLAliasML::actionToUrl( $this->Action );
+        return $url;
+    }
+
+    /*!
      Creates a new path element with given arguments, MD5 sum is automatically created.
 
      \param $element The text string for the path element.
@@ -354,7 +364,7 @@ class eZURLAliasML extends eZPersistentObject
      \note If you know the action values of the path use fetchPathByActionList() instead, it is more optimized.
      \note The calculated path is cached in $Path.
      */
-    function getPath()
+    function &getPath()
     {
         if ( $this->Path !== null )
             return $this->Path;
@@ -387,15 +397,21 @@ class eZURLAliasML extends eZPersistentObject
      \static
      Stores the full path $path to point to action $action, any missing parents are created as placeholders (ie. nop:).
 
+     Returns an array containing the entry 'status' which is the status code, is \c true if all went well, a number otherwise (see EZ_URLALIAS_* constants).
+     Will contain 'path' for succesful creation or if the path already exists.
+
      \param $path String containing full path, leading and trailing slashes are stripped.
      \param $action Action string for entry.
      \param $languageName The language to use for entry, can be a string (locale code, e.g. 'nor-NO') an eZContentLanguage object or false for the top prioritized language.
-     \param $linkID Numeric ID for link field, if it is set to false the entry will point to itself. Use this for redirections.
+     \param $linkID Numeric ID for link field, if it is set to false the entry will point to itself. Use this for redirections. Use \c true if you want to create an link/alias which points to a module (ie. no entry in urlalias table).
      \param $alwaysAvailable If true the entry will be available in any language.
      \param $rootID ID of the parent element to start at, use 0/false for the very top.
      \param $autoAdjustName If true it will adjust the name until it is unique in the path. Used together with $linkID.
+     \param $reportErrors If true it will report found errors using eZDebug, if \c false errors are only return in 'status'.
      */
-    static public function storePath( $path, $action, $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false, $autoAdjustName = false )
+    static function storePath( $path, $action,
+                        $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false,
+                        $autoAdjustName = false, $reportErrors = true )
     {
         $path = eZURLAliasML::cleanURL( $path );
 //        $existingElement = $this->fetchByAction( $action );
@@ -433,6 +449,7 @@ class eZURLAliasML extends eZPersistentObject
         // Top element is handled separately.
         $topElement = array_pop( $elements );
         // Find correct parent, and create missing ones if necessary
+        $createdPath = array();
         foreach ( $elements as $element )
         {
             $actionStr = $db->escapeString( $action );
@@ -451,8 +468,24 @@ class eZURLAliasML extends eZPersistentObject
             {
                 $parentID = (int)$rows[0]['link'];
             }
+            $createdPath[] = $element;
 
             ++$i;
+        }
+        if ( $parentID != 0 )
+        {
+            $sql = "SELECT text, parent FROM ezurlalias_ml WHERE id = {$parentID}";
+            $rows = $db->arrayQuery( $sql );
+            if ( count( $rows ) > 0 )
+            {
+                // A special case. If the special entry with empty text is used as parent
+                // the parent must be adjust to 0 (ie. real top level).
+                if ( strlen( $rows[0]['text'] ) == 0 && $rows[0]['parent'] == 0 )
+                {
+                    $createdPath = array();
+                    $parentID = 0;
+                }
+            }
         }
 
         preg_match( "#^(.+):(.+)$#", $action, $matches );
@@ -464,6 +497,7 @@ class eZURLAliasML extends eZPersistentObject
 
         $actionStr = $db->escapeString( $action );
 
+        $createdElement = null;
         if ( $linkID === false )
         {
             // Step 1, find existing ID
@@ -517,6 +551,7 @@ class eZURLAliasML extends eZPersistentObject
                                                     'action' => $action ) );
                 $element->store();
                 $existingElementID = $element->attribute( 'id' );
+                $createdElement = $element;
             }
 
             // Step 5, find all empty lang_mask entries and make them redirections
@@ -548,53 +583,84 @@ class eZURLAliasML extends eZPersistentObject
             // Step 6, update historic elements to contain only bit 1
             $query = "UPDATE ezurlalias_ml SET lang_mask = 1 WHERE action = '{$actionStr}' AND is_original = 0 AND is_alias = 0";
             $db->query( $query );
+            $createdPath[] = $topElement;
         }
         else
         {
             $debug = eZDebug::instance();
-            $linkID = (int)$linkID;
-            // Step 1, find existing ID
-            $query = "SELECT * FROM ezurlalias_ml WHERE id = '{$linkID}'";
-            $rows = $db->arrayQuery( $query );
-            // Some sanity checking
-            if ( count( $rows ) == 0 )
+            if ( $linkID !== true )
             {
-                $debug->writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                $linkID = (int)$linkID;
+                // Step 1, find existing ID
+                $query = "SELECT * FROM ezurlalias_ml WHERE id = '{$linkID}'";
+                $rows = $db->arrayQuery( $query );
+                // Some sanity checking
+                if ( count( $rows ) == 0 )
+                {
+                    if ( $reportErrors )
+                        $debug->writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                    return array( 'status' => EZ_URLALIAS_LINK_ID_NOT_FOUND );
+                }
+                if ( $rows[0]['action'] != $action )
+                {
+                    if ( $reportErrors )
+                        $debug->writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
+                    return array( 'status' => EZ_URLALIAS_LINK_ID_WRONG_ACTION );
+                }
+                // If the element which is pointed to is a link, then grab the link id from that instead
+                if ( $rows[0]['link'] != $rows[0]['id'] )
+                {
+                    $linkID = (int)$rows[0]['link'];
+                }
                 return EZ_URLALIAS_LINK_ID_NOT_FOUND;
             }
-            if ( $rows[0]['action'] != $action )
+            else
             {
-                $debug->writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
-                return EZ_URLALIAS_LINK_ID_WRONG_ACTION;
-            }
-            // If the element which is pointed to is a link, then grab the link id from that instead
-            if ( $rows[0]['link'] != $rows[0]['id'] )
-            {
-                $linkID = (int)$rows[0]['link'];
+                $linkID = null;
             }
 
             // Step 2
             $originalTopElement = $topElement;
             while ( true )
             {
-                $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true );
+                $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, '', true, $languageID );
                 if ( strcmp( $topElement, $originalTopElement ) == 0 || $autoAdjustName )
                 {
                     break; // Name is unique, use it
                 }
-                $debug->writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
-                return EZ_URLALIAS_LINK_ALREADY_TAKEN;
+                if ( $reportErrors )
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                }
+                $createdPath[] = $originalTopElement;
+                return array( 'status' => EZ_URLALIAS_LINK_ALREADY_TAKEN,
+                              'path' => join( '/', $createdPath ) );
             }
-            $element = new eZURLAliasML( array( 'id'=> null,
-                                                'link' => $linkID,
-                                                'parent' => $parentID,
-                                                'text' => $topElement,
-                                                'lang_mask' => $languageID | $alwaysMask,
-                                                'action' => $action,
-                                                'is_alias' => 1 ) );
+            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $rows = $db->arrayQuery( $sql );
+            if ( count( $rows ) > 0 )
+            {
+                $element = new eZURLAliasML( $rows[0] );
+                $element->LangMask |= $languageID | $alwaysMask;
+            }
+            else
+            {
+                $element = new eZURLAliasML( array( 'id'=> null,
+                                                    'link' => $linkID,
+                                                    'parent' => $parentID,
+                                                    'text' => $topElement,
+                                                    'lang_mask' => $languageID | $alwaysMask,
+                                                    'action' => $action,
+                                                    'is_alias' => 1 ) );
+            }
             $element->store();
+            $createdPath[]  = $topElement;
+            $createdElement = $element;
         }
-        return true;
+        return array( 'status' => true,
+                      'path'    => join( "/", $createdPath ),
+                      'element' => $createdElement );
     }
 
     /*!
@@ -1296,7 +1362,7 @@ class eZURLAliasML extends eZPersistentObject
         {
             $langMask = trim( eZContentLanguage::languagesSQLFilter( 'ezurlalias_ml', 'lang_mask' ) );
             $actionStr = $db->escapeString( $action );
-            $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1";
+            $query = "SELECT id, parent, lang_mask, text, action FROM ezurlalias_ml WHERE ($langMask) AND action='{$actionStr}' AND is_original = 1 AND is_alias = 0";
             $rows = $db->arrayQuery( $query );
             $path = array();
             $count = count( $rows );
@@ -1312,7 +1378,7 @@ class eZURLAliasML extends eZPersistentObject
                 // We have the parent so now do an iterative lookup until we have the top element
                 while ( $paren != 0 )
                 {
-                    $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1";
+                    $query = "SELECT id, parent, lang_mask, text FROM ezurlalias_ml WHERE ($langMask) AND id=$paren AND is_original = 1 AND is_alias = 0";
                     $rows = $db->arrayQuery( $query );
                     $count = count( $rows );
                     if ( $count != 0 )
@@ -1361,7 +1427,7 @@ class eZURLAliasML extends eZPersistentObject
      \param $action The action string which is to be excluded from the check. Set to empty string to disable the exclusion.
      \param $linkCheck If true then it will see all existing entries as taken.
      */
-    static public function findUniqueText( $parentElementID, $text, $action, $linkCheck = false )
+    static public function findUniqueText( $parentElementID, $text, $action, $linkCheck = false, $languageID = false )
     {
         $db = eZDB::instance();
         $uniqueNumber =  0;
@@ -1390,11 +1456,19 @@ class eZURLAliasML extends eZPersistentObject
             $actionEsc = $db->escapeString( $action );
             $actionSQL = "AND action != '$actionEsc'";
         }
+        $languageSQL = "";
+        if ( $languageID !== false )
+        {
+            if ( $db->databaseName() == 'oracle' )
+                $languageSQL = "AND bitand(lang_mask, $languageID) > 0";
+            else
+                $languageSQL = "AND (lang_mask & $languageID) > 0";
+        }
         // Loop until we find a unique name
         while ( true )
         {
             $textEsc = $db->md5( "'" . $db->escapeString( eZURLALiasML::strtolower( $text . $suffix ) ) . "'" );
-            $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL AND text_md5 = $textEsc";
+            $query = "SELECT * FROM ezurlalias_ml WHERE parent = $parentElementID $actionSQL $languageSQL AND text_md5 = $textEsc";
             if ( !$linkCheck )
             {
                 $query .= " AND is_original = 1";

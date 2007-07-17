@@ -142,74 +142,44 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         else
         {
             $origAliasText = $aliasText;
-            $path = explode( "/", $aliasText );
-            $topEntry = array_pop( $path );
-            foreach ( $path as $index => $entry )
+            if ( $linkID == 0 )
+                $linkID = true;
+            $result = eZURLAliasML::storePath( $aliasText, $action,
+                                               $language, $linkID, $isAlwaysAvailable, $parentID,
+                                               false, false );
+            if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
             {
-                $entry = eZURLAliasML::convertToAlias( $entry );
-                $newEntries[$index] = array( 'action' => 'nop:',
-                                             'text'   => $entry );
-            }
-            $topEntry = eZURLAliasML::convertToAlias( $topEntry );
-            // TODO: If $topEntry becomes empty give error message
-            $newEntries[] = array( 'action' => $action,
-                                   'text'   => $topEntry );
-            $path[] = $topEntry;
-            $createCount = 0;
-            $lastElement = false;
-            $path = array();
-            foreach ( $newEntries as $entry )
-            {
-                $action = $entry['action'];
-                $text   = $entry['text'];
-                $rows   = eZPathElement::fetchNamedByParentID( $parentID, $text );
-                if ( count( $rows ) == 0 )
+                $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
+                if ( count ( $lastElements ) > 0 )
                 {
-                    $text = eZURLAliasML::findUniqueText( $parentID, $text, '' );
-                    $element = eZUrlAliasML::create( $text, $action, $parentID, $mask, $languageCode );
-                    if ( $action != "nop:" )
-                    {
-                        if ( $linkID == 0 )
-                            $linkID = null;
-                        $element->setAttribute( 'link', $linkID );
-                        $element->setAttribute( 'is_alias', true );
-                    }
-                    $element->store();
-                    ++$createCount;
-                    $parentID = (int)$element->attribute( 'link' );
+                    $lastElement  = $lastElements[0];
+                    $infoCode = "feedback-alias-exists";
+                    $infoData['new_alias'] = $aliasText;
+                    $infoData['url'] = $lastElement->attribute( 'path' );
+                    $infoData['action_url'] = $lastElement->actionURL();
+                    $aliasText = $origAliasText;
+                }
+            }
+            else if ( $result['status'] === true )
+            {
+                $aliasText = $result['path'];
+                if ( strcmp( $aliasText, $origAliasText ) != 0 )
+                {
+                    $infoCode = "feedback-alias-cleanup";
+                    $infoData['orig_alias']  = $origAliasText;
+                    $infoData['new_alias'] = $aliasText;
                 }
                 else
                 {
-                    $parentID = (int)$rows[0]->attribute( 'link' );
-                    $lastElement = $rows[0];
+                    $infoData['new_alias'] = $aliasText;
                 }
-                $path[] = $text;
-            }
-            $aliasText = join( "/", $path );
-            if ( strcmp( $aliasText, $origAliasText ) != 0 )
-            {
-                $infoCode = "feedback-alias-cleanup";
-                $infoData['orig_alias']  = $origAliasText;
-                $infoData['new_alias'] = $aliasText;
-            }
-            if ( $createCount > 0 )
-            {
                 if ( $infoCode == 'no-errors' )
                 {
                     $infoCode = "feedback-alias-created";
-                    $infoData['new_alias'] = $aliasText;
                 }
                 $aliasText = false;
                 $aliasOutputText = false;
                 $aliasOutputDestinationText = false;
-            }
-            else
-            {
-                $infoCode = "feedback-alias-exists";
-                $infoData['new_alias'] = $aliasText;
-                $infoData['url'] = $lastElement->getPath();
-                $infoData['action_url'] = $lastElement->actionURL();
-                $aliasText = $origAliasText;
             }
             if ( preg_match( "#^eznode:(.+)$#", $action, $matches ) )
             {
@@ -219,12 +189,33 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
     }
 }
 
+// User preferences
+$limitList = array( array( 'id'    => 1,
+                           'value' => 10 ),
+                    array( 'id'    => 2,
+                           'value' => 25 ),
+                    array( 'id'    => 3,
+                           'value' => 50 ),
+                    array( 'id'    => 4,
+                           'value' => 100 ) );
+include_once( 'kernel/classes/ezpreferences.php' );
+$limitID = eZPreferences::value( 'admin_urlalias_list_limit' );
+foreach ( $limitList as $limitEntry )
+{
+    $limitIDs[]                     = $limitEntry['id'];
+    $limitValues[$limitEntry['id']] = $limitEntry['value'];
+}
+if ( !in_array( $limitID, $limitIDs ) )
+{
+    $limitID = 2;
+}
+
 // Fetch global custom aliases (excluding eznode)
 include_once( 'kernel/classes/ezurlaliasquery.php' );
 $filter = new eZURLAliasQuery();
 $filter->actionTypesEx = array( 'eznode', 'nop' );
 $filter->offset = $Offset;
-$filter->limit = 15;
+$filter->limit = $limitValues[$limitID];
 
 // Prime the internal data for the template, for PHP5 this is no longer needed since objects will not be copied anymore in the template code.
 $count = $filter->count();
@@ -242,6 +233,8 @@ $tpl->setVariable( 'info_code', $infoCode );
 $tpl->setVariable( 'info_data', $infoData );
 $tpl->setVariable( 'aliasSourceText', $aliasOutputText );
 $tpl->setVariable( 'aliasDestinationText', $aliasOutputDestinationText );
+$tpl->setVariable( 'limitList', $limitList );
+$tpl->setVariable( 'limitID', $limitID );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
