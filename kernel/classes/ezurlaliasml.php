@@ -405,15 +405,15 @@ class eZURLAliasML extends eZPersistentObject
      \param $linkID Numeric ID for link field, if it is set to false the entry will point to itself. Use this for redirections. Use \c true if you want to create an link/alias which points to a module (ie. no entry in urlalias table).
      \param $alwaysAvailable If true the entry will be available in any language.
      \param $rootID ID of the parent element to start at, use 0/false for the very top.
+     \param $cleanupElements If true each element in the path will be cleaned up according to the current URL transformation rules.
      \param $autoAdjustName If true it will adjust the name until it is unique in the path. Used together with $linkID.
      \param $reportErrors If true it will report found errors using eZDebug, if \c false errors are only return in 'status'.
      */
     static function storePath( $path, $action,
                         $languageName = false, $linkID = false, $alwaysAvailable = false, $rootID = false,
-                        $autoAdjustName = false, $reportErrors = true )
+                        $cleanupElements = true, $autoAdjustName = false, $reportErrors = true )
     {
         $path = eZURLAliasML::cleanURL( $path );
-//        $existingElement = $this->fetchByAction( $action );
         if ( $languageName === false )
         {
             $languageName = eZContentLanguage::topPriorityLanguage();
@@ -452,6 +452,9 @@ class eZURLAliasML extends eZPersistentObject
         foreach ( $elements as $element )
         {
             $actionStr = $db->escapeString( $action );
+            if ( $cleanupElements )
+                $element = eZURLAliasML::convertToAlias( $element, 'noname' . (count($createdPath)+1) );
+            $element = eZURLAliasML::findUniqueText( $parentID, $element, $action );
             $elementStr = $db->escapeString( eZURLALiasML::strtolower( $element ) );
 
             $query = "SELECT * FROM ezurlalias_ml WHERE text_md5 = " . $db->md5( "'$elementStr'" ) . " AND parent = {$parentID}";
@@ -520,6 +523,8 @@ class eZURLAliasML extends eZPersistentObject
             $db->query( $query );
 
             // Step 3, adjust name
+            if ( $cleanupElements )
+                $topElement = eZURLAliasML::convertToAlias( $topElement, 'noname' . (count($createdPath)+1) );
             $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, $action );
 
             // Step 4, update | create element
@@ -619,6 +624,8 @@ class eZURLAliasML extends eZPersistentObject
             }
 
             // Step 2
+            if ( $cleanupElements )
+                $topElement = eZURLAliasML::convertToAlias( $topElement, 'noname' . (count($createdPath)+1) );
             $originalTopElement = $topElement;
             while ( true )
             {
@@ -641,7 +648,11 @@ class eZURLAliasML extends eZPersistentObject
             if ( count( $rows ) > 0 )
             {
                 $element = new eZURLAliasML( $rows[0] );
-                $element->LangMask |= $languageID | $alwaysMask;
+                $element->LangMask  |= $languageID | $alwaysMask;
+                $element->IsAlias    = 1;
+                $element->Action     = $action;
+                $element->ActionType = null;
+                $element->Link       = $linkID;
             }
             else
             {
