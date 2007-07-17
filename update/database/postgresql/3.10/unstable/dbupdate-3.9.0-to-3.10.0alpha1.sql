@@ -109,3 +109,5 @@ ALTER TABLE ezurlalias ALTER COLUMN is_imported SET NOT NULL;
 CREATE INDEX ezurlalias_imp_wcard_fwd ON ezurlalias USING btree (is_imported, is_wildcard, forward_to_id);
 CREATE INDEX ezurlalias_wcard_fwd ON ezurlalias USING btree (is_wildcard, forward_to_id);
 DROP INDEX ezurlalias_is_wildcard;
+
+ALTER TABLE ezvatrule RENAME country TO country_code;
