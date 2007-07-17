@@ -3957,11 +3957,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->updatePathIdentificationString( $pathIdentificationName );
 
         $languageID = $obj->attribute( 'initial_language_id' );
+        $cleanup    = false;
         foreach ( $nameList as $nameEntry )
         {
             $text     =  $nameEntry['text'];
             $language =& $nameEntry['language'];
-            $result = eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID );
+            $result = eZURLAliasML::storePath( $text, 'eznode:' . $nodeID, $language, false, $alwaysMask, $parentElementID, $cleanup );
             if ( $result['status'] === true )
                 $changeCount++;
         }

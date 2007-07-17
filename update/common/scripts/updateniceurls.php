@@ -366,7 +366,8 @@ if ( $urlCount > 0 )
             $source      = $row['source_url'];
             $destination = $row['destination_url'];
             list( $action, $alwaysAvailable ) = decodeAction( $destination );
-            eZURLAliasML::storePath( $source, $action, false, false, $alwaysAvailable );
+            eZURLAliasML::storePath( $source, $action,
+                                     false, false, $alwaysAvailable );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );
@@ -416,7 +417,9 @@ if ( $urlCount > 0 )
             $source      = $row['source_url'];
             $destination = $row['destination_url'];
             list( $action, $alwaysAvailable ) = decodeAction( $destination );
-            eZURLAliasML::storePath( $source, $action, false, $linkID, $alwaysAvailable, false, true );
+            eZURLAliasML::storePath( $source, $action,
+                                     false, $linkID, $alwaysAvailable, false,
+                                     true, true );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );
@@ -468,7 +471,8 @@ if ( $urlCount > 0 )
             $linkID = $elements[0]->attribute( 'id' );
             $action = $elements[0]->attribute( 'action' );
             $alwaysAvailable = ($elements[0]->attribute( 'lang_mask' ) & 1);
-            eZURLAliasML::storePath( $fromPath, $action, false, $linkID, $alwaysAvailable );
+            eZURLAliasML::storePath( $fromPath, $action,
+                                     false, $linkID, $alwaysAvailable );
             list( $column, $counter ) = displayProgress( '.', $urlImportStartTime, $counter, $urlCount, $column );
         }
         markAsImported( $rows );

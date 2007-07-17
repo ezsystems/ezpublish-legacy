@@ -144,7 +144,7 @@ else if ( $Module->isCurrentAction( 'NewAlias' ) )
         $origAliasText = $aliasText;
         $result = eZURLAliasML::storePath( $aliasText, 'eznode:' . $node->attribute( 'node_id' ),
                                            $language, $linkID, $alwaysMask, $parentID,
-                                           false, false );
+                                           true, false, false );
         if ( $result['status'] === EZ_URLALIAS_LINK_ALREADY_TAKEN )
         {
             $lastElements = eZURLAliasML::fetchByPath( $result['path'] );
