@@ -583,7 +583,7 @@ class eZSerializedObjectNameList
                                 remove name in 'language_locale_2'. 'map_to_language_locale' language will be
                                 created If it doesn't exist in the system.
     */
-    function validate( $param )
+    function validate( $param = true )
     {
         $languageMap = is_array( $param ) ? $param : array();
         $createLanguageIfNotExist = ( $param === true ) ? true : false;
