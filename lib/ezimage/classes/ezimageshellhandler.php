@@ -113,8 +113,7 @@ class eZImageShellHandler extends eZImageHandler
             $argumentList[] = $this->PostParameters;
 
         $systemString = implode( ' ', $argumentList );
-//         print( $systemString . "<br/>" );
-        $error = system( $systemString, $returnCode );
+        system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
         {
@@ -128,7 +127,7 @@ class eZImageShellHandler extends eZImageHandler
         }
         else
         {
-            eZDebug::writeWarning( "Failed executing: $systemString, Error: $error, Return: $returnCode", 'eZImageShellHandler::convert' );
+            eZDebug::writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
             return false;
         }
 
