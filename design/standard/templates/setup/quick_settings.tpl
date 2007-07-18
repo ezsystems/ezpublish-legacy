@@ -63,4 +63,4 @@
 <input {eq( $ui_context, 'edit' )|choose( "class='button'", "class='button-disabled'" )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="SetButton" value="Set" />
 </div>
 </form>
-{let}
+{/let}
