@@ -13,7 +13,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {def $sort_by = array()
-     $product_list = false
+     $product_list = false()
      $product_list_count = 0
      $product_class_list_valid = and( is_array( $product_class_list ), count( $product_class_list ) )
      $sorting_field_list = hash( 'none', 'None'|i18n( 'design/admin/shop/productsoverview' ),

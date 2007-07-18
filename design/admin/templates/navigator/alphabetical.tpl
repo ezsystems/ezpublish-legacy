@@ -20,7 +20,7 @@
    {* Create array of used letters. All unused letters will be disabled in alphabetical navigator. *}
    {if and( ne( $node_id, false() ), eq( ezini( 'AlphabeticalFilterSettings', 'EnableUnusedLetters', 'content.ini' ), 'true' ) )}
       {def $alphabet_tmp=merge( $alphabet,'others' )
-           $hash_by_letter=false}
+           $hash_by_letter=false()}
       {foreach $alphabet_tmp as $letter}
            {set $hash_by_letter=hash( $letter, fetch( content, list_count, hash( parent_node_id, $node_id, objectname_filter, $letter ) ) )}
            {if eq( count( $children_count_by_letter ), 0 )}

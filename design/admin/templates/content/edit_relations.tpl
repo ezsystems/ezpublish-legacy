@@ -152,7 +152,7 @@
                         <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                         <td class="class">{$RelatedObjects.item.class_name|wash}</td>
                         <td class="code">
-                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'i18n( 'design/admin/content/edit' )}" /><br />
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" /><br />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
@@ -169,7 +169,7 @@
                         <td class="checkbox">&nbsp;</td>
                         <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code">
-                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'i18n( 'design/admin/content/edit' )}" />
+                            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to embed the object.'|i18n( 'design/admin/content/edit' )}" />
                             <input class="linkbox" type="text" value="&lt;link href='ezobject://{$RelatedObjects.item.id}'&gt;&lt;/link&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field to link the object.'|i18n( 'design/admin/content/edit' )}" />
                         </td>
                         <td class="code">
