@@ -3906,7 +3906,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
             $nameList[] = array( 'text'     => $nodeName,
-                                 'language' => &$language );
+                                 'language' => $language );
         }
 
         $parentActionName  = "eznode";
