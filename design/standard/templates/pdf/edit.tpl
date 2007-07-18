@@ -25,7 +25,7 @@
     <br/>
 
     <label>{"Source node"|i18n("design/standard/rss/edit")}</label><div class="labelbreak"></div>
-    <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node..path_identification_string|wash}{/section}" maxlength="60" />
+    <input type="text" readonly="readonly" size="45" value="{section show=$pdf_export.source_node}{$pdf_export.source_node.path_identification_string|wash}{/section}" maxlength="60" />
     {include uri="design:gui/button.tpl" id_name="ExportPDFBrowse" value="Browse"|i18n("design/standard/rss/edit")}
     <input type="hidden" name="SourceNode" value="{$pdf_export.source_node_id|wash}" />
     <br/>
