@@ -118,8 +118,8 @@
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node = eZContentObjectTreeNode::fetch( $nodeID );
-                if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( $mainNodeID == $node['main_node_id'] )
                 {
                     $allowed = true;
                     $allowedNode = true;
