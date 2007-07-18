@@ -615,7 +615,6 @@ class eZURLAliasML extends eZPersistentObject
                 {
                     $linkID = (int)$rows[0]['link'];
                 }
-                return EZ_URLALIAS_LINK_ID_NOT_FOUND;
             }
             else
             {
