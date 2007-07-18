@@ -33,12 +33,12 @@
 </ul>
 </div>
 {/case}
-{case match='feedback-alias-created}
+{case match='feedback-alias-created'}
 <div class="message-feedback">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias <%new_alias> was successfully created'|i18n( 'design/admin/content/urlalias',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
 </div>
 {/case}
-{case match='feedback-alias-exists}
+{case match='feedback-alias-exists'}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias %new_alias already exists, and it points to %action_url'|i18n( 'design/admin/content/urlalias',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
 </div>
