@@ -160,22 +160,6 @@ class eZURLAliasML extends eZPersistentObject
     }
 
     /*!
-     \return the url alias object as an associative array with all the attribute values.
-    */
-    function asArray()
-    {
-        die( __CLASS__ . "::" . __FUNCTION__ ."NOT YET IMPLEMENTED" );
-    }
-
-    /*!
-     \return the URL alias object this URL alias points to or \c null if no such URL exists.
-    */
-    function &forwardURL()
-    {
-        die( __CLASS__ . "::" . __FUNCTION__ ."NOT YET IMPLEMENTED" );
-    }
-
-    /*!
      Unicode-aware strtolower, performs the conversion by using eZCharTransform
      */
     function strtolower( $text )
@@ -211,22 +195,6 @@ class eZURLAliasML extends eZPersistentObject
                       'lang_mask' => $language,
                       'action'    => $action );
         return new eZURLAliasML( $row );
-    }
-
-    /*!
-     Creates a copy of the path element.
-     */
-    function clone()
-    {
-        $row = array( 'id'        => $this->ID,
-                      'parent'    => $this->Parent,
-                      'lang_mask' => $this->LangMask,
-                      'text'      => $this->Text,
-                      'text_md5'  => $this->TextMD5,
-                      'action'    => $this->Action,
-                      'link'      => $this->Link );
-        $a = new eZURLAliasML( $row );
-        return $a;
     }
 
     /*!
@@ -1599,7 +1567,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Chooses the most prioritized row (based on language) of $rows and returns it.
     */
     function choosePrioritizedRow( $rows )
@@ -1692,7 +1659,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Decodes the action string $action into an internal path string and returns it.
 
      The following actions are supported:
@@ -1740,7 +1706,6 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
-     \private
      Takes the url string $url and returns the action string for it.
 
      The following path are supported:
