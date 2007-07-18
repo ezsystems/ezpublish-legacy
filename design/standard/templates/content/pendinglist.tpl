@@ -55,3 +55,5 @@
 </div>
 
 {/section}
+{/let}
+{/let}
