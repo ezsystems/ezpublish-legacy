@@ -1,8 +1,7 @@
     /*!
 <START:code-template::static-method>
      \static
-<END:code-template::static-methid>
-
+<END:code-template::static-method>
      Finds all classes that the current user can create objects from and returns.
 <START:code-template::group-filter>
      It is also possible to filter the list event more with \a $includeFilter and \a $groupList.
