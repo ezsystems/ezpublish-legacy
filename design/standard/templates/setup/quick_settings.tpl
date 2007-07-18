@@ -67,4 +67,4 @@
 
 {/default}
 </form>
-{let}
+{/let}

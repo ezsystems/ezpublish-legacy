@@ -105,7 +105,7 @@
 
 {section-else}
 <div class="block">
-<p>{'There are no overrides for the <%template_name> template.'i18n( 'design/standard/visual/templateview',, hash( '%template_name', $template_settings.template ) )|wash}</p>
+<p>{'There are no overrides for the <%template_name> template.'|i18n( 'design/standard/visual/templateview',, hash( '%template_name', $template_settings.template ) )|wash}</p>
 </div>
 {/section}
 
