@@ -1434,7 +1434,7 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function contentObjectName( $contentObject, $version = false, $translation = false )
     {
-        $conentObjectName = $this->ContentObjectName;
+        $contentObjectName = $this->ContentObjectName;
         $dataMap = $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
