@@ -541,7 +541,8 @@ class eZTemplateArrayOperator
                         }
                         else if( $isArray )
                         {
-                            $result = ( count( array_diff( $matchParam, $inParam ) == 0 ) and count( array_diff( $inParam, $matchParam ) ) == 0 );
+                            $result = ( count( array_diff( $matchParam, $inParam ) ) == 0 and
+                                        count( array_diff( $inParam, $matchParam ) ) == 0 );
                         }
 
                         return array( eZTemplateNodeTool::createBooleanElement( $result ) );
@@ -560,7 +561,8 @@ class eZTemplateArrayOperator
                 }
                 else if ( $isArray )
                 {
-                    $code = '%output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) ) == 0 ) and ( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) == 0 ) ) );';
+                    $code = '%output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . " ) ) == 0 ) and\n" .
+                                        ' ( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) ) == 0 ) );';
                 }
                 else
                 {
@@ -570,7 +572,8 @@ class eZTemplateArrayOperator
                          '}' . "\n" .
                          'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . ' ) ) == 0 ) and ( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) ) == 0 ) );' . "\n" .
+                         '  %output% = ( ( count( array_diff( ' . $inParamCode . ', ' . $matchParamCode . " ) ) == 0 ) and\n" .
+                                        '( count( array_diff( ' . $matchParamCode . ', ' . $inParamCode . ' ) ) == 0 ) );' . "\n" .
                          '}';
                 }
 
@@ -1750,15 +1753,8 @@ class eZTemplateArrayOperator
                 // Compare two arrays:
                 case $this->CompareName:
                 {
-                    if ( count( array_diff( $operatorValue, $namedParameters['compare'] ) ) != 0 or
-                         count( array_diff( $namedParameters['compare'], $operatorValue ) ) != 0 )
-                    {
-                        $operatorValue = false;
-                    }
-                    else
-                    {
-                        $operatorValue = true;
-                    }
+                    $operatorValue = ( count( array_diff( $operatorValue, $namedParameters['compare'] ) ) == 0 and
+                                       count( array_diff( $namedParameters['compare'], $operatorValue ) ) == 0 );
                 }
                 break;
 
