@@ -1928,6 +1928,12 @@ function eZDebugErrorHandler( $errno, $errstr, $errfile, $errline )
         return;
     }
 
+    $messageStart = 'Declaration of';
+    if ( substr( $errstr, 0, strlen( $messageStart ) ) == $messageStart )
+    {
+        return;
+    }
+
     if ( preg_match( "/variable(.*?)reference/", $errstr ) || preg_match( "/Non\-static method/", $errstr ) )
     {
         $handle = fopen( 'var/ezpublish_php5.csv', 'a' );

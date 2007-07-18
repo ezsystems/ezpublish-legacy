@@ -2182,11 +2182,10 @@ class eZPackage
                      $installDataNode->getAttribute( 'name' ) == 'data' )
                 {
                     $installDataType = $installDataNode->getAttribute( 'type' );
-                    $installDataElements = $installDataNode->childNodes;
+                    $installDataElements = $installDataNode->getElementsByTagName( 'data' );
                     $installData = array();
-                    foreach ( array_keys( $installDataElements ) as $installDataElementKey )
+                    foreach ( $installDataElements as $installDataElement )
                     {
-                        $installDataElement =& $installDataElements[$installDataElementKey];
                         if ( $installDataElement->attribute( 'name' ) == 'element' )
                         {
                             $name = $installDataElement->getAttribute( 'name' );

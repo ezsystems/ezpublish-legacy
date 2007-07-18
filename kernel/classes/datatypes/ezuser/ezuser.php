@@ -1665,7 +1665,7 @@ WHERE user_id = '" . $userID . "' AND
                             // here is no need to get $http instance again because it is initialized
                             // already above by the same condition's case ( userID == currentUserID ).
                             $http->setSessionVariable( 'AccessArray', $accessArray );
-                            $http->setSessionVariable( 'AccessArrayTimestamp', mktime() );
+                            $http->setSessionVariable( 'AccessArrayTimestamp', time() );
                         }
                     }
                     else
@@ -1717,7 +1717,7 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
-            $expiredTimestamp = mktime();
+            $expiredTimestamp = time();
             $handler->setTimestamp( 'user-access-cache', $expiredTimestamp );
         }
 
@@ -2153,7 +2153,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->setTimestamp( 'user-info-cache', time() );
         $handler->store();
     }

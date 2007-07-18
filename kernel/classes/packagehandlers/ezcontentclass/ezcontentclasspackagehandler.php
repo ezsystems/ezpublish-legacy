@@ -80,16 +80,22 @@ class eZContentClassPackageHandler extends eZPackageHandler
             if ( $dom )
             {
                 $content = $dom->documentElement;
-                $className = $content->getElementsByTagName( 'name' )->item( 0 )->textContent;
                 $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
 
                 // get info about translations.
                 $languageInfo = array();
-                $serializedNameList = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 )->textContent;
-                if( $serializedNameList )
+                $serializedNameListNode = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 );
+                if( $serializedNameListNode )
                 {
+                    $serializedNameList = $serializedNameListNode->textContent;
                     $nameList = new eZContentClassNameList( $serializedNameList );
                     $languageInfo = $nameList->languageLocaleList();
+                    $className = $nameList->name();
+                }
+                else
+                {
+                    // BC with 3.8 and below
+                    $className = $content->getElementsByTagName( 'name' )->item( 0 )->textContent;
                 }
 
                 return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,

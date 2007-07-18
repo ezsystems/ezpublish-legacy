@@ -70,7 +70,7 @@ if ( is_array( $durationSetting ) )
 
 if ( $isDurationSet )
 {
-    $expiryTime = mktime() - $duration;
+    $expiryTime = time() - $duration;
     $processedCount = eZContentObjectVersion::removeVersions( EZ_VERSION_STATUS_INTERNAL_DRAFT, $internalDraftsCleanUpLimit, $expiryTime );
 
     if ( !$isQuiet )
