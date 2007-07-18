@@ -470,8 +470,16 @@ class eZXMLTextType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $textColumns = $attributeParametersNode->elementTextContentByName( 'text-column-count' );
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
+        $columnCount = false;
+        foreach( $attributeParametersNode->childNodes as $node )
+        {
+            if ( $node->nodeName == 'text-column-count' )
+            {
+                $columnCount = $node->nodeValue;
+                break;
+            }
+        }
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $columnCount );
     }
 
     /*!

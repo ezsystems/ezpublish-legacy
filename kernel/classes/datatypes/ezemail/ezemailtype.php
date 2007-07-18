@@ -83,7 +83,7 @@ class eZEmailType extends eZDataType
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $email = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             $trimedEmail = trim( $email );
 
@@ -129,7 +129,7 @@ class eZEmailType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $email = $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             $trimedEmail = trim( $email );
 

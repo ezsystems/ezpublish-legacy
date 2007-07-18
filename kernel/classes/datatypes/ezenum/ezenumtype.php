@@ -215,7 +215,7 @@ class eZEnumType extends eZDataType
         if ( $http->hasPostVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $array_enumID = $http->postVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $contentObjectAttribute->validateIsRequired() )
             {
@@ -387,7 +387,7 @@ class eZEnumType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $id = $contentClassAttribute->attribute( 'id' );
         $version = $contentClassAttribute->attribute( 'version' );
         $ismultiple = $contentClassAttribute->attribute( 'data_int1' );

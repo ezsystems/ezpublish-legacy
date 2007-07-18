@@ -77,7 +77,7 @@ class eZTimeType extends eZDataType
         {
             $hours  = $http->postVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $hours == '' or $minute == '' )
             {
@@ -135,7 +135,7 @@ class eZTimeType extends eZDataType
         {
             $hours  = $http->postVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $hours == '' or $minute == '' )
             {
@@ -287,7 +287,7 @@ class eZTimeType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
 
             if ( $defaultType == 1 )

@@ -75,7 +75,7 @@ class eZObjectRelationType extends eZDataType
         if ( $http->hasPostVariable( $postVariableName ) )
         {
             $relatedObjectID = $http->postVariable( $postVariableName );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $contentObjectAttribute->validateIsRequired() and $relatedObjectID == 0 )
             {

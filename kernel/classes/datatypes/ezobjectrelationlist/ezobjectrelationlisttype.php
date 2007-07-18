@@ -68,7 +68,7 @@ class eZObjectRelationListType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $inputParameters =& $contentObjectAttribute->inputParameters();
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $parameters = $contentObjectAttribute->validationParameters();
         if ( isset( $parameters['prefix-name'] ) and
              $parameters['prefix-name'] )
@@ -78,7 +78,7 @@ class eZObjectRelationListType extends eZDataType
 
         $status = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $contentClassAttribute->content();
         // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )
@@ -189,7 +189,7 @@ class eZObjectRelationListType extends eZDataType
             $content['singleselect'] = true;
 
         $postVariableName = $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute( "id" );
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $contentClassAttribute->content();
         // Check if selection type is not browse
         if ( $classContent['selection_type'] != 0 )

@@ -135,7 +135,7 @@ class eZIntegerType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -177,7 +177,7 @@ class eZIntegerType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_int3" );
             if ( $default !== 0 )
             {
@@ -210,7 +210,7 @@ class eZIntegerType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {

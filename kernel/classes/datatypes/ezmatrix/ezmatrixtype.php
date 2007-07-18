@@ -253,7 +253,7 @@ class eZMatrixType extends eZDataType
         if ( $currentVersion != false )
         {
             $matrix =& $originalContentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             // make sure that $matrix contains right columns
             $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
 
@@ -262,7 +262,7 @@ class eZMatrixType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $numRows = $contentClassAttribute->attribute( 'data_int1' );
             $matrix = new eZMatrix( '', $numRows, $contentClassAttribute->attribute( 'content' ) );
             // 'default name' is never used => just a stub

@@ -68,7 +68,7 @@ class eZRangeOptionType extends eZDataType
             $startValue = $http->postVariable( $base . '_data_rangeoption_start_value_' . $contentObjectAttribute->attribute( 'id' ) );
             $stopValue = $http->postVariable( $base . '_data_rangeoption_stop_value_' . $contentObjectAttribute->attribute( 'id' ) );
             $stepValue = $http->postVariable( $base . '_data_rangeoption_step_value_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( $name == '' or
                  $startValue == '' or
                  $stopValue == '' or
@@ -215,7 +215,7 @@ class eZRangeOptionType extends eZDataType
         if ( $currentVersion == false )
         {
             $option =& $contentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {
                 $option = new eZRangeOption( $contentClassAttribute->attribute( 'data_text1' ) );

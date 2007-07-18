@@ -76,7 +76,7 @@ class eZFloatType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_float3" );
             if ( $default !== 0 )
             {
@@ -115,7 +115,7 @@ class eZFloatType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_float_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
             $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );
             $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_FLOAT_FIELD );
             $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_FLOAT_INPUT_STATE_FIELD );

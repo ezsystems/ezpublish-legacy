@@ -207,7 +207,7 @@ class eZMultiPriceType extends eZDataType
     */
     function objectAttributeContent( $contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $multiprice = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
 
         if ( $contentObjectAttribute->attribute( 'data_text' ) != '' )

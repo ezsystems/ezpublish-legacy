@@ -540,7 +540,7 @@ class eZMultioptionGroupType extends eZDataType
             $optiongroup =& $contentObjectAttribute->content();
             if ( $optiongroup )
             {
-                $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+                $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 $optiongroup->setName( $contentClassAttribute->attribute( 'data_text1' ) );
                 $contentObjectAttribute->setAttribute( "data_text", $optiongroup->xmlString() );
                 $contentObjectAttribute->setContent( $optiongroup );

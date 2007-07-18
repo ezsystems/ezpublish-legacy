@@ -56,7 +56,7 @@ class eZOptionType extends eZDataType
     */
     function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $value = $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
@@ -83,7 +83,7 @@ class eZOptionType extends eZDataType
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $count = 0;
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
@@ -318,7 +318,7 @@ class eZOptionType extends eZDataType
         if ( $currentVersion == false )
         {
             $option =& $contentObjectAttribute->content();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {
                 $option = new eZOption( $contentClassAttribute->attribute( 'data_text1' ) );

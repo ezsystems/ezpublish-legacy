@@ -72,7 +72,7 @@ class eZURLType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_text1" );
             if ( $default !== "" )
             {

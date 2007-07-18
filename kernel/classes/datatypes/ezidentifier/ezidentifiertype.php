@@ -101,7 +101,7 @@ class eZIdentifierType extends eZDataType
         $content = $contentObjectAttribute->attribute( "data_text" );
         if ( trim( $content ) == '' )
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $content = eZIdentifierType::generateIdentifierString( $contentClassAttribute, false );
         }
         return $content;

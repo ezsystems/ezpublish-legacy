@@ -68,7 +68,7 @@ class eZBooleanType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $default = $contentClassAttribute->attribute( "data_int3" );
             $contentObjectAttribute->setAttribute( "data_int", $default );
         }
@@ -79,7 +79,7 @@ class eZBooleanType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $contentObjectAttribute->validateIsRequired() and
              !$classAttribute->attribute( 'is_information_collector' ) )
         {

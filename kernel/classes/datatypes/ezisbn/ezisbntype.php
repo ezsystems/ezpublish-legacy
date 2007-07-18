@@ -56,7 +56,7 @@ class eZISBNType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {
@@ -235,7 +235,7 @@ class eZISBNType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {
@@ -353,7 +353,7 @@ class eZISBNType extends eZDataType
     function objectAttributeContent( $contentObjectAttribute )
     {
         $data = $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
         if ( isset( $classContent['ISBN13'] ) and $classContent['ISBN13'] )
         {

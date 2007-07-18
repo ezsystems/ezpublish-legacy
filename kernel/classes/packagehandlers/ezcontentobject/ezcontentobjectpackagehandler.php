@@ -1255,8 +1255,18 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
             }
 
-            $sourcePath = $templateRootPath . $fileNode->elementTextContentByName('path');
-            $destinationPath = $siteAccessDesignPathArray[$newSiteAccess] . $fileNode->elementTextContentByName('path');
+            $path = '';
+            foreach( $fileNode->childNodes as $pathNode )
+            {
+                if ( $pathNode->nodeName == 'path' )
+                {
+                    $path = $pathNode->nodeValue;
+                    break;
+                }
+            }
+
+            $sourcePath = $templateRootPath . $path;
+            $destinationPath = $siteAccessDesignPathArray[$newSiteAccess] . $path;
 
             eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
             if ( !eZFileHandler::copy( $sourcePath, $destinationPath ) )

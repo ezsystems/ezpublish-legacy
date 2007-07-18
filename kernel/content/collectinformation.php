@@ -168,7 +168,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {
@@ -205,7 +205,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
 
         if ( $contentClassAttribute->attribute( 'is_information_collector' ) )
         {

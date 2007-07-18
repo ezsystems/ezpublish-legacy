@@ -70,7 +70,7 @@ class eZTextType extends eZDataType
             $dataText = $originalContentObjectAttribute->attribute( "data_text" );
             $contentObjectAttribute->setAttribute( "data_text", $dataText );
         }
-        $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
         if ( $contentClassAttribute->attribute( "data_int1" ) == 0 )
         {
             $contentClassAttribute->setAttribute( "data_int1", 10 );
@@ -87,7 +87,7 @@ class eZTextType extends eZDataType
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {
@@ -110,7 +110,7 @@ class eZTextType extends eZDataType
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $data == "" )
             {

@@ -80,7 +80,7 @@ class eZMediaType extends eZDataType
 
             $media = eZMedia::create( $contentObjectAttributeID, $version );
 
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $pluginPage = eZMediaType::pluginPage( $contentClassAttribute->attribute( 'data_text1' ) );
 
             $media->setAttribute( 'quality', 'high' );
@@ -156,7 +156,7 @@ class eZMediaType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
         $maxSize = 1024 * 1024 * $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
         $mustUpload = false;
@@ -254,7 +254,7 @@ class eZMediaType extends eZDataType
 
         eZMediaType::checkFileUploads();
 
-        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
         $pluginPage = eZMediaType::pluginPage( $player );
 
