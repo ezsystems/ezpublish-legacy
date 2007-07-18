@@ -455,7 +455,7 @@ class eZContentClassAttribute extends eZPersistentObject
         if ( $this->Content === null )
         {
             $dataType = $this->dataType();
-            $this->Content =& $dataType->classAttributeContent( $this );
+            $this->Content = $dataType->classAttributeContent( $this );
         }
 
         return $this->Content;

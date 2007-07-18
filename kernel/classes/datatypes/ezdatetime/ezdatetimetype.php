@@ -95,7 +95,7 @@ class eZDateTimeType extends eZDataType
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or
                  $month == '' or
@@ -145,7 +145,7 @@ class eZDateTimeType extends eZDataType
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
 
             $dateTime = new eZDateTime();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( ( $year == '' and $month == ''and $day == '' and
                    $hour == '' and $minute == '' ) or
                  !checkdate( $month, $day, $year ) or $year < 1970 )
@@ -179,7 +179,7 @@ class eZDateTimeType extends eZDataType
             $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $classAttribute = $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or
                  $month == '' or
@@ -229,7 +229,7 @@ class eZDateTimeType extends eZDataType
             $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
 
             $dateTime = new eZDateTime();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( ( $year == '' and $month == ''and $day == '' and
                    $hour == '' and $minute == '' ) or
                  !checkdate( $month, $day, $year ) or $year < 1970 )
@@ -371,7 +371,7 @@ class eZDateTimeType extends eZDataType
         }
         else
         {
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             $defaultType = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
             if ( $defaultType == EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE )
             {

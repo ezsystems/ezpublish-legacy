@@ -554,9 +554,9 @@ class eZSiteInstaller
                 $attributeIdentifier = $attributeInfo['identifier'];
                 $name = isset( $attributeInfo['new_name'] ) ? $attributeInfo['new_name'] : false;
 
-                $classAttributeList =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
-                                                                                          'identifier' => $attributeIdentifier ),
-                                                                                   true );
+                $classAttributeList = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
+                                                                                         'identifier' => $attributeIdentifier ),
+                                                                                  true );
                 foreach( $classAttributeList as $attribute )
                 {
                     if( $name !== false )
@@ -592,7 +592,7 @@ class eZSiteInstaller
         $node = $this->nodeByUrl( $params );
         if( is_object( $node ) )
         {
-            $object =& $node->object();
+            $object = $node->object();
         }
 
         return $object;
@@ -1465,7 +1465,7 @@ class eZSiteInstaller
     */
     function createSiteaccessUrls( $params )
     {
-        $sys =& eZSys::instance();
+        $sys = eZSys::instance();
 
         $urlList = array();
 
