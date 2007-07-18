@@ -91,7 +91,7 @@ class eZMatrixType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
+        $matrix = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
         $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
         $contentObjectAttribute->setContent( $matrix );
@@ -135,7 +135,7 @@ class eZMatrixType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        $matrix =& $contentObjectAttribute->content();
+        $matrix = $contentObjectAttribute->content();
         $columnsArray = $matrix->attribute( 'columns' );
         $columns = $columnsArray['sequential'];
         $metaDataArray = array();
@@ -182,7 +182,7 @@ class eZMatrixType extends eZDataType
         {
             case 'new_row' :
             {
-                $matrix =& $contentObjectAttribute->content( );
+                $matrix = $contentObjectAttribute->content( );
 
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
                 $addCountName = 'ContentObjectAttribute' . '_data_matrix_add_count_' . $contentObjectAttribute->attribute( 'id' );
@@ -210,7 +210,7 @@ class eZMatrixType extends eZDataType
             }break;
             case 'remove_selected' :
             {
-                $matrix =& $contentObjectAttribute->content( );
+                $matrix = $contentObjectAttribute->content( );
                 $postvarname = 'ContentObjectAttribute' . '_data_matrix_remove_' . $contentObjectAttribute->attribute( 'id' );
                 $arrayRemove = $http->postVariable( $postvarname );
 
@@ -237,7 +237,7 @@ class eZMatrixType extends eZDataType
     */
     function title( $contentObjectAttribute, $name = 'name' )
     {
-        $matrix =& $contentObjectAttribute->content( );
+        $matrix = $contentObjectAttribute->content( );
 
         $value = $matrix->attribute( $name );
 

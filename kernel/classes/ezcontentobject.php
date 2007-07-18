@@ -4893,8 +4893,8 @@ class eZContentObject extends eZPersistentObject
         $contentObject->setAttribute( 'name', $name );
         $contentObject->store();
 
-        $versions   =& $contentObject->versions();
-        $objectName =& $contentObject->name();
+        $versions   = $contentObject->versions();
+        $objectName = $contentObject->name();
         $objectID   = $contentObject->attribute( 'id' );
         foreach ( $versions as $version )
         {
@@ -4910,7 +4910,7 @@ class eZContentObject extends eZPersistentObject
             }
 
             // when translation does not have object name set then we copy object name from the current object version
-            $translations =& $version->translations( false );
+            $translations = $version->translations( false );
             if ( !$translations )
                 continue;
             foreach ( $translations as $translation )
@@ -4948,10 +4948,10 @@ class eZContentObject extends eZPersistentObject
 
     function postUnserialize( &$package )
     {
-        $versions =& $this->versions();
+        $versions = $this->versions();
         foreach( array_keys( $versions ) as $key )
         {
-            $version = &$versions[$key];
+            $version = $versions[$key];
             $version->postUnserialize( $package );
         }
     }

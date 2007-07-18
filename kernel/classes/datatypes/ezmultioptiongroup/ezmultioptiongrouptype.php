@@ -81,7 +81,7 @@ class eZMultioptionGroupType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $optiongroup =& $contentObjectAttribute->content();
+        $optiongroup = $contentObjectAttribute->content();
 
         $contentObjectAttribute->setAttribute( "data_text", $optiongroup->xmlString() );
     }
@@ -120,7 +120,7 @@ class eZMultioptionGroupType extends eZDataType
         $editMode = $http->postVariable( $base . "_data_edit_mode_" . $contentObjectAttribute->attribute( "id" ) );
         if( $editMode == 'rules' )
         {
-            $optiongroup =& $contentObjectAttribute->content();
+            $optiongroup = $contentObjectAttribute->content();
 
             $optionRulesArray = $http->hasPostVariable( $base . "_data_multioption_rule_for" )
                                  ? $http->postVariable( $base . "_data_multioption_rule_for" )
@@ -155,7 +155,7 @@ class eZMultioptionGroupType extends eZDataType
 
         $optiongroup = new eZMultiOptionGroup( '' );
 
-        $oldoptiongroup =& $contentObjectAttribute->content();
+        $oldoptiongroup = $contentObjectAttribute->content();
         if ( $oldoptiongroup->Rules )
            $optiongroup->Rules = $oldoptiongroup->Rules;
         $this->fetchHTTPInputForGroup( $optiongroup, $http, $base, $contentObjectAttribute );
@@ -300,7 +300,7 @@ class eZMultioptionGroupType extends eZDataType
         $actionlist = explode( "_", $action );
         if ( $actionlist[0] == "new-option" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $multioptionID = $actionlist[2];
             $optionID = $rootGroup->addOptionForMultioptionID( $multioptionID,  "", "", "" );
@@ -315,7 +315,7 @@ class eZMultioptionGroupType extends eZDataType
             $contentObjectAttribute->store();
         }else if ( $actionlist[0] == "new-sublevel" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $multioptionID = $actionlist[2];
 
@@ -337,7 +337,7 @@ class eZMultioptionGroupType extends eZDataType
         }
         else if ( $actionlist[0] == "new-group" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $childGroup = new eZMultioptionGroup( '', 0, $rootGroup->getMultiOptionIDCounter(),$rootGroup->getOptionCounter() );
             $rootGroup->addChildGroup( $childGroup );
             $newID = $childGroup->addMultiOption( "", 0, false , '' );
@@ -350,7 +350,7 @@ class eZMultioptionGroupType extends eZDataType
         }
         else if ( $actionlist[0] == "remove-selected-option" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $multioptionID = $actionlist[2];
             $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" ) . "_" .
@@ -369,7 +369,7 @@ class eZMultioptionGroupType extends eZDataType
         }
         else if ( $actionlist[0] == "new-multioption" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $group =& $rootGroup->findGroup( $groupID );
             if ( !$group )
@@ -386,7 +386,7 @@ class eZMultioptionGroupType extends eZDataType
         }
         else if ( $actionlist[0] == "remove-selected-multioption" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $postvarname = "ContentObjectAttribute" . "_data_multioption_remove_" . $contentObjectAttribute->attribute( "id" ) . "_" . $groupID;
             $array_remove = $http->hasPostVariable( $postvarname ) ? $http->postVariable( $postvarname ) : array();
@@ -411,12 +411,12 @@ class eZMultioptionGroupType extends eZDataType
             $editMode = $actionlist[1];
             $sessionVarName = 'eZEnhancedMultioption_edit_mode_' . $contentObjectAttribute->attribute( 'id' );
             $http->setSessionVariable( $sessionVarName, $editMode );
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $contentObjectAttribute->setContent( $rootGroup );
         }
         else if ( $actionlist[0] == "reset-rules" )
         {
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $rootGroup->Rules = array();
             $contentObjectAttribute->setContent( $rootGroup );
             $contentObjectAttribute->store();
@@ -433,7 +433,7 @@ class eZMultioptionGroupType extends eZDataType
                 {
                     $selectedObjectArray = $http->hasPostVariable( "SelectedObjectIDArray" );
                     $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
-                    $rootGroup =& $contentObjectAttribute->content();
+                    $rootGroup = $contentObjectAttribute->content();
                     $groupID = $actionlist[1];
                     $multioptionID = $actionlist[2];
                     $optionID = $actionlist[3];
@@ -481,7 +481,7 @@ class eZMultioptionGroupType extends eZDataType
         {
 
 
-            $rootGroup =& $contentObjectAttribute->content();
+            $rootGroup = $contentObjectAttribute->content();
             $groupID = $actionlist[1];
             $multioptionID = $actionlist[2];
             $optionID = $actionlist[3];
@@ -525,7 +525,7 @@ class eZMultioptionGroupType extends eZDataType
     */
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $groups =& $contentObjectAttribute->content();
+        $groups = $contentObjectAttribute->content();
         $grouplist = $multioption->attribute( 'optiongroup_list' );
         return count( $grouplist ) > 0;
     }
@@ -537,7 +537,7 @@ class eZMultioptionGroupType extends eZDataType
     {
         if ( $currentVersion == false )
         {
-            $optiongroup =& $contentObjectAttribute->content();
+            $optiongroup = $contentObjectAttribute->content();
             if ( $optiongroup )
             {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();

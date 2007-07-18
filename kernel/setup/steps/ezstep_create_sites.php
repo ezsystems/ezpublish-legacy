@@ -1186,7 +1186,7 @@ language_locale='eng-GB'";
         $anonRole = eZRole::fetchByName( 'Anonymous' );
         if ( is_object( $anonRole ) )
         {
-            $anonPolicies =& $anonRole->policyList();
+            $anonPolicies = $anonRole->policyList();
             foreach ( $anonPolicies as $anonPolicy )
             {
                 if ( $anonPolicy->attribute( 'module_name' ) == 'user' and

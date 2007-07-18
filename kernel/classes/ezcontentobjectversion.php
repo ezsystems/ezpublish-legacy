@@ -1338,7 +1338,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 continue;
             }
 
-            $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
+            $attributeArray = $contentObjectVersion->contentObjectAttributes( $language );
             if ( count( $attributeArray ) == 0)
             {
                 $hasTranslation = eZContentLanguage::fetchByLocale( $language );
@@ -1360,13 +1360,12 @@ class eZContentObjectVersion extends eZPersistentObject
                 if ( $hasTranslation )
                 {
                     // Add translated attributes for the translation
-                    $originalContentAttributes =& $contentObjectVersion->contentObjectAttributes( $initialLanguage );
-                    foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
+                    $originalContentAttributes = $contentObjectVersion->contentObjectAttributes( $initialLanguage );
+                    foreach ( $originalContentAttributes as $originalContentAttribute )
                     {
-                        $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
-                        $contentAttribute =& $originalContentAttribute->translateTo( $language );
+                        $contentAttribute = $originalContentAttribute->translateTo( $language );
                         $contentAttribute->sync();
-                        $attributeArray[] =& $contentAttribute;
+                        $attributeArray[] = $contentAttribute;
                     }
                 }
 
@@ -1376,12 +1375,9 @@ class eZContentObjectVersion extends eZPersistentObject
                     $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
             }
 
-            foreach( array_keys( $attributeArray ) as $attributeKey )
+            foreach( $attributeArray as $attribute )
             {
-                $attribute =& $attributeArray[$attributeKey];
-
                 $attributeIdentifier = $attribute->attribute( 'contentclass_attribute_identifier' );
-
                 $xpath = new DOMXPath( $domNode->ownerDocument );
                 $xpath->registerNamespace( 'ezobject', 'http://ez.no/object/' );
                 $xpathQuery = "//ezobject:attribute[@ezremote:identifier='$attributeIdentifier']";
@@ -1393,7 +1389,6 @@ class eZContentObjectVersion extends eZPersistentObject
                     $debug->writeDebug( $languageNode->ownerDocument->saveXML( $languageNode ) );
                     continue;
                 }
-
                 $attribute->unserialize( $package, $attributeDomNode );
                 $attribute->store();
             }
@@ -1457,10 +1452,10 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function postUnserialize( &$package )
     {
-        $transltaions =& $this->translations( false );
+        $transltaions = $this->translations( false );
         foreach( $transltaions as $language )
         {
-            $attributeArray =& $this->contentObjectAttributes( $language );
+            $attributeArray = $this->contentObjectAttributes( $language );
             foreach( array_keys( $attributeArray ) as $key )
             {
                 $attribute =& $attributeArray[$key];

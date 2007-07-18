@@ -93,7 +93,7 @@ class eZObjectRelationListType extends eZDataType
             return $status;
         }
 
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -147,7 +147,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function fixupObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem = $content['relation_list'][$i];
@@ -173,7 +173,7 @@ class eZObjectRelationListType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         // new object creation
         $newObjectPostVariableName = "attribute_" . $contentObjectAttribute->attribute( "id" ) . "_new_object_name";
         if ( $http->hasPostVariable( $newObjectPostVariableName ) )
@@ -382,7 +382,7 @@ class eZObjectRelationListType extends eZDataType
 
         // create translation List
         // $translationList will contain for example eng-GB, ita-IT etc.
-        $translationList =& $currVerobj->translations( false );
+        $translationList = $currVerobj->translations( false );
 
         // get current language_code
         $langCode = $attribute->attribute( 'language_code' );
@@ -541,7 +541,7 @@ class eZObjectRelationListType extends eZDataType
                         $relationItem =& $content['relation_list'][$key];
 
                         // create related object copies only if they are subobjects
-                        $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
+                        $object = eZContentObject::fetch( $relationItem['contentobject_id'] );
                         $mainNode = $object->attribute( 'main_node' );
 
                         if ( is_object( $mainNode ) )
@@ -1090,7 +1090,7 @@ class eZObjectRelationListType extends eZDataType
                                             $customActionAttributeArray, $customActionParameters )
     {
         $contentObjectAttribute =& $customActionParameters['contentobject_attribute'];
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem = $content['relation_list'][$i];
@@ -1403,7 +1403,7 @@ class eZObjectRelationListType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         $metaDataArray = array();
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem = $content['relation_list'][$i];
@@ -1422,7 +1422,7 @@ class eZObjectRelationListType extends eZDataType
                     {
                         continue;
                     }
-                    $attributes =& $object->contentObjectAttributes( true, $subObjectVersion );
+                    $attributes = $object->contentObjectAttributes( true, $subObjectVersion );
                 }
             }
 
@@ -1473,7 +1473,7 @@ class eZObjectRelationListType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $content =& $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
         return count( $content['relation_list'] ) > 0;
     }
 
@@ -1496,7 +1496,7 @@ class eZObjectRelationListType extends eZDataType
         if ( count( $objectAttributeContent['relation_list'] ) > 0 )
         {
             $target = $objectAttributeContent['relation_list'][0];
-            $targetObject =& eZContentObject::fetch( $target['contentobject_id'], false );
+            $targetObject = eZContentObject::fetch( $target['contentobject_id'], false );
             return $targetObject['name'];
         }
         else

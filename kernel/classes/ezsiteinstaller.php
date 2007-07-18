@@ -259,7 +259,7 @@ class eZSiteInstaller
     */
     function reportError( $text, $caption, $errCode = EZSITE_INSTALLER_ERR_ABORT )
     {
-        eZDebug::writeError( $text, $caption );
+        eZDebug::instance()->writeError( $text, $caption );
 
         $this->setLastErrorCode( $errCode );
     }
@@ -716,7 +716,7 @@ class eZSiteInstaller
         $contentObject = false;
         if( $objectID )
         {
-            $contentObject =& eZContentObject::fetch( $objectID );
+            $contentObject = eZContentObject::fetch( $objectID );
             if( !is_object( $contentObject ) )
             {
                 $this->reportError( "Content object with id '$objectID' doesn't exist." , 'eZSiteInstaller::updateObjectAttributeFromString' );
@@ -765,7 +765,7 @@ class eZSiteInstaller
         $objectID = $params['object_id'];
         $attributesData = $params['attributes_data'];
 
-        $contentObject =& eZContentObject::fetch( $objectID );
+        $contentObject = eZContentObject::fetch( $objectID );
         if( !is_object( $contentObject ) )
         {
             $this->reportError( "Content object with id '$objectID' doesn't exist." , 'eZSiteInstaller::updateContentObjectAttributes' );

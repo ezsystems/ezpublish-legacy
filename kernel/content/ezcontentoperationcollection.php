@@ -441,7 +441,7 @@ class eZContentOperationCollection
                 if ( $sectionID > 0 )
                     return;
 
-                $newParentObject =& $newMainAssignment->getParentObject();
+                $newParentObject = $newMainAssignment->getParentObject();
                 if ( !$newParentObject )
                 {
                     return array( 'status' => EZ_MODULE_OPERATION_CANCELED );

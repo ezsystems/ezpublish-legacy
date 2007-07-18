@@ -570,7 +570,7 @@ class eZBinaryFileType extends eZDataType
 
     function metaData( $contentObjectAttribute )
     {
-        $binaryFile =& $contentObjectAttribute->content();
+        $binaryFile = $contentObjectAttribute->content();
 
         $metaData = "";
         if ( strtolower( get_class( $binaryFile ) ) == "ezbinaryfile" )

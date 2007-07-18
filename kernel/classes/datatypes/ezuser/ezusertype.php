@@ -175,7 +175,7 @@ class eZUserType extends eZDataType
 
             $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
 
-            $user =& $contentObjectAttribute->content();
+            $user = $contentObjectAttribute->content();
             if ( $user === null )
             {
                 $user = eZUser::create( $contentObjectID );
@@ -221,7 +221,7 @@ class eZUserType extends eZDataType
 
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $user =& $contentObjectAttribute->content();
+        $user = $contentObjectAttribute->content();
         if ( strtolower( get_class( $user ) ) != "ezuser" )
         {
             // create a default user account
@@ -351,7 +351,7 @@ class eZUserType extends eZDataType
     function metaData( $contentObjectAttribute )
     {
         $metaString = "";
-        $user =& $contentObjectAttribute->content();
+        $user = $contentObjectAttribute->content();
 
         if ( strtolower( get_class( $user ) ) == "ezuser" )
         {

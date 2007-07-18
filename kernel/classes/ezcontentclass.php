@@ -1432,11 +1432,10 @@ You will need to change the class of the node by using the swap functionality.' 
      Will generate a name for the content object based on the class
      settings for content object.
     */
-    function contentObjectName( &$contentObject, $version = false, $translation = false )
+    function contentObjectName( $contentObject, $version = false, $translation = false )
     {
-
-        $contentObjectName = $this->ContentObjectName;
-        $dataMap =& $contentObject->fetchDataMap( $version, $translation );
+        $conentObjectName = $this->ContentObjectName;
+        $dataMap = $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
         preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
@@ -1445,7 +1444,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $i = 0;
         $tmpTagResultArray = array();
-        foreach ( $subTagMatchArray[1]  as $subTag )
+        foreach ( $subTagMatchArray[1] as $subTag )
         {
             $tmpTag = 'tmptag' . $i;
 
@@ -1455,15 +1454,15 @@ You will need to change the class of the node by using the swap functionality.' 
             $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
             $i++;
         }
-        $contentObjectName = eZContentClass::buildContentObjectName( $contentObjectName, $dataMap, $tmpTagResultArray );
-        return $contentObjectName;
+
+        return eZContentClass::buildContentObjectName( $contentObjectName, $dataMap, $tmpTagResultArray );
     }
 
     /*
      Will generate a name for the url alias based on the class
      settings for content object.
     */
-    function urlAliasName( &$contentObject, $version = false, $translation = false )
+    function urlAliasName( $contentObject, $version = false, $translation = false )
     {
         if ( $this->URLAliasName )
         {
@@ -1501,9 +1500,8 @@ You will need to change the class of the node by using the swap functionality.' 
      Generates a name for the content object based on the content object name pattern
      and data map of an object.
     */
-    function buildContentObjectName( &$contentObjectName, $dataMap, $tmpTags = false )
+    function buildContentObjectName( $contentObjectName, $dataMap, $tmpTags = false )
     {
-
         preg_match_all( "|<[^>]+>|U",
                         $contentObjectName,
                         $tagMatchArray );

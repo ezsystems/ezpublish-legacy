@@ -449,7 +449,7 @@ class eZContentCacheManager
         {
             foreach( $dependentClassInfo['additional_objects'] as $objectID )
             {
-                $object =& eZContentObject::fetch( $objectID );
+                $object = eZContentObject::fetch( $objectID );
                 if ( $object )
                     eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE, $nodeList );
             }

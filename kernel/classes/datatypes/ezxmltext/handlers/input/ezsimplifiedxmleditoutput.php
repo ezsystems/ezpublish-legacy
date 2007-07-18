@@ -216,22 +216,20 @@ class eZSimplifiedXMLEditOutput
             }
         }
     }
-                  
+
     function formatAfterOpeningTag( &$element, $isInline, $hasChildren )
     {
         // Add linebreak in case we have block tag as a first child
         if ( !$isInline && $hasChildren )
         {
-            $firstChild =& $element->firstChild();
+            $firstChild = $element->firstChild;
             if ( $firstChild && $firstChild->nodeName == 'paragraph' && !$firstChild->hasAttributes() )
             {
-                $tmp =& $firstChild;
-                $firstChild =& $tmp->firstChild();
+                $firstChild = $firstChild->firstChild;
             }
             if ( $firstChild && $firstChild->nodeName == 'line' )
             {
-                $tmp =& $firstChild;
-                $firstChild =& $tmp->firstChild();
+                $firstChild = $firstChild->firstChild;
             }
             if ( $firstChild && !$this->XMLSchema->isInline( $firstChild ) )
                 $this->Output .= "\n";

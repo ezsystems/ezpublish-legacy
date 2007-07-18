@@ -382,7 +382,7 @@ class eZRole extends eZPersistentObject
     */
     function removePolicy( $moduleName, $functionName = false )
     {
-        $policyList =& $this->policyList();
+        $policyList = $this->policyList();
         if ( is_array( $policyList ) && count( $policyList ) > 0 )
         {
             $db = eZDB::instance();

@@ -241,7 +241,7 @@ class eZMultiPriceType extends eZDataType
                 if ( $http->hasPostVariable( $selectedCurrencyName ) )
                 {
                     $selectedCurrency = $http->postVariable( $selectedCurrencyName );
-                    $multiprice =& $contentObjectAttribute->content();
+                    $multiprice = $contentObjectAttribute->content();
 
                     // to keep right order of currency after adding we do 'remove' and 'add'
                     // instead of just '$multiprice->setCustomPrice( $currencyCode, false )'
@@ -259,7 +259,7 @@ class eZMultiPriceType extends eZDataType
                 if ( $http->hasPostVariable( $removePriceArrayName ) )
                 {
                     $removePriceArray = $http->postVariable( $removePriceArrayName );
-                    $multiprice =& $contentObjectAttribute->content();
+                    $multiprice = $contentObjectAttribute->content();
 
                     foreach( $removePriceArray as $currencyCode => $value )
                         $multiprice->setAutoPrice( $currencyCode, false );

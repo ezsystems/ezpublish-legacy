@@ -131,7 +131,7 @@ class eZAuthorType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content();
+        $author = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
     }
 
@@ -250,14 +250,14 @@ class eZAuthorType extends eZDataType
         {
             case "new_author" :
             {
-                $author =& $contentObjectAttribute->content( );
+                $author = $contentObjectAttribute->content( );
 
                 $author->addAuthor( -1, "", "" );
                 $contentObjectAttribute->setContent( $author );
             }break;
             case "remove_selected" :
             {
-                $author =& $contentObjectAttribute->content( );
+                $author = $contentObjectAttribute->content( );
                 $postvarname = "ContentObjectAttribute" . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" );
                 if ( !$http->hasPostVariable( $postvarname ) )
                     break;
@@ -275,7 +275,7 @@ class eZAuthorType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $author =& $contentObjectAttribute->content( );
+        $author = $contentObjectAttribute->content( );
         $authorList = $author->attribute( 'author_list' );
         return count( $authorList ) > 0;
     }
@@ -285,7 +285,7 @@ class eZAuthorType extends eZDataType
     */
     function title( $contentObjectAttribute, $name = null )
     {
-        $author =& $contentObjectAttribute->content( );
+        $author = $contentObjectAttribute->content( );
         $name = $author->attribute( 'name' );
         if ( trim( $name ) == '' )
         {

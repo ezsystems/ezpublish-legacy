@@ -147,7 +147,7 @@ class eZOptionType extends eZDataType
     */
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content();
+        $option = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
@@ -229,7 +229,7 @@ class eZOptionType extends eZDataType
         {
             case "new_option" :
             {
-                $option =& $contentObjectAttribute->content( );
+                $option = $contentObjectAttribute->content( );
 
                 $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
                 if ( $http->hasPostVariable( $postvarname ) )
@@ -254,7 +254,7 @@ class eZOptionType extends eZDataType
             }break;
             case "remove_selected" :
             {
-                $option =& $contentObjectAttribute->content( );
+                $option = $contentObjectAttribute->content( );
                 $postvarname = "ContentObjectAttribute" . "_data_option_remove_" . $contentObjectAttribute->attribute( "id" );
                 $array_remove = $http->postVariable( $postvarname );
                 $option->removeOptions( $array_remove );
@@ -296,7 +296,7 @@ class eZOptionType extends eZDataType
     */
     function title( $contentObjectAttribute, $name = "name" )
     {
-        $option =& $contentObjectAttribute->content( );
+        $option = $contentObjectAttribute->content( );
 
         $value = $option->attribute( $name );
 
@@ -305,7 +305,7 @@ class eZOptionType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content( );
+        $option = $contentObjectAttribute->content( );
         $options = $option->attribute( 'option_list' );
         return count( $options ) > 0;
     }
@@ -317,7 +317,7 @@ class eZOptionType extends eZDataType
     {
         if ( $currentVersion == false )
         {
-            $option =& $contentObjectAttribute->content();
+            $option = $contentObjectAttribute->content();
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {

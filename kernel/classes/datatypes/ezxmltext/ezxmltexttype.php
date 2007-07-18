@@ -403,15 +403,16 @@ class eZXMLTextType extends eZDataType
             return $text;
 
         $root =& $document->root();
-        $section =& $root->firstChild();
+        $section = $root->firstChild;
         $textDom = false;
         if ( $section )
-            $textDom =& $section->firstChild();
-
-        if ( $textDom and $textDom->hasChildren() )
         {
-            $textDomContent =& $textDom->firstChild();
-            $text = $textDomContent->content();
+            $textDom = $section->firstChild;
+        }
+
+        if ( $textDom and $textDom->hasChildren )
+        {
+            $text = $textDom->firstChild->content();
         }
         elseif ( $textDom )
         {
@@ -577,8 +578,8 @@ class eZXMLTextType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        if ( $rootNode )
+        $domText = $attributeNode;
+        if ( false && $domText ) // PHP5 PORT - DO NOT SUPPORT THIS YET !!
         {
 
             /* For all links found in the XML, do the following:
@@ -591,40 +592,33 @@ class eZXMLTextType extends eZDataType
             include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
             include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-            $xml = new eZXML();
-            $domDocument = $xml->domTree( $rootNode->toString( 0 ), array ( 'CharsetConversion' => false ) );
+            $domDocument = new DomDocument();
+            $domDocument->loadXML( $domText->wholeText );
+            $links = $domDocument->getElementsByTagName( 'link' );
 
-            if ( $domDocument )
+            foreach ( $links as $linkNode )
             {
-                $links =& $domDocument->elementsByName( 'link' );
-                if ( !is_array( $links ) )
-                    $links = array();
+                $href = $linkNode->getAttribute( 'href' );
+                if ( !$href )
+                    continue;
+                $urlObj = eZURL::urlByURL( $href );
 
-                foreach ( array_keys( $links ) as $index )
+                if ( !$urlObj )
                 {
-                    $linkRef =& $links[$index];
-                    $href = $linkRef->attributeValue( 'href' );
-                    if ( !$href )
-                        continue;
-                    $urlObj = eZURL::urlByURL( $href );
-
-                    if ( !$urlObj )
-                    {
-                        $urlObj = eZURL::create( $href );
-                        $urlObj->store();
-                    }
-
-                    $linkRef->remove_attribute( 'href' );
-                    $linkRef->set_attribute( 'url_id', $urlObj->attribute( 'id' ) );
-                    $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
-                                                              $objectAttribute->attribute( 'id' ),
-                                                              $objectAttribute->attribute( 'version' ) );
-                    $urlObjectLink->store();
-
+                    $urlObj = eZURL::create( $href );
+                    $urlObj->store();
                 }
-                $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $domDocument ) );
-                $domDocument->cleanup();
+
+                $linkNode->removeAttribute( 'href' );
+                $linkNode->setAttribute( 'url_id', $urlObj->attribute( 'id' ) );
+                $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                                                          $objectAttribute->attribute( 'id' ),
+                                                          $objectAttribute->attribute( 'version' ) );
+                $urlObjectLink->store();
+
             }
+
+            $objectAttribute->setAttribute( 'data_text', $domDocument->saveXML() );
         }
     }
 

@@ -182,7 +182,7 @@ class eZObjectRelationType extends eZDataType
         //get eZContentObjectVersion
         $currVerobj = $obj->version( $contentObjectVersion );
         // get array of language codes
-        $transList =& $currVerobj->translations( false );
+        $transList = $currVerobj->translations( false );
         $countTsl = count( $transList );
 
         if ( ( $countTsl == 1 ) )

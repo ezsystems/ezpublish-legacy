@@ -125,7 +125,7 @@ class eZRangeOptionType extends eZDataType
 
     function storeObjectAttribute( &$contentObjectAttribute )
     {
-        $option =& $contentObjectAttribute->content();
+        $option = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
     }
 
@@ -214,7 +214,7 @@ class eZRangeOptionType extends eZDataType
     {
         if ( $currentVersion == false )
         {
-            $option =& $contentObjectAttribute->content();
+            $option = $contentObjectAttribute->content();
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             if ( !$option )
             {
