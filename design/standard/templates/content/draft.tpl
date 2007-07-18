@@ -123,3 +123,5 @@ function checkAll()
 </div>
 
 {/section}
+{/let}
+{/let}
