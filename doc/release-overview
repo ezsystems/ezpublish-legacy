@@ -851,3 +851,8 @@ Datatype branch:
 - Revision=18840
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.2
 - Date 04-May-2007
+
+3.10.0alpha1:
+- Revision=19448
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0alpha1
+- Date 18-Jul-2007
