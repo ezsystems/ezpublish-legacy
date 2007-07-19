@@ -1,0 +1,69 @@
+Preface
+=======
+
+We have discovered that restoring of folders can be a difficult case especially when it has content like subfolders because the existing wastebasket solution in eZ Publish unfolds the structure when the deleted object is stored in the wastebasket.
+
+Therefore we need to have a personal wastebasket implemented.
+
+Personal wastebasket
+====================
+
+The functionality of the wastebasket must be different per user type:
+
+1. End user
+2. Admin user
+
+End user requirements
+=====================
+
+When the end user opens the wastebasket he should see:
+
+1. The object he has deleted maintaining the structure
+2. The list should contain
+    a. Object name
+    b. Deleted date
+    c. Created date
+    d. If possible the name of the creator of the object
+    e. The size of the object(s) being deleted
+3. It should be possible to sort the list by:
+    a. Object name
+    b. Deleted date
+    c. Created date
+    d. Creator (if possible)
+    e. Size
+
+The wastebasket should have the following characteristics:
+
+1. The list should be configurable with regards to number of items in the lists etc. following the normal eZ Publish standards.
+2. You should be able to mark more than one object to restore.
+3. When you restore an object you should have the option to restore it using the old node_id so you do not have to alter existing templates.
+
+Admin user requirements
+=======================
+
+When the Admin user opens the wastebasket he should see:
+
+1. The object he has deleted maintaining the structure
+2. The list should contain
+    a. Owner name
+    b. Object name
+    c. Deleted date
+    d. Created date
+    e. If possible the name of the creator of the object
+    f. The size of the object(s) being deleted
+    
+9. It should be possible to sort the list by:
+    a.	Owner name
+    b.	Object name
+    c.	Deleted date
+    d.	Created date
+    e.	Creator (if possible)
+    f.	Size
+
+The wastebasket for the admin user should have the following characteristics:
+
+- The admin user should see the whole content of the wastebasket.
+- It should be possible to search for content
+- The list should be configurable with regards to number of items in the lists etc. following the normal eZ Publish standards.
+- You should be able to mark more than one object to restore.
+- When you restore an object you should have the option to restore it using the old node_id so you do not have to alter existing templates.
