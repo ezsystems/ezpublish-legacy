@@ -1,0 +1,145 @@
+======================
+eZ cluster enhancement
+======================
+
+:Author:  Jan Borsodi
+:Date:    2007-July-09
+:Version: 1.0
+
+This document describes the end-user documentation for the new cluster
+enhancements added to eZ publish 3.10.
+
+Note: The cluster functionality in 3.10 no longer supports the
+      PostgreSQL and Oracle databases. The code was focused
+      on the MySQL database and InnoDB engine to make it perform well.
+
+
+Upgrading
+=========
+
+Upgrading a previous cluster installation requires some care. The
+biggest change from earlier upgrades is that the old installation must
+be kept as it is (ie. the code, files and database), upgrading of the
+codebase must be done at the exact spot as mentioned below.
+
+Steps in previous code-base (3.8 or 3.9)
+----------------------------------------
+
+
+1 - Unclusterize
+~~~~~~~~~~~~~~~~
+
+Copy all file data from the database to the local filesystem. This
+is performed using the *bin/php/clusterize.php* script. The
+*unclusterize* option must be enabled to copy the files from database
+and to the local filesystem. e.g.::
+
+  bin/php/clusterize.php -u
+
+Note: Make sure you have enough diskspace on the filesystem before
+      starting this operation.
+
+Steps in new code-base (3.10)
+-----------------------------
+
+2 - Upgrade to eZ publish 3.10
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Upgrade the code-base + database as mentioned in the general upgrade guide.
+
+3 - Upgrade database tables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Did you remember to unclusterize first? The next steps will destroy
+the data in the database so make sure all files are on the filesystem.
+
+The table upgrades are not handled by the normal update SQL files so
+manual changes are needed. The first thing is to remove the old
+tables with:
+
+  DROP TABLE ezdbfile;
+  DROP TABLE ezdbfile_data;
+
+Then create the tables as stated in the PHP file
+*kernel/classes/clusterfilehandlers/dbbackends/mysql.php*.
+
+.. doc-team: Maybe the SQLs for the table creation should be present
+   in this doc?
+
+4 - Clusterize
+~~~~~~~~~~~~~~
+
+This is similar to the first step, this time however we will reverse
+the process and copy the files from the local filesystem and to the
+database cluster. Again it is performed using the
+*bin/php/clusterize.php* script.
+
+Note: Make sure the *unclusterize* option is **not** enabled.
+
+Perform the copy operation with::
+
+  bin/php/clusterize.php
+
+
+Documentation
+=============
+
+While most of the changes to the cluster was done in the backend-code
+there are a couple of changes which affects the behaviour of the
+cluster and the cache systems in eZ publish.
+The big change is how caches are removed, earlier the caches were
+physically removed from the filesystem or database cluster, an
+operation which can be quite time consuming. The new behaviour is to
+minimize the need to remove the file and instead mark at as invalid
+using several techniques.
+
+1. The first one is to mark each cache file as being expired, when the
+   cache is read again the system will detect the expiry and try to
+   recreate the contents.
+2. If the amount of changes is significant or the all cache files of a
+   specific type is to be removed it will use a global expiry flag.
+   The flag is checked before the cache file is checked.
+
+The net change is that the files are kept in the database and can take
+up diskspace even they are not needed anymore. For some sites this is
+quite OK since the cache file entry will be reused when it is
+recreated, however some sites which publishes new items quite often
+and have no need for the old ones will want to remove cache entries
+from them.
+
+To remove files manually you will have to use the bin/php/ezcache.php
+script and enable the *--purge* option to physically remove the items.
+For instance to remove content caches which are more than two days old
+use::
+
+  bin/php/ezcache.php --clear-id=content --purge --expiry='-2 days'
+
+Note: bin/shell/clearcache.sh is no longer to be used, in fact it has
+      been disabled.
+
+Database tuning
+---------------
+
+When setting up the configuration of the MySQL database the number of
+connections must be carefully tuned. The cluster code will now perform
+an extra connection when writing the content to the database, this
+connection checks if the file has been modified since the write lock
+was acquired to remove the need to write.
+This means that the number of connections must be increased, in worst
+case it would need to double the connections but increasing it with
+30-50% should be sufficient.
+
+Note: If persistent connections are enabled the cluster code will no
+longer share connections with the normal database calls so the number
+of connections will have to be doubled (of your normal settings).
+
+API changes
+===========
+
+The API for the cluster class has remained the same but some new
+functions were added to handle the caches better. The new functions
+are processCache() and storeCache(). Refer to the file
+*kernel/classes/clusterfilehandlers/ezdbfilehandler.php* for more
+details on how to use them.
+
+
