@@ -1,0 +1,13 @@
+*Title: Section Assign policy.
+
+*Documentation:
+The 'assign' function was added to the list of policy functions
+for the module 'section'. This gives possibility to deny users from
+assigning/reassigning objects to desired sections. The policy has
+following limitations:
+
+- Class			- the class of the object which user trying assign the section to.
+- CurrentSection	- the current section of the object.
+- Owner			- the owner of the object (Any or Self)
+- Section		- the section which is allowed to be assigned by the user.
+
