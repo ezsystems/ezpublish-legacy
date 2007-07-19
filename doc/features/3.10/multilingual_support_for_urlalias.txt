@@ -1,0 +1,524 @@
+======================================
+Multi-language support for url aliases
+======================================
+
+:Author:    Jan Borsodi
+:Version:   1.0beta2
+:Date:      09.July.2007
+
+Glossary
+========
+
+SEO:
+  Search Engine Optimization
+
+Transliterate:
+  Transform alphabet into another (usually latin) by replacing
+  characters, e.g. from cyrillic to latin.
+
+
+Upgrade
+=======
+
+Step 1
+------
+Changes to the database tables and creation of new ones are handled
+by the generic database upgrade procedure (update/database/*)
+
+Step 2
+------
+Before the indexing can start the type of transformation for the URLs
+must be decided. There are three types available.
+
+1. Only allow a restricted set of characters in the url, this means
+   a to z, numbers and underscore. (This is the same behaviour as in
+   3.9 and earlier.)
+
+   The identifier for this is *urlalias_compat*
+
+2. Allow more characters in the url, but still restrict it to the
+   ASCII characters (with a few exceptions). Capitalization of words
+   are now kept.
+
+   The identifier for this is *urlalias*
+
+3. Similar to #2 but allow all Unicode characters (with a few
+   exceptions). This allows the text to preserved as much as possible
+   and is highly recommended for uni- or multi-lingual sites. The only
+   changes to the text is removal of a few characters which are
+   special to the urls on the Internet and trimming of multiple
+   whitespaces to only one whitespace.
+   It is recommened to use the utf-8 charset for the site when having
+   this enabled (*i18n.ini*).
+
+   The identifier for this is *urlalias_iri*
+
+When the desired transformation is chosen it must be configured in
+*site.ini* by setting the TransformationGroup setting in the settings
+*group URLTranslator to contain the identifier of the chosen type.
+e.g. if the third type was chosen::
+
+  [URLTranslator]
+  TransformationGroup=urlalias_iri
+
+Advanced users might also want to take a look at *transform.ini* to
+configure your own transformation group. Tweaking this file and adding
+an extension to the transformation allows for full control over the
+created URL aliases.
+
+Note: #3 is referred to as IRI_ (Internationalized Resource
+      Identifiers) which is a specialization of URI/URL with Unicode
+      support.
+
+.. _IRI: http://www.w3.org/International/O-URL-and-ident.html
+
+
+Step 3
+------
+
+The transformation type has been chosen but the database still
+contains the old aliases. To update the aliases and transfer old urls
+as history the script *update/common/scripts/updateniceurls.php* must
+be used. It will first transfer the old aliases to the new system, then
+it will go over all objects in the system and create new aliases for
+them, the old aliases will then become history entries.
+
+Run the script with::
+
+  update/common/scripts/updateniceurls.php
+
+Note: The script will use all the languages of your site, and not just
+      the ones defined in the chosen siteaccess. This is needed to
+      create all aliases of all languages.
+
+If you decide to change the transformation type later on you can
+re-run this script, all existing aliases (using the old type) will
+then be stored as history entries.
+
+
+Note: Running this script may take some time depending on the number
+      of nodes.
+
+Step 4
+------
+
+Clear the content-cache, template-block and tree menu cache to allow
+the new aliases to be used on the site.
+
+e.g.::
+
+  bin/php/ezcache.php --clear-id=content,template-block,content_tree_menu
+
+
+Troubleshooting
+---------------
+
+?
+
+
+Documentation
+=============
+
+How it works
+------------
+
+The new alias system follows the same behaviour as the multi-lingual
+support added to eZ publish 3.8.
+.. Doc team: *explain here in more detail*
+
+Aliases are now created per translation on the object and not just for
+the main translation. 
+
+For instance if the following structure is present::
+
+  Company (node 10)
+  |-- About-us (node 11)
+  `-- Contact (node 12)
+
+Then the *node 10* is translated into german and gets the alias
+*Unternehmen*, the structure is then::
+
+  Company|Unternehmen (node 10)
+  |-- About-us (node 11)
+  `-- Contact (node 12)
+
+Accessing the sub-nodes are now possible using the english and
+german alias, ie::
+
+  Company/About-us
+  Unternehmen/About-us
+
+Next if *node 12* is translated into french and gets the alias
+*Contactez-nous*, the structure is then::
+
+  Company|Unternehmen (node 10)
+  |-- About-us (node 11)
+  `-- Contact|Contactez-nous (node 12)
+
+Accessing the sub-nodes are now possible using the english, french and
+german alias, ie::
+
+  Company/Contact
+  Company/Contactez-nous
+  Unternehmen/Contact
+  Unternehmen/Contactez-nous
+
+Note however that the chosen alias does not decide the language which
+is shown on the site, this preference is handled by the language
+preference list on the siteaccess. The alias is only present to find
+the correct node using a more understandable name.
+
+If a site-access with only french (and english as fallback) was used,
+then only these aliases would be possible::
+
+  Company/Contactez-nous
+  Company/Contact
+  Company/About-us
+
+while the preferred alias for *node 12* would be *Company/Contactez-nous*.
+If *node 10* was configured to be available no matter what the
+language is, then the german alias would also be possible to use on
+the french site-access.
+
+URL alias pattern
+-----------------
+
+A new field has been added to the class edit interface which allows
+for setting an attribute to act as the input field for the URL alias.
+This works in the same way as the *Object name pattern* but is used
+for the alias. This allows editors to use one name for the object and
+another (usually abbreviated) for the alias.
+
+Setting this is up requires creating a new attribute in the class,
+name it accordingly and then use the identifier of the attribute in
+the pattern input. e.g. if attribute is named *Alias* and has the
+identifier *alias* the resulting pattern would be::
+
+  <alias>
+
+If the pattern is set to be empty the system will use the name of the
+object instead.
+
+Managing aliases
+----------------
+
+The GUI for managing URL aliases has been revamped and simplified and
+is split into two parts.
+
+Node aliases
+~~~~~~~~~~~~
+
+The first part is the new GUI for managing aliases for content nodes,
+found at *content/urlalias/<nodeid>*, which provides a simpler
+overview of the aliaes of any given node. The interface has the
+possibility to create new aliases, remove existing ones and provides
+handy links to the current aliases.
+
+The GUI for new aliases consists of a language drop-down, an input
+field for the alias and a checkbox.
+
+The language drop-down decides the language of created alias, note
+also that the `always available` flag is taken from the node.
+
+The input contain the alias of the url, it can also contain a full url
+to place the alias at a different location. The location may exist
+from before, if it does not the entries are created but they cannot be
+accessed, only the final alias can be accessed. If later on new
+nodes/aliases are created with the same name as the fake locations the
+locations will be reclaimed and can then be accessed.
+
+The checkbox called `Relative to parent` decided where the alias/url
+starts, if checked it will start from the parent of the current node
+which makes the alias a sibling or child of the current node.
+If unchecked the alias/url is created from the root of the site.
+
+.. doc team: might need better explanation, ask me if you don't get it.
+
+Note: Reaching the url alias page for the node can be done from the
+      drop-down menu when viewing the node or the drop-down from the
+      tree menu.
+
+The generated aliases of the node is also shown in a different list,
+modifying these can only be done by editing the node. Links to the
+edit interface are present in this very same list.
+
+Global aliases
+~~~~~~~~~~~~~~
+
+The other GUI is the existing global overview of aliases in the
+system, found at *content/urltranslator*, which has been cleaned up to
+make it easier to use.
+
+The interface is similar to the one on the node with a few
+differences. The main list will display all aliases in the system
+sorted by the name of the element (not path), however it will not
+display aliases for nodes since that is taken care of by the other
+GUI.
+
+Creating a new alias requires the input alias/url and the
+destination. The destination can be another alias or a module+view in
+the system. The input alias/url will always start at the root of the
+site.
+The language drop-down decides the language of the url and the
+`Include in other languages` checkbox dictates whether the alias is
+also available in other languages.
+
+Note: If an alias is create to a node (either content/view/full/<node>
+      or its alias) the alias will be created but will not appear in
+      the global list. The user is informed about this and given a
+      link to go the alias page for the node.
+
+Transforming input
+~~~~~~~~~~~~~~~~~~
+
+When the user enters an alias or url the system will perform cleanup
+of the input by using the same transformation rules as the generated
+aliases. This is needed to avoid certain characters and ensure that
+the alias conforms the urls of the site. If the alias is modified the
+user will be notified about it.
+
+
+Alias transformation
+--------------------
+
+The transformation of the entered/generated aliases has changed a bit
+in 3.10. The changes were done based on user input and new
+possibilities of the modern browsers.
+
+Dash vs underscore
+~~~~~~~~~~~~~~~~~~
+
+Previosuly eZ publish used underscores as the separators of
+words. However more and more people have requested the desire to use
+dashes instead of underscores, often related to the SEO reasons.
+Instead of enforcing this behaviour eZ publish allows the user to
+decide which character to use as separator.
+
+Change the INI setting *WordSeparator* in group *URLTranslator* (file
+*site.ini*) to either *dash*, *underscore* or *space*.
+
+Remember to run *updateniceurls.php* when this setting has changed.
+
+Note: The space is currently an experimental feature, might be removed
+      before the final 3.10 release.
+
+
+Unicode support
+~~~~~~~~~~~~~~~
+
+The previous transformation rules were quite restrictive and only
+allowed a subset of the ASCII character set (ie. a-z, 0-9 and _). This
+causes lots of problems for non-western languages which uses different
+alphabets, some which are quite hard to transliterate.
+In eZ publish 3.10 it is now possible to enable Unicode support for
+the transformation, the result is that no transliteration is performed
+and most characters are allowed. The only ones which are not allowed
+are:
+
+  space, ampersand, semi-colon, forward slash, colon, equal sign,
+  question mark, square brackets, parenthesis and plus
+
+They have to be transformed to avoid problems with their existing use
+in the web pages and the HTTP protocol.
+
+The Unicode characters are encoded using the IRI_ standard which
+basically encodes the text into UTF-8 and then performs further
+encoding as mentioned in `RFC 1738`_. The resulting url contains
+characters which are valid for the HTTP protocols and will work in all
+existing browsers/clients. Modern browsers will also decode the url
+and display it as Unicode characters to the user.
+
+To use the unicode format *site.ini* must configured, configure it by
+using the *urlalias_iri* transformation, e.g.::
+
+  [URLTranslator]
+  TransformationGroup=urlalias_iri
+
+.. _`RFC 1738`: http://www.faqs.org/rfcs/rfc1738
+
+Case aware
+~~~~~~~~~~
+
+The case of a character is now no longer transformed into lowercase,
+however all matching is done case-insensitive. This means that
+original text is preserved as much as possible while it is still
+possible to enter the text in any case you would like. It also means
+that two nodes on the same level which only differs in case will not
+get the same alias, one of them will be adjusted to be unique.
+
+Case preservation is handled by the *urlalias* and *urlalias_iri*
+transformation group, the *urlalias_compat* will perform the lowercase
+conversion as it did earlier.
+
+Compatability
+~~~~~~~~~~~~~
+
+As mentioned earlier in the document it is possible to get the old
+behaviour of alias transformation back. Simply configure
+*TransformationGroup* in *site.ini* to contain *urlalias_compat* as
+the type, e.g.::
+
+  [URLTranslator]
+  TransformationGroup=urlalias_compat
+
+Filtering of alias text
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To provide even greater flexibility of the generated aliases the
+ability to filter them was added. The system will invoke one or more
+filters as defined in the system on the urls before the final filtered
+result is transformed to a valid alias.
+The filters can be created in extensions and added to the system with
+INI configuration which can be found in the *site.ini* file under
+the group *URLTranslator* and variable *Extensions*.
+The active filters are set in the *Filters* variable and will be
+searched for in all the extensions. The filename which is searched for
+is the lowercase name of the filter with a *.php* suffix, the filter
+name will also be the class name which is searched for, e.g.::
+
+  Filters[]=StripWords
+
+will look for file *stripwords.php* and class *StripWords*.
+The filter class must implement a method called *process* which takes
+three parameters, the text to filter, the language object
+(eZContentLanguage) and the object which called the filter
+process. The method must return the newly filtered text.
+
+An example::
+
+  class StripWords
+  {
+      function process( $text, $languageObject, $caller )
+      {
+          return str_replace( "and", "", $text );
+      }
+  }
+
+Custom transformation commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The transformation also received an upgrade with the possibility to
+create your own commands for doing transformation. 
+The commands can be created in extensions and added to the system with
+INI configuration which can be found in the *transform.ini* file under
+the group *Extensions* and variable *Commands*.
+
+To create a command follow these steps:
+
+Step 1.
+^^^^^^^
+
+Create a new class (e.g. *MyReverse*) and place it in your extension, e.g. *extension/myextension/transformation/myreverse.php*.
+This class must have a static method called *executeCommand* which takes three parameters, *$text*, *$command* and *$charsetName*.
+
+- $text - The input text to transform.
+- $command - The name of the command to execute, this can be used to keep multiple commands in one function.
+- $charsetName - The name of the charset in use for $text, usually not needed.
+
+The full code would look something like::
+
+  class MyReverse
+  {
+      function executeCommand( $text, $command, $charsetName )
+      {
+          $text = strrev( $text );
+          return $text;
+      }
+  }
+
+Step 2.
+^^^^^^^
+
+Register the PHP code in the *transform.ini* INI file, it needs an entry in the *Extensions* group under the variable *Commands*, this expects the path to the PHP file and the class name (separated by a colon).
+
+The INI entry would look like::
+
+  [Extensions]
+  Commands[]
+  Commands[my_reverse]=extension/myextension/transformation/myreverse.php:MyReverse
+
+Step 3.
+^^^^^^^
+
+Add your newly created command to one of the transformation groups by doing something like::
+
+  Commands[]=my_reverse
+
+Now the command is registered and should be working.
+
+Step 4.
+^^^^^^^
+
+To test that the command is working try this code snippet::
+
+  include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+  
+  $textList = array( 'Hello there', 'What_the?' );
+  
+  $transform = eZCharTransform::instance();
+  
+  foreach ( $textList as $text )
+  {
+      $trText = $transform->transformByGroup( $text, 'urlalias' );
+      echo "Original text '$text'\n";
+      echo "New text      '$trText'\n";
+  }
+
+store it in *trans.php* and run it with *bin/php/ezexec.php*, e.g.::
+
+  ./bin/php/ezexec.php trans.php
+ 
+Developer changes
+=================
+
+The first change is in the database schema. A new table called
+*ezurlalias_ml* has been added which contains all the new aliases. The
+old aliases are still kept in the table *ezurlalias*, but a new column
+is added, called *is_imported*, which keeps track of which of the old
+aliases have been succesfully imported.
+The design of the *ezurlalias_ml* table is explained in more detail in
+a different document.
+
+Together with the new table there is also a new class (actually more
+than one) which handles the new aliases. The class is eZURLAliasML and
+is located at *kernel/classes/ezurlaliasml.php*. The old class
+eZURLAlias is still present but the functions have been disabled.
+The eZURLAliasML class together with eZPathElement, eZURLAliasQuery
+and eZURLAliasFilter handles all the new functionality and is designed
+to be used by extensions and other parts of the system (ie. no longer
+just eZContentObjectTreeNode). To get an overview of how to do this
+the API documentation of eZURLAliasML should be examined.
+
+The old wildcard cache is no longer needed and can safely be removed
+from the filesystem if it is present. The new database design has
+made it obsolete.
+
+eZURLAlias
+----------
+
+The class is deprecated and using it will stop the running
+process. All code using this class must be converted to use
+eZURLAliasML instead which has the same signatures for the following
+functions *translate*, *cleanURL*, *convertPathToAlias* and
+*convertToAlias*. The rest of the functionality has changed as need by
+the new database design.
+
+eZContentObjectTreeNode
+-----------------------
+
+The attribute *path_identification_string* has been kept but will only
+be created for the main language of the node. For real multi-lingual
+path entries use the *urlAlias* function (*url* also) and the
+attribute *url_alias* (*url* also) for templates.
+
+The method *updateURLAlias* has been deprecated in favor for
+*updateSubTreePath* which is modified to handle multiple languages.
+
+eZURI
+-----
+
+The decoding of IRI_ input has been added, the result is that the
+resulting URI is in the charset of the site.
+In addition encoding of outgoing URLs has been added to
+*kernel/error/view.php* and *lib/ezutils/classes/ezhttptool.php*.
+
