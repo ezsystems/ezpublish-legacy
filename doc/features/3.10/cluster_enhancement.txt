@@ -63,8 +63,6 @@ tables with:
 Then create the tables as stated in the PHP file
 *kernel/classes/clusterfilehandlers/dbbackends/mysql.php*.
 
-.. doc-team: Maybe the SQLs for the table creation should be present
-   in this doc?
 
 4 - Clusterize
 ~~~~~~~~~~~~~~
