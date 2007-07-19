@@ -1684,7 +1684,6 @@ WHERE user_id = '" . $userID . "' AND
 
             $this->AccessArray =& $accessArray;
         }
-
         return $this->AccessArray;
     }
 
@@ -1762,16 +1761,17 @@ WHERE user_id = '" . $userID . "' AND
             $userID = $this->attribute( 'contentobject_id' );
             $classID = $contentObject->attribute( 'contentclass_id' );
             $ownerID = $contentObject->attribute( 'owner_id' );
+            $currentSectionID = $contentObject->attribute( 'section_id' );
 
             $allowedSectionIDList = array();
             foreach ( $access['policies'] as $policy )
             {
                 if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
-                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) )
+                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
+                     ( isset( $policy['CurrentSection'] ) and !in_array( $currentSectionID, $policy['CurrentSection'] ) ) )
                 {
                     continue;
                 }
-
                 if ( isset( $policy['Section'] ) and count( $policy['Section'] > 0 ) )
                 {
                     $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['Section'] );
@@ -1803,11 +1803,13 @@ WHERE user_id = '" . $userID . "' AND
             $userID = $this->attribute( 'contentobject_id' );
             $classID = $contentObject->attribute( 'contentclass_id' );
             $ownerID = $contentObject->attribute( 'owner_id' );
+            $currentSectionID = $contentObject->attribute( 'section_id' );
 
             foreach ( $access['policies'] as $policy )
             {
                 if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
-                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) )
+                     ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
+                     ( isset( $policy['CurrentSection'] ) and !in_array( $currentSectionID, $policy['CurrentSection'] ) ) )
                 {
                     continue;
                 }

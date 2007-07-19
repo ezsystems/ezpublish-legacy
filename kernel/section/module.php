@@ -75,6 +75,16 @@ $SectionID = array(
     'parameter' => array( false )
     );
 
+$CurrentSectionID = array(
+    'name'=> 'CurrentSection',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezsection.php',
+    'class' => 'eZSection',
+    'function' => 'fetchList',
+    'parameter' => array( false )
+    );
+
 $Assigned = array(
     'name'=> 'Owner',
     'values'=> array(
@@ -86,7 +96,8 @@ $Assigned = array(
 
 $FunctionList = array();
 $FunctionList['assign'] = array( 'Class' => $ClassID,
-                                 'Section' => $SectionID,
-                                 'Owner' => $Assigned );
+                                 'CurrentSection' => $CurrentSectionID,
+                                 'Owner' => $Assigned,
+                                 'Section' => $SectionID );
 
 ?>

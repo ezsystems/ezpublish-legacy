@@ -47,7 +47,10 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
         {
             $selectedSectionID = (int) $http->postVariable( 'SelectedSectionId' );
             $selectedSection = eZSection::fetch( $selectedSectionID );
-            if ( is_object( $selectedSection ) )
+            $objectSectionID = $object->attribute( 'section_id' );
+            $objectID = $object->attribute( 'id' );
+
+            if ( is_object( $selectedSection ) and $objectSectionID != $selectedSectionID )
             {
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 $currentUser =& eZUser::currentUser();
@@ -62,12 +65,10 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
                         {
                             eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
                         }
-                        include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     }
                     else
                     {
                         // If there are no assigned nodes we should update db for the current object.
-                        $objectID = $object->attribute( 'id' );
                         $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
                         $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
                     }
@@ -79,8 +80,8 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
                     eZDebug::writeError( "You do not have permissions to assign the section <" . $selectedSection->attribute( 'name' ) .
                                          "> to the object <" . $object->attribute( 'name' ) . ">." );
                 }
-                $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
             }
+            $module->redirectToView( 'edit', array( $objectID, $editVersion, $editLanguage, $fromLanguage ) );
         }
     }
 }
