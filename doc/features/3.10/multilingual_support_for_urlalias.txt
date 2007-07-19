@@ -110,12 +110,6 @@ e.g.::
   bin/php/ezcache.php --clear-id=content,template-block,content_tree_menu
 
 
-Troubleshooting
----------------
-
-?
-
-
 Documentation
 =============
 
@@ -124,7 +118,6 @@ How it works
 
 The new alias system follows the same behaviour as the multi-lingual
 support added to eZ publish 3.8.
-.. Doc team: *explain here in more detail*
 
 Aliases are now created per translation on the object and not just for
 the main translation. 
@@ -231,8 +224,6 @@ The checkbox called `Relative to parent` decided where the alias/url
 starts, if checked it will start from the parent of the current node
 which makes the alias a sibling or child of the current node.
 If unchecked the alias/url is created from the root of the site.
-
-.. doc team: might need better explanation, ask me if you don't get it.
 
 Note: Reaching the url alias page for the node can be done from the
       drop-down menu when viewing the node or the drop-down from the
