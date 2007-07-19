@@ -1375,18 +1375,19 @@ class eZContentObjectVersion extends eZPersistentObject
                     $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
             }
 
+            $xpath = new DOMXPath( $domNode->ownerDocument );
+            $xpath->registerNamespace( 'ezobject', 'http://ez.no/object/' );
+            $xpath->registerNamespace( 'ezremote', 'http://ez.no/ezobject' );
+
             foreach( $attributeArray as $attribute )
             {
                 $attributeIdentifier = $attribute->attribute( 'contentclass_attribute_identifier' );
-                $xpath = new DOMXPath( $domNode->ownerDocument );
-                $xpath->registerNamespace( 'ezobject', 'http://ez.no/object/' );
-                $xpathQuery = "//ezobject:attribute[@ezremote:identifier='$attributeIdentifier']";
+                $xpathQuery = "ezobject:attribute[@ezremote:identifier='$attributeIdentifier']";
                 $attributeDomNodes = $xpath->query( $xpathQuery, $languageNode );
                 $attributeDomNode = $attributeDomNodes->item( 0 );
                 if ( !$attributeDomNode )
                 {
                     $debug->writeDebug( 'no translation in ' . $language . ' for attribute ' . $attributeIdentifier );
-                    $debug->writeDebug( $languageNode->ownerDocument->saveXML( $languageNode ) );
                     continue;
                 }
                 $attribute->unserialize( $package, $attributeDomNode );
