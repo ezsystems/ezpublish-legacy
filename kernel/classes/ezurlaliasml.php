@@ -1291,7 +1291,12 @@ class eZURLAliasML extends eZPersistentObject
             }
             if ( strcmp( join( "/", $verifiedPath ), $internalURIString ) != 0 ) // Check for case difference
                 $doRedirect = true;
-            if ( $doRedirect )
+            if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
+            {
+                $uriString = 'error/301';
+                $return = $matches[1];
+            }
+            else if ( $doRedirect )
             {
                 if ( $redirectAction !== false )
                 {
@@ -1337,11 +1342,6 @@ class eZURLAliasML extends eZPersistentObject
                     $uriString = 'error/301';
                     $return = join( "/", $pathData );
                 }
-            }
-            else if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
-            {
-                $uriString = 'error/301';
-                $return = $matches[1];
             }
             else
             {
