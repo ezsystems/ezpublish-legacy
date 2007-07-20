@@ -289,7 +289,7 @@ class eZURLAliasML extends eZPersistentObject
         $parentID = (int)$parentID;
         if ( !is_object( $language ) )
             $language = eZContentLanguage::fetchByLocale( $language );
-        $languageID = $language->attribute( 'id' );
+        $languageID = (int)$language->attribute( 'id' );
         $db =& eZDB::instance();
         if ( $db->databaseName() == "oracle" )
         {
@@ -865,14 +865,15 @@ class eZURLAliasML extends eZPersistentObject
             {
                 foreach ( $actionRows as $row )
                 {
-                    $wantedMask = $language->attribute( 'id' );
-                    if ( ( $wantedMask & $row['lang_mask'] ) > 0 )
+                    $langMask   = (int)$row['lang_mask'];
+                    $wantedMask = (int)$language->attribute( 'id' );
+                    if ( ( $wantedMask & $langMask ) > 0 )
                     {
                         $defaultRow = $row;
                         break 2;
                     }
                     // If the 'always available' bit is set then choose it as the default
-                    if ( ($row['lang_mask'] & 1) > 0 )
+                    if ( ($langMask & 1) > 0 )
                     {
                         $defaultRow = $row;
                     }
@@ -1637,6 +1638,7 @@ class eZURLAliasML extends eZPersistentObject
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
         $scores = array();
         $score = 1;
+        $mask   = (int)$mask;
         krsort( $prioritizedLanguages );
         foreach ( $prioritizedLanguages as $prioritizedLanguage )
         {
