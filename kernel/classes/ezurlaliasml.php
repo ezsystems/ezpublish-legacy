@@ -513,7 +513,7 @@ class eZURLAliasML extends eZPersistentObject
             $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, $action );
 
             // Step 4, update | create element
-            $textMD5 = $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $textMD5 = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
             $query = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
             $rows = $db->arrayQuery( $query );
             // TODO: optimize on InnoDB with INSERT ... ON DUPLICATE
@@ -623,7 +623,7 @@ class eZURLAliasML extends eZPersistentObject
                 return array( 'status' => EZ_URLALIAS_LINK_ALREADY_TAKEN,
                               'path' => join( '/', $createdPath ) );
             }
-            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
             $rows = $db->arrayQuery( $sql );
             if ( count( $rows ) > 0 )
             {
