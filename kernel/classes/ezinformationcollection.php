@@ -180,7 +180,7 @@ class eZInformationCollection extends eZPersistentObject
     {
         if ( !$object )
             return false;
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         if ( !$class )
             return false;
 

@@ -78,7 +78,7 @@ class eZTemplateSectionIterator
     function attributes()
     {
         $attributes = array();
-        $item =& $this->InternalAttributes['item'];
+        $item = $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
             $attributes = array_keys( $item );
@@ -101,7 +101,7 @@ class eZTemplateSectionIterator
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
             return true;
-        $item =& $this->InternalAttributes['item'];
+        $item = $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
             return in_array( $name, array_keys( $item ) );
@@ -118,43 +118,37 @@ class eZTemplateSectionIterator
      \return the attribute value of either the internal attributes or
              from the item value if the attribute exists for it.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( in_array( $name, $this->InternalAttributeNames ) )
         {
-            unset( $tempValue );
-            $tempValue =& $this->InternalAttributes[$name];
-            return $tempValue;
+            return $this->InternalAttributes[$name];
         }
-        $item =& $this->InternalAttributes['item'];
+        $item = $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
-            $arrayItem = $item[$name];
-            return $arrayItem;
+            return $item[$name];
         }
         else if ( is_object( $item ) and
                   method_exists( $item, 'attribute' ) )
         {
-            unset( $tempValue );
-            $tempValue = $item->attribute( $name );
-            return $tempValue;
+            return $item->attribute( $name );
         }
         eZDebug::writeError( "Attribute '$name' does not exist", 'eZTemplateSectionIterator::attribute' );
-        $tempValue = null;
-        return $tempValue;
+        return null;
     }
 
     /*!
      Updates the iterator with the current iteration values.
     */
-    function setIteratorValues( &$item, $key, $index, $number, $sequence, &$last )
+    function setIteratorValues( $item, $key, $index, $number, $sequence, &$last )
     {
-        $this->InternalAttributes['item'] =& $item;
+        $this->InternalAttributes['item'] = $item;
         $this->InternalAttributes['key'] = $key;
         $this->InternalAttributes['index'] = $index;
         $this->InternalAttributes['number'] = $number;
         $this->InternalAttributes['sequence'] = $sequence;
-        $this->InternalAttributes['last'] =& $last;
+        $this->InternalAttributes['last'] = $last;
     }
 
     /*!

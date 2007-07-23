@@ -229,17 +229,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
              attribute identifiers.
      \sa eZContentObject::fetchDataMap
     */
-    function &dataMap()
+    function dataMap()
     {
-        $obj =& $this->object();
-        return $obj->fetchDataMap( $this->attribute( 'contentobject_version' ) );
+        return $this->object()->fetchDataMap( $this->attribute( 'contentobject_version' ) );
     }
 
     /*!
      Get remote id of content node, the remote ID is often used to synchronise imports and exports.
      If there is no remote ID a new unique one will be generated.
     */
-    function &remoteID()
+    function remoteID()
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID )
@@ -255,10 +254,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return true if this node is the main node.
      */
-    function &isMain()
+    function isMain()
     {
-        $retVal = $this->NodeID == $this->MainNodeID;
-        return $retVal;
+        return $this->NodeID == $this->MainNodeID;
     }
 
     /*!
@@ -375,14 +373,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canRead( )
+    function canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
             $this->Permissions["can_read"] = $this->checkAccess( 'read' );
         }
-        $p = ( $this->Permissions["can_read"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_read"] == 1 );
     }
 
     /*!
@@ -390,14 +387,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canPdf( )
+    function canPdf( )
     {
         if ( !isset( $this->Permissions["can_pdf"] ) )
         {
             $this->Permissions["can_pdf"] = $this->checkAccess( 'pdf' );
         }
-        $p = ( $this->Permissions["can_pdf"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_pdf"] == 1 );
     }
 
 
@@ -407,14 +403,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canViewEmbed( )
+    function canViewEmbed( )
     {
         if ( !isset( $this->Permissions["can_view_embed"] ) )
         {
             $this->Permissions["can_view_embed"] = $this->checkAccess( 'view_embed' );
         }
-        $p = ( $this->Permissions["can_view_embed"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_view_embed"] == 1 );
     }
 
     /*!
@@ -423,7 +418,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canEdit( )
+    function canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -441,8 +436,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                  }
             }
         }
-        $p = ( $this->Permissions["can_edit"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_edit"] == 1 );
     }
 
     /*!
@@ -451,14 +445,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canHide( )
+    function canHide( )
     {
         if ( !isset( $this->Permissions["can_hide"] ) )
         {
             $this->Permissions["can_hide"] = $this->checkAccess( 'hide' );
         }
-        $p = ( $this->Permissions["can_hide"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_hide"] == 1 );
     }
 
     /*!
@@ -467,14 +460,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canCreate( )
+    function canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
             $this->Permissions["can_create"] = $this->checkAccess( 'create' );
         }
-        $p = ( $this->Permissions["can_create"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_create"] == 1 );
     }
 
     /*!
@@ -483,14 +475,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canRemove( )
+    function canRemove( )
     {
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
             $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
-        $p = ( $this->Permissions["can_remove"] == 1 );
-        return $p;
+        return ( $this->Permissions["can_remove"] == 1 );
     }
 
     /*!
@@ -501,7 +492,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
            a bug with PHP references.
      \deprecated The function canMove() is preferred since its naming is clearer.
     */
-    function &canMove()
+    function canMove()
     {
         return $this->canMoveFrom();
     }
@@ -513,14 +504,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canMoveFrom( )
+    function canMoveFrom( )
     {
         if ( !isset( $this->Permissions['can_move_from'] ) )
         {
             $this->Permissions['can_move_from'] = $this->checkAccess( 'edit' ) && $this->checkAccess( 'remove' );
         }
-        $p = ( $this->Permissions['can_move_from'] == 1 );
-        return $p;
+        return ( $this->Permissions['can_move_from'] == 1 );
     }
 
     /*!
@@ -529,14 +519,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canMoveTo( $classID = false )
+    function canMoveTo( $classID = false )
     {
         if ( !isset( $this->Permissions['can_move_to'] ) )
         {
             $this->Permissions['can_move_to'] = $this->checkAccess( 'create', $classID );
         }
-        $p = ( $this->Permissions['can_move_to'] == 1 );
-        return $p;
+        return ( $this->Permissions['can_move_to'] == 1 );
     }
 
     /*!
@@ -545,41 +534,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canSwap()
+    function canSwap()
     {
         if ( !isset( $this->Permissions['can_swap'] ) )
         {
             $this->Permissions['can_swap'] = $this->checkAccess( 'edit' );
         }
-        $p = ( $this->Permissions['can_swap'] == 1 );
-        return $p;
+        return ( $this->Permissions['can_swap'] == 1 );
     }
 
     /*!
      \return \c true if current user can add object locations to current node.
      \sa checkAccess()
     */
-    function &canAddLocation()
+    function canAddLocation()
     {
         if ( !isset( $this->Permissions['can_add_location'] ) )
         {
             $this->Permissions['can_add_location'] = $this->checkAccess( 'can_add_location' );
         }
-        $p = ( $this->Permissions['can_add_location'] == 1 );
-        return $p;
+        return ( $this->Permissions['can_add_location'] == 1 );
     }
 
     /*!
      \return \c true if current user can add object locations to current node.
     */
-    function &canRemoveLocation()
+    function canRemoveLocation()
     {
         if ( !isset( $this->Permissions['can_remove_location'] ) )
         {
             $this->Permissions['can_remove_location'] = $this->checkAccess( 'can_remove_location' );
         }
-        $p = ( $this->Permissions['can_remove_location'] == 1 );
-        return $p;
+        return ( $this->Permissions['can_remove_location'] == 1 );
     }
 
     /*!
@@ -2939,7 +2925,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return the children(s) of the current node as an array of eZContentObjectTreeNode objects
     */
-    function &childrenByName( $name )
+    function childrenByName( $name )
     {
         $nodeID = $this->attribute( 'node_id' );
 
@@ -2978,20 +2964,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodeListArray = $db->arrayQuery( $query );
 
-        $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-
-        return $retNodeList;
+        return eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
     }
 
     /*!
      Returns the first level children in sorted order.
     */
-    function &children()
+    function children()
     {
-        $children =& $this->subTree( array( 'Depth' => 1,
-                                            'DepthOperator' => 'eq',
-                                            'SortBy' => $this->sortArray() ) );
-        return $children;
+        return $this->subTree( array( 'Depth' => 1,
+                                      'DepthOperator' => 'eq',
+                                      'SortBy' => $this->sortArray() ) );
     }
 
     /*!
@@ -2999,25 +2982,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \params $checkPolicies If \c true it will only include nodes which can be read using the current policies,
                             if \c false all nodes are included in count.
     */
-    function &childrenCount( $checkPolicies = true )
+    function childrenCount( $checkPolicies = true )
     {
         $params = array( 'Depth' => 1,
                          'DepthOperator' => 'eq' );
         if ( !$checkPolicies )
             $params['Limitation'] = array();
-        $subTreeCount = $this->subTreeCount( $params );
-        return $subTreeCount;
+        return $this->subTreeCount( $params );
     }
 
     /*!
      Get amount views of content node.
     */
-    function &viewCount()
+    function viewCount()
     {
         include_once( 'kernel/classes/ezviewcounter.php' );
         $count = eZViewCounter::fetch( $this->attribute( 'node_id' ), false );
-        $count = (int) $count['count'];
-        return $count;
+        return (int) $count['count'];
     }
 
     /*!
@@ -3093,11 +3074,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
      The array will contain one element which is an array with sort field
      and sort order.
     */
-    function &sortArray()
+    function sortArray()
     {
-        $retVal = eZContentObjectTreeNode::sortArrayBySortFieldAndSortOrder( $this->attribute( 'sort_field' ),
-                                                                             $this->attribute( 'sort_order' ) );
-        return $retVal;
+        return eZContentObjectTreeNode::sortArrayBySortFieldAndSortOrder( $this->attribute( 'sort_field' ),
+                                                                          $this->attribute( 'sort_order' ) );
     }
 
     /*!
@@ -3239,12 +3219,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     }
 
-    function &fetchByCRC( $pathStr )
+    function fetchByCRC( $pathStr )
     {
         $debug = eZDebug::instance();
         $debug->writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     static function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
@@ -3296,9 +3275,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $pathListArray;
     }
 
-    static function &findMainNode( $objectID, $asObject = false )
+    static function findMainNode( $objectID, $asObject = false )
     {
-        $objectID=(int) $objectID;
+        $objectID = (int)$objectID;
         $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.serialized_name_list as class_serialized_name_list
@@ -3322,23 +3301,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $asObject )
             {
                 $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-                $returnValue =& $retNodeArray[0];
-                return $returnValue;
-            }else
+                return $retNodeArray[0];
+            }
+            else
             {
-                $retNodeArray =& $nodeListArray;
-                return $retNodeArray[0]['node_id'];
+                return $nodeListArray[0]['node_id'];
             }
 
         }
-        $retVal = null;
-        return $retVal;
+        return null;
     }
 
     /*!
       Fetches the main nodes for an array of object id's
     */
-    function &findMainNodeArray( $objectIDArray, $asObject = true )
+    function findMainNodeArray( $objectIDArray, $asObject = true )
     {
         if ( count( $objectIDArray ) )
         {
@@ -3367,8 +3344,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $nodeListArray;
             }
         }
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
 
@@ -3518,17 +3494,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &fetchParent()
+    function fetchParent()
     {
-        $parent = $this->fetch( $this->attribute( 'parent_node_id' ) );
-        return $parent;
+        return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
     /*!
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &pathArray()
+    function pathArray()
     {
         $pathString = $this->attribute( 'path_string' );
         $pathItems = explode( '/', $pathString );
@@ -3542,13 +3517,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
 
-    function &fetchPath()
+    function fetchPath()
     {
         $nodePath = $this->attribute( 'path_string' );
 
-        $retNodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, false, true );
-
-        return $retNodes;
+        return eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, false, true );
     }
 
     /*!
@@ -3613,14 +3586,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
      $list = fetchClassIdentifierListByPathString( '/2/10/', false );
      \endcode
     */
-    static function &fetchClassIdentifierListByPathString( $nodePath, $withLastNode )
+    static function fetchClassIdentifierListByPathString( $nodePath, $withLastNode )
     {
         $itemList = array();
         $nodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false );
 
-        foreach ( array_keys( $nodes ) as $nodeKey )
+        foreach ( $nodes as $node )
         {
-            $node =& $nodes[$nodeKey];
             $itemList[]  = array( 'node_id'          => $node['node_id'],
                                   'class_identifier' => $node['class_identifier'] );
         }
@@ -3663,7 +3635,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &addChild( $contentobjectID, $nodeID = 0, $asObject = false, $contentObjectVersion = false )
+    function addChild( $contentobjectID, $nodeID = 0, $asObject = false, $contentObjectVersion = false )
     {
         if ( $nodeID == 0 )
         {
@@ -3729,7 +3701,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return an url alias for the current node. It will generate a unique alias.
     */
-    function &pathWithNames( $nodeID = 0, $regenerateCurrent = false )
+    function pathWithNames( $nodeID = 0, $regenerateCurrent = false )
     {
         $node = $this;
         if ( $nodeID != 0 )
@@ -3771,7 +3743,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 $debug = eZDebug::instance();
                 $debug->writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
-                $paren =& $node->fetchParent();
+                $paren = $node->fetchParent();
                 $path = $paren->pathWithNames();
                 // Return a perma-link when the path lookup failed, this link will always work
                 $path = 'content/view/full/' . $node->attribute( 'node_id' );
@@ -5349,7 +5321,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classcreatelist.ctpl
     // code-template::auto-generated:END can-instantiate-class-list
 
-    static function makeObjectsArray( &$array , $with_contentobject = true )
+    static function makeObjectsArray( $array , $with_contentobject = true )
     {
         $retNodes = array();
         if ( !is_array( $array ) )
@@ -5510,7 +5482,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    function &getName( $language = false )
+    function getName( $language = false )
     {
         // If the name is not set yet we fetch it from the object table
         if ( $this->Name === null || $language !== false )
@@ -5746,7 +5718,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->commit();
     }
 
-    function &object()
+    function object()
     {
         if ( $this->hasContentObject() )
         {
@@ -5755,7 +5727,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj = eZContentObject::fetch( $contentobject_id );
         $obj->setCurrentLanguage( $this->CurrentLanguage );
-        $this->ContentObject =& $obj;
+        $this->ContentObject = $obj;
         return $obj;
     }
 
@@ -5780,7 +5752,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &creator()
+    function creator()
     {
         $db = eZDB::instance();
         $query = "SELECT creator_id
@@ -5793,7 +5765,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObject::fetch( $creatorArray[0]['creator_id'] );
     }
 
-    function &contentObjectVersionObject( $asObject = true )
+    function contentObjectVersionObject( $asObject = true )
     {
         $version = eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
         if ( $this->CurrentLanguage != false )
@@ -5803,7 +5775,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $version;
     }
 
-    function &urlAlias()
+    function urlAlias()
     {
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
         $ini = eZINI::instance();
@@ -5840,26 +5812,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $cleanURL;
     }
 
-    function &url()
+    function url()
     {
         $ini = eZINI::instance();
         if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
-            $url =& $this->urlAlias();
+            return $this->urlAlias();
         }
-        else
-        {
-            $url = 'content/view/full/' . $this->NodeID;
-        }
-
-        return $url;
+        return 'content/view/full/' . $this->NodeID;
     }
 
 
     /*!
      \return the cached value of the class identifier if it exists, it not it's fetched dynamically
     */
-    function &classIdentifier()
+    function classIdentifier()
     {
         $identifier = '';
         if ( $this->ClassIdentifier !== null )
@@ -5879,21 +5846,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return the cached value of the class name if it exists, it not it's fetched dynamically
     */
-    function &className()
+    function className()
     {
-        $name = "";
         if ( $this->ClassName !== null )
         {
-            $name = $this->ClassName;
-        }
-        else
-        {
-            $object = $this->object();
-            $class = $object->contentClass();
-            $name = $class->attribute( 'name' );
+            return $this->ClassName;
         }
 
-        return $name;
+        $object = $this->object();
+        $class = $object->contentClass();
+        return $class->attribute( 'name' );
     }
 
     /*!
@@ -5901,26 +5863,26 @@ class eZContentObjectTreeNode extends eZPersistentObject
     Used in the node view templates.
     FIXME: this method probably should be removed in the future.
     */
-    function &hiddenInvisibleString()
+    function hiddenInvisibleString()
     {
-        $retValue = ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
-        return $retValue;
+        return ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
     }
 
     /*!
     \return combined string representation of both "is_hidden" and "is_invisible" attributes
     Used in the limitation handling templates.
     */
-    function &hiddenStatusString()
+    function hiddenStatusString()
     {
         if( $this->IsHidden )
-            $retVal = ezi18n( 'kernel/content', 'Hidden' );
+        {
+            return ezi18n( 'kernel/content', 'Hidden' );
+        }
         else if( $this->IsInvisible )
-            $retVal = ezi18n( 'kernel/content', 'Hidden by superior' );
-        else
-            $retVal = ezi18n( 'kernel/content', 'Visible' );
-
-        return $retVal;
+        {
+            return ezi18n( 'kernel/content', 'Hidden by superior' );
+        }
+        return ezi18n( 'kernel/content', 'Visible' );
     }
 
     /*!
@@ -6180,10 +6142,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
       Returns available classes as Js array.
       Checks if the node is container, if yes emptyStr will be returned.
     */
-    static function &availableClassesJsArray()
+    static function availableClassesJsArray()
     {
-        $classList = eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
-        return $classList;
+        return eZContentObjectTreeNode::availableClassListJsArray( array( 'node' => &$this ) );
     }
 
     /*

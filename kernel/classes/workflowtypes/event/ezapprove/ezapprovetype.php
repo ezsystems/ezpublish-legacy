@@ -254,7 +254,7 @@ class eZApproveType extends eZWorkflowEventType
         {
             // Examine if the published version contains one of the languages we
             // match for.
-            $version =& $object->version( $versionID );
+            $version = $object->version( $versionID );
             // If the language ID is part of the mask the result is non-zero.
             $languageID = (int)$version->attribute( 'initial_language_id' );
             $hasLanguageMatch = (bool)( $languageMask & $languageID );

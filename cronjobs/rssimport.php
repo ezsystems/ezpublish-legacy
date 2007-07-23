@@ -258,7 +258,7 @@ function importRSSItem( $item, &$rssImport, $cli, $channel )
     $version->store();
 
     // Get object attributes, and set their values and store them.
-    $dataMap =& $contentObject->dataMap();
+    $dataMap = $contentObject->dataMap();
     $importDescription = $rssImport->importDescription();
 
     // Set content object attribute values.

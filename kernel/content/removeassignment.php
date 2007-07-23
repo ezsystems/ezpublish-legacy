@@ -119,7 +119,7 @@ foreach ( $assignmentsToRemove as $assignment )
     if ( !$canRemoveSubtree )
         $canRemoveAll = false;
     $object =& $node->object();
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
 
     $removeList[] = array( 'node' => $node,
                            'object' => $object,

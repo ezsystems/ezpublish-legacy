@@ -42,7 +42,7 @@ class eZContentClassNameList extends eZSerializedObjectNameList
         return $object;
     }
 
-    function store( &$contentClass )
+    function store( $contentClass )
     {
         if ( $this->hasDirtyData() && is_object($contentClass ) )
         {

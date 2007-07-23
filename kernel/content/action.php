@@ -265,7 +265,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
     $classID = $class->attribute( 'id' );
 
     if ( $module->hasActionParameter( 'NewParentNode' ) )
@@ -334,7 +334,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
 
     $ignoreNodesSelect = array();
     $ignoreNodesSelectSubtree = array();
@@ -405,7 +405,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
     $objectVersion = $object->attribute( 'current_version' );
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
     $classID = $class->attribute( 'id' );
 
     if ( $module->hasActionParameter( 'NewNode' ) )
@@ -552,7 +552,7 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
 
     $ignoreNodesSelect = array( $nodeID );
     $ignoreNodesClick = array();
@@ -688,7 +688,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $class =& $object->contentClass();
+    $class = $object->contentClass();
     if ( $module->isCurrentAction( 'AddAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );

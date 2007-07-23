@@ -65,12 +65,10 @@ class eZContentCacheManager
      \param $versionNum The version of the object to use or \c true for current version
      \param[out] $nodeIDList Array with node IDs
     */
-    static function appendParentNodeIDs( &$object, $versionNum, &$nodeIDList )
+    static function appendParentNodeIDs( $object, $versionNum, &$nodeIDList )
     {
-        $parentNodes =& $object->parentNodes( $versionNum );
-        foreach ( array_keys( $parentNodes ) as $parentNodeKey )
+        foreach ( $object->parentNodes( $versionNum ) as $parentNode )
         {
-            $parentNode =& $parentNodes[$parentNodeKey];
             if ( is_object ( $parentNode ) )
             {
                 $nodeIDList[] = $parentNode->attribute( 'node_id' );
@@ -83,12 +81,11 @@ class eZContentCacheManager
      Appends nodes ids from \a $nodeList list to \a $nodeIDList
      \param[out] $nodeIDList Array with node IDs
     */
-    static function appendNodeIDs( &$nodeList, &$nodeIDList )
+    static function appendNodeIDs( $nodeList, &$nodeIDList )
     {
-        foreach ( array_keys( $nodeList ) as $nodeKey )
+        foreach ( $nodeList as $node )
         {
-            $assignedNode =& $nodeList[$nodeKey];
-            $nodeIDList[] = $assignedNode->attribute( 'node_id' );
+            $nodeIDList[] = $node->attribute( 'node_id' );
         }
     }
 
@@ -97,12 +94,11 @@ class eZContentCacheManager
      Goes through all content nodes in \a $nodeList and extracts the \c 'path_string'.
      \return An array with \c 'path_string' information.
     */
-    static function &fetchNodePathString( &$nodeList )
+    static function fetchNodePathString( $nodeList )
     {
         $pathList = array();
-        foreach ( array_keys( $nodeList ) as $nodeKey )
+        foreach ( $nodeList as $node )
         {
-            $node =& $nodeList[$nodeKey];
             $pathList[] = $node->attribute( 'path_string' );
         }
         return $pathList;
@@ -114,18 +110,18 @@ class eZContentCacheManager
      their node IDs to \a $nodeIDList.
      \param[out] $nodeIDList Array with node IDs
     */
-    static function appendRelatingNodeIDs( &$object, &$nodeIDList )
+    static function appendRelatingNodeIDs( $object, &$nodeIDList )
     {
         $viewCacheIni = eZINI::instance( 'viewcache.ini' );
         if ( $viewCacheIni->hasVariable( 'ViewCacheSettings', 'ClearRelationTypes' ) )
         {
             $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
-    
+
             if ( !count( $relTypes ) )
                 return;
-    
+
             $relatedObjects = array();
-            
+
             $relationsMask = 0;
             if ( in_array( 'object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
@@ -141,14 +137,14 @@ class eZContentCacheManager
 
             if ( in_array( 'attribute', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            
+
             if ( $relationsMask )
             {
                 $objects = $object->relatedContentObjectList( false, false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
                 $relatedObjects = array_merge( $relatedObjects, $objects );
             }
-    
+
             $relationsMask = 0;
             if ( in_array( 'reverse_object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
@@ -180,13 +176,11 @@ class eZContentCacheManager
             $relatedObjects = array_merge( $normalRelated, $reversedRelated );
         }
 
-        foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
+        foreach ( $relatedObjects as $relatedObject )
         {
-            $relatedObject =& $relatedObjects[$relatedObjectKey];
-            $assignedNodes =& $relatedObject->assignedNodes( false );
-            foreach ( array_keys( $assignedNodes ) as $assignedNodeKey )
+            $assignedNodes = $relatedObject->assignedNodes( false );
+            foreach ( $assignedNodes as $assignedNode )
             {
-                $assignedNode =& $assignedNodes[$assignedNodeKey];
                 $nodeIDList[] = $assignedNode['node_id'];
             }
         }
@@ -203,13 +197,13 @@ class eZContentCacheManager
         if ( $versionNum === true )
             $versionNum = false;
         $keywordArray = array();
-        $attributes =& $object->contentObjectAttributes( true, $versionNum );
+        $attributes = $object->contentObjectAttributes( true, $versionNum );
         foreach ( array_keys( $attributes ) as $key )  // Looking for ezkeyword attributes
         {
             if ( get_class( $attributes[$key] ) == 'ezcontentobjectattribute' and
                  $attributes[$key]->attribute( 'data_type_string' ) == 'ezkeyword' )  // Found one
             {
-                $keywordObject =& $attributes[$key]->content();
+                $keywordObject = $attributes[$key]->content();
                 if ( strtolower( get_class( $keywordObject ) ) == 'ezkeyword' )
                 {
                     foreach ( $keywordObject->attribute( 'keywords' ) as $keyword )
@@ -405,7 +399,7 @@ class eZContentCacheManager
     */
     static function nodeListForObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList )
     {
-        $assignedNodes =& $contentObject->assignedNodes();
+        $assignedNodes = $contentObject->assignedNodes();
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_NODE_CACHE )
         {
@@ -462,14 +456,14 @@ class eZContentCacheManager
             $smartClearType = $dependentClassInfo['clear_cache_type'];
 
             // getting 'path_string's for all locations.
-            $nodePathList =& eZContentCacheManager::fetchNodePathString( $assignedNodes );
+            $nodePathList = eZContentCacheManager::fetchNodePathString( $assignedNodes );
 
             foreach ( $nodePathList as $nodePath )
             {
                 $step = 0;
 
                 // getting class identifier and node ID for each node in the $nodePath.
-                $nodeInfoList =& eZContentObjectTreeNode::fetchClassIdentifierListByPathString( $nodePath, false );
+                $nodeInfoList = eZContentObjectTreeNode::fetchClassIdentifierListByPathString( $nodePath, false );
 
                 if ( $maxParents > 0 )
                 {
@@ -650,7 +644,7 @@ class eZContentCacheManager
         if ( $objectID )
             $object = eZContentObject::fetch( $objectID );
         if ( $object )
-            $nodeList =& $object->assignedNodes();
+            $nodeList = $object->assignedNodes();
 
         include_once( 'kernel/classes/ezsubtreecache.php' );
         eZSubtreeCache::cleanup( $nodeList );

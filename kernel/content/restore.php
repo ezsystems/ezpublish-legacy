@@ -57,7 +57,7 @@ if ( $module->isCurrentAction( 'Cancel' ) )
     return $module->redirectToView( 'trash' );
 }
 
-$class =& $object->contentClass();
+$class = $object->contentClass();
 $version = $object->attribute( 'current' );
 
 $location = null;

@@ -453,7 +453,7 @@ class eZObjectRelationListType extends eZDataType
 
                 if ( $object )
                 {
-                    $class =& $object->contentClass();
+                    $class = $object->contentClass();
                     $time = time();
 
                     // Make the previous version archived

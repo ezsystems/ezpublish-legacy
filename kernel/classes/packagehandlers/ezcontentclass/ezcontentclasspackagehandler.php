@@ -175,8 +175,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $serializedNameList = $serializedNameListNode ? $serializedNameListNode->textContent : false;
         $classNameList = new eZContentClassNameList( $serializedNameList );
         if ( $classNameList->isEmpty() )
+        {
             $classNameList->initFromString( $content->getElementsByTagName( 'name' )->item( 0 )->textContent ); // for backward compatibility( <= 3.8 )
-        $classNameList->validate();
+        }
+        $classNameList->validate( );
 
         $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
         $classRemoteID = $content->getElementsByTagName( 'remote-id' )->item( 0 )->textContent;
@@ -322,12 +324,12 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeSerializedNameList = new eZContentClassAttributeNameList( $attributeSerializedNameListContent );
             if ( $attributeSerializedNameList->isEmpty() )
                 $attributeSerializedNameList->initFromString( $classAttributeNode->getElementsByTagName( 'name' )->item( 0 )->textContent ); // for backward compatibility( <= 3.8 )
-            $attributeSerializedNameList->validate();
+            $attributeSerializedNameList->validate( );
             $attributeIdentifier = $classAttributeNode->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
             $attributePlacement = $classAttributeNode->getElementsByTagName( 'placement' )->item( 0 )->textContent;
             $attributeDatatypeParameterNode = $classAttributeNode->getElementsByTagName( 'datatype-parameters' )->item( 0 );
 
-            $classAttribute =& $class->fetchAttributeByIdentifier( $attributeIdentifier );
+            $classAttribute = $class->fetchAttributeByIdentifier( $attributeIdentifier );
             if ( !$classAttribute )
             {
                 $classAttribute = eZContentClassAttribute::create( $class->attribute( 'id' ),
@@ -538,9 +540,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $classGroupList = eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
                                                                     $class->attribute( 'version' ) );
-        foreach ( array_keys( $classGroupList ) as $classGroupKey )
+        foreach ( $classGroupList as $classGroupLink )
         {
-            $classGroupLink =& $classGroupList[$classGroupKey];
             $classGroup = eZContentClassGroup::fetch( $classGroupLink->attribute( 'group_id' ) );
             if ( $classGroup )
             {
@@ -586,11 +587,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $attributesNode = $dom->createElementNS( 'http://ezpublish/contentclassattribute', 'ezcontentclass-attribute:attributes' );
         $classNode->appendChild( $attributesNode );
 
-        $attributes =& $class->fetchAttributes();
-        for ( $i = 0; $i < count( $attributes ); ++$i )
+        $attributes = $class->fetchAttributes();
+        foreach( $attributes as $attribute )
         {
-            $attribute =& $attributes[$i];
-            unset( $attributeNode );
             $attributeNode = $dom->createElement( 'attribute' );
             $attributeNode->setAttribute( 'datatype', $attribute->attribute( 'data_type_string' ) );
             $required = $attribute->attribute( 'is_required' ) ? 'true' : 'false';
@@ -601,22 +600,22 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeNode->setAttribute( 'information-collector' , $informationCollector );
             $translatable = $attribute->attribute( 'can_translate' ) ? 'true' : 'false';
             $attributeNode->setAttribute( 'translatable' , $translatable );
-            unset( $attributeRemoteNode );
+
             $attributeRemoteNode = $dom->createElement( 'remote' );
             $attributeNode->appendChild( $attributeRemoteNode );
-            unset( $attributeIDNode );
+
             $attributeIDNode = $dom->createElement( 'id', $attribute->attribute( 'id' ) );
             $attributeRemoteNode->appendChild( $attributeIDNode );
-            unset( $attributeSerializedNameListNode );
+
             $attributeSerializedNameListNode = $dom->createElement( 'serialized-name-list', $attribute->attribute( 'serialized_name_list' ) );
             $attributeNode->appendChild( $attributeSerializedNameListNode );
-            unset( $attributeIdentifierNode );
+
             $attributeIdentifierNode = $dom->createElement( 'identifier', $attribute->attribute( 'identifier' ) );
             $attributeNode->appendChild( $attributeIdentifierNode );
-            unset( $attributePlacementNode );
+
             $attributePlacementNode = $dom->createElement( 'placement', $attribute->attribute( 'placement' ) );
             $attributeNode->appendChild( $attributePlacementNode );
-            unset( $attributeParametersNode );
+
             $attributeParametersNode = $dom->createElement( 'datatype-parameters' );
             $attributeNode->appendChild( $attributeParametersNode );
 

@@ -77,7 +77,7 @@ if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 
-$version =& $object->version( $EditVersion );
+$version = $object->version( $EditVersion );
 $classID = $object->attribute( 'contentclass_id' );
 
 $attributeDataBaseName = 'ContentObjectAttribute';

@@ -223,7 +223,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                 if ( isset( $processParameters['version'] ) )
                 {
                     $versionID = $processParameters['version'];
-                    $version =& $object->version( $versionID );
+                    $version = $object->version( $versionID );
 
                     if ( is_object( $version ) )
                     {

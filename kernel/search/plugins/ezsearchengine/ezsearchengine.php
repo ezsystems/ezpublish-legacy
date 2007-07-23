@@ -63,7 +63,7 @@ class eZSearchEngine
     function addObject( &$contentObject, $uri )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
-        $currentVersion =& $contentObject->currentVersion();
+        $currentVersion = $contentObject->currentVersion();
 
         if ( !$currentVersion )
         {

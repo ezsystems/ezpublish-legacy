@@ -374,7 +374,7 @@ class eZSiteInstaller
         $classAttributeIdentifier = $params['attribute_identifier'];
 
         // get attributes of 'temporary' version as well
-        $classAttributeList =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
+        $classAttributeList = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $contentClassID,
                                                                                   'identifier' => $classAttributeIdentifier ),
                                                                            true );
 
@@ -504,16 +504,15 @@ class eZSiteInstaller
                 $newAttribute->setContent( $attrContent );
 
             // store attribute, update placement, etc...
-            $attributes =& $class->fetchAttributes();
-            $attributes[] =& $newAttribute;
+            $attributes = $class->fetchAttributes();
+            $attributes[] = $newAttribute;
 
             $newAttribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_DEFINED );
             $newAttribute->setAttribute( 'placement', count( $attributes ) );
 
             $class->adjustAttributePlacements( $attributes );
-            foreach( array_keys( $attributes ) as $attributeKey )
+            foreach( $attributes as $attribute )
             {
-                $attribute =& $attributes[$attributeKey];
                 $attribute->storeDefined();
             }
 
@@ -523,7 +522,7 @@ class eZSiteInstaller
             foreach( $objects as $object )
             {
                 $contentobjectID = $object->attribute( 'id' );
-                $objectVersions =& $object->versions();
+                $objectVersions = $object->versions();
                 foreach( $objectVersions as $objectVersion )
                 {
                     $translations = $objectVersion->translations( false );
@@ -743,15 +742,15 @@ class eZSiteInstaller
 
         if( is_object( $contentObject ) )
         {
-            $attributes =& $contentObject->contentObjectAttributes();
+            $attributes = $contentObject->contentObjectAttributes();
             if( count( $attributes ) > 0 )
             {
                 $objectAttribute = false;
-                foreach( array_keys( $attributes ) as $attributeKey )
+                foreach( $attributes as $attribute )
                 {
-                    if( $attributes[$attributeKey]->attribute( 'contentclass_attribute_identifier' ) == $classAttrIdentifier )
+                    if( $attribute->attribute( 'contentclass_attribute_identifier' ) == $classAttrIdentifier )
                     {
-                        $objectAttribute = $attributes[$attributeKey];
+                        $objectAttribute = $attribute;
                         break;
                     }
                 }
@@ -786,10 +785,10 @@ class eZSiteInstaller
             return;
         }
 
-        $dataMap =& $contentObject->dataMap();
+        $dataMap = $contentObject->dataMap();
         foreach( $attributesData as $attrIdentifier => $attrData )
         {
-            $attribute =& $dataMap[$attrIdentifier];
+            $attribute = $dataMap[$attrIdentifier];
             if( !is_object( $attribute ) )
             {
                 $this->reportError( "Warning: could not acquire attribute with identifier '$attrIdentifier'.",
@@ -1050,7 +1049,7 @@ class eZSiteInstaller
 
         $nodeParentNodeID = $node->attribute( 'parent_node_id' );
 
-        $object =& $node->object();
+        $object = $node->object();
         if( !is_object( $object ) )
         {
             $this->reportError( "Cannot fetch object for node '$nodeID'", 'eZSiteInstaller::swapNodes' );
@@ -1059,7 +1058,7 @@ class eZSiteInstaller
 
         $objectID = $object->attribute( 'id' );
         $objectVersion = $object->attribute( 'current_version' );
-        $class =& $object->contentClass();
+        $class = $object->contentClass();
         $classID = $class->attribute( 'id' );
 
         $selectedNodeID = $node2;
@@ -1083,7 +1082,7 @@ class eZSiteInstaller
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        $selectedObject =& $selectedNode->object();
+        $selectedObject = $selectedNode->object();
         $selectedObjectID = $selectedObject->attribute( 'id' );
         $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
         $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
@@ -1143,8 +1142,8 @@ class eZSiteInstaller
         // modify section
         if( $changedOriginalNode->attribute( 'main_node_id' ) == $changedOriginalNode->attribute( 'node_id' ) )
         {
-            $changedOriginalObject =& $changedOriginalNode->object();
-            $parentObject =& $nodeParent->object();
+            $changedOriginalObject = $changedOriginalNode->object();
+            $parentObject = $nodeParent->object();
             if( $changedOriginalObject->attribute( 'section_id' ) != $parentObject->attribute( 'section_id' ) )
             {
 
@@ -1155,8 +1154,8 @@ class eZSiteInstaller
         }
         if( $changedTargetNode->attribute( 'main_node_id' ) == $changedTargetNode->attribute( 'node_id' ) )
         {
-            $changedTargetObject =& $changedTargetNode->object();
-            $selectedParentObject =& $selectedNodeParent->object();
+            $changedTargetObject = $changedTargetNode->object();
+            $selectedParentObject = $selectedNodeParent->object();
             if( $changedTargetObject->attribute( 'section_id' ) != $selectedParentObject->attribute( 'section_id' ) )
             {
 

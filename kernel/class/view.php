@@ -86,7 +86,7 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $db->commit();
 }
 
-$attributes =& $class->fetchAttributes();
+$attributes = $class->fetchAttributes();
 include_once( "kernel/classes/ezdatatype.php" );
 $datatypes =& eZDataType::registeredDataTypes();
 

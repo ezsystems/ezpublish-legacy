@@ -286,7 +286,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                    $lang );
         if ( $lang !== false )
         {
-            $contentObject =& $this->contentObject();
+            $contentObject = $this->contentObject();
             if ( $contentObject )
             {
                 return $contentObject->name( $lang );
@@ -294,7 +294,7 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         if ( $this->VersionName === false )
         {
-            $contentObject =& $this->contentObject();
+            $contentObject = $this->contentObject();
             if ( $contentObject )
             {
                 $this->VersionName = $contentObject->name( $lang );
@@ -457,9 +457,8 @@ class eZContentObjectVersion extends eZPersistentObject
             if ( count( $limitationList ) > 0 )
             {
                 $access = 'denied';
-                foreach ( array_keys( $limitationList ) as $key  )
+                foreach ( $limitationList as $limitationArray  )
                 {
-                    $limitationArray =& $limitationList[ $key ];
                     if ( $access == 'allowed' )
                     {
                         break;
@@ -795,9 +794,8 @@ class eZContentObjectVersion extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
 
-        foreach ( array_keys( $nodeAssignmentList ) as $key  )
+        foreach ( $nodeAssignmentList as $nodeAssignment )
         {
-            $nodeAssignment =& $nodeAssignmentList[$key];
             if ( $nodeAssignment->attribute( 'parent_node' ) == $nodeID )
             {
                 $nodeAssignment->remove();
@@ -922,15 +920,12 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
-        $contentObjectTranslations =& $this->translations();
+        $contentObjectTranslations = $this->translations();
 
-        foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
+        foreach ( $contentObjectTranslations as $contentObjectTranslation )
         {
-            $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
-            $contentObjectAttributes =& $contentObjectTranslation->objectAttributes();
-            foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+            foreach ( $contentObjectTranslation->objectAttributes() as $attribute )
             {
-                $attribute =& $contentObjectAttributes[$attributeKey];
                 $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
             }
         }
@@ -989,9 +984,8 @@ class eZContentObjectVersion extends eZPersistentObject
 
         $db = eZDB::instance();
         $db->begin();
-        foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+        foreach ( $contentObjectAttributes as $attribute )
         {
-            $attribute =& $contentObjectAttributes[$attributeKey];
             $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
         }
         $db->commit();
@@ -1387,7 +1381,6 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attributeDomNode = $attributeDomNodes->item( 0 );
                 if ( !$attributeDomNode )
                 {
-                    $debug->writeDebug( 'no translation in ' . $language . ' for attribute ' . $attributeIdentifier );
                     continue;
                 }
                 $attribute->unserialize( $package, $attributeDomNode );
@@ -1453,13 +1446,10 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function postUnserialize( &$package )
     {
-        $transltaions = $this->translations( false );
-        foreach( $transltaions as $language )
+        foreach( $this->translations( false ) as $language )
         {
-            $attributeArray = $this->contentObjectAttributes( $language );
-            foreach( array_keys( $attributeArray ) as $key )
+            foreach( $this->contentObjectAttributes( $language ) as $attribute )
             {
-                $attribute =& $attributeArray[$key];
                 $attribute->postUnserialize( $package );
             }
         }
@@ -1577,9 +1567,8 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $relationListNode = $dom->createElement( 'http://ez.no/object/', 'ezobject:object-relation-list' );
 
-                foreach( array_keys( $relatedObjectArray ) as $Key )
+                foreach( $relatedObjectArray as $relatedObject )
                 {
-                    $relatedObject =& $relatedObjectArray[$Key];
                     $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
 
                     unset( $relationNode );
@@ -1619,9 +1608,8 @@ class eZContentObjectVersion extends eZPersistentObject
             $this->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
             $parentNodeList = $this->attribute( 'parent_nodes' );
             $parentNodeIDList = array();
-            foreach( array_keys( $parentNodeList ) as $key )
+            foreach( $parentNodeList as $parentNode )
             {
-                $parentNode =& $parentNodeList[$key];
                 $parentNodeIDList[] = $parentNode->attribute( 'parent_node' );
             }
             if ( count( $parentNodeIDList ) == 0 )

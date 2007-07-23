@@ -318,9 +318,8 @@ class eZContentClass extends eZPersistentObject
 
         $version->store();
 
-        foreach ( array_keys( $attributes ) as $attributeKey )
+        foreach ( $attributes as $attribute )
         {
-            $attribute =& $attributes[$attributeKey];
             $attribute->instantiate( $object->attribute( 'id' ), $languageCode );
         }
 
@@ -412,7 +411,7 @@ class eZContentClass extends eZPersistentObject
      \param $id A unique name for the current fetch, this must be supplied when filtering is
                 used if you want caching to work.
     */
-    static function &canInstantiateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
+    static function canInstantiateClassList( $asObject = false, $includeFilter = true, $groupList = false, $fetchID = false )
     {
         $ini = eZINI::instance();
         $groupArray = array();
@@ -624,16 +623,14 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &creator()
+    function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->CreatorID );
+            return eZUser::fetch( $this->CreatorID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
     /*!
@@ -641,16 +638,14 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
     /*!
@@ -660,7 +655,7 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &fetchGroupList()
+    function fetchGroupList()
     {
         $this->InGroups = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                                      $this->attribute( "version" ),
@@ -675,7 +670,7 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &fetchGroupIDList()
+    function fetchGroupIDList()
     {
         $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                           $this->attribute( "version" ),
@@ -697,19 +692,16 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &fetchMatchGroupIDList()
+    function fetchMatchGroupIDList()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI = eZINI::instance( 'content.ini' );
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
-            $retValue =& $this->attribute( 'ingroup_id_list' );
+            return $this->attribute( 'ingroup_id_list' );
         }
-        else
-        {
-            $retValue = false;
-        }
-        return $retValue;
+
+        return false;
     }
 
     /*!
@@ -718,7 +710,7 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    static function &fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
+    static function fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
     {
         $filterTableSQL = '';
         $filterSQL = '';
@@ -757,7 +749,7 @@ class eZContentClass extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &fetchAllGroups()
+    function fetchAllGroups()
     {
         $this->AllGroups = eZContentClassGroup::fetchList();
         return $this->AllGroups;
@@ -796,7 +788,7 @@ class eZContentClass extends eZPersistentObject
     /*!
      Get remote id of content node
     */
-    function &remoteID()
+    function remoteID()
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID &&
@@ -854,7 +846,6 @@ class eZContentClass extends eZPersistentObject
         $result  = array( 'text' => ezi18n( 'kernel/contentclass', "Cannot remove class '%class_name':",
                                          null, array( '%class_name' => $this->attribute( 'name' ) ) ),
                        'list' => array() );
-        $reasons =& $result['list'];
         $db      = eZDB::instance();
 
         // Check top-level nodes
@@ -865,21 +856,20 @@ WHERE ezcot.depth = 1 AND
       ezco.id=ezcot.contentobject_id" );
         if ( count( $rows ) > 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/contentclass', 'The class is used by a top-level node and cannot be removed.
 You will need to change the class of the node by using the swap functionality.' ) );
             if ( !$includeAll )
                 return $result;
         }
 
         // Check class attributes
-        $attributes =& $this->fetchAttributes();
-        foreach ( $attributes as $key => $attribute )
+        foreach ( $this->fetchAttributes() as $attribute )
         {
             $dataType = $attribute->dataType();
             if ( !$dataType->isClassAttributeRemovable( $attribute ) )
             {
                 $info = $dataType->classAttributeRemovableInformation( $attribute, $includeAll );
-                $reasons[] = $info;
+                $result['list'][] = $info;
                 if ( !$includeAll )
                     return $result;
             }
@@ -907,7 +897,7 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             if ( isset( $this ) )
             {
-                $contentClass =& $this;
+                $contentClass = $this;
                 $contentClassID = $this->ID;
             }
             else if ( $contentClassID !== false  )
@@ -922,7 +912,7 @@ You will need to change the class of the node by using the swap functionality.' 
                 return;
 
             $version = $contentClass->Version;
-            $classAttributes =& $contentClass->fetchAttributes( );
+            $classAttributes = $contentClass->fetchAttributes( );
 
             $db = eZDB::instance();
             $db->begin();
@@ -1170,15 +1160,15 @@ You will need to change the class of the node by using the swap functionality.' 
             return $contentClass;
         }
 
-        $row =& $rows[0];
+        $row = $rows[0];
         $row["version_count"] = count( $rows );
 
         if ( $asObject )
-            $contentClass = new eZContentClass( $row );
-        else
-            $contentClass = $row;
+        {
+            return new eZContentClass( $row );
+        }
 
-        return $contentClass;
+        return $row;
     }
 
     static function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -1203,16 +1193,15 @@ You will need to change the class of the node by using the swap functionality.' 
             return $contentClass;
         }
 
-        $row =& $rows[0];
+        $row = $rows[0];
         $row["version_count"] = count( $rows );
 
         if ( $asObject )
-            $contentClass = new eZContentClass( $row );
-        else
-            $contentClass = $row;
+        {
+            return new eZContentClass( $row );
+        }
 
-        return $contentClass;
-
+        return $row;
     }
 
     static function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -1237,15 +1226,14 @@ You will need to change the class of the node by using the swap functionality.' 
             return $contentClass;
         }
 
-        $row =& $rows[0];
+        $row = $rows[0];
         $row["version_count"] = count( $rows );
 
         if ( $asObject )
-            $contentClass = new eZContentClass( $row );
-        else
-            $contentClass = $row;
-
-        return $contentClass;
+        {
+            return new eZContentClass( $row );
+        }
+        return $row;
     }
 
     /*!
@@ -1320,23 +1308,20 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      Returns all attributes as an associative array with the key taken from the attribute identifier.
     */
-    function &dataMap()
+    function dataMap()
     {
-        $map =& $this->DataMap[$this->Version];
-        if ( !isset( $map ) )
+        if ( !isset( $this->DataMap[$this->Version] ) )
         {
-            $map = array();
             $attributes = $this->fetchAttributes( false, true, $this->Version );
-            foreach ( array_keys( $attributes ) as $attributeKey )
+            foreach ( $attributes as $attribute )
             {
-                $attribute =& $attributes[$attributeKey];
-                $map[$attribute->attribute( 'identifier' )] =& $attribute;
+                $this->DataMap[$this->Version][$attribute->attribute( 'identifier' )] = $attribute;
             }
         }
-        return $map;
+        return $this->DataMap[$this->Version];
     }
 
-    function &fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
+    function fetchAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
         {
@@ -1350,15 +1335,13 @@ You will need to change the class of the node by using the swap functionality.' 
             // END OLD CODE --
             else
             {
-                $attributes = null;
-                return $attributes;
+                return null;
             }
         }
 
-        $filteredList =& eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
-                                                                            "version" => $version ),
-                                                                     $asObject );
-        return $filteredList;
+        return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
+                                                                  "version" => $version ),
+                                                           $asObject );
     }
 
     /*!
@@ -1368,15 +1351,16 @@ You will need to change the class of the node by using the swap functionality.' 
 
      \return Class Attribute, null if none matched
     */
-    function &fetchAttributeByIdentifier( $identifier, $asObject = true )
+    function fetchAttributeByIdentifier( $identifier, $asObject = true )
     {
-        $attributeArray =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
-                                                                              'version' => $this->Version,
-                                                                              'identifier' => $identifier ), $asObject );
+        $attributeArray = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
+                                                                             'version' => $this->Version,
+                                                                             'identifier' => $identifier ), $asObject );
         if ( count( $attributeArray ) > 0 )
+        {
             return $attributeArray[0];
-        $retValue = null;
-        return $retValue;
+        }
+        return null;
     }
 
     function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
@@ -1402,19 +1386,18 @@ You will need to change the class of the node by using the swap functionality.' 
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &versionStatus()
+    function versionStatus()
     {
 
         if ( $this->VersionCount == 1 )
         {
             if ( $this->Version == EZ_CLASS_VERSION_STATUS_TEMPORARY )
-                $status = EZ_CLASS_VERSION_STATUS_TEMPORARY;
-            else
-                $status = EZ_CLASS_VERSION_STATUS_DEFINED;
+            {
+                return EZ_CLASS_VERSION_STATUS_TEMPORARY;
+            }
+            return EZ_CLASS_VERSION_STATUS_DEFINED;
         }
-        else
-            $status = EZ_CLASS_VERSION_STATUS_MODIFED;
-        return $status;
+        return EZ_CLASS_VERSION_STATUS_MODIFED;
     }
 
     /*!
@@ -1423,7 +1406,7 @@ You will need to change the class of the node by using the swap functionality.' 
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &versionCount()
+    function versionCount()
     {
         return $this->VersionCount;
     }
@@ -1434,16 +1417,17 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function contentObjectName( $contentObject, $version = false, $translation = false )
     {
-        $contentObjectName = $this->ContentObjectName;
+        $namePattern = $this->attribute( 'contentobject_name' );
         $dataMap = $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
         preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
-                        $contentObjectName,
+                        $namePattern,
                         $subTagMatchArray );
 
         $i = 0;
         $tmpTagResultArray = array();
+        $contentObjectName = $namePattern;
         foreach ( $subTagMatchArray[1] as $subTag )
         {
             $tmpTag = 'tmptag' . $i;
@@ -1473,7 +1457,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $urlAliasName = $this->ContentObjectName;
         }
 
-        $dataMap =& $contentObject->fetchDataMap( $version, $translation );
+        $dataMap = $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
         preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
@@ -1540,7 +1524,7 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \return will return the number of objects published by this class.
     */
-    function &objectCount()
+    function objectCount()
     {
         $db = eZDB::instance();
 
@@ -1553,10 +1537,9 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \return will return the list of objects published by this class.
     */
-    function &objectList()
+    function objectList()
     {
-        $resultList = eZContentObject::fetchSameClassList( $this->ID );
-        return $resultList;
+        return eZContentObject::fetchSameClassList( $this->ID );
     }
 
     /*!
@@ -1568,13 +1551,13 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->CanInstantiateLanguages = $languageCodes;
     }
 
-    function &canInstantiateLanguages()
+    function canInstantiateLanguages()
     {
         if ( is_array( $this->CanInstantiateLanguages ) )
-            $languageCodes = array_intersect( eZContentLanguage::prioritizedLanguageCodes(), $this->CanInstantiateLanguages );
-        else
-            $languageCodes = array();
-        return $languageCodes;
+        {
+            return array_intersect( eZContentLanguage::prioritizedLanguageCodes(), $this->CanInstantiateLanguages );
+        }
+        return array();
     }
 
     /*!
@@ -1602,10 +1585,9 @@ You will need to change the class of the node by using the swap functionality.' 
 
      \return string with contentclass name.
     */
-    function &name( $languageLocale = false )
+    function name( $languageLocale = false )
     {
-        $name = $this->NameList->name( $languageLocale );
-        return $name;
+        return $this->NameList->name( $languageLocale );
     }
 
     function setName( $name, $languageLocale = false )
@@ -1646,10 +1628,9 @@ You will need to change the class of the node by using the swap functionality.' 
         $classID = $this->attribute( 'id' );
         $version = $this->attribute( 'version' );
 
-        $attributes =& $this->fetchAttributes();
-        foreach( array_keys( $attributes ) as $attrKey )
+        $attributes = $this->fetchAttributes();
+        foreach( $attributes as $attribute )
         {
-            $attribute =& $attributes[$attrKey];
             $attribute->setAlwaysAvailableLanguage( $languageLocale );
             $attribute->store();
         }
@@ -1688,43 +1669,38 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      Wrapper for eZContentClassNameList::languages.
     */
-    function &languages()
+    function languages()
     {
-        $languages = $this->NameList->languages();
-        return $languages;
+        return $this->NameList->languages();
     }
 
     /*!
      Wrapper for eZContentClassNameList::prioritizedLanguages.
     */
-    function &prioritizedLanguages()
+    function prioritizedLanguages()
     {
-        $languages = $this->NameList->prioritizedLanguages();
-        return $languages;
+        return $this->NameList->prioritizedLanguages();
     }
 
-    function &prioritizedLanguagesJsArray()
+    function prioritizedLanguagesJsArray()
     {
-        $languages = $this->NameList->prioritizedLanguagesJsArray();
-        return $languages;
+        return $this->NameList->prioritizedLanguagesJsArray();
     }
 
     /*!
      Wrapper for eZContentClassNameList::untranslatedLanguages.
     */
-    function &canCreateLanguages()
+    function canCreateLanguages()
     {
-        $languages = $this->NameList->untranslatedLanguages();
-        return $languages;
+        return $this->NameList->untranslatedLanguages();
     }
 
     /*!
      Wrapper for eZContentClassNameList::topPriorityLanguageLocale.
     */
-    function &topPriorityLanguageLocale()
+    function topPriorityLanguageLocale()
     {
-        $languageLocale = $this->NameList->topPriorityLanguageLocale();
-        return $languageLocale;
+        return $this->NameList->topPriorityLanguageLocale();
     }
 
     /*!
@@ -1732,10 +1708,9 @@ You will need to change the class of the node by using the swap functionality.' 
 
      \return 'language' object.
     */
-    function &alwaysAvailableLanguage()
+    function alwaysAvailableLanguage()
     {
-        $language = $this->NameList->alwaysAvailableLanguage();
-        return $language;
+        return $this->NameList->alwaysAvailableLanguage();
     }
 
     /*!
@@ -1749,10 +1724,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $language;
     }
 
-    function &nameList()
+    function nameList()
     {
-        $nameList = $this->NameList->nameList();
-        return $nameList;
+        return $this->NameList->nameList();
     }
 
     /*!
@@ -1797,12 +1771,10 @@ You will need to change the class of the node by using the swap functionality.' 
 
         // Remove names for attributes in the language
         $attributes = $this->fetchAttributes();
-        foreach ( array_keys( $attributes ) as $attr_key )
+        foreach ( $attributes as $attribute )
         {
-            $attribute =& $attributes[$attr_key];
             $attribute->removeTranslation( $languageLocale );
             $attribute->store();
-            unset( $attribute );
         }
 
         $db->commit();

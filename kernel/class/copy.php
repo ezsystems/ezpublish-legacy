@@ -57,7 +57,7 @@ for ( $i = 0; $i < count( $classGroups ); ++$i )
 }
 
 $classAttributeCopies = array();
-$classAttributes =& $class->fetchAttributes();
+$classAttributes = $class->fetchAttributes();
 foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
     $classAttribute =& $classAttributes[$classAttributeKey];

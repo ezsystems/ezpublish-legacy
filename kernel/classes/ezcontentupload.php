@@ -276,7 +276,7 @@ class eZContentUpload
         if ( is_object( $existingNode ) )
         {
             $object =& $existingNode->object();
-            $class =& $object->contentClass();
+            $class = $object->contentClass();
             $classIdentifier = $class->attribute( 'identifier' );
         }
         else
@@ -388,7 +388,7 @@ class eZContentUpload
         {
             $object = $class->instantiate();
             unset( $dataMap );
-            $dataMap =& $object->dataMap();
+            $dataMap = $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );
         }
 
@@ -494,7 +494,7 @@ class eZContentUpload
         if ( is_object( $existingNode ) )
         {
             $object =& $existingNode->object();
-            $class =& $object->contentClass();
+            $class = $object->contentClass();
             $classIdentifier = $class->attribute( 'identifier' );
         }
         else
@@ -626,12 +626,12 @@ class eZContentUpload
         {
             $object = $class->instantiate();
             unset( $dataMap );
-            $dataMap =& $object->dataMap();
+            $dataMap = $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );
         }
 
         unset( $dataMap );
-        $dataMap =& $object->dataMap();
+        $dataMap = $object->dataMap();
 
         $status = $dataMap[$fileAttribute]->insertHTTPFile( $object, $publishVersion, eZContentObject::defaultLanguage(),
                                                             $file, $mimeData,
@@ -784,7 +784,7 @@ class eZContentUpload
             return false;
         }
 
-        $dataMap =& $contentObject->dataMap();
+        $dataMap = $contentObject->dataMap();
         $fileAttribute =& $dataMap[$attributeIdentifier];
 
         if ( $fileAttribute->hasStoredFileInformation( $contentObject, false, false ) )

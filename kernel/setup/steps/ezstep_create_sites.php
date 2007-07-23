@@ -1091,7 +1091,7 @@ language_locale='eng-GB'";
             {
                 // setting up appropriate data in look&feel object
                 $templateLookObject = eZContentObject::fetch( 54 );
-                $dataMap =& $templateLookObject->fetchDataMap();
+                $dataMap = $templateLookObject->fetchDataMap();
                 $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
                 $dataMap[ 'title' ]->store();
                 $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );

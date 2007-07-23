@@ -396,18 +396,17 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
-    static function &fetchFilteredList( $cond, $asObject = true )
+    static function fetchFilteredList( $cond, $asObject = true )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                            null, $cond, null, null,
                                                            $asObject );
-        foreach ( array_keys( $objectList ) as $objectKey )
+        foreach ( $objectList as $objectItem )
         {
-            $objectItem =& $objectList[$objectKey];
             $objectID = $objectItem->ID;
             $objectVersion = $objectItem->Version;
             if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
-                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] = $objectItem;
         }
         return $objectList;
     }

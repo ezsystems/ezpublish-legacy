@@ -132,7 +132,7 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
     else if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
-    $version =& $object->version( $versionID );
+    $version = $object->version( $versionID );
     if ( !$version )
         $versionID = false;
 
@@ -171,7 +171,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
         $versionID = $Module->actionParameter( 'VersionID' );
     }
 
-    $version =& $object->version( $versionID );
+    $version = $object->version( $versionID );
     if ( !$version )
         $versionID = false;
 

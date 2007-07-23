@@ -98,7 +98,7 @@ class eZContentOperationCollection
     {
         $object = eZContentObject::fetch( $objectID );
 
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
         $nodeAssignmentList = $version->attribute( 'node_assignments' );
 
         $parameters = array();
@@ -138,7 +138,7 @@ class eZContentOperationCollection
         {
             $versionNum = $object->attribute( 'current_version' );
         }
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
         if ( !$version )
             return;
         switch ( $status )
@@ -167,7 +167,7 @@ class eZContentOperationCollection
     function setObjectStatusPublished( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
 
         $db = eZDB::instance();
         $db->begin();
@@ -177,7 +177,7 @@ class eZContentOperationCollection
         $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
         $object->setAttribute( 'current_version', $versionNum );
 
-        $objectIsAlwaysAvailable =& $object->isAlwaysAvailable();
+        $objectIsAlwaysAvailable = $object->isAlwaysAvailable();
         $object->setAttribute( 'language_mask', eZContentLanguage::maskByLocale( $version->translationList( false, false ), $objectIsAlwaysAvailable ) );
 
         if ( $object->attribute( 'published' ) == 0 )
@@ -207,7 +207,7 @@ class eZContentOperationCollection
 
         eZContentObjectTreeNode::setVersionByObjectID( $objectID, $versionNum );
 
-        $nodes =& $object->assignedNodes();
+        $nodes = $object->assignedNodes();
         foreach ( $nodes as $node )
         {
             $node->setName( $object->attribute( 'name' ) );
@@ -231,12 +231,11 @@ class eZContentOperationCollection
     function attributePublishAction( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
-        $nodes =& $object->assignedNodes();
-        $version =& $object->version( $versionNum );
-        $contentObjectAttributes =& $object->contentObjectAttributes( true, $versionNum, $version->initialLanguageCode(), false );
-        foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
+        $nodes = $object->assignedNodes();
+        $version = $object->version( $versionNum );
+        $contentObjectAttributes = $object->contentObjectAttributes( true, $versionNum, $version->initialLanguageCode(), false );
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
             $contentObjectAttribute->onPublish( $object, $nodes );
         }
     }
@@ -277,7 +276,7 @@ class eZContentOperationCollection
         $debug = eZDebug::instance();
         $object         = eZContentObject::fetch( $objectID );
         $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
 
         $db = eZDB::instance();
         $db->begin();
@@ -333,7 +332,7 @@ class eZContentOperationCollection
                     eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
                     $updateFields = true;
 
-                    $existingNode =& $parentNode->addChild( $object->attribute( 'id' ), 0, true );
+                    $existingNode = $parentNode->addChild( $object->attribute( 'id' ), 0, true );
 
                     if ( $fromNodeID == -1 )
                     {
@@ -421,7 +420,7 @@ class eZContentOperationCollection
     {
         $object = eZContentObject::fetch( $objectID );
 
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
 
         if ( $versionNum == 1 or
              $object->attribute( 'current_version' ) == $versionNum )
@@ -507,7 +506,7 @@ class eZContentOperationCollection
         $object = eZContentObject::fetch( $objectID );
 
 
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
         $moveToTrash = true;
 
         $assignedExistingNodes = $object->attribute( 'assigned_nodes' );
@@ -672,7 +671,7 @@ class eZContentOperationCollection
     function updateNontranslatableAttributes( $objectID, $versionNum )
     {
         $object = eZContentObject::fetch( $objectID );
-        $version =& $object->version( $versionNum );
+        $version = $object->version( $versionNum );
 
         $nonTranslatableAttributes = $version->nonTranslatableAttributesToUpdate();
         if ( $nonTranslatableAttributes )
