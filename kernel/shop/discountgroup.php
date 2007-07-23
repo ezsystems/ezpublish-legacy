@@ -59,7 +59,7 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     $db->begin();
     foreach ( $discountRuleIDList  as $discountRuleID )
     {
-        eZDiscountRule::remove( $discountRuleID );
+        eZDiscountRule::removeByID( $discountRuleID );
     }
     $db->commit();
 

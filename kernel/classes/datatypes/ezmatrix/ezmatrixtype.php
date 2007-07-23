@@ -65,7 +65,7 @@ class eZMatrixType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $data = false;
         if ( $http->hasPostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) ) )
@@ -89,7 +89,7 @@ class eZMatrixType extends eZDataType
     /*!
      Store content
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $matrix = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
@@ -97,7 +97,7 @@ class eZMatrixType extends eZDataType
         $contentObjectAttribute->setContent( $matrix );
     }
 
-    function storeClassAttribute( &$contentClassAttribute, $version )
+    function storeClassAttribute( $contentClassAttribute, $version )
     {
         $matrixDefinition =& $contentClassAttribute->content();
         $contentClassAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
@@ -117,7 +117,7 @@ class eZMatrixType extends eZDataType
         return $matrix;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $matrix = $contentObjectAttribute->content();
         $columnsArray = $matrix->attribute( 'columns' );
@@ -154,7 +154,7 @@ class eZMatrixType extends eZDataType
     /*!
      Fetches the http post var matrix cells input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $cellsVarName = $base . EZ_MATRIX_CELL_VARIABLE . $contentObjectAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $cellsVarName ) )
@@ -276,7 +276,7 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         // 'default name' is never used => just a stub
         // $defaultValueName = $base . EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
@@ -371,7 +371,7 @@ class eZMatrixType extends eZDataType
     /*!
      Returns the content.
     */
-    function &classAttributeContent( &$contentClassAttribute )
+    function classAttributeContent( $contentClassAttribute )
     {
         $matrixDefinition = new eZMatrixDefinition();
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );

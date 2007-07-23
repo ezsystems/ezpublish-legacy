@@ -659,7 +659,10 @@ class eZStepCreateSites extends eZStepInstaller
         $settingsFiles = $sitePackage->attribute( 'settings-files' );
         foreach( $settingsFiles as $settingsFileName )
         {
-            include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+            if ( file_exists( $sitePackage->path() . '/settings/' . $settingsFileName ) )
+            {
+                include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+            }
         }
 
         // Call user function for additional setup tasks.
@@ -851,7 +854,9 @@ language_locale='eng-GB'";
 
                 if ( is_object( $package ) )
                 {
-                    $languageMap = $this->PersistenceList['package_info']['language_map'];
+                    $languageMap = isset ( $this->PersistenceList['package_info']['language_map'] ) ?
+                        $this->PersistenceList['package_info']['language_map'] :
+                        false;
 
                     $requiredPackages[] = $package;
                     if ( $package->attribute( 'install_type' ) == 'install' )
@@ -1192,7 +1197,7 @@ language_locale='eng-GB'";
                 if ( $anonPolicy->attribute( 'module_name' ) == 'user' and
                      $anonPolicy->attribute( 'function_name' ) == 'login' )
                 {
-                    $anonPolicy->remove();
+                    $anonPolicy->removeThis();
                     break;
                 }
             }

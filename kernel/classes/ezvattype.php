@@ -276,7 +276,7 @@ class eZVatType extends eZPersistentObject
      * \public
      * \static
      */
-    function remove()
+    function removeThis()
     {
         $vatID = $this->ID;
         $db = eZDB::instance();
@@ -286,7 +286,9 @@ class eZVatType extends eZPersistentObject
         require_once( 'kernel/classes/ezvatrule.php' );
         $dependentRules = eZVatRule::fetchByVatType( $vatID );
         foreach ( $dependentRules as $rule )
+        {
             eZVatRule::remove( $rule->attribute( 'id' ) );
+        }
 
         // replace VAT type in dependent products.
         eZVatType::resetToDefaultInProducts( $vatID );

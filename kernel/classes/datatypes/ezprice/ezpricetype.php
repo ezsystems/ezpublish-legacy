@@ -59,7 +59,7 @@ class eZPriceType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         // Check "price inc/ex VAT" and "VAT type" fields.
         $vatTypeID = $http->postVariable( $base . '_ezprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
@@ -97,7 +97,7 @@ class eZPriceType extends eZDataType
         }
     }
 
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
     }
 
@@ -123,13 +123,13 @@ class eZPriceType extends eZDataType
     /*!
      Set default class attribute value
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 0 )
             $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, EZ_PRICE_INCLUDED_VAT );
         $classAttribute->store();
     }
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $isVatIncludedVariable = $base . EZ_DATATYPESTRING_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $isVatIncludedVariable ) )
@@ -149,7 +149,7 @@ class eZPriceType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $data = $http->postVariable( $base . "_data_price_" . $contentObjectAttribute->attribute( "id" ) );
         $vatType = $http->postVariable( $base . '_ezprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
@@ -190,7 +190,7 @@ class eZPriceType extends eZDataType
     /*!
      Returns class content.
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         $contentObjectAttribute = false;
         $price = new eZPrice( $classAttribute, $contentObjectAttribute );
@@ -229,7 +229,7 @@ class eZPriceType extends eZDataType
         return 'int';
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }

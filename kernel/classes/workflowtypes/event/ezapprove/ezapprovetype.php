@@ -765,6 +765,6 @@ class eZApproveType extends eZWorkflowEventType
     }
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_APPROVE_ID, "ezapprovetype" );
+eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_APPROVE_ID, "ezapprovetype" );
 
 ?>

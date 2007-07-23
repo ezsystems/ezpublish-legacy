@@ -143,7 +143,7 @@ class eZPolicy extends eZPersistentObject
      */
     static function createNew( $roleID , $params = array() )
     {
-        $policy = new eZPolicy( array() );
+        $policy = new eZPolicy( array( 'id' => null ) );
         $policy->setAttribute( 'role_id', $roleID );
         if ( array_key_exists( 'ModuleName', $params ))
         {
@@ -238,34 +238,33 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
+     \sa removeThis
+    */
+    static function removeByID( $id )
+    {
+        $policy = eZPolicy::fetch( $id );
+        if ( !$policy )
+        {
+            return null;
+        }
+        $policy->removeThis();
+    }
+
+    /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $id = false )
+    function removeThis( $id = false )
     {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-            $policy = eZPolicy::fetch( $delID );
-        }
-        else
-        {
-            $policy =& $this;
-            $delID = $this->ID;
-        }
-
-        if ( $policy === null )
-            return;
-
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db = eZDB::instance();
         $db->begin();
-        foreach ( $policy->attribute( 'limitations' ) as $limitation )
+        foreach ( $this->attribute( 'limitations' ) as $limitation )
         {
-            $limitation->remove();
+            $limitation->removeThis();
         }
         $db->query( "DELETE FROM ezpolicy
-                     WHERE id='$delID'" );
+                     WHERE id='" . $db->escapeString( $this->attribute( 'id' ) ) . "'" );
         $db->commit();
     }
 

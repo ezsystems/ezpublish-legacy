@@ -240,7 +240,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
     }
 
-    function store()
+    function store( $fieldFilters = null )
     {
         $dataType = $this->dataType();
         if ( !$dataType )
@@ -252,7 +252,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
         $this->setAttribute( 'serialized_name_list', $this->NameList->serializeNames() );
 
-        $stored = eZPersistentObject::store();
+        $stored = eZPersistentObject::store( $fieldFilters );
 
         // store the content data for this attribute
         $info = $dataType->attribute( "information" );
@@ -289,7 +289,7 @@ class eZContentClassAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $quiet = false )
+    function removeThis( $quiet = false )
     {
         $dataType = $this->dataType();
         if ( $dataType->isClassAttributeRemovable( $this ) )

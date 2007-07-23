@@ -3984,12 +3984,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     \static
+     \sa removeThis
+    */
+    static function removeNode( $nodeID = 0 )
+    {
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
+        if ( !is_object( $node ) )
+        {
+            return;
+        }
+
+        return $node->removeThis;
+    }
+
+    /*!
       Removes the current node.
 
       \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function remove( $nodeID = 0 )
+    function removeThis( )
     {
         include_once( "kernel/classes/ezrole.php" );
         include_once( "kernel/classes/ezpolicy.php" );
@@ -3997,37 +4012,23 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $ini = eZINI::instance();
 
-        if ( $nodeID == 0 )
-        {
-            $node =& $this;
-        }
-        else
-        {
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-        }
-
-        if ( !is_object( $node ) )
-        {
-            return;
-        }
-
         include_once( "kernel/classes/ezaudit.php" );
         if ( eZAudit::isAuditEnabled() )
         {
             // Set audit params.
-            $nodeIDAudit = $node->attribute( 'node_id' );
-            $object = $node->object();
+            $nodeIDAudit = $this->attribute( 'node_id' );
+            $object = $this->object();
             $objectID = $object->attribute( 'id' );
             $objectName = $object->attribute( 'name' );
 
             eZAudit::writeAudit( 'content-delete', array( 'Node ID' => $nodeIDAudit, 'Object ID' => $objectID, 'Content Name' => $objectName,
-                                                          'Comment' => 'Removed the current node: eZContentObjectTreeNode::remove()' ) );
+                                                          'Comment' => 'Removed the current node: eZContentObjectTreeNode::removeNode()' ) );
         }
 
         $db = eZDB::instance();
         $db->begin();
 
-        $nodePath = $node->attribute( 'path_string' );
+        $nodePath = $this->attribute( 'path_string' );
         $childrensPath = $nodePath ;
         $pathLength = strlen( $childrensPath );
 
@@ -4036,7 +4037,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
-        $urlAlias = $node->attribute( 'url_alias' );
+        $urlAlias = $this->attribute( 'url_alias' );
 
         // Remove static cache
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
@@ -4046,7 +4047,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $staticCache->removeURL( "/" . $urlAlias );
             $staticCache->generateAlwaysUpdatedCache();
 
-            $parent = $node->fetchParent();
+            $parent = $this->fetchParent();
         }
 
         $db->query( "DELETE FROM ezcontentobject_tree
@@ -4063,13 +4064,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Clean up URL alias entries
-        eZURLAliasML::removeByAction( 'eznode', $node->attribute( 'node_id' ) );
+        eZURLAliasML::removeByAction( 'eznode', $this->attribute( 'node_id' ) );
 
         // Clean up content cache
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
-        eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
+        eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
 
-        $parentNode = $node->attribute( 'parent' );
+        $parentNode = $this->attribute( 'parent' );
         if ( is_object( $parentNode ) )
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $parentNode->attribute( 'contentobject_id' ) );
@@ -4077,10 +4078,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         // Clean up policies and limitations
-        eZRole::cleanupByNode( $node );
+        eZRole::cleanupByNode( $this );
 
         // Clean up recent items
-        $nodeID = $node->attribute( 'node_id' );
+        $nodeID = $this->attribute( 'node_id' );
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
         eZContentBrowseRecent::removeRecentByNodeID( $nodeID );
 
@@ -4383,7 +4384,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                            $newMainNode->attribute( 'parent_node_id' ) );
 
                 eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
-                $this->remove();
+                $this->removeThis();
                 $db->commit();
             }
             else
@@ -4393,7 +4394,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 $db = eZDB::instance();
                 $db->begin();
-                $this->remove();
+                $this->removeThis();
 
                 if ( $moveToTrash )
                 {
@@ -4417,7 +4418,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             eZContentCacheManager::clearContentCacheIfNeeded( $this->attribute( 'contentobject_id' ) );
-            $this->remove();
+            $this->removeThis();
         }
     }
 
@@ -5415,7 +5416,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     static function deleteNodeWhereParent( $node, $id )
     {
-        eZContentObjectTreeNode::remove( eZContentObjectTreeNode::findNode( $node, $id ) );
+        eZContentObjectTreeNode::removeNode( eZContentObjectTreeNode::findNode( $node, $id ) );
 
     }
 
@@ -5708,12 +5709,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function store()
+    function store( $fieldFilters = null )
     {
         $db = eZDB::instance();
 
         $db->begin();
-        eZPersistentObject::storeObject( $this );
+        eZPersistentObject::store( $fieldFilters );
         $this->updateAndStoreModified();
         $db->commit();
     }

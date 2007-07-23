@@ -54,7 +54,7 @@ class eZISBNType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
@@ -233,7 +233,7 @@ class eZISBNType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $classContent = $classAttribute->content();
@@ -291,13 +291,12 @@ class eZISBNType extends eZDataType
     /*!
      \reimp
     */
-    function customClassAttributeHTTPAction( &$http, $action, &$classAttribute )
+    function customClassAttributeHTTPAction( $http, $action, $classAttribute )
     {
         switch ( $action )
         {
             case 'ImportISBN13Data':
             {
-                //$this->importISBN13RangeData();
                 $this->importDBDataFromDBAFile();
             }break;
         }
@@ -306,7 +305,7 @@ class eZISBNType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $classAttributeID = $classAttribute->attribute( 'id' );
         $content = $classAttribute->content();
@@ -324,17 +323,16 @@ class eZISBNType extends eZDataType
     /*!
      Store the content.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
-        $content = $classAttribute->content();
-        return eZISBNType::storeClassAttributeContent( $classAttribute, $content );
+        return eZISBNType::storeClassAttributeContent( $classAttribute, $classAttribute->content() );
     }
 
     function storeClassAttributeContent( &$classAttribute, $content )
@@ -382,7 +380,7 @@ class eZISBNType extends eZDataType
     /*!
      \reimp
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         include_once( 'kernel/classes/datatypes/ezisbn/ezisbn13.php' );
 
@@ -437,7 +435,7 @@ class eZISBNType extends eZDataType
      Initializes the class attribute.
      data_int will be se default to 1, as this is ISBN-13.
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_ISBN_CLASS_IS_ISBN13 ) === null )
         {
@@ -448,7 +446,7 @@ class eZISBNType extends eZDataType
     /*!
       Check if a ISBN value exist in the datatype.
     */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return trim( $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE ) ) != '';
     }

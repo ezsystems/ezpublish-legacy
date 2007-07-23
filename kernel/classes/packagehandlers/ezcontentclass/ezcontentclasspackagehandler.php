@@ -183,7 +183,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
         $classRemoteID = $content->getElementsByTagName( 'remote-id' )->item( 0 )->textContent;
         $classObjectNamePattern = $content->getElementsByTagName( 'object-name-pattern' )->item( 0 )->textContent;
-        $classURLAliasPattern = $content->getElementsByTagName( 'url-alias-pattern' )->item( 0 )->textContent;
+        $classURLAliasPattern = is_object( $content->getElementsByTagName( 'url-alias-pattern' )->item( 0 ) ) ?
+            $content->getElementsByTagName( 'url-alias-pattern' )->item( 0 )->textContent :
+            null;
         $classIsContainer = $content->getAttribute( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;

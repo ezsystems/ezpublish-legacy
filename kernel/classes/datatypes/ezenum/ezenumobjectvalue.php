@@ -108,7 +108,7 @@ class eZEnumObjectValue extends eZPersistentObject
         }
     }
 
-    function remove( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
+    function removeByOAID( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
     {
         eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
                                           array( "enumid" => $enumid,

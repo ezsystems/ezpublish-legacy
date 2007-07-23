@@ -915,7 +915,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove()
+    function removeThis()
     {
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
@@ -926,7 +926,7 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             foreach ( $contentObjectTranslation->objectAttributes() as $attribute )
             {
-                $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
+                $attribute->removeThis( $attribute->attribute( 'id' ), $versionNum );
             }
         }
         $db = eZDB::instance();
@@ -986,7 +986,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $db->begin();
         foreach ( $contentObjectAttributes as $attribute )
         {
-            $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
+            $attribute->removeThis( $attribute->attribute( 'id' ), $versionNum );
         }
         $db->commit();
 
@@ -1055,7 +1055,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $db->begin();
             foreach ( $versions as $version )
             {
-                $version->remove();
+                $version->removeThis();
             }
             $db->commit();
             $processedCount += count( $versions );

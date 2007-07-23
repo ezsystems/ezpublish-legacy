@@ -42,6 +42,10 @@ class eZSection extends eZPersistentObject
     */
     function eZSection( $row )
     {
+        if ( !isset( $row['id'] ) )
+        {
+            $row['id'] = null;
+        }
         $this->eZPersistentObject( $row );
     }
 
@@ -194,10 +198,9 @@ class eZSection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function remove( )
+    function removeThis( $conditions = null, $extraConditions = null )
     {
-        $def = $this->definition();
-        eZPersistentObject::removeObject( $def, array( "id" => $this->ID ) );
+        eZPersistentObject::remove( array( "id" => $this->ID ), $extraConditions );
     }
 
 }

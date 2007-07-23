@@ -58,7 +58,7 @@ class eZSelectionType extends eZDataType
      \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
              the values are accepted or not
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -67,7 +67,7 @@ class eZSelectionType extends eZDataType
      Fetches all variables inputed on content class level
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $attributeContent =& $this->classAttributeContent( $classAttribute );
         $classAttributeID = $classAttribute->attribute( 'id' );
@@ -164,7 +164,7 @@ class eZSelectionType extends eZDataType
      \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
              the values are accepted or not
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -187,7 +187,7 @@ class eZSelectionType extends eZDataType
      Fetches all variables from the object
      \return true if fetching of class attributes are successfull, false if not
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -202,7 +202,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -211,7 +211,7 @@ class eZSelectionType extends eZDataType
     \reimp
     Fetches the http post variables for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -248,7 +248,7 @@ class eZSelectionType extends eZDataType
     /*!
      Returns the content data for the given content class attribute.
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         $dom = new DOMDocument();
         $xmlString = $classAttribute->attribute( 'data_text5' );
@@ -373,7 +373,7 @@ class eZSelectionType extends eZDataType
         return $return;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }

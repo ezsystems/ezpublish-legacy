@@ -92,12 +92,11 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      \reimp
     */
-    function &content( &$collaborationItem )
+    function content( $collaborationItem )
     {
-        $content = array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
-                          "content_object_version" => $collaborationItem->attribute( "data_int2" ),
-                          "approval_status" => $collaborationItem->attribute( "data_int3" ) );
-        return $content;
+        return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
+                      "content_object_version" => $collaborationItem->attribute( "data_int2" ),
+                      "approval_status" => $collaborationItem->attribute( "data_int3" ) );
     }
 
     function notificationParticipantTemplate( $participantRole )
@@ -128,7 +127,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
      \reimp
      Updates the last_read for the participant link.
     */
-    function readItem( &$collaborationItem )
+    function readItem( $collaborationItem, $viewMode = false )
     {
         $collaborationItem->setLastRead();
     }

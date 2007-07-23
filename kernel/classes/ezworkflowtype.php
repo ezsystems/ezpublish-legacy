@@ -344,10 +344,9 @@ class eZWorkflowType
     {
     }
 
-    function &workflowEventContent()
+    function workflowEventContent( $event )
     {
-        $retValue = "";
-        return $retValue;
+        return "";
     }
     function storeEventData( &$event, $version )
     {
@@ -400,7 +399,7 @@ class eZWorkflowEventType extends eZWorkflowType
         $this->eZWorkflowType( "event", $typeString, ezi18n( 'kernel/workflow/event', "Event" ), $name );
     }
 
-    static function registerType( $typeString, $class_name )
+    static function registerEventType( $typeString, $class_name )
     {
         eZWorkflowType::registerType( "event", $typeString, $class_name );
     }
@@ -413,7 +412,7 @@ class eZWorkflowGroupType extends eZWorkflowType
         $this->eZWorkflowType( "group", $typeString, ezi18n( 'kernel/workflow/group', "Group" ), $name );
     }
 
-    static function registerType( $typeString, $class_name )
+    static function registerGroupType( $typeString, $class_name )
     {
         eZWorkflowType::registerType( "group", $typeString, $class_name );
     }

@@ -115,7 +115,7 @@ class eZEnumType extends eZDataType
     /*!
      Set class attribute value for template version
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         $contentClassAttributeID = $classAttribute->attribute( 'id' );
         $enums = eZEnumValue::fetchAllElements( $contentClassAttributeID, 1 );
@@ -157,7 +157,7 @@ class eZEnumType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
@@ -210,7 +210,7 @@ class eZEnumType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_data_enumid_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -234,7 +234,7 @@ class eZEnumType extends eZDataType
      Does nothing since it has been stored.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
     }
 
@@ -261,7 +261,7 @@ class eZEnumType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$contentClassAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $contentClassAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -269,7 +269,7 @@ class eZEnumType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$contentClassAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $contentClassAttribute )
     {
         $ismultiple = $base . EZ_DATATYPESTRING_ENUM_ISMULTIPLE_VARIABLE . $contentClassAttribute->attribute( 'id' );
         $isoption = $base . EZ_DATATYPESTRING_ENUM_ISOPTION_VARIABLE . $contentClassAttribute->attribute( 'id' );
@@ -303,13 +303,12 @@ class eZEnumType extends eZDataType
         }
     }
 
-    function storeClassAttribute( &$contentClassAttribute, $version )
+    function storeClassAttribute( $contentClassAttribute, $version )
     {
-        $enum =& $contentClassAttribute->content();
-        $enum->setVersion( $version );
+        $contentClassAttribute->content()->setVersion( $version );
     }
 
-    function storeDefinedClassAttribute( &$contentClassAttribute )
+    function storeDefinedClassAttribute( $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
         $version = 1;
@@ -321,7 +320,7 @@ class eZEnumType extends eZDataType
     /*!
      Returns the content.
     */
-    function &classAttributeContent( &$contentClassAttribute )
+    function classAttributeContent( $contentClassAttribute )
     {
         $id = $contentClassAttribute->attribute( 'id' );
         $version = $contentClassAttribute->attribute( 'version' );
@@ -411,7 +410,7 @@ class eZEnumType extends eZDataType
      \reimp
      Sets \c grouped_input to \c true when checkboxes or radiobuttons are used.
     */
-    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $isOption = $classAttribute->attribute( 'data_int2' );
@@ -501,7 +500,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }

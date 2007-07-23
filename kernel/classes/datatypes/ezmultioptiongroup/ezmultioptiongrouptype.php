@@ -71,7 +71,7 @@ class eZMultioptionGroupType extends eZDataType
      Validates the input for this datatype.
      \return True if input is valid.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -79,7 +79,7 @@ class eZMultioptionGroupType extends eZDataType
     /*!
      This function calles xmlString function to create xml string and then store the content.
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $optiongroup = $contentObjectAttribute->content();
 
@@ -89,7 +89,7 @@ class eZMultioptionGroupType extends eZDataType
     /*!
      \return An eZMultioptionGroup object which contains all the option data
     */
-    function &objectAttributeContent( &$contentObjectAttribute )
+    function objectAttributeContent( $contentObjectAttribute )
     {
         $optiongroup = new eZMultioptionGroup( "" );
         $optiongroup->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
@@ -115,7 +115,7 @@ class eZMultioptionGroupType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $editMode = $http->postVariable( $base . "_data_edit_mode_" . $contentObjectAttribute->attribute( "id" ) );
         if( $editMode == 'rules' )
@@ -295,7 +295,7 @@ class eZMultioptionGroupType extends eZDataType
      - new_multioption - Adds a new multioption.
      - remove_selected_multioption - Removes all multioptions given by a selection list
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
         $actionlist = explode( "_", $action );
         if ( $actionlist[0] == "new-option" )
@@ -505,7 +505,7 @@ class eZMultioptionGroupType extends eZDataType
 
      \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
         $optiongroup = $objectAttribute->attribute( 'content' );
 
@@ -523,7 +523,7 @@ class eZMultioptionGroupType extends eZDataType
       \reimp
       \return \c true if there are more than one multioption in the list.
     */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $groups = $contentObjectAttribute->content();
         $grouplist = $multioption->attribute( 'optiongroup_list' );
@@ -556,7 +556,7 @@ class eZMultioptionGroupType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $defaultValueName = $base . EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )
@@ -703,7 +703,7 @@ class eZMultioptionGroupType extends eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, informationTemplate
     */
-    function &editTemplate( &$contentObjectAttribute )
+    function editTemplate( $contentObjectAttribute )
     {
         $http = eZHTTPTool::instance();
         $sessionVarName = 'eZEnhancedMultioption_edit_mode_' . $contentObjectAttribute->attribute( 'id' );

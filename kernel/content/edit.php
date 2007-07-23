@@ -193,7 +193,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
 
             $db = eZDB::instance();
             $db->begin();
-            $removeVersion->remove();
+            $removeVersion->removeThis();
             $version = $obj->createNewVersionIn( $EditLanguage );
             $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
             $version->store();

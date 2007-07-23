@@ -78,7 +78,7 @@ foreach( $workflowProcessList as $process )
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
         {
             ++$removedProcessCount;
-            $process->remove();
+            $process->removeThis();
             continue;
         }
         $process->store();
@@ -117,7 +117,7 @@ foreach( $workflowProcessList as $process )
             $operationParameters = $mementoData['parameters'];
         $operationResult = eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
         ++$removedProcessCount;
-        $process->remove();
+        $process->removeThis();
     }
 
 }

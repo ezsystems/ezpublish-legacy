@@ -215,7 +215,7 @@ class eZUser extends eZPersistentObject
         return new eZUser( $row );
     }
 
-    function store()
+    function store( $fieldFilters = null )
     {
         $this->Email = trim( $this->Email );
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
@@ -228,7 +228,7 @@ class eZUser extends eZPersistentObject
         // Clear memory cache
         unset( $GLOBALS['eZUserObject_' . $userID] );
         $GLOBALS['eZUserObject_' . $userID] =& $this;
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
     }
 
     function originalPassword()

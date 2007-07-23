@@ -143,7 +143,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 
     $db = eZDB::instance();
     $db->begin();
-    $workflow->remove( true );
+    $workflow->removeThis( true );
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
     $db->commit();
 
@@ -307,7 +307,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 1 );
 
     eZWorkflow::removeEvents( false, $WorkflowID, 0 );
-    $workflow->remove( true );
+    $workflow->removeThis( true );
     $workflow->setVersion( 0, $event_list );
     $workflow->adjustEventPlacements( $event_list );
     $workflow->store( $event_list );

@@ -284,7 +284,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function store()
+    function store( $fieldFilters = null )
     {
         require_once( 'kernel/classes/ezcontentlanguage.php' );
 
@@ -308,7 +308,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             // store the content data for this attribute
             $dataType->storeObjectAttribute( $this );
 
-            eZPersistentObject::store();
+            eZPersistentObject::store( $fieldFilters );
             $dataType->postStore( $this );
             $db->commit();
         }
@@ -943,7 +943,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function remove( $id, $currentVersion = null )
+    function removeThis( $id, $currentVersion = null )
     {
         $dataType = $this->dataType();
         if ( !$dataType )

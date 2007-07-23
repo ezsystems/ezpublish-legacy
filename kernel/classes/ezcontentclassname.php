@@ -131,15 +131,13 @@ class eZContentClassName extends eZPersistentObject
     */
     static function sqlEmptyFilter()
     {
-        $sqlFilter = array( 'nameField' => '',
-                            'from' => '',
-                            'where' => '',
-                            'orderBy' => '' );
-
-        return $sqlFilter;
+        return array( 'nameField' => '',
+                      'from' => '',
+                      'where' => '',
+                      'orderBy' => '' );
     }
 
-    function remove( $contentClassID, $contentClassVersion )
+    static function removeClassName( $contentClassID, $contentClassVersion )
     {
         $db = eZDb::instance();
         $db->begin();

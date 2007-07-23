@@ -126,7 +126,7 @@ class eZProductCategory extends eZPersistentObject
      * \public
      * \static
      */
-    function remove( $id )
+    static function removeByID( $id )
     {
         $id = (int) $id;
 

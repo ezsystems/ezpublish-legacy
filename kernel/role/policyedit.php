@@ -203,14 +203,14 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
         $limitationID = $limitation->attribute( 'id' );
         $limitationIdentifier = $limitation->attribute( 'identifier' );
         if ( $limitationIdentifier != "Node" and $limitationIdentifier != "Subtree" )
-            eZPolicyLimitation::remove( $limitationID );
+            eZPolicyLimitation::removeByID( $limitationID );
         if ( $limitationIdentifier == "Node" )
         {
             $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
             if ( $nodeLimitationValues != null )
                 $hasNodeLimitation = true;
             else
-                eZPolicyLimitation::remove( $limitationID );
+                eZPolicyLimitation::removeByID( $limitationID );
         }
 
         if ( $limitationIdentifier == "Subtree" )
@@ -219,7 +219,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
             if ( $nodeLimitationValues != null )
                 $hasLimitation = true;
             else
-                eZPolicyLimitation::remove( $limitationID );
+                eZPolicyLimitation::removeByID( $limitationID );
 
         }
     }
@@ -297,7 +297,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
             $limitationIdentifier = $limitation->attribute( 'identifier' );
             if ( in_array( $limitationIdentifier, $dropList ) )
             {
-                eZPolicyLimitation::remove( $limitationID );
+                eZPolicyLimitation::removeByID( $limitationID );
             }
         }
     }
@@ -308,7 +308,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
             $limitationID = $limitation->attribute( 'id' );
             $limitationIdentifier = $limitation->attribute( 'identifier' );
             if ( $limitationIdentifier != 'Node' and $limitationIdentifier != 'Subtree' )
-                eZPolicyLimitation::remove( $limitationID );
+                eZPolicyLimitation::removeByID( $limitationID );
         }
     }
 

@@ -108,7 +108,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                 $versionArray[] = $version->attribute( 'version' );
                 if ( $version->attribute( 'can_remove' ) )
                 {
-                    $version->remove();
+                    $version->removeThis();
                 }
             }
         }
@@ -247,7 +247,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
             $db = eZDB::instance();
             $db->begin();
-            $removeVersion->remove();
+            $removeVersion->removeThis();
             $newVersionID = $object->copyRevertTo( $versionID, $language );
             $db->commit();
 

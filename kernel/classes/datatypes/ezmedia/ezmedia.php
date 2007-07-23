@@ -190,7 +190,7 @@ class eZMedia extends eZPersistentObject
         }
     }
 
-    function remove( $id, $version )
+    function removeByID( $id, $version )
     {
         if( $version == null )
         {

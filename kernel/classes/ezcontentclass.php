@@ -889,7 +889,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $db->begin();
             foreach( $removeAttributes as $attribute )
             {
-                $attribute->remove();
+                $attribute->removeThis();
             }
             $db->commit();
         }

@@ -65,7 +65,7 @@ class eZObjectRelationListType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $inputParameters =& $contentObjectAttribute->inputParameters();
         $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -145,7 +145,7 @@ class eZObjectRelationListType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function fixupObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -171,7 +171,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         // new object creation
@@ -354,7 +354,7 @@ class eZObjectRelationListType extends eZDataType
 
     /*!
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         $content = $attribute->content();
         if ( isset( $content['new_object'] ) )
@@ -439,7 +439,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -598,7 +598,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -606,14 +606,14 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $content = $classAttribute->content();
         $postVariable = 'ContentClass_ezobjectrelationlist_class_list_' . $classAttribute->attribute( 'id' );
@@ -654,7 +654,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
@@ -667,7 +667,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
         return eZObjectRelationListType::storeClassAttributeContent( $classAttribute, $content );
@@ -1086,7 +1086,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function handleCustomObjectHTTPActions( &$http, $attributeDataBaseName,
+    function handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                             $customActionAttributeArray, $customActionParameters )
     {
         $contentObjectAttribute =& $customActionParameters['contentobject_attribute'];
@@ -1176,7 +1176,7 @@ class eZObjectRelationListType extends eZDataType
                                                                        $deletionItem['contentobject_id'] );
             if ( strtolower( get_class( $subObjectVersion ) ) == 'ezcontentobjectversion' )
             {
-                $subObjectVersion->remove();
+                $subObjectVersion->removeThis();
             }
             else
             {
@@ -1251,7 +1251,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
@@ -1471,7 +1471,7 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         return count( $content['relation_list'] ) > 0;

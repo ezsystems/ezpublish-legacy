@@ -82,7 +82,7 @@ if ( $isConfirmed )
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
             $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
-            $contentObjectAttribute->remove( $objectAttributeID, $version );
+            $contentObjectAttribute->removeThis( $objectAttributeID, $version );
         }
         $versionCount= $object->getVersionCount();
         if ( $versionCount == 1 )

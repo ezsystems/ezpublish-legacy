@@ -191,7 +191,7 @@ class eZWorkflowEvent extends eZPersistentObject
                in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
-    function attribute( $attr )
+    function attribute( $attr, $noFunction = false )
     {
         $eventType = $this->eventType();
         if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
@@ -247,11 +247,11 @@ class eZWorkflowEvent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function store()
+    function store( $fieldFilters = null )
     {
         $db = eZDB::instance();
         $db->begin();
-        $stored = eZPersistentObject::store();
+        $stored = eZPersistentObject::store( $fieldFilters );
 
         $eventType = $this->eventType();
         $eventType->storeEventData( $this, $this->attribute( 'version' ) );

@@ -388,10 +388,10 @@ class eZSiteInstaller
                 foreach( $objectAttributes as $objectAttribute )
                 {
                     $objectAttributeID = $objectAttribute->attribute( 'id' );
-                    $objectAttribute->remove( $objectAttributeID );
+                    $objectAttribute->removeThis( $objectAttributeID );
                 }
 
-                $classAttribute->remove();
+                $classAttribute->removeThis();
             }
             else
             {
@@ -1280,7 +1280,7 @@ class eZSiteInstaller
 
             if( $removeRoleIfEmpty && count( $role->policyList() ) == 0 )
             {
-                $role->remove();
+                $role->removeThis();
             }
         }
         else

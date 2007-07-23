@@ -129,14 +129,14 @@ if ( !function_exists( 'checkContentActions' ) )
                          WHERE from_contentobject_id=$objectID AND from_contentobject_version=$EditVersion" );
             $db->query( "DELETE FROM eznode_assignment
                          WHERE contentobject_id=$objectID AND contentobject_version=$EditVersion" );
-            $version->remove();
+            $version->removeThis();
             foreach ( $contentObjectAttributes as $contentObjectAttribute )
             {
                 $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
                 $version = $contentObjectAttribute->attribute( 'version' );
                 if ( $version == $EditVersion )
                 {
-                    $contentObjectAttribute->remove( $objectAttributeID, $version );
+                    $contentObjectAttribute->removeThis( $objectAttributeID, $version );
                 }
             }
             if ( $versionCount == 1 )

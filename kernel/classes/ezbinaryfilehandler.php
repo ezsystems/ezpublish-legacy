@@ -87,7 +87,7 @@ class eZBinaryFileHandler
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &viewTemplate( &$contentobjectAttribute )
+    function viewTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;
@@ -97,7 +97,7 @@ class eZBinaryFileHandler
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &editTemplate( &$contentobjectAttribute )
+    function editTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;
@@ -107,7 +107,7 @@ class eZBinaryFileHandler
      \return the suffix for the template name which will be used for attribute viewing.
      \note Default returns false which means no special template.
     */
-    function &informationTemplate( &$contentobjectAttribute )
+    function informationTemplate( $contentobjectAttribute )
     {
         $retVal = false;
         return $retVal;

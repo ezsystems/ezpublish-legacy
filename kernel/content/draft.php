@@ -57,7 +57,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             eZDebug::writeNotice( $deleteID, "deleteID" );
             $version = eZContentObjectVersion::fetch( $deleteID );
-            $version->remove();
+            $version->removeThis();
         }
         $db->commit();
     }
@@ -68,10 +68,9 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
     $versions = eZContentObjectVersion::fetchForUser( $userID );
     $db = eZDB::instance();
     $db->begin();
-    foreach ( array_keys( $versions ) as $key )
+    foreach ( $versions as $version )
     {
-        $version =& $versions[$key];
-        $version->remove();
+        $version->removeThis();
     }
     $db->commit();
 }

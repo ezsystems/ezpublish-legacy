@@ -64,7 +64,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
-            eZRole::remove( $deleteID );
+            eZRole::removeRole( $deleteID );
         }
         // Clear role caches.
         eZRole::expireCache();

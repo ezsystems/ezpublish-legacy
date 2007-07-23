@@ -210,7 +210,7 @@ class eZEnum
 
     function removeEnumeration( $id, $enumid, $version )
     {
-       eZEnumValue::remove( $enumid, $version );
+       eZEnumValue::removeByID( $enumid, $version );
        $this->Enumerations = eZEnumValue::fetchAllElements( $id, $version );
     }
 

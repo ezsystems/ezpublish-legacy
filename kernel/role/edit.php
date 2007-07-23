@@ -123,7 +123,7 @@ if ( $http->hasPostVariable( 'Discard' ) )
 
     $role = eZRole::fetch( $roleID ) ;
     $originalRole = eZRole::fetch( $role->attribute( 'version') );
-    $role->remove();
+    $role->removeThis();
     if ( $originalRole != null && $originalRole->attribute( 'is_new' ) == 1 )
     {
         $originalRole->remove();
@@ -168,21 +168,21 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                 $limitationID = $limitation->attribute( 'id' );
                 $limitationIdentifier = $limitation->attribute( 'identifier' );
                 if ( $limitationIdentifier != 'Node' and $limitationIdentifier != 'Subtree' )
-                    eZPolicyLimitation::remove( $limitationID );
+                    eZPolicyLimitation::removeByID( $limitationID );
                 if ( $limitationIdentifier == 'Node' )
                 {
                     $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
                     if ( $nodeLimitationValues != null )
                         $hasNodeLimitation = true;
                     else
-                        eZPolicyLimitation::remove( $limitationID );
+                        eZPolicyLimitation::removeByID( $limitationID );
                 }
 
                 if ( $limitationIdentifier == 'Subtree' )
                 {
                     $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
                     if ( $nodeLimitationValues == null )
-                        eZPolicyLimitation::remove( $limitationID );
+                        eZPolicyLimitation::removeByID( $limitationID );
                 }
             }
 
@@ -256,7 +256,7 @@ if ( $http->hasPostVariable( 'RemovePolicy' ) )
 {
     $policyID = $http->postVariable( 'RolePolicy' ) ;
     eZDebugSetting::writeDebug( 'kernel-role-edit', $policyID, 'trying to remove policy' );
-    eZPolicy::remove( $policyID );
+    eZPolicy::removeByID( $policyID );
     // Set flag for audit. If true audit will be processed
     $http->setSessionVariable( 'RoleWasChanged', true );
 }
@@ -268,7 +268,7 @@ if ( $http->hasPostVariable( 'RemovePolicies' ) and
     foreach( $http->postVariable( 'DeleteIDArray' ) as $deleteID)
     {
         eZDebugSetting::writeDebug( 'kernel-role-edit', $deleteID, 'trying to remove policy' );
-        eZPolicy::remove( $deleteID );
+        eZPolicy::removeByID( $deleteID );
     }
     $db->commit();
     // Set flag for audit. If true audit will be processed
@@ -481,7 +481,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                 $limitationID = $limitation->attribute( 'id' );
                 $limitationIdentifier = $limitation->attribute( 'identifier' );
                 if ( $limitationIdentifier != 'Node' and $limitationIdentifier != 'Subtree' )
-                    eZPolicyLimitation::remove( $limitationID );
+                    eZPolicyLimitation::removeByID( $limitationID );
             }
 
             foreach ( $currentFunctionLimitations as $functionLimitation )
@@ -575,7 +575,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                     $limitationIdentifier = $limitation->attribute( 'identifier' );
                     if ( in_array( $limitationIdentifier, $dropList ) )
                     {
-                        eZPolicyLimitation::remove( $limitationID );
+                        eZPolicyLimitation::removeByID( $limitationID );
                     }
                 }
             }
@@ -586,7 +586,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                     $limitationID = $limitation->attribute( 'id' );
                     $limitationIdentifier = $limitation->attribute( 'identifier' );
                     if ( $limitationIdentifier != 'Node' and $limitationIdentifier != 'Subtree' )
-                        eZPolicyLimitation::remove( $limitationID );
+                        eZPolicyLimitation::removeByID( $limitationID );
                 }
             }
         }

@@ -54,7 +54,7 @@ class eZAuthorType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $actionRemoveSelected = false;
         if ( $http->hasPostVariable( 'CustomActionButton' ) )
@@ -129,7 +129,7 @@ class eZAuthorType extends eZDataType
     /*!
      Store content
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $author = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
@@ -221,7 +221,7 @@ class eZAuthorType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -273,7 +273,7 @@ class eZAuthorType extends eZDataType
         }
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $author = $contentObjectAttribute->content( );
         $authorList = $author->attribute( 'author_list' );

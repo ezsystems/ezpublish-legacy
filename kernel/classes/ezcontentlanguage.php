@@ -158,7 +158,7 @@ class eZContentLanguage extends eZPersistentObject
         $language = eZContentLanguage::fetch( $id );
         if ( $language )
         {
-            return $language->remove();
+            return $language->removeThis();
         }
         else
         {
@@ -171,7 +171,7 @@ class eZContentLanguage extends eZPersistentObject
      *
      * \return True if the language was removed from the site, false otherwise.
      */
-    function remove()
+    function removeThis()
     {
         if ( $this->objectCount() > 0 )
         {

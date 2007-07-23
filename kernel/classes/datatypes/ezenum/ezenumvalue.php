@@ -125,7 +125,7 @@ class eZEnumValue extends eZPersistentObject
                                                  "contentclass_attribute_version" => $version) );
     }
 
-    function remove( $id , $version )
+    static function removeByID( $id , $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
                                           array( "id" => $id,

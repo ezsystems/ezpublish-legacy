@@ -122,7 +122,7 @@ class eZWaitUntilDate
     {
         eZDebug::writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
 
-       eZWaitUntilDateValue::remove( $id, $version );
+       eZWaitUntilDateValue::removeByID( $id, $version );
        $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );
     }
 

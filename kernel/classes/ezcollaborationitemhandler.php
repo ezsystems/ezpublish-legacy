@@ -369,7 +369,7 @@ class eZCollaborationItemHandler
      it can be used by handlers to update when the item was last read.
      \note Default implementation does nothing.
     */
-    function readItem( &$collaborationItem, $viewMode = false )
+    function readItem( $collaborationItem, $viewMode = false )
     {
     }
 
@@ -422,7 +422,7 @@ class eZCollaborationItemHandler
      \return the content of the collaborationitem.
      \note This is specific to the item type, some might return an array and others an object.
     */
-    function content( &$collaborationItem )
+    function content( $collaborationItem )
     {
         return null;
     }

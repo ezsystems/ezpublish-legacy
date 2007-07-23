@@ -77,11 +77,11 @@ class eZIdentifierType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
     }
 
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
     }
 
@@ -89,7 +89,7 @@ class eZIdentifierType extends eZDataType
      Store the content. Since the content has been stored in function fetchObjectAttributeHTTPInput(),
      this function is with empty code.
     */
-    function storeObjectAttribute( &$contentObjectattribute )
+    function storeObjectAttribute( $contentObjectattribute )
     {
     }
 
@@ -120,13 +120,13 @@ class eZIdentifierType extends eZDataType
         $contentObjectAttribute->setAttribute( 'data_text', $string );
         return true;
     }
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->attribute( "data_text" );
         return ( trim( $content ) != '' );
     }
 
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) == null
           && $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD ) == null
@@ -142,7 +142,7 @@ class eZIdentifierType extends eZDataType
       Validates the input and returns true if the input was
       valid for this datatype.
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $startValueName = $base . EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $digitsName = $base . EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
@@ -169,7 +169,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $startValueName = $base . EZ_DATATYPESTRING_START_VALUE_VARIABLE . $classAttribute->attribute( "id" );
         $digitsName = $base . EZ_DATATYPESTRING_DIGITS_VARIABLE . $classAttribute->attribute( "id" );
@@ -266,7 +266,7 @@ class eZIdentifierType extends eZDataType
       When published it will check if it needs to aquire a new unique identifier, if so
       it updates all existing versions with this new identifier.
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
         $ret = eZIdentifierType::assignValue( $contentClassAttribute, $contentObjectAttribute );
@@ -402,11 +402,11 @@ class eZIdentifierType extends eZDataType
     {
     }
 
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
     }
 
-    function preStoreDefinedClassAttribute( &$classAttribute )
+    function preStoreDefinedClassAttribute( $classAttribute )
     {
     }
 

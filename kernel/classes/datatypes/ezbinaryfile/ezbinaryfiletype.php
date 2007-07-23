@@ -67,7 +67,7 @@ class eZBinaryFileType extends eZDataType
      \reimp
      \return the template name which the handler decides upon.
     */
-    function &viewTemplate( &$contentobjectAttribute )
+    function viewTemplate( $contentobjectAttribute )
     {
         $handler = $this->fileHandler();
         $handlerTemplate = $handler->viewTemplate( $contentobjectAttribute );
@@ -85,7 +85,7 @@ class eZBinaryFileType extends eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, informationTemplate
     */
-    function &editTemplate( &$contentobjectAttribute )
+    function editTemplate( $contentobjectAttribute )
     {
         $handler = $this->fileHandler();
         $handlerTemplate = $handler->editTemplate( $contentobjectAttribute );
@@ -103,7 +103,7 @@ class eZBinaryFileType extends eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, editTemplate
     */
-    function &informationTemplate( &$contentobjectAttribute )
+    function informationTemplate( $contentobjectAttribute )
     {
         $handler =& $this->fileHandler();
         $handlerTemplate = $handler->informationTemplate( $contentobjectAttribute );
@@ -145,7 +145,7 @@ class eZBinaryFileType extends eZDataType
         if ( $version == null )
         {
             $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
-            eZBinaryFile::remove( $contentObjectAttributeID, null );
+            eZBinaryFile::removeByID( $contentObjectAttributeID, null );
 
             foreach ( array_keys( $binaryFiles ) as $key )
             {
@@ -177,7 +177,7 @@ class eZBinaryFileType extends eZDataType
                 $orig_dir = $storage_dir . "/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
 
-                eZBinaryFile::remove( $contentObjectAttributeID, $version );
+                eZBinaryFile::removeByID( $contentObjectAttributeID, $version );
 
                 // Check if there are any other records in ezbinaryfile that point to that fileName.
                 $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $fileName );
@@ -216,7 +216,7 @@ class eZBinaryFileType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         eZBinaryFileType::checkFileUploads();
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -260,7 +260,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         eZBinaryFileType::checkFileUploads();
         if ( !eZHTTPFile::canFetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) ) )
@@ -327,7 +327,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      Does nothing, since the file has been stored. See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
     }
 
@@ -364,8 +364,8 @@ class eZBinaryFileType extends eZDataType
      \reimp
      Inserts the file using the eZBinaryFile class.
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute, &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
@@ -471,8 +471,8 @@ class eZBinaryFileType extends eZDataType
       \reimp
       We support file information
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
-                                       &$objectAttribute )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
+                                       $objectAttribute )
     {
         return true;
     }
@@ -481,8 +481,8 @@ class eZBinaryFileType extends eZDataType
       \reimp
       Extracts file information for the binaryfile entry.
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
-                                    &$objectAttribute )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage,
+                                    $objectAttribute )
     {
         $binaryFile = eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
                                             $objectAttribute->attribute( "version" ) );
@@ -496,8 +496,8 @@ class eZBinaryFileType extends eZDataType
       \reimp
       Updates download count for binary file.
     */
-    function handleDownload( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute )
+    function handleDownload( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute )
     {
         $binaryFile = eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
                                             $objectAttribute->attribute( "version" ) );
@@ -516,7 +516,7 @@ class eZBinaryFileType extends eZDataType
         return false;
     }
 
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
@@ -539,7 +539,7 @@ class eZBinaryFileType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $binaryFile = eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );

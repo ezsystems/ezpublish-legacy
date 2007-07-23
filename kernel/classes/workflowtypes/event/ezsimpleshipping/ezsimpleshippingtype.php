@@ -96,6 +96,6 @@ class eZSimpleShippingType extends eZWorkflowEventType
     }
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "ezsimpleshippingtype" );
+eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_SIMPLESHIPPING_ID, "ezsimpleshippingtype" );
 
 ?>

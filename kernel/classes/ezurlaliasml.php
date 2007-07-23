@@ -233,7 +233,7 @@ class eZURLAliasML extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function store()
+    function store( $fieldFilters = null )
     {
         $locked = false;
         if ( $this->ID === null )
@@ -269,7 +269,7 @@ class eZURLAliasML extends eZPersistentObject
                 $this->ActionType = 'nop';
         }
 
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
         if ( $locked )
         {
             $db->unlock();

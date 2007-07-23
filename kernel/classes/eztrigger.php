@@ -201,7 +201,7 @@ class eZTrigger extends eZPersistentObject
                     case EZ_WORKFLOW_STATUS_NONE:
                     case EZ_WORKFLOW_STATUS_BUSY:
                     {
-                        $existingWorkflowProcess->remove();
+                        $existingWorkflowProcess->removeThis();
                         return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                                       'Result' => null );
                     } break;
@@ -223,7 +223,7 @@ class eZTrigger extends eZPersistentObject
 */                  } break;
                     case EZ_WORKFLOW_STATUS_DONE:
                     {
-                        $existingWorkflowProcess->remove();
+                        $existingWorkflowProcess->removeThis();
                         return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                                       'Result' => null );
                     }
@@ -272,7 +272,7 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_NONE:
             case EZ_WORKFLOW_STATUS_BUSY:
             {
-                $workflowProcess->remove();
+                $workflowProcess->removeThis();
                 $db->commit();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_CANCELED,
                               'Result' => null );
@@ -330,7 +330,7 @@ class eZTrigger extends eZPersistentObject
             } break;
             case EZ_WORKFLOW_STATUS_DONE:
             {
-                $workflowProcess->remove();
+                $workflowProcess->removeThis();
                 $db->commit();
                 return array( 'Status' => EZ_TRIGGER_WORKFLOW_DONE,
                               'Result' => null );

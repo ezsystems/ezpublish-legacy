@@ -129,7 +129,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Set class attribute value for template version
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD ) == null )
             $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, 10 );
@@ -160,7 +160,7 @@ class eZXMLTextType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         /// Get object for input validation
         // To do: only validate, not save data
@@ -171,7 +171,7 @@ class eZXMLTextType extends eZDataType
         return $isValid;
     }
 
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $column = $base . EZ_DATATYPESTRING_XML_TEXT_COLS_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $column ) )
@@ -186,7 +186,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         // To do: Data should be saved here.
         /*$xmlText = $this->objectAttributeContent( $contentObjectAttribute );
@@ -207,7 +207,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Store the content.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         $attribute->setAttribute( 'data_int', EZ_XMLTEXT_VERSION_TIMESTAMP );
     }
@@ -215,19 +215,21 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
     */
-    function &viewTemplate( &$contentobjectAttribute )
+    function viewTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
         $suffix = $this->viewTemplateSuffix( $contentobjectAttribute );
         if ( $suffix )
+        {
             $template .= '_' . $suffix;
+        }
         return $template;
     }
 
     /*!
      \reimp
     */
-    function &editTemplate( &$contentobjectAttribute )
+    function editTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
         $suffix = $this->editTemplateSuffix( $contentobjectAttribute );
@@ -239,7 +241,7 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
     */
-    function &informationTemplate( &$contentobjectAttribute )
+    function informationTemplate( $contentobjectAttribute )
     {
         $template = $this->DataTypeString;
         $suffix = $this->informationTemplateSuffix( $contentobjectAttribute );
@@ -422,7 +424,7 @@ class eZXMLTextType extends eZDataType
         return $text;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentObjectAttribute );
         if ( is_object( $content ) and

@@ -126,7 +126,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_imagename_" . $contentObjectAttribute->attribute( "id" );
@@ -201,7 +201,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $result = false;
         $imageAltText = false;
@@ -241,7 +241,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $debug = eZDebug::instance();
         //$debug->writeDebug( 'storing ezimage attribute' , 'eZImageType::storeObjectAttribute' );
@@ -287,8 +287,8 @@ class eZImageType extends eZDataType
      \reimp
      Inserts the file using the Image Handler eZImageAliasHandler.
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute, &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
@@ -337,8 +337,8 @@ class eZImageType extends eZDataType
       \reimp
       We support file information
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
-                                       &$objectAttribute )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
+                                       $objectAttribute )
     {
         return true;
     }
@@ -347,8 +347,8 @@ class eZImageType extends eZDataType
       \reimp
       Extracts file information for the image entry.
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
-                                    &$objectAttribute )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage,
+                                    $objectAttribute )
     {
         $content = $objectAttribute->content();
         if ( $content )
@@ -370,7 +370,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
         $hasContent = $contentObjectAttribute->hasContent();
         if ( $hasContent )
@@ -407,7 +407,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_IMAGE_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $filesizeName ) )
@@ -457,7 +457,7 @@ class eZImageType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $handler = $contentObjectAttribute->content();
         if ( !$handler )

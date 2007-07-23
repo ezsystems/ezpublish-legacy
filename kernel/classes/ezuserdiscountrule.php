@@ -80,13 +80,13 @@ class eZUserDiscountRule extends eZPersistentObject
                       "name" => "ezuser_discountrule" );
     }
 
-    function store()
+    function store( $fieldFilters = null )
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-discountrules-cache', time() );
         $handler->store();
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
     }
 
     static function fetch( $id, $asObject = true )
@@ -214,7 +214,7 @@ class eZUserDiscountRule extends eZPersistentObject
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "contentobject_id" => $userID ) );
     }
-    function remove( $id )
+    function removeByID( $id )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "id" => $id ) );

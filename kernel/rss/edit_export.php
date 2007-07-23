@@ -71,8 +71,7 @@ else if ( $Module->isCurrentAction( 'AddItem' ) )
 }
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
-    $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
-    $rssExport->remove();
+    eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT )->removeThis();
     return $Module->redirectTo( '/rss/list' );
 }
 else if ( $Module->isCurrentAction( 'BrowseImage' ) )
@@ -159,7 +158,7 @@ if ( is_numeric( $RSSExportID ) )
         }
         else if ( $timeOut > 0 && $rssExport->attribute( 'modified' ) + $timeOut < time() )
         {
-            $rssExport->remove();
+            $rssExport->removeThis();
             $rssExport = false;
         }
     }

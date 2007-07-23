@@ -60,7 +60,7 @@ class eZMultiPriceType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         // Check "price inc/ex VAT" and "VAT type" fields.
         $vatTypeID = $http->postVariable( $base . '_ezmultiprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
@@ -97,7 +97,7 @@ class eZMultiPriceType extends eZDataType
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         $multiprice = $attribute->attribute( 'content' );
         $multiprice->store();
@@ -114,7 +114,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Set default class attribute value
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
         if ( $classAttribute->attribute( EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_FIELD ) == 0 )
             $classAttribute->setAttribute( EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_FIELD, EZ_MULTIPRICE_INCLUDED_VAT );
@@ -149,7 +149,7 @@ class eZMultiPriceType extends eZDataType
         }
     }
 
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $currencyCodeVariable = $base . EZ_DATATYPESTRING_CURRENCY_CODE_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $currencyCodeVariable ) )
@@ -176,7 +176,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $multiprice =& $contentObjectAttribute->attribute( 'content' );
 
@@ -224,7 +224,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Returns class content.
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         $contentObjectAttribute = false;
         $multiprice = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
@@ -291,8 +291,8 @@ class eZMultiPriceType extends eZDataType
     */
     function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
     {
-        $multiprice =& $objectAttribute->content();
-        $multiprice->remove( $objectAttribute->attribute( 'id' ), $version );
+        $multiprice = $objectAttribute->content();
+        $multiprice->removeByID( $objectAttribute->attribute( 'id' ), $version );
     }
 
     function title( $contentObjectAttribute, $name = null )
@@ -300,7 +300,7 @@ class eZMultiPriceType extends eZDataType
         return '';
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -413,7 +413,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( $classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';

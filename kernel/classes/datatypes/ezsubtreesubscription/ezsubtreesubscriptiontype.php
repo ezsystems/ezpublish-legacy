@@ -57,7 +57,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      Store content
     */
-    function onPublish( &$attribute, &$contentObject, &$publishedNodes )
+    function onPublish( $attribute, $contentObject, $publishedNodes )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         $user = eZUser::currentUser();
@@ -103,7 +103,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_data_subtreesubscription_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -119,7 +119,7 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return true;
     }
@@ -167,7 +167,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
       \reimp
     */
-    function diff( $old, $new )
+    function diff( $old, $new, $options = false )
     {
         return null;
     }

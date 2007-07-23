@@ -147,7 +147,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
                                                  "workflow_event_version" => $version) );
     }
 
-    function remove( $id , $version )
+    static function removeByID( $id , $version )
     {
         eZPersistentObject::removeObject( eZWaitUntilDateValue::definition(),
                                           array( "id" => $id,

@@ -69,7 +69,7 @@ class eZObjectRelationType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $postVariableName ) )
@@ -90,7 +90,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Fetches the http post var string input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $postVariableName = $base . "_data_object_relation_id_" . $contentObjectAttribute->attribute( "id" );
         $haveData = false;
@@ -172,7 +172,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Stores relation to the ezcontentobject_link table
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
         $contentObjectID = $contentObjectAttribute->ContentObjectID;
@@ -197,7 +197,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
         $state = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -216,14 +216,14 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $selectionTypeName = 'ContentClass_ezobjectrelation_selection_type_' . $classAttribute->attribute( 'id' );
         $content = $classAttribute->content();
@@ -253,7 +253,7 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
         $classAttribute->setAttribute( 'data_int1', $content['selection_type'] );
@@ -382,7 +382,7 @@ class eZObjectRelationType extends eZDataType
      Sets \c grouped_input to \c true when browse mode is active or
      a dropdown with a fuzzy match is used.
     */
-    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $classAttribute = $objectAttribute->contentClassAttribute();
         $content = eZObjectRelationType::classAttributeContent( $classAttribute );
@@ -410,7 +410,7 @@ class eZObjectRelationType extends eZDataType
         return 'int';
     }
 
-    function classAttributeContent( &$classObjectAttribute )
+    function classAttributeContent( $classObjectAttribute )
     {
         $selectionType = $classObjectAttribute->attribute( "data_int1" );
         $defaultSelectionNode = $classObjectAttribute->attribute( "data_int2" );
@@ -522,7 +522,7 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )

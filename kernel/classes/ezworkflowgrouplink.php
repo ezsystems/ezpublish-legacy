@@ -87,7 +87,7 @@ class eZWorkflowGroupLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $workflow_id, $workflow_version, $group_id )
+    static function removeByID( $workflow_id, $workflow_version, $group_id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroupLink::definition(),
                                           array("workflow_id" => $workflow_id,

@@ -117,7 +117,7 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $classAttributeID = $classAttribute->attribute( 'id' );
         $content = $classAttribute->content();
@@ -157,13 +157,13 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
         $content = $classAttribute->content();
         return eZCountryType::storeClassAttributeContent( $classAttribute, $content );
     }
 
-    function storeClassAttributeContent( &$classAttribute, $content )
+    function storeClassAttributeContent( $classAttribute, $content )
     {
         if ( is_array( $content ) )
         {
@@ -197,7 +197,7 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -218,7 +218,7 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -239,7 +239,7 @@ class eZCountryType extends eZDataType
     /*!
      Fetches the http post var and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -283,7 +283,7 @@ class eZCountryType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
@@ -299,7 +299,7 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
 
@@ -358,7 +358,7 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
         $defaultCountry = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_DEFAULT_LIST_FIELD );
         $multipleChoice = $classAttribute->attribute( EZ_DATATYPESTRING_COUNTRY_MULTIPLE_CHOICE_FIELD );
@@ -433,7 +433,7 @@ class eZCountryType extends eZDataType
         return $content['value'];
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         $result = ( ( !is_array( $content['value'] ) and trim( $content['value'] ) != '' ) or ( is_array( $content['value'] ) and count( $content['value'] ) > 0 ) );

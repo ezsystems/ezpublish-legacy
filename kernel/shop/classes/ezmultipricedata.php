@@ -167,7 +167,7 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
         remove
     */
-    function remove( $objectAttributeID, $objectAttributeVersion = null )
+    function removeByOAID( $objectAttributeID, $objectAttributeVersion = null )
     {
         $db = eZDB::instance();
         $db->begin();

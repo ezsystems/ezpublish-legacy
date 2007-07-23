@@ -69,7 +69,7 @@ class eZProductCategoryType extends eZDataType
     /*!
       Validates the http post var.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->validateIsRequired() )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -90,7 +90,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      Fetches the http post var and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -111,7 +111,7 @@ class eZProductCategoryType extends eZDataType
     \reimp
     Fetches the http post variable for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
         {
@@ -178,7 +178,7 @@ class eZProductCategoryType extends eZDataType
     /*!
      \reimp
      */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $productCategory = $this->objectAttributeContent( $contentObjectAttribute );
         return is_object( $productCategory );

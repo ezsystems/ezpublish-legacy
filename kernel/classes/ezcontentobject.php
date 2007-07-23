@@ -252,7 +252,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function store()
+    function store( $fieldFilters = null )
     {
         // Unset the cache
         global $eZContentObjectContentObjectCache;
@@ -265,7 +265,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $db->begin();
         $this->storeNodeModified();
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
         $db->commit();
     }
 
@@ -1079,7 +1079,7 @@ class eZContentObject extends eZPersistentObject
                             $removeVersion = $version;
                         }
                     }
-                    $removeVersion->remove();
+                    $removeVersion->removeThis();
                 }
             }
         }
@@ -1672,7 +1672,7 @@ class eZContentObject extends eZPersistentObject
             $db->begin();
             foreach ( $nodes as $node )
             {
-                $node->remove();
+                $node->removeThis();
             }
 
             $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
@@ -1691,10 +1691,9 @@ class eZContentObject extends eZPersistentObject
                 {
                     $db = eZDB::instance();
                     $db->begin();
-                    foreach ( array_keys( $nodes ) as $key )
+                    foreach ( $nodes as $node )
                     {
-                        $node =& $nodes[$key];
-                        $node->remove();
+                        $node->removeThis();
                     }
                     $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
                     eZSearch::removeObject( $contentobject );
@@ -1703,13 +1702,13 @@ class eZContentObject extends eZPersistentObject
                 }
                 else
                 {
-                    eZContentObjectTreeNode::remove( $nodeID );
+                    eZContentObjectTreeNode::removeNode( $nodeID );
                 }
             }
         }
         else
         {
-            eZContentObjectTreeNode::remove( $nodeID );
+            eZContentObjectTreeNode::removeNode( $nodeID );
         }
     }
 
@@ -1741,7 +1740,7 @@ class eZContentObject extends eZPersistentObject
         {
             if ( $possibleVersion->attribute( 'modified' ) < $expiryTime )
             {
-                $possibleVersion->remove();
+                $possibleVersion->removeThis();
             }
         }
     }
@@ -1776,7 +1775,7 @@ class eZContentObject extends eZPersistentObject
         {
             if ( $untouchedDraft->attribute( 'modified' ) < $expiryTime )
             {
-                $untouchedDraft->remove();
+                $untouchedDraft->removeThis();
             }
         }
     }
@@ -2368,8 +2367,9 @@ class eZContentObject extends eZPersistentObject
 
     function initialLanguageCode()
     {
+        $initialLanguage = $this->initialLanguage();
         // If current contentobject is "Top Level Nodes" than it doesn't have "initial Language" and "locale".
-        return ( $initialLanguage !== false ) ?  $this->initialLanguage()->attribute( 'locale' ) : false;
+        return ( $initialLanguage !== false ) ?  $initialLanguage->attribute( 'locale' ) : false;
     }
 
     /*!
@@ -5402,7 +5402,7 @@ class eZContentObject extends eZPersistentObject
         $versionsToRemove = $this->versions( true, array( 'conditions' => array( 'initial_language_id' => $languageID ) ) );
         foreach ( $versionsToRemove as $version )
         {
-            $version->remove();
+            $version->removeThis();
         }
 
         $altLanguageID = $languageID++;

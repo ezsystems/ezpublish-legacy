@@ -147,14 +147,14 @@ class eZMediaType extends eZDataType
                 }
             }
         }
-        eZMedia::remove( $contentObjectAttributeID, $version );
+        eZMedia::removeByID( $contentObjectAttributeID, $version );
     }
 
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
         $httpFileName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
@@ -248,7 +248,7 @@ class eZMediaType extends eZDataType
     /*!
      Fetches input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $debug = eZDebug::instance();
 
@@ -337,7 +337,7 @@ class eZMediaType extends eZDataType
         return true;
     }
 
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
     }
 
@@ -375,8 +375,8 @@ class eZMediaType extends eZDataType
      \reimp
      Inserts the file using the eZMedia class.
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute, &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
@@ -523,8 +523,8 @@ class eZMediaType extends eZDataType
       \reimp
       We support file information
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
-                                       &$objectAttribute )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
+                                       $objectAttribute )
     {
         return true;
     }
@@ -533,8 +533,8 @@ class eZMediaType extends eZDataType
       \reimp
       Extracts file information for the media entry.
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
-                                    &$objectAttribute )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage,
+                                    $objectAttribute )
     {
         $mediaFile = eZMedia::fetch( $objectAttribute->attribute( "id" ),
                                       $objectAttribute->attribute( "version" ) );
@@ -545,18 +545,18 @@ class eZMediaType extends eZDataType
         return false;
     }
 
-    function storeClassAttribute( &$attribute, $version )
+    function storeClassAttribute( $attribute, $version )
     {
     }
 
-    function storeDefinedClassAttribute( &$attribute )
+    function storeDefinedClassAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -564,14 +564,14 @@ class eZMediaType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $filesizeName = $base . EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_VARIABLE . $classAttribute->attribute( 'id' );
         $typeName = $base . EZ_DATATYPESTRING_TYPE_VARIABLE . $classAttribute->attribute( 'id' );
@@ -602,7 +602,7 @@ class eZMediaType extends eZDataType
         return $value;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
@@ -625,7 +625,7 @@ class eZMediaType extends eZDataType
         return $mediaFile;
     }
 
-    function metaData()
+    function metaData( $contentObjectAttribute )
     {
         return "";
     }

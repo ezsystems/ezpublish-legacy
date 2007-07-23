@@ -186,31 +186,30 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-     */
-    function remove( $id = false )
+     \sa removeThis
+    */
+    static function removeByID( $id )
     {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-//            $policyParameter = eZPolicyLimitation::fetch( $delID );
-        }
-        else
-        {
-//            $policyParameter =& $this;
-            $delID = $this->ID;
-        }
-
         $db = eZDB::instance();
+
+        $idString = $db->escapeString( $id );
         $db->begin();
 
         $db->query( "DELETE FROM ezpolicy_limitation_value
-                     WHERE ezpolicy_limitation_value.limitation_id = '$delID'" );
+                     WHERE ezpolicy_limitation_value.limitation_id = '$idString'" );
 
         $db->query( "DELETE FROM ezpolicy_limitation
-                     WHERE ezpolicy_limitation.id = '$delID' " );
+                     WHERE ezpolicy_limitation.id = '$idString' " );
         $db->commit();
+    }
+
+    /*!
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function removeThis()
+    {
+        eZPolicyLimitation::removeByID( $this->attribute( 'id' ) );
     }
 
     function allValuesAsString()

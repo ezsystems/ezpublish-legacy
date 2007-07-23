@@ -346,12 +346,12 @@ class eZMultiplexerType extends eZWorkflowEventType
                 }
                 else if ( $childStatus ==  EZ_WORKFLOW_STATUS_DONE  )
                 {
-                    $childProcess->remove();
+                    $childProcess->removeThis();
                     return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
                 }
                 else if ( $childStatus == EZ_WORKFLOW_STATUS_CANCELLED || $childStatus == EZ_WORKFLOW_STATUS_FAILED )
                 {
-                    $childProcess->remove();
+                    $childProcess->removeThis();
                     return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
                 }
                 return $childProcess->attribute( 'event_status' );
@@ -444,6 +444,6 @@ class eZMultiplexerType extends eZWorkflowEventType
     }
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'ezmultiplexertype' );
+eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'ezmultiplexertype' );
 
 ?>

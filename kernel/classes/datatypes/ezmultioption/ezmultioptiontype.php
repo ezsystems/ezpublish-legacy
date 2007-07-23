@@ -70,7 +70,7 @@ class eZMultiOptionType extends eZDataType
      Validates the input for this datatype.
      \return True if input is valid.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $count = 0;
         $classAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -149,7 +149,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      This function calles xmlString function to create xml string and then store the content.
     */
-    function storeObjectAttribute( &$contentObjectAttribute )
+    function storeObjectAttribute( $contentObjectAttribute )
     {
         $multioption = $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $multioption->xmlString() );
@@ -184,7 +184,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $multioptionIDArray = $http->hasPostVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) )
                               ? $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) )
@@ -229,7 +229,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         $multioptionValue = $http->postVariable( $base . "_data_multioption_value_" . $contentObjectAttribute->attribute( "id" ) );
         $collectionAttribute->setAttribute( 'data_int', $multioptionValue );
@@ -308,7 +308,7 @@ class eZMultiOptionType extends eZDataType
 
      \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
         $multioption = $objectAttribute->attribute( 'content' );
 
@@ -340,7 +340,7 @@ class eZMultiOptionType extends eZDataType
       \reimp
       \return \c true if there are more than one multioption in the list.
     */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $multioption = $contentObjectAttribute->content();
         $multioptions = $multioption->attribute( 'multioption_list' );
@@ -373,7 +373,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         $defaultValueName = $base . EZ_MULTIOPTION_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
         if ( $http->hasPostVariable( $defaultValueName ) )

@@ -169,28 +169,24 @@ class eZWorkflow extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $remove_childs = false )
+    function removeThis( $remove_childs = false )
     {
         $db = eZDB::instance();
         $db->begin();
-        if ( is_array( $remove_childs ) or $remove_childs )
+        if ( is_array( $remove_childs ) )
         {
-            if ( is_array( $remove_childs ) )
+            foreach( $remove_childs as $event )
             {
-                $events =& $remove_childs;
-                for ( $i = 0; $i < count( $events ); ++$i )
-                {
-                    $event =& $events[$i];
-                    $event->remove();
-                }
-            }
-            else
-            {
-                eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
-                                                  array( "workflow_id" => $this->ID,
-                                                         "version" => $this->Version ) );
+                $event->remove();
             }
         }
+        else if ( $remove_childs )
+        {
+            eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
+                                              array( "workflow_id" => $this->ID,
+                                                     "version" => $this->Version ) );
+        }
+
         eZPersistentObject::remove();
         $db->commit();
     }
@@ -210,7 +206,7 @@ class eZWorkflow extends eZPersistentObject
         $db->begin();
         foreach ( $temporaryWorkflows as $workflow )
         {
-            $workflow->remove( true );
+            $workflow->removeThis( true );
         }
         eZPersistentObject::removeObject( eZWorkflowEvent::definition(),
                                           array( 'version' => $version ) );

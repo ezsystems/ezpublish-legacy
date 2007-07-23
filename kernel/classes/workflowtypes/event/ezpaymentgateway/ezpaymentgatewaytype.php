@@ -405,5 +405,5 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     public $logger;
 }
 
-eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID, 'ezpaymentgatewaytype' );
+eZWorkflowEventType::registerEventType( EZ_WORKFLOW_TYPE_PAYMENTGATEWAY_ID, 'ezpaymentgatewaytype' );
 ?>

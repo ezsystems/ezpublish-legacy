@@ -312,41 +312,39 @@ class eZRole extends eZPersistentObject
         $db->begin();
         foreach ( $temporaryRoles as $role )
         {
-            $role->remove();
+            $role->removeThis();
         }
         $db->commit();
     }
 
     /*!
      \static
+     \sa removeThis
+    */
+    static function removeRole( $roleID )
+    {
+        if ( !isset( $role->ID ) )
+        {
+            return 0;
+        }
+        return eZRole::fetch( $roleID )->removeThis();
+    }
+
+    /*!
      Removes the role, it's policies and any assignments to users/groups.
      \param $roleID If this is \c false then the function is not static and the ID is fetched from \c $this.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function remove( $roleID = false )
+    function removeThis()
     {
-        if ( $roleID )
-        {
-            $role = eZRole::fetch( $roleID );
-        }
-        else
-        {
-            $role = $this;
-            $roleID = $this->attribute('id');
-        }
-        if ( !isset( $role->ID ) )
-        {
-            return 0;
-        }
-
         $db = eZDB::instance();
         $db->begin();
-        foreach ( $role->attribute( 'policies' ) as $policy )
+        foreach ( $this->attribute( 'policies' ) as $policy )
         {
-            $policy->remove();
+            $policy->removeThis();
         }
-        $db->query( "DELETE FROM ezrole WHERE id='$roleID'" );
+        $db->query( "DELETE FROM ezrole WHERE id='" . $db->escapeString( $this->attribute( 'id' ) ) . "'" );
         $db->query( "DELETE FROM ezuser_role WHERE role_id = '$roleID'" );
         $db->commit();
     }
@@ -365,7 +363,7 @@ class eZRole extends eZPersistentObject
         {
             foreach ( $this->attribute( 'policies' ) as $policy )
             {
-                $policy->remove();
+                $policy->removeThis();
             }
         }
         $db->commit();
@@ -397,7 +395,7 @@ class eZRole extends eZPersistentObject
                     {
                         if ( ( $functionName === false ) || ( $policy->attribute( 'function_name' ) == $functionName ) )
                         {
-                            $policy->remove();
+                            $policy->removeThis();
                             unset( $policyList[$policyKey] );
                         }
                     }
@@ -448,7 +446,7 @@ class eZRole extends eZPersistentObject
                 $policy = eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 if ( is_object ( $policy ) )
                 {
-                    $policy->remove();
+                    $policy->removeThis();
                 }
             }
         }
@@ -475,7 +473,7 @@ class eZRole extends eZPersistentObject
                 $policy = eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 if ( is_object ( $policy ) )
                 {
-                    $policy->remove();
+                    $policy->removeThis();
                 }
             }
         }

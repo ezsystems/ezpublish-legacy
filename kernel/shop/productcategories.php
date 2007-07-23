@@ -171,7 +171,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     $db = eZDB::instance();
     $db->begin();
     foreach ( $catIDList as $catID )
-        eZProductCategory::remove( (int) $catID );
+        eZProductCategory::removeByID( (int) $catID );
     $db->commit();
 }
 // Add new category.

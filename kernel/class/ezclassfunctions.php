@@ -65,7 +65,7 @@ class eZClassFunctions
         {
             foreach(  $selectedGroup as $group_id )
             {
-                eZContentClassClassGroup::remove( $classID, $classVersion, $group_id );
+                eZContentClassClassGroup::removeGroup( $classID, $classVersion, $group_id );
             }
         }
         return true;

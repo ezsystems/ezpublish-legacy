@@ -68,7 +68,7 @@ class eZWorkflowFunctions
             $db->begin();
             foreach(  $selectedGroup as $group_id )
             {
-                eZWorkflowGroupLink::remove( $workflowID, $workflowVersion, $group_id );
+                eZWorkflowGroupLink::removeByID( $workflowID, $workflowVersion, $group_id );
             }
             $db->commit();
         }

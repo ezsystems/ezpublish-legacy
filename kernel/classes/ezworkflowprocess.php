@@ -449,16 +449,6 @@ class eZWorkflowProcess extends eZPersistentObject
         return $workflowStatus;
     }
 
-
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-     */
-    function store()
-    {
-        eZPersistentObject::store();
-    }
-
     function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowProcess::definition(),
@@ -643,7 +633,7 @@ class eZWorkflowProcess extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove()
+    function removeThis()
     {
         $workflowParameters = $this->attribute( 'parameter_list' );
         $cleanupList = array();
@@ -653,12 +643,9 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $workflowParameters['cleanup_list'] ) && is_array( $workflowParameters['cleanup_list'] ) )
         {
             $cleanupList = $workflowParameters['cleanup_list'];
-            foreach ( array_keys( $cleanupList ) as $key )
+            foreach ( $cleanupList as $workflowEventID )
             {
-                $workflowEventID = $cleanupList[$key];
-                $workflowEvent = eZWorkflowEvent::fetch( $workflowEventID );
-                $workflowType =& $workflowEvent->eventType();
-                $workflowType->cleanup( $this, $workflowEvent );
+                $workflowType->cleanup( $this, eZWorkflowEvent::fetch( $workflowEventID ) );
             }
         }
         eZPersistentObject::removeObject( eZWorkflowProcess::definition(), array( 'id' => $this->attribute( 'id' ) ) );

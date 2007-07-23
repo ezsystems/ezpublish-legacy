@@ -80,7 +80,7 @@ class eZKeywordType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -104,7 +104,7 @@ class eZKeywordType extends eZDataType
     /*!
      Fetches the http post var keyword input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
@@ -121,7 +121,7 @@ class eZKeywordType extends eZDataType
      Does nothing since it uses the data_text field in the content object attribute.
      See fetchObjectAttributeHTTPInput for the actual storing.
     */
-    function storeObjectAttribute( &$attribute )
+    function storeObjectAttribute( $attribute )
     {
         // create keyword index
         $keyword = $attribute->content();
@@ -131,18 +131,18 @@ class eZKeywordType extends eZDataType
         }
     }
 
-    function storeClassAttribute( &$attribute, $version )
+    function storeClassAttribute( $attribute, $version )
     {
     }
 
-    function storeDefinedClassAttribute( &$attribute )
+    function storeDefinedClassAttribute( $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$attribute )
+    function validateClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -150,14 +150,14 @@ class eZKeywordType extends eZDataType
     /*!
      \reimp
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$attribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $attribute )
     {
     }
 
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$attribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $attribute )
     {
         return true;
     }
@@ -256,7 +256,7 @@ class eZKeywordType extends eZDataType
         return $return;
     }
 
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $contentObjectAttribute );

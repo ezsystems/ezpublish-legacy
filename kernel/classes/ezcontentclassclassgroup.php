@@ -106,7 +106,7 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $contentclass_id, $contentclass_version, $group_id )
+    static function removeGroup( $contentclass_id, $contentclass_version, $group_id )
     {
         if ( $contentclass_version == null )
         {

@@ -938,7 +938,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
             if ( $node->attribute( 'node_id' ) == $node->attribute( 'main_node_id' ) )
                 $mainNodeChanged = true;
-            $node->remove();
+            $node->removeThis();
         }
         eZNodeAssignment::purgeByID( array_unique( $nodeAssignmentIDList ) );
 
@@ -959,7 +959,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         eZUser::cleanupCache();
     }
 
-    // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::remove()
+    // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::removeNode()
 
     return $module->redirectToView( 'view', array( $viewMode, $redirectNodeID, $languageCode ) );
 }

@@ -235,7 +235,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
         $vatType = eZVatType::fetch( $vatID );
         if ( is_object( $vatType ) )
         {
-            $vatType->remove();
+            $vatType->removeThis();
         }
     }
     $db->commit();

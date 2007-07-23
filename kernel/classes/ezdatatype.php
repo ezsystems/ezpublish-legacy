@@ -105,7 +105,7 @@ class eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa editTemplate, informationTemplate
     */
-    function &viewTemplate( &$contentobjectAttribute )
+    function viewTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
@@ -118,7 +118,7 @@ class eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, informationTemplate
     */
-    function &editTemplate( &$contentobjectAttribute )
+    function editTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
@@ -131,7 +131,7 @@ class eZDataType
      \note The returned template name does not include the .tpl extension.
      \sa viewTemplate, editTemplate
     */
-    function &informationTemplate( &$contentobjectAttribute )
+    function informationTemplate( $contentobjectAttribute )
     {
         return $this->DataTypeString;
     }
@@ -145,7 +145,7 @@ class eZDataType
      \note \a $collectionAttribute can in some cases be a eZContentObjectAttribute, so any
            datatype that overrides this must be able to handle both types.
     */
-    function &resultTemplate( &$collectionAttribute )
+    function resultTemplate( &$collectionAttribute )
     {
         return $this->DataTypeString;
     }
@@ -243,7 +243,7 @@ class eZDataType
     /*!
      \return the data for the attribute \a $attr or null if it does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
             return $this->Attributes[$attr];
@@ -306,8 +306,8 @@ class eZDataType
 
      \sa isHTTPFileInsertionSupported()
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute, &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute, &$httpFile, $mimeData,
                              &$result )
     {
         eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
@@ -382,8 +382,8 @@ class eZDataType
 
      \return \c true if file information is supported or \c false if it doesn't.
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage,
-                                       &$objectAttribute )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
+                                       $objectAttribute )
     {
         return false;
     }
@@ -399,8 +399,8 @@ class eZDataType
 
      \return \c true if any action has been don or \c false if hasn't.
     */
-    function handleDownload( &$object, $objectVersion, $objectLanguage,
-                             &$objectAttribute )
+    function handleDownload( $object, $objectVersion, $objectLanguage,
+                             $objectAttribute )
     {
         return false;
     }
@@ -427,8 +427,8 @@ class eZDataType
              - mime_type - The MIME type for the file, if not supplied it will
                            be figured out from the filepath
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage,
-                                    &$objectAttribute )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage,
+                                    $objectAttribute )
     {
         return false;
     }
@@ -450,7 +450,7 @@ class eZDataType
              If the option could not be found it should return \c false, if not supported it should return \c null.
      \sa handleProductOption
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
         eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
                                'eZDataType::productOptionInformation' );
@@ -485,7 +485,7 @@ class eZDataType
                 .
               - \c result
     */
-    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
         $datatype = $objectAttribute->attribute( 'data_type_string' );
         $ini = eZINI::instance( 'datatype.ini' );
@@ -552,7 +552,7 @@ class eZDataType
                 .
               - \c view
     */
-    function &classDisplayInformation( &$classAttribute, $mergeInfo = false )
+    function classDisplayInformation( $classAttribute, $mergeInfo = false )
     {
         $datatype = $classAttribute->attribute( 'data_type_string' );
         $ini = eZINI::instance( 'datatype.ini' );
@@ -599,7 +599,7 @@ class eZDataType
     /*!
      \return \c true if the datatype finds any content in the attribute \a $contentObjectAttribute.
     */
-    function hasObjectAttributeContent( &$contentObjectAttribute )
+    function hasObjectAttributeContent( $contentObjectAttribute )
     {
         return false;
     }
@@ -607,10 +607,9 @@ class eZDataType
     /*!
      Returns the content data for the given content class attribute.
     */
-    function &classAttributeContent( &$classAttribute )
+    function classAttributeContent( $classAttribute )
     {
-        $retValue = '';
-        return $retValue;
+        return '';
     }
 
     /*!
@@ -622,7 +621,7 @@ class eZDataType
            store in a separate object.
      \sa fetchObjectAttributeHTTPInput
     */
-    function storeObjectAttribute( &$objectAttribute )
+    function storeObjectAttribute( $objectAttribute )
     {
     }
 
@@ -636,7 +635,7 @@ class eZDataType
 
      \note Might be transaction unsafe.
     */
-    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
+    function onPublish( $contentObjectAttribute, $contentObject, $publishedNodes )
     {
     }
 
@@ -647,7 +646,7 @@ class eZDataType
      \return True if the value was stored correctly.
      \sa fetchClassAttributeHTTPInput
     */
-    function preStoreClassAttribute( &$classAttribute, $version )
+    function preStoreClassAttribute( $classAttribute, $version )
     {
     }
 
@@ -664,7 +663,7 @@ class eZDataType
            If you need to alter attribute data use preStoreClassAttribute instead.
      \sa fetchClassAttributeHTTPInput
     */
-    function storeClassAttribute( &$classAttribute, $version )
+    function storeClassAttribute( $classAttribute, $version )
     {
     }
 
@@ -673,11 +672,11 @@ class eZDataType
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function storeDefinedClassAttribute( &$classAttribute )
+    function storeDefinedClassAttribute( $classAttribute )
     {
     }
 
-    function preStoreDefinedClassAttribute( &$classAttribute )
+    function preStoreDefinedClassAttribute( $classAttribute )
     {
         $this->preStoreClassAttribute( $classAttribute, $classAttribute->attribute( 'version' ) );
     }
@@ -687,7 +686,7 @@ class eZDataType
      state as defined in eZInputValidator.
      \note Default implementation does nothing and returns accepted.
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function validateClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -697,7 +696,7 @@ class eZDataType
      class attribute input.
      \note Default implementation does nothing and returns accepted.
     */
-    function fixupClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fixupClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -706,7 +705,7 @@ class eZDataType
      Fetches the HTTP input for the content class attribute.
      \note Default implementation does nothing.
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
     }
 
@@ -740,7 +739,7 @@ class eZDataType
      state as defined in eZInputValidator.
      \note Default implementation does nothing and returns accepted.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -750,7 +749,7 @@ class eZDataType
      object attribute input.
      \note Default implementation does nothing.
     */
-    function fixupObjectAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, &$objectAttribute )
     {
     }
 
@@ -758,7 +757,7 @@ class eZDataType
      Fetches the HTTP input for the content object attribute.
      \note Default implementation does nothing.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
@@ -767,7 +766,7 @@ class eZDataType
      state as defined in eZInputValidator.
      \note Default implementation does nothing and returns accepted.
     */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    function validateCollectionAttributeHTTPInput( $http, $base, $objectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -777,7 +776,7 @@ class eZDataType
      object attribute input.
      \note Default implementation does nothing.
     */
-    function fixupCollectionAttributeHTTPInput( &$http, $base, &$objectAttribute )
+    function fixupCollectionAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
@@ -787,7 +786,7 @@ class eZDataType
 
      \return true if variable was successfully fetched.
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$objectAttribute )
+    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $objectAttribute )
     {
     }
 
@@ -805,7 +804,7 @@ class eZDataType
      datatypes that must do custom action handling for sub objects and attributes.
      \note Default implementation does nothing.
     */
-    function handleCustomObjectHTTPActions( &$http, $attributeDataBaseName,
+    function handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                             $customActionAttributeArray, $customActionParameters )
     {
     }
@@ -814,7 +813,7 @@ class eZDataType
      Initializes the class attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeClassAttribute( &$classAttribute )
+    function initializeClassAttribute( $classAttribute )
     {
     }
 
