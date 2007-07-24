@@ -51,7 +51,7 @@ class eZTemplateNl2BrOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }

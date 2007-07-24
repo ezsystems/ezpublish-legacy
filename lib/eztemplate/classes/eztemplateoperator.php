@@ -41,7 +41,7 @@ class eZTemplateOperator
     /*!
      Returns the template operators which are registered when using eZTemplate::registerOperators()
     */
-    function &operatorList()
+    function operatorList()
     {
         $operationList = array();
         return $operationList;

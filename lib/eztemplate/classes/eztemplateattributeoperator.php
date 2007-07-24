@@ -69,7 +69,7 @@ class eZTemplateAttributeOperator
     /*!
      Returns the template operators.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }

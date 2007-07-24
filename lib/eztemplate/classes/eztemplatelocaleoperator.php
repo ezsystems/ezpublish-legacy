@@ -70,7 +70,7 @@ class eZTemplateLocaleOperator
     /*!
      Returns array with l10n.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }

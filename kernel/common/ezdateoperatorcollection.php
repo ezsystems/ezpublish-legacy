@@ -41,7 +41,7 @@ class eZDateOperatorCollection
     /*!
      Returns the operators in this class.
     */
-    function &operatorList()
+    function operatorList()
     {
         return $this->Operators;
     }
