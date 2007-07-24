@@ -619,35 +619,39 @@ class eZStepSiteTypes extends eZStepInstaller
 
         // Parse it.
         include_once( 'lib/ezfile/classes/ezfile.php' );
-        include_once( "lib/ezxml/classes/ezxml.php" );
 
         $xmlString = eZFile::getContents( $idxFileName );
         @unlink( $idxFileName );
-        $xml = new eZXML();
-        $domDocument = $xml->domTree( $xmlString );
+        $dom = new DOMDocument();
+        $dom->preserveWhitespace = false;
+        $success = $dom->loadXML( $xmlString );
 
-        if ( !is_object( $domDocument ) )
+        if ( !$success )
         {
             $debug->writeError( "Malformed index file." );
             return false;
         }
 
-        $root = $domDocument->root();
+        $root = $dom->documentElement;
 
-        if ( $root->name() != 'packages' )
+        if ( $root->localName != 'packages' )
         {
             $debug->writeError( "Malformed index file." );
             return false;
         }
 
         $packageList = array();
-        foreach ( $root->children() as $packageNode )
+        foreach ( $root->childNodes as $packageNode )
         {
-            if ( $packageNode->name() != 'package' ) // skip unwanted chilren
+            if ( $packageNode->localName != 'package' ) // skip unwanted chilren
                 continue;
             if ( $onlySitePackages && $packageNode->getAttribute( 'type' ) != 'site' )  // skip non-site packages
                 continue;
-            $packageAttributes = $packageNode->attributeValues();
+            $packageAttributes = array();
+            foreach ( $packageNode->attributes as $attributeNode )
+            {
+                $packageAttributes[$attributeNode->localName] = $attributeNode->value;
+            }
             $packageList[$packageAttributes['name']] = $packageAttributes;
         }
 
