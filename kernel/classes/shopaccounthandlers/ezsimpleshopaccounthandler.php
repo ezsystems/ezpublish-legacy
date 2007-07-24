@@ -28,8 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-
 class eZSimpleShopAccountHandler
 {
     /*!

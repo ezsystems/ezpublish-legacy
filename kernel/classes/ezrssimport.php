@@ -336,7 +336,6 @@ class eZRSSImport extends eZPersistentObject
         if ( $xmlData === false )
             return false;
 
-        include_once( 'lib/ezxml/classes/ezxml.php' );
         // Create DomDocument from http data
 
         $domDocument = new DOMDocument();
