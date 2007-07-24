@@ -119,7 +119,7 @@ class eZAuthor
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -129,8 +129,7 @@ class eZAuthor
             }break;
             case "is_empty" :
             {
-                $count = count( $this->Authors ) == 0 ;
-                return $count;
+                return count( $this->Authors ) == 0 ;
             }break;
             case "author_list" :
             {
@@ -139,8 +138,7 @@ class eZAuthor
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }
             break;
         }

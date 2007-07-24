@@ -106,53 +106,52 @@ class eZWizardBase
     /*!
      \reimp
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
             case 'error_count':
             {
-                $retValue = count( $this->ErrorList );
+                return count( $this->ErrorList );
             } break;
 
             case 'error_list':
             {
-                $retValue = $this->ErrorList;
+                return $this->ErrorList;
             } break;
 
             case 'warning_count':
             {
-                $retValue = count( $this->WarningList );
+                return count( $this->WarningList );
             } break;
 
             case 'warning_list':
             {
-                $retValue = $this->WarningList;
+                return $this->WarningList;
             } break;
 
             case 'step_template':
             {
-                $retValue = $this->stepTemplate();
+                return $this->stepTemplate();
             } break;
 
             case 'variable_list':
             {
-                $retValue = $this->variableList();
+                return $this->variableList();
             } break;
 
             case 'url':
             {
-                $retValue = $this->WizardURL;
+                return $this->WizardURL;
             } break;
 
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWizardBase::attribute' );
-                $retValue = null;
+                return null;
             }
             break;
         }
-        return $retValue;
     }
 
     /*!

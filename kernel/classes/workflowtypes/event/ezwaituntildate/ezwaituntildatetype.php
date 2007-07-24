@@ -125,15 +125,13 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
             case 'contentclass_list' :
             {
-                $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true );
-                return $classList;
-
+                return eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true );
             }break;
             case 'contentclassattribute_list' :
             {
@@ -154,17 +152,14 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 }
                 if ( $classID )
                 {
-                   $attributeList = eZContentClassAttribute::fetchListByClassID( $classID );
+                   return eZContentClassAttribute::fetchListByClassID( $classID );
                 }
-                else
-                    $attributeList = array();
-                return $attributeList;
+                return array();
             }break;
             case 'has_class_attributes' :
             {
                 // for the backward compatability:
-                $hasClassAttribute = 1;
-                return $hasClassAttribute;
+                return 1;
             }break;
             default:
                 return eZWorkflowEventType::attribute( $attr );

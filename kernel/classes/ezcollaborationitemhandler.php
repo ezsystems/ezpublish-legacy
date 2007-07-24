@@ -88,18 +88,19 @@ class eZCollaborationItemHandler
     /*!
      \return the attribute \a $attribute if it exists or \c null.
     */
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         if ( $attribute == 'info' )
-            return $this->Info;
-        else if ( $attribute == 'notification_types' )
-            return $this->notificationTypes();
-        else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
-            $retValue = null;
-            return $retValue;
+            return $this->Info;
         }
+        else if ( $attribute == 'notification_types' )
+        {
+            return $this->notificationTypes();
+        }
+
+        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
+        return null;
     }
 
     /*!

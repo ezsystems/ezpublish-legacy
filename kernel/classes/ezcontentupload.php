@@ -114,14 +114,13 @@ class eZContentUpload
     /*!
      \return the attribute value of the attribute named \a $attributeName or \c null if no such attribute.
     */
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
             return $this->Parameters[$attributeName];
         {
             eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
-            $attribute = null;
-            return $attribute;
+            return null;
         }
     }
 

@@ -129,20 +129,23 @@ class eZURLAliasQuery
                                      array( 'query' ) ) );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
             case 'count':
-                $value = $this->count();
-                break;
+            {
+                return $this->count();
+            } break;
             case 'items':
-                $value = $this->fetchAll();
-                break;
+            {
+                return $this->fetchAll();
+            } break;
             default:
-                $value = $this->$name;
+            {
+                return $this->$name;
+            } break;
         }
-        return $value;
     }
 
     function setAttribute( $name, $value )

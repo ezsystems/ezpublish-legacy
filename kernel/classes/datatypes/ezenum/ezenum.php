@@ -72,7 +72,7 @@ class eZEnum
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -103,8 +103,7 @@ class eZEnum
             default :
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZEnum::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

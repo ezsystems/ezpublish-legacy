@@ -290,7 +290,7 @@ class eZMultiOption
     \a name contains the name of multioption
     \a multioption_list contains the list of all multioptions.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -306,8 +306,7 @@ class eZMultiOption
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

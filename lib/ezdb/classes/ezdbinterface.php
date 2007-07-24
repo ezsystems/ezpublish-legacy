@@ -210,7 +210,7 @@ class eZDBInterface
     /*!
      \return the value of the attribute \a $name if it exists, otherwise \c null.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( isset( $this->AttributeVariableMap[$name] ) )
         {
@@ -221,8 +221,7 @@ class eZDBInterface
         {
             $debug = eZDebug::instance();
             $debug->writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 

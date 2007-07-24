@@ -123,7 +123,7 @@ class eZImage extends eZPersistentObject
                $attr == 'original';
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         $ini = eZINI::instance();
 

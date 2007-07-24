@@ -150,14 +150,13 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
             case 'available_gateways':
             {
-                $gateways =& $this->getGateways( array( -1 ) );
-                return $gateways;
+                return $this->getGateways( array( -1 ) );
             }break;
         }
         return eZWorkflowEventType::attribute( $attr );

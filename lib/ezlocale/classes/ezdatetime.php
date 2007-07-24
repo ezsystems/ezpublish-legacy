@@ -137,48 +137,40 @@ class eZDateTime
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'timestamp'  )
         {
-            $ts = $this->timeStamp();
-            return $ts;
+            return $this->timeStamp();
         }
         else if ( $name == 'hour' )
         {
-            $hour = $this->hour();
-            return $hour;
+            return $this->hour();
         }
         else if ( $name == 'minute'  )
         {
-            $minute = $this->minute();
-            return $minute;
+            return $this->minute();
         }
         else if ( $name == 'day'  )
         {
-            $day = $this->day();
-            return $day;
+            return $this->day();
         }
         else if ( $name == 'year'  )
         {
-            $year = $this->year();
-            return $year;
+            return $this->year();
         }
         else if ( $name == 'month'  )
         {
-            $month = $this->month();
-            return $month;
+            return $this->month();
         }
         else if ( $name == 'is_valid'  )
         {
-            $isValid = $this->isValid();
-            return $isValid;
+            return $this->isValid();
         }
         else
         {
             eZDebug::writeError( "Attribute '$name' does not exist", 'eZDateTime::attribute' );
-            $retVal = false;
-            return $retVal;
+            return false;
         }
     }
 

@@ -62,7 +62,7 @@ class eZContentObjectTranslation
         return in_array( $attribute, $this->attributes() );
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         if ( $attribute == 'contentobject_id' )
             return $this->ContentObjectID;
@@ -75,8 +75,7 @@ class eZContentObjectTranslation
         else
         {
             eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZContentObjectTranslation::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 

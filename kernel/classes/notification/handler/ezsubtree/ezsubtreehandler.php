@@ -67,7 +67,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'subscribed_nodes' )
         {

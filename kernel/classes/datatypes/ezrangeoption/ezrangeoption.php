@@ -83,7 +83,7 @@ class eZRangeOption
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -110,8 +110,7 @@ class eZRangeOption
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZRangeOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

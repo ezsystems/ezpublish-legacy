@@ -254,7 +254,7 @@ class eZPackage
     /*!
      \return the value of the attribute named \a $attributeName.
     */
-    function &attribute( $attributeName /*, $attributeList = false*/ )
+    function attribute( $attributeName /*, $attributeList = false*/ )
     {
         if ( in_array( $attributeName,
                        array( 'development',
@@ -283,45 +283,37 @@ class eZPackage
             return $this->Parameters['packaging']['packager'];
         else if ( $attributeName == 'can_read' )
         {
-            $canRead = $this->canRead();
-            return $canRead;
+            return $this->canRead();
         }
         else if ( $attributeName == 'can_export' )
         {
-            $canExport = $this->canExport();
-            return $canExport;
+            return $this->canExport();
         }
         else if ( $attributeName == 'can_import' )
         {
-            $canImport = $this->canImport();
-            return $canImport;
+            return $this->canImport();
         }
         else if ( $attributeName == 'can_install' )
         {
-            $canInstall = $this->canInstall();
-            return $canInstall;
+            return $this->canInstall();
         }
         else if ( $attributeName == 'file-count' )
         {
-            $fileCount = $this->fileCount();
-            return $fileCount;
+            return $this->fileCount();
         }
         else if ( $attributeName == 'thumbnail-list' )
         {
-            $thumbnailList = $this->thumbnailList( 'default' );
-            return $thumbnailList;
+            return $this->thumbnailList( 'default' );
         }
         else if ( $attributeName == 'is_local' )
         {
             $repositoryInformation = $this->currentRepositoryInformation();
-            $isLocal = $repositoryInformation['type'] == 'local';
-            return $isLocal;
+            return ( $repositoryInformation['type'] == 'local' );
         }
 
         $debug = eZDebug::instance();
         $debug->writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
-        $attributeValue = null;
-        return $attributeValue;
+        return null;
     }
 
     static function canUsePolicyFunction( $functionName )

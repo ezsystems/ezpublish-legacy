@@ -122,7 +122,7 @@ class eZOption
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -137,8 +137,7 @@ class eZOption
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

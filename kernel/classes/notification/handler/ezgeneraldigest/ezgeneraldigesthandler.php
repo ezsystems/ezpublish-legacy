@@ -66,52 +66,46 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'settings' )
         {
-            $user = eZUser::currentUser();
-            $settings =& $this->settings( $user );
-            return $settings;
+            return $this->settings( eZUser::currentUser() );
         }
         else if ( $attr == 'all_week_days' )
         {
-            $locale = eZLocale::instance();
-            $nameList = $locale->attribute( 'weekday_name_list' );
-            return $nameList;
+            return eZLocale::instance()->attribute( 'weekday_name_list' );
         }
         else if ( $attr == 'all_month_days' )
         {
-            $range = range( 1, 31 );
-            return $range;
+            return range( 1, 31 );
         }
         else if ( $attr == 'available_hours' )
         {
-            $hours = array( '0:00',
-                            '1:00',
-                            '2:00',
-                            '3:00',
-                            '4:00',
-                            '5:00',
-                            '6:00',
-                            '7:00',
-                            '8:00',
-                            '9:00',
-                            '10:00',
-                            '11:00',
-                            '12:00',
-                            '13:00',
-                            '14:00',
-                            '15:00',
-                            '16:00',
-                            '17:00',
-                            '18:00',
-                            '19:00',
-                            '20:00',
-                            '21:00',
-                            '22:00',
-                            '23:00' );
-            return $hours;
+            return array( '0:00',
+                          '1:00',
+                          '2:00',
+                          '3:00',
+                          '4:00',
+                          '5:00',
+                          '6:00',
+                          '7:00',
+                          '8:00',
+                          '9:00',
+                          '10:00',
+                          '11:00',
+                          '12:00',
+                          '13:00',
+                          '14:00',
+                          '15:00',
+                          '16:00',
+                          '17:00',
+                          '18:00',
+                          '19:00',
+                          '20:00',
+                          '21:00',
+                          '22:00',
+                          '23:00' );
         }
         return eZNotificationEventHandler::attribute( $attr );
     }

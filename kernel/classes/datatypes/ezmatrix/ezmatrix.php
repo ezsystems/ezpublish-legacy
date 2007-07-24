@@ -614,7 +614,7 @@ class eZMatrix
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -640,19 +640,16 @@ class eZMatrix
             }break;
             case "rowCount" :
             {
-                $rowCount = count( $this->Matrix['rows']['sequential'] );
-                return $rowCount;
+                return count( $this->Matrix['rows']['sequential'] );
             }break;
             case "columnCount" :
             {
-                $columnCount = count( $this->Matrix['columns']['sequential'] );
-                return $columnCount;
+                return count( $this->Matrix['columns']['sequential'] );
             }break;
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZMatrix::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

@@ -86,33 +86,32 @@ class eZISBN13
      \param $value is the name of the attribute that should be fetched.
      \return the result of the attribute.
     */
-    function &attribute( $value )
+    function attribute( $value )
     {
-        $returnData = null;
         switch ( $value )
         {
             case "has_content":
             {
-                $returnData = eZISBN13::hasRangeData();
+                return eZISBN13::hasRangeData();
             }break;
 
             case "groups":
             {
                 $count = 0;
                 $groupList = eZISBNGroup::fetchList( $count );
-                $returnData = array( 'group_list' => $groupList,
-                                     'count' => $count );
+                return array( 'group_list' => $groupList,
+                              'count' => $count );
             }break;
 
             case "group_ranges":
             {
                 $count = 0;
                 $groupList = eZISBNGroupRange::fetchList( $count );
-                $returnData = array( 'group_list' => $groupList,
-                                     'count' => $count );
+                return array( 'group_list' => $groupList,
+                              'count' => $count );
             }break;
         }
-        return $returnData;
+        return null;
     }
 
     /*!

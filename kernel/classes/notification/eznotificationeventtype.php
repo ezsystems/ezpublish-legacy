@@ -91,18 +91,19 @@ class eZNotificationEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == "description" )
-            $retValue =& $this->eventDescription();
-        if ( isset( $this->Attributes[$attr] ) )
-            return $this->Attributes[$attr];
-        else
         {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
-            $retValue = null;
+            return  $this->eventDescription();
         }
-        return $retValue;
+        if ( isset( $this->Attributes[$attr] ) )
+        {
+            return $this->Attributes[$attr];
+        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
+        return null;
     }
 
     function &eventDescription()

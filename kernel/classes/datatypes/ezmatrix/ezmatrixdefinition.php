@@ -83,18 +83,15 @@ class eZMatrixDefinition
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'columns' )
         {
             return $this->ColumnNames;
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
+        return null;
     }
 
     function xmlString( )

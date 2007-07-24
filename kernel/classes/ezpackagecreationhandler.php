@@ -127,16 +127,15 @@ class eZPackageCreationHandler
         return array_key_exists( $name, $this->Attributes );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( array_key_exists( $name, $this->Attributes ) )
-            return $this->Attributes[$name];
-        else
         {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
-            $retValue = null;
-            return $retValue;
+            return $this->Attributes[$name];
         }
+
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
+        return null;
     }
 
     function initializeStepMethodMap()

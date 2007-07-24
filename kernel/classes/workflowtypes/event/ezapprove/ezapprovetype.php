@@ -139,7 +139,7 @@ class eZApproveType extends eZWorkflowEventType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
@@ -147,23 +147,20 @@ class eZApproveType extends eZWorkflowEventType
             {
                 include_once( 'kernel/classes/ezsection.php' );
                 $sections = eZSection::fetchList( false );
-                foreach ( array_keys( $sections ) as $key )
+                foreach ( $sections as $key => $section )
                 {
-                    $section =& $sections[$key];
-                    $section['Name'] = $section['name'];
-                    $section['value'] = $section['id'];
+                    $sections[$key]['Name'] = $section['name'];
+                    $sections[$key]['value'] = $section['id'];
                 }
                 return $sections;
             }break;
             case 'languages':
             {
                 include_once( 'kernel/classes/ezcontentlanguage.php' );
-                $languages = eZContentLanguage::fetchList();
-                return $languages;
+                return eZContentLanguage::fetchList();
             }break;
         }
-        $eventValue =& eZWorkflowEventType::attribute( $attr );
-        return $eventValue;
+        return eZWorkflowEventType::attribute( $attr );
     }
 
     function execute( &$process, &$event )

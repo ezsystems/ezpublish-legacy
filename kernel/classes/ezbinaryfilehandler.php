@@ -71,16 +71,15 @@ class eZBinaryFileHandler
         return isset( $this->Info[$attribute] );
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         if ( isset( $this->Info[$attribute] ) )
-            return $this->Info[$attribute];
-        else
         {
-            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
-            $retValue = null;
-            return $retValue;
+            return $this->Info[$attribute];
         }
+
+        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
+        return null;
     }
 
     /*!

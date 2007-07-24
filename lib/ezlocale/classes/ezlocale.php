@@ -556,7 +556,7 @@ class eZLocale
             return false;
     }
 
-    function &attribute( $attribute )
+    function attribute( $attribute )
     {
         $debug = eZDebug::instance();
         $attributeMap = eZLocale::attributeFunctionMap();
@@ -565,20 +565,17 @@ class eZLocale
             $method = $attributeMap[$attribute];
             if ( method_exists( $this, $method ) )
             {
-                $retValue = $this->$method();
+                return $this->$method();
             }
             else
             {
                 $debug->writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
-                $retValue = null;
+                return null;
             }
         }
-        else
-        {
-            $debug->writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
-            $retValue = null;
-        }
-        return $retValue;
+
+        $debug->writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
+        return null;
     }
 
     function attributeFunctionMap()

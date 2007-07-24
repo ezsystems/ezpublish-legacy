@@ -114,24 +114,21 @@ class eZDate
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'timestamp'  )
-            $retValue = $this->timeStamp();
+            return $this->timeStamp();
         else if ( $name == 'is_valid' )
-            $retValue = $this->isValid();
+            return $this->isValid();
         else if ( $name == 'day'  )
-            $retValue = $this->day();
+            return $this->day();
         else if ( $name == 'year'  )
-            $retValue = $this->year();
+            return $this->year();
         else if ( $name == 'month'  )
-            $retValue = $this->month();
-        else
-        {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
-            $retValue = false;
-        }
-        return $retValue;
+            return $this->month();
+
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
+        return false;
     }
 
     /*!

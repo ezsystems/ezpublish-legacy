@@ -923,7 +923,9 @@ print( $values['MyValue'] );
         $path = $this->PHPDir . '/' . $this->PHPFile;
 
         if ( !$this->ClusteringEnabled )
+        {
             $returnVariables = $this->_restoreCall( $path, false, $variableDefinitions );
+        }
         else
         {
             if ( !$this->ClusterHandler )
@@ -942,6 +944,7 @@ print( $values['MyValue'] );
      */
     function _restoreCall( $path, $mtime, $variableDefinitions )
     {
+        $returnVariables = array();
         include( $path );
         foreach ( $variableDefinitions as $variableReturnName => $variableName )
         {
@@ -955,15 +958,19 @@ print( $values['MyValue'] );
                 if ( isset( $variableDefinition['default'] ) )
                     $variableDefault = $variableDefinition['default'];
             }
-            if ( isset( ${$variableName} ) )
+            if ( isset( $$variableName ) )
             {
-                $returnVariables[$variableReturnName] = ${$variableName};
+                $returnVariables[$variableReturnName] = $$variableName;
             }
             else if ( $variableRequired )
+            {
                 eZDebug::instance()->writeError( "Variable '$variableName' is not present in cache '$path'",
                                                  'eZPHPCreator::restore' );
+            }
             else
+            {
                 $returnVariables[$variableReturnName] = $variableDefault;
+            }
         }
         return $returnVariables;
     }

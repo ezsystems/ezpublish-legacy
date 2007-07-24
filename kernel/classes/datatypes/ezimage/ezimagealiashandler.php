@@ -116,19 +116,17 @@ class eZImageAliasHandler
      \return the value of the attribute named \a $attributeName.
      See eZImageAliasHandler::attributes() for which attributes are available.
     */
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( in_array( $attributeName,
                        array( 'alternative_text',
                               'original_filename',
                               'is_valid' ) ) )
         {
-            $originalAttribute =& $this->attributeFromOriginal( $attributeName );
-            return $originalAttribute;
+            return $this->attributeFromOriginal( $attributeName );
         }
         $aliasName = $attributeName;
-        $imageAlias =& $this->imageAlias( $aliasName );
-        return $imageAlias;
+        return $this->imageAlias( $aliasName );
     }
 
     /*!

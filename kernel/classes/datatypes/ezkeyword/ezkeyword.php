@@ -59,7 +59,7 @@ class eZKeyword
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
@@ -70,21 +70,18 @@ class eZKeyword
 
             case 'keyword_string' :
             {
-                $keywordString = $this->keywordString();
-                return $keywordString;
+                return $this->keywordString();
             }break;
 
             case 'related_objects' :
             case 'related_nodes' :
             {
-                $objectList =& $this->relatedObjects();
-                return $objectList;
+                return $this->relatedObjects();
             }break;
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             }break;
         }
     }

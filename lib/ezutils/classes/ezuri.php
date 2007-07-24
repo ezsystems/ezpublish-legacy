@@ -381,35 +381,34 @@ class eZURI
     /*!
      \return the value for attribute $attr or null if it does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
             case 'element':
-                $retValue =& $this->element();
+                return $this->element();
                 break;
             case 'tail':
-                $retValue =& $this->elements();
+                return $this->elements();
                 break;
             case 'base':
-                $retValue =& $this->base();
+                return $this->base();
                 break;
             case 'index':
-                $retValue =& $this->index();
+                return $this->index();
                 break;
             case 'uri':
-                $retValue =& $this->uriString();
+                return $this->uriString();
                 break;
             case 'original_uri':
-                $retValue =& $this->originalURIString();
+                return $this->originalURIString();
                 break;
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZURI::attribute' );
-                $retValue = null;
+                return null;
             } break;
         }
-        return $retValue;
     }
 
     /*!

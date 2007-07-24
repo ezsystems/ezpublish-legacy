@@ -548,10 +548,10 @@ class eZSys
      The path to where all the code resides.
      \static
     */
-    static function &siteDir()
+    static function siteDir()
     {
         if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
+            $instance = $this;
         else
             $instance = eZSys::instance();
         return $instance->SiteDir;
@@ -561,10 +561,10 @@ class eZSys
      The relative directory path of the vhless setup.
      \static
     */
-    static function &wwwDir()
+    static function wwwDir()
     {
         if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
+            $instance = $this;
         else
             $instance = eZSys::instance();
         return $instance->WWWDir;
@@ -574,10 +574,10 @@ class eZSys
      The filepath for the index file.
      \static
     */
-    static function &indexDir( $withAccessList = true )
+    static function indexDir( $withAccessList = true )
     {
         if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
+            $instance = $this;
         else
             $instance = eZSys::instance();
 
@@ -736,10 +736,9 @@ class eZSys
      Returns true if magick quotes is enabled.
      \static
     */
-    static function &magickQuotes()
+    static function magickQuotes()
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -831,12 +830,11 @@ class eZSys
     /*!
      Returns the attribute value for $attr or null if the attribute does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
         {
-            $mname = $attr;
-            return $this->$mname();
+            return $this->$attr();
         }
         else if ( $attr == 'wwwdir' )
         {
@@ -852,16 +850,12 @@ class eZSys
         }
         else if ( $attr == 'indexdir' )
         {
-            $retVal = $this->indexDir();
-            return $retVal;
+            return $this->indexDir();
         }
-        else
-        {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        return null;
     }
 
     /*!

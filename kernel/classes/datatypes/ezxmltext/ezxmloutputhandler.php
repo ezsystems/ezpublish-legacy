@@ -100,13 +100,13 @@ class eZXMLOutputHandler
     /*!
      \return the value of the attribute \a $name if it exists, if not returns \c null.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
             case 'output_text':
             {
-                $retValue =& $this->outputText();
+                return $this->outputText();
             } break;
             case 'aliased_type':
             {
@@ -114,7 +114,7 @@ class eZXMLOutputHandler
             } break;
             case 'view_template_name':
             {
-                $retValue = $this->viewTemplateName();
+                return $this->viewTemplateName();
             } break;
             case 'aliased_handler':
             {
@@ -131,10 +131,9 @@ class eZXMLOutputHandler
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
-                $retValue = null;
+                return null;
             } break;
         }
-        return $retValue;
     }
 
     /*!

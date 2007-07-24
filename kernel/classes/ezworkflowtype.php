@@ -234,7 +234,7 @@ class eZWorkflowType
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
@@ -255,8 +255,7 @@ class eZWorkflowType
             } break;
         }
         eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     function setAttribute( $attr, $value )

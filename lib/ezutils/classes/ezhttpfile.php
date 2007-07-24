@@ -196,7 +196,7 @@ class eZHTTPFile
     /*!
      \return the value for the attribute $attr or null if the attribute does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -217,8 +217,7 @@ class eZHTTPFile
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZHTTPFile::attribute' );
-                $retValue = null;
-                return $retValue;
+                return null;
             } break;
         };
     }

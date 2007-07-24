@@ -128,7 +128,7 @@ class eZContentStructureTreeOperator
         Returns one-level children of node \a $nodeID if \a $countChildren = false,
         othewise returns count of one-level children of node \a nodeID.
     */
-    function &subTree( $params, $nodeID, $countChildren = false )
+    function subTree( $params, $nodeID, $countChildren = false )
     {
         $nodeListArray = array();
 
@@ -243,9 +243,9 @@ class eZContentStructureTreeOperator
 
                 'children' is array( tree_node, children );
     */
-    function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden, $unfoldNodeID )
+    function contentStructureTree( $rootNodeID, $classFilter, $maxDepth, $maxNodes, $sortArray, $fetchHidden, $unfoldNodeID )
     {
-        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
+        $contentTree = eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
 
         // if root node is invisible then no point to fetch children
         //if ( count( $contentTree ) == 0 )
@@ -288,13 +288,13 @@ class eZContentStructureTreeOperator
             // get children
             $sortArray = ( $sortBy == false ) ? $parentNode['node']['sort_array'] : $sortBy;
 
-            $children =& eZContentStructureTreeOperator::subTree( array(  'SortBy' => $sortArray,
-                                                                          'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray'=> $classFilter,
-                                                                          'NodePath' => $parentNode['node']['path_string'],
-                                                                          'NodeDepth' => $parentNode['node']['depth'],
-                                                                          'FetchHidden' => $fetchHidden ),
-                                                                  $parentNode['node']['node_id'] );
+            $children = eZContentStructureTreeOperator::subTree( array(  'SortBy' => $sortArray,
+                                                                         'ClassFilterType' => 'include',
+                                                                         'ClassFilterArray'=> $classFilter,
+                                                                         'NodePath' => $parentNode['node']['path_string'],
+                                                                         'NodeDepth' => $parentNode['node']['depth'],
+                                                                         'FetchHidden' => $fetchHidden ),
+                                                                 $parentNode['node']['node_id'] );
             if ( $children && count( $children ) > 0 )
             {
                 $childrenNodes =& $contentTree['children'];
@@ -408,7 +408,7 @@ class eZContentStructureTreeOperator
         Initializes a tree: creates root node.
      \return a tree with one node and empty children subtree.
     */
-    function &initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter = false )
+    function initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter = false )
     {
         // create initial subtree with root node and empty children.
         $nodes = false;
@@ -417,7 +417,7 @@ class eZContentStructureTreeOperator
         {
             if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
             {
-                $nodes = false;
+                return false;
             }
             else
             {

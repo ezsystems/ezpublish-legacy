@@ -140,7 +140,7 @@ class mytest
         return ( $attr == "name" || $attr == "size" );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -2495,11 +2495,10 @@ class eZTemplate
     /*!
      Returns the INI object for the template.ini file.
     */
-    function &ini()
+    function ini()
     {
         include_once( "lib/ezutils/classes/ezini.php" );
-        $ini = eZINI::instance( "template.ini" );
-        return $ini;
+        return eZINI::instance( "template.ini" );
     }
 
     /*!

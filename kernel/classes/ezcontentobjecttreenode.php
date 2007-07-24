@@ -329,7 +329,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( "$cacheDir", "classidentifiers_$dbName.php", '', array( 'clustering' => 'classidentifiers' ) );
+        $phpCache = new eZPHPCreator( $cacheDir,
+                                      'classidentifiers_' . $dbName . '.php',
+                                      '',
+                                      array( 'clustering' => 'classidentifiers' ) );
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler = eZExpiryHandler::instance();
@@ -342,7 +345,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $phpCache->canRestore( $expiryTime ) )
         {
             $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-            $identifierHash =& $var['identifierHash'];
+            $identifierHash = $var['identifierHash'];
         }
         else
         {
@@ -801,8 +804,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Check for class filtering
         $classCondition = '';
 
-        if ( isset( $classFilterType ) and
-             ( $classFilterType == 'include' or $classFilterType == 'exclude' ) and
+        if ( isset( $classFilterType ) &&
+             ( $classFilterType == 'include' || $classFilterType == 'exclude' ) &&
              count( $classFilterArray ) > 0 )
         {
             $classCondition = '  ';
@@ -1908,8 +1911,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
             $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
 
         if( is_null( $listParams ) )

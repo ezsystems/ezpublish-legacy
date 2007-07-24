@@ -66,7 +66,7 @@ class eZNotificationEventHandler
         return in_array( $attr, $this->attributes() );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == 'id_string' )
         {
@@ -76,12 +76,9 @@ class eZNotificationEventHandler
         {
             return $this->Name;
         }
-        else
-        {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
-            $retValue = null;
-            return $retValue;
-        }
+
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
+        return null;
     }
 
     function handle( $event )

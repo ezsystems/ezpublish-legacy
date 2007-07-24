@@ -370,21 +370,21 @@ class eZContentFunctionCollection
         if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
             $children = eZContentObjectTreeNode::subTreeByNodeID( $treeParameters,
-                                                          $parentNodeID );
+                                                                  $parentNodeID );
         }
 
         if ( $children === null )
         {
-            $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         }
-        else
+
+        if ( $asObject === null or $asObject )
         {
-            if ( $asObject === null or $asObject )
-                eZContentObject::fillNodeListAttributes( $children );
-            $result = array( 'result' => &$children );
+            eZContentObject::fillNodeListAttributes( $children );
         }
-        return $result;
+
+        return array( 'result' => $children );
     }
 
     function fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,

@@ -129,24 +129,21 @@ class eZTime
         return in_array( $name, $this->attributes() );
     }
 
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'timestamp' )
-            $retValue = $this->timeStamp();
+            return $this->timeStamp();
         else if ( $name == 'time_of_day' )
-            $retValue = $this->timeOfDay();
+            return $this->timeOfDay();
         else if ( $name == 'hour' )
-            $retValue = $this->hour();
+            return $this->hour();
         else if ( $name == 'minute' )
-            $retValue = $this->minute();
+            return $this->minute();
         else if ( $name == 'is_valid'  )
-            $retValue = $this->isValid();
-        else
-        {
-            eZDebug::writeError( "Attribute '$name' does not exist", 'eZTime::attribute' );
-            $retValue = false;
-        }
-        return $retValue;
+            return $this->isValid();
+
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZTime::attribute' );
+        return false;
     }
 
     /*!

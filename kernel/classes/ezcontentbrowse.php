@@ -92,16 +92,15 @@ class eZContentBrowse
     /*!
      \return the attribute value of the attribute named \a $attributeName or \c null if no such attribute.
     */
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
-            return $this->Parameters[$attributeName];
-        else
         {
-            eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
-            $attribute = null;
-            return $attribute;
+            return $this->Parameters[$attributeName];
         }
+
+        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+        return null;
     }
 
     /*!

@@ -92,7 +92,7 @@ class eZSysInfo
      \return The value of the attribute named \a $name, or \c null if it does not exist.
      See attributes() for a list of available attributes.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         if ( $name == 'is_valid' )
             return $this->IsValid;
@@ -107,8 +107,7 @@ class eZSysInfo
         else
         {
             eZDebug::writeError( "Attribute '$name' does not exist", 'eZSysInfo::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
     }
 

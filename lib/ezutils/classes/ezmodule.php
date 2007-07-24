@@ -607,12 +607,12 @@ class eZModule
     /*!
      \return the attribute value for attribute \a $attr if it is available, otherwise \c null.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch( $attr )
         {
             case "uri":
-                $retValue = $this->uri();
+                return $this->uri();
                 break;
             case "functions":
                 return $this->Functions;
@@ -631,11 +631,10 @@ class eZModule
             {
                 $debug = eZDebug::instance();
                 $debug->writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
-                $retValue = null;
+                return null;
             }
             break;
         }
-        return $retValue;
     }
 
     /*!

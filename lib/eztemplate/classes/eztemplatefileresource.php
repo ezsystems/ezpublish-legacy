@@ -237,7 +237,7 @@ class eZTemplateFileResource
             {
                 $text = file_get_contents( $path );
                 $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
-                $tplINI =& $tpl->ini();
+                $tplINI = $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
                 $locales = array();
                 $pos = strpos( $text, "\n" );

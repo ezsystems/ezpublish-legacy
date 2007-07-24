@@ -70,14 +70,18 @@ class eZCollaborationEventType extends eZNotificationEventType
         return in_array( $attributeName, $this->attributes() );
     }
 
-    function &attribute( $attributeName )
+    function attribute( $attributeName )
     {
         if ( $attributeName == 'collaboration_identifier' )
+        {
             return eZNotificationEventType::attribute( 'data_text1' );
+        }
         else if ( $attributeName == 'collaboration_id' )
+        {
             return eZNotificationEventType::attribute( 'data_int1' );
-        else
-            return eZNotificationEventType::attribute( $attributeName );
+        }
+
+        return eZNotificationEventType::attribute( $attributeName );
     }
 
     function eventContent( $event )

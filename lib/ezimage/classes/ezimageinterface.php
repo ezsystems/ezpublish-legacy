@@ -116,7 +116,7 @@ class eZImageInterface
     /*!
      \return the attribute with name \a $name or \c null if the attribute does not exist.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
         if ( isset( $attributeMemberMap[$name] ) )
@@ -125,8 +125,7 @@ class eZImageInterface
             if ( isset( $this->$member ) )
                 return $this->$member;
             eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', 'eZImageInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
         $attributeFunctionMap = eZImageInterface::attributeFunctionMap();
         if ( isset( $attributeFunctionMap[$name] ) )
@@ -135,12 +134,10 @@ class eZImageInterface
             if ( method_exists( $this, $function ) )
                 return $this->$function();
             eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
         eZDebug::writeError( "Attribute '$name' does not exist", 'eZImageInterface::attribute' );
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
