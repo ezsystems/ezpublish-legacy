@@ -42,7 +42,6 @@
   \todo Add support for propall and propname
 */
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
@@ -193,27 +192,30 @@ class eZWebDAVServer
                     $depth = "infinity";
                 $this->appendLogEntry( "Depth: $depth.", 'processClientRequest' );
 
+                $xmlBody = $this->xmlBody();
                 // Find which properties were requested
                 // $this->appendLogEntry( $xmlBody, 'xmlbody' );
-                $xml = new eZXML();
-                $bodyTree = $xml->domTree( $this->xmlBody() );
+                $dom = new DOMDocument();
+                $dom->preserveWhitespace = false;
+                $dom->loadXML( $xmlBody );
+
                 $requestedProperties = array();
-                if ( $bodyTree )
+                if ( $dom )
                 {
-                    $propfindNode =& $bodyTree->root();
-                    $propNode =& $propfindNode->elementByName( 'prop' );
+                    $propfindNode = $dom->documentElement;
+                    $propNode = $propfindNode->getElementsByTagName( 'prop' )->item( 0 );
                     if ( $propNode )
                     {
-                        $propList = $propNode->children();
+                        $propList = $propNode->childNodes;
                         foreach ( $propList as $node )
                         {
-                            $name = $node->name();
+                            $name = $node->localName;
                             $requestedProperties[] = $name;
                         }
                     }
                     else
                     {
-                        $allpropNode =& $propfindNode->elementByName( 'allprop' );
+                        $allpropNode = $propfindNode->getElementsByTagName( 'allprop' )->item( 0 );
                         if ( $allpropNode )
                         {
                             // The server must return all possible properties
@@ -221,7 +223,7 @@ class eZWebDAVServer
                         }
                         else
                         {
-                            $propnameNode =& $propfindNode->elementByName( 'propname' );
+                            $propnameNode = $propfindNode->getElementsByTagName( 'propname' )->item( 0 );
                             if ( $propnameNode )
                             {
                                 // The server must return only the names of all properties
@@ -555,9 +557,9 @@ class eZWebDAVServer
         // Dump the actual XML data containing collection list.
         print( $xmlText );
 
-        $xml = new eZXML();
-        $domTree = $xml->domTree( $xmlText );
-        if ( $domTree )
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $xmlText );
+        if ( $success )
             $this->appendLogEntry( "XML was parsed", 'outputCollectionContent' );
         else
             $this->appendLogEntry( "XML was NOT parsed $xmlText", 'outputCollectionContent' );
