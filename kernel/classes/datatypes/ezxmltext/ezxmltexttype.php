@@ -462,7 +462,8 @@ class eZXMLTextType extends eZDataType
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
-        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-column-count', $textColumns ) );
+        $textColumnCountNode = $attributeParametersNode->ownerDocument->createElement( 'text-column-count', $textColumns );
+        $attributeParametersNode->appendChild( $textColumnCountNode );
     }
 
     /*!
@@ -470,16 +471,8 @@ class eZXMLTextType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $columnCount = false;
-        foreach( $attributeParametersNode->childNodes as $node )
-        {
-            if ( $node->nodeName == 'text-column-count' )
-            {
-                $columnCount = $node->nodeValue;
-                break;
-            }
-        }
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $columnCount );
+        $textColumns = $attributeParametersNode->getElementsByTagName( 'text-column-count' )->item( 0 )->textContent;
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
     }
 
     /*!
@@ -497,77 +490,87 @@ class eZXMLTextType extends eZDataType
     */
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
-        include_once( 'lib/ezxml/classes/ezxml.php' );
 
         $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $xmlString = $objectAttribute->attribute( 'data_text' );
 
-        $xml = new eZXML();
-        $doc = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
-
-        if ( $doc )
+        if ( $xmlString != '' )
         {
+            $doc = new DOMDocument();
+            $success = $doc->loadXML( $xmlString );
+
             /* For all links found in the XML, do the following:
              * - add "href" attribute fetching it from ezurl table.
              * - remove "id" attribute.
              */
-            {
-                include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-                include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-                $links =& $doc->elementsByName( 'link' );
-                $embeds =& $doc->elementsByName( 'embed' );
-                $objects =& $doc->elementsByName( 'object' );
-                $embedsInline =& $doc->elementsByName( 'embed-inline' );
+            include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+            include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
-                $allTags = array_merge( $links, $embeds, $embedsInline, $objects );
+            $links = $doc->getElementsByTagName( 'link' );
+            $embeds = $doc->getElementsByTagName( 'embed' );
+            $objects = $doc->getElementsByTagName( 'object' );
+            $embedsInline = $doc->getElementsByTagName( 'embed-inline' );
 
-                if ( is_array( $allTags ) )
-                {
-                    foreach ( array_keys( $allTags ) as $index )
-                    {
-                        $tag =& $allTags[$index];
-                        $linkID = $tag->getAttribute( 'url_id' );
-                        if ( $tag->nodeName == 'object' )
-                            $objectID = $tag->getAttribute( 'id' );
-                        else
-                            $objectID = $tag->getAttribute( 'object_id' );
-                        $nodeID = $tag->getAttribute( 'node_id' );
-                        if ( $linkID )
-                        {
-                            $urlObj = eZURL::fetch( $linkID );
-                            if ( !$urlObj ) // an error occured
-                                continue;
-                            $url = $urlObj->attribute( 'url' );
-                            $tag->setAttribute( 'href', $url );
-                            $tag->removeAttribute( 'url_id' );
-                            unset( $urlObj );
-                        }
-                        elseif ( $objectID )
-                        {
-                            $object = eZContentObject::fetch( $objectID, false );
-                            if ( is_array( $object ) )
-                                $tag->setAttribute( 'object_remote_id', $object['remote_id'] );
+            eZXMLTextType::transformLinksToRemoteLinks( $links );
+            eZXMLTextType::transformLinksToRemoteLinks( $embeds );
+            eZXMLTextType::transformLinksToRemoteLinks( $objects );
+            eZXMLTextType::transformLinksToRemoteLinks( $embedsInline );
 
-                            if ( $tag->nodeName == 'object' )
-                                $tag->removeAttribute( 'id' );
-                            else
-                                $tag->removeAttribute( 'object_id' );
-                        }
-                        elseif ( $nodeID )
-                        {
-                            $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                            if ( is_array( $node ) )
-                                $tag->setAttribute( 'node_remote_id', $node['remote_id'] );
-                            $tag->removeAttribute( 'node_id' );
-                        }
-                    }
-                }
-            }
-
-            $DOMNode->appendChild( $doc->root() );
+            $importedRootNode = $DOMNode->ownerDocument->importNode( $doc->documentElement, true );
+            $DOMNode->appendChild( $importedRootNode );
         }
 
         return $DOMNode;
+    }
+
+    static function transformLinksToRemoteLinks( DOMNodeList $nodeList )
+    {
+        foreach ( $nodeList as $node )
+        {
+            $linkID = $node->getAttribute( 'url_id' );
+            $isObject = ( $node->localName == 'object' );
+            $objectID = $isObject ? $node->getAttribute( 'id' ) : $node->getAttribute( 'object_id' );
+            $nodeID = $node->getAttribute( 'node_id' );
+
+            if ( $linkID )
+            {
+                $urlObj = eZURL::fetch( $linkID );
+                if ( !$urlObj ) // an error occured
+                {
+                    continue;
+                }
+                $url = $urlObj->attribute( 'url' );
+                $node->setAttribute( 'href', $url );
+                $node->removeAttribute( 'url_id' );
+            }
+            elseif ( $objectID )
+            {
+                $object = eZContentObject::fetch( $objectID, false );
+                if ( is_array( $object ) )
+                {
+                    $node->setAttribute( 'object_remote_id', $object['remote_id'] );
+                }
+
+                if ( $isObject )
+                {
+                    $node->removeAttribute( 'id' );
+                }
+                else
+                {
+                    $node->removeAttribute( 'object_id' );
+                }
+            }
+            elseif ( $nodeID )
+            {
+                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                if ( is_array( $node ) )
+                {
+                    $node->setAttribute( 'node_remote_id', $node['remote_id'] );
+                }
+                $node->removeAttribute( 'node_id' );
+            }
+        }
     }
 
     /*!
@@ -577,47 +580,47 @@ class eZXMLTextType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $domText = $attributeNode;
-        if ( false && $domText ) // PHP5 PORT - DO NOT SUPPORT THIS YET !!
+        /* For all links found in the XML, do the following:
+         * Search for url specified in 'href' link attribute (in ezurl table).
+         * If the url not found then create a new one.
+         * Then associate the found (or created) URL with the object attribute by creating new url-object link.
+         * After that, remove "href" attribute, add new "id" attribute.
+         * This new 'id' will always refer to the existing url object.
+         */
+        include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
+        include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+
+        $linkNodes = $attributeNode->getElementsByTagName( 'link' );
+
+        foreach ( $linkNodes as $linkNode )
         {
+            $href = $linkNode->getAttribute( 'href' );
+            if ( !$href )
+                continue;
+            $urlObj = eZURL::urlByURL( $href );
 
-            /* For all links found in the XML, do the following:
-             * Search for url specified in 'href' link attribute (in ezurl table).
-             * If the url not found then create a new one.
-             * Then associate the found (or created) URL with the object attribute by creating new url-object link.
-             * After that, remove "href" attribute, add new "id" attribute.
-             * This new 'id' will always refer to the existing url object.
-             */
-            include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-            include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-
-            $domDocument = new DomDocument();
-            $domDocument->loadXML( $domText->wholeText );
-            $links = $domDocument->getElementsByTagName( 'link' );
-
-            foreach ( $links as $linkNode )
+            if ( !$urlObj )
             {
-                $href = $linkNode->getAttribute( 'href' );
-                if ( !$href )
-                    continue;
-                $urlObj = eZURL::urlByURL( $href );
-
-                if ( !$urlObj )
-                {
-                    $urlObj = eZURL::create( $href );
-                    $urlObj->store();
-                }
-
-                $linkNode->removeAttribute( 'href' );
-                $linkNode->setAttribute( 'url_id', $urlObj->attribute( 'id' ) );
-                $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
-                                                          $objectAttribute->attribute( 'id' ),
-                                                          $objectAttribute->attribute( 'version' ) );
-                $urlObjectLink->store();
-
+                $urlObj = eZURL::create( $href );
+                $urlObj->store();
             }
 
-            $objectAttribute->setAttribute( 'data_text', $domDocument->saveXML() );
+            $linkNode->removeAttribute( 'href' );
+            $linkNode->setAttribute( 'url_id', $urlObj->attribute( 'id' ) );
+            $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                                                      $objectAttribute->attribute( 'id' ),
+                                                      $objectAttribute->attribute( 'version' ) );
+            $urlObjectLink->store();
+        }
+
+        foreach ( $attributeNode->childNodes as $childNode )
+        {
+            if ( $childNode->nodeType == XML_ELEMENT_NODE )
+            {
+                $xmlString = $childNode->ownerDocument->saveXML( $childNode );
+                $objectAttribute->setAttribute( 'data_text', $xmlString );
+                break;
+            }
         }
     }
 
