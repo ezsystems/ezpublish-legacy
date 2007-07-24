@@ -59,7 +59,7 @@ class eZExchangeRatesUpdateHandler
     /*!
      \static
     */
-    function create( $handlerName = false )
+    static function create( $handlerName = false )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
 

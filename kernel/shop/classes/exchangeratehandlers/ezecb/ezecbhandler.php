@@ -105,21 +105,22 @@ class eZECBHandler extends eZExchangeRatesUpdateHandler
                 if ( $header['content-type'] === 'text/xml' )
                 {
                     // parse xml
-                    include_once( 'lib/ezxml/classes/ezxml.php' );
-                    $xml = new eZXML();
-                    $domDocument = $xml->domTree( $body );
+                    $dom = new DOMDocument();
+                    $dom->preserveWhiteSpace = false;
+                    $success = $dom->loadXML( $body );
 
-                    $rootNode =& $domDocument->root();
-                    $cubeNode = $rootNode->elementFirstChildByName( 'Cube' );
-                    if ( $cubeNode )
+                    $xpath = new DOMXPath( $dom );
+                    $xpath->registerNamespace( 'eurofxref', 'http://www.ecb.int/vocabulary/2002-08-01/eurofxref' );
+
+                    $rootNode = $dom->documentElement;
+                    $cubeNode = $xpath->query( 'eurofxref:Cube', $rootNode )->item( 0 );
+                    $timeNode = $cubeNode->firstChild;
+
+                    foreach ( $timeNode->childNodes as $currencyNode )
                     {
-                        $currencyNodes = $cubeNode->children();
-                        foreach ( $currencyNodes as $currencyNode )
-                        {
-                            $currencyCode = $currencyNode->attributeValue( 'currency' );
-                            $rateValue = $currencyNode->attributeValue( 'rate' );
-                            $ratesList[$currencyCode] = $rateValue;
-                        }
+                        $currencyCode = $currencyNode->getAttribute( 'currency' );
+                        $rateValue = $currencyNode->getAttribute( 'rate' );
+                        $ratesList[$currencyCode] = $rateValue;
                     }
                 }
                 else

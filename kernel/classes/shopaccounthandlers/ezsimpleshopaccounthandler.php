@@ -61,16 +61,20 @@ class eZSimpleShopAccountHandler
     */
     function email( $order )
     {
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
+        $email = false;
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
         {
-            $dom = $xml->domTree( $xmlDoc );
-            $email = $dom->elementsByName( "email" );
-            return $email[0]->textContent();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
+            $emailNode = $dom->getElementsByTagName( 'email' )->item( 0 );
+            if ( $emailNode )
+            {
+                $email = $emailNode->textContent;
+            }
         }
-        else
-            return false;
+
+        return $email;
     }
 
     /*!
@@ -78,16 +82,17 @@ class eZSimpleShopAccountHandler
     */
     function accountName( $order )
     {
-        $accountName = "";
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
+        $accountName = '';
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
         {
-            $dom = $xml->domTree( $xmlDoc );
-            $firstName = $dom->elementsByName( "first-name" );
-            $lastName = $dom->elementsByName( "last-name" );
-            $accountName = $firstName[0]->textContent() . " " . $lastName[0]->textContent();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
+            $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );
+            $lastNameNode = $dom->getElementsByTagName( 'last-name' )->item( 0 );
+            $accountName = $firstNameNode->textContent . ' ' . $lastNameNode->textContent;
         }
+
         return $accountName;
     }
 
@@ -96,19 +101,48 @@ class eZSimpleShopAccountHandler
     */
     function accountInformation( $order )
     {
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        $dom = $xml->domTree( $xmlDoc );
+        $firstName = '';
+        $lastName = '';
+        $email = '';
+        $address = '';
 
-        $firstName = $dom->elementsByName( "first-name" );
-        $lastName = $dom->elementsByName( "last-name" );
-        $email = $dom->elementsByName( "email" );
-        $address = $dom->elementsByName( "address" );
+        $dom = new DOMDocument();
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
+        {
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
 
-        return array( 'first_name' => $firstName[0]->textContent(),
-                      'last_name' => $lastName[0]->textContent(),
-                      'email' => $email[0]->textContent(),
-                      'address' => $address[0]->textContent() );
+            $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );
+            if ( $firstNameNode )
+            {
+                $firstName = $firstNameNode->textContent;
+            }
+
+            $lastNameNode = $dom->getElementsByTagName( 'last-name' )->item( 0 );
+            if ( $lastNameNode )
+            {
+                $lastName = $lastNameNode->textContent;
+            }
+
+            $emailNode = $dom->getElementsByTagName( 'email' )->item( 0 );
+            if ( $emailNode )
+            {
+                $email = $emailNode->textContent;
+            }
+
+            $addressNode = $dom->getElementsByTagName( 'address' )->item( 0 );
+            if ( $addressNode )
+            {
+                $address = $addressNode->textContent;
+            }
+        }
+
+        return array( 'first_name' => $firstName,
+                      'last_name' => $lastName,
+                      'email' => $email,
+                      'address' => $address
+                      );
     }
 }
 

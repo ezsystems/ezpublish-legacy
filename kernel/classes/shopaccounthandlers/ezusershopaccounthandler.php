@@ -28,8 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
-
 class eZUserShopAccountHandler
 {
     /*!
@@ -61,16 +59,20 @@ class eZUserShopAccountHandler
     */
     function email( $order )
     {
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
+        $email = false;
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
         {
-            $dom = $xml->domTree( $xmlDoc );
-            $email = $dom->elementsByName( "email" );
-            return $email[0]->textContent();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
+            $emailNode = $dom->getElementsByTagName( 'email' )->item( 0 );
+            if ( $emailNode )
+            {
+                $email = $emailNode->textContent;
+            }
         }
-        else
-            return false;
+
+        return $email;
     }
 
     /*!
@@ -78,15 +80,15 @@ class eZUserShopAccountHandler
     */
     function accountName( $order )
     {
-        $accountName = "";
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        if( $xmlDoc != null )
+        $accountName = '';
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
         {
-            $dom = $xml->domTree( $xmlDoc );
-            $firstName = $dom->elementsByName( "first-name" );
-            $lastName = $dom->elementsByName( "last-name" );
-            $accountName = $firstName[0]->textContent() . " " . $lastName[0]->textContent();
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
+            $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );
+            $lastNameNode = $dom->getElementsByTagName( 'last-name' )->item( 0 );
+            $accountName = $firstNameNode->textContent . ' ' . $lastNameNode->textContent;
         }
 
         return $accountName;
@@ -94,71 +96,95 @@ class eZUserShopAccountHandler
 
     function accountInformation( $order )
     {
-        $xml = new eZXML();
-        $xmlDoc = $order->attribute( 'data_text_1' );
-        $dom = $xml->domTree( $xmlDoc );
+        $firstName = '';
+        $lastName = '';
+        $email = '';
+        $street1 = '';
+        $street2 = '';
+        $zip = '';
+        $place = '';
+        $country = '';
+        $comment = '';
+        $state = '';
 
-        $firstName = $dom->elementsByName( "first-name" );
-        $lastName = $dom->elementsByName( "last-name" );
-        $email = $dom->elementsByName( "email" );
-        $street1 = $dom->elementsByName( "street1" );
-        $street2 = $dom->elementsByName( "street2" );
-        $zip = $dom->elementsByName( "zip" );
-        $place = $dom->elementsByName( "place" );
-        $state = $dom->elementsByName( "state" );
-        $country = $dom->elementsByName( "country" );
-        $comment = $dom->elementsByName( "comment" );
+        $dom = new DOMDocument();
+        $xmlString = $order->attribute( 'data_text_1' );
+        if ( $xmlString != null )
+        {
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $xmlString );
 
-        $firstNameText = "";
-        if ( is_object( $firstName[0] ) )
-            $firstNameText = $firstName[0]->textContent();
+            $firstNameNode = $dom->getElementsByTagName( 'first-name' )->item( 0 );
+            if ( $firstNameNode )
+            {
+                $firstName = $firstNameNode->textContent;
+            }
 
-        $lastNameText = "";
-        if ( is_object( $lastName[0] ) )
-            $lastNameText = $lastName[0]->textContent();
+            $lastNameNode = $dom->getElementsByTagName( 'last-name' )->item( 0 );
+            if ( $lastNameNode )
+            {
+                $lastName = $lastNameNode->textContent;
+            }
 
-        $emailText = "";
-        if ( is_object( $email[0] ) )
-            $emailText = $email[0]->textContent();
+            $emailNode = $dom->getElementsByTagName( 'email' )->item( 0 );
+            if ( $emailNode )
+            {
+                $email = $emailNode->textContent;
+            }
 
-        $street1Text = "";
-        if ( is_object( $street1[0] ) )
-            $street1Text = $street1[0]->textContent();
+            $street1Node = $dom->getElementsByTagName( 'street1' )->item( 0 );
+            if ( $street1Node )
+            {
+                $street1 = $street1Node->textContent;
+            }
 
-        $street2Text = "";
-        if ( is_object( $street2[0] ) )
-            $street2Text = $street2[0]->textContent();
+            $street2Node = $dom->getElementsByTagName( 'street2' )->item( 0 );
+            if ( $street2Node )
+            {
+                $street2 = $street2Node->textContent;
+            }
 
-        $zipText = "";
-        if ( is_object( $zip[0] ) )
-            $zipText = $zip[0]->textContent();
+            $zipNode = $dom->getElementsByTagName( 'zip' )->item( 0 );
+            if ( $zipNode )
+            {
+                $zip = $zipNode->textContent;
+            }
 
-        $placeText = "";
-        if ( is_object( $place[0] ) )
-            $placeText = $place[0]->textContent();
+            $placeNode = $dom->getElementsByTagName( 'place' )->item( 0 );
+            if ( $placeNode )
+            {
+                $place = $placeNode->textContent;
+            }
 
-        $stateText = "";
-        if ( is_object( $state[0] ) )
-            $stateText = $state[0]->textContent();
+            $stateNode = $dom->getElementsByTagName( 'state' )->item( 0 );
+            if ( $stateNode )
+            {
+                $state = $stateNode->textContent;
+            }
 
-        $countryText = "";
-        if ( is_object( $country[0] ) )
-            $countryText = $country[0]->textContent();
+            $countryNode = $dom->getElementsByTagName( 'country' )->item( 0 );
+            if ( $countryNode )
+            {
+                $country = $countryNode->textContent;
+            }
 
-        $commentText = "";
-        if ( is_object( $comment[0] ) )
-            $commentText = $comment[0]->textContent();
+            $commentNode = $dom->getElementsByTagName( 'comment' )->item( 0 );
+            if ( $commentNode )
+            {
+                $comment = $commentNode->textContent;
+            }
+        }
 
-        return array( 'first_name' => $firstNameText,
-                      'last_name' => $lastNameText,
-                      'email' => $emailText,
-                      'street1' => $street1Text,
-                      'street2' => $street2Text,
-                      'zip' => $zipText,
-                      'place' => $placeText,
-                      'state' => $stateText,
-                      'country' => $countryText,
-                      'comment' => $commentText,
+        return array( 'first_name' => $firstName,
+                      'last_name' => $lastName,
+                      'email' => $email,
+                      'street1' => $street1,
+                      'street2' => $street2,
+                      'zip' => $zip,
+                      'place' => $place,
+                      'state' => $state,
+                      'country' => $country,
+                      'comment' => $comment,
                       );
     }
 }

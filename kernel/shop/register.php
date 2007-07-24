@@ -32,7 +32,6 @@ $module =& $Params["Module"];
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( "kernel/classes/ezbasket.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 
 $tpl =& templateInit();
@@ -70,28 +69,26 @@ if ( $module->isCurrentAction( 'Store' ) )
         $basket = eZBasket::currentBasket();
         $order = $basket->createOrder();
 
-        $doc = new eZDOMDocument( 'account_information' );
+        $doc = new DOMDocument();
 
-        $root = $doc->createElementNode( "shop_account" );
-        $doc->setRoot( $root );
+        $root = $doc->createElement( 'shop_account' );
+        $doc->appendChild( $root );
 
-        $firstNameNode = $doc->createElementNode( "first-name" );
-        $firstNameNode->appendChild( $doc->createTextNode( $firstName ) );
+        $firstNameNode = $doc->createElement( "first-name", $firstName );
         $root->appendChild( $firstNameNode );
 
-        $lastNameNode = $doc->createElementNode( "last-name" );
-        $lastNameNode->appendChild( $doc->createTextNode( $lastName ) );
+        $lastNameNode = $doc->createElement( "last-name", $lastName );
         $root->appendChild( $lastNameNode );
 
-        $emailNode = $doc->createElementNode( "email" );
-        $emailNode->appendChild( $doc->createTextNode( $email ) );
+        $emailNode = $doc->createElement( "email", $email );
         $root->appendChild( $emailNode );
 
-        $addressNode = $doc->createElementNode( "address" );
-        $addressNode->appendChild( $doc->createTextNode( $address ) );
+        $addressNode = $doc->createElement( "address", $address );
         $root->appendChild( $addressNode );
 
-        $order->setAttribute( 'data_text_1', $doc->toString() );
+        $xmlString = $doc->saveXML();
+
+        $order->setAttribute( 'data_text_1', $xmlString );
         $order->setAttribute( 'account_identifier', "simple" );
         $order->store();
 

@@ -32,7 +32,6 @@ $module =& $Params["Module"];
 include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'kernel/classes/ezbasket.php' );
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'lib/ezutils/classes/ezmail.php' );
 
 $tpl =& templateInit();
@@ -115,52 +114,44 @@ if ( $module->isCurrentAction( 'Store' ) )
         $db->begin();
         $order = $basket->createOrder();
 
-        $doc = new eZDOMDocument( 'account_information' );
+        $doc = new DOMDocument( 'account_information' );
 
-        $root = $doc->createElementNode( "shop_account" );
-        $doc->setRoot( $root );
+        $root = $doc->createElement( "shop_account" );
+        $doc->appendChild( $root );
 
-        $firstNameNode = $doc->createElementNode( "first-name" );
-        $firstNameNode->appendChild( $doc->createTextNode( $firstName ) );
+        $firstNameNode = $doc->createElement( "first-name", $firstName );
         $root->appendChild( $firstNameNode );
 
-        $lastNameNode = $doc->createElementNode( "last-name" );
-        $lastNameNode->appendChild( $doc->createTextNode( $lastName ) );
+        $lastNameNode = $doc->createElement( "last-name", $lastName );
         $root->appendChild( $lastNameNode );
 
-        $emailNode = $doc->createElementNode( "email" );
-        $emailNode->appendChild( $doc->createTextNode( $email ) );
+        $emailNode = $doc->createElement( "email", $email );
         $root->appendChild( $emailNode );
 
-        $street1Node = $doc->createElementNode( "street1" );
-        $street1Node->appendChild( $doc->createTextNode( $street1 ) );
+        $street1Node = $doc->createElement( "street1", $street1 );
         $root->appendChild( $street1Node );
 
-        $street2Node = $doc->createElementNode( "street2" );
-        $street2Node->appendChild( $doc->createTextNode( $street2 ) );
+        $street2Node = $doc->createElement( "street2", $street2 );
         $root->appendChild( $street2Node );
 
-        $zipNode = $doc->createElementNode( "zip" );
-        $zipNode->appendChild( $doc->createTextNode( $zip ) );
+        $zipNode = $doc->createElement( "zip", $zip );
         $root->appendChild( $zipNode );
 
-        $placeNode = $doc->createElementNode( "place" );
-        $placeNode->appendChild( $doc->createTextNode( $place ) );
+        $placeNode = $doc->createElement( "place", $place );
         $root->appendChild( $placeNode );
 
-        $stateNode = $doc->createElementNode( "state" );
-        $stateNode->appendChild( $doc->createTextNode( $state ) );
+        $stateNode = $doc->createElement( "state", $state );
         $root->appendChild( $stateNode );
 
-        $countryNode = $doc->createElementNode( "country" );
-        $countryNode->appendChild( $doc->createTextNode( $country ) );
+        $countryNode = $doc->createElement( "country", $country );
         $root->appendChild( $countryNode );
 
-        $commentNode = $doc->createElementNode( "comment" );
-        $commentNode->appendChild( $doc->createTextNode( $comment ) );
+        $commentNode = $doc->createElement( "comment", $comment );
         $root->appendChild( $commentNode );
 
-        $order->setAttribute( 'data_text_1', $doc->toString() );
+        $xmlString = $doc->saveXML();
+
+        $order->setAttribute( 'data_text_1', $xmlString );
         $order->setAttribute( 'account_identifier', "ez" );
 
         $order->setAttribute( 'ignore_vat', 0 );
