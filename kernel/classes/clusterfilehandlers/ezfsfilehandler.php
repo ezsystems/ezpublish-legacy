@@ -364,9 +364,9 @@ class eZFSFileHandler
                 if ( $extraData !== null )
                     $args[] = $extraData;
                 $retval = call_user_func_array( $retrieveCallback, $args );
-                if ( $retval instanceof eZClusterFileFailure )
+                if ( !( $retval instanceof eZClusterFileFailure ) )
                 {
-                    eZDebug::writeNotice( "Retrieved cache '{$fname}' with data of type " . gettype( $retval ), "cluster::fs::{$fname}" );
+                    eZDebug::instance()->writeNotice( "Retrieved cache '{$fname}' with data of type " . gettype( $retval ), "cluster::fs::{$fname}" );
                     return $retval;
                 }
                 $forceGeneration = true;
