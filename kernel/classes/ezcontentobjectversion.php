@@ -1775,21 +1775,23 @@ class eZContentObjectVersion extends eZPersistentObject
             $editLanguage = $this->initialLanguageCode();
 
         // Get versions (with published or archived status)
-        $versions =& $object->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_PUBLISHED, EZ_VERSION_STATUS_ARCHIVED ) ),
-                                                                            'language_code' => $editLanguage ) ) );
+        $versions = $object->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_PUBLISHED, EZ_VERSION_STATUS_ARCHIVED ) ),
+                                                                           'language_code' => $editLanguage ) ) );
 
         $conflictVersions = array();
         foreach ( $versions as $version )
         {
             if ( $version->attribute( 'modified' ) > $this->attribute( 'created' ) )
             {
-                $conflictVersions[] =& $version;
+                $conflictVersions[] = $version;
             }
         }
         if ( !count( $conflictVersions ) )
+        {
             return false;
-        else
-            return $conflictVersions;
+        }
+
+        return $conflictVersions;
     }
 
     public $CurrentLanguage = false;

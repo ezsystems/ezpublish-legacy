@@ -88,7 +88,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \reimp
      Validates the input and returns true if the input was valid for this datatype.
     */
-    function validateInput( &$http, $base, &$contentObjectAttribute )
+    function validateInput( $http, $base, $contentObjectAttribute )
     {
         $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -163,9 +163,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \reimp
      Returns the input XML representation of the datatype.
     */
-    function &inputXML()
+    function inputXML()
     {
-        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        $contentObjectAttribute = $this->ContentObjectAttribute;
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
         $originalInput = "originalInput_" . $contentObjectAttributeID;

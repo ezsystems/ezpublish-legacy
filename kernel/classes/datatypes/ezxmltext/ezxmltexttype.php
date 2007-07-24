@@ -253,34 +253,31 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
     */
-    function &viewTemplateSuffix( &$contentobjectAttribute )
+    function viewTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
         $outputHandler = $content->attribute( 'output' );
-        $suffix = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
-        return $suffix;
+        return $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
     }
 
     /*!
      \reimp
     */
-    function &editTemplateSuffix( &$contentobjectAttribute )
+    function editTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler = $content->attribute( 'input' );
-        $suffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
-        return $suffix;
+        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
     }
 
     /*!
      \reimp
     */
-    function &informationTemplateSuffix( &$contentobjectAttribute )
+    function informationTemplateSuffix( &$contentobjectAttribute )
     {
         $content = $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler = $content->attribute( 'input' );
-        $suffix =& $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
-        return $suffix;
+        return $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
     }
 
     /*!

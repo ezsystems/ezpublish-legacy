@@ -79,21 +79,21 @@ class eZXMLInputHandler
     /*!
      \return the value of the attribute \a $name if it exists, if not returns \c null.
     */
-    function &attribute( $name )
+    function attribute( $name )
     {
         switch ( $name )
         {
             case 'input_xml':
             {
-                $retValue =& $this->inputXML();
+                return $this->inputXML();
             } break;
             case 'edit_template_name':
             {
-                $retValue =& $this->editTemplateName();
+                return $this->editTemplateName();
             }break;
             case 'information_template_name':
             {
-                $retValue =& $this->informationTemplateName();
+                return $this->informationTemplateName();
             }break;
             case 'aliased_type':
             {
@@ -104,29 +104,28 @@ class eZXMLInputHandler
                 if ( $this->AliasedType !== false and
                      $this->AliasedHandler === null )
                 {
-                    $this->AliasedHandler =& eZXMLText::inputHandler( $this->XMLData,
-                                                                      $this->AliasedType,
-                                                                      false,
-                                                                      $this->ContentObjectAttribute );
+                    $this->AliasedHandler = eZXMLText::inputHandler( $this->XMLData,
+                                                                     $this->AliasedType,
+                                                                     false,
+                                                                     $this->ContentObjectAttribute );
                 }
                 return $this->AliasedHandler;
             }break;
             default:
             {
                 eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
-                $retValue = null;
+                return null;
             }break;
         }
-        return $retValue;
     }
 
     /*!
      \return the template name for this input handler, includes the edit suffix if any.
     */
-    function &editTemplateName()
+    function editTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix =& $this->editTemplateSuffix( $this->ContentObjectAttribute );
+        $suffix = $this->editTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
             $name .= '_' . $suffix;
         return $name;
@@ -135,10 +134,10 @@ class eZXMLInputHandler
     /*!
      \return the template name for this input handler, includes the information suffix if any.
     */
-    function &informationTemplateName()
+    function informationTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix =& $this->informationTemplateSuffix( $this->ContentObjectAttribute );
+        $suffix = $this->informationTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
             $name .= '_' . $suffix;
         return $name;
@@ -167,20 +166,18 @@ class eZXMLInputHandler
      \pure
      \return the suffix for the attribute template, if false it is ignored.
     */
-    function &editTemplateSuffix( &$contentobjectAttribute )
+    function editTemplateSuffix( &$contentobjectAttribute )
     {
-        $editSuffix = false;
-        return $editSuffix;
+        return false;
     }
 
     /*!
      \pure
      \return the suffix for the attribute template, if false it is ignored.
     */
-    function &informationTemplateSuffix( &$contentobjectAttribute )
+    function informationTemplateSuffix( &$contentobjectAttribute )
     {
-        $templateSuffix = false;
-        return $templateSuffix;
+        return false;
     }
 
     /*!
@@ -195,10 +192,9 @@ class eZXMLInputHandler
      \pure
      Validates user input and returns whether it can be used or not.
     */
-    function &validateInput( &$http, $base, &$contentObjectAttribute )
+    function validateInput( $http, $base, $contentObjectAttribute )
     {
-        $retValue = EZ_INPUT_VALIDATOR_STATE_INVALID;
-        return $retValue;
+        return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
     /*!
@@ -206,10 +202,9 @@ class eZXMLInputHandler
      Converts text input \a $text into an XML structure and returns it.
      \return an array where index 0 is the xml structure and index 1 is a message.
     */
-    function &convertInput( &$text )
+    function convertInput( $text )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -217,10 +212,9 @@ class eZXMLInputHandler
      Returns the text representation of the XML structure, implement this to turn
      XML back into user input.
     */
-    function &inputXML()
+    function inputXML()
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /// \privatesection
