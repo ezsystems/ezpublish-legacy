@@ -149,7 +149,7 @@ class eZTreeMenuOperator
                 else
                     $nextNodeID = false;
 
-                $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                $menuChildren = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1,
                                                                          'Offset' => 0,
                                                                          'SortBy' => $node->sortArray(),
                                                                          'Language' => $language,
@@ -224,7 +224,7 @@ class eZTreeMenuOperator
                 {
                     $node = eZContentObjectTreeNode::fetch( 2 );
                     if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
-                    $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                    $menuChildren = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1,
                                                                              'Offset' => 0,
                                                                              'SortBy' => $node->sortArray(),
                                                                              'Language' => $language,

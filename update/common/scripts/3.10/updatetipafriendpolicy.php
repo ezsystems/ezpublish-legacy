@@ -70,7 +70,7 @@ if ( is_object( $anonymousUser ) )
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezrole.php' );
 
-$topUserNodes =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $userRootNodeID );
+$topUserNodes = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $userRootNodeID );
 
 $roleName = 'Tipafriend Role';
 $role = eZRole::fetchByName( $roleName );

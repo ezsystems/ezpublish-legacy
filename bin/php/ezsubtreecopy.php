@@ -354,7 +354,7 @@ $syncNodeIDListNew[] = (int) $dstNodeID;
 $syncObjectIDListSrc = array();
 $syncObjectIDListNew = array();
 
-$sourceNodeList = array_merge( $sourceNodeList, eZContentObjectTreeNode::subTree( false, $sourceSubTreeMainNodeID ) );
+$sourceNodeList = array_merge( $sourceNodeList, eZContentObjectTreeNode::subTreeByNodeID( false, $sourceSubTreeMainNodeID ) );
 $countNodeList = count( $sourceNodeList );
 
 // Prepare list of source node IDs. We will need it in the future
@@ -422,7 +422,7 @@ $newSubTreeMainNode   = eZContentObjectTreeNode::fetch( $newSubTreeMainNodeID );
 
 $newNodeList[] = $newSubTreeMainNode;
 $newNodeList = $sourceNodeList = array_merge( $newNodeList,
-                                              eZContentObjectTreeNode::subTree( false, $newSubTreeMainNodeID ) );
+                                              eZContentObjectTreeNode::subTreeByNodeID( false, $newSubTreeMainNodeID ) );
 
 $cli->output( "Fixing global and local links..." );
 

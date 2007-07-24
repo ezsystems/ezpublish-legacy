@@ -1042,7 +1042,7 @@ class eZLDAPUser extends eZUser
                     {
                         $params = array( 'Depth' => 1,
                                          'AttributeFilter' => array( array( 'name', '=', $currentName ) ) );
-                        $nodes = eZContentObjectTreeNode::subTree( $params, $parentNodeID );
+                        $nodes = eZContentObjectTreeNode::subTreeByNodeID( $params, $parentNodeID );
 
                         if ( is_array( $nodes ) and count( $nodes ) > 0 and !$isUser )
                         {

@@ -1319,7 +1319,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    static function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, &$treeNode, $nodeID, $depth, $depthOperator )
+    static function createPathConditionAndNotEqParentSQLStrings( &$outPathConditionStr, &$outNotEqParentStr, $nodeID, $depth, $depthOperator )
     {
         if ( is_array( $nodeID ) )
         {
@@ -1376,13 +1376,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $nodeID == 0 )
             {
-                if ( !is_object( $treeNode ) or strtolower( get_class( $treeNode ) ) != 'ezcontentobjecttreenode' )
-                    return false;
-
-                $node =& $treeNode;
-                $nodeID = $node->attribute( 'node_id' );
-                $nodePath = $node->attribute('path_string');
-                $nodeDepth  = $node->attribute('depth');
+                return false;
             }
             else
             {
@@ -1707,13 +1701,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     \sa subTree
     */
-    function &subTree( $params = false ,$nodeID = 0 )
+    static function subTreeByNodeID( $params = false, $nodeID = 0 )
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
-            $retValue = null;
-            return $retValue;
+            return null;
         }
 
         if ( $params === false )
@@ -1763,15 +1757,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $debug = eZDebug::instance();
             $debug->writeNotice( "Class filter returned false" );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
 
         $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
         if ( $attributeFilter === false )
         {
-            $retValue = null;
-            return $retValue;
+            return null;
         }
         $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
         $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
@@ -1779,10 +1771,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $pathStringCond     = '';
         $notEqParentString  = '';
         // If the node(s) doesn't exist we return null.
-        if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator ) )
+        if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $nodeID, $depth, $depthOperator ) )
         {
-            $retValue = null;
-            return $retValue;
+            return null;
         }
 
         $groupBySelectText  = '';
@@ -1870,6 +1861,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
         return $retNodeList;
+    }
+
+    /*!
+    */
+    function subTree( $params = false )
+    {
+        return eZContentObjectTreeNode::subTreeByNodeID( $params, $this->attribute( 'node_id' ) );
     }
 
     /*!
@@ -2133,18 +2131,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     Count number of subnodes
-
-     \param params array
+     \sa subTreeCount
     */
-    function &subTreeCount( $params = array(), $nodeID = 0 )
+    static function subTreeCountByNodeID( $params = array(), $nodeID )
     {
         $debug = eZDebug::instance();
 
-        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
+        if ( ( !is_numeric( $nodeID ) &&
+               !is_array( $nodeID ) ) ||
+             $nodeID === 0 )
         {
-            $retVal = 0;
-            return $retVal;
+            return 0;
         }
 
         $depth = false;
@@ -2173,8 +2170,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 // If the node doesn't exist we return null.
                 if ( !is_array( $node ) )
                 {
-                    $retVal = null;
-                    return $retVal;
+                    return null;
                 }
 
                 $nodePath = $node['path_string'];
@@ -2204,21 +2200,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodePath = null;
             $nodeDepth = 0;
 
-            if ( $nodeID == 0 )
-            {
-                $nodeID = $this->attribute( 'node_id' );
-                $node = $this;
-                $nodePath = $node->attribute( 'path_string' );
-                $nodeDepth = $node->attribute( 'depth' );
-            }
-            else if ( is_numeric( $nodeID ) )
+            if ( is_numeric( $nodeID ) )
             {
                 $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                 // If the node doesn't exist we return null.
                 if ( !is_array( $node ) )
                 {
-                    $retVal = 0;
-                    return $retVal;
+                    return 0;
                 }
                 $nodePath = $node['path_string'];
                 $nodeDepth = $node['depth'];
@@ -2628,8 +2616,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $attributeFilterWhereSQL = "";
 
                     $debug->writeNotice( "Attribute filter returned false" );
-                    $retVal = 0;
-                    return $retVal;
+                    return 0;
                 }
                 else
                 {
@@ -2824,6 +2811,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->dropTempTableList( $sqlPermissionTempTables );
 
         return $nodeListArray[0]['count'];
+    }
+
+    /*!
+     Count number of subnodes
+
+     \param params array
+    */
+    function subTreeCount( $params = array() )
+    {
+        return eZContentObjectTreeNode::subTreeCountByNodeID( $params, $this->attribute( 'node_id' ) );
     }
 
     /*!

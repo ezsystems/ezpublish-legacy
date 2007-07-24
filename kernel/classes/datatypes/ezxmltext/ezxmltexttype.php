@@ -669,7 +669,7 @@ class eZXMLTextType extends eZDataType
                 if ( $contentObject )
                 {
                     $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
-                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), false, 0, $relationType );
+                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), 0, $relationType );
                 }
             }
             elseif ( $nodeRemoteID )
@@ -693,7 +693,7 @@ class eZXMLTextType extends eZDataType
                     if ( $node )
                     {
                         $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
-                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), false, 0, $relationType );
+                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
                     }
                 }
             }

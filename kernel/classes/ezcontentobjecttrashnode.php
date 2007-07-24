@@ -185,7 +185,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
     }
 
     /*
-      Analog of eZContentObjectTreeNode::subTree(Count)() method, see it for extending this method
+      Analog of eZContentObjectTreeNode::subTreeByNodeID(Count)() method, see it for extending this method
     */
     static function trashList( $params = false, $asCount = false )
     {

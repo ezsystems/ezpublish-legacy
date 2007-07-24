@@ -204,7 +204,7 @@ class eZOrderStatus extends eZPersistentObject
      \param $showInactive If \c true it will include status items that are not active, default is \c false.
      \return A list of defined orders sorted by status ID.
     */
-    function fetchList( $asObject = true, $showInactive = false )
+    static function fetchList( $asObject = true, $showInactive = false )
     {
         $list =& $GLOBALS['eZOrderStatusList'][$asObject][$showInactive];
         if ( !isset( $list ) )
@@ -281,7 +281,7 @@ class eZOrderStatus extends eZPersistentObject
      Will remove the current status from the database identifed by its DB ID.
      \note transaction safe
     */
-    function remove()
+    function removeThis()
     {
         $db = eZDB::instance();
         $db->begin();

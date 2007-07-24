@@ -249,10 +249,9 @@ class eZContentCacheManager
     {
         $params = array( 'Depth' => 1,
                          'AsObject' => false );
-        foreach ( array_keys( $nodeList ) as $nodeKey )
+        foreach ( $nodeList as $node )
         {
-            $node =& $nodeList[$nodeKey];
-            $siblingNodeList =& eZContentObjectTreeNode::subTree( $params, $node->attribute( 'parent_node_id' ) );
+            $siblingNodeList = eZContentObjectTreeNode::subTreeByNodeID( $params, $node->attribute( 'parent_node_id' ) );
             if ( count( $siblingNodeList ) > 0 )
             {
                 foreach ( array_keys( $siblingNodeList ) as $siblingKey )

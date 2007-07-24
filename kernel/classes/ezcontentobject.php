@@ -1498,10 +1498,7 @@ class eZContentObject extends eZPersistentObject
         // Remove references in ezcontentobject_link.
         foreach ( $relatingObjects as $fromObject )
         {
-            $fromObjectID = $fromObject->attribute( 'id' );
-            $fromObjectVersion = $fromObject->attribute( 'current_version' );
-            $contentObjectID = $this->attribute( 'id' );
-            $fromObject->removeContentObjectRelation( $contentObjectID, $fromObjectVersion, $fromObjectID, false );
+            $fromObject->removeContentObjectRelation( $this->attribute( 'id' ), false, false );
         }
     }
 
@@ -2007,14 +2004,14 @@ class eZContentObject extends eZPersistentObject
                 $oldRelatedObjectID = $oldRelatedObject->ID;
                 if ( !in_array( $oldRelatedObjectID, $relatedObjectIDArray ) )
                 {
-                    $this->removeContentObjectRelation( $oldRelatedObjectID, $editVersion, false, 0, $relationType );
+                    $this->removeContentObjectRelation( $oldRelatedObjectID, $editVersion, 0, $relationType );
                 }
                 $relatedObjectIDArray = array_diff( $relatedObjectIDArray, array( $oldRelatedObjectID ) );
             }
 
             foreach ( $relatedObjectIDArray as $relatedObjectID )
             {
-                $this->addContentObjectRelation( $relatedObjectID, $editVersion, false, 0, $relationType );
+                $this->addContentObjectRelation( $relatedObjectID, $editVersion, 0, $relationType );
             }
         }
         return true;
@@ -2406,7 +2403,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
+    function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
     {
         $debug = eZDebug::instance();
         if ( $attributeID !== 0 )
@@ -2426,8 +2423,7 @@ class eZContentObject extends eZPersistentObject
         if ( !$fromObjectVersion )
             $fromObjectVersion = $this->CurrentVersion;
 
-        if ( !$fromObjectID )
-            $fromObjectID = $this->ID;
+        $fromObjectID = $this->ID;
 
         if ( !is_numeric( $toObjectID ) )
         {
@@ -2498,16 +2494,14 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeContentObjectRelation( $toObjectID = false, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
+    function removeContentObjectRelation( $toObjectID = false, $fromObjectVersion = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
     {
         $db = eZDB::instance();
 
         if ( !$fromObjectVersion )
             $fromObjectVersion = $this->CurrentVersion;
         $fromObjectVersion = (int) $fromObjectVersion;
-        if ( !$fromObjectID )
-            $fromObjectID = $this->ID;
-        $fromObjectID =(int) $fromObjectID;
+        $fromObjectID = $this->ID;
 
         if ( $toObjectID !== false )
         {

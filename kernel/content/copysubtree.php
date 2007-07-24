@@ -450,7 +450,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     $objectIDBlackList = array(); // array of contentobjects which are unable to copy in any location inside new subtree
 
     $sourceNodeList = array_merge( $sourceNodeList,
-                                   eZContentObjectTreeNode::subTree( array( 'Limitation' => array() ), $sourceSubTreeMainNodeID ) );
+                                   eZContentObjectTreeNode::subTreeByNodeID( array( 'Limitation' => array() ), $sourceSubTreeMainNodeID ) );
     $countNodeList = count( $sourceNodeList );
 
     $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
@@ -553,7 +553,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
 
     $newNodeList[] = $newSubTreeMainNode;
     $newNodeList = $sourceNodeList = array_merge( $newNodeList,
-                                                  eZContentObjectTreeNode::subTree( false, $newSubTreeMainNodeID ) );
+                                                  eZContentObjectTreeNode::subTreeByNodeID( false, $newSubTreeMainNodeID ) );
 
     // 3. fix local links (in ezcontentobject_link)
     eZDebug::writeDebug( "Fixing global and local links...",

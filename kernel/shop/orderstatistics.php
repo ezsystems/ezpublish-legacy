@@ -55,7 +55,7 @@ if ( $http->hasPostVariable( "View" ) )
     $module->redirectTo( "/shop/statistics/" . $year . '/' . $month );
 }
 
-$statisticArray =& eZOrder::orderStatistics( $year, $month );
+$statisticArray = eZOrder::orderStatistics( $year, $month );
 $yearList = array();
 $currentDate = new eZDate();
 $currentYear = $currentDate->attribute( 'year' );
@@ -78,13 +78,10 @@ $tpl->setVariable( "year_list", $yearList );
 $tpl->setVariable( "month_list", $monthList );
 $tpl->setVariable( "statistic_result", $statisticArray );
 
-$path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
-                 'url' => false );
-
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
+                                'url' => false ) );
 
-$Result['content'] =& $tpl->fetch( "design:shop/orderstatistics.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/orderstatistics.tpl" );
 
 ?>

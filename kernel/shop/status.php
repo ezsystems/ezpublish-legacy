@@ -86,7 +86,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
             $triedRemoveInternal = true;
             continue;
         }
-        $status->remove();
+        $status->removeThis();
         $hasRemoved = true;
     }
     if ( $hasRemoved )

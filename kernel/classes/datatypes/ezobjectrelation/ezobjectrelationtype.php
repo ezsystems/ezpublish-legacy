@@ -119,7 +119,7 @@ class eZObjectRelationType extends eZDataType
                     if ( $classContent['default_selection_node'] )
                     {
                         $nodeID = $classContent['default_selection_node'];
-                        $nodeList =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1 ), $nodeID );
+                        $nodeList = eZContentObjectTreeNode::subTreeByNodeID( array( 'Depth' => 1 ), $nodeID );
                         $lastDiff = false;
                         $matchObjectID = false;
                         foreach ( $nodeList as $node )
@@ -186,12 +186,16 @@ class eZObjectRelationType extends eZDataType
         $countTsl = count( $transList );
 
         if ( ( $countTsl == 1 ) )
-             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        {
+             eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( false, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        }
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
 
         if ( $objectID )
-            eZContentObject::addContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        {
+            eZContentObject::fetch( $contentObjectID )->addContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+        }
     }
 
     /*!
@@ -290,7 +294,7 @@ class eZObjectRelationType extends eZDataType
             $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
             $contentObjectID = $contentObjectAttribute->ContentObjectID;
             $contentObjectVersion = $contentObjectAttribute->Version;
-            eZContentObject::removeContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
+            eZContentObject::fetch( $contentObjectID )->removeContentObjectRelation( $objectID, $contentObjectVersion, $contentClassAttributeID, EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE );
         }
     }
 
