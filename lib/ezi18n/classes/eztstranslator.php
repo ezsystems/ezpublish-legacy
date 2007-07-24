@@ -256,34 +256,38 @@ class eZTSTranslator extends eZTranslatorHandler
             }
 
             $debug->accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
-            $fd = fopen( $path, "rb" );
-            $trans_xml = fread( $fd, filesize( $path ) );
-            fclose( $fd );
 
-            include_once( "lib/ezxml/classes/ezxml.php" );
-            $xml = new eZXML();
+            $doc = new DOMDocument();
+            $success = $doc->load( $path );
 
-            $tree = $xml->domTree( $trans_xml, array(), true );
+            if ( !$success )
+            {
+                $debug->writeWarning( "Unable to load XML from file $path", 'eZTSTranslator::loadTranslationFile' );
+                continue;
+            }
 
-            if ( !$this->validateDOMTree( $tree ) )
+            if ( !$this->validateDOMTree( $doc ) )
             {
                 $debug->writeWarning( "XML text for file $path did not validate", 'eZTSTranslator::loadTranslationFile' );
                 continue;
             }
+
             $status = true;
 
-            $treeRoot = $tree->get_root();
-            $children = $treeRoot->children();
-            foreach( $children as $child )
+            $treeRoot = $doc->documentElement;
+            $children = $treeRoot->childNodes;
+            for ($i = 0; $i < $children->length; $i++ )
             {
-                if ( $child->type == 1 )
+                $child = $children->item( $i );
+
+                if ( $child->nodeType == XML_ELEMENT_NODE )
                 {
-                    if ( $child->name() == "context" )
+                    if ( $child->tagName == "context" )
                     {
                         $this->handleContextNode( $child );
                     }
                     else
-                        $debug->writeError( "Unknown element name: " . $child->name(),
+                        $debug->writeError( "Unknown element name: " . $child->tagName,
                                              "eZTSTranslator::loadTranslationFile" );
                 }
             }
@@ -319,62 +323,15 @@ class eZTSTranslator extends eZTranslatorHandler
     /*!
      \static
      Validates the DOM tree \a $tree and returns true if it is correct.
-     \warning There's no validation done yet. It checks if \a $tree is object only.
-     In all other cases it returns \c true for all DOM trees.
     */
-    static function validateDOMTree( &$tree )
+    static function validateDOMTree( $tree )
     {
         if ( !is_object( $tree ) )
             return false;
 
-        return true;
-/*        $xmlSchema = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-xmlns="http://www.w3.org/2001/XMLSchema/default">
+        $isValid = $tree->RelaxNGValidate( 'schemas/translation/ts.rng' );
 
-<xsd:annotation>
-  <xsd:documentation xml:lang="en">
-   Translation message schema for ez.no.
-   Copyright 2002 ez.no. All rights reserved.
-  </xsd:documentation>
- </xsd:annotation>
-
- <xsd:element name="TS" type="TranslateRootType"/>
-
- <xsd:complexType name="TranslateRootType">
-  <xsd:sequence>
-   <xsd:element name="context" type="ContextType"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:complexType name="ContextType">
-  <xsd:sequence>
-   <xsd:element name="name" type="xsd:string" />
-   <xsd:element name="message" type="MessageType"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:complexType name="MessageType">
-  <xsd:sequence>
-   <xsd:element name="source"      type="xsd:string"/>
-   <xsd:element name="translation" type="TranslationType"/>
-   <xsd:element name="comment"     type="xsd:string" minOccurs="0" maxOccurs="1"/>
-  </xsd:sequence>
- </xsd:complexType>
-
- <xsd:simpleType name="TranslationType">
-  <xsd:restriction base="xsd:string">
-  </xsd:restriction>
-  <xsd:attribute name="type" type="xsd:string" />
- </xsd:simpleType>
-
-</xsd:schema>';
-
-        include_once( "lib/ezxml/classes/ezschema.php" );
-
-        $schema = new eZSchema( );
-        $schema->setSchema( $xmlSchema );
-
-        return $schema->validate( $tree );*/
+        return $isValid;
     }
 
     function handleContextNode( $context )
@@ -382,19 +339,19 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $debug = eZDebug::instance();
         $contextName = null;
         $messages = array();
-        $context_children = $context->children();
+        $context_children = $context->childNodes;
 
-        foreach( $context_children as $context_child )
+        for( $i = 0; $i < $context_children->length; $i++ )
         {
-            if ( $context_child->type == 1 )
+            $context_child = $context_children->item( $i );
+            if ( $context_child->nodeType == XML_ELEMENT_NODE )
             {
-                if ( $context_child->name() == "name" )
+                if ( $context_child->tagName == "name" )
                 {
-                    $name_el = $context_child->children();
-                    if ( count( $name_el ) > 0 )
+                    $name_el = $context_child->firstChild;
+                    if ( $name_el )
                     {
-                        $name_el = $name_el[0];
-                        $contextName = $name_el->content;
+                        $contextName = $name_el->nodeValue;
                     }
                 }
                 break;
@@ -408,9 +365,9 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         }
         foreach( $context_children as $context_child )
         {
-            if ( $context_child->type == 1 )
+            if ( $context_child->nodeType == XML_ELEMENT_NODE )
             {
-                $childName = $context_child->name();
+                $childName = $context_child->tagName;
                 if ( $childName == "message" )
                 {
                     $this->handleMessageNode( $contextName, $context_child );
@@ -444,38 +401,37 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $source = null;
         $translation = null;
         $comment = null;
-        $message_children = $message->children();
-        foreach( $message_children as $message_child )
+        $message_children = $message->childNodes;
+        for( $i = 0; $i < $message_children->length; $i++ )
         {
-            if ( $message_child->type == 1 )
+            $message_child = $message_children->item( $i );
+            if ( $message_child->nodeType == XML_ELEMENT_NODE )
             {
-                if ( $message_child->name() == "source" )
+                $childName = $message_child->tagName;
+                if ( $childName  == "source" )
                 {
-                    $source_el = $message_child->children();
-                    $source_el = $source_el[0];
-                    $source = $source_el->content;
+                    $source_el = $message_child->firstChild;
+                    $source = $source_el->nodeValue;
                 }
-                else if ( $message_child->name() == "translation" )
+                else if ( $childName == "translation" )
                 {
-                    $translation_el = $message_child->children();
-                    if ( count( $translation_el ) > 0 )
+                    $translation_el = $message_child->firstChild;
+                    if ( $translation_el )
                     {
-                        $translation_el = $translation_el[0];
-                        $translation = $translation_el->content;
+                        $translation = $translation_el->nodeValue;
                     }
                 }
-                else if ( $message_child->name() == "comment" )
+                else if ( $childName == "comment" )
                 {
-                    $comment_el = $message_child->children();
-                    $comment_el = $comment_el[0];
-                    $comment = $comment_el->content;
+                    $comment_el = $message_child->firstChild;
+                    $comment = $comment_el->nodeValue;
                 }
-                else if ( $message_child->name() == "location" )
+                else if ( $childName == "location" )
                 {
                     //Handle location element. No functionality yet.
                 }
                 else
-                    $debug->writeError( "Unknown element name: " . $message_child->name(),
+                    $debug->writeError( "Unknown element name: " . $childName,
                                          "eZTSTranslator::handleMessageNode" );
             }
         }

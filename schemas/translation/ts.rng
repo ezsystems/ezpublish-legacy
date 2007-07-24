@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar ns="" xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <start>
+    <element name="TS">
+      <oneOrMore>
+        <element name="context">
+          <element name="name">
+            <oneOrMore>
+              <choice>
+                <text/>
+                <element name="byte">
+                  <attribute name="value">
+                    <data type="NCName"/>
+                  </attribute>
+                </element>
+              </choice>
+            </oneOrMore>
+          </element>
+          <oneOrMore>
+            <element name="message">
+              <element name="source">
+                <text/>
+              </element>
+              <optional>
+                <element name="comment">
+                  <text/>
+                </element>
+              </optional>
+              <element name="translation">
+                <optional>
+                  <attribute name="type">
+                    <data type="NCName"/>
+                  </attribute>
+                </optional>
+                <text/>
+              </element>
+            </element>
+          </oneOrMore>
+        </element>
+      </oneOrMore>
+    </element>
+  </start>
+</grammar>
