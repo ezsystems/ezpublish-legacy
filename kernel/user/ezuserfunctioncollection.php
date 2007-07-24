@@ -104,7 +104,8 @@ class eZUserFunctionCollection
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         include_once( 'kernel/classes/ezrole.php' );
         include_once( "kernel/classes/ezpolicylimitation.php" );
-        $userGroupObjects = eZUser::groups( true, $userID );
+        $user = eZUser::fetch( $userID );
+        $userGroupObjects = $user ? $user->groups( true ) : array();
         $userGroupArray = array();
         foreach ( $userGroupObjects as $userGroupObject )
         {

@@ -1882,7 +1882,7 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return an array of id's with all the groups the user belongs to.
     */
-    function groups( $asObject = false, $userID = false )
+    function groups( $asObject = false )
     {
         $db = eZDB::instance();
         $http = eZHTTPTool::instance();
@@ -1894,14 +1894,7 @@ WHERE user_id = '" . $userID . "' AND
             {
                 include_once( 'kernel/classes/ezcontentobject.php' );
 
-                if ( $userID )
-                {
-                    $contentobjectID = (int) $userID;
-                }
-                else
-                {
-                    $contentobjectID = $this->attribute( 'contentobject_id' );
-                }
+                $contentobjectID = $this->attribute( 'contentobject_id' );
                 $userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
@@ -1971,14 +1964,7 @@ WHERE user_id = '" . $userID . "' AND
                     }
                 }
 
-                if ( $userID )
-                {
-                    $contentobjectID = $userID;
-                }
-                else
-                {
-                    $contentobjectID = $this->attribute( 'contentobject_id' );
-                }
+                $contentobjectID = $this->attribute( 'contentobject_id' );
 
                 $userGroups = false;
 
