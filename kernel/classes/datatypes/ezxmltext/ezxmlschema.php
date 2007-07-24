@@ -102,7 +102,7 @@ class eZXMLSchema
                               'isInline' => false,
                               'attributes' => array( 'class', 'anchor_name' ) ),
 
-        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom', 'literal' ),
+        'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'table', 'ol', 'ul', 'custom', 'literal' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
