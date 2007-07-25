@@ -623,7 +623,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $xmlString = eZFile::getContents( $idxFileName );
         @unlink( $idxFileName );
         $dom = new DOMDocument();
-        $dom->preserveWhitespace = false;
+        $dom->preserveWhiteSpace = false;
         $success = $dom->loadXML( $xmlString );
 
         if ( !$success )

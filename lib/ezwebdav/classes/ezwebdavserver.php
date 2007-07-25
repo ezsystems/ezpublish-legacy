@@ -196,7 +196,7 @@ class eZWebDAVServer
                 // Find which properties were requested
                 // $this->appendLogEntry( $xmlBody, 'xmlbody' );
                 $dom = new DOMDocument();
-                $dom->preserveWhitespace = false;
+                $dom->preserveWhiteSpace = false;
                 $dom->loadXML( $xmlBody );
 
                 $requestedProperties = array();
