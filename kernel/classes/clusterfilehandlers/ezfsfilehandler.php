@@ -361,7 +361,6 @@ class eZFSFileHandler
                 $retval = call_user_func_array( $retrieveCallback, $args );
                 if ( get_class( $retval ) != 'ezclusterfilefailure' )
                 {
-                    eZDebug::writeNotice( "Retrieved cache '{$fname}' with data of type " . gettype( $retval ), "cluster::fs::{$fname}" );
                     return $retval;
                 }
                 $forceGeneration = true;
@@ -528,7 +527,6 @@ class eZFSFileHandler
 
         // Store content locally
         $this->storeContents( $binaryData, $scope, $datatype, true );
-        eZDebug::writeNotice( "Stored cache '{$fname}' with data of length " . strlen( $binaryData ), "cluster::fs::{$fname}" );
 
         $this->_freeExclusiveLock( 'storeCache' );
 
