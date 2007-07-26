@@ -90,7 +90,7 @@ class eZDBFileHandler
 
         $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
         $this->backend = new $backendClassName;
-        $this->backend->_connect( true );
+        $this->backend->_connect( false );
         $this->backendVerify = null;
         $this->filePath = $filePath;
         $this->metaData = false;
