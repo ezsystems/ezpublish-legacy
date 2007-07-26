@@ -2138,10 +2138,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
     static function subTreeCountByNodeID( $params = array(), $nodeID )
     {
         $debug = eZDebug::instance();
+        $language = ( isset( $params['Language'] ) ) ? $params['Language'] : false;
 
-        if ( ( !is_numeric( $nodeID ) &&
-               !is_array( $nodeID ) ) ||
-             $nodeID === 0 )
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
+        if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
             return 0;
         }
@@ -2629,16 +2637,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         //$onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
-        $language         = ( isset( $params['Language'] ) ) ? $params['Language']           : false;
-
-        if ( $language )
-        {
-            if ( !is_array( $language ) )
-            {
-                $language = array( $language );
-            }
-            eZContentLanguage::setPrioritizedLanguages( $language );
-        }
 
         $useVersionName     = true;
 
