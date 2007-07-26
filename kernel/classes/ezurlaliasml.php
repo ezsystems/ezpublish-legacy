@@ -709,7 +709,7 @@ class eZURLAliasML extends eZPersistentObject
         $query = "SELECT * FROM ezurlalias_ml WHERE $langMask action = '$actionStr'";
         if ( !$includeRedirections )
         {
-            $query .= " AND is_original = 1";
+            $query .= " AND is_original = 1 AND is_alias = 0";
         }
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) == 0 )
