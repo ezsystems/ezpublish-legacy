@@ -1591,14 +1591,15 @@ class eZCodeMapper
             $nonCJKCharsets = $this->nonCJKCharsets();
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
-                $code .= ( '// Add spaces after chinese / japanese / korean multibyte characters' . "\n" .
+                $code .= ( '// add N-Gram(N=2)  chinese / japanese / korean multibyte characters' . "\n" .
                            'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
                            '$codec = eZTextCodec::instance( false, \'unicode\' );' . "\n" .
                            "\n" .
                            '$unicodeValueArray = $codec->convertString( $text );' . "\n" .
                            "\n" .
                            '$normalizedTextArray = array();' . "\n" .
-                           'foreach ( array_keys( $unicodeValueArray ) as $valueKey )' . "\n" .
+                           '$bFlag = false;' . "\n" .
+                          'foreach ( array_keys( $unicodeValueArray ) as $valueKey )' . "\n" .
                            '{' . "\n" .
                            '    // Check for word characters that should be broken up for search' . "\n" .
                            '    if ( ( $unicodeValueArray[$valueKey] >= 12289 and' . "\n" .
@@ -1608,13 +1609,27 @@ class eZCodeMapper
                            '         ( $unicodeValueArray[$valueKey] >= 44032 and' . "\n" .
                            '           $unicodeValueArray[$valueKey] <= 55203 ) )' . "\n" .
                            '    {' . "\n" .
-                           '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '        if ( $bFlag )' . "\n" .
+                           '        {' . "\n" .
+                           '            $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '        }' . "\n" .
                            '        $normalizedTextArray[] = 32; // A space' . "\n" .
+                           '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '        $bFlag = true;' . "\n" .
                            '    }' . "\n" .
                            '    else' . "\n" .
                            '    {' . "\n" .
+                           '        if ( $bFlag )' . "\n" .
+                           '        {' . "\n" .
+                           '            $normalizedTextArray[] = 32; // A space' . "\n" .
+                           '        }' . "\n" .
                            '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
+                           '        $bFlag = false;' . "\n" .
                            '    }' . "\n" .
+                           '}' . "\n" .
+                           'if ( $bFlag )' . "\n" .
+                           '{' . "\n" .
+                           '    $normalizedTextArray[count($normalizedTextArray)-1]=32;' . "\n" .
                            '}' . "\n" .
                            '$revCodec = eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
                            '$text = $revCodec->convertString( $normalizedTextArray );' . "\n" );
@@ -1718,13 +1733,14 @@ class eZCodeMapper
             $nonCJKCharsets = $this->nonCJKCharsets();
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
-                // Add spaces after chinese / japanese / korean multibyte characters
+                // 4 Add spaces after chinese / japanese / korean multibyte characters
                 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
                 $codec = eZTextCodec::instance( false, 'unicode' );
 
                 $unicodeValueArray = $codec->convertString( $text );
 
                 $normalizedTextArray = array();
+                $bFlag = false;
                 foreach ( array_keys( $unicodeValueArray ) as $valueKey )
                 {
                     // Check for word characters that should be broken up for search
@@ -1735,13 +1751,28 @@ class eZCodeMapper
                          ( $unicodeValueArray[$valueKey] >= 44032 and
                            $unicodeValueArray[$valueKey] <= 55203 ) )
                     {
-                        $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                        if ( $bFlag )
+                        {
+                            $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                        }
                         $normalizedTextArray[] = 32; // A space
+                        $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                        $bFlag = true;
                     }
                     else
                     {
+                        if ( $bFlag )
+                        {
+                            $normalizedTextArray[] = 32; // A space
+                        }
                         $normalizedTextArray[] = $unicodeValueArray[$valueKey];
+                        $bFlag = false;
                     }
+                }
+
+                if ( $bFlag )
+                {
+                    $normalizedTextArray[ count( $normalizedTextArray ) - 1 ] = 32;
                 }
 
                 $revCodec = eZTextCodec::instance( 'unicode', false ); // false means use internal charset

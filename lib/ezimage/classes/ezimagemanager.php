@@ -316,6 +316,7 @@ class eZImageManager
     */
     function readImageAliasesFromINI( $iniFile = false )
     {
+        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         $ini = eZINI::instance( $iniFile );
@@ -330,7 +331,7 @@ class eZImageManager
                 $this->appendImageAlias( $alias );
             }
             else
-                eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
+                $debug->writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
                                        'eZImageManager::readImageAliasFromINI' );
         }
         $aliasName = 'original';
@@ -347,7 +348,7 @@ class eZImageManager
                     $this->appendImageAlias( $alias );
                 }
                 else
-                    eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
+                    $debug->Warning( "Failed reading Image Alias $aliasName from $iniFile",
                                            'eZImageManager::readImageAliasFromINI' );
             }
         }
@@ -678,6 +679,7 @@ class eZImageManager
     */
     function readImageHandlersFromINI( $iniFile = false )
     {
+        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         $ini = eZINI::instance( $iniFile );
@@ -700,13 +702,13 @@ class eZImageManager
                 }
                 else
                 {
-                    eZDebug::writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
+                    $debug->writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
                                            'eZImageManager::readImageHandlersFromINI' );
                 }
             }
             else
             {
-                eZDebug::writeWarning( "No INI group $handlerName for Image Handler $handlerName, cannot instantiate",
+                $debug->writeWarning( "No INI group $handlerName for Image Handler $handlerName, cannot instantiate",
                                        'eZImageManager::readImageHandlersFromINI' );
             }
         }
@@ -718,6 +720,7 @@ class eZImageManager
     */
     function &factoryFor( $factoryName, $iniFile = false )
     {
+        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         if ( isset( $this->Factories[$factoryName] ) )
@@ -751,13 +754,13 @@ class eZImageManager
                 }
                 else
                 {
-                    eZDebug::writeWarning( "The Image Factory class $className was not found, cannot create factory",
+                    $debug->writeWarning( "The Image Factory class $className was not found, cannot create factory",
                                            'eZImageManager::factoryFor' );
                 }
             }
             else
             {
-                eZDebug::writeWarning( "Could not locate Image Factory for $factoryName",
+                $debug->writeWarning( "Could not locate Image Factory for $factoryName",
                                        'eZImageManager::factoryFor' );
             }
         }
@@ -795,7 +798,8 @@ class eZImageManager
         $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
-            eZDebug::writeError( "No such group $iniGroup in ini file image.ini",
+            $debug = eZDebug::instance();
+            $debug->writeError( "No such group $iniGroup in ini file image.ini",
                                  'eZImageManager::createAliasFromINI' );
             return false;
         }
@@ -911,7 +915,7 @@ class eZImageManager
                 {
                     $sourceFile = $sourceMimeData['url'];
                     $destinationDir = $destinationMimeData['dirpath'];
-                    $debug->writeError( "Failed converting $sourceFile to alias $referenceAlias in directory $destinationDir",
+                    $debug->writeError( "Failed converting $sourceFile to alias '$referenceAlias' in directory '$destinationDir'",
                                          'eZImageManager::createImageAlias' );
                     // VS-DBFILE
                     $aliasFile->deleteLocal();
@@ -1014,6 +1018,7 @@ class eZImageManager
     {
         // VS-DBFILE
 
+        $debug = eZDebug::instance();
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
@@ -1064,7 +1069,7 @@ class eZImageManager
             $wantedFilter = $wantedFilters[$wantedFilterKey];
             if ( !$this->isFilterSupported( $wantedFilter['name'] ) )
             {
-                eZDebug::writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
+                $debug->writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
                                        'eZImageManager::convert' );
                 continue;
             }
@@ -1156,7 +1161,7 @@ class eZImageManager
                 }
                 if ( !$nextMimeData )
                 {
-                    eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
+                    $debug->writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
                                          'eZImageManager::convert' );
                     // VS-DBFILE
                     $sourceFile->deleteLocal();
@@ -1253,7 +1258,7 @@ class eZImageManager
         {
             if ( !@unlink( $tempFile ) )
             {
-                eZDebug::writeError( "Failed to unlink temporary image file $tempFile",
+                $debug->writeError( "Failed to unlink temporary image file $tempFile",
                                      'eZImageManager::convert' );
             }
         }

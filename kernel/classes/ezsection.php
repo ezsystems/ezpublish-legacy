@@ -73,6 +73,7 @@ class eZSection extends eZPersistentObject
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZSection",
+                      "sort" => array( "name" => "asc" ),
                       "name" => "ezsection" );
     }
 

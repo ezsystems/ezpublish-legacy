@@ -232,7 +232,7 @@ removes the node ID from the cookie and changes the icon to the unfold icon.
 index_treemenu.php
 ------------------
 To increase the reaction time, *index_treemenu.php* should be used instead of
-*index.php* when accessing the *content/view* view. It performs only checks
+*index.php* when accessing the *content/treemenu* view. It performs only checks
 necessary for this view and it is therefore much quicker than index.php. You can
 instruct Apache to use this file by using the following rewrite rules (if unsure
 where to put them, place them above your existing rules for eZ Publish)::

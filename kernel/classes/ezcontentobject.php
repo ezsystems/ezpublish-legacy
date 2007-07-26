@@ -220,7 +220,8 @@ class eZContentObject extends eZPersistentObject
                                                       'languages' => 'languages',
                                                       'can_edit_languages' => 'canEditLanguages',
                                                       'can_create_languages' => 'canCreateLanguages',
-                                                      'always_available' => 'isAlwaysAvailable' ),
+                                                      'always_available' => 'isAlwaysAvailable',
+                                                      'allowed_assign_section_list' => 'allowedAssignSectionList' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -5498,6 +5499,24 @@ class eZContentObject extends eZPersistentObject
         eZURLAliasML::setLangMaskAlwaysAvailable( $languageID, $actions, null );
 
         $db->commit();
+    }
+
+    function allowedAssignSectionList()
+    {
+        $currentUser = eZUser::currentUser();
+        $sectionIDList = $currentUser->canAssignToObjectSectionList( $this );
+
+        $sectionList = array();
+        if ( in_array( '*', $sectionIDList ) )
+        {
+            $sectionList = eZSection::fetchList( false );
+        }
+        else
+        {
+            $sectionIDList[] = $this->attribute( 'section_id' );
+            $sectionList = eZSection::fetchFilteredList( array( 'id' => array( $sectionIDList ) ), false, false, false );
+        }
+        return $sectionList;
     }
 
     public $ID;

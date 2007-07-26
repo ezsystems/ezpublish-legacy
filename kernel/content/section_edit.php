@@ -42,40 +42,47 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
 {
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
-        // Check access
-        $user = eZUser::currentUser();
-        $access = $user->hasAccessTo( 'section' );
-        if ( !( $access['accessWord'] == 'yes' ) )
-        {
-            eZDebug::writeError( "You are not allowed to assign sections." );
-            return;
-        }
-
         $http = eZHTTPTool::instance();
-
-        $db = eZDB::instance();
-        $db->begin();
-
-        $selectedSectionID = $http->hasPostVariable( 'SelectedSectionId' ) ? (int) $http->postVariable( 'SelectedSectionId' ) : 1;
-        if ( !$selectedSectionID )
-            $selectedSectionID = 1;
-
-        $objectID = $object->attribute( 'id' );
-        $assignedNodes = $object->attribute( 'assigned_nodes' );
-        foreach ( $assignedNodes as $node )
+        if ( $http->hasPostVariable( 'SelectedSectionId' ) )
         {
-            eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
+            $selectedSectionID = (int) $http->postVariable( 'SelectedSectionId' );
+            $selectedSection = eZSection::fetch( $selectedSectionID );
+            if ( is_object( $selectedSection ) )
+            {
+                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+                $currentUser = eZUser::currentUser();
+                if ( $currentUser->canAssignSectionToObject( $selectedSectionID, $object ) )
+                {
+                    $db = eZDB::instance();
+                    $db->begin();
+                    $assignedNodes = $object->attribute( 'assigned_nodes' );
+                    if ( count( $assignedNodes ) > 0 )
+                    {
+                        foreach ( $assignedNodes as $node )
+                        {
+                            eZContentObjectTreeNode::assignSectionToSubTree( $node->attribute( 'node_id' ), $selectedSectionID );
+                        }
+                        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                    }
+                    else
+                    {
+                        // If there are no assigned nodes we should update db for the current object.
+                        $objectID = $object->attribute( 'id' );
+                        $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
+                        $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
+                    }
+                    $object->expireAllViewCache();
+                    $db->commit();
+                }
+                else
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "You do not have permissions to assign the section <" . $selectedSection->attribute( 'name' ) .
+                                         "> to the object <" . $object->attribute( 'name' ) . ">." );
+                }
+                $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
+            }
         }
-        // If there are no assigned nodes we should update db for the current object.
-        if ( count( $assignedNodes ) == 0 )
-        {
-            $db->query( "UPDATE ezcontentobject SET section_id='$selectedSectionID' WHERE id = '$objectID'" );
-            $db->query( "UPDATE ezsearch_object_word_link SET section_id='$selectedSectionID' WHERE  contentobject_id = '$objectID'" );
-        }
-        $object->expireAllViewCache();
-        $db->commit();
-
-        $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );
     }
 }
 

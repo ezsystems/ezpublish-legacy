@@ -56,6 +56,7 @@ class eZDBFileHandler
      */
     function eZDBFileHandler( $filePath = false )
     {
+        $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::ctor( '$filePath' )" );
 
         // Init backend.
@@ -90,7 +91,7 @@ class eZDBFileHandler
 
         $backendClassName = $GLOBALS['eZDBFileHandler_chosen_backend_class'];
         $this->backend = new $backendClassName;
-        $this->backend->_connect( true );
+        $this->backend->_connect( false );
         $this->backendVerify = null;
         $this->filePath = $filePath;
         $this->metaData = false;
@@ -147,6 +148,7 @@ class eZDBFileHandler
      */
     function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
+        $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileStore( '$filePath' )" );
 
         if ( $scope === false )
@@ -169,6 +171,7 @@ class eZDBFileHandler
      */
     function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
     {
+        $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileStoreContents( '$filePath' )" );
 
         if ( $scope === false )
@@ -213,6 +216,7 @@ class eZDBFileHandler
      */
     function fileFetch( $filePath )
     {
+        $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetch( '$filePath' )" );
 
         return $this->backend->_fetch( $filePath );
@@ -651,6 +655,7 @@ class eZDBFileHandler
      */
     function fileFetchContents( $filePath )
     {
+        $filePath = eZDBFileHandler::cleanPath( $filePath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileFetchContents( '$filePath' )" );
 
         $contents = $this->backend->_fetchContents( $filePath );
@@ -731,6 +736,8 @@ class eZDBFileHandler
      */
     function fileDeleteByRegex( $dir, $fileRegex )
     {
+        $dir = eZDBFileHandler::cleanPath( $dir );
+        $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
         eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
@@ -745,6 +752,7 @@ class eZDBFileHandler
      */
     function fileDeleteByWildcard( $wildcard )
     {
+        $wildcard = eZDBFileHandler::cleanPath( $wildcard );
         eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByWildcard( '$wildcard' )" );
 
@@ -757,6 +765,13 @@ class eZDBFileHandler
      */
     function fileDeleteByDirList( $dirList, $commonPath, $commonSuffix )
     {
+        foreach ( $dirList as $key => $dirItem )
+        {
+            $dirList[$key] = eZDBFileHandler::cleanPath( $dirItem );
+
+        }
+        $commonPath = eZDBFileHandler::cleanPath( $commonPath );
+        $commonSuffix = eZDBFileHandler::cleanPath( $commonSuffix );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
 
         $this->backend->_deleteByDirList( $dirList, $commonPath, $commonSuffix );
@@ -772,6 +787,8 @@ class eZDBFileHandler
      */
     function fileDelete( $path, $fnamePart = false )
     {
+        $path = eZDBFileHandler::cleanPath( $path );
+        $fnamePart = eZDBFileHandler::cleanPath( $fnamePart );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDelete( '$path' )" );
 
         if ( $fnamePart === false )
@@ -810,6 +827,7 @@ class eZDBFileHandler
      */
     function fileDeleteLocal( $path )
     {
+        $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteLocal( '$path' )" );
 
         @unlink( $path );
@@ -866,6 +884,7 @@ class eZDBFileHandler
      */
     function fileExists( $path )
     {
+        $path = eZDBFileHandler::cleanPath( $path );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileExists( '$path' )" );
 
         $rc = $this->backend->_exists( $path );
@@ -925,6 +944,8 @@ class eZDBFileHandler
      */
     function fileCopy( $srcPath, $dstPath )
     {
+        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
+        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileCopy( '$srcPath', '$dstPath' )" );
 
         $this->backend->_copy( $srcPath, $dstPath );
@@ -938,6 +959,8 @@ class eZDBFileHandler
      */
     function fileLinkCopy( $srcPath, $dstPath, $symLink )
     {
+        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
+        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
         $this->backend->_linkCopy( $srcPath, $dstPath );
@@ -951,6 +974,8 @@ class eZDBFileHandler
      */
     function fileMove( $srcPath, $dstPath )
     {
+        $srcPath = eZDBFileHandler::cleanPath( $srcPath );
+        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
         $this->backend->_rename( $srcPath, $dstPath );
@@ -965,6 +990,7 @@ class eZDBFileHandler
      */
     function move( $dstPath )
     {
+        $dstPath = eZDBFileHandler::cleanPath( $dstPath );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileMove( '$srcPath', '$dstPath' )" );
 
         $srcPath = $this->filePath;
@@ -984,6 +1010,29 @@ class eZDBFileHandler
                                     sprintf( "db::getFileList( %d, %d )",
                                               (int) $skipBinaryFiles, (int) $skipImages ) );
         return $this->backend->_getFileList( $skipBinaryFiles, $skipImages );
+    }
+
+    /*!
+     \static
+     Returns a clean version of input $path.
+
+     - Backslashes are turned into slashes.
+     - Multiple consecutive slashes are turned into one slash.
+     - Ending slashes are removed.
+
+     \example
+     my\windows\path => my/windows/path
+     extra//slashes/\are/fixed => extra/slashes/are/fixed
+     ending/slashes/ => ending/slashes
+     \endexample
+     */
+    static function cleanPath( $path )
+    {
+        if ( !is_string( $path ) )
+            return $path;
+        return preg_replace( array( "#[/\\\\]+#", "#/$#" ),
+                             array( "/",        "" ),
+                             $path );
     }
 }
 

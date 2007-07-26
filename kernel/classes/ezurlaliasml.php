@@ -160,22 +160,6 @@ class eZURLAliasML extends eZPersistentObject
     }
 
     /*!
-     \return the url alias object as an associative array with all the attribute values.
-    */
-    function asArray()
-    {
-        die( __CLASS__ . "::" . __FUNCTION__ ."NOT YET IMPLEMENTED" );
-    }
-
-    /*!
-     \return the URL alias object this URL alias points to or \c null if no such URL exists.
-    */
-    function forwardURL()
-    {
-        die( __CLASS__ . "::" . __FUNCTION__ ."NOT YET IMPLEMENTED" );
-    }
-
-    /*!
      Unicode-aware strtolower, performs the conversion by using eZCharTransform
      */
     static function strtolower( $text )

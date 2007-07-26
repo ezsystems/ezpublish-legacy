@@ -58,6 +58,7 @@ class eZImageShellHandler extends eZImageHandler
         $this->PostParameters = false;
         $this->UseTypeTag = false;
         $this->QualityParameters = false;
+        $this->FrameRangeParameters = false;
     }
 
     /*!
@@ -65,6 +66,7 @@ class eZImageShellHandler extends eZImageHandler
     */
     function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
+        $debug = eZDebug::instance();
         $argumentList = array();
         $executable = $this->Executable;
         if ( eZSys::osType() == 'win32' and $this->ExecutableWin32 )
@@ -81,6 +83,7 @@ class eZImageShellHandler extends eZImageHandler
             $argumentList[] = $this->PreParameters;
 
         $qualityParameters = $this->QualityParameters;
+        $frameRangeParameters = $this->FrameRangeParameters;
 
         if ( $qualityParameters and
              isset( $qualityParameters[$destinationMimeData['name']] ) )
@@ -102,6 +105,11 @@ class eZImageShellHandler extends eZImageHandler
             }
         }
 
+        if ( $frameRangeParameters && isset( $frameRangeParameters[$sourceMimeData['name']] ) )
+        {
+            $sourceMimeData['url'] .= $frameRangeParameters[$sourceMimeData['name']];
+        }
+
         $argumentList[] = eZSys::escapeShellArgument( $sourceMimeData['url'] );
 
         $destinationURL = $destinationMimeData['url'];
@@ -119,7 +127,7 @@ class eZImageShellHandler extends eZImageHandler
         {
             if ( !file_exists( $destinationMimeData['url'] ) )
             {
-                eZDebug::writeError( "Unknown destination file: " . $destinationMimeData['url'], "eZImageShellHandler(" . $this->HandlerName . ")" );
+                $debug->writeError( 'Unknown destination file: ' . $destinationMimeData['url'] . " when executing '$systemString'", 'eZImageShellHandler(' . $this->HandlerName . ')' );
                 return false;
             }
             $this->changeFilePermissions( $destinationMimeData['url'] );
@@ -127,7 +135,7 @@ class eZImageShellHandler extends eZImageHandler
         }
         else
         {
-            eZDebug::writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
+            $debug->writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
             return false;
         }
 
@@ -143,12 +151,13 @@ class eZImageShellHandler extends eZImageHandler
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
+        $debug = eZDebug::instance();
         $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
-            eZDebug::writeError( "Failed loading ini file $iniFilename",
+            $debug->writeError( "Failed loading ini file $iniFilename",
                                  'eZImageShellHandler::createFromINI' );
             return $handler;
         }
@@ -174,6 +183,15 @@ class eZImageShellHandler extends eZImageHandler
                     $qualityParameters[$elements[0]] = $elements[1];
                 }
             }
+            if ( $ini->hasVariable( $iniGroup, 'FrameRangeParameters' ) )
+            {
+                foreach ( $ini->variable( $iniGroup, 'FrameRangeParameters' ) as $frameRangeParameter )
+                {
+                    $elements = explode( ';', $frameRangeParameter );
+                    $frameRangeParameters[$elements[0]] = $elements[1];
+                }
+            }
+
             $conversionRules = false;
             if ( $ini->hasVariable( $iniGroup, 'ConversionRules' ) )
             {
@@ -198,7 +216,7 @@ class eZImageShellHandler extends eZImageHandler
                 $path = $ini->variable( $iniGroup, 'ExecutablePath' );
             if ( !$ini->hasVariable( $iniGroup, 'Executable' ) )
             {
-                eZDebug::writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
+                $debug->writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
                                      'eZImageShellHandler::createFromINI' );
                 return $handler;
             }
@@ -260,6 +278,7 @@ class eZImageShellHandler extends eZImageHandler
             $handler->PostParameters = $postParameters;
             $handler->UseTypeTag = $useTypeTag;
             $handler->QualityParameters = $qualityParameters;
+            $handler->FrameRangeParameters = $frameRangeParameters;
             return $handler;
         }
         return $handler;

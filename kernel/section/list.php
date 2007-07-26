@@ -32,7 +32,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 $http = eZHTTPTool::instance();
 $Module =& $Params["Module"];
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $Module );
 
 $offset = $Params['Offset'];
@@ -65,11 +65,11 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
     foreach ( $sectionIDArray as $sectionID )
     {
         $section = eZSection::fetch( $sectionID );
-        $sections[] =& $section;
+        $sections[] = $section;
     }
     $tpl->setVariable( 'delete_result', $sections );
     $Result = array();
-    $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
+    $Result['content'] = $tpl->fetch( "design:section/confirmremove.tpl" );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
     return;
@@ -78,7 +78,7 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 
 if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
-    $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
+    $sectionIDArray = $http->sessionVariable( 'SectionIDArray' );
 
     $db = eZDB::instance();
     $db->begin();
@@ -99,13 +99,18 @@ $viewParameters = array( 'offset' => $offset );
 $sectionArray = eZSection::fetchByOffset( $offset, $limit );
 $sectionCount = eZSection::sectionCount();
 
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+$currentUser = eZUser::currentUser();
+$allowedAssignSectionList = $currentUser->canAssignSectionList();
+
 $tpl->setVariable( "limit", $limit );
 $tpl->setVariable( 'section_array', $sectionArray );
 $tpl->setVariable( 'section_count', $sectionCount );
 $tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'allowed_assign_sections', $allowedAssignSectionList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:section/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:section/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
 

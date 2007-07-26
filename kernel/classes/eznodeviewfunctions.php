@@ -189,6 +189,8 @@ class eZNodeviewfunctions
         if ( $tpl->variable( 'persistent_variable' ) !== false )
         {
             $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
+            $keyArray[] = array( 'persistent_variable', $contentInfoArray['persistent_variable'] );
+            $res->setKeys( $keyArray );
         }
         $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
         $contentInfoArray['parent_class_id'] = $parentClassID;

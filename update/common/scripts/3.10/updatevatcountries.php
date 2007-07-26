@@ -31,8 +31,8 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/datatypes/ezcountry/ezcountrytype.php' );
 
-$cli = eZCLI::instance();
-$script = eZScript::instance( array( 'description' => ( "eZ publish Country update script\n\n" .
+$cli =& eZCLI::instance();
+$script =& eZScript::instance( array( 'description' => ( "eZ publish Country update script\n\n" .
                                                          "Upgrades db table in addition with upgrade from 3.8.x to 3.9.x\n" .
                                                          "Fixes bug with apllying VAT rules" ),
                                       'use-session' => false,
@@ -44,7 +44,7 @@ $options = $script->getOptions(  );
 
 $script->initialize();
 
-$db = eZDB::instance();
+$db =& eZDB::instance();
 
 $countries = $db->query( "SELECT country from ezvatrule;" );
 $iniCountries = eZCountryType::fetchCountryList();
