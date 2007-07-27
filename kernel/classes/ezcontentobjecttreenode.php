@@ -3195,7 +3195,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $mainNodeID The ID of the node that should be that main node
      \param $objectID The ID of the object that all nodes belong to
      \param $version The version of the object to update node assignments, use \c false for currently published version.
-     \param $parentMainNodeID The ID of the parent node of the current main placement
+     \param $parentMainNodeID The ID of the parent node of the new main placement
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
