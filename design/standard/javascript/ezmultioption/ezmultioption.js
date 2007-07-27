@@ -77,7 +77,7 @@ function validate_options( event )
          formOptionsSelectedIndex = selectBoxList[i].options.selectedIndex;
         if ( selectBoxList[i].options[formOptionsSelectedIndex].disabled )
         {
-           alert( "Wrong selection \""  + selectBoxList[i].options[formOptionsSelectedIndex].text + "\"" );
+           alert( "Incorrect selection \""  + selectBoxList[i].options[formOptionsSelectedIndex].text + "\"" );
            validated = false;
         }
     }
@@ -87,21 +87,25 @@ function validate_options( event )
 	if ( imageOptions[j].checked && imageOptions[j].disabled )
 	{
 	   optionText = document.getElementById( 'td-' + imageOptions[j].id ).childNodes[0].textContent;
-           alert( "Wrong selection \""  + optionText, "\"" );
+           alert( "Incorrect selection \""  + optionText + "\"" );
            validated = false;
 	}
     }
     return validated;
 }
+function connect_validate_options_handler()
+{
+    var selectBoxList = getAllOptionSelects( );
+    selectBoxList[0].form.ActionAddToBasket.onclick = validate_options;
 
+}
 function init_options( rules, attributeID1 )
 {
     attributeID = attributeID1;
     var selectBoxList = getAllOptionSelects( );
     var selectedValue;
 
-
-    selectBoxList[0].form.onsubmit = validate_options;
+    this.onload = connect_validate_options_handler;
 
     for( var i = 0; i < selectBoxList.length; i++ )
     {
@@ -169,9 +173,10 @@ function enableOption( optionID, attributeID )
      }
      else
      { 
-         if ( this.document.getElementById( idstr ) != null )
+         if ( this.document.getElementById( idstr ) != null && DisabledOptions[idstr] != null )
          {
              this.document.getElementById( idstr ).disabled = false;
+             this.document.getElementById( idstr ).className = '';
              DisabledOptions[idstr] = 0;
          }
      }
@@ -248,10 +253,13 @@ function ezmultioption_check_option( node, rules, attributeID )
     if ( oldValue != null )
     {
 
-        checkOptionsToEnable( rules, OldValues[ node.id ], attributeID , node);
+        checkOptionsToEnable( rules, oldValue, attributeID , node);
     }
 
     checkOptionsToDisable( rules, node.value, attributeID, node);
+    //initSelects();
+    disableOptions( node );
+
     if ( node.type == 'radio' )
     {
         OldValues[ node.name ] = node.value;
@@ -269,11 +277,6 @@ function initSelects()
     
         for ( var sc = 0; sc < sa.length; sc++ )
         {
-            sa[sc].onchange = function()
-            {
-                disableOptions( this );
-            }
-    
             disableOptions( sa[sc] );
         }
     }
