@@ -520,12 +520,12 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $nodeStartTime = microtimeFloat();
     while ( !$done )
     {
-        $nodes =& $rootNode->subTree( array( 'Offset' => $offset,
+        $nodeList =& $rootNode->subTree( array( 'Offset' => $offset,
                                              'Limit' => $fetchLimit,
                                              'Limitation' => array() ) );
-        foreach ( array_keys( $nodes ) as $key )
+        foreach ( array_keys( $nodeList ) as $key )
         {
-            $node =& $nodes[ $key ];
+            $node =& $nodeList[ $key ];
             $hasChanged = $node->updateSubTreePath();
             if ( $hasChanged )
             {
@@ -538,9 +538,9 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
                 $changeCharacter = $changeCharacters[$hasChanged];
             list( $column, $counter ) = displayProgress( $changeCharacter, $nodeStartTime, $counter, $nodeCount, $column );
         }
-        if ( count( $nodes ) == 0 )
+        if ( count( $nodeList ) == 0 )
             $done = true;
-        unset( $nodes );
+        unset( $nodeList );
         $offset += $fetchLimit;
         eZContentObject::clearCache();
     }
