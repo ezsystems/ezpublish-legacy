@@ -258,14 +258,19 @@ function ezmultioption_check_option( node, rules, attributeID )
 
     checkOptionsToDisable( rules, node.value, attributeID, node);
     //initSelects();
-    disableOptions( node );
 
     if ( node.type == 'radio' )
     {
         OldValues[ node.name ] = node.value;
     }
     else
+    {
+        if( /MSIE [567]/.test( navigator.appVersion ) )
+	{
+            disableOptions( node );
+        }
         OldValues[ node.id ] = node.value;
+    }
     return true;
 }
 
