@@ -5409,31 +5409,39 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                                    $options, $description, $handlerType, false );
 
             // In case user have choosen "Keep existing object and create new"
-            if ( $choosenAction == EZ_PACKAGE_CONTENTOBJECT_NEW )
+            switch( $choosenAction )
             {
-                $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
-                $node->setAttribute( 'remote_id', $newRemoteID );
-                $node->store();
-                $nodeInfo = array( 'contentobject_id' =>  $node->attribute( 'contentobject_id' ),
-                                   'contentobject_version' => $node->attribute( 'contentobject_version' ),
-                                   'parent_remote_id' => $remoteID );
-                $nodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                                   null,
-                                                                   $nodeInfo );
-                if( is_object( $nodeAssignment ) )
+                case EZ_PACKAGE_CONTENTOBJECT_NEW:
                 {
-                    //eZDebug::writeDebug( $nodeAssignment, '$nodeAssignment' );
-                    $nodeAssignment->setAttribute( 'parent_remote_id', $newRemoteID );
-                    $nodeAssignment->store();
-                }
-            }
-            else
-            {
-                // This error may occur only if data integrity is broken
-                $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_NODE_EXISTS,
-                                           'element_id' => $remoteID,
-                                           'description' => $description );
-                return false;
+                    $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+                    $node->setAttribute( 'remote_id', $newRemoteID );
+                    $node->store();
+                    $nodeInfo = array( 'contentobject_id' =>  $node->attribute( 'contentobject_id' ),
+                                       'contentobject_version' => $node->attribute( 'contentobject_version' ),
+                                       'parent_remote_id' => $remoteID );
+                    $nodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                                       null,
+                                                                       $nodeInfo );
+                    if( is_object( $nodeAssignment ) )
+                    {
+                        $nodeAssignment->setAttribute( 'parent_remote_id', $newRemoteID );
+                        $nodeAssignment->store();
+                    }
+                } break;
+
+                case EZ_PACKAGE_NON_INTERACTIVE:
+                {
+                    // Keep existing node settigns.
+                } break;
+
+                default:
+                {
+                    // This error may occur only if data integrity is broken
+                    $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_NODE_EXISTS,
+                                               'element_id' => $remoteID,
+                                               'description' => $description );
+                    return false;
+                } break;
             }
         }
 
