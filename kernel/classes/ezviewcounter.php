@@ -65,7 +65,7 @@ class eZViewCounter extends eZPersistentObject
                       "name" => "ezview_counter" );
     }
 
-    function create( $node_id )
+    static function create( $node_id )
     {
         $row = array("node_id" => $node_id,
                      "count" => 0 );
@@ -86,7 +86,7 @@ class eZViewCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function clear( $node_id )
+    static function clear( $node_id )
     {
         $counter = eZViewCounter::fetch( $node_id );
         if ( $counter != null )
@@ -108,7 +108,7 @@ class eZViewCounter extends eZPersistentObject
         $this->store();
     }
 
-    function fetch( $node_id, $asObject = true )
+    static function fetch( $node_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZViewCounter::definition(),
                                                 null,
@@ -116,7 +116,7 @@ class eZViewCounter extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchTopList( $classID = false, $sectionID = false, $offset = false, $limit = false )
+    static function fetchTopList( $classID = false, $sectionID = false, $offset = false, $limit = false )
     {
         if ( !$classID && !$sectionID )
         {
