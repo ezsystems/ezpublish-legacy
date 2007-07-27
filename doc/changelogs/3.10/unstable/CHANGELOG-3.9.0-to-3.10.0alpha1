@@ -368,5 +368,5 @@ Changes from 3.9.0 to 3.10.0alpha1
   (Merged from stable/3.9 (3.9.3) rev. 19458)
 - Fixed bug #11170: xml-attribute: paragraphs within table cells are lost.
   (Merged from stable/3.9 (3.9.3) rev. 19473)
-- Fixed bug #000936: Language parameter of nodetree functions
+- Fixed bug #11191: Language parameter of nodetree functions
   (Merged from stable/3.9 (3.9.3) rev. 19487)
