@@ -269,6 +269,7 @@ class eZDBFileHandler
      */
     function processCache( $retrieveCallback, $generateCallback = null, $ttl = null, $expiry = null, $extraData = null )
     {
+        include_once( 'kernel/classes/ezclusterfilefailure.php' );
         $forceDB = false;
         $fname = $this->filePath;
         $args = array( $fname );
@@ -477,7 +478,7 @@ class eZDBFileHandler
 
             break;
         }
-        include_once( 'kernel/classes/ezclusterfilefailure.php' );
+
         return new eZClusterFileFailure( 2, "Manual generation of file data is required, calling storeCache is required" );
     }
 
