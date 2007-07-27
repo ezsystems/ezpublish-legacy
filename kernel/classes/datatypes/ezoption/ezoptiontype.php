@@ -438,8 +438,8 @@ class eZOptionType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->firstChild();
-        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );
+        $textNode = $attributeNode->elementByName( 'data-text' );
+        $xmlString = $textNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $textNode->textContent();
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
