@@ -1,0 +1,25 @@
+Changes from 3.10.0alpha1 to 3.10.0beta1
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #11137: patch for ezp search engine for handling japanese, chinese, and korean language.
+  (Merged from stable/3.9 (3.9.3) rev. 19458)
+- Fixed bug #11170: xml-attribute: paragraphs within table cells are lost.
+  (Merged from stable/3.9 (3.9.3) rev. 19473)
+- Fixed bug #11191: Language parameter of nodetree functions
+  (Merged from stable/3.9 (3.9.3) rev. 19487)
+- Fixed bug #11182: Missleading documentation for function updateMainNodeID.
+  ( Merged from stable/3.8(3.8.9) rev. 19492, stable/3.9(3.9.3 rev. 19495 )
+- Fixed bug #11186: Missbehaviour content package import.
+  ( Merged from stable/3.9 rev. 19496, stable/3.8 rev. 19698 )
