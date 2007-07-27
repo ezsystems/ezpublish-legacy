@@ -1,11 +1,12 @@
-=====================================
+====================================
 ISBN datatype Techical specifications
 =====================================
 
 :authors: Bjørn Reiten
 :Version: 0.1
 
-This spesification describes the technical implementation of the isbn datatype.
+This spesification describes the technical implementation of the isbn
+datatype.
 
 Class diagram
 =============
@@ -40,21 +41,30 @@ Desciption of the classes for the isbn datatype
 
 eZISBNType
 ----------
-Is the main class for the isbn datatype, which inherit from eZDataType. This class is also handling all processing of ISBN-10 numbers, that is the old standard of ISBN, which now is depricated and should not be used.
+Is the main class for the isbn datatype, which inherit from eZDataType. This
+class is also handling all processing of ISBN-10 numbers, that is the old
+standard of ISBN, which now is depricated and should not be used.
 
-The isbn Number is stored in one field, data_text in the table ezcontentobject_attribute, which will allways be stored with separator as hyphen stored at the correct place, depending on each areas ranges. Example: 978-0-11-000222-4
+The isbn Number is stored in one field, data_text in the table
+ezcontentobject_attribute, which will allways be stored with separator as
+hyphen stored at the correct place, depending on each areas ranges. Example:
+978-0-11-000222-4
 
-The field that shows if the value is stored as isbn-10 or isbn-13 is the field data_int1. The different combinations are:
+The field that shows if the value is stored as isbn-10 or isbn-13 is the field
+data_int1. The different combinations are:
 
 isbn-10: 0
 isbn-13: 1
 
-The default value will be set to isbn-13 when you try to add a new ISBN datatype in the contentclass.
+The default value will be set to isbn-13 when you try to add a new ISBN
+datatype in the contentclass.
 
 
 eZISBN13
 --------
-Will handle all isbn-13 related tasks. The The different parts of the isbn number will be extracted and hyphens will be placed between each grup. The isbn-13 number consists of:
+Will handle all isbn-13 related tasks. The The different parts of the isbn
+number will be extracted and hyphens will be placed between each grup. The
+isbn-13 number consists of:
 
 Prefix element
 Registration group element
@@ -62,36 +72,58 @@ Registrant element
 Publication element
 Checkdigit
 
-How to derive the different groups are calculated based on information stored in the different classes eZISBNGroup, eZISBNGroupRange and eZISBNRegistrantRange which contains information about ranges from each area (registration group).
+How to derive the different groups are calculated based on information stored
+in the different classes eZISBNGroup, eZISBNGroupRange and
+eZISBNRegistrantRange which contains information about ranges from each area
+(registration group).
 
-The Prefix element should allways be 978. The prefix 979 is recerved for later use.
+The Prefix element should allways be 978. The prefix 979 is recerved for later
+use.
 
 
 eZISBNGroup
 -----------
-Contains information about all areas (group elements) and a short desciption. All group numbers should follow the rules set in eZISBNGroup, which describes the length of the group element.
+Contains information about all areas (group elements) and a short desciption.
+All group numbers should follow the rules set in eZISBNGroup, which describes
+the length of the group element.
 
 
 eZISBNGroupRange
 ----------------
-Contains information about all valid ranges for the group element. From and to number is the test range the isbn number can contain. The test number is based on the 5 numbers after the Prefix number.
+Contains information about all valid ranges for the group element. From and to
+number is the test range the isbn number can contain. The test number is based
+on the 5 numbers after the Prefix number.
 
-Example: 978-0-11-000222-4 where the testnumber will be 01100. The number is stored in the database as an integer. If the range is from 0 - 59999, we get get lengt of the group number to be 1, which gives the group number 0.
+Example: 978-0-11-000222-4 where the testnumber will be 01100. The number is
+stored in the database as an integer. If the range is from 0 - 59999, we get
+get lengt of the group number to be 1, which gives the group number 0.
 
-group_from and group_to are a similar description of the from and to field of the test number and contains the range with the correct amount of digits. Is stored as a string, since the value may start with 0 because og the length of the field. Example: 02.
+group_from and group_to are a similar description of the from and to field of
+the test number and contains the range with the correct amount of digits. Is
+stored as a string, since the value may start with 0 because og the length of
+the field. Example: 02.
 
 group_length is how many digits the registration group value will require.
 
 
 eZISBNRegistrantRange
 ---------------------
-Is similar to the group range class. Contains information about all valid ranges for registrant elements, which can be different for each group element. Therefore you have an isbn_group_id, which relates to an eZISBNGroup object.
+Is similar to the group range class. Contains information about all valid
+ranges for registrant elements, which can be different for each group element.
+Therefore you have an isbn_group_id, which relates to an eZISBNGroup object.
 
-from_number and to_number contains information about all valid ranges from the registrant element. The registrant test range is based on the 5 numbers after the prefix and the group element. By that reason you need to calculate the group element before you can find the registrant element.
+from_number and to_number contains information about all valid ranges from the
+registrant element. The registrant test range is based on the 5 numbers after
+the prefix and the group element. By that reason you need to calculate the
+group element before you can find the registrant element.
 
-Example:  978-0-11-000222-4 where the testnumber will be 11000. The range 0 - 19999 has the length 2, which gives the registrant value 11.
+Example:  978-0-11-000222-4 where the testnumber will be 11000. The range 0 -
+19999 has the length 2, which gives the registrant value 11.
 
-registrant_from and registrant_to are a similar description of the from and to field of the test number and contains the range with the correct amount of digits. Is stored as a string, since the value may start with 0 because og the length of the field. Example: 02.
+registrant_from and registrant_to are a similar description of the from and to
+field of the test number and contains the range with the correct amount of
+digits. Is stored as a string, since the value may start with 0 because og the
+length of the field. Example: 02.
 
 registrant_length is how many digits the registrant value will require.
 
@@ -107,14 +139,52 @@ Script to update all isbn numbers to a valid isbn-13 number
 The script:
 bin/php/ezconvert2isbn13.php
 
-Will go through contentobject attributes with the isbn datatype and convert them to a valid isbn-13 number and should be runned after you've set the ISBN-13 option for the contentclass attribute, when changing the contentclass. The script has the following commandline options:
+Will go through contentobject attributes with the isbn datatype and convert
+them to a valid isbn-13 number and should be runned after you've set the
+ISBN-13 option for the contentclass attribute, when changing the contentclass.
+The script has the following commandline options:
 
---class-id=2 Will Go through all ezisbn attributes in the class with id 2 and convert everyone which is a isbn-10 value.
---attribute-id=12 will check if this is a isbn datatype and convert all isbn-13 values in the attribute with id 12.
---all-classes Does not have any argument, and converts all contentobject attributes that is set to isbn-13.
+--class-id=2 Will Go through all ezisbn attributes in the class with id 2 and
+convert everyone which is a isbn-10 value.
+
+--attribute-id=12 will check if this is a isbn datatype and convert all isbn-13
+values in the attribute with id 12.
+
+--all-classes Does not have any argument, and converts all contentobject
+attributes that is set to isbn-13.
 
 
---force or -f will work in addition to all the options above and set the class attribute to isbn-13, even if it was isbn10 before and will also set the option isbn-13 in the contentclass for the isbn attribute.
+--force or -f will work in addition to all the options above and set the class
+attribute to isbn-13, even if it was isbn10 before and will also set the option
+isbn-13 in the contentclass for the isbn attribute.
+
+
+Script to read isbn data from the dba file
+------------------------------------------
+When you do an upgrade of a site and need to insert the isbn data, you can run
+this script to update the necessary tables.
+
+The script:
+bin/php/ezimportdbafile.php
+
+Parameters:
+--datatype=ezisbn
+
+Will try to find a dba file in the specified datatype. Example:
+kernel/classes/datatypes/ezisbn/share/db_data.dba
+
+Each datatype is responsible to clean up the necessary tables before the data
+is inserted. This is done by reimplement the function:
+
+cleanDBDataBeforeImport() in the datatype, which knows which tables you need to
+clean.
+
+The file db_data.bda will only contain the data for the tables and not the
+defenition of the table itself. The file db_data.dba can be generated by the
+script bin/php/ezsqldumpisbndata.php
+
+Note: You need to create the necessary tables before running this script, which
+should exist in the sql updates for the eZ Publish version (3.10).
 
 
 Script to update the isbn group and ranges
@@ -127,22 +197,30 @@ php runcronjobs.php isbn13 --file=ranges.js
 
 Where:
 isbn13 is an own group in cronjob.ini
---file=ranges.js are refering to a javascript file that contains information about the different ranges. The ranges are located at:
+--file=ranges.js are refering to a javascript file that contains information
+about the different ranges. The ranges are located at:
 
-http://www.isbn-international.org/converter/ranges.js (Used by http://www.isbn-international.org/converter/ranges.htm).
+http://www.isbn-international.org/converter/ranges.js (Used by
+http://www.isbn-international.org/converter/ranges.htm).
 
 Which you need to copy to a local place on your server first.
 
-Each time the script is runned, all info in tables related to eZISBNGroup, eZISBNGroupRange, eZISBNRegistrantRange will be removed and replaced with info based on this file.
+Each time the script is runned, all info in tables related to eZISBNGroup,
+eZISBNGroupRange, eZISBNRegistrantRange will be removed and replaced with info
+based on this file.
 
+Example:
 The information that will be extracted are lines containing the information:
 
 gi.area0.text="English speaking area";
 
-which contains a description about the name of the area (registration group element) and
+which contains a description about the name of the area (registration group
+element) and
 
-gi.area0.pubrange="00-19;200-699;7000-8499;85000-89999;900000-949999;9500000-9999999";
+gi.area0.pubrange="00-19;200-699;7000-8499;85000-89999;900000-949999";
 
-which contains information about the different ranges for the registrant. The registration group class will be calculated by how the values of registration group elements are used.
+which contains information about the different ranges for the registrant. The
+registration group class will be calculated by how the values of registration
+group elements are used.
 
 Note: You should ensure that this file still contains this structure.
