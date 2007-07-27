@@ -24,3 +24,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
   ( Merged from stable/3.8(3.8.9) rev. 19492, stable/3.9(3.9.3 rev. 19495 )
 - Fixed bug #11186: Missbehaviour content package import.
   ( Merged from stable/3.9 rev. 19496, stable/3.8 rev. 19698 )
+- Fixed bug #011193: Undefined variable: nodes in update/common/scripts/updateniceurls.php
