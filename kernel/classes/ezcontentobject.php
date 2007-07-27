@@ -4688,10 +4688,10 @@ class eZContentObject extends eZPersistentObject
         $alwaysAvailable = ( $domNode->attributeValue( 'always_available' ) == '1' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
-        /*if ( !$contentClass )
+        if ( !$contentClass )
         {
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
-        }*/
+        }
 
         if ( !$contentClass )
         {
@@ -4766,10 +4766,12 @@ class eZContentObject extends eZPersistentObject
         }
         if ( !$contentObject )
         {
+            $firstVersion = true;
             $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
         }
         else
         {
+            $firstVersion = false;
             $description = "Object '$name' already exists.";
 
             include_once( 'kernel/classes/ezpackagehandler.php' );
@@ -4778,34 +4780,47 @@ class eZContentObject extends eZPersistentObject
 
             switch( $choosenAction )
             {
-            case EZ_PACKAGE_NON_INTERACTIVE:
-            case EZ_PACKAGE_CONTENTOBJECT_REPLACE:
-                include_once( 'kernel/classes/ezcontentobjectoperations.php' );
-                eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
+                case EZ_PACKAGE_NON_INTERACTIVE:
+                {
+                    // Keep existing contentobject.
+                } break;
 
-                unset( $contentObject );
-                $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
-                break;
+                case EZ_PACKAGE_CONTENTOBJECT_REPLACE:
+                {
+                    include_once( 'kernel/classes/ezcontentobjectoperations.php' );
+                    eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
 
-            case EZ_PACKAGE_CONTENTOBJECT_SKIP:
-                $retValue = true;
-                return $retValue;
+                    unset( $contentObject );
+                    $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
+                    $firstVersion = true;
+                } break;
 
-            case EZ_PACKAGE_CONTENTOBJECT_NEW:
-                $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-                $contentObject->store();
-                unset( $contentObject );
-                $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
-                break;
-            default:
-                $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
-                                           'element_id' => $remoteID,
-                                           'description' => $description,
-                                           'actions' => array( EZ_PACKAGE_CONTENTOBJECT_REPLACE => 'Replace existing object',
-                                                               EZ_PACKAGE_CONTENTOBJECT_SKIP => 'Skip object',
-                                                               EZ_PACKAGE_CONTENTOBJECT_NEW => 'Keep existing and create a new one' ) );
-                $retValue = false;
-                return $retValue;
+                case EZ_PACKAGE_CONTENTOBJECT_SKIP:
+                {
+                    $retValue = true;
+                    return $retValue;
+                } break;
+
+                case EZ_PACKAGE_CONTENTOBJECT_NEW:
+                {
+                    $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+                    $contentObject->store();
+                    unset( $contentObject );
+                    $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
+                    $firstVersion = true;
+                } break;
+
+                default:
+                {
+                    $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
+                                               'element_id' => $remoteID,
+                                               'description' => $description,
+                                               'actions' => array( EZ_PACKAGE_CONTENTOBJECT_REPLACE => 'Replace existing object',
+                                                                   EZ_PACKAGE_CONTENTOBJECT_SKIP => 'Skip object',
+                                                                   EZ_PACKAGE_CONTENTOBJECT_NEW => 'Keep existing and create a new one' ) );
+                    $retValue = false;
+                    return $retValue;
+                } break;
             }
         }
 
@@ -4820,7 +4835,6 @@ class eZContentObject extends eZPersistentObject
         $contentObject->store();
         $activeVersion = false;
         $lastVersion = false;
-        $firstVersion = true;
         $versionListActiveVersion = $versionListNode->attributeValue( 'active_version' );
 
         $contentObject->setAttribute( 'remote_id', $remoteID );
