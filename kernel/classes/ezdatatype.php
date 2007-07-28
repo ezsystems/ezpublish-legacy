@@ -1341,6 +1341,10 @@ class eZDataType
                 }
             }
         }
+        else
+        {
+            $result = false;
+        }
         return $result;
     }
 

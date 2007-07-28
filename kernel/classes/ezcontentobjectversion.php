@@ -1310,14 +1310,12 @@ class eZContentObjectVersion extends eZPersistentObject
             $contentObjectVersion = $contentObject->createNewVersionIn( $initialLanguage );
         }
 
-        //if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        //{
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $created = eZDateUtils::textToDate( $domNode->getAttribute( 'created' ) );
-            $modified = eZDateUtils::textToDate( $domNode->getAttribute( 'modified' ) );
-            $contentObjectVersion->setAttribute( 'created', $created );
-            $contentObjectVersion->setAttribute( 'modified', $modified );
-        //}
+        include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+        $created = eZDateUtils::textToDate( $domNode->getAttribute( 'created' ) );
+        $modified = eZDateUtils::textToDate( $domNode->getAttribute( 'modified' ) );
+        $contentObjectVersion->setAttribute( 'created', $created );
+        $contentObjectVersion->setAttribute( 'modified', $modified );
+
         $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $contentObjectVersion->store();
 

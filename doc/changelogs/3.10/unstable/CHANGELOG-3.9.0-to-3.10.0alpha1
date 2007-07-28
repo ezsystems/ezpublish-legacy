@@ -364,9 +364,3 @@ Changes from 3.9.0 to 3.10.0alpha1
   from Approved Email Validation Codes.
 - Fixed bug #11144: "persistent_variable" override isn't working with viewcache disabled.
   (Mered from stable/3.8(3.8.9) rev. 19442)
-- Fixed bug #11137: patch for ezp search engine for handling japanese, chinese, and korean language.
-  (Merged from stable/3.9 (3.9.3) rev. 19458)
-- Fixed bug #11170: xml-attribute: paragraphs within table cells are lost.
-  (Merged from stable/3.9 (3.9.3) rev. 19473)
-- Fixed bug #000936: Language parameter of nodetree functions
-  (Merged from stable/3.9 (3.9.3) rev. 19487)

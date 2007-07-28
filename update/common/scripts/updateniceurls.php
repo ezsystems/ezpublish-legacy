@@ -537,9 +537,9 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
                 $changeCharacter = $changeCharacters[$hasChanged];
             list( $column, $counter ) = displayProgress( $changeCharacter, $nodeStartTime, $counter, $nodeCount, $column );
         }
-        if ( count( $nodes ) == 0 )
+        if ( count( $nodeList ) == 0 )
             $done = true;
-        unset( $nodes );
+        unset( $nodeList );
         $offset += $fetchLimit;
         eZContentObject::clearCache();
     }
