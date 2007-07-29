@@ -27,3 +27,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #011193: Undefined variable: nodes in update/common/scripts/updateniceurls.php
 - Fixed bug #11120: Fatal error on clean installation after chosing a NON-plain site package
   (Merged from stable/3.8(3.8.9) rev. 19509)
+- Fixed bug #8431: Checkbox class attribute looses default state when class is imported from a package
