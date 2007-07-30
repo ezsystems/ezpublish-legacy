@@ -32,7 +32,7 @@ include_once( 'kernel/common/template.php' );
  Reads the doxygen generated HTML file and replaces hrefs and CSS classes
  with eZ publish&trade; SDK related ones.
 */
-function &referenceReadFile( $file, $htmlRoot, $base )
+function referenceReadFile( $file, $htmlRoot, $base )
 {
     include_once( "lib/ezutils/classes/ezsys.php" );
 
@@ -100,123 +100,64 @@ function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $para
 
     switch ( $ReferenceType )
     {
-        case "modules":
-        {
-            $refFile = "$htmlRoot/modules.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
         case "module":
         {
             $refFile = "$htmlRoot/group__" . $ReferenceName . ".html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
         } break;
+
         case "file":
         {
             $refFile = "$htmlRoot/" . $ReferenceName . "_8php.html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
         } break;
+
         case "source":
         {
             $refFile = "$htmlRoot/" . $ReferenceName . "_8php-source.html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
         } break;
+
         case "todo":
-        {
-            $refFile = "$htmlRoot/todo.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
-        case "deprecated":
-        {
-            $refFile = "$htmlRoot/deprecated.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
         case "hierarchy":
-        {
-            $refFile = "$htmlRoot/hierarchy.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
         case "annotated":
-        {
-            $refFile = "$htmlRoot/annotated.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
+        case "globals":
         case "files":
-        {
-            $refFile = "$htmlRoot/files.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
+        case "deprecated":
         case "functions":
+        case "modules":
         {
-            $refFile = "$htmlRoot/functions.html";
+            $refFile = $htmlRoot . '/' . $ReferenceType . '.html';
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
+            {
                 $error = true;
+            }
         } break;
         case "related":
         {
             $refFile = "$htmlRoot/pages.html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
@@ -226,8 +167,7 @@ function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $para
             $refFile = "$htmlRoot/class" . $ReferenceName . ".html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
@@ -237,19 +177,7 @@ function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $para
             $refFile = "$htmlRoot/class" . $ReferenceName . "-members.html";
             if ( file_exists( $refFile ) )
             {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
-            }
-            else
-                $error = true;
-        } break;
-        case "globals":
-        {
-            $refFile = "$htmlRoot/globals.html";
-            if ( file_exists( $refFile ) )
-            {
-                $refData =& referenceReadFile( $refFile, $htmlRoot, $baseURI );
-                $content .= $refData;
+                $content .= referenceReadFile( $refFile, $htmlRoot, $baseURI );
             }
             else
                 $error = true;
@@ -265,7 +193,6 @@ function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $para
     {
         $tpl = templateInit();
         $content = $tpl->fetch( "design:reference/view/$referenceType/error.tpl" );
-//         return $module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
     }
 
     $result["content"] = $content;

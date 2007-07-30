@@ -74,7 +74,7 @@ class eZImageFile extends eZPersistentObject
         return new eZImageFile( $row );
     }
 
-    static function &fetchForContentObjectAttribute( $contentObjectAttributeID, $asObject = false )
+    static function fetchForContentObjectAttribute( $contentObjectAttributeID, $asObject = false )
     {
         $rows = eZPersistentObject::fetchObjectList( eZImageFile::definition(),
                                                       null,
@@ -85,13 +85,11 @@ class eZImageFile extends eZPersistentObject
         if ( !$asObject )
         {
             $files = array();
-            foreach ( array_keys( $rows ) as $rowKey )
+            foreach ( $rows as $row )
             {
-                $row =& $rows[$rowKey];
                 $files[] = $row['filepath'];
             }
-            $files = array_unique( $files );
-            return $files;
+            return array_unique( $files );
         }
         else
             return $rows;

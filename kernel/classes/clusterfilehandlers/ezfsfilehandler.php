@@ -724,7 +724,7 @@ class eZFSFileHandler
             if ( is_file( $path ) )
             {
                 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
-                $handler =& eZFileHandler::instance( false );
+                $handler = eZFileHandler::instance( false );
                 $handler->unlink( $path );
                 if ( file_exists( $path ) )
                     $debug->writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
@@ -750,7 +750,6 @@ class eZFSFileHandler
     function delete()
     {
         $path = $this->filePath;
-
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::delete( '$path' )" );
 
         $debug = eZDebug::instance();

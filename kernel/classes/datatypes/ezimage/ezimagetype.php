@@ -65,18 +65,17 @@ class eZImageType extends eZDataType
                                                                               $contentObjectAttribute->attribute( 'version' ) );
             $language = eZContentObject::defaultLanguage();
             $attribute = false;
-            foreach ( array_keys( $list ) as $listKey )
+            foreach ( $list as $listItem )
             {
-                $listItem =& $list[$listKey];
                 if ( $listItem->attribute( 'language_code' ) == $language )
                 {
-                    $attribute =& $listItem;
+                    $attribute = $listItem;
                     break;
                 }
             }
             if ( $attribute === false )
             {
-                $attribute =& $list[0];
+                $attribute = $list[0];
             }
             if ( $attribute )
             {
@@ -217,7 +216,7 @@ class eZImageType extends eZDataType
 
         if ( eZHTTPFile::canFetch( $httpFileName ) )
         {
-            $httpFile =& eZHTTPFile::fetch( $httpFileName );
+            $httpFile = eZHTTPFile::fetch( $httpFileName );
             if ( $httpFile )
             {
                 if ( $content )
@@ -249,7 +248,7 @@ class eZImageType extends eZDataType
         if ( $imageHandler )
         {
             //$debug->writeDebug( 'image handler class: ' . get_class( $imageHandler ), 'eZImageType::storeObjectAttribute' );
-            $httpFile =& $imageHandler->httpFile( true );
+            $httpFile = $imageHandler->httpFile( true );
             if ( $httpFile )
             {
                 //$debug->writeDebug( 'type of http file: ' . gettype( $httpFile ), 'eZImageType::storeObjectAttribute' );

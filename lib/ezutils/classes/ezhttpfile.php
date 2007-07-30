@@ -283,7 +283,7 @@ class eZHTTPFile
      Fetches the HTTP file named $http_name and returns a eZHTTPFile object,
      or null if the file could not be fetched.
     */
-    static function &fetch( $http_name )
+    static function fetch( $http_name )
     {
         $file =& $GLOBALS["eZHTTPFile-$http_name"];
         if ( strtolower( get_class( $file ) ) != "ezhttpfile" )

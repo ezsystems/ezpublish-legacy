@@ -199,9 +199,8 @@ class eZImage extends eZPersistentObject
 
                 if ( $heightList != null )
                 {
-                    foreach ( array_keys ( $heightList ) as $key )
+                    foreach ( $heightList as $key => $heightValue )
                     {
-                        $heightValue =& $heightList[$key];
                         if ( $heightValue )
                         {
                             if ( $key == "small" and $attr == "small" )
@@ -239,14 +238,18 @@ class eZImage extends eZPersistentObject
                 if ( !isset( $GLOBALS[$cacheString] ) )
                 {
                     if ( $attr == "original" )
-                        $img_variation =& eZImageVariation::createOriginal( $this->ContentObjectAttributeID, $this->Version, $this->Filename, eZDir::getPathFromFilename( $this->Filename ) );
+                    {
+                        $img_variation = eZImageVariation::createOriginal( $this->ContentObjectAttributeID, $this->Version, $this->Filename, eZDir::getPathFromFilename( $this->Filename ) );
+                    }
                     else
-                        $img_variation =& eZImageVariation::requestVariation( $this, $width, $height );
-                    $GLOBALS[$cacheString] =& $img_variation;
+                    {
+                        $img_variation = eZImageVariation::requestVariation( $this, $width, $height );
+                    }
+                    $GLOBALS[$cacheString] = $img_variation;
                 }
                 else
                 {
-                    $img_variation =& $GLOBALS[$cacheString];
+                    $img_variation = $GLOBALS[$cacheString];
                 }
                 return $img_variation;
             }break;

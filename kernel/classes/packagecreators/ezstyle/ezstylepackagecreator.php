@@ -217,8 +217,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
             return false;
         }
 
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
+        $classesFile = eZHTTPFile::fetch( 'PackageClassesCSSFile' );
         if ( !preg_match( "#\.css$#", strtolower( $siteFile->attribute( 'original_filename' ) ) ) or
              !preg_match( "#\.css$#", strtolower( $classesFile->attribute( 'original_filename' ) ) ) )
         {
@@ -232,8 +232,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function commitCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $siteFile =& eZHTTPFile::fetch( 'PackageSiteCSSFile' );
-        $classesFile =& eZHTTPFile::fetch( 'PackageClassesCSSFile' );
+        $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
+        $classesFile = eZHTTPFile::fetch( 'PackageClassesCSSFile' );
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $siteMimeData = eZMimeType::findByFileContents( $siteFile->attribute( 'original_filename' ) );
         $dir = eZSys::storageDirectory() . '/temp';
@@ -262,7 +262,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         if ( !eZHTTPFile::canFetch( 'PackageImageFile' ) )
             return true;
 
-        $file =& eZHTTPFile::fetch( 'PackageImageFile' );
+        $file = eZHTTPFile::fetch( 'PackageImageFile' );
 
         $result = true;
         if ( $file )

@@ -43,7 +43,7 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
 {
     if ( eZHTTPFile::canFetch( 'PackageBinaryFile' ) )
     {
-        $file =& eZHTTPFile::fetch( 'PackageBinaryFile' );
+        $file = eZHTTPFile::fetch( 'PackageBinaryFile' );
         if ( $file )
         {
             $packageFilename = $file->attribute( 'filename' );

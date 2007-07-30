@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-function &imageInit()
+function imageInit()
 {
     include_once( 'lib/ezimage/classes/ezimagemanager.php' );
     include_once( 'lib/ezimage/classes/ezimageanalyzer.php' );

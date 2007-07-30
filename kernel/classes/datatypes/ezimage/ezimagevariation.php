@@ -99,7 +99,7 @@ class eZImageVariation extends eZPersistentObject
                       "name" => "ezimagevariation" );
     }
 
-    function &createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
+    function createOriginal( $contentObjectAttributeID, $version, $filename, $additionalPath )
     {
         $additionalPath = false;
         $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
@@ -210,7 +210,7 @@ class eZImageVariation extends eZPersistentObject
         $additionalPath = eZDir::getPathFromFilename( $origFilename );
         eZDir::mkdir( $variationPath . '/' . $additionalPath , 0777, true);
 
-        $img =& imageInit();
+        $img = imageInit();
 
         $convertedName = $ezimageobj->attribute( "filename" );
 
