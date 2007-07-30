@@ -88,11 +88,11 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
 
 $attributes = $class->fetchAttributes();
 include_once( "kernel/classes/ezdatatype.php" );
-$datatypes =& eZDataType::registeredDataTypes();
+$datatypes = eZDataType::registeredDataTypes();
 
 $mainGroupID = false;
 $mainGroupName = false;
-$groupList =& $class->fetchGroupList();
+$groupList = $class->fetchGroupList();
 if ( count( $groupList ) > 0 )
 {
     $mainGroupID = $groupList[0]->attribute( 'group_id' );

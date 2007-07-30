@@ -103,14 +103,6 @@ class eZMultiPriceType extends eZDataType
         $multiprice->store();
     }
 
-    /* ???????????????
-    function metaData( $contentObjectAttribute )
-    {
-        return eZPriceType::metaData( $contentObjectAttribute );
-        //return $contentObjectAttribute->attribute( "data_float" );
-    }
-    */
-
     /*!
      Set default class attribute value
     */
@@ -126,7 +118,7 @@ class eZMultiPriceType extends eZDataType
     */
     function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentClassAttribute =& $objectAttribute->contentClassAttribute();
+        $contentClassAttribute = $objectAttribute->contentClassAttribute();
         $multiprice = new eZMultiPrice( $contentClassAttribute, $objectAttribute );
 
         if ( $currentVersion == false )
@@ -138,12 +130,13 @@ class eZMultiPriceType extends eZDataType
         }
         else
         {
-            $originalMultiprice =& $originalContentObjectAttribute->content();
+            $originalMultiprice = $originalContentObjectAttribute->content();
             $multiprice = new eZMultiPrice( $contentClassAttribute, $objectAttribute );
 
-            $priceList =& $originalMultiprice->priceList();
-            foreach ( $priceList as $price )
+            foreach ( $originalMultiprice->priceList() as $price )
+            {
                 $multiprice->setPriceByCurrency( $price->attribute( 'currency_code' ), $price->attribute( 'value' ), $price->attribute( 'type') );
+            }
 
             $multiprice->store();
         }
@@ -178,7 +171,7 @@ class eZMultiPriceType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
-        $multiprice =& $contentObjectAttribute->attribute( 'content' );
+        $multiprice = $contentObjectAttribute->attribute( 'content' );
 
         $priceArrayName = $base . "_price_array_" . $contentObjectAttribute->attribute( "id" );
         if ( $http->hasPostVariable( $priceArrayName ) )
@@ -245,7 +238,7 @@ class eZMultiPriceType extends eZDataType
 
                     // to keep right order of currency after adding we do 'remove' and 'add'
                     // instead of just '$multiprice->setCustomPrice( $currencyCode, false )'
-                    $price =& $multiprice->priceByCurrency( $selectedCurrency );
+                    $price = $multiprice->priceByCurrency( $selectedCurrency );
                     $multiprice->removePriceByCurrency( $selectedCurrency );
                     $multiprice->setCustomPrice( $selectedCurrency, $price->attribute( 'value' ) );
 
@@ -428,9 +421,8 @@ class eZMultiPriceType extends eZDataType
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;
         $vatTypes = eZVATType::fetchList();
-        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        foreach ( $vatTypes as $vatType )
         {
-            $vatType =& $vatTypes[$vatTypeKey];
             if ( $vatType->attribute( 'name' ) == $vatName and
                  $vatType->attribute( 'percentage' ) == $vatPercentage )
             {
@@ -461,7 +453,7 @@ class eZMultiPriceType extends eZDataType
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
-        $multiprice =& $objectAttribute->content();
+        $multiprice = $objectAttribute->content();
         $domDocument = $multiprice->DOMDocument();
 
         $importedRoot = $node->ownerDocument->importNode( $domDocument->documentElement, true );
@@ -477,7 +469,7 @@ class eZMultiPriceType extends eZDataType
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmultiprice' )->item( 0 );
 
-        $multiprice =& $objectAttribute->content();
+        $multiprice = $objectAttribute->content();
         $multiprice->decodeDOMTree( $rootNode );
     }
 

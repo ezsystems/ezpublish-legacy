@@ -538,7 +538,7 @@ class eZPersistentObject
      Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
      If \a $row is empty (null) it uses the condition data instead of row data.
     */
-    static function &conditionTextByRow( &$conditions, &$row )
+    static function conditionTextByRow( &$conditions, &$row )
     {
         $db = eZDB::instance();
 

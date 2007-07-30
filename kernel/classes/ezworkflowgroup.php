@@ -97,7 +97,7 @@ class eZWorkflowGroup extends eZPersistentObject
         return new eZWorkflowGroup( $row );
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
                                                 null,
@@ -105,7 +105,7 @@ class eZWorkflowGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
                                                     null, null, null, null,
@@ -116,7 +116,7 @@ class eZWorkflowGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeSelected ( $id )
+    static function removeSelected ( $id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroup::definition(),
                                           array( "id" => $id ) );

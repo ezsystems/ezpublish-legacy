@@ -880,8 +880,11 @@ You will need to change the class of the node by using the swap functionality.' 
 
     /*!
      \note Removes class attributes
+
+     \param Array of attributes to remove
+     \param Version to remove( optional )
     */
-    function removeAttributes( $removeAttributes = false, $contentClassID = false, $version = false )
+    function removeAttributes( $removeAttributes = false, $version = false )
     {
         if ( is_array( $removeAttributes ) )
         {
@@ -895,24 +898,13 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         else
         {
-            if ( isset( $this ) )
-            {
-                $contentClass = $this;
-                $contentClassID = $this->ID;
-            }
-            else if ( $contentClassID !== false  )
-            {
-                $contentClass = ( $version === false ) ?
-                    $contentClass = eZContentClass::fetch( $contentClassID, true ) :
-                    $contentClass = eZContentClass::fetch( $contentClassID, true, $version );
-                if ( !is_object( $contentClass ) )
-                    return;
-            }
-            else
-                return;
+            $contentClassID = $this->ID;
 
-            $version = $contentClass->Version;
-            $classAttributes = $contentClass->fetchAttributes( );
+            if ( $version === false )
+            {
+                $version = $this->Version;
+            }
+            $classAttributes = $this->fetchAttributes( );
 
             $db = eZDB::instance();
             $db->begin();
@@ -1030,13 +1022,13 @@ You will need to change the class of the node by using the swap functionality.' 
      attribute and recreates the class group entries.
      \note It will remove any existing temporary or defined classes before storing.
     */
-    function storeDefined( &$attributes )
+    function storeDefined( $attributes )
     {
         $db = eZDB::instance();
         $db->begin();
 
-        eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_DEFINED );
-        eZContentClass::removeAttributes( false, $this->attribute( "id" ), EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        $this->removeAttributes( false, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $this->removeAttributes( false, EZ_CLASS_VERSION_STATUS_TEMPORARY );
         $this->remove( false );
         $this->setVersion( EZ_CLASS_VERSION_STATUS_DEFINED, $attributes );
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
@@ -1045,7 +1037,6 @@ You will need to change the class of the node by using the swap functionality.' 
         $this->setAttribute( "modifier_id", $user_id );
         $this->setAttribute( "modified", time() );
         $this->adjustAttributePlacements( $attributes );
-
         foreach( $attributes as $attribute )
         {
             $attribute->storeDefined();
@@ -1108,7 +1099,7 @@ You will need to change the class of the node by using the swap functionality.' 
         if ( $this->Version != $version )
             $this->NameList->setHasDirtyData();
 
-        eZPersistentObject::setAttribute( "version", $version );
+        $this->setAttribute( "version", $version );
     }
 
     static function exists( $id, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $userID = false, $useIdentifier = false )
@@ -1325,18 +1316,8 @@ You will need to change the class of the node by using the swap functionality.' 
     {
         if ( $id === false )
         {
-            // START OLD CODE -- Old code to support static class // TODO - Remove
-            if ( isset( $this ) and
-                 strtolower( get_class( $this ) ) == "ezcontentclass" )
-            {
-                $id = $this->ID;
-                $version = $this->Version;
-            }
-            // END OLD CODE --
-            else
-            {
-                return null;
-            }
+            $id = $this->ID;
+            $version = $this->Version;
         }
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,

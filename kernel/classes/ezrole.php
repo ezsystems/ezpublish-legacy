@@ -655,27 +655,23 @@ class eZRole extends eZPersistentObject
     /*!
      Returns a list of role ids which the corresponds to the array of content object id's ( Users and user group id's ).
     */
-    static function &fetchIDListByUser( $idArray )
+    static function fetchIDListByUser( $idArray )
     {
         $db = eZDB::instance();
 
         $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
-        $query = "SELECT DISTINCT ezrole.id
+        $query = "SELECT DISTINCT ezrole.id AS id
                   FROM ezrole,
                        ezuser_role
                   WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                         ezuser_role.role_id = ezrole.id ORDER BY ezrole.id";
 
-        $roleArray = $db->arrayQuery( $query );
-        $roles = array();
-
-        $keys = array_keys( $roleArray );
-        foreach ( $keys as $key )
+        $retArray = array();
+        foreach( $db->arrayQuery( $query ) as $resultSet )
         {
-            $roles[] = $roleArray[$key]['id'];
+            $retArray[] = $resultSet['id'];
         }
-
-        return $roles;
+        return $retArray;
     }
 
     /*!
@@ -743,19 +739,13 @@ class eZRole extends eZPersistentObject
     /*!
      Fetch user id array which have been assigned to this role.
     */
-    function &fetchUserID()
+    function fetchUserID()
     {
         $db = eZDB::instance();
 
         $query = "SELECT contentobject_id FROM  ezuser_role WHERE role_id='$this->ID'";
 
-        $results = $db->arrayQuery( $query );
-        $idArray = array();
-        foreach ( $results as $result )
-        {
-            $idArray[] = $result['contentobject_id'];
-        }
-        return $idArray;
+        return $db->arrayQuery( $query );
     }
 
     /*!
@@ -793,7 +783,7 @@ class eZRole extends eZPersistentObject
     /*!
       \return the users and user groups assigned to the current role.
     */
-    function &fetchUserByRole( )
+    function fetchUserByRole( )
     {
         $db = eZDB::instance();
 
@@ -822,7 +812,7 @@ class eZRole extends eZPersistentObject
         return $userRoles;
     }
 
-    static function &fetchRolesByLimitation( $limit_identifier, $limit_value )
+    static function fetchRolesByLimitation( $limit_identifier, $limit_value )
     {
         $db = eZDB::instance();
         $limit_identifier = $db->escapeString( $limit_identifier );

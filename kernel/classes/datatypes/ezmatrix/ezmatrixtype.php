@@ -99,7 +99,7 @@ class eZMatrixType extends eZDataType
 
     function storeClassAttribute( $contentClassAttribute, $version )
     {
-        $matrixDefinition =& $contentClassAttribute->content();
+        $matrixDefinition = $contentClassAttribute->content();
         $contentClassAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
         $contentClassAttribute->setContent(  $matrixDefinition );
@@ -252,7 +252,7 @@ class eZMatrixType extends eZDataType
 
         if ( $currentVersion != false )
         {
-            $matrix =& $originalContentObjectAttribute->content();
+            $matrix = $originalContentObjectAttribute->content();
             $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
             // make sure that $matrix contains right columns
             $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
@@ -387,14 +387,14 @@ class eZMatrixType extends eZDataType
         {
             case 'new_ezmatrix_column' :
             {
-                $matrixDefinition =& $contentClassAttribute->content( );
+                $matrixDefinition = $contentClassAttribute->content( );
                 $matrixDefinition->addColumn( '' );
                 $contentClassAttribute->setContent( $matrixDefinition );
                 $contentClassAttribute->store();
             }break;
             case 'remove_selected' :
             {
-                $matrixDefinition =& $contentClassAttribute->content( );
+                $matrixDefinition = $contentClassAttribute->content( );
 
                 $postvarname = 'ContentClass' . '_data_ezmatrix_column_remove_' . $contentClassAttribute->attribute( 'id' );
                 $array_remove = $http->postVariable( $postvarname );

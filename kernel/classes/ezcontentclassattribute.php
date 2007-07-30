@@ -309,7 +309,7 @@ class eZContentClassAttribute extends eZPersistentObject
         }
     }
 
-    static function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
+    static function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
         if ( $field_filters === null and $asObject and
@@ -328,7 +328,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return $object;
     }
 
-    static function &fetchList( $asObject = true, $parameters = array() )
+    static function fetchList( $asObject = true, $parameters = array() )
     {
         $parameters = array_merge( array( 'data_type' => false,
                                           'version' => false ),
@@ -336,7 +336,9 @@ class eZContentClassAttribute extends eZPersistentObject
         $dataType = $parameters['data_type'];
         $version = $parameters['version'];
         $objects = null;
-        if ( $asObject and $dataType === false and $version === false )
+        if ( $asObject &&
+             $dataType === false &&
+             $version === false )
         {
             $objects =& $GLOBALS['eZContentClassAttributeCacheListFull'];
         }
@@ -354,21 +356,19 @@ class eZContentClassAttribute extends eZPersistentObject
                     $conditions['version'] = $version;
             }
             $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                                null, $conditions, null, null,
-                                                                $asObject );
-            foreach ( array_keys( $objectList ) as $objectKey )
+                                                               null, $conditions, null, null,
+                                                               $asObject );
+            foreach ( $objectList as $objectItem )
             {
-                $objectItem =& $objectList[$objectKey];
                 $objectID = $objectItem->ID;
                 $objectVersion = $objectItem->Version;
-                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] = $objectItem;
             }
-            $objects = $objectList;
         }
         return $objects;
     }
 
-    static function &fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
+    static function fetchListByClassID( $classID, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true )
     {
         $objects = null;
         if ( $asObject )

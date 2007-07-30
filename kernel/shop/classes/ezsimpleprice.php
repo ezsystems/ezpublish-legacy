@@ -63,7 +63,7 @@ include_once( 'kernel/classes/ezdiscount.php' );
 
 class eZSimplePrice
 {
-    function eZSimplePrice( &$classAttribute, &$contentObjectAttribute, $storedPrice = null )
+    function eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
         $this->setVATIncluded( false );
 
@@ -156,8 +156,7 @@ class eZSimplePrice
 
             case 'vat_type' :
             {
-                return $this->VATType();
-
+                return $this->VATType()->VATTypeList();
             } break;
 
             case 'vat_percent' :

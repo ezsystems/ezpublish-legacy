@@ -3288,12 +3288,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.id = ezcontentobject.contentclass_id";
         $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
-        if ( count( $nodeListArray ) > 1 )
-        {
-            $debug = eZDebug::instance();
-            $debug->writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
-        }
-        else
+        if ( count( $nodeListArray ) == 1 )
         {
             if ( $asObject )
             {
@@ -3306,6 +3301,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
         }
+        else if ( count( $nodeListArray ) > 1 )
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
+        }
+
         return null;
     }
 
@@ -5387,7 +5388,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 $object->setContentObject( $contentObject );
             }
-            $retNodes[] =& $object;
+            $retNodes[] = $object;
         }
         return $retNodes;
     }
@@ -5751,7 +5752,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function setContentObject( $object )
     {
-        $this->ContentObject =& $object;
+        $this->ContentObject = $object;
     }
 
     /*!

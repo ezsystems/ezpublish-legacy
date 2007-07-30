@@ -126,27 +126,24 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
 {
     include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 
-    function &ezi18n( $context, $source, $comment = null, $arguments = null )
+    function ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        $text = eZTranslateText( $context, $source, $comment, $arguments );
-        return $text;
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
-    function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
+    function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        $text = eZTranslateText( $context, $source, $comment, $arguments );
-        return $text;
+        return eZTranslateText( $context, $source, $comment, $arguments );
     }
 
-    function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
+    function eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
         $ini = eZINI::instance();
         if ( $ini->variable( 'RegionalSettings', 'Locale' ) == 'eng-GB' )
         {
             // we don't have ts-file for 'eng-GB'.
             // NOTE: don't remove this 'if'. it's needed to support dynamic switch between translations.
-            $text = ezinsertarguments( $source, $arguments );
-            return $text;
+            return ezinsertarguments( $source, $arguments );
         }
 
         $language = ezcurrentLanguage();
@@ -170,14 +167,12 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
         $man = eZTranslatorManager::instance();
         $trans = $man->translate( $context, $source, $comment );
         if ( $trans !== null ) {
-            $text = ezinsertarguments( $trans, $arguments );
-            return $text;
+            return ezinsertarguments( $trans, $arguments );
         }
 
         $debug = eZDebug::instance();
         $debug->writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
-        $text = ezinsertarguments( $source, $arguments );
-        return $text;
+        return ezinsertarguments( $source, $arguments );
     }
 }
 else

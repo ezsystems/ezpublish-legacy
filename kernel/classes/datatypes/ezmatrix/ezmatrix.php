@@ -107,7 +107,7 @@ class eZMatrix
             $numColumns       =  count( $columns );
             $this->NumColumns =  $numColumns;
 
-            $xmlString        =& $this->xmlString();
+            $xmlString        = $this->xmlString();
             $this->decodeXML( $xmlString );
         }
 
@@ -134,7 +134,7 @@ class eZMatrix
     /*!
         \a static
     */
-    function &buildReorderRuleForColumn( &$columns, $curPos, $startPos )
+    function buildReorderRuleForColumn( &$columns, $curPos, $startPos )
     {
         $rule = array( $curPos );
         eZMatrix::buildReorderChains( $rule, $columns, $curPos, $startPos );
@@ -144,7 +144,7 @@ class eZMatrix
     /*!
         \a static
     */
-    function &buildReorderRules( &$columns )
+    function buildReorderRules( &$columns )
     {
         $rules      = array();
         $positions  = array_keys( $columns );
@@ -159,7 +159,7 @@ class eZMatrix
             $column =& $columns[$pos];
             if ( $column['index'] != $pos )
             {
-                $rules[] =& eZMatrix::buildReorderRuleForColumn( $columns, $pos, $pos );
+                $rules[] = eZMatrix::buildReorderRuleForColumn( $columns, $pos, $pos );
             }
         }
         return $rules;
@@ -172,7 +172,7 @@ class eZMatrix
         $matrix     = $this->attribute( 'matrix' );
         $columns    =& $matrix['columns']['sequential'];
 
-        $rules      =& eZMatrix::buildReorderRules( $columns );
+        $rules      = eZMatrix::buildReorderRules( $columns );
 
         /*
             example rule: ( 0, 3, 2, 1 )
@@ -207,13 +207,10 @@ class eZMatrix
     /*!
         \a static
     */
-    function hasRuleForColumn( &$rules, $pos )
+    function hasRuleForColumn( $rules, $pos )
     {
-        $keys = array_keys( $rules );
-
-        foreach ( $keys as $key )
+        foreach ( $rules as $rule )
         {
-            $rule =& $rules[$key];
             foreach ( $rule as $columnPos )
             {
                 if ( $columnPos == $pos )
@@ -338,7 +335,7 @@ class eZMatrix
             $columns    = $matrixColumnDefinition->attribute( 'columns' );
             foreach ( $columns as $column )
             {
-                $originalColumn =& $this->getColumnDefinitionByID( $column['identifier'] );
+                $originalColumn = $this->getColumnDefinitionByID( $column['identifier'] );
                 if ( $originalColumn !== false && $updateColumnsAttributesAllowed )
                 {
                     $matrixWasModified |= $this->adjustColumnName( $originalColumn, $column['name'] );
@@ -359,7 +356,7 @@ class eZMatrix
     function removeUselessColumns( &$matrixColumnDefinition )
     {
         $matrixWasModified  = false;
-        $columnsToRemove    =& $this->getColumnsToRemove( $matrixColumnDefinition );
+        $columnsToRemove    = $this->getColumnsToRemove( $matrixColumnDefinition );
 
         if ( count( $columnsToRemove ) > 0 )
         {
@@ -431,16 +428,15 @@ class eZMatrix
         Searches column definition by indentifier. If column was found returns it,
         otherwise returns false.
     */
-    function &getColumnDefinitionByID( &$id )
+    function getColumnDefinitionByID( $id )
     {
         $isColumnExists = false;
         $matrix         = $this->attribute( 'matrix' );
-        $columns        =& $matrix['columns']['sequential'];
+        $columns        = $matrix['columns']['sequential'];
 
         $keys = array_keys( $columns );
-        foreach ( $keys as $key )
+        foreach ( $columns as $column )
         {
-            $column =& $columns[$key];
             if ( $column['identifier'] == $id )
             {
                 return $column;
@@ -452,11 +448,11 @@ class eZMatrix
     /*!
         Searches columns that are in matrix but not in \a $matrixColumnDefinition.
     */
-    function &getColumnsToRemove( &$matrixColumnsDefinition )
+    function getColumnsToRemove( $matrixColumnsDefinition )
     {
         $columnsToRemove =  array();
         $matrix          = $this->attribute( 'matrix' );
-        $columns         =& $matrix['columns']['sequential'];
+        $columns         = $matrix['columns']['sequential'];
 
         foreach ( $columns as $column )
         {
@@ -543,11 +539,11 @@ class eZMatrix
     /*!
         Removess column \a $columnDefinition from 'cells' member of eZMatrix.
     */
-    function removeColumnFromCells( &$columnDefinition )
+    function removeColumnFromCells( $columnDefinition )
     {
         $cells          = $this->attribute( 'cells' );
-        $rowCount       =  $this->attribute( 'rowCount' );
-        $columnCount    =  $this->attribute( 'columnCount' );
+        $rowCount       = $this->attribute( 'rowCount' );
+        $columnCount    = $this->attribute( 'columnCount' );
 
         // last position(index) of element to remove in $cells.
         $pos =  ( $rowCount - 1 ) * $columnCount + $columnDefinition['index'];
@@ -593,7 +589,7 @@ class eZMatrix
     /*!
      Returns the name of the matrix.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }
@@ -837,7 +833,7 @@ class eZMatrix
     /*!
      Will return the XML string for this matrix.
     */
-    function &xmlString( )
+    function xmlString( )
     {
         $doc = new DOMDocument();
         $root = $doc->createElement( "ezmatrix" );
@@ -886,9 +882,7 @@ class eZMatrix
             $root->appendChild( $cellNode );
         }
 
-        $xml = eZMatrix::domString( $doc );
-
-        return $xml;
+        return eZMatrix::domString( $doc );
     }
 
     /// Contains the Matrix name

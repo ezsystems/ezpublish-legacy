@@ -88,13 +88,11 @@ class eZMultiPriceData extends eZPersistentObject
 
     static function create( $contentObjectID, $contentObjectVersion, $currencyCode, $value, $type )
     {
-        $price = new eZMultiPriceData( array( 'contentobject_attr_id' => $contentObjectID,
-                                              'contentobject_attr_version' => $contentObjectVersion,
-                                              'currency_code' => $currencyCode,
-                                              'value' => $value,
-                                              'type' => $type ) );
-
-        return $price;
+        return new eZMultiPriceData( array( 'contentobject_attr_id' => $contentObjectID,
+                                            'contentobject_attr_version' => $contentObjectVersion,
+                                            'currency_code' => $currencyCode,
+                                            'value' => $value,
+                                            'type' => $type ) );
     }
 
     /*!
@@ -151,7 +149,7 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
         removes single record from 'ezmultipricedata' table
     */
-    function removeByID( $id = false )
+    static function removeByID( $id = false )
     {
         if ( $id === false)
             $id = $this->attribute( 'id' );
@@ -167,7 +165,7 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
         remove
     */
-    function removeByOAID( $objectAttributeID, $objectAttributeVersion = null )
+    static function removeByOAID( $objectAttributeID, $objectAttributeVersion = null )
     {
         $db = eZDB::instance();
         $db->begin();

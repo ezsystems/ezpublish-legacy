@@ -209,7 +209,7 @@ class eZPDFExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
+    static function fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
     {
         return eZPersistentObject::fetchObject( eZPDFExport::definition(),
                                                 null,
@@ -222,7 +222,7 @@ class eZPDFExport extends eZPersistentObject
      \reimp
      \transaction unsafe.
     */
-    function remove()
+    function remove( $conditions = null, $extraConditions = null )
     {
         if ( $this->attribute( 'version' ) == EZ_PDFEXPORT_VERSION_VALID &&
              $this->attribute( 'status' ) != EZ_PDFEXPORT_CREATE_ONFLY )
@@ -236,14 +236,14 @@ class eZPDFExport extends eZPersistentObject
                 unlink( $filename );
             }
         }
-        eZPersistentObject::remove();
+        eZPersistentObject::remove( $conditions, $extraConditions);
     }
 
     /*!
      \static
       Fetches complete list of RSS Exports.
     */
-    function fetchList( $asObject = true )
+    static function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
                                                     null,

@@ -64,7 +64,7 @@ class eZMultiPrice extends eZSimplePrice
     /*!
      Constructor
     */
-    function eZMultiPrice( &$classAttribute, $contentObjectAttribute, $storedPrice = null )
+    function eZMultiPrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
         eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 
@@ -83,15 +83,16 @@ class eZMultiPrice extends eZSimplePrice
     */
     function attributes()
     {
-        return array( 'currency_list',
-                      'auto_currency_list',
-                      'price_list',
-                      'auto_price_list',
-                      'custom_price_list',
-                      'inc_vat_price_list',
-                      'ex_vat_price_list',
-                      'discount_inc_vat_price_list',
-                      'discount_ex_vat_price_list' );
+        return array_unique( array_merge( array( 'currency_list',
+                                                 'auto_currency_list',
+                                                 'price_list',
+                                                 'auto_price_list',
+                                                 'custom_price_list',
+                                                 'inc_vat_price_list',
+                                                 'ex_vat_price_list',
+                                                 'discount_inc_vat_price_list',
+                                                 'discount_ex_vat_price_list' ),
+                                          eZSimplePrice::attributes() ) );
     }
 
     /*!
@@ -99,9 +100,11 @@ class eZMultiPrice extends eZSimplePrice
     */
     function hasAttribute( $attr )
     {
-        $hasAttribute = in_array( $attr, eZMultiPrice::attributes() );
+        $hasAttribute = in_array( $attr, $this->attributes() );
         if ( !$hasAttribute )
+        {
             $hasAttribute = eZSimplePrice::attributes( $attr );
+        }
 
         return $hasAttribute;
     }
@@ -312,7 +315,9 @@ class eZMultiPrice extends eZSimplePrice
 
     function calcPriceList( $calculationType, $priceType )
     {
-        foreach ( $this->priceList( $priceType ) as $currencyCode => $price )
+        $priceList = $this->priceList( $priceType );
+
+        foreach ( $priceList as $price )
         {
             switch ( $calculationType )
             {
@@ -430,9 +435,7 @@ class eZMultiPrice extends eZSimplePrice
             if ( $value === false )
                 $price->setAttribute( 'value', '0.00' );
 
-            $priceList = $this->priceList();
-            $priceList[$price->attribute( 'currency_code' )] = $price;
-
+            $this->PriceList[$price->attribute( 'currency_code' )] = $price;
             $this->setHasDirtyData( true );
         }
 
@@ -505,7 +508,7 @@ class eZMultiPrice extends eZSimplePrice
 
     function currencyByCode( $currencyCode )
     {
-        $currnecy = false;
+        $currency = false;
         $currencyList = $this->currencyList();
         if ( isset( $currencyList[$currencyCode] ) )
         {

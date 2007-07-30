@@ -125,37 +125,35 @@ foreach( array_keys( $workflows ) as $workflowID )
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();
 
-$list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
+$list_in_group = eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 
-$workflow_list =  eZWorkflow::fetchList( );
+$workflow_list = eZWorkflow::fetchList( );
 
 $list = array();
-for ( $i=0;$i<count( $workflow_list );$i++ )
+foreach( $workflow_list as $workflow )
 {
-    for ( $j=0;$j<count( $list_in_group );$j++ )
+    foreach( $list_in_group as $inGroup )
     {
-        $id =  $workflow_list[$i]->attribute("id");
-        $workflow_id = $list_in_group[$j]->attribute("workflow_id");
-        if ( $id === $workflow_id )
+        if ( $workflow->attribute( 'id' ) === $inGroup->attribute( 'workflow_id' ) )
         {
-            $list[] =& $workflow_list[$i];
+            $list[] = $workflow;
         }
     }
 }
 
-$templist_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
-$tempworkflow_list =  eZWorkflow::fetchList( 1 );
+$templist_in_group = eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
+$tempworkflow_list = eZWorkflow::fetchList( 1 );
 
 $temp_list =array();
-for ( $i=0;$i<count( $tempworkflow_list );$i++ )
+foreach( $tempworkflow_list as $tmpWorkflow )
 {
-    for ( $j=0;$j<count( $templist_in_group );$j++ )
+    foreach ( $templist_in_group as $tmpInGroup )
     {
         $id =  $tempworkflow_list[$i]->attribute("id");
         $workflow_id =  $templist_in_group[$j]->attribute("workflow_id");
-        if ( $id === $workflow_id )
+        if ( $tmpWorkflow->attribute( 'id' ) === $tmpWorkflow->attribute( 'workflow_id' ) )
         {
-            $temp_list[] =& $tempworkflow_list[$i];
+            $temp_list[] = $tmpWorkflow;
         }
     }
 }

@@ -77,7 +77,7 @@ class eZSiteAccess
     /*!
        Returns path to \a $siteAccess site access
     */
-    function findPathToSiteAccess( $siteAccess )
+    static function findPathToSiteAccess( $siteAccess )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();

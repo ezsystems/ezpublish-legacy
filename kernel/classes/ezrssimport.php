@@ -191,7 +191,7 @@ class eZRSSImport extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function store()
+    function store( $fieldFilters = null )
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $dateTime = time();
@@ -199,7 +199,7 @@ class eZRSSImport extends eZPersistentObject
 
         $this->setAttribute( 'modifier_id', $user->attribute( 'contentobject_id' ) );
         $this->setAttribute( 'modified', $dateTime );
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
     }
 
     /*!
@@ -249,47 +249,41 @@ class eZRSSImport extends eZPersistentObject
     }
 
 
-    function &objectOwner()
+    function objectOwner()
     {
         if ( isset( $this->ObjectOwnerID ) and $this->ObjectOwnerID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ObjectOwnerID );
+            return eZUser::fetch( $this->ObjectOwnerID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &modifier()
+    function modifier()
     {
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::fetch( $this->ModifierID );
+            return eZUser::fetch( $this->ModifierID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &classAttributes()
+    function classAttributes()
     {
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
             $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
-                $attributes =& $contentClass->fetchAttributes();
-            else
-                $attributes = null;
+            {
+                return $contentClass->fetchAttributes();
+            }
         }
-        else
-            $attributes = null;
-        return $attributes;
+        return null;
     }
 
-    function &destinationPath()
+    function destinationPath()
     {
         $retValue = null;
         if ( isset( $this->DestinationNodeID ) and $this->DestinationNodeID )
@@ -369,11 +363,10 @@ class eZRSSImport extends eZPersistentObject
      \static
      Object attribute list
     */
-    static function &objectAttributeList()
+    static function objectAttributeList()
     {
-        $objectAttributeList = array( 'published' => 'Published',
-                                      'modified' => 'Modified' );
-        return $objectAttributeList;
+        return array( 'published' => 'Published',
+                      'modified' => 'Modified' );
     }
 
     /*!
@@ -438,7 +431,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return Ordered array of field definitions
     */
-    static function &fieldMap( $version = '2.0' )
+    static function fieldMap( $version = '2.0' )
     {
         $fieldDefinition = eZRSSImport::rssFieldDefinition();
 
@@ -502,7 +495,7 @@ class eZRSSImport extends eZPersistentObject
 
      \return import description
     */
-    function &importDescription()
+    function importDescription()
     {
         $description = @unserialize( $this->attribute( 'import_description' ) );
         if ( !$description )

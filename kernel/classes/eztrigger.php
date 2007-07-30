@@ -99,7 +99,7 @@ class eZTrigger extends eZPersistentObject
 
      \return array containing allowed workflows
     */
-    function &fetchAllowedWorkflows()
+    function fetchAllowedWorkflows()
     {
         $connectionType = '*';
         if ( $this->attribute( 'connect_type') == 'b' )
@@ -116,14 +116,15 @@ class eZTrigger extends eZPersistentObject
                                          $connectionType );
     }
 
-    function fetch( $triggerID )
+    static function fetch( $triggerID )
     {
         return eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
                                                 array( 'id' => $triggerID ),
                                                 true);
     }
-    function fetchList( $parameters = array(), $asObject = true )
+
+    static function fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
         if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )

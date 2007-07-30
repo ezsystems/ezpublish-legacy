@@ -565,7 +565,7 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniParameterName( &$contentClassAttribute )
+    function iniParameterName( $contentClassAttribute )
     {
         return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_PARAMETER_FIELD );
     }
@@ -576,7 +576,7 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniFile( &$contentClassAttribute )
+    function iniFile( $contentClassAttribute )
     {
         return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
     }
@@ -587,7 +587,7 @@ class eZIniSettingType extends eZDataType
 
      \param Content Class Attribute
     */
-    function &iniSection( &$contentClassAttribute )
+    function iniSection( $contentClassAttribute )
     {
         return $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
     }

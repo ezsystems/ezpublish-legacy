@@ -78,7 +78,7 @@ if ( $isConfirmed )
         $db = eZDB::instance();
         $db->begin();
 
-        $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
+        $contentObjectAttributes = $versionObject->contentObjectAttributes( $editLanguage );
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
             $objectAttributeID = $contentObjectAttribute->attribute( 'id' );

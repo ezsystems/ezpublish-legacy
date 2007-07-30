@@ -114,7 +114,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      Storing of path elements is not allowed.
      */
-    function store()
+    function store( $fieldFilters = null )
     {
         eZDebug::writeError( "Cannot store objects of eZPathElement, use eZURLAliasML instead" );
         return;
@@ -123,7 +123,7 @@ class eZPathElement extends eZPersistentObject
     /*!
      Removal of path elements is not allowed.
      */
-    function remove()
+    function removeThis()
     {
         eZDebug::writeError( "Cannot remove objects of eZPathElement, use eZURLAliasML instead" );
         return;

@@ -2033,9 +2033,12 @@ WHERE user_id = '" . $userID . "' AND
             $expiredTimeStamp = 0;
             $roleLimitationValueListTimeStamp = $http->sessionVariable( 'eZRoleLimitationValueList_Timestamp' );
             if ( $handler->hasTimestamp( 'user-info-cache' ) )
+            {
                 $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+            }
 
-            if ( $roleLimitationValueListTimeStamp > $expiredTimeStamp && $http->hasSessionVariable( 'eZRoleLimitationValueList' ) )
+            if ( $roleLimitationValueListTimeStamp > $expiredTimeStamp &&
+                 $http->hasSessionVariable( 'eZRoleLimitationValueList' ) )
             {
                 return $http->sessionVariable( 'eZRoleLimitationValueList' );
             }
@@ -2043,7 +2046,9 @@ WHERE user_id = '" . $userID . "' AND
 
         $limitList = $this->limitList();
         foreach ( $limitList as $limit )
+        {
             $limitValueList[] = $limit['limit_value'];
+        }
 
         if ( $useCache )
         {

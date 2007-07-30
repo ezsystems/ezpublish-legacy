@@ -449,7 +449,7 @@ class eZWorkflowProcess extends eZPersistentObject
         return $workflowStatus;
     }
 
-    function fetch( $id, $asObject = true )
+    static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowProcess::definition(),
                                                 null,
@@ -457,7 +457,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $conds = null, $asObject = true )
+    static function fetchList( $conds = null, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
@@ -488,7 +488,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
 
 
-    function fetchListByKey( $searchKey, $asObject = true )
+    static function fetchListByKey( $searchKey, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null,

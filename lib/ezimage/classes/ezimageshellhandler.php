@@ -183,6 +183,7 @@ class eZImageShellHandler extends eZImageHandler
                     $qualityParameters[$elements[0]] = $elements[1];
                 }
             }
+            $frameRangeParameters = array();
             if ( $ini->hasVariable( $iniGroup, 'FrameRangeParameters' ) )
             {
                 foreach ( $ini->variable( $iniGroup, 'FrameRangeParameters' ) as $frameRangeParameter )

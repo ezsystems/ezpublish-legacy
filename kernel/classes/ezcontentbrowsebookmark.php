@@ -135,7 +135,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function &createNew( $userID, $nodeID, $nodeName )
+    static function createNew( $userID, $nodeID, $nodeName )
     {
         $db = eZDB::instance();
         $db->begin();
@@ -154,23 +154,23 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \return the tree node which this item refers to.
     */
-    function &fetchNode()
+    function fetchNode()
     {
-        $node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
     }
 
     /*!
      \return the content object ID of the tree node which this item refers to.
     */
-    function &contentObjectID()
+    function contentObjectID()
     {
-        $node =& $this->fetchNode();
+        $node = $this->fetchNode();
         if ( $node )
-            $retValue = $node->attribute( 'contentobject_id' );
-        else
-            $retValue = false;
-        return $retValue;
+        {
+            return $node->attribute( 'contentobject_id' );
+        }
+
+        return false;
     }
 
     /*!

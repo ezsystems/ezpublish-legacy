@@ -116,30 +116,28 @@ class eZWorkflowGroupLink extends eZPersistentObject
                                                  "workflow_version" =>$workflow_version ) );
     }
 
-    function &fetch( $workflow_id, $workflow_version, $group_id, $asObject = true )
+    static function fetch( $workflow_id, $workflow_version, $group_id, $asObject = true )
     {
-        $object = eZPersistentObject::fetchObject( eZWorkflowGroupLink::definition(),
+        return eZPersistentObject::fetchObject( eZWorkflowGroupLink::definition(),
+                                                null,
+                                                array("workflow_id" => $workflow_id,
+                                                      "workflow_version" =>$workflow_version,
+                                                      "group_id" => $group_id ),
+                                                $asObject );
+    }
+
+    static function fetchWorkflowList( $workflow_version, $group_id, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,
-                                                    array("workflow_id" => $workflow_id,
-                                                          "workflow_version" =>$workflow_version,
-                                                          "group_id" => $group_id ),
-                                                    $asObject );
-        return $object;
+                                                    array( "workflow_version" =>$workflow_version,
+                                                           "group_id" => $group_id ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
     }
 
-    function &fetchWorkflowList( $workflow_version, $group_id, $asObject = true )
-    {
-        $objectList = eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
-                                                            null,
-                                                            array( "workflow_version" =>$workflow_version,
-                                                                   "group_id" => $group_id ),
-                                                            null,
-                                                            null,
-                                                            $asObject);
-        return $objectList;
-    }
-
-    function fetchGroupList( $workflow_id, $workflow_version, $asObject = true )
+    static function fetchGroupList( $workflow_id, $workflow_version, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowGroupLink::definition(),
                                                     null,

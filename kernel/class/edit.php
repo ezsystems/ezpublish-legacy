@@ -326,9 +326,8 @@ if ( $contentClassHasInput )
 {
     if ( $validationRequired )
     {
-        foreach ( array_keys( $attributes ) as $key )
+        foreach ( $attributes as $attribute )
         {
-            $attribute =& $attributes[$key];
             $dataType = $attribute->dataType();
             $status = $dataType->validateClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
             if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
@@ -365,9 +364,8 @@ if ( $contentClassHasInput )
         if ( $http->hasPostVariable( 'ContentAttribute_priority' ) )
             $placementArray = $http->postVariable( 'ContentAttribute_priority' );
 
-        foreach ( array_keys( $attributes ) as $key )
+        foreach ( $attributes as $key => $attribute )
         {
-            $attribute =& $attributes[$key];
             $attributeID = $attribute->attribute( 'id' );
             $attribute->setAttribute( 'is_required', in_array( $attributeID, $requireCheckedArray ) );
             $attribute->setAttribute( 'is_searchable', in_array( $attributeID, $searchableCheckedArray ) );
@@ -385,9 +383,8 @@ if ( $contentClassHasInput )
 // Fixup input
 if ( $requireFixup )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         $dataType = $attribute->dataType();
         $status = $dataType->fixupClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
     }
@@ -465,9 +462,8 @@ include_once( 'lib/ezi18n/classes/ezchartransform.php' );
 $trans = eZCharTransform::instance();
 
 // Fixed identifiers to only contain a-z0-9_
-foreach( array_keys( $attributes ) as $key )
+foreach( $attributes as $attribute )
 {
-    $attribute =& $attributes[$key];
     $attribute->setAttribute( 'version', EZ_CLASS_VERSION_STATUS_TEMPORARY );
     $identifier = $attribute->attribute( 'identifier' );
     if ( $identifier == '' )
@@ -491,9 +487,8 @@ $class->setAttribute( 'identifier', $identifier );
 // Run custom actions if any
 if ( $customAction )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         if ( $customActionAttributeID == $attribute->attribute( 'id' ) )
         {
             $attribute->customHTTPAction( $Module, $http, $customAction );
@@ -519,7 +514,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         $attributes = $keepers;
         foreach ( $rejects as $reject )
         {
-            if ( !$reject->remove( true ) )
+            if ( !$reject->removeThis( true ) )
             {
                 $dataType = $reject->dataType();
                 $removeInfo = $dataType->classAttributeRemovableInformation( $reject );
@@ -538,9 +533,8 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 $datatypeValidation = array();
 if ( $contentClassHasInput )
 {
-    foreach( array_keys( $attributes ) as $key )
+    foreach( $attributes as $attribute )
     {
-        $attribute =& $attributes[$key];
         if ( $dataType = $attribute->dataType() )
         {
             $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
@@ -612,38 +606,35 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     // FIXME: object pattern name is never validated
 
     $basicClassPropertiesValid = true;
+    $className       = $class->attribute( 'name' );
+    $classIdentifier = $class->attribute( 'identifier' );
+    $classID         = $class->attribute( 'id' );
+
+    // validate class name
+    if( trim( $className ) == '' )
     {
-        $className       = $class->attribute( 'name' );
-        $classIdentifier = $class->attribute( 'identifier' );
-        $classID         = $class->attribute( 'id' );
-
-        // validate class name
-        if( trim( $className ) == '' )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
-            $basicClassPropertiesValid = false;
-        }
-
-        // check presence of attributes
-        $newClassAttributes = $class->fetchAttributes( );
-        if ( count( $newClassAttributes ) == 0 )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
-            $basicClassPropertiesValid = false;
-        }
-
-        // validate class identifier
-
-        $db = eZDB::instance();
-        $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . EZ_CLASS_VERSION_STATUS_DEFINED . " AND id <> $classID" );
-        if ( $classCount[0]['count'] > 0 )
-        {
-            $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
-            $basicClassPropertiesValid = false;
-        }
-        unset( $classList );
-        unset( $db );
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have nonempty \'Name\' attribute.' ) );
+        $basicClassPropertiesValid = false;
     }
+
+    // check presence of attributes
+    if ( count( $newClassAttributes ) == 0 )
+    {
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'The class should have at least one attribute.' ) );
+        $basicClassPropertiesValid = false;
+    }
+
+    // validate class identifier
+
+    $db = eZDB::instance();
+    $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . EZ_CLASS_VERSION_STATUS_DEFINED . " AND id <> $classID" );
+    if ( $classCount[0]['count'] > 0 )
+    {
+        $validation['class_errors'][] = array( 'text' => ezi18n( 'kernel/class', 'There is a class already having the same identifier.' ) );
+        $basicClassPropertiesValid = false;
+    }
+    unset( $classList );
+    unset( $db );
 
     if ( !$basicClassPropertiesValid )
     {
@@ -652,7 +643,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
     }
     else
     {
-        $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+        $firstStoreAttempt = eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
         if ( !$firstStoreAttempt )
         {
             return $Module->redirectToView( 'view', array( $ClassID ), array( 'Language' => $EditLanguage ) );
@@ -686,7 +677,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                     foreach ( $objectAttributes as $objectAttribute )
                     {
                         $objectAttributeID = $objectAttribute->attribute( 'id' );
-                        $objectAttribute->remove( $objectAttributeID );
+                        $objectAttribute->removeThis( $objectAttributeID );
                     }
                 }
             }
@@ -712,7 +703,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                     foreach ( $objects as $object )
                     {
                         $contentobjectID = $object->attribute( 'id' );
-                        $objectVersions =& $object->versions();
+                        $objectVersions = $object->versions();
                         foreach ( $objectVersions as $objectVersion )
                         {
                             $translations = $objectVersion->translations( false );
@@ -754,7 +745,7 @@ if ( $http->hasPostVariable( 'NewButton' ) )
     $dataType = $new_attribute->dataType();
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
-    $attributes[] =& $new_attribute;
+    $attributes[] = $new_attribute;
 }
 else if ( $http->hasPostVariable( 'MoveUp' ) )
 {
