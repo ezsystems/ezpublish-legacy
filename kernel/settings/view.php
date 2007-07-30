@@ -223,7 +223,7 @@ $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:settings/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:settings/view.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'settings/view', 'Settings' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'settings/view', 'View' ),

@@ -99,7 +99,7 @@ $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/productsoverview.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/productsoverview.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Products overview' ),
                                 'url' => false ) );
 

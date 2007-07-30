@@ -132,7 +132,7 @@ if ( count( $postVariables ) > 0 )
 
 $tpl->setVariable( 'form_processed', $formProcessed );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:form/process.tpl" );
+$Result['content'] = $tpl->fetch( "design:form/process.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/form', 'Form processing' ),
                                 'url' => false ) );
 ?>

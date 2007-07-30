@@ -74,7 +74,7 @@ $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( 'validation', $validation );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/view.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/view.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'View' ),

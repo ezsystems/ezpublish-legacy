@@ -380,7 +380,7 @@ $tpl->setVariable( 'available_tool_list', $availableToolArray  );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/toolbar.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/toolbar.tpl" );
 $Result['path'] = array( array( 'url' => 'visual/toolbarlist',
                                 'text' => ezi18n( 'kernel/design', 'Toolbar list' ) ) );
 

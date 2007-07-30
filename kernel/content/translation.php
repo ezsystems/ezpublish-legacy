@@ -191,7 +191,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     $tpl->setVariable( 'view_mode', $viewMode );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:content/removetranslation.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/removetranslation.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/content', 'Remove translation' ) ) );
 

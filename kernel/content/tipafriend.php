@@ -222,7 +222,7 @@ $tpl->setVariable( 'subject', $subject );
 $tpl->setVariable( 'comment', $comment );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/tipafriend.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/tipafriend.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Tip a friend' ),
                                 'url' => false ) );
 

@@ -36,7 +36,7 @@ $ini = eZINI::instance();
 $tpl = templateInit();
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/rad.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/rad.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Rapid Application Development' ) ) );
 

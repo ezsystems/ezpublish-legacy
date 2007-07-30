@@ -73,7 +73,7 @@ $tpl->setVariable( "most_frequent_phrase_array", $mostFrequentPhraseArray );
 $tpl->setVariable( "search_list_count", $searchListCount[0]['count'] );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:search/stats.tpl" );
+$Result['content'] = $tpl->fetch( "design:search/stats.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/search', 'Search stats' ),
                                 'url' => false ) );
 

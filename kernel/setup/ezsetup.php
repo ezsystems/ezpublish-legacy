@@ -220,7 +220,7 @@ while( !$done && $step != null )
         {
             $tpl->setVariable( 'setup_current_step', $step['class'] ); // set current step
             $result = $stepInstaller->display();
-            $result['help'] =& $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
+            $result['help'] = $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
             $done = true;
         }
     }

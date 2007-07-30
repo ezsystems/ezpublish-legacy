@@ -88,7 +88,7 @@ switch( $operationResult['status'] )
             $tpl->setVariable( "order", $order );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
+            $Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
             $Result['path'] = array( array( 'url' => false,
                                             'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
         }
@@ -132,7 +132,7 @@ switch( $operationResult['status'] )
 
 /*
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/confirmorder.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
 */

@@ -333,7 +333,7 @@ if ( $shippingInfo !== null )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Basket' ) ) );
 ?>

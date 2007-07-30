@@ -72,7 +72,7 @@ $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensions );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/extensions.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/extensions.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Extension configuration' ) ) );
 

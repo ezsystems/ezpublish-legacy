@@ -288,7 +288,7 @@ class eZTrigger extends eZPersistentObject
                     $value =& $workflowProcess->Template['templateVars'][$key];
                     $tpl->setVariable( $key, $value );
                 }
-                $result['content'] =& $tpl->fetch( $workflowProcess->Template['templateName'] );
+                $result['content'] = $tpl->fetch( $workflowProcess->Template['templateName'] );
                 if ( isset( $workflowProcess->Template['path'] ) )
                     $result['path'] = $workflowProcess->Template['path'];
 

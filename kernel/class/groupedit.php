@@ -97,6 +97,6 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "classgroup", $classgroup );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/groupedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/groupedit.tpl" );
 
 ?>

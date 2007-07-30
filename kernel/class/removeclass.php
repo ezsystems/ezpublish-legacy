@@ -133,7 +133,7 @@ $tpl->setVariable( 'already_removed', $alreadyRemoved );
 $tpl->setVariable( 'can_remove', $canRemove );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/removeclass.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/removeclass.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
 ?>

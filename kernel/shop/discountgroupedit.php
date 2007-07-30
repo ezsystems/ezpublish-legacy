@@ -71,6 +71,6 @@ $tpl->setVariable( "module", $module );
 $tpl->setVariable( "discount_group", $discountGroup );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountgroupedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/discountgroupedit.tpl" );
 
 ?>

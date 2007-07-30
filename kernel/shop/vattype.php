@@ -200,7 +200,7 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
 
         $Result = array();
         $Result['path'] =& $path;
-        $Result['content'] =& $tpl->fetch( "design:shop/removevattypes.tpl" );
+        $Result['content'] = $tpl->fetch( "design:shop/removevattypes.tpl" );
         return;
     }
     else // otherwise just silently remove the VAT types.
@@ -257,6 +257,6 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
 
 $Result = array();
 $Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/vattype.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/vattype.tpl" );
 
 ?>

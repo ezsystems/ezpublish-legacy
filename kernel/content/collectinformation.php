@@ -107,7 +107,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               array( 'url_alias', $node->attribute( 'url_alias' ) )
                               ) );
 
-        $Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
 
         $title = $object->attribute( 'name' );
         if ( $tpl->hasVariable( 'title' ) )
@@ -269,7 +269,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $tpl->setVariable( 'collection', $collection );
             $tpl->setVariable( 'object', $object );
-            $templateResult =& $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
+            $templateResult = $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
 
             $subject =& $tpl->variable( 'subject' );
             $receiver =& $tpl->variable( 'email_receiver' );

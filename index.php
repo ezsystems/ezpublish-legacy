@@ -945,7 +945,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $tpl->setVariable( 'site', $site );
         $tpl->setVariable( 'warning_list', $warningList );
         $tpl->setVariable( 'redirect_uri', $redirectURI );
-        $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
+        $templateResult = $tpl->fetch( 'design:redirect.tpl' );
 
         $debug = eZDebug::instance();
         $debug->addTimingPoint( "End" );

@@ -106,7 +106,7 @@ $groupName = $group->attribute( 'name' );
 $tpl->setVariable( "module", $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/classlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/classlist.tpl" );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ),
                          array( 'url' => false,

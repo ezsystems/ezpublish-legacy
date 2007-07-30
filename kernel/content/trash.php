@@ -119,7 +119,7 @@ $tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/trash.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/trash.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Trash' ),
                                 'url' => false ) );
 

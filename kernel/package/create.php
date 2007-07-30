@@ -140,7 +140,7 @@ else
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/package', 'Create package' ) ) );
 ?>

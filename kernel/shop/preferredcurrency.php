@@ -35,7 +35,7 @@ $tpl = templateInit();
 $Result = array();
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Preferred currency' ),
                                 'url' => false ) );
-$Result['content'] =& $tpl->fetch( "design:shop/preferredcurrency.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/preferredcurrency.tpl" );
 
 
 ?>

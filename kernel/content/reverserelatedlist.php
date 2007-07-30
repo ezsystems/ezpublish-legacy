@@ -170,7 +170,7 @@ if ( $contentObject )
     }
 }
 
-$Result['content'] =& $tpl->fetch( "design:content/reverserelatedlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/reverserelatedlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
 

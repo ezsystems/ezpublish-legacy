@@ -48,7 +48,7 @@ $tpl = templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/pendinglist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/pendinglist.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'My pending list' ),
                                 'url' => false ) );
 ?>

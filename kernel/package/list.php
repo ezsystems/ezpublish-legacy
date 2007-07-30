@@ -89,7 +89,7 @@ $tpl->setVariable( 'remove_list', $removeList );
 $tpl->setVariable( 'repository_id', $repositoryID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:package/list.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ) );
 

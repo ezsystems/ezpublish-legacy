@@ -238,7 +238,7 @@ $tpl->setVariable( 'limitID', $limitID );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/urlalias_global.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/urlalias_global.tpl' );
 $Result['path'] = $path;
 
 ?>

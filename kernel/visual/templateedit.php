@@ -82,7 +82,7 @@ if ( $isExistingTemplate == false )
     $tpl->setVariable( 'original_template', false );
     $tpl->setVariable( 'site_access', $siteAccess );
 
-    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
     return;
 }
 
@@ -197,7 +197,7 @@ if ( !is_readable( $fileName ) )
     $tpl->setVariable( 'is_readable', false );
     $tpl->setVariable( 'site_access', $siteAccess );
 
-    $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+    $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
     return;
 }
 
@@ -215,7 +215,7 @@ if ( !is_writable( $fileName ) )
         $tpl->setVariable( 'is_readable', true );
         $tpl->setVariable( 'site_access', $siteAccess );
 
-        $Result['content'] =& $tpl->fetch( "design:visual/templateedit_error.tpl" );
+        $Result['content'] = $tpl->fetch( "design:visual/templateedit_error.tpl" );
         return;
     }
 }
@@ -249,6 +249,6 @@ if ( $codec )
 $tpl->setVariable( 'template', $template );
 $tpl->setVariable( 'template_content', $templateContent );
 
-$Result['content'] =& $tpl->fetch( "design:visual/templateedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templateedit.tpl" );
 
 ?>

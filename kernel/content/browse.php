@@ -181,7 +181,7 @@ $res->setKeys( array( array( 'view_offset', $Offset ),
                       ) );
 
 //$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( 'design:content/browse.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/browse.tpl' );
 
 if (isset( $globalSectionID ))
 {

@@ -237,7 +237,7 @@ $tpl->setVariable( 'category_ids', $tplCategoryIDs );
 $tpl->setVariable( 'vat_type_id',  $tplVatTypeID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/editvatrule.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/editvatrule.tpl" );
 $Result['path'] = array( array( 'text' => $pathText,
                                 'url' => false ) );
 

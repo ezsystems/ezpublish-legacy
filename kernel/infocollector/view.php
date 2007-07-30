@@ -61,7 +61,7 @@ $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'collection', $collection );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:infocollector/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:infocollector/view.tpl' );
 $Result['path'] = array( array( 'url' => '/infocollector/overview',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => '/infocollector/collectionlist/' . $objectID,

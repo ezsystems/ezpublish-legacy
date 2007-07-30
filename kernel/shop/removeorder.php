@@ -77,6 +77,6 @@ else // no action yet: just displaying the template
     $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
                      'url' => false );
     $Result['path'] =& $path;
-    $Result['content'] =& $tpl->fetch( "design:shop/removeorder.tpl" );
+    $Result['content'] = $tpl->fetch( "design:shop/removeorder.tpl" );
 }
 ?>

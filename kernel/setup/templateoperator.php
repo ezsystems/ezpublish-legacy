@@ -108,7 +108,7 @@ if ( $currentStep )
 $tpl->setVariable( 'persistent_data', $persistentData );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/$template" );
+$Result['content'] = $tpl->fetch( "design:setup/$template" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Template operator wizard' ) ) );
 

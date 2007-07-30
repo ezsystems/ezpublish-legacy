@@ -82,7 +82,7 @@ if ( strlen( $hashKey ) == 32 )
         $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
         $tpl->setVariable( 'password', $password );
 
-        $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+        $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
         $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
@@ -157,7 +157,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             include_once( 'lib/ezutils/classes/ezhttptool.php' );
             $http = eZHTTPTool::instance();
             $http->UseFullUrl = true;
-            $templateResult =& $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
+            $templateResult = $tpl->fetch( 'design:user/forgotpasswordmail.tpl' );
             $http->UseFullUrl = false;
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
@@ -181,7 +181,7 @@ if ( $module->isCurrentAction( "Generate" ) )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:user/forgotpassword.tpl' );
+$Result['content'] = $tpl->fetch( 'design:user/forgotpassword.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Forgot password' ),

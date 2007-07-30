@@ -225,7 +225,7 @@ $tpl->setVariable( 'functions', $functionList );
 $tpl->setVariable( 'triggers', $triggers );
 $tpl->setVariable( 'module', $Module );
 
-$Result['content'] =& $tpl->fetch( 'design:trigger/list.tpl' );
+$Result['content'] = $tpl->fetch( 'design:trigger/list.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/trigger', 'Trigger' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/trigger', 'List' ),

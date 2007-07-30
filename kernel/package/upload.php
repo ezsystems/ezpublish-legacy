@@ -96,7 +96,7 @@ $tpl->setVariable( 'package', $package );
 $tpl->setVariable( 'error_list', $errorList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/upload.tpl" );
+$Result['content'] = $tpl->fetch( "design:package/upload.tpl" );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

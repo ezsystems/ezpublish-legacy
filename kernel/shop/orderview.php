@@ -87,7 +87,7 @@ $tpl = templateInit();
 $tpl->setVariable( "order", $order );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/orderview.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/orderview.tpl" );
 $Result['path'] = array( array( 'url' => 'shop/orderlist',
                                 'text' => ezi18n( 'kernel/shop', 'Order list' ) ),
                          array( 'url' => false,

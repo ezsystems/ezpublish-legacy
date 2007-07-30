@@ -177,7 +177,7 @@ $tpl->setVariable( 'workflow_list', $list );
 $tpl->setVariable( 'module', $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:workflow/workflowlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:workflow/workflowlist.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'List' ),

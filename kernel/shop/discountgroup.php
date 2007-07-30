@@ -76,7 +76,7 @@ $tpl->setVariable( "discountgroup_array", $discountGroupArray );
 $tpl->setVariable( "module", $module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountgroup.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/discountgroup.tpl" );
 $Result['path'] = array( array( 'url' => '/shop/discountgroup/',
                                 'text' => ezi18n( 'kernel/shop', 'Discount group' ) ) );
 ?>

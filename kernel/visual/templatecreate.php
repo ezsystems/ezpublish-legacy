@@ -456,7 +456,7 @@ $tpl->setVariable( 'site_design', $siteDesign );
 $tpl->setVariable( 'override_keys', $overrideKeys );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/templatecreate.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templatecreate.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => "/visual/templateview". $template,

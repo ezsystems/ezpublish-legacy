@@ -39,7 +39,7 @@ else
     $tpl->setVariable( "verify_user_email", false );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:user/success.tpl" );
+$Result['content'] = $tpl->fetch( "design:user/success.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Success' ),

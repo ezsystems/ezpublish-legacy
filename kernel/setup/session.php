@@ -369,7 +369,7 @@ $tpl->setVariable( 'expiration_filter_type', $expirationFilterType );
 $tpl->setVariable( 'user_id', $userID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/session.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/session.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Session admin' ) ) );
 

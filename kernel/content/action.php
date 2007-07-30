@@ -129,7 +129,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             $tpl->setVariable( 'redirect_uri_after_publish', ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )? $http->postVariable( 'RedirectURIAfterPublish' ): false );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:content/create_languages.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:content/create_languages.tpl' );
             return $Result;
         }
     }

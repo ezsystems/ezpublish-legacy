@@ -201,7 +201,7 @@ else
 // --- Compatability code end ---
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/search.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/search.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ) );
 if ( !$useSearchCode )

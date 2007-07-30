@@ -184,7 +184,7 @@ if ( $uiContext )
 // setting keys for override
 $res = eZTemplateDesignResource::instance();
 
-$Result['content'] =& $tpl->fetch( 'design:content/upload.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/upload.tpl' );
 
 $Result['path'] = array( array( 'text' => 'Upload',
                                 'url' => false ) );

@@ -249,7 +249,7 @@ $tpl->setVariable( 'persistent_data', $persistentData );
 $tpl->setVariable( 'package', $package );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

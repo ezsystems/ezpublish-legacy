@@ -45,7 +45,7 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'alphabet', $Alphabet );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/keyword.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/keyword.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Keywords' ),
                                 'url' => false ) );
 

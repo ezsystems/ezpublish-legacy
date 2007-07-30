@@ -127,7 +127,7 @@ foreach ( array( 'open_basedir', 'post_max_size', 'memory_limit', 'max_execution
 $tpl->setVariable( 'php_ini', $phpINI );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:setup/info.tpl" );
+$Result['content'] = $tpl->fetch( "design:setup/info.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'System information' ) ) );
 

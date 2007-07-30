@@ -85,7 +85,7 @@ $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $userAccount );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:user/edit.tpl" );
+$Result['content'] = $tpl->fetch( "design:user/edit.tpl" );
 $Result['path'] = array( array( 'text' =>  ezi18n( 'kernel/user', 'User profile' ),
                                 'url' => false ) );
 

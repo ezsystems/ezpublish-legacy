@@ -223,7 +223,7 @@ $tpl->setVariable( 'aliasText', $aliasText );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/urlalias.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/urlalias.tpl' );
 $Result['path'] = $path;
 
 ?>

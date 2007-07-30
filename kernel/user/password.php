@@ -159,6 +159,6 @@ $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/user', 'Change password' ),
                                 'url' => false ) );
-$Result['content'] =& $tpl->fetch( "design:user/password.tpl" );
+$Result['content'] = $tpl->fetch( "design:user/password.tpl" );
 
 ?>

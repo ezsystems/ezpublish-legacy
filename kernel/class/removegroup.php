@@ -97,7 +97,7 @@ $tpl->setVariable( "DeleteResult", $deleteResult );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:class/removegroup.tpl" );
+$Result['content'] = $tpl->fetch( "design:class/removegroup.tpl" );
 $Result['path'] = array( array( 'url' => '/class/removegroup/',
                                 'text' => ezi18n( 'kernel/class', 'Remove class groups' ) ) );
 ?>

@@ -486,7 +486,7 @@ $viewParameters = $UserParameters;
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( $templateName );
+$Result['content'] = $tpl->fetch( $templateName );
 // $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
 //                                 'url' => false ),
 //                          array( 'text' => ezi18n( 'kernel/content', 'Edit' ),

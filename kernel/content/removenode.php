@@ -89,7 +89,7 @@ $tpl->setVariable( 'ChildObjectsCount', $ChildObjectsCount );
 $tpl->setVariable( 'node', $node );
 
 
-$Result['content'] =& $tpl->fetch( 'design:node/removenode.tpl' );
+$Result['content'] = $tpl->fetch( 'design:node/removenode.tpl' );
 
 $Result['path'] = array( array( 'text' => $object->attribute( 'name' ),
                                 'url' => false ) );

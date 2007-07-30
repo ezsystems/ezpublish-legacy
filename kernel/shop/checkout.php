@@ -107,7 +107,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                     $Result = array();
                     include_once( "kernel/common/template.php" );
                     $tpl = templateInit();
-                    $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
+                    $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
 
@@ -143,7 +143,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                     $tpl = templateInit();
                     $tpl->setVariable( 'attempt', $attempt );
                     $tpl->setVariable( 'orderID', $orderID );
-                    $Result['content'] =& $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
+                    $Result['content'] = $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
                     return;
@@ -159,7 +159,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
                     $tpl->setVariable ("ErrorCode", "NO_CALLBACK");
                     $tpl->setVariable ("OrderID", $orderID);
 
-                    $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
+                    $Result['content'] = $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
                     return;

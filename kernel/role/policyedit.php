@@ -396,5 +396,5 @@ $Result = array();
 
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/role', 'Editing policy' ) ) );
-$Result['content'] =& $tpl->fetch( 'design:role/policyedit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:role/policyedit.tpl' );
 ?>

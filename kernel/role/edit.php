@@ -312,7 +312,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
                                     'text' => ezi18n( 'kernel/role',
                                                       'Create new policy, step 2: select function' ) ) );
 
-    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
 }
 
@@ -698,7 +698,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
                                         'text' => ezi18n( 'kernel/role',
                                                           'Create new policy, step three: set function limitations' ) ) );
 
-        $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:role/createpolicystep3.tpl' );
         return;
     }
     $db->commit();
@@ -722,7 +722,7 @@ if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( '
                                     'text' => ezi18n( 'kernel/role',
                                                       'Create new policy, step two: select function' ) ) );
 
-    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
 }
 
@@ -740,7 +740,7 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( 'Step1'
                                     'text' => ezi18n( 'kernel/role',
                                                       'Create new policy, step one: select module' ) ) );
 
-    $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:role/createpolicystep1.tpl' );
     return;
 }
 
@@ -772,6 +772,6 @@ $Result['path'] = array( array( 'text' => 'Role',
                          array( 'text' => $role->attribute( 'name' ),
                                 'url' => false ) );
 
-$Result['content'] =& $tpl->fetch( 'design:role/edit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:role/edit.tpl' );
 
 ?>

@@ -137,7 +137,7 @@ $tpl->setVariable( 'error', $error );
 $Result = array();
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Available currency list' ),
                                 'url' => false ) );
-$Result['content'] =& $tpl->fetch( "design:shop/currencylist.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/currencylist.tpl" );
 
 
 

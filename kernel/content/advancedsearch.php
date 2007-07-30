@@ -283,11 +283,11 @@ $Result = array();
 if ( trim( $ViewMode ) != '' )
 {
     // Fetch override template for viewmode if wanted
-    $Result['content'] =& $tpl->fetch( "design:content/advancedsearch/$ViewMode.tpl" );
+    $Result['content'] = $tpl->fetch( "design:content/advancedsearch/$ViewMode.tpl" );
 }
 else
 {
-    $Result['content'] =& $tpl->fetch( 'design:content/advancedsearch.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:content/advancedsearch.tpl' );
 }
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),
                                 'url' => false ),

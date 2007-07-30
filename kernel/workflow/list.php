@@ -71,7 +71,7 @@ $tpl->setVariable( 'group_list', $groupList );
 $tpl->setVariable( 'module', $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:workflow/list.tpl' );
+$Result['content'] = $tpl->fetch( 'design:workflow/list.tpl' );
 $Result['path'] = array( array( 'url' => '/workflow/list/',
                                 'text' => ezi18n( 'kernel/workflow', 'Workflow list' ) ) );
 

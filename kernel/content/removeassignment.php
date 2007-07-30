@@ -140,7 +140,7 @@ $tpl->setVariable( 'assignment_data', $assignmentData );
 $tpl->setVariable( 'remove_info', $info );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/removeassignment.tpl" );
+$Result['content'] = $tpl->fetch( "design:content/removeassignment.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', 'Remove location' ) ) );
 ?>

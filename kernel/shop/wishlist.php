@@ -254,7 +254,7 @@ $viewParameters = array( 'offset' => $offset );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/wishlist.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/wishlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Wishlist' ) ) );
 

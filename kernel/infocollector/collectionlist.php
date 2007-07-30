@@ -57,7 +57,7 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
     $tpl->setVariable( 'remove_type', 'collections' );
 
     $Result = array();
-    $Result['content'] =& $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
+    $Result['content'] = $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
     return;
@@ -125,7 +125,7 @@ $tpl->setVariable( 'collection_array', $collections );
 $tpl->setVariable( 'collection_count', $numberOfCollections );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
 $Result['path'] = array( array( 'url' => '/infocollector/overview',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => false,

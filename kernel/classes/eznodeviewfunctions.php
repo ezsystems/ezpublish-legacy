@@ -166,7 +166,7 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'node_path', $path );
 
         $Result = array();
-        $Result['content'] =& $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:node/view/' . $viewMode . '.tpl' );
         $Result['view_parameters'] = $viewParameters;
         $Result['path'] = $path;
         $Result['title_path'] = $titlePath;

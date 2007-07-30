@@ -533,7 +533,7 @@ class eZTemplate
      Tries to fetch the result of the template file and returns it.
      If $template is supplied it will load this template file first.
     */
-    function &fetch( $template = false, $extraParameters = false, $returnResourceData = false )
+    function fetch( $template = false, $extraParameters = false, $returnResourceData = false )
     {
         $this->resetErrorLog();
         // Reset fetch list when a new fetch is started

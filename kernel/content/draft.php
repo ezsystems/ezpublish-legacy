@@ -80,7 +80,7 @@ $tpl = templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/draft.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/draft.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'My drafts' ),
                                 'url' => false ) );
 

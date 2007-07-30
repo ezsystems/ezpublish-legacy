@@ -125,7 +125,7 @@ foreach( $TemplateData as $tpldata )
 $tpl->setVariable( "module", $Module );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/grouplist.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/grouplist.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'Group list' ),

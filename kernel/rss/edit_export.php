@@ -151,7 +151,7 @@ if ( is_numeric( $RSSExportID ) )
             $tpl->setVariable( 'lock_timeout', $timeOut );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:rss/edit_export_denied.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:rss/edit_export_denied.tpl' );
             $Result['path'] = array( array( 'url' => false,
                                             'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
             return $Result;
@@ -255,7 +255,7 @@ $tpl->setVariable( 'rss_export_id', $rssExportID );
 
 $tpl->setVariable( 'validaton', $validated );
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:rss/edit_export.tpl" );
+$Result['content'] = $tpl->fetch( "design:rss/edit_export.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
 

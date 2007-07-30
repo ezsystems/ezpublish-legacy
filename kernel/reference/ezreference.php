@@ -257,14 +257,14 @@ function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $para
         default:
         {
             $tpl = templateInit();
-            $content =& $tpl->fetch( "design:reference/view/$referenceType/intro.tpl" );
+            $content = $tpl->fetch( "design:reference/view/$referenceType/intro.tpl" );
         } break;
     }
 
     if ( $error )
     {
         $tpl = templateInit();
-        $content =& $tpl->fetch( "design:reference/view/$referenceType/error.tpl" );
+        $content = $tpl->fetch( "design:reference/view/$referenceType/error.tpl" );
 //         return $module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
     }
 

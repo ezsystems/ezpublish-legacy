@@ -116,7 +116,7 @@ $tpl->setVariable( 'datatypes', $datatypes );
 $tpl->setVariable( 'validation', $validation );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:class/view.tpl' );
+$Result['content'] = $tpl->fetch( 'design:class/view.tpl' );
 $Result['path'] = array( array( 'url' => '/class/grouplist/',
                                 'text' => ezi18n( 'kernel/class', 'Classes' ) ) );
 if ( $mainGroupID !== false )

@@ -295,7 +295,7 @@ $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 eZDebug::writeNotice( 'The versions view has been deprecated, please use the /content/history/ view instead' );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/versions.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Versions' ),
                                 'url' => false ) );
 

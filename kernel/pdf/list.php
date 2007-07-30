@@ -72,7 +72,7 @@ $tpl = templateInit();
 $tpl->setVariable( 'pdfexport_list', $exportList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:pdf/list.tpl" );
+$Result['content'] = $tpl->fetch( "design:pdf/list.tpl" );
 $Result['path'] = array( array( 'url' => 'kernel/pdf',
                                 'text' => ezi18n( 'kernel/pdf', 'PDF Export' ) ) );
 

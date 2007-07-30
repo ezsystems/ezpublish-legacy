@@ -181,7 +181,7 @@ if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:visual/templateview.tpl" );
+$Result['content'] = $tpl->fetch( "design:visual/templateview.tpl" );
 $Result['path'] = array( array( 'url' => "/visual/templatelist/",
                                 'text' => ezi18n( 'kernel/design', 'Template list' ) ),
                          array( 'url' => false,

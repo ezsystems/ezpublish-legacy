@@ -119,7 +119,7 @@ $tpl->setVariable( "workflow_group", $workflowGroup );
 //$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:workflow/groupedit.tpl" );
+$Result['content'] = $tpl->fetch( "design:workflow/groupedit.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/workflow', 'Workflow' ),
                                 'url' => false ),
                          array( 'text' => ezi18n( 'kernel/workflow', 'Group edit' ),

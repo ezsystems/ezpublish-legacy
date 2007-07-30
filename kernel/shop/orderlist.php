@@ -129,5 +129,5 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
 $Result = array();
 $Result['path'] =& $path;
 
-$Result['content'] =& $tpl->fetch( 'design:shop/orderlist.tpl' );
+$Result['content'] = $tpl->fetch( 'design:shop/orderlist.tpl' );
 ?>

@@ -69,7 +69,7 @@ if ( isset( $Params['PDFExportID'] ) )
             // $tpl = templateInit();
             // $tpl->setVariable ...
             // $Result = array();
-            // $Result['content'] =& $tpl->fetch( 'design:pdf/edit_denied.tpl' );
+            // $Result['content'] = $tpl->fetch( 'design:pdf/edit_denied.tpl' );
             // $Result['path'] = ...
             // return $Result;
         }
@@ -202,7 +202,7 @@ if ( !$inputValidated )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:pdf/edit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:pdf/edit.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'pdf/edit', 'PDF Export' ) ) );
 

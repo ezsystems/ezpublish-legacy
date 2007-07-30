@@ -65,7 +65,7 @@ $tpl->setVariable( 'package_name', $packageName );
 $tpl->setVariable( 'repository_id', $repositoryID );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/view/$viewMode.tpl" );
+$Result['content'] = $tpl->fetch( "design:package/view/$viewMode.tpl" );
 $path = array( array( 'url' => 'package/list',
                       'text' => ezi18n( 'kernel/package', 'Packages' ) ) );
 if ( $repositoryInformation and $repositoryInformation['id'] != 'local' )

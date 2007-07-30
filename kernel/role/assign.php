@@ -117,7 +117,7 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
             $tpl->setVariable( 'limit_ident', $limitIdent );
 
             $Result = array();
-            $Result['content'] =& $tpl->fetch( 'design:role/assign_limited_section.tpl' );
+            $Result['content'] = $tpl->fetch( 'design:role/assign_limited_section.tpl' );
             $Result['path'] = array( array( 'url' => false,
                                             'text' => ezi18n( 'kernel/role', 'Limit on section' ) ) );
             return;

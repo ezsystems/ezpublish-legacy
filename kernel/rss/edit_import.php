@@ -164,7 +164,7 @@ $tpl->setVariable( 'rss_import', $rssImport );
 $tpl->setVariable( 'step', $step );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:rss/edit_import.tpl" );
+$Result['content'] = $tpl->fetch( "design:rss/edit_import.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
 
@@ -243,7 +243,7 @@ function checkTimeout( &$rssImport )
         $tpl->setVariable( 'lock_timeout', $timeOut );
 
         $Result = array();
-        $Result['content'] =& $tpl->fetch( 'design:rss/edit_import_denied.tpl' );
+        $Result['content'] = $tpl->fetch( 'design:rss/edit_import_denied.tpl' );
         $Result['path'] = array( array( 'url' => false,
                                         'text' => ezi18n( 'kernel/rss', 'Really Simple Syndication' ) ) );
         return $Result;

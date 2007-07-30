@@ -199,7 +199,7 @@ $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
+$Result['content'] = $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/error', 'Error' ),
                                 'url' => false ),
                          array( 'text' => "$errorType ($errorNumber)",

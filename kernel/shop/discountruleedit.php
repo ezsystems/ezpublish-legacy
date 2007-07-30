@@ -306,7 +306,7 @@ $tpl->setVariable( 'class_any_selected', in_array( -1, $discountRuleSelectedClas
 $tpl->setVariable( 'section_any_selected', in_array( -1, $discountRuleSelectedSections ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:shop/discountruleedit.tpl' );
+$Result['content'] = $tpl->fetch( 'design:shop/discountruleedit.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Editing rule' ) ) );
 

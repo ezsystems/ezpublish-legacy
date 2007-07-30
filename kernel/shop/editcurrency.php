@@ -148,7 +148,7 @@ $tpl->setVariable( 'original_currency_code', $originalCurrencyCode );
 $tpl->setVariable( 'currency_data', $currencyParams );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/editcurrency.tpl" );
+$Result['content'] = $tpl->fetch( "design:shop/editcurrency.tpl" );
 $Result['path'] = array( array( 'text' => $pathText,
                                 'url' => false ) );
 

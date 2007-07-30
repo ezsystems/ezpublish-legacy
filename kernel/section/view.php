@@ -49,7 +49,7 @@ $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "section", $section );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:section/view.tpl" );
+$Result['content'] = $tpl->fetch( "design:section/view.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/section', 'View section' ) ) );
 

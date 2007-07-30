@@ -81,7 +81,7 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       ) );
 
 
-$Result['content'] =& $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
+$Result['content'] = $tpl->fetch( 'design:content/collectedinfo/' . $informationCollectionTemplate . '.tpl' );
 
 $title = $object->attribute( 'name' );
 if ( $tpl->hasVariable( 'title' ) )

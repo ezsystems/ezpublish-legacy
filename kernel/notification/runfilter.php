@@ -56,7 +56,7 @@ else if ( $http->hasPostVariable( 'SpawnTimeEventButton' ) )
 }
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( 'design:notification/runfilter.tpl' );
+$Result['content'] = $tpl->fetch( 'design:notification/runfilter.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/notification', 'Notification settings' ) ) );
 
