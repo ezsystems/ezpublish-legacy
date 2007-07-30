@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];

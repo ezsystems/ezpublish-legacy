@@ -34,7 +34,7 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 include_once( 'kernel/shop/classes/ezpaymentobject.php' );
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 $orderID = $http->sessionVariable( 'MyTemporaryOrderID' );
 $order = eZOrder::fetch( $orderID );

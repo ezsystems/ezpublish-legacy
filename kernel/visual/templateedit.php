@@ -32,7 +32,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $parameters =& $Params["Parameters"];
 
 if ( $http->hasPostVariable( 'Cancel' ) )

@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
 $http = eZHttpTool::instance();
 $basket = eZBasket::currentBasket();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 // Verify the ObjectID input
 if ( !is_numeric( $ObjectID ) )

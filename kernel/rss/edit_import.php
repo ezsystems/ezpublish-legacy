@@ -28,7 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 include_once( 'kernel/rss/edit_functions.php' );
 include_once( "kernel/common/template.php" );

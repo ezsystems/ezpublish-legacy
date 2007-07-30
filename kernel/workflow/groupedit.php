@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 if ( isset( $Params["WorkflowGroupID"] ) )
     $WorkflowGroupID = $Params["WorkflowGroupID"];
 else

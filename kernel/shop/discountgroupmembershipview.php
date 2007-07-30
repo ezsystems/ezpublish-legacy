@@ -37,7 +37,7 @@ include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
 include_once( "kernel/classes/ezcontentbrowse.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];

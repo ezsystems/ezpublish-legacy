@@ -32,7 +32,7 @@
 */
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 $currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
 $toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;

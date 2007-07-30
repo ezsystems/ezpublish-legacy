@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );

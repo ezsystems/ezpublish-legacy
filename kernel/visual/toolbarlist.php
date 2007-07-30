@@ -40,7 +40,7 @@ $currentSiteAccess = false;
 if ( $http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
     $currentSiteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 if ( $Params['SiteAccess'] )
     $currentSiteAccess = $Params['SiteAccess'];
 

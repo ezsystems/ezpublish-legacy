@@ -27,7 +27,7 @@
 //
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );

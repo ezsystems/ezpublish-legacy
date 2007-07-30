@@ -31,7 +31,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $http   = eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )

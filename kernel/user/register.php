@@ -33,7 +33,7 @@ include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( "kernel/classes/ezcontentclass.php" );
 
 $http = eZHTTPTool::instance();
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 if ( isset( $Params['UserParameters'] ) )
 {

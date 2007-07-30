@@ -32,7 +32,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 include_once( "kernel/classes/datatypes/ezurl/ezurlobjectlink.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 $urlID = null;
 if ( isset( $Params["ID"] ) )
     $urlID = $Params["ID"];

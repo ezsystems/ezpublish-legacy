@@ -25,7 +25,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 $Module->setTitle( "Successful registration" );
 // Template handling
 include_once( "kernel/common/template.php" );

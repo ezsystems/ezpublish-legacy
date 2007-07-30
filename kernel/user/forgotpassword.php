@@ -42,7 +42,7 @@ $tpl->setVariable( 'link', false );
 $tpl->setVariable( 'wrong_key', false );
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $hashKey =& $Params["HashKey"];
 $ini = eZINI::instance();
 

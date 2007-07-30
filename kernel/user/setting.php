@@ -30,7 +30,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 

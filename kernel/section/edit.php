@@ -32,7 +32,7 @@ include_once( "kernel/common/template.php" );
 
 $http = eZHTTPTool::instance();
 $SectionID =& $Params["SectionID"];
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 if ( $SectionID == 0 )
 {

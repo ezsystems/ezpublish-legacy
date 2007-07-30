@@ -33,7 +33,7 @@ $tpl = templateInit();
 $sessionsRemoved = false;
 $http = eZHTTPTool::instance();
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $param['limit'] = 50;
 
 $filterType = 'registered';

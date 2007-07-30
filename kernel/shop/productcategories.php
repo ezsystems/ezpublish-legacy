@@ -87,7 +87,7 @@ function generateUniqueCategoryName( $productCategories )
     return "$commonPart $maxNumber";
 }
 
-$module =& $Params["Module"];
+$module = $Params["Module"];
 $http   = eZHTTPTool::instance();
 $tpl = templateInit();
 $errors = false;

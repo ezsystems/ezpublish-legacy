@@ -34,7 +34,7 @@ include_once( "kernel/classes/ezcontentbrowse.php" );
 
 $http = eZHTTPTool::instance();
 $SectionID = $Params["SectionID"];
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {

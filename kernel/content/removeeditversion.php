@@ -32,7 +32,7 @@
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 $http = eZHTTPTool::instance();
 $objectID = (int) $http->sessionVariable( "DiscardObjectID" );
 $version = (int) $http->sessionVariable( "DiscardObjectVersion" );

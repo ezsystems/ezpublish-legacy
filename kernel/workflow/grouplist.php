@@ -76,7 +76,7 @@ function removeSelectedGroups( &$http, &$groups, $base )
     }
 }
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 
 $http = eZHTTPTool::instance();
 

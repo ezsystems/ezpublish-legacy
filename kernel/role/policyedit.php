@@ -41,7 +41,7 @@ include_once( "kernel/classes/ezpolicylimitationvalue.php" );
 include_once( "kernel/classes/ezpolicy.php" );
 include_once( "kernel/classes/ezcontentbrowse.php" );
 
-$Module =& $Params["Module"];
+$Module = $Params["Module"];
 $policyID =& $Params["PolicyID"];
 
 $policy = eZPolicy::fetch( $policyID );

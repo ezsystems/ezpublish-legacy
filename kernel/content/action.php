@@ -37,7 +37,7 @@ include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 $http = eZHTTPTool::instance();
-$module =& $Params["Module"];
+$module = $Params["Module"];
 
 /* We retrieve the class ID for users as this is used in many places in this
  * code in order to be able to cleanup the user-policy cache. */
