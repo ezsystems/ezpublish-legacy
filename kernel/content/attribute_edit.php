@@ -48,7 +48,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 if ( isset( $Module ) )
-    $Module =& $Params['Module'];
+    $Module = $Params['Module'];
 $ObjectID =& $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
     $EditVersion =& $Params['EditVersion'];

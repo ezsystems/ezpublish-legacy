@@ -33,7 +33,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 //$Offset = $Params['Offset'];

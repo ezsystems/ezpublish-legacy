@@ -32,7 +32,7 @@
 */
 include_once( 'kernel/common/template.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $Alphabet = rawurldecode( $Params['Alphabet'] );
 
 $Offset = $Params['Offset'];

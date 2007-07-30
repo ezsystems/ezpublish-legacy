@@ -29,7 +29,7 @@
 /*! \file view.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $urlID =& $Params['ID'];
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );

@@ -37,7 +37,7 @@ include_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $upload = new eZContentUpload();
 

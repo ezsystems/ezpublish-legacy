@@ -30,7 +30,7 @@
 */
 
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'Set' ) && $module->hasActionParameter( 'Country' ) )
     $country = $module->actionParameter( 'Country' );

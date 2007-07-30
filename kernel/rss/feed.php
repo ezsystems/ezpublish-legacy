@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 
 if ( !isset ( $Params['RSSFeed'] ) )
 {

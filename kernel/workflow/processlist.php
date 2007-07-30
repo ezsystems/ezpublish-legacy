@@ -28,7 +28,7 @@
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 
 include_once( "kernel/classes/eztrigger.php" );
 

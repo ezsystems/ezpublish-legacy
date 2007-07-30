@@ -33,7 +33,7 @@
 */
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
 $Module->setCurrentAction( 'MoveNodeRequest', 'action' );

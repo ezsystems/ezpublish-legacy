@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $function =& $Params['Function'];
 $key =& $Params['Key'];

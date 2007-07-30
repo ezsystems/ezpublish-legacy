@@ -31,7 +31,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 $http = eZHTTPTool::instance();
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 $tpl = templateInit();
 $tpl->setVariable( 'module', $Module );
 

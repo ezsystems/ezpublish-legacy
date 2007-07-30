@@ -38,7 +38,7 @@ include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( !isset( $Params['DiscountGroupID'] ) )
 {

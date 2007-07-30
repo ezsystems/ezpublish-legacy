@@ -33,7 +33,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ClassID = $Params['ClassID'];
 $GroupID = $Params['GroupID'];
 $GroupName = $Params['GroupName'];

@@ -33,7 +33,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 $http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
 if ( $http->hasPostVariable( "BackButton" ) )

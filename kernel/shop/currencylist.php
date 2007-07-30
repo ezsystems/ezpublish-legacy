@@ -34,7 +34,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $offset =& $Params['Offset'];
 
 $error = false;

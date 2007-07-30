@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezcontentclass.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 $ClassID = null;
 if ( isset( $Params["ClassID"] ) )
     $ClassID =& $Params["ClassID"];

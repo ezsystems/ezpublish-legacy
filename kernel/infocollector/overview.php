@@ -31,7 +31,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/classes/ezinformationcollection.php' );
 
 $http = eZHTTPTool::instance();
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $offset = $Params['Offset'];
 
 if( !is_numeric( $offset ) )

@@ -27,7 +27,7 @@
 //
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 
 include_once( 'kernel/classes/ezcache.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );

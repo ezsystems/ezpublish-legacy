@@ -27,7 +27,7 @@
 //
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezbasket.php" );

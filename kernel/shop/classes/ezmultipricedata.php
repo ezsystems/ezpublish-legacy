@@ -351,8 +351,8 @@ class eZMultiPriceData extends eZPersistentObject
         // use direct sql-queries to speed up the process.
 
         include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
-        $converter =& eZCurrencyConverter::instance();
-        $currencyList =& $converter->currencyList();
+        $converter = eZCurrencyConverter::instance();
+        $currencyList = $converter->currencyList();
         $currencyListCount = count( $currencyList );
 
         if ( $currencyListCount > 0 )

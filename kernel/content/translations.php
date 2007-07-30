@@ -38,7 +38,7 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 
 $tpl = templateInit();
 $http = eZHTTPTool::instance();
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $tpl->setVariable( 'module', $Module );
 

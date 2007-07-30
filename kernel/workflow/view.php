@@ -30,7 +30,7 @@ include_once( "kernel/classes/ezworkflow.php" );
 include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "kernel/common/template.php" );
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $validation = array( 'processed' => false,
                      'groups' => array() );

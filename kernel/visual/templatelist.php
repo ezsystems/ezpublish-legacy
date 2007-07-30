@@ -27,7 +27,7 @@
 //
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 
 $offset = $Params['Offset'];
 

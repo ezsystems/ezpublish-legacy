@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezorder.php" );
 include_once( "kernel/classes/ezorderstatus.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$module = $Params["Module"];
+$module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $user = eZUser::currentUser();
 

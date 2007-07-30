@@ -36,7 +36,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $NodeID = $Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 $Year = $Params['Year'];

@@ -33,7 +33,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http = eZHTTPTool::instance();
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $packageName =& $Params['PackageName'];
 $installer = false;
 $currentItem = 0;

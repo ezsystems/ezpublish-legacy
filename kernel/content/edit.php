@@ -29,7 +29,7 @@
 include_once( 'kernel/classes/eztrigger.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 include_once( 'kernel/content/node_edit.php' );
 initializeNodeEdit( $Module );
 include_once( 'kernel/content/relation_edit.php' );

@@ -29,7 +29,7 @@
 include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezpackage.php" );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $viewMode = $Params['ViewMode'];
 $packageName = $Params['PackageName'];
 $repositoryID = false;

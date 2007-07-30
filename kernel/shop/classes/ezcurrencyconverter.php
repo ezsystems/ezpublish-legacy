@@ -76,7 +76,7 @@ class eZCurrencyConverter
         if ( $fromCurrency == false || $toCurrency == false || $fromCurrency == $toCurrency || $value == 0 )
             return $value;
 
-        $math =& $this->mathHandler();
+        $math = $this->mathHandler();
 
         $crossRate = $this->crossRate( $fromCurrency, $toCurrency );
         $convertedValue = $math->mul( $value, $crossRate );
@@ -122,15 +122,15 @@ class eZCurrencyConverter
 
     function rateValue( $currencyCode )
     {
-        $rateValue = 0;
-
-        $currencyList =& $this->currencyList();
-        $currency =& $currencyList[$currencyCode];
+        $currencyList = $this->currencyList();
+        $currency = $currencyList[$currencyCode];
 
         if ( is_object( $currency ) )
-            $rateValue = $currency->rateValue();
+        {
+            return $currency->rateValue();
+        }
 
-        return $rateValue;
+        return 0;
     }
 
     function crossRate( $fromCurrency, $toCurrency )
@@ -138,14 +138,13 @@ class eZCurrencyConverter
         $fromRate = $this->rateValue( $fromCurrency );
         $toRate = $this->rateValue( $toCurrency );
 
-        $crossRate = 0;
         if ( $fromRate > 0 )
         {
-            $math =& $this->mathHandler();
-            $crossRate = $math->div( $toRate, $fromRate );
+            $math = $this->mathHandler();
+            return $math->div( $toRate, $fromRate );
         }
 
-        return $crossRate;
+        return 0;
     }
 
     function mathHandler()

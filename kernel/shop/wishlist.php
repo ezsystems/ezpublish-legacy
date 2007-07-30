@@ -29,7 +29,7 @@
 include_once( "kernel/classes/ezwishlist.php" );
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 $offset = $Params['Offset'];
 
 $user = eZUser::currentUser();

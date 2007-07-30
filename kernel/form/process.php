@@ -31,7 +31,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezmail.php" );
 include_once( 'lib/ezutils/classes/ezmailtransport.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $ini = eZINI::instance();
 $isEnabled = $ini->variable( 'FormProcessSettings', 'Module' ) == 'enabled';

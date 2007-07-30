@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $text = "<p>Copyright (C) 1999-2006 eZ systems as. All rights reserved.</p>
 

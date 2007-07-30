@@ -28,7 +28,7 @@
 
 include_once( "kernel/classes/ezpackage.php" );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $packageName = $Params['PackageName'];
 

@@ -29,7 +29,7 @@
 /*! \file group.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $GroupID = $Params['GroupID'];
 

@@ -29,7 +29,7 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
 $http = eZHTTPTool::instance();

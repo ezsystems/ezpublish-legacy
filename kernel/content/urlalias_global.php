@@ -33,7 +33,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezurlaliasml.php' );
 include_once( 'kernel/classes/ezpathelement.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];

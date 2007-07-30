@@ -27,7 +27,7 @@
 //
 
 // Redirect to visual module which is the correct place for this functionality
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $parameters =& $Params["Parameters"];
 
 $visualModule = eZModule::exists( 'visual' );

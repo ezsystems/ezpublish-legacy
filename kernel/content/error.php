@@ -28,7 +28,7 @@
 include_once( "kernel/common/template.php" );
 
 $NodeID = $Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 
 $tpl = templateInit();

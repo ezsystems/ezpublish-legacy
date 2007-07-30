@@ -35,7 +35,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezpdfexport.php' );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )

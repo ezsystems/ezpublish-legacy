@@ -41,7 +41,7 @@ $tpl = templateInit();
 
 $ViewMode = $Params['ViewMode'];
 $NodeID = $Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $LanguageCode = $Params['Language'];
 $Offset = $Params['Offset'];
 $Year = $Params['Year'];

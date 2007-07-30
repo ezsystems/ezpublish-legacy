@@ -46,7 +46,7 @@ include_once( "kernel/classes/ezmodulemanager.php" );
 
 $http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $moduleName= & $Params['ModuleName1'];
 $functionName= & $Params['FunctionName1'];

@@ -27,7 +27,7 @@
 //
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 $parameters =& $Params["Parameters"];
 
 include_once( "kernel/common/template.php" );

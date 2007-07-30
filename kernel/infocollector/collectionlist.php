@@ -32,7 +32,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 $http = eZHTTPTool::instance();
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $objectID = $Params['ObjectID'];
 $offset = $Params['Offset'];
 

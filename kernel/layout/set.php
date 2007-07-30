@@ -28,7 +28,7 @@
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 $LayoutStyle = $Params['LayoutStyle'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $userParamString = '';
 foreach ( $Params['UserParameters'] as $key => $param )

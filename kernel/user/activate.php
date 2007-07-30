@@ -32,7 +32,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );
 include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 //$http = eZHTTPTool::instance();
 $hash =& $Params['Hash'];
 $mainNodeID =& $Params['MainNodeID'];

@@ -34,7 +34,7 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
 
 //$Module->setExitStatus( EZ_MODULE_STATUS_SHOW_LOGIN_PAGE );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $ini = eZINI::instance();
 $http = eZHTTPTool::instance();

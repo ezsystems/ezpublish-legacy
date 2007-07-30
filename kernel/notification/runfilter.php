@@ -32,7 +32,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $tpl = templateInit();
 

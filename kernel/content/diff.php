@@ -33,7 +33,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'lib/ezdiff/classes/ezdiff.php' );
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $objectID = $Params['ObjectID'];
 
 $Offset = $Params['Offset'];

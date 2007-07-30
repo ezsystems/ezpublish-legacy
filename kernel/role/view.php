@@ -41,7 +41,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $roleID =& $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );

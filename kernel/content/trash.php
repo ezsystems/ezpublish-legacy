@@ -35,7 +35,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $Offset = $Params['Offset'];
 if ( isset( $Params['UserParameters'] ) )
 {

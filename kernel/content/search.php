@@ -60,7 +60,7 @@ function pageLimit( $searchPageLimit )
 
 $http = eZHTTPTool::instance();
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 $Offset = $Params['Offset'];
 
 if ( !is_numeric( $Offset ) )

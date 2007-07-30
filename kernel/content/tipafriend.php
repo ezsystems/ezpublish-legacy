@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 $http = eZHTTPTool::instance();
 
 $NodeID = (int)$Params['NodeID'];
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $tpl = templateInit();
 $tpl->setVariable( 'action', '' );

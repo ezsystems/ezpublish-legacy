@@ -34,7 +34,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];

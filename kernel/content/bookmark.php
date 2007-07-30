@@ -36,7 +36,7 @@ include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $http = eZHTTPTool::instance();
 
 $Offset = $Params['Offset'];

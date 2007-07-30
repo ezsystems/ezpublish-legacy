@@ -28,7 +28,7 @@
 
 // Parameters: ruleID (optional)
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 require_once( 'kernel/classes/ezvatrule.php' );
 require_once( 'kernel/classes/ezproductcategory.php' );

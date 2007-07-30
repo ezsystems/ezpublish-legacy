@@ -31,7 +31,7 @@ include_once( 'kernel/classes/ezorder.php' );
 include_once( 'kernel/classes/ezorderstatus.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $tpl = templateInit();
 

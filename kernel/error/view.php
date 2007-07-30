@@ -30,7 +30,7 @@ include_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 $errorType = $Params['Type'];
 $errorNumber = $Params['Number'];
 $extraErrorParameters = $Params['ExtraParameters'];

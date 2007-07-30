@@ -29,7 +29,7 @@
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 
 if( eZPreferences::value( 'admin_url_list_limit' ) )

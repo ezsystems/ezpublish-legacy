@@ -42,7 +42,7 @@ include_once( 'lib/ezutils/classes/ezmodule.php' );
 include_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $roleID =& $Params['RoleID'];
 
 $modules = eZModuleManager::availableModules();

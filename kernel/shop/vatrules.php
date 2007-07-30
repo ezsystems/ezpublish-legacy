@@ -163,7 +163,7 @@ function compareVatRules($a, $b)
     return 0;
 }
 
-$module = $Params["Module"];
+$module = $Params['Module'];
 $http   = eZHTTPTool::instance();
 $tpl = templateInit();
 

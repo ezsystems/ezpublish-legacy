@@ -63,7 +63,7 @@ function pageLimit( $searchPageLimit )
 
 $http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $Offset = $Params['Offset'];
 

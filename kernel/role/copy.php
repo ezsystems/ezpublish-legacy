@@ -31,7 +31,7 @@
 
 include_once( 'kernel/classes/ezrole.php' );
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $roleID =& $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );

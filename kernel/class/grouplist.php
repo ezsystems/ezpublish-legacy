@@ -32,7 +32,7 @@ include_once( "kernel/classes/ezcontentclassgroup.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 
 $http = eZHTTPTool::instance();
 if ( $http->hasPostVariable( "RemoveGroupButton" ) )

@@ -32,7 +32,7 @@ include_once( "kernel/classes/ezcontentclassgroup.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 
-$Module = $Params["Module"];
+$Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID = $Params["GroupID"];

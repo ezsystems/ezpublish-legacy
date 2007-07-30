@@ -29,7 +29,7 @@
 /*! \file view.php
 */
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ViewMode = $Params['ViewMode'];
 $ItemID = $Params['ItemID'];
 

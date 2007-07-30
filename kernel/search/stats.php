@@ -52,7 +52,7 @@ if ( !is_numeric( $offset ) )
 }
 
 $http = eZHTTPTool::instance();
-$module = $Params["Module"];
+$module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 {

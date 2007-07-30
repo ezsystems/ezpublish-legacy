@@ -41,7 +41,7 @@ $http = eZHTTPTool::instance();
 
 $tpl = templateInit();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 $ObjectID = $Params['ObjectID'];
 
 $NodeID = $Params['NodeID'];

@@ -26,7 +26,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 if ( !$module->hasActionParameter( 'NodeID' ) )
 {

@@ -31,7 +31,7 @@
 
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$module =& $Params['Module'];
+$module = $Params['Module'];
 
 $preferredCurrency = $Params['Currency'];
 

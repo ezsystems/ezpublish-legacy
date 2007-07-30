@@ -38,7 +38,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 $http = eZHTTPTool::instance();
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $user = eZUser::currentUser();
 

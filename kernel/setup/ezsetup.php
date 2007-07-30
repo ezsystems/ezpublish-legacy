@@ -59,7 +59,7 @@ if ( $ini->variable( 'TemplateSettings', 'Debug' ) == 'enabled' )
 //$ini->setVariable( 'RegionalSettings', 'TextTranslation', 'disabled' );
 
 
-$Module =& $Params['Module'];
+$Module = $Params['Module'];
 
 $tpl->setAutoloadPathList( $ini->variable( 'TemplateSettings', 'AutoloadPathList' ) );
 $tpl->autoload();
