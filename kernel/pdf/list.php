@@ -67,7 +67,7 @@ foreach( array_keys( $exportArray ) as $exportID )
     $exportList[$export->attribute( 'id' )] =& $export;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'pdfexport_list', $exportList );
 

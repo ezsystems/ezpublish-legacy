@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( "RemoveDiscountGroupButton" ) )
     return;
 }
 $module->setTitle( "View discount group" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "discountgroup_array", $discountGroupArray );
 $tpl->setVariable( "module", $module );
 

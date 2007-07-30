@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( 'CancelButton' )  )
     $Module->redirectTo( $Module->functionURI( 'list' ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( "section", $section );
 

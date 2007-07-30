@@ -111,7 +111,7 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
             include_once( 'kernel/common/template.php' );
             include_once( 'kernel/classes/ezsection.php' );
             $sectionArray = eZSection::fetchList( );
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->setVariable( 'section_array', $sectionArray );
             $tpl->setVariable( 'role_id', $roleID );
             $tpl->setVariable( 'limit_ident', $limitIdent );

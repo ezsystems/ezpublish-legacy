@@ -53,7 +53,7 @@ include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
 $viewParameters = array( 'offset' => $Offset );
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'collab_item', $collabItem );

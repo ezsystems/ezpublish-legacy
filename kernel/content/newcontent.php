@@ -29,7 +29,7 @@
 
 include_once( 'kernel/common/template.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $user = eZUser::currentUser();
 
 $tpl->setVariable( "view_parameters", $Params['UserParameters'] );

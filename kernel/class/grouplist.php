@@ -84,7 +84,7 @@ if ( !isset( $TemplateData ) or !is_array( $TemplateData ) )
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Class group list' ) );
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user = eZUser::currentUser();

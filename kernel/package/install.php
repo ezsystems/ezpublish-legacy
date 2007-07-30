@@ -65,7 +65,7 @@ if ( !$package )
 
 $installItemArray = $package->installItemsList( false, eZSys::osType() );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'SkipPackage' ) )
 {

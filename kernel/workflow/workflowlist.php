@@ -167,7 +167,7 @@ if ( !$WorkflowgroupInfo )
 }
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "temp_workflow_list", $temp_list );
 $tpl->setVariable( "group_id", $WorkflowGroupID );
 $WorkflowGroupName = $WorkflowgroupInfo->attribute("name");

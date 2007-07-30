@@ -172,7 +172,7 @@ function updateINI()
                 else
                 {
                     //Replace new INI files eZ webin 1.2 accordingly.
-                    $tmpINI =& eZINI::create( $iniName );
+                    $tmpINI = eZINI::create( $iniName );
                     // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.
                     $tmpINI->setReadOnlySettingsCheck( false );
                     $tmpINI->setVariables( $settings );
@@ -200,7 +200,7 @@ function updateINI()
         }
         else
         {
-            $tmpINI =& eZINI::create( $iniName );
+            $tmpINI = eZINI::create( $iniName );
         }
         // Set ReadOnlySettingsCheck to false: towards
         // Ignore site.ini[eZINISettings].ReadonlySettingList[] settings when saving ini variables.

@@ -115,7 +115,7 @@ if ( $Module->isCurrentAction( 'EditObject' ) )
 }
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'Module', $Module );
 $tpl->setVariable( 'url_object', $url );

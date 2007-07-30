@@ -69,7 +69,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $templateName = 'design:package/create.tpl';
 if ( $creator )

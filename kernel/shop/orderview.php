@@ -81,7 +81,7 @@ if ( !$access )
 {
      return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
-$tpl =& templateInit();
+$tpl = templateInit();
 
 
 $tpl->setVariable( "order", $order );

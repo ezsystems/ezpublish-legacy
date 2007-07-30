@@ -33,7 +33,7 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 $module =& $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $offset = $Params['Offset'];
 $limit = 50;

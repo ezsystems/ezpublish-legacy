@@ -41,7 +41,7 @@ if ( $http->hasPostVariable( 'Cancel' ) )
 }
 
 $ini = eZINI::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Result = array();
 $Result['path'] = array( array( 'url' => false,

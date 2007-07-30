@@ -281,7 +281,7 @@ class eZTrigger extends eZPersistentObject
             case EZ_WORKFLOW_STATUS_FETCH_TEMPLATE:
             {
                 include_once( 'kernel/common/template.php' );
-                $tpl =& templateInit();
+                $tpl = templateInit();
                 $result = array();
                 foreach ( array_keys( $workflowProcess->Template['templateVars'] ) as $key )
                 {

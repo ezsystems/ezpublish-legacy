@@ -27,7 +27,7 @@
 //
 
 
-function &templateInit( $name = false )
+function templateInit( $name = false )
 {
     if ( $name === false )
         $tpl =& $GLOBALS["eZPublishTemplate"];

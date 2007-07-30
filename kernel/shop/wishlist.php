@@ -244,7 +244,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
 }
 include_once( "kernel/common/template.php" );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $wishList =& eZWishList::currentWishList();
 

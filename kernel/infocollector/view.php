@@ -56,7 +56,7 @@ if( !$object )
 $objectID   = $collection->attribute( 'contentobject_id' );
 $objectName = $object->attribute( 'name' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'collection', $collection );
 

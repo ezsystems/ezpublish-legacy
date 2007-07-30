@@ -37,7 +37,7 @@ include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezsiteaccess.php" );
 
 $ini = eZINI::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
 {

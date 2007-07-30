@@ -36,7 +36,7 @@ include_once( 'lib/ezutils/classes/ezsysinfo.php' );
 include_once( 'lib/version.php' );
 
 $ini = eZINI::instance( );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $db = eZDB::instance();
 

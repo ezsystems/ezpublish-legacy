@@ -36,7 +36,7 @@ include_once( 'kernel/classes/ezcontentlanguage.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $http = eZHTTPTool::instance();
 $Module =& $Params['Module'];
 

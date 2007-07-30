@@ -50,7 +50,7 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
 
     $collections = count( $collectionIDArray );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
     $tpl->setVariable( 'module', $module );
     $tpl->setVariable( 'collections', $collections );
     $tpl->setVariable( 'object_id', $objectID );
@@ -116,7 +116,7 @@ $numberOfCollections = eZInformationCollection::fetchCollectionsCount( $objectID
 $viewParameters = array( 'offset' => $offset );
 $objectName = $object->attribute( 'name' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );

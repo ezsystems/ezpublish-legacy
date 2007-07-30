@@ -40,7 +40,7 @@ $module =& $Params["module"];
 $offset = $Params['Offset'];
 $limit = 15;
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $http = eZHTTPTool::instance();
 

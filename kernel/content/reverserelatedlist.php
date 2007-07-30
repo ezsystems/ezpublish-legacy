@@ -144,7 +144,7 @@ foreach( $rows as $child )
 $contentObjectName = $contentObjectTreeNode->attribute('name');
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'children_list', $childrenList );
 $tpl->setVariable( 'view_parameters', $viewParameters );

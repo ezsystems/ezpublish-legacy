@@ -289,7 +289,7 @@ foreach ( $classList as $class )
 
 $sectionList = eZSection::fetchList();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'discountgroup_id', $discountGroupID );

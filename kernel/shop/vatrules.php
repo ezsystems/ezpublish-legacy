@@ -165,7 +165,7 @@ function compareVatRules($a, $b)
 
 $module =& $Params["Module"];
 $http   = eZHTTPTool::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $http->hasPostVariable( "AddRuleButton" ) )
 {

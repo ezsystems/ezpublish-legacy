@@ -939,7 +939,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
             }
         }
         include_once( "kernel/common/template.php" );
-        $tpl =& templateInit();
+        $tpl = templateInit();
         if ( count( $warningList ) == 0 )
             $warningList = false;
         $tpl->setVariable( 'site', $site );

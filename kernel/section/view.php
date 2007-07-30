@@ -43,7 +43,7 @@ if ( !$section )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "section", $section );

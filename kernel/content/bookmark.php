@@ -92,7 +92,7 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();

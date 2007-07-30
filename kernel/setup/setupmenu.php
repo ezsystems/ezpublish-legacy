@@ -37,7 +37,7 @@ $http = eZHTTPTool::instance();
 $contentIni = eZINI::instance( 'content.ini' );
 
 $Module->setTitle( ezi18n( 'kernel/setup', 'Setup menu' ) );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:setup/setupmenu.tpl' );

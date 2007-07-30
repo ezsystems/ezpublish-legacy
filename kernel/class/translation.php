@@ -120,7 +120,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 
     include_once( "kernel/common/template.php" );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $tpl->setVariable( 'class_id', $classID );
     $tpl->setVariable( 'class', $class );

@@ -168,7 +168,7 @@ strReplaceByArray( array( 'eZ Systems AS' => '<a href="http://ez.no/">eZ Systems
                           'eZ publish' => '<a href="http://ez.no/ezpublish">eZ Publish</a>' ),
                    array( &$whatIsEzPublish, &$license, &$contributors, &$thirdPartySoftware, &$extensions ) );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'ezinfo', $ezinfo );
 $tpl->setVariable( 'what_is_ez_publish', $whatIsEzPublish );
 $tpl->setVariable( 'license', $license );

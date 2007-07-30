@@ -105,7 +105,7 @@ $listCount = eZURL::fetchListCount( $countParameters );
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'url_list', $list );

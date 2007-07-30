@@ -103,7 +103,7 @@ class eZShopOperationCollection
                            'or contact site administrator.' );
 
             include_once( "kernel/common/template.php" );
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->setVariable( "error_header",  $header );
             $tpl->setVariable( "error_list", array( $msg ) );
 

@@ -50,7 +50,7 @@ $Params['TemplateName'] = "design:user/register.tpl";
 $EditVersion = 1;
 
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Params['TemplateObject'] =& $tpl;
@@ -174,7 +174,7 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( 'lib/ezutils/classes/ezmail.php' );
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );
             $ini = eZINI::instance();
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->setVariable( 'user', $user );
             $tpl->setVariable( 'object', $object );
             $hostname = eZSys::hostname();

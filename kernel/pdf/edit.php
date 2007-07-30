@@ -66,7 +66,7 @@ if ( isset( $Params['PDFExportID'] ) )
         {
             // TODO: In 3.6
             // // locked editing
-            // $tpl =& templateInit();
+            // $tpl = templateInit();
             // $tpl->setVariable ...
             // $Result = array();
             // $Result['content'] =& $tpl->fetch( 'design:pdf/edit_denied.tpl' );
@@ -184,7 +184,7 @@ else if ( $Module->isCurrentAction( 'Discard' ) )
     return $Module->redirect( 'pdf', 'list' );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'set_warning', $setWarning );
 
@@ -223,7 +223,7 @@ function generatePDF( &$pdfExport, $toFile = false )
     {
         $object =& $node->attribute( 'object' );
 
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'generate_toc', 1 );

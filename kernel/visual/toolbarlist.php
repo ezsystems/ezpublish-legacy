@@ -66,7 +66,7 @@ if ( $toolbarIni->hasVariable( "Toolbar", "AvailableToolBarArray" ) )
 {
     $toolbarArray =  $toolbarIni->variable( "Toolbar", "AvailableToolBarArray" );
 }
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'toolbar_list', $toolbarArray );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );

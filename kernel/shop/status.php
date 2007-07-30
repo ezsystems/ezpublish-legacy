@@ -97,7 +97,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
 
 $orderStatusArray = eZOrderStatus::fetchList( true, true );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "orderstatus_array", $orderStatusArray );
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "messages", $messages );

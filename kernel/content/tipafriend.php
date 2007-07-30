@@ -42,7 +42,7 @@ $http = eZHTTPTool::instance();
 $NodeID = (int)$Params['NodeID'];
 $Module =& $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'action', '' );
 
 $error_strings = array();
@@ -153,7 +153,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $overrideKeysAreSet = true;
 
         // fetch text from mail template
-        $mailtpl =& templateInit();
+        $mailtpl = templateInit();
         $mailtpl->setVariable( 'hostname', $hostName );
         $mailtpl->setVariable( 'nodename', $nodeName );
         $mailtpl->setVariable( 'node_id', $NodeID );

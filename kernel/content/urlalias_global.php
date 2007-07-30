@@ -39,7 +39,7 @@ $http = eZHTTPTool::instance();
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $limit = 20;
 
 // TODO: For PHP 5, merge similar code in urlalias.php and urlalias_global.php into a function/class.

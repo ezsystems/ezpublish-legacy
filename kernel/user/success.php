@@ -29,7 +29,7 @@ $Module =& $Params["Module"];
 $Module->setTitle( "Successful registration" );
 // Template handling
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module", $Module );
 $ini = eZINI::instance();
 $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );

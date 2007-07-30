@@ -144,7 +144,7 @@ if ( is_numeric( $RSSExportID ) )
              $rssExport->attribute( 'modified' ) + $timeOut > time() )
         {
             // locked editing
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $tpl->setVariable( 'rss_export', $rssExport );
             $tpl->setVariable( 'rss_export_id', $rssExportID );
@@ -233,7 +233,7 @@ else // New RSSExport
     $db->commit();
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $config = eZINI::instance( 'site.ini' );
 
 $rssVersionArray = $config->variable( 'RSSSettings', 'AvailableVersionList' );

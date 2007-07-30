@@ -43,7 +43,7 @@ $viewParameters = array( 'offset' => $Offset );
 include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkNodeID( 'content', 'urlalias', $NodeID );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $limit = 20;
 
 $node = eZContentObjectTreeNode::fetch( $NodeID );

@@ -121,7 +121,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
              $hasClassInformation )
         {
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $tpl->setVariable( 'node_id', $http->postVariable( 'NodeID' ) );
             $tpl->setVariable( 'class_id', $contentClassID );

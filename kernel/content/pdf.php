@@ -309,7 +309,7 @@ function contentPDFGenerate( $cacheFile,
                           array( 'class_group', $object->attribute( 'match_ingroup_id_list' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $tpl->setVariable( 'view_parameters', $viewParameters );
 

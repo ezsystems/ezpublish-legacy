@@ -34,7 +34,7 @@ include_once( 'kernel/common/template.php' );
 $http = eZHTTPTool::instance();
 $Module =& $Params['Module'];
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'filter_proccessed', false );
 $tpl->setVariable( 'time_event_created', false );

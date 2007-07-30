@@ -87,7 +87,7 @@ $Module->setTitle( "Edit class group " . $classgroup->attribute( "name" ) );
 
 // Template handling
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "classgroup", $classgroup->attribute( "id" ) ) ) );

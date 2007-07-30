@@ -57,7 +57,7 @@ if ( $Module->isCurrentAction( 'Publish' ) and
     if ( $conflictingVersions )
     {
         include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),

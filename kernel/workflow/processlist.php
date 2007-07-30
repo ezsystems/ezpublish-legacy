@@ -81,7 +81,7 @@ foreach ( $plist as $p )
 
 // Template handling
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "trigger_list", $outList2 );

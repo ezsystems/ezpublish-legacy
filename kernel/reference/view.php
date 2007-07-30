@@ -46,7 +46,7 @@ switch ( $referenceType )
     } break;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'reference_result', $referenceResult );
 $tpl->setVariable( 'reference_type', $referenceType );

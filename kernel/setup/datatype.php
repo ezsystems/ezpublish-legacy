@@ -33,7 +33,7 @@ include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $ini = eZINI::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $steps = array( 'basic' => array( 'template' => 'datatype_basic.tpl',
                                   'function' => 'datatypeBasic' ),

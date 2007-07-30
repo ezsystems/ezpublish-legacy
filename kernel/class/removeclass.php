@@ -124,7 +124,7 @@ $canRemove = ( $canRemoveCount > 0 );
 
 $Module->setTitle( ezi18n( 'kernel/class', 'Remove classes %class_id', null, array( '%class_id' => $ClassID ) ) );
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'module', $Module );
 $tpl->setVariable( 'GroupID', $GroupID );

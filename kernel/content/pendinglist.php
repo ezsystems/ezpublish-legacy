@@ -44,7 +44,7 @@ $user = eZUser::currentUser();
 $userID = $user->id();
 
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();

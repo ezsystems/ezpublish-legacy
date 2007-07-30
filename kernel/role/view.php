@@ -131,7 +131,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     $db->commit();
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $userArray =& $role->fetchUserByRole();
 

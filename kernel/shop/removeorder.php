@@ -68,7 +68,7 @@ else // no action yet: just displaying the template
 
     $Module->setTitle( ezi18n( 'shop', 'Remove orders' ) );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
     $tpl->setVariable( "module", $Module );
     $tpl->setVariable( "delete_result", $orderNumbersString );
     $Result = array();

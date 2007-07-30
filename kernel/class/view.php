@@ -102,7 +102,7 @@ if ( count( $groupList ) > 0 )
 $Module->setTitle( "Edit class " . $class->attribute( "name" ) );
 
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( "id" ) ),

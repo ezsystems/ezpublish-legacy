@@ -356,7 +356,7 @@ $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow' ) . ' ' . $workflo
 
 // Template handling
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();
 

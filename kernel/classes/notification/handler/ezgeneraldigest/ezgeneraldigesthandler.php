@@ -137,7 +137,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $addressArray = $this->fetchUsersForDigest( $timestamp );
 
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             foreach ( $addressArray as $address )
             {

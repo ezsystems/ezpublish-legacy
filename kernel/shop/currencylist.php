@@ -125,7 +125,7 @@ $currencyCount = eZCurrencyData::fetchListCount();
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'currency_list', $currencyList );
 $tpl->setVariable( 'currency_list_count', $currencyCount );

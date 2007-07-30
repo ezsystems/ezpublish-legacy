@@ -70,7 +70,7 @@ $Offset = $Params['Offset'];
 if ( $ViewMode == 'offset' )
     $ViewMode = '';
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $ini = eZINI::instance();
 $useSearchCode = $ini->variable( 'SearchSettings', 'SearchViewHandling' ) == 'default';

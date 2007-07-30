@@ -379,7 +379,7 @@ foreach ( array_keys( $limitationList ) as $key )
 }
 
 $Module->setTitle( "Edit policy" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "Module", $Module );
 $tpl->setVariable( "current_function", $currentFunction );
 $tpl->setVariable( "role_id", $roleID );

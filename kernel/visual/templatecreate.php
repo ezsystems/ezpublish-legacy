@@ -39,7 +39,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( "kernel/classes/ezcontentclass.php" );
 
 $ini = eZINI::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Todo: read from siteaccess settings
 $siteAccess = $Params['SiteAccess'];

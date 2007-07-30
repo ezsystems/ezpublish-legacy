@@ -97,7 +97,7 @@ if ( is_numeric( $ClassID ) )
              $class->attribute( 'modified' ) + $timeOut > time() )
         {
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
@@ -266,7 +266,7 @@ if ( !$EditLanguage )
         {
             include_once( 'kernel/common/template.php' );
 
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
@@ -777,7 +777,7 @@ $validation = array_merge( $validation, $datatypeValidation );
 
 // Template handling
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( 'class', $class->attribute( 'id' ) ) ) ); // Class ID
 $tpl->setVariable( 'http', $http );

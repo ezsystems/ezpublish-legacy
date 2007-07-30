@@ -372,7 +372,7 @@ if ( $toolbarIni->hasVariable( "Tool", "AvailableToolArray" ) )
     $availableToolArray = $toolbarIni->variable( "Tool", "AvailableToolArray" );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'toolbar_position', $toolbarPosition );
 $tpl->setVariable( 'tool_list', $toolList );

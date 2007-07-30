@@ -180,7 +180,7 @@ class eZCollaborationItemHandler
         {
             include_once( 'kernel/classes/notification/eznotificationcollection.php' );
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->resetVariables();
             $tpl->setVariable( 'collaboration_item', $item );
             $result = $tpl->fetch( 'design:notification/handler/ezcollaboration/view/plain.tpl' );
@@ -223,7 +223,7 @@ class eZCollaborationItemHandler
             }
 
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->resetVariables();
             foreach( $userCollection as $participantRole => $collectionItems )
             {

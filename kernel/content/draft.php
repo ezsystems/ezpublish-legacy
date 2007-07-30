@@ -75,7 +75,7 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
     $db->commit();
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable('view_parameters', $viewParameters );
 

@@ -39,7 +39,7 @@ $Offset = $Params['Offset'];
 $ClassID = $Params['ClassID'];
 $viewParameters = array( 'offset' => $Offset, 'classid' => $ClassID );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'alphabet', $Alphabet );

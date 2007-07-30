@@ -690,7 +690,7 @@ class eZContentCacheManager
                 }
 
                 include_once( 'kernel/common/template.php' );
-                $tpl =& templateInit();
+                $tpl = templateInit();
                 $res = eZTemplateDesignResource::instance();
 
                 // Get the sitedesign and cached view preferences for this siteaccess

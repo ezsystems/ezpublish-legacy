@@ -42,7 +42,7 @@ if ( !$isEnabled )
                                                           'module' => 'form' ) ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Parse HTTP POST variables and generate Mail message
 $formProcessed = false;

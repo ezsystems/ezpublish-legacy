@@ -54,7 +54,7 @@ if ( count( $options['arguments'] ) > 0 )
     $ini = eZINI::instance();
 
     include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $fileList = array();
 
@@ -114,7 +114,7 @@ else
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );
 
     include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );
     $script->setShowVerboseOutput( true );

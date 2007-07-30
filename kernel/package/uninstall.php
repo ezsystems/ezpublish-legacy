@@ -63,7 +63,7 @@ if ( $module->isCurrentAction( 'SkipPackage' ) )
     return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Get all uninstall items and reverse array
 $uninstallItems = array_reverse( $package->installItemsList( false, false, false, false ) );

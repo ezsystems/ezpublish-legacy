@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( "ApplyButton" ) )
 }
 
 $module->setTitle( "Editing discount group" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "discount_group", $discountGroup );
 

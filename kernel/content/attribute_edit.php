@@ -380,7 +380,7 @@ if ( isset( $Params['TemplateObject'] ) )
     $tpl = $Params['TemplateObject'];
 
 if ( !isset( $tpl ) || strtolower( get_class( $tpl ) ) != 'eztemplate' )
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
 $tpl->setVariable( 'validation', $validation );
 $tpl->setVariable( 'validation_log', $validatedAttributes );

@@ -89,7 +89,7 @@ function generateUniqueCategoryName( $productCategories )
 
 $module =& $Params["Module"];
 $http   = eZHTTPTool::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 $errors = false;
 
 // Remove checked categories.

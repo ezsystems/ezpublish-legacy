@@ -64,7 +64,7 @@ foreach( array_keys( $workflows ) as $workflowID )
 $Module->setTitle( 'Workflow list' );
 
 include_once( 'kernel/common/template.php' );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'workflow_list', $workflowList );
 $tpl->setVariable( 'group_list', $groupList );

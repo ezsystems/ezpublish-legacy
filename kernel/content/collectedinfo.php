@@ -46,7 +46,7 @@ if ( !$object->attribute( 'can_read' ) )
 
 $http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $icMap = array();
 if ( $http->hasSessionVariable( 'InformationCollectionMap' ) )

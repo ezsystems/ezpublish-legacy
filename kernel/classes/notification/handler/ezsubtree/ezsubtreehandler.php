@@ -121,7 +121,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         }
         include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
+        $tpl = templateInit();
         $tpl->resetVariables();
 
         $parentNode = $contentNode->attribute( 'parent' );

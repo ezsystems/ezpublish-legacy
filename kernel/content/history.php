@@ -39,7 +39,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 
 include_once( 'lib/ezdiff/classes/ezdiff.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $http = eZHTTPTool::instance();
 
 $ObjectID = $Params['ObjectID'];

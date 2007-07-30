@@ -181,7 +181,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 
     include_once( "kernel/common/template.php" );
 
-    $tpl =& templateInit();
+    $tpl = templateInit();
         
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'object', $object );

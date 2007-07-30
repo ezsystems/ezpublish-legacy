@@ -236,7 +236,7 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
     return;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $res = eZTemplateDesignResource::instance();
 

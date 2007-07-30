@@ -345,7 +345,7 @@ if ( $EditLanguage == false )
         // No version found, ask the user.
         include_once( 'kernel/common/template.php' );
 
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ) ) );
@@ -407,7 +407,7 @@ if ( !is_numeric( $EditVersion ) )
             }
 
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
@@ -444,7 +444,7 @@ if ( !is_numeric( $EditVersion ) )
                 }
             }
             include_once( 'kernel/common/template.php' );
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
                 $res = eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
@@ -671,7 +671,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 if ( $conflictingVersions )
                 {
                     include_once( 'kernel/common/template.php' );
-                    $tpl =& templateInit();
+                    $tpl = templateInit();
 
                     $res = eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),

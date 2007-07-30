@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( "Reset" ) )
 
 // Template handling
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 include_once( "kernel/classes/ezworkflow.php" );
 $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );

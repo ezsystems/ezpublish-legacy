@@ -35,7 +35,7 @@ include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {

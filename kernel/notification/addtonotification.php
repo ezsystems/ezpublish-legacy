@@ -78,7 +78,7 @@ if ( !$contentNode->attribute( 'can_read' ) )
     return;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 if ( $http->hasSessionVariable( "LastAccessesURI" ) )
     $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
 //else

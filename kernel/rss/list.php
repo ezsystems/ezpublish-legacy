@@ -97,7 +97,7 @@ foreach( $importArray as $import )
     $importList[$import->attribute( 'id' )] = $import;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'rssexport_list', $exportList );
 $tpl->setVariable( 'rssimport_list', $importList );

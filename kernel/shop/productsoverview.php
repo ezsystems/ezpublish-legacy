@@ -89,7 +89,7 @@ $sortingOrder = eZPreferences::value( 'productsoverview_sorting_order' );
 
 $viewParameters = array( 'offset' => $offset );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'product_class_list', $productClassList );
 $tpl->setVariable( 'product_class', $productClass );
 $tpl->setVariable( 'price_attribute_identifier', $priceAttributeIdentifier );

@@ -59,7 +59,7 @@ else if ( $module->isCurrentAction( 'Uninstall' ) )
 
 $repositoryInformation = $package->currentRepositoryInformation();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'package_name', $packageName );
 $tpl->setVariable( 'repository_id', $repositoryID );

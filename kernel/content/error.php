@@ -31,7 +31,7 @@ $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
 
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Module->setTitle( "Error 404 object " . $NodeID . " not found" );
 

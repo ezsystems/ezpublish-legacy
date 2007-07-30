@@ -115,7 +115,7 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();

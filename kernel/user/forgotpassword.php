@@ -35,7 +35,7 @@ include_once( "kernel/classes/datatypes/ezuser/ezforgotpassword.php" );
 
 
 include_once( "kernel/common/template.php" );
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'generated', false );
 $tpl->setVariable( 'wrong_email', false );
 $tpl->setVariable( 'link', false );
@@ -76,7 +76,7 @@ if ( strlen( $hashKey ) == 32 )
         if ( !$mail->validate( $receiver ) )
         {
         }
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $tpl->setVariable( 'user', $userToSendEmail );
         $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
@@ -148,7 +148,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             if ( !$mail->validate( $receiver ) )
             {
             }
-            $tpl =& templateInit();
+            $tpl = templateInit();
             $tpl->setVariable( 'user', $userToSendEmail );
             $tpl->setVariable( 'object', $userToSendEmail->attribute( 'contentobject' ) );
             $tpl->setVariable( 'password', $password );

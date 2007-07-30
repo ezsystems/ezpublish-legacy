@@ -90,7 +90,7 @@ else if ( $module->isCurrentAction( 'UploadCancel' ) )
     return;
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'package', $package );
 $tpl->setVariable( 'error_list', $errorList );

@@ -189,7 +189,7 @@ function chooseObjectVersionsToCopy( &$Module, &$Result, &$object )
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
+        $tpl = templateInit();
         $tpl->setVariable( 'object', $object );
         $tpl->setVariable( 'selected_node_id', $selectedNodeIDArray[0] );
         $Result['content'] = $tpl->fetch( 'design:content/copy.tpl' );

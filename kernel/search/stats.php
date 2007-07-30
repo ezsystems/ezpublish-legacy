@@ -60,7 +60,7 @@ if ( $module->isCurrentAction( 'ResetSearchStats' ) )
 }
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $db = eZDB::instance();
 $query = "SELECT count(*) as count FROM ezsearch_search_phrase";

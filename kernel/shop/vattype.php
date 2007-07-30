@@ -34,7 +34,7 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
 $http = eZHTTPTool::instance();
-$tpl =& templateInit();
+$tpl = templateInit();
 $errors = false;
 
 /**

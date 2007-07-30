@@ -79,7 +79,7 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
     return $module->redirectToView( 'create' );
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $viewParameters = array( 'offset' => $offset );
 

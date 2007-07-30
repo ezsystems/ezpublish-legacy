@@ -92,7 +92,7 @@ if ( count( $options['arguments'] ) > 0 )
 
     include_once( 'kernel/common/template.php' );
     include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $fileList = $options['arguments'];
 
@@ -140,7 +140,7 @@ else
 
     include_once( 'kernel/common/template.php' );
     include_once( 'lib/eztemplate/classes/eztemplatecompiler.php' );
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $script->setIterationData( '.', '~' );
     if ( $forceCompile )

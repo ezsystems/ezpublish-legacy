@@ -40,7 +40,7 @@ include_once( "kernel/classes/ezorder.php" );
 
 $http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $Email = urldecode( $Email );
 $productList = eZOrder::productList( $CustomerID, $Email );

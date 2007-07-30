@@ -34,7 +34,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 define( 'MD5_SUM_LIST_FILE', 'share/filelist.md5' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $tpl->setVariable( 'md5_result', false );
 $tpl->setVariable( 'upgrade_sql', false );

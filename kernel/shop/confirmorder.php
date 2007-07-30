@@ -34,7 +34,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezorder.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module_name", 'shop' );
 
 $orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );

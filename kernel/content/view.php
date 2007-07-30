@@ -37,7 +37,7 @@ include_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $ViewMode = $Params['ViewMode'];
 $NodeID = $Params['NodeID'];

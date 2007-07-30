@@ -154,7 +154,7 @@ if ( isset( $Params['BrowseType'] ) )
     }
 }
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 // Get classes and class attributes
 $classArray = eZContentClass::fetchList();
@@ -236,7 +236,7 @@ function checkTimeout( &$rssImport )
          $rssImport->attribute( 'modified' ) + $timeOut > time() )
     {
         // locked editing
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $tpl->setVariable( 'rss_import', $rssImport );
         $tpl->setVariable( 'rss_import_id', $rssImportID );

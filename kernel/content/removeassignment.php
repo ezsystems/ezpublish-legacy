@@ -135,7 +135,7 @@ $assignmentData = array( 'object_id'      => $objectID,
                          'remove_list'    => $removeList );
 $info = array( 'can_remove_all' => $canRemoveAll );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'assignment_data', $assignmentData );
 $tpl->setVariable( 'remove_info', $info );
 

@@ -68,7 +68,7 @@ $db->commit();
 
 $viewParameters = array( 'offset' => $Params['Offset'] );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( 'user', $user );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 

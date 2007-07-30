@@ -101,7 +101,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 }
 
 $viewParameters = array( 'offset' => $offset );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $roles = eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount = eZRole::roleCount();

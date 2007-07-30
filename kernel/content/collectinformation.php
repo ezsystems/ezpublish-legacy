@@ -71,7 +71,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
          ( $userDataHandling == 'unique' and
            $collection ) )
     {
-        $tpl =& templateInit();
+        $tpl = templateInit();
 
         $attributeHideList = eZInformationCollection::attributeHideList();
         $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
@@ -238,7 +238,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
         if ( $sendEmail )
         {
-            $tpl =& templateInit();
+            $tpl = templateInit();
 
             $attributeHideList = eZInformationCollection::attributeHideList();
             $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );

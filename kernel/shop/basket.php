@@ -294,7 +294,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 }
 $basket = eZBasket::currentBasket();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 if ( isset( $Params['Error'] ) )
 {
     $tpl->setVariable( 'error', $Params['Error'] );

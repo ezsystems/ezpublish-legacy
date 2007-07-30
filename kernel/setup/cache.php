@@ -35,7 +35,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
 $ini = eZINI::instance( );
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $cacheList = eZCache::fetchList();
 

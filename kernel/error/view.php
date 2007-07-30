@@ -28,7 +28,7 @@
 
 include_once( "kernel/common/template.php" );
 
-$tpl =& templateInit();
+$tpl = templateInit();
 
 $module =& $Params['Module'];
 $errorType = $Params['Type'];

@@ -239,7 +239,7 @@ foreach ( $ruleList as $rule )
                    "limitation" => $limitation );
     $ruleArray[] = $item;
 }
-$tpl =& templateInit();
+$tpl = templateInit();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "customers", $customers );
 $tpl->setVariable( "discountgroup", $discountGroup );

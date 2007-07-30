@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( "DeleteGroupButton" ) && $http->hasPostVariable( "g
 
 $event_list =& $workflow->fetchEvents();
 
-$tpl =& templateInit();
+$tpl = templateInit();
 $res = eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
