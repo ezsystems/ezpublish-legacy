@@ -48,7 +48,7 @@ class eZWishList extends eZPersistentObject
 {
     /*!
     */
-    function eZWishList( $row )
+    function eZWishList( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
@@ -197,7 +197,7 @@ class eZWishList extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function &currentWishList( $asObject=true )
+    static function currentWishList( $asObject=true )
     {
         $http = eZHTTPTool::instance();
 
@@ -221,7 +221,7 @@ class eZWishList extends eZPersistentObject
         }
         else
         {
-            $currentWishList =& $WishListArray[0];
+            $currentWishList = $WishListArray[0];
         }
         return $currentWishList;
     }

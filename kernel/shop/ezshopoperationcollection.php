@@ -137,7 +137,7 @@ class eZShopOperationCollection
 
             // Look up price object.
             $priceObj = null;
-            $attributes =&  $productContentObject->contentObjectAttributes();
+            $attributes =  $productContentObject->contentObjectAttributes();
             foreach ( $attributes as $attribute )
             {
                 $dataType = $attribute->dataType();
@@ -387,7 +387,7 @@ class eZShopOperationCollection
                 if ( $attribute->validateAddToBasket( $optionList[$attribute->attribute('id')], $errors ) !== EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
                 {
                     $description = $errors;
-                    $contentClassAttribute =& $attribute->contentClassAttribute();
+                    $contentClassAttribute = $attribute->contentClassAttribute();
                     $attributeName = $contentClassAttribute->attribute( 'name' );
                     $unvalidatedAttributes[] = array( "name" => $attributeName,
                                                       "description" => $description );
@@ -425,7 +425,7 @@ class eZShopOperationCollection
                 else
                     $count++;
             }
-            $collectionItems =& $collection->itemList( false );
+            $collectionItems = $collection->itemList( false );
             foreach ( $collectionItems as $item )
             {
                 /* For all items in the basket which have the same object_id: */

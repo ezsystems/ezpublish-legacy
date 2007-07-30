@@ -60,7 +60,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     //    }
     //}
 
-    $wishList =& eZWishList::currentWishList();
+    $wishList = eZWishList::currentWishList();
 
     /* Find out, if the item with the same options is not already in the wishlist: */
     $itemID = false;
@@ -76,7 +76,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             else
                 $count++;
         }
-        $collectionItems =& $collection->itemList( false );
+        $collectionItems = $collection->itemList( false );
         foreach ( $collectionItems as $item )
         {
             /* For all items in the wishlist which have the same object_id: */
@@ -192,7 +192,7 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
 {
     $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
 
-    $wishList =& eZWishList::currentWishList();
+    $wishList = eZWishList::currentWishList();
 
     $db = eZDB::instance();
     $db->begin();
@@ -246,7 +246,7 @@ include_once( "kernel/common/template.php" );
 
 $tpl = templateInit();
 
-$wishList =& eZWishList::currentWishList();
+$wishList = eZWishList::currentWishList();
 
 $tpl->setVariable( "wish_list", $wishList );
 

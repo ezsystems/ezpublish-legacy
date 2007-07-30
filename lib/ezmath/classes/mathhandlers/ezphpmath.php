@@ -42,18 +42,17 @@ class eZPHPMath
     {
     }
 
-    function &create( $type, $params = array() )
+    static function create( $type, $params = array() )
     {
-        $impl = false;
         $filename = 'lib/ezmath/classes/mathhandlers/' . $type . '.php';
 
         if ( file_exists( $filename ) )
         {
             include_once( $filename );
-            $impl = new $type( $params );
+            return new $type( $params );
         }
 
-        return $impl;
+        return false;
     }
 
     function add( $a, $b )

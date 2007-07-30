@@ -2285,7 +2285,7 @@ class eZTemplate
         $debug = eZDebug::instance();
         $debug->writeError( $txt, $nameText . $placementText );
         $hasAppendWarning =& $GLOBALS['eZTemplateHasAppendWarning'];
-        $ini =& $this->ini();
+        $ini = $this->ini();
         if ( $ini->variable( 'ControlSettings', 'DisplayWarnings' ) == 'enabled' )
         {
             if ( !isset( $hasAppendWarning ) or

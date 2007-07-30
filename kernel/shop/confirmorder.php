@@ -37,7 +37,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 $tpl = templateInit();
 $tpl->setVariable( "module_name", 'shop' );
 
-$orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );
+$orderID = $http->sessionVariable( 'MyTemporaryOrderID' );
 
 $order = eZOrder::fetch( $orderID );
 if ( !is_object( $order ) )

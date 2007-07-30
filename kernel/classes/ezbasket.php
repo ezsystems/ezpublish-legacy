@@ -410,7 +410,7 @@ class eZBasket extends eZPersistentObject
                 $productContentObject = $item->attribute( 'contentobject' );
                 $priceObj = null;
                 $price = 0.0;
-                $attributes =&  $productContentObject->contentObjectAttributes();
+                $attributes = $productContentObject->contentObjectAttributes();
                 foreach ( $attributes as $attribute )
                 {
                     $dataType = $attribute->dataType();

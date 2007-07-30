@@ -228,7 +228,7 @@ class eZContentStructureTreeOperator
         {
             foreach ( $nodeListArray as $key => $row )
             {
-                $nodeListArray[$key]['path_identification_string'] = eZContentObjectTreeNode::pathWithNames( $row['node_id'] );
+                $nodeListArray[$key]['path_identification_string'] = eZContentObjectTreeNode::fetch( $row['node_id'] )->pathWithNames();
             }
             return $nodeListArray;
         }

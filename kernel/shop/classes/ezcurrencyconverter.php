@@ -148,7 +148,7 @@ class eZCurrencyConverter
         return $crossRate;
     }
 
-    function &mathHandler()
+    function mathHandler()
     {
         if ( $this->MathHandler === null )
         {

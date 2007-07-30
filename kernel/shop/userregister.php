@@ -114,7 +114,7 @@ if ( $module->isCurrentAction( 'Store' ) )
         $db->begin();
         $order = $basket->createOrder();
 
-        $doc = new DOMDocument( 'account_information' );
+        $doc = new DOMDocument();
 
         $root = $doc->createElement( "shop_account" );
         $doc->appendChild( $root );

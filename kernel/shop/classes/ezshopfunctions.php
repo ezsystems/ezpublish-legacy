@@ -40,7 +40,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    static function isProductClass( &$contentClass )
+    static function isProductClass( $contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return ( $type !== false );
@@ -49,13 +49,13 @@ class eZShopFunctions
     /*!
      \static
     */
-    static function isProductObject( &$contentObject )
+    static function isProductObject( $contentObject )
     {
         $type = eZShopFunctions::productTypeByObject( $contentObject );
         return ( $type !== false );
     }
 
-    static function isSimplePriceClass( &$contentClass )
+    static function isSimplePriceClass( $contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return eZShopFunctions::isSimplePriceProductType( $type );
@@ -67,7 +67,7 @@ class eZShopFunctions
         return ( $type === 'ezprice' );
     }
 
-    static function isMultiPriceClass( &$contentClass )
+    static function isMultiPriceClass( $contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
         return eZShopFunctions::isMultiPriceProductType( $type );
@@ -81,22 +81,19 @@ class eZShopFunctions
     /*!
      \static
     */
-    static function productTypeByClass( &$contentClass )
+    static function productTypeByClass( $contentClass )
     {
         $type = false;
 
         if ( is_object( $contentClass ) )
         {
-            $classAttributes =& $contentClass->fetchAttributes();
-            $keys = array_keys( $classAttributes );
-            foreach ( $keys as $key )
+            $classAttributes = $contentClass->fetchAttributes();
+            foreach ( $classAttributes as $classAttribute )
             {
-                $classAttribute =& $classAttributes[$key];
                 $dataType = $classAttribute->attribute( 'data_type_string' );
                 if ( eZShopFunctions::isProductDatatype( $dataType ) )
                 {
-                    $type = $dataType;
-                    break;
+                    return $dataType;
                 }
             }
         }
@@ -107,27 +104,22 @@ class eZShopFunctions
     /*!
      \static
     */
-    static function productTypeByObject( &$contentObject )
+    static function productTypeByObject( $contentObject )
     {
-        $type = false;
-
         if ( is_object( $contentObject ) )
         {
-            $attributes =& $contentObject->contentObjectAttributes();
-            $keys = array_keys( $attributes );
-            foreach ( $keys as $key )
+            $attributes = $contentObject->contentObjectAttributes();
+            foreach ( $attributes as $attribute )
             {
-                $attribute =& $attributes[$key];
                 $dataType = $attribute->dataType();
                 if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
-                    $type = $dataType->isA();
-                    break;
+                    return $dataType->isA();
                 }
             }
         }
 
-        return $type;
+        return false;
     }
 
     /*!
@@ -165,7 +157,7 @@ class eZShopFunctions
         return $productClassList;
     }
 
-    static function priceAttributeIdentifier( &$productClass )
+    static function priceAttributeIdentifier( $productClass )
     {
         $identifier = '';
         $classAttribute = eZShopFunctions::priceAttribute( $productClass );
@@ -175,15 +167,12 @@ class eZShopFunctions
         return $identifier;
     }
 
-    static function priceAttribute( &$productClass )
+    static function priceAttribute( $productClass )
     {
         if ( is_object( $productClass ) )
         {
-            $classAttributes =& $productClass->fetchAttributes();
-            $keys = array_keys( $classAttributes );
-            foreach ( $keys as $key )
+            foreach ( $productClass->fetchAttributes() as $classAttribute )
             {
-                $classAttribute =& $classAttributes[$key];
                 $dataType = $classAttribute->attribute( 'data_type_string' );
                 if ( eZShopFunctions::isProductDatatype( $dataType ) )
                 {
@@ -378,7 +367,7 @@ class eZShopFunctions
             return $value;
 
         include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
-        $converter =& eZCurrencyConverter::instance();
+        $converter = eZCurrencyConverter::instance();
         $converter->setRoundingType( EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND );
         $converter->setRoundingPrecision( 2 );
         $converter->setRoundingTarget( false );

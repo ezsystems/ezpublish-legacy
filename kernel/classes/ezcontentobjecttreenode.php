@@ -3699,18 +3699,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return an url alias for the current node. It will generate a unique alias.
     */
-    function pathWithNames( $nodeID = 0, $regenerateCurrent = false )
+    function pathWithNames( $regenerateCurrent = false )
     {
-        $node = $this;
-        if ( $nodeID != 0 )
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
-
         // Only set name if current node is not the content root
         $ini = eZINI::instance( 'content.ini' );
         $contentRootID = $ini->variable( 'NodeSettings', 'RootNode' );
-        if ( $node->attribute( 'node_id' ) != $contentRootID )
+        if ( $this->attribute( 'node_id' ) != $contentRootID )
         {
-            $pathArray = $node->pathArray();
+            $pathArray = $this->pathArray();
             // Get rid of node with ID 1 (a special node)
             array_shift( $pathArray );
             if ( $regenerateCurrent )
@@ -3733,25 +3729,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
             // entry ourselves.
             if ( $path === null )
             {
-                if ( $node->attribute( 'depth' ) == 0 ) // Top node should just return empty string
+                if ( $this->attribute( 'depth' ) == 0 ) // Top node should just return empty string
                 {
-                    $path = '';
-                    return $path;
+                    return '';
                 }
 
                 $debug = eZDebug::instance();
-                $debug->writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $node->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
-                $paren = $node->fetchParent();
+                $debug->writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
+                $paren = $this->fetchParent();
                 $path = $paren->pathWithNames();
                 // Return a perma-link when the path lookup failed, this link will always work
-                $path = 'content/view/full/' . $node->attribute( 'node_id' );
+                $path = 'content/view/full/' . $this->attribute( 'node_id' );
                 return $path;
             }
 
             if ( $regenerateCurrent )
             {
-                $nodeName = $node->attribute( 'name' );
-                $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $node->attribute( 'node_id' ) );
+                $nodeName = $this->attribute( 'name' );
+                $nodeName = eZURLAliasML::convertToAlias( $nodeName, 'node_' . $this->attribute( 'node_id' ) );
 
                 if ( $path != '' )
                 {
@@ -3770,7 +3765,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $regenerateCurrent )
         {
-            $path = $node->checkPath( $path );
+            $path = $this->checkPath( $path );
         }
         return $path;
     }
@@ -6190,10 +6185,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $createHereMenu == 'full' and !$node->canCreate() )
                 return $falseValue;
 
-            $obj =& $node->object();
+            $obj = $node->object();
             $contentClass = $obj->attribute( 'content_class' );
             if ( !$contentClass->attribute( 'is_container' ) )
+            {
                 return $falseValue;
+            }
 
             $pathArray = $node->pathArray();
         }
@@ -6237,12 +6234,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             include_once( "kernel/classes/ezcontentclass.php" );
             $classes = eZContentClass::fetchAllClasses( false, $filterType == 'include', $groupIDs );
-            $classList = eZContentObjectTreeNode::getClassesJsArray( false, $filterType == 'include', $groupIDs, false, $classes );
-            return $classList;
+            return eZContentObjectTreeNode::getClassesJsArray( false, $filterType == 'include', $groupIDs, false, $classes );
         }
 
-        $classList = eZContentObjectTreeNode::getClassesJsArray( $node, $filterType == 'include', $groupIDs );
-        return $classList;
+        return eZContentObjectTreeNode::getClassesJsArray( $node, $filterType == 'include', $groupIDs );
     }
 
     /*

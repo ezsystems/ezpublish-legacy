@@ -261,7 +261,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     if ( !$node->canMoveFrom() )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
 
-    $object =& $node->object();
+    $object = $node->object();
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
@@ -330,7 +330,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     if ( !$node->canMoveFrom() )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
 
-    $object =& $node->object();
+    $object = $node->object();
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
@@ -340,7 +340,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     $ignoreNodesSelectSubtree = array();
     $ignoreNodesClick = array();
 
-    $publishedAssigned =& $object->assignedNodes( false );
+    $publishedAssigned = $object->assignedNodes( false );
     foreach ( $publishedAssigned as $element )
     {
         $ignoreNodesSelect[] = $element['node_id'];
@@ -400,7 +400,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
 
     $nodeParentNodeID = & $node->attribute( 'parent_node_id' );
 
-    $object =& $node->object();
+    $object = $node->object();
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
@@ -436,7 +436,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-    $selectedObject =& $selectedNode->object();
+    $selectedObject = $selectedNode->object();
     $selectedObjectID = $selectedObject->attribute( 'id' );
     $selectedObjectVersion = $selectedObject->attribute( 'current_version' );
     $selectedNodeParentNodeID = $selectedNode->attribute( 'parent_node_id' );
@@ -495,8 +495,8 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     // modify section
     if ( $changedOriginalNode->attribute( 'main_node_id' ) == $changedOriginalNode->attribute( 'node_id' ) )
     {
-        $changedOriginalObject =& $changedOriginalNode->object();
-        $parentObject =& $nodeParent->object();
+        $changedOriginalObject = $changedOriginalNode->object();
+        $parentObject = $nodeParent->object();
         if ( $changedOriginalObject->attribute( 'section_id' ) != $parentObject->attribute( 'section_id' ) )
         {
 
@@ -507,8 +507,8 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
     if ( $changedTargetNode->attribute( 'main_node_id' ) == $changedTargetNode->attribute( 'node_id' ) )
     {
-        $changedTargetObject =& $changedTargetNode->object();
-        $selectedParentObject =& $selectedNodeParent->object();
+        $changedTargetObject = $changedTargetNode->object();
+        $selectedParentObject = $selectedNodeParent->object();
         if ( $changedTargetObject->attribute( 'section_id' ) != $selectedParentObject->attribute( 'section_id' ) )
         {
 
@@ -548,7 +548,7 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
-    $object =& $node->object();
+    $object = $node->object();
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
     $objectID = $object->attribute( 'id' );
@@ -696,7 +696,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
             $selectedNodeIDArray = array();
 
         $nodeAssignmentList = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
-        $assignedNodes =& $object->assignedNodes();
+        $assignedNodes = $object->assignedNodes();
 
         $parentNodeIDArray = array();
         $setMainNode = false;
@@ -742,7 +742,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
                 if ( $canCreate )
                 {
-                    $insertedNode =& $object->addLocation( $selectedNodeID, true );
+                    $insertedNode = $object->addLocation( $selectedNodeID, true );
 
                     // Now set is as published and fix main_node_id
                     $insertedNode->setAttribute( 'contentobject_is_published', 1 );
@@ -774,7 +774,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $ignoreNodesClick  = array();
 
         $assigned = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 0, false );
-        $publishedAssigned =& $object->assignedNodes( false );
+        $publishedAssigned = $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
         {
@@ -880,9 +880,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     }
     $removeList = array();
     $nodeRemoveList = array();
-    foreach ( array_keys( $nodes ) as $key )
+    foreach ( $nodes as $node )
     {
-        $node =& $nodes[$key];
         if ( $node )
         {
             // Security checks, removal of current node is not allowed
@@ -896,9 +895,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             }
 
             $removeList[] = $node->attribute( 'node_id' );
-            $nodeRemoveList[] =& $node;
+            $nodeRemoveList[] = $node;
             $count = $node->childrenCount( false );
-            unset( $node );
 
             if ( $count > 0 )
             {
@@ -926,9 +924,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         $db->begin();
         foreach ( $nodeRemoveList as $key => $node )
         {
-            foreach ( array_keys( $nodeAssignmentList ) as $nodeAssignmentKey )
+            foreach ( $nodeAssignmentList as $nodeAssignmentKey => $nodeAssignment )
             {
-                $nodeAssignment =& $nodeAssignmentList[$nodeAssignmentKey];
                 if ( $nodeAssignment['parent_node'] == $node->attribute( 'parent_node_id' ) )
                 {
                     $nodeAssignmentIDList[] = $nodeAssignment['id'];
@@ -1383,7 +1380,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
         {
             $params['Offset'] = $offset;
             $params['Limit'] = $limit;
-            $subtree =& $node->subTree( $params );
+            $subtree = $node->subTree( $params );
             $offset += count( $subtree );
             if ( count( $subtree ) == 0 )
             {
