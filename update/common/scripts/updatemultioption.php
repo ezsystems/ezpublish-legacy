@@ -42,28 +42,43 @@ define( "QUERY_LIMIT", 100 );
 
 
 
-function updateAtttributes( $attributes )
+
+function updateAtttributes( $conditions )
 {
-    foreach ( $attributes as $attribute )
+    $limit = 1000;
+    $offset = 0;
+    if ( $offset or $limit )
+        $limits = array( 'offset' => $offset,
+                         'length' => $limit );
+
+    while ( true )
     {
-        $classAttribute =& $attribute->contentClassAttribute();
-        if ( $classAttribute->attribute( 'data_type_string' ) == 'ezmultioption' )
+        $attributes = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                           null,
+                                                           $conditions, null, $limits );
+        if ( count( $attributes ) < 1 )
+            break;
+
+        foreach ( $attributes as $attribute )
         {
-            $classAttribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
-            $classAttribute->store();
+            $classAttribute =& $attribute->contentClassAttribute();
+            if ( $classAttribute->attribute( 'data_type_string' ) == 'ezmultioption' )
+            {
+                $classAttribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
+                $classAttribute->store();
+            }
+
+            $attribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
+            $attribute->DataTypeString = 'ezmultioptiongroup';
+            $dataType = $attribute->dataType();
+            $attributeContent = $attribute->attribute( 'content' );
+            $attribute->setAttribute( "data_text", $attributeContent->xmlString() );
+            $attribute->setContent( $attributeContent );
+            $attribute->store();
         }
-        $attribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
-        $attribute->DataTypeString = 'ezmultioptiongroup';
-        $dataType = $attribute->dataType();
-        $attributeContent = $attribute->attribute( 'content' );
-        $attribute->setAttribute( "data_text", $attributeContent->xmlString() );
-        $attribute->setContent( $attributeContent );
-        $attribute->store();
     }
 
 }
-
-
 if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' ) )
 {
     echo "Please run this script from the root document directory!\n";
@@ -143,57 +158,23 @@ $db->setIsSQLOutputEnabled( true );
 
 if ( $updateAllClasses )
 {
-    $limits = null;
-    $limit = 1000;
-    $offset = 0;
-    if ( $offset or $limit )
-        $limits = array( 'offset' => $offset,
-                         'length' => $limit );
     $conditions = array( "data_type_string" => 'ezmultioption' );
-
-    while ( true )
-    {
-        $attributes = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                           null,
-                                                           $conditions, null, $limits );
-        if ( count( $attributes ) < 1 )
-            break;
-        else
-            $offset += $limit;
-
-        updateAtttributes( $attributes );
-    }
-
+    $db->begin();
+    updateAtttributes( $conditions );
+    $db->commit();
 }
 
 if ( $contentclass != '' )
 {
-
     $class = eZContentClass::fetchByIdentifier( $contentclass );
     foreach ( $class->attribute( 'data_map') as $classAttribute )
     {
         if ( $classAttribute->attribute( 'data_type_string' ) == 'ezmultioption' )
         {
-            $limit = 1000;
-            $offset = 0;
-                 if ( $offset or $limit )
-                     $limits = array( 'offset' => $offset,
-                                      'length' => $limit );
+            $db->begin();
             $conditions = array( "data_type_string" => 'ezmultioption', "contentclassattribute_id" => $classAttribute->attribute( 'id' )  );
-
-            while ( true )
-            {
-                $attributes = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                                   null,
-                                                                   $conditions, null, $limits );
-                if ( count( $attributes ) < 1 )
-                    break;
-                else
-                    $offset += $limit;
-
-                updateAtttributes( $attributes );
-            }
-
+            updateAtttributes( $conditions );
+            $db->commit();
         }
     }
 }
