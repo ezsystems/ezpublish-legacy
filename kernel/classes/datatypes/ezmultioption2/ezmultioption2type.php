@@ -1,8 +1,8 @@
 <?php
 //
-// Definition of eZOptionType class
+// Definition of eZMultiOption2Type class
 //
-// Created on: <29-Jul-2004 15:52:24 gv>
+// Created on: <07-Jul-2007 15:52:24 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -29,7 +29,7 @@
 //
 
 /*!
-  \class eZMultioption2Type ezmultioption2type.php
+  \class eZMultiOption2Type ezmultioption2type.php
   \ingroup eZDatatype
   \brief A datatype which works with multiple options.
 
@@ -37,7 +37,7 @@
   was adding attributes with option datatypes.
 
   This class implements the interface for a datatype but passes
-  most of the work over to the eZMultioption2 class which handles
+  most of the work over to the eZMultiOption2 class which handles
   parsing, storing and manipulation of multioption2s and options.
 
   This datatype supports:
@@ -56,14 +56,14 @@ define( "EZ_MULTIOPTION2_DEFAULT_NAME_VARIABLE", "_ezmultioption2_default_name_"
 define( "EZ_MULTIOPTION2_MAX_CHILD_LEVEL", 50 );
 define( "EZ_DATATYPESTRING_MULTIOPTION2", "ezmultioption2" );
 
-class eZMultioption2Type extends eZDataType
+class eZMultiOption2Type extends eZDataType
 {
     /*!
      Constructor to initialize the datatype.
     */
-    function eZMultioption2Type()
+    function eZMultiOption2Type()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION2, ezi18n( 'kernel/classes/datatypes', "Multi-option-group", 'Datatype name' ),
+        $this->eZDataType( EZ_DATATYPESTRING_MULTIOPTION2, ezi18n( 'kernel/classes/datatypes', "Multi-option2", 'Datatype name' ),
                            array( 'serialize_supported' => true ) );
     }
 
@@ -87,11 +87,11 @@ class eZMultioption2Type extends eZDataType
     }
 
     /*!
-     \return An eZMultioption2 object which contains all the option data
+     \return An eZMultiOption2 object which contains all the option data
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $optiongroup = new eZMultioption2( "" );
+        $optiongroup = new eZMultiOption2( "" );
         $optiongroup->decodeXML( $contentObjectAttribute->attribute( "data_text" ) );
         return $optiongroup;
     }
@@ -153,7 +153,7 @@ class eZMultioption2Type extends eZDataType
             return true;
         }
 
-        $optiongroup = new eZMultioption2( '' );
+        $optiongroup = new eZMultiOption2( '' );
 
         $oldoptiongroup =& $contentObjectAttribute->content();
         if ( $oldoptiongroup->Rules )
@@ -182,7 +182,7 @@ class eZMultioption2Type extends eZDataType
         foreach ( $optionGroupIDArray as $key => $optionGroupID )
         {
             unset( $optionGroup );
-            $optionGroup = new eZMultioption2( $optionGroupNameList[$key], 0,0,0, $optionGroupID );
+            $optionGroup = new eZMultiOption2( $optionGroupNameList[$key], 0,0,0, $optionGroupID );
 
             if ( $http->hasPostVariable( $base . "_data_optiongroup_id_parent_multioption_" .
                                                       $contentObjectAttribute->attribute( "id" ) . '_' .
@@ -322,7 +322,7 @@ class eZMultioption2Type extends eZDataType
             $group =& $rootGroup->findGroup( $groupID );
             if ( !$group )
                 return;
-            $childGroup = new eZMultioption2( '', 0, $rootGroup->getMultiOptionIDCounter(),$rootGroup->getOptionCounter() );
+            $childGroup = new eZMultiOption2( '', 0, $rootGroup->getMultiOptionIDCounter(),$rootGroup->getOptionCounter() );
 
             $group->addChildGroup( $childGroup, $multioptionID );
 
@@ -338,7 +338,7 @@ class eZMultioption2Type extends eZDataType
         else if ( $actionlist[0] == "new-group" )
         {
             $rootGroup =& $contentObjectAttribute->content();
-            $childGroup = new eZMultioption2( '', 0, $rootGroup->getMultiOptionIDCounter(),$rootGroup->getOptionCounter() );
+            $childGroup = new eZMultiOption2( '', 0, $rootGroup->getMultiOptionIDCounter(),$rootGroup->getOptionCounter() );
             $rootGroup->addChildGroup( $childGroup );
             $newID = $childGroup->addMultiOption( "", 0, false , '' );
             $childGroup->addOption( $newID, "", "", "" );
