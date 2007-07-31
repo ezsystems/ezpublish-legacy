@@ -45,6 +45,7 @@
 */
 
 // Clear cache types
+define( 'EZ_VCSC_CLEAR_NO_CACHE'        , 0 );
 define( 'EZ_VCSC_CLEAR_NODE_CACHE'      , 1 );
 define( 'EZ_VCSC_CLEAR_PARENT_CACHE'    , 2 );
 define( 'EZ_VCSC_CLEAR_RELATING_CACHE'  , 4 );
@@ -127,12 +128,12 @@ class eZContentCacheManager
         if ( $viewCacheIni->hasVariable( 'ViewCacheSettings', 'ClearRelationTypes' ) )
         {
             $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
-    
+
             if ( !count( $relTypes ) )
                 return;
-    
+
             $relatedObjects = array();
-            
+
             $relationsMask = 0;
             if ( in_array( 'object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
@@ -148,14 +149,14 @@ class eZContentCacheManager
 
             if ( in_array( 'attribute', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            
+
             if ( $relationsMask )
             {
                 $objects = $object->relatedContentObjectList( false, false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
                 $relatedObjects = array_merge( $relatedObjects, $objects );
             }
-    
+
             $relationsMask = 0;
             if ( in_array( 'reverse_object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
@@ -299,7 +300,7 @@ class eZContentCacheManager
             {
                 $info = array();
                 if ( $ini->hasVariable( $classID, 'DependentClassIdentifier' ) )
-                $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
+                    $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
 
                 if ( $ini->hasVariable( $classID, 'MaxParents' ) )
                     $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
@@ -316,7 +317,11 @@ class eZContentCacheManager
 
                     if ( is_array( $type ) )
                     {
-                        if ( in_array( 'all', $type ) )
+                        if ( in_array( 'none', $type ) )
+                        {
+                            $info['clear_cache_type'] = EZ_VCSC_CLEAR_NO_CACHE;
+                        }
+                        elseif ( in_array( 'all', $type ) )
                         {
                             $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
                         }
@@ -406,6 +411,7 @@ class eZContentCacheManager
                             - EZ_VCSC_CLEAR_KEYWORD_CACHE - Clear nodes of objects that have the same keyword as this object
                             - EZ_VCSC_CLEAR_SIBLINGS_CACHE - Clear caches for siblings of the node.
                             - EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
+                            - EZ_VCSC_CLEAR_NO_CACHE - Do not clear cache for current object.
      \param[out] $nodeList An array with node IDs that are affected by the current object change.
 
      \note This function is recursive.
@@ -413,6 +419,16 @@ class eZContentCacheManager
     function nodeListForObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList )
     {
         $assignedNodes =& $contentObject->assignedNodes();
+
+        // determine if $contentObject has dependent objects for which cache should be cleared too.
+        $objectClassIdentifier = $contentObject->attribute( 'class_identifier' );
+        $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
+
+        //Check if clear_cache_type on class type is none before we begin
+        if ( $dependentClassInfo['clear_cache_type'] == EZ_VCSC_CLEAR_NO_CACHE )
+        {
+            $clearCacheType = $dependentClassInfo['clear_cache_type'];
+        }
 
         if ( $clearCacheType & EZ_VCSC_CLEAR_NODE_CACHE )
         {
@@ -438,10 +454,6 @@ class eZContentCacheManager
         {
             eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
         }
-
-        // determine if $contentObject has dependent objects for which cache should be cleared too.
-        $objectClassIdentifier =  $contentObject->attribute( 'class_identifier' );
-        $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
         if ( $dependentClassInfo['clear_cache_type'] & EZ_VCSC_CLEAR_SIBLINGS_CACHE )
         {
@@ -780,7 +792,6 @@ class eZContentCacheManager
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
             include_once( 'kernel/classes/ezstaticcache.php' );
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
             $nodes = array();
             $ini =& eZINI::instance();
@@ -794,31 +805,36 @@ class eZContentCacheManager
             }
 
             eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes );
-            foreach ( $nodes as $nodeID )
-            {
-                if ( $useURLAlias )
-                {
-                    $aNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                    if ( !isset( $aNode ) )
-                        continue;
 
-                    $urlAlias = $aNode['path_identification_string'];
-                    if ( $pathPrefix != '' )
-                    {
-                        $tempAlias = substr( $pathPrefix, strlen( $pathPrefix ) -1 ) == '/'
-                                        ? $urlAlias . '/'
-                                        : $urlAlias;
-                        if ( strncmp( $tempAlias, $pathPrefix, strlen( $tempAlias) ) == 0 )
-                            $urlAlias = substr( $tempAlias, strlen( $pathPrefix ) );
-                    }
-                }
-                else
+            // If no nodes returns it means that ClearCacheMethod = EZ_VCSC_CLEAR_NO_CACHE
+            if ( count( $nodes ) )
+            {
+                foreach ( $nodes as $nodeID )
                 {
-                    $urlAlias = 'content/view/full/' . $nodeID;
+                    if ( $useURLAlias )
+                    {
+                        $aNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                        if ( !isset( $aNode ) )
+                            continue;
+
+                        $urlAlias = $aNode['path_identification_string'];
+                        if ( $pathPrefix != '' )
+                        {
+                            $tempAlias = substr( $pathPrefix, strlen( $pathPrefix ) -1 ) == '/'
+                                            ? $urlAlias . '/'
+                                            : $urlAlias;
+                            if ( strncmp( $tempAlias, $pathPrefix, strlen( $tempAlias) ) == 0 )
+                                $urlAlias = substr( $tempAlias, strlen( $pathPrefix ) );
+                        }
+                    }
+                    else
+                    {
+                        $urlAlias = 'content/view/full/' . $nodeID;
+                    }
+                    $staticCache->cacheURL( '/' . $urlAlias, $nodeID );
                 }
-                $staticCache->cacheURL( '/' . $urlAlias, $nodeID );
+                $staticCache->generateAlwaysUpdatedCache();
             }
-            $staticCache->generateAlwaysUpdatedCache();
         }
         eZDebug::accumulatorStop( 'generate_cache' );
     }
