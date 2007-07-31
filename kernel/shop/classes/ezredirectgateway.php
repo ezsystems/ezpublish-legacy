@@ -58,7 +58,7 @@ class eZRedirectGateway extends eZPaymentGateway
         //___end____
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         //__DEBUG__
         $this->logger->writeTimedString("execute");
@@ -134,7 +134,7 @@ class eZRedirectGateway extends eZPaymentGateway
     /*!
     Removes temporary eZPaymentObject from database.
     */
-    function cleanup( &$process, &$event )
+    function cleanup( $process, $event )
     {
         //__DEBUG__
         $this->logger->writeTimedString("cleanup");
@@ -153,26 +153,24 @@ class eZRedirectGateway extends eZPaymentGateway
     information about payment processing(orderID, workflowID, ...).
     Must be overridden in subclass.
     */
-    function &createPaymentObject( &$processID, &$orderID )
+    function createPaymentObject( $processID, $orderID )
     {
         //__DEBUG__
         $this->logger->writeTimedString("createPaymentObject. You have to override this");
         //___end____
-        $theObject = null;
-        return $theObject;
+        return null;
     }
 
     /*!
     Creates redirection url to payment site.
     Must be overridden in subclass.
     */
-    function &createRedirectionUrl( &$process )
+    function createRedirectionUrl( $process )
     {
         //__DEBUG__
         $this->logger->writeTimedString("createRedirectionUrl. You have to override this");
         //___end____
-        $theObject = null;
-        return $theObject;
+        return null;
     }
 }
 

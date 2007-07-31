@@ -59,12 +59,11 @@ class eZPaymentObject extends eZPersistentObject
      \static
     Creates new object.
     */
-    function &createNew( $workflowprocessID, $orderID, $paymentType )
+    function createNew( $workflowprocessID, $orderID, $paymentType )
     {
-        $paymentObject = new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
-                                                     'order_id'            => $orderID,
-                                                     'payment_string'      => $paymentType ) );
-        return $paymentObject;
+        return new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
+                                           'order_id'            => $orderID,
+                                           'payment_string'      => $paymentType ) );
     }
 
     /*!

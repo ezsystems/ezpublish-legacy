@@ -120,7 +120,7 @@ class eZExchangeRatesUpdateHandler
         return $this->RateList;
     }
 
-    function setRateList( &$rateList )
+    function setRateList( $rateList )
     {
         $this->RateList = $rateList;
     }

@@ -402,10 +402,10 @@ class eZSimplePrice
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $vatNode =& $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
+        $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';
         $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
-        $vatTypeNode =& $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
+        $vatTypeNode = $attributeParametersNode->getElementsByTagName( 'vat-type' )->item( 0 );
         $vatName = $vatTypeNode->getAttribute( 'name' );
         $vatPercentage = $vatTypeNode->getAttribute( 'percentage' );
         $vatID = false;

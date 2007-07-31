@@ -304,21 +304,19 @@ class eZPaymentCallbackChecker
     /*!
         Postback request which will be sent to payment server.
     */
-    function &buildRequestString()
+    function buildRequestString()
     {
         $this->logger->writeTimedString( 'You must override this function.', 'buildRequestString failed' );
-        $retString = null;
-        return $retString;
+        return null;
     }
 
     /*!
         Handles server response.
     */
-    function &handleResponse( &$socket )
+    function handleResponse( $socket )
     {
         $this->logger->writeTimedString( 'You must override this function.', 'handlePOSTResponse failed' );
-        $retResponse = null;
-        return $retResponse;
+        return null;
     }
 
     public $logger;

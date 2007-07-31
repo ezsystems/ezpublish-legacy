@@ -41,14 +41,14 @@ include_once( 'kernel/classes/workflowtypes/event/ezpaymentgateway/ezpaymentlogg
 class eZPaymentGateway
 {
     /*!
-        Constructor.
+	Constructor.
     */
     function eZPaymentGateway()
-    {                     
+    {
         $this->logger = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGateway.log" );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $this->logger->writeTimedString( 'You must override this function.', 'execute' );
         return EZ_WORKFLOW_TYPE_STATUS_REJECTED;
@@ -58,21 +58,21 @@ class eZPaymentGateway
     {
         return false;
     }
-    
-    function cleanup( &$process, &$event )
+
+    function cleanup( $process, $event )
     {
     }
 
     /*!
-        Creates short description of order. Usually this string is
-        passed to payment site as describtion of payment.
+	Creates short description of order. Usually this string is
+	passed to payment site as describtion of payment.
     */
-    function &createShortDescription( &$order, $maxDescLen )
+    function createShortDescription( $order, $maxDescLen )
     {
         //__DEBUG__
-            $this->logger->writeTimedString("createShortDescription");
+	    $this->logger->writeTimedString("createShortDescription");
         //___end____
-            
+
         $descText       = '';
         $productItems   = $order->productItems();
 
@@ -81,7 +81,7 @@ class eZPaymentGateway
             $descText .= $item['object_name'] . ',';
         }
         $descText   = rtrim( $descText, "," );
-        
+
         $descLen    = strlen( $descText );
         if( ($maxDescLen > 0) && ($descLen > $maxDescLen) )
         {
@@ -90,7 +90,7 @@ class eZPaymentGateway
         }
 
         //__DEBUG__
-            $this->logger->writeTimedString("descText=$descText");
+	    $this->logger->writeTimedString("descText=$descText");
         //___end____
 
         return $descText;

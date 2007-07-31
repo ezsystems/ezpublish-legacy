@@ -58,7 +58,7 @@ class eZCurrencyConverter
 
     static function instance()
     {
-        $impl =& $_GLOBALS["eZCurrencyConverterGlobalInstance"];
+        $impl = $_GLOBALS["eZCurrencyConverterGlobalInstance"];
 
         if ( !is_object( $impl ) || strtolower( get_class( $impl ) ) !== 'ezcurrencyconverter' )
         {
@@ -85,19 +85,19 @@ class eZCurrencyConverter
             switch ( $this->roundingType() )
             {
                 case 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND':
-                    {
-                        $convertedValue = $math->round( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
-                    } break;
+                {
+                    $convertedValue = $math->round( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
+                } break;
 
                 case 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_CEIL':
-                    {
-                        $convertedValue = $math->ceil( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
-                    } break;
+                {
+                    $convertedValue = $math->ceil( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
+                } break;
 
                 case 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_FLOOR':
-                    {
-                        $convertedValue = $math->floor( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
-                    } break;
+                {
+                    $convertedValue = $math->floor( $convertedValue, $this->roundingPrecision(), $this->roundingTarget() );
+                } break;
 
                 case 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE':
                 default:
@@ -172,10 +172,12 @@ class eZCurrencyConverter
         $this->MathHandler = $handler;
     }
 
-    function &currencyList()
+    function currencyList()
     {
         if ( !isset( $this->CurrencyList ) )
+        {
             $this->CurrencyList = eZCurrencyData::fetchList();
+        }
 
         return $this->CurrencyList;
     }

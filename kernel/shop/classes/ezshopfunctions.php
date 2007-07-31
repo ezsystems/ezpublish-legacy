@@ -144,14 +144,12 @@ class eZShopFunctions
         include_once( 'kernel/classes/ezcontentclass.php' );
         $productClassList = array();
         $classList = eZContentClass::fetchList();
-        $keys = array_keys( $classList );
-        foreach ( $keys as $key )
+        foreach ( $classList as $class )
         {
-            $class =& $classList[$key];
             if ( eZShopFunctions::isProductClass( $class ) )
+            {
                 $productClassList[] = $class;
-
-            unset( $class );
+            }
         }
 
         return $productClassList;
