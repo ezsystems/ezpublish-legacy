@@ -12,6 +12,9 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 *Scripts:
 - Added script to insert data from dba files that belongs to a datatype into the database (rev. 19501).
 
+*Cronjobs:
+- Implemented enhancement #10856: Patch for delayed StaticCache Regeneration ( including cronjob).
+
 *Translations:
 
 *Bugfixes:
