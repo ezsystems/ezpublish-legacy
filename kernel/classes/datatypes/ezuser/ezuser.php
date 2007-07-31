@@ -286,6 +286,8 @@ class eZUser extends eZPersistentObject
 
     function fetch( $id, $asObject = true )
     {
+        if ( !$id )
+            return null;
         return eZPersistentObject::fetchObject( eZUser::definition(),
                                                 null,
                                                 array( 'contentobject_id' => $id ),
