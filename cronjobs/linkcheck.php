@@ -42,9 +42,8 @@ if ( !$isQuiet )
 $cronjobIni = eZINI::instance( 'cronjob.ini' );
 $siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
 $linkList = eZURL::fetchList( array( 'only_published' => true ) );
-foreach ( array_keys( $linkList ) as $key )
+foreach ( $linkList as $link )
 {
-    $link =& $linkList[$key];
     $linkID = $link->attribute( 'id' );
     $url = $link->attribute( 'url' );
     $isValid = $link->attribute( 'is_valid' );

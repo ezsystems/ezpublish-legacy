@@ -82,7 +82,7 @@ class eZPersistentObject
     */
     function fill( $row )
     {
-        if ( $row == false )
+        if ( !is_array( $row ) )
             return;
         $def = $this->definition();
         $fields = $def["fields"];
@@ -263,7 +263,7 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function storeObject( &$obj, $fieldFilters = null )
+    static function storeObject( $obj, $fieldFilters = null )
     {
         $db = eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
@@ -1152,7 +1152,7 @@ static function definition()
             else
             {
                 $debug->writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
-                                     'eZPersistentObject::attribute()' );
+                                    'eZPersistentObject::attribute()' );
             }
             return $retVal;
         }
@@ -1199,7 +1199,8 @@ static function definition()
             if ( isset( $this->$attrName ) )
                 $oldValue = $this->$attrName;
             $this->$attrName = $val;
-            if ( $oldValue === null or $oldValue !== $val )
+            if ( $oldValue === null ||
+                 $oldValue !== $val )
                 $this->setHasDirtyData( true );
         }
         else if ( isset( $functions[$attr] ) )

@@ -33,9 +33,9 @@ include_once( 'kernel/classes/ezcontentbrowse.php' );
 $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
-$roleID =& $Params['RoleID'];
-$limitIdent =& $Params['LimitIdent'];
-$limitValue =& $Params['LimitValue'];
+$roleID = $Params['RoleID'];
+$limitIdent = $Params['LimitIdent'];
+$limitValue = $Params['LimitValue'];
 
 if ( $http->hasPostVariable( 'AssignSectionCancelButton' ) )
 {

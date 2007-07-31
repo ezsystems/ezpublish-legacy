@@ -284,7 +284,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $phpCache->canRestore( $expiryTime ) )
         {
             $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
-            $identifierHash =& $var['identifierHash'];
+            $identifierHash = $var['identifierHash'];
         }
         else
         {
@@ -2911,13 +2911,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                               'limit'  => $limit ) );
         }
 
-        $retNodeList =& $nodeListArray;
-
         // cleanup temp tables
         $db->dropTempTableList( $sqlPermissionChecking['temp_tables'] );
 
-        return $retNodeList;
-
+        return $nodeListArray;
     }
     /*!
      \return the children(s) of the current node as an array of eZContentObjectTreeNode objects
@@ -3562,11 +3559,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         if ( $asObjects )
-            $retNodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
-        else
-            $retNodes =& $nodesListArray;
-
-        return $retNodes;
+        {
+            return eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+        }
+        return $nodesListArray;
     }
 
 
@@ -3614,7 +3610,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
 //        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
-        $node =& eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID, true );
+        $node = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID, true );
 //        $object->setAttribute( "main_node_id", $node->attribute( 'node_id' ) );
         $node->setAttribute( 'main_node_id', $node->attribute( 'node_id' ) );
         $object->store();
@@ -4212,7 +4208,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
                     if ( $accessResult['accessWord'] == 'limited' )
                     {
-                        $limitationList =& $accessResult['policies'];
+                        $limitationList = $accessResult['policies'];
                         $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
                         $canRemoveSubtree = ( $removeableChildCount == $childCount );
                         $canRemove = $canRemoveSubtree;
@@ -4234,15 +4230,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     {
                         // We should remove the latest subitems first,
                         // so we should fetch subitems sorted by 'path_string' DESC
-                        $children =& $node->subTree( array( 'Limitation' => array(),
+                        $children = $node->subTree( array( 'Limitation' => array(),
                                                             'SortBy' => array( 'path' , false ),
                                                             'Limit' => 100 ) );
                         if ( !$children )
                             break;
 
-                        foreach ( array_keys( $children ) as $childKey )
+                        foreach ( $children as $child )
                         {
-                            $child =& $children[$childKey];
                             $child->removeNodeFromTree( $moveToTrashTemp );
                             eZContentObject::clearCache();
                         }
@@ -4399,7 +4394,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $trashNode->storeToTrash();
                     $db->commit();
 
-                    $object->remove();
+                    $object->removeThis();
                 }
                 else
                 {
@@ -4688,7 +4683,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             if ( $functionName == 'edit' )
             {
                 // Check if we have 'create' access under the main parent
-                $object =& $currentNode->object();
+                $object = $currentNode->object();
                 if ( $object && $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
                 {
                     $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
@@ -4707,17 +4702,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $policies =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             $access = 'denied';
 
-            foreach ( array_keys( $policies ) as $pkey  )
+            foreach ( $policies as $pkey => $limitationArray )
             {
                 if ( $access == 'allowed' )
                 {
                     break;
                 }
 
-                $limitationArray =& $policies[$pkey];
                 $limitationList = array();
                 if ( isset( $limitationArray['Subtree' ] ) )
                 {
@@ -4737,7 +4731,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $checkedNode = true;
                     $accessNode = false;
                 }
-                foreach ( array_keys( $limitationArray ) as $key  )
+                foreach ( $limitationArray as $key => $valueList  )
                 {
                     $access = 'denied';
                     switch( $key )
@@ -4750,12 +4744,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $access = 'allowed';
                             }
                             else if ( $functionName == 'create' and
-                                      in_array( $classID, $limitationArray[$key] ) )
+                                      in_array( $classID, $valueList ) )
                             {
                                 $access = 'allowed';
                             }
                             else if ( $functionName != 'create' and
-                                      in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key] ) )
+                                      in_array( $contentObject->attribute( 'contentclass_id' ), $valueList ) )
                             {
                                 $access = 'allowed';
                             }
@@ -4763,13 +4757,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
 
                         case 'ParentClass':
                         {
-                            if (  in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key]  ) )
+                            if (  in_array( $contentObject->attribute( 'contentclass_id' ), $valueList ) )
                             {
                                 $access = 'allowed';
                             }
@@ -4777,14 +4771,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
 
                         case 'Section':
                         case 'User_Section':
                         {
-                            if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key] ) )
+                            if ( in_array( $contentObject->attribute( 'section_id' ), $valueList ) )
                             {
                                 $access = 'allowed';
                             }
@@ -4792,7 +4786,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
 
@@ -4840,7 +4834,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 }
                             }
                             // Fetch limit mask for limitation list
-                            $limitMask = eZContentLanguage::maskByLocale( $limitationArray[$key] );
+                            $limitMask = eZContentLanguage::maskByLocale( $valueList );
                             if ( ( $languageMask & $limitMask ) != 0 )
                             {
                                 $access = 'allowed';
@@ -4849,14 +4843,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
 
                         case 'Owner':
                         {
                             // if limitation value == 2, anonymous limited to current session.
-                            if ( in_array( 2, $limitationArray[$key] ) &&
+                            if ( in_array( 2, $valueList ) &&
                                  $user->isAnonymous() )
                             {
                                 include_once( 'kernel/classes/ezpreferences.php' );
@@ -4880,19 +4874,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Group':
                         {
-                            $access = $contentObject->checkGroupLimitationAccess( $limitationArray[$key], $userID );
+                            $access = $contentObject->checkGroupLimitationAccess( $valueList, $userID );
 
                             if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key,
-                                                          'Required' => $limitationArray[$key] );
+                                                          'Required' => $valueList );
                             }
                         } break;
 
                         case 'ParentDepth':
                         {
-                            if ( in_array( $currentNode->attribute( 'depth' ), $limitationArray[$key] ) )
+                            if ( in_array( $currentNode->attribute( 'depth' ), $valueList ) )
                             {
                                 $access = 'allowed';
                             }
@@ -4900,7 +4894,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
 
@@ -4908,7 +4902,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $accessNode = false;
                             $mainNodeID = $currentNode->attribute( 'main_node_id' );
-                            foreach ( $limitationArray[$key] as $nodeID )
+                            foreach ( $valueList as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
                                 $limitationNodeID = $node['main_node_id'];
@@ -4924,7 +4918,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $access = 'denied';
                                 // ??? TODO: if there is a limitation on Subtree, return two limitations?
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                             else
                             {
@@ -4937,7 +4931,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $accessSubtree = false;
                             $path = $currentNode->attribute( 'path_string' );
-                            $subtreeArray = $limitationArray[$key];
+                            $subtreeArray = $valueList;
                             foreach ( $subtreeArray as $subtreeString )
                             {
                                 if ( strstr( $path, $subtreeString ) )
@@ -4952,7 +4946,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $access = 'denied';
                                 // ??? TODO: if there is a limitation on Node, return two limitations?
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                             else
                             {
@@ -4964,7 +4958,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'User_Subtree':
                         {
                             $path = $currentNode->attribute( 'path_string' );
-                            $subtreeArray = $limitationArray[$key];
+                            $subtreeArray = $valueList;
                             foreach ( $subtreeArray as $subtreeString )
                             {
                                 if ( strstr( $path, $subtreeString ) )
@@ -4976,7 +4970,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             {
                                 $access = 'denied';
                                 $limitationList = array( 'Limitation' => $key,
-                                                         'Required' => $limitationArray[$key] );
+                                                         'Required' => $valueList );
                             }
                         } break;
                     }
@@ -6082,7 +6076,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $params['Offset'] = $offset;
             $params['Limit'] = $limit;
 
-            $subtreeChunk =& $node->subTree( $params );
+            $subtreeChunk = $node->subTree( $params );
             $nNodesInChunk = count( $subtreeChunk );
             $offset += $nNodesInChunk;
             if ( $nNodesInChunk == 0 )

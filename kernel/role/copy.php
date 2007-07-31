@@ -32,7 +32,7 @@
 include_once( 'kernel/classes/ezrole.php' );
 
 $Module = $Params['Module'];
-$roleID =& $Params['RoleID'];
+$roleID = $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );
 if ( $role )

@@ -233,16 +233,17 @@ class eZPackageCreationHandler
         {
             if ( !isset( $stepMap['map'][$currentStepID] ) )
             {
-                $nextStep = $stepMap['first']['id'];
+                return $stepMap['first']['id'];
             }
             else
             {
-                $currentStep =& $stepMap['map'][$currentStepID];
-                $nextStep = $currentStep['next_step'];
+                return $stepMap['map'][$currentStepID]['next_step'];
             }
         }
         else if ( $nextStep === false )
-            $nextStep = $currentStepID;
+        {
+            return $currentStepID;
+        }
         return $nextStep;
     }
 
@@ -328,8 +329,8 @@ class eZPackageCreationHandler
 
         if ( $accessResult['accessWord'] == 'limited' )
         {
-            $limitationList =& $accessResult['policies'];
-            foreach( $limitationList as $dummyKey => $limitationArray ) // TODO : fix this
+            $limitationList = $accessResult['policies'];
+            foreach( $limitationList as $limitationArray ) // TODO : fix this
             {
                 foreach ( $limitationArray as $key => $limitation )
                 {

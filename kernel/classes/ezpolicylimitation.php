@@ -252,7 +252,7 @@ class eZPolicyLimitation extends eZPersistentObject
         $currentFunction = $policy->attribute( 'function_name' );
         $limitationValueArray = array();
 
-        $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
+        $limitation = $functions[$currentFunction ][$this->attribute( 'identifier' )];
 
         if ( $limitation &&
              count( $limitation[ 'values' ] == 0 ) &&
@@ -265,7 +265,7 @@ class eZPolicyLimitation extends eZPersistentObject
             }
             include_once( $basePath . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
-            $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
+            $limitationValueList = call_user_func_array ( array( $obj , $limitation['function']) , $limitation['parameter'] );
             foreach( $limitationValueList as $limitationValue )
             {
                 $limitationValuePair = array();
@@ -318,7 +318,7 @@ class eZPolicyLimitation extends eZPersistentObject
                 {
                     if ( $value == $limitationValueArray[$ckey]['value'] )
                     {
-                        $limitationValuesWithNames[] =& $limitationValueArray[$ckey];
+                        $limitationValuesWithNames[] = $limitationValueArray[$ckey];
                     }
                 }
             }

@@ -112,13 +112,13 @@ foreach ( $assignmentsToRemove as $assignment )
     $canRemoveSubtree = true;
     if ( $accessResult['accessWord'] == 'limited' )
     {
-        $limitationList =& $accessResult['policies'];
+        $limitationList = $accessResult['policies'];
         $removeableChildCount = $node->subTreeCount( array( 'Limitation' => $limitationList ) );
         $canRemoveSubtree = ( $removeableChildCount == $count );
     }
     if ( !$canRemoveSubtree )
         $canRemoveAll = false;
-    $object =& $node->object();
+    $object = $node->object();
     $class = $object->contentClass();
 
     $removeList[] = array( 'node' => $node,

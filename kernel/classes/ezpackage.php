@@ -350,8 +350,7 @@ class eZPackage
 
     function canUsePackagePolicyFunction( $functionName )
     {
-        $canUse =& $this->PolicyCache[$functionName];
-        if ( !isset( $canUse ) )
+        if ( !isset( $this->PolicyCache[$functionName] ) )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
             $currentUser = eZUser::currentUser();
@@ -360,16 +359,12 @@ class eZPackage
             $canUse = false;
             if ( $accessResult['accessWord'] == 'yes' )
             {
-            $canUse = true;
+                $this->PolicyCache[$functionName] = true;
             }
             else if ( $accessResult['accessWord'] == 'limited' )
             {
                 $allRoles = array();
-                $limitation =& $accessResult['policies'];
-                foreach ( $limitation as $dummyKey => $val )
-                {
-                    $limitationList[] =& $val;
-                }
+                $limitationList = $accessResult['policies'];
                 $typeList = false;
                 foreach( $limitationList as $limitationArray )
                 {
@@ -385,15 +380,15 @@ class eZPackage
                 }
                 if ( $typeList === false )
                 {
-                    $canUse = true;
+                    $this->PolicyCache[$functionName] = true;
                 }
                 else
                 {
-                    $canUse = in_array( $this->attribute( 'type' ), $typeList );
+                    $this->PolicyCache[$functionName] = in_array( $this->attribute( 'type' ), $typeList );
                 }
             }
         }
-        return $canUse;
+        return $this->PolicyCache[$functionName];
     }
 
     static function fetchMaintainerRoleIDList( $packageType = false, $checkRoles = false )
@@ -408,11 +403,7 @@ class eZPackage
             if ( $accessResult['accessWord'] == 'limited' )
             {
                 $allRoles = array();
-                $limitation =& $accessResult['policies'];
-                foreach ( $limitation as $key => $val )
-                {
-                    $limitationList[] =& $val;
-                }
+                $limitationList = $accessResult['policies'];
                 foreach( $limitationList as $limitationArray )
                 {
                     $allowedType = true;
@@ -2750,7 +2741,7 @@ class eZPackage
     */
     static function packageHandler( $handlerName )
     {
-        $handlers =& $GLOBALS['eZPackageHandlers'];
+        $handlers = $GLOBALS['eZPackageHandlers'];
         if ( !isset( $handlers ) )
             $handlers = array();
         $handler = false;
@@ -2775,7 +2766,7 @@ class eZPackage
                 $handlerClassName = $result['type'] . 'PackageHandler';
                 if ( isset( $handlers[$result['type']] ) )
                 {
-                    $handler =& $handlers[$result['type']];
+                    $handler = $handlers[$result['type']];
                     $handler->reset();
                 }
                 else

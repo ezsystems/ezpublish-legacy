@@ -684,7 +684,7 @@ class eZContentObject extends eZPersistentObject
             $objectArray = array();
             if ( count( $resArray ) == 1 && $resArray !== false )
             {
-                $objectArray =& $resArray[0];
+                $objectArray = $resArray[0];
             }
             else
             {
@@ -697,7 +697,7 @@ class eZContentObject extends eZPersistentObject
             if ( $asObject )
             {
                 $obj = new eZContentObject( $objectArray );
-                $eZContentObjectContentObjectCache[$id] =& $obj;
+                $eZContentObjectContentObjectCache[$id] = $obj;
             }
             else
             {
@@ -1167,7 +1167,7 @@ class eZContentObject extends eZPersistentObject
         // This is part of the new 3.8 code.
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
-            $nodeAssignment =& $nodeAssignmentList[$key];
+            $nodeAssignment = $nodeAssignmentList[$key];
             // Only copy assignments which has a remote_id since it will be used in template code.
             if ( $nodeAssignment->attribute( 'remote_id' ) == 0 )
             {
@@ -1208,20 +1208,17 @@ class eZContentObject extends eZPersistentObject
         $haveCopied = false;
         if ( !$languageCode || $languageCodeToCopy )
         {
-            foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
+            foreach ( $contentObjectTranslations as $contentObjectTranslation )
             {
-                $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
-
                 if ( $languageCode != false && $contentObjectTranslation->attribute( 'language_code' ) != $languageCodeToCopy )
                 {
                     continue;
                 }
 
-                $contentObjectAttributes =& $contentObjectTranslation->objectAttributes();
+                $contentObjectAttributes = $contentObjectTranslation->objectAttributes();
 
-                foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
+                foreach ( $contentObjectAttributes as $attribute )
                 {
-                    $attribute =& $contentObjectAttributes[$attributeKey];
                     $clonedAttribute = $attribute->cloneContentObjectAttribute( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
                     $clonedAttribute->sync();
                     eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
@@ -1233,11 +1230,10 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$haveCopied && $languageCode )
         {
-            $class =& $this->contentClass();
+            $class = $this->contentClass();
             $classAttributes = $class->fetchAttributes();
-            foreach ( array_keys( $classAttributes ) as $attributeKey )
+            foreach ( $classAttributes as $classAttribute )
             {
-                $classAttribute =& $classAttributes[$attributeKey];
                 if ( $classAttribute->attribute( 'can_translate' ) == 1 )
                 {
                     $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
@@ -1340,24 +1336,20 @@ class eZContentObject extends eZPersistentObject
         $versionList = array();
         if ( $allVersions )
         {
-            $versions =& $this->versions();
-            for ( $i = 0; $i < count( $versions ); ++$i )
+            $versions = $this->versions();
+            foreach( $versions as $version )
             {
-                $versionID = $versions[$i]->attribute( 'version' );
-                $versionList[$versionID] =& $versions[$i];
+                $versionList[$version->attribute( 'version' )] = $version;
             }
         }
         else
         {
-            $versionList[1] =& $this->currentVersion();
+            $versionList[1] = $this->currentVersion();
         }
 
-        $versionKeys = array_keys( $versionList );
-        foreach ( $versionKeys as $versionNumber )
+        foreach ( $versionList as $versionNumber => $currentContentObjectVersion )
         {
-            $currentContentObjectVersion =& $versionList[$versionNumber];
             $currentVersionNumber = $currentContentObjectVersion->attribute( 'version' );
-
             $contentObject->setName( $currentContentObjectVersion->name(), $versionNumber );
             foreach( $contentObject->translationStringList() as $languageCode )
             {
@@ -1377,8 +1369,8 @@ class eZContentObject extends eZPersistentObject
                     $parentMap[$copiedNodeAssignment->attribute( 'parent_node' )] = $copiedNodeAssignment;
                 }
                 // Create node-assignment from all current published nodes
-                $nodes =& $this->assignedNodes();
-                foreach ( $nodes as $node )
+                $nodes = $this->assignedNodes();
+                foreach( $nodes as $node )
                 {
                     $remoteID = 0;
                     // Remove assignments which conflicts with existing nodes, but keep remote_id
@@ -1433,7 +1425,7 @@ class eZContentObject extends eZPersistentObject
             $contentobjectAttributeVersion = $contentobjectAttribute->attribute("version");
             if( $contentobjectAttributeVersion > $version )
             {
-                $classAttribute =& $contentobjectAttribute->contentClassAttribute();
+                $classAttribute = $contentobjectAttribute->contentClassAttribute();
                 $dataType = $classAttribute->dataType();
                 $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
             }
@@ -1509,28 +1501,19 @@ class eZContentObject extends eZPersistentObject
       \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function purge( $id = false )
+    function purge()
     {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-            $contentobject = eZContentObject::fetch( $delID );
-        }
-        else
-        {
-            $delID = $this->ID;
-            $contentobject =& $this;
-        }
+        $delID = $this->ID;
         // Who deletes which content should be logged.
         include_once( "kernel/classes/ezaudit.php" );
-        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $contentobject->attribute( 'name' ),
+        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $this->attribute( 'name' ),
                                                       'Comment' => 'Purged the current object: eZContentObject::purge()' ) );
 
         $db = eZDB::instance();
 
         $db->begin();
 
-        $contentobjectAttributes = $contentobject->allContentObjectAttributes( $delID );
+        $contentobjectAttributes = $this->allContentObjectAttributes( $delID );
 
         foreach ( $contentobjectAttributes as $contentobjectAttribute )
         {
@@ -1572,7 +1555,7 @@ class eZContentObject extends eZPersistentObject
 
         eZContentObject::removeReverseRelations( $delID );
         include_once( "kernel/classes/ezsearch.php" );
-        eZSearch::removeObject( $contentobject );
+        eZSearch::removeObject( $this );
 
         // Check if deleted object is in basket/wishlist
         $sql = 'SELECT DISTINCT ezproductcollection_item.productcollection_id
@@ -1644,24 +1627,16 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove( $id = false, $nodeID = null )
+    function removeThis( $nodeID = null )
     {
         $delID = $this->ID;
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-            $contentobject = eZContentObject::fetch( $delID );
-        }
-        else
-        {
-            $contentobject =& $this;
-        }
+
         // Who deletes which content should be logged.
         include_once( "kernel/classes/ezaudit.php" );
-        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $contentobject->attribute( 'name' ),
+        eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $this->attribute( 'name' ),
                                                       'Comment' => 'Setted archived status for the current object: eZContentObject::remove()' ) );
 
-        $nodes = $contentobject->attribute( 'assigned_nodes' );
+        $nodes = $this->attribute( 'assigned_nodes' );
 
         include_once( "kernel/classes/ezsearch.php" );
         if ( $nodeID === null or count( $nodes ) <= 1 )
@@ -1673,9 +1648,9 @@ class eZContentObject extends eZPersistentObject
                 $node->removeThis();
             }
 
-            $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
-            eZSearch::removeObject( $contentobject );
-            $contentobject->store();
+            $this->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+            eZSearch::removeObject( $this );
+            $this->store();
             // Delete stored attribute from other tables
             $db->commit();
 
@@ -1693,9 +1668,9 @@ class eZContentObject extends eZPersistentObject
                     {
                         $node->removeThis();
                     }
-                    $contentobject->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
-                    eZSearch::removeObject( $contentobject );
-                    $contentobject->store();
+                    $this->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
+                    eZSearch::removeObject( $this );
+                    $this->store();
                     $db->commit();
                 }
                 else
@@ -1869,7 +1844,9 @@ class eZContentObject extends eZPersistentObject
             }
 
             if ( $language !== null and $version !== null )
-                $this->ContentObjectAttributes[$version][$language] =& $returnAttributeArray;
+            {
+                $this->ContentObjectAttributes[$version][$language] = $returnAttributeArray;
+            }
         }
         else
         {
@@ -1885,7 +1862,7 @@ class eZContentObject extends eZPersistentObject
     */
     function setContentObjectAttributes( &$attributes, $version, $language )
     {
-        $this->ContentObjectAttributes[$version][$language] =& $attributes;
+        $this->ContentObjectAttributes[$version][$language] = $attributes;
     }
 
     /*!
@@ -1893,29 +1870,28 @@ class eZContentObject extends eZPersistentObject
       Fetches the attributes for an array of objects. The objectList parameter
       contains an array of object id's , versions and language to fetch attributes from.
     */
-    static function fillNodeListAttributes( &$nodeList, $asObject = true )
+    static function fillNodeListAttributes( $nodeList, $asObject = true )
     {
         $db = eZDB::instance();
 
         if ( count( $nodeList ) > 0 )
         {
-            $keys = array_keys( $nodeList );
             $objectArray = array();
             $tmpLanguageObjectList = array();
             $whereSQL = '';
             $count = count( $nodeList );
             $i = 0;
-            foreach ( $keys as $key )
+            foreach ( $nodeList as $node )
             {
-                $object = $nodeList[$key]->attribute( 'object' );
+                $object = $node->attribute( 'object' );
 
                 $language = $object->currentLanguage();
                 $tmpLanguageObjectList[$object->attribute( 'id' )] = $language;
                 $objectArray = array( 'id' => $object->attribute( 'id' ),
                                       'language' => $language,
-                                      'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
+                                      'version' => $node->attribute( 'contentobject_version' ) );
 
-                $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
+                $whereSQL .= "( ezcontentobject_attribute.version = '" . $node->attribute( 'contentobject_version' ) . "' AND
                     ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
                     ezcontentobject_attribute.language_code = '" . $language . "' ) ";
 
@@ -1939,26 +1915,19 @@ class eZContentObject extends eZPersistentObject
             $returnAttributeArray = array();
             foreach ( $attributeArray as $attribute )
             {
-                unset( $attr );
                 $attr = new eZContentObjectAttribute( $attribute );
                 $attr->setContentClassAttributeIdentifier( $attribute['identifier'] );
 
                 $tmpAttributeObjectList[$attr->attribute( 'contentobject_id' )][] = $attr;
             }
 
-            $keys = array_keys( $nodeList );
-            foreach ( $keys as $key )
+            foreach ( $nodeList as $node )
             {
-                unset( $node );
-                $node = $nodeList[$key];
-
-                unset( $object );
                 $object = $node->attribute( 'object' );
-                $attributes =& $tmpAttributeObjectList[$object->attribute( 'id' )];
-                $object->setContentObjectAttributes( $attributes, $node->attribute( 'contentobject_version' ), $tmpLanguageObjectList[$object->attribute( 'id' )] );
+                $object->setContentObjectAttributes( $tmpAttributeObjectList[$object->attribute( 'id' )],
+                                                     $node->attribute( 'contentobject_version' ),
+                                                     $tmpLanguageObjectList[$object->attribute( 'id' )] );
                 $node->setContentObject( $object );
-
-                $nodeList[$key] =& $node;
             }
         }
     }

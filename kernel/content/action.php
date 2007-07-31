@@ -1265,8 +1265,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {
-        $Result =& $module->run( "collectinformation", array() );
-        return $Result;
+        return $module->run( "collectinformation", array() );
     }
     else
     {
@@ -1487,7 +1486,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
         $contentObject = eZContentObject::fetch( $removeObjectID );
         if ( $contentObject->attribute( 'can_remove' ) )
         {
-            $contentObject->remove();
+            $contentObject->removeThis();
         }
     }
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );

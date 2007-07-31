@@ -447,12 +447,9 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
 //             eZDebug::writeDebug( $policies, 'policies' );
-            foreach ( array_keys( $policies ) as $key  )
-            {
-                $limitationList[] =& $policies[$key];
-            }
+            $limitationList[] = $policies;
 
             if ( count( $limitationList ) > 0 )
             {
@@ -611,7 +608,7 @@ class eZContentObjectVersion extends eZPersistentObject
                             foreach ( $contentObject->attribute( 'assigned_nodes' ) as  $assignedNode )
                             {
                                 $path = $assignedNode->attribute( 'path_string' );
-                                $subtreeArray =& $limitation;
+                                $subtreeArray = $limitation;
                                 foreach ( $subtreeArray as $subtreeString )
                                 {
                                     if ( strstr( $path, $subtreeString ) )
@@ -632,7 +629,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                 {
                                     $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
                                     $path = $parentNode->attribute( 'path_string' );
-                                    $subtreeArray =& $limitation;
+                                    $subtreeArray = $limitation;
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
                                         if ( strstr( $path, $subtreeString ) )
@@ -664,7 +661,7 @@ class eZContentObjectVersion extends eZPersistentObject
                             foreach ( $contentObject->attribute( 'assigned_nodes' ) as  $assignedNode )
                             {
                                 $path = $assignedNode->attribute( 'path_string' );
-                                $subtreeArray =& $limitation;
+                                $subtreeArray = $limitation;
                                 foreach ( $subtreeArray as $subtreeString )
                                 {
                                     if ( strstr( $path, $subtreeString ) )
@@ -685,7 +682,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                 {
                                     $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
                                     $path = $parentNode->attribute( 'path_string' );
-                                    $subtreeArray =& $limitation;
+                                    $subtreeArray = $limitation;
                                     foreach ( $subtreeArray as $subtreeString )
                                     {
                                         if ( strstr( $path, $subtreeString ) )
@@ -980,7 +977,7 @@ class eZContentObjectVersion extends eZPersistentObject
 //         eZDebug::writeDebug( $this, 'removeTranslation:version' );
         $versionNum = $this->attribute( 'version' );
 
-        $contentObjectAttributes =& $this->contentObjectAttributes( $languageCode );
+        $contentObjectAttributes = $this->contentObjectAttributes( $languageCode );
 
         $db = eZDB::instance();
         $db->begin();

@@ -262,7 +262,7 @@ foreach ( $LDAPUsers as $LDAPUser )
         $currentVersion = $contentObject->attribute( 'current_version' );
 
         $version = $contentObject->attribute( 'current' );
-        $contentObjectAttributes =& $version->contentObjectAttributes();
+        $contentObjectAttributes = $version->contentObjectAttributes();
 
         if ( $isUtf8Encoding )
         {
@@ -303,7 +303,7 @@ foreach ( $LDAPUsers as $LDAPUser )
             $otherNodeArray = array();
             $LDAPNodeArray = array();
             $newLDAPNodeArray = array();
-            $parentNodes =& $contentObject->parentNodes( $currentVersion );;
+            $parentNodes = $contentObject->parentNodes( $currentVersion );;
             foreach( $parentNodes as $parentNode )
             {
                 $parentNodeID = $parentNode->attribute( 'node_id' );

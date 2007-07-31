@@ -48,10 +48,10 @@ foreach( $rootNodeIDList as $nodeID )
 
     while( true )
     {
-        $nodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
-                                                 'ClassFilterArray' => $hideClasses,
-                                                 'Offset' => $offset,
-                                                 'Limit' => $limit ) );
+        $nodeArray = $rootNode->subTree( array( 'ClassFilterType' => 'include',
+                                                'ClassFilterArray' => $hideClasses,
+                                                'Offset' => $offset,
+                                                'Limit' => $limit ) );
         if ( !$nodeArray ||
              count( $nodeArray ) == 0 )
         {

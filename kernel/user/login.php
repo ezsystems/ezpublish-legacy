@@ -134,9 +134,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
                     include_once( 'lib/ezutils/classes/ezsys.php' );
 
                     $policyChecked = false;
-                    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+                    foreach ( $siteAccessResult['policies'] as $policy )
                     {
-                        $policy =& $siteAccessResult['policies'][$key];
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
@@ -223,8 +222,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         if ( $userUriAttrName )
         {
             $userDataMap = $userObject->attribute( 'data_map' );
-            $uriAttribute =& $userDataMap[$userUriAttrName];
-
             if ( !isset( $userDataMap[$userUriAttrName] ) )
             {
                 eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$userUriAttrName' in object '" .
@@ -232,7 +229,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                        "' of class '" .
                                        $userObject->attribute( 'class_name' ) . "'." );
             }
-            elseif ( ( $uriAttribute =& $userDataMap[$userUriAttrName] ) &&
+            elseif ( ( $uriAttribute = $userDataMap[$userUriAttrName] ) &&
                      ( $uri = $uriAttribute->attribute( 'content' ) ) )
             {
                 $redirectionURI = $uri;
@@ -262,8 +259,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                                $group->attribute( 'class_name' ) . "'." );
                         continue;
                     }
-                    $uriAttribute =& $groupDataMap[$groupUriAttrName];
-                    $uri = $uriAttribute->attribute( 'content' );
+                    $uri = $groupDataMap[$groupUriAttrName]->attribute( 'content' );
                     if ( $uri )
                     {
                         if ( $isMainParent )
@@ -314,7 +310,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
 else
 {
     // called from outside of a template (?)
-    $requestedURI =& $GLOBALS['eZRequestedURI'];
+    $requestedURI = $GLOBALS['eZRequestedURI'];
     if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
     {
         $requestedModule = $requestedURI->element( 0, false );

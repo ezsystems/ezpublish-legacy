@@ -182,9 +182,8 @@ class eZRole extends eZPersistentObject
     */
     static function createNew()
     {
-        $role = new eZRole( array() );
-        $role->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'New role' ) );
-        $role->setAttribute( 'is_new', 1 );
+        $role = new eZRole( array( 'name' => ezi18n( 'kernel/role/edit', 'New role' ),
+                                   'is_new' => 1 ) );
         $role->store();
         return $role;
     }
@@ -243,7 +242,7 @@ class eZRole extends eZPersistentObject
 
         if ( isset( $this->Policies ) )
         {
-            $this->Policies[] =& $policy;
+            $this->Policies[] = $policy;
         }
         return $policy;
     }
@@ -345,7 +344,7 @@ class eZRole extends eZPersistentObject
             $policy->removeThis();
         }
         $db->query( "DELETE FROM ezrole WHERE id='" . $db->escapeString( $this->attribute( 'id' ) ) . "'" );
-        $db->query( "DELETE FROM ezuser_role WHERE role_id = '$roleID'" );
+        $db->query( "DELETE FROM ezuser_role WHERE role_id = '" . $db->escapeString( $this->attribute( 'id' ) ) . "'" );
         $db->commit();
     }
 
@@ -386,9 +385,8 @@ class eZRole extends eZPersistentObject
             $db = eZDB::instance();
             $db->begin();
 
-            foreach( array_keys( $policyList ) as $policyKey )
+            foreach( $policyList as $policy )
             {
-                $policy =& $policyList[$policyKey];
                 if ( is_object( $policy ) )
                 {
                     if ( $policy->attribute( 'module_name' ) == $moduleName )
@@ -588,20 +586,19 @@ class eZRole extends eZPersistentObject
 
         if ( $userLimitation )
         {
-            foreach( array_keys( $accessArray ) as $moduleKey )
+            foreach( $accessArray as $moduleKey => $functionList )
             {
-                foreach( array_keys( $accessArray[$moduleKey] ) as $functionKey )
+                foreach( $functionList as $functionKey => $policyList )
                 {
-                    foreach( array_keys( $accessArray[$moduleKey][$functionKey] ) as $policyKey )
+                    foreach( $policyList as $policyKey => $limitationList )
                     {
-                        if ( is_array( $accessArray[$moduleKey][$functionKey][$policyKey] ) )
+                        if ( is_array( $limitationList ) )
                         {
-                            foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
+                            foreach( $limitationList as $limitationKey => $limitKeyArray )
                             {
-                                $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];
                                 if ( is_array( $limitKeyArray ) )
                                 {
-                                    $limitKeyArray = array_unique( $limitKeyArray );
+                                    $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey] = array_unique( $limitKeyArray );
                                 }
                             }
                         }
@@ -646,7 +643,7 @@ class eZRole extends eZPersistentObject
                     $policies[$policyKey]->setAttribute( 'user_role_id', $this->attribute( 'user_role_id' ) );
                 }
             }
-            $this->Policies =& $policies;
+            $this->Policies = $policies;
         }
 
         return $this->Policies;

@@ -253,7 +253,7 @@ function importRSSItem( $item, &$rssImport, $cli, $channel )
                                                        'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
     $nodeAssignment->store();
 
-    $version =& $contentObject->version( 1 );
+    $version = $contentObject->version( 1 );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
     $version->store();
 

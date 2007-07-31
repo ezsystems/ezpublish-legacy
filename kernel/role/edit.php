@@ -43,7 +43,7 @@ include_once( 'kernel/common/template.php' );
 
 $tpl = templateInit();
 $Module = $Params['Module'];
-$roleID =& $Params['RoleID'];
+$roleID = $Params['RoleID'];
 
 $modules = eZModuleManager::availableModules();
 sort( $modules );

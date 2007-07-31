@@ -121,20 +121,18 @@ class eZUserFunctionCollection
             $accessArray = array_merge_recursive( $accessArray, $role->accessArray( true ) );
         }
         $resultArray = array();
-        foreach ( array_keys( $accessArray ) as $moduleKey )
+        foreach ( $accessArray as $moduleKey => $module )
         {
-            $module =& $accessArray[$moduleKey];
             $moduleName = $moduleKey;
             if ( $moduleName != '*' )
             {
-                foreach ( array_keys( $module ) as $functionKey )
+                foreach ( $module as $functionKey => $function )
                 {
-                    $function =& $module[$functionKey];
                     $functionName = $functionKey;
                     if ( $functionName != '*' )
                     {
                         $hasLimitation = true;
-                        foreach ( array_keys( $function ) as $limitationKey )
+                        foreach ( $function as $limitationKey )
                         {
                             if ( $limitationKey == '*' )
                             {
@@ -145,9 +143,8 @@ class eZUserFunctionCollection
                         }
                         if ( $hasLimitation )
                         {
-                            foreach ( array_keys( $function ) as $limitationKey )
+                            foreach ( $function as $limitationKey => $limitation )
                             {
-                                $limitation =& $module[$limitationKey];
                                 if ( $limitationKey != '*' )
                                 {
                                     $policyID = str_replace( 'p_', '', $limitationKey );

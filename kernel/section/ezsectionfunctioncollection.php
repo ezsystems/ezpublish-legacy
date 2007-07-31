@@ -115,23 +115,23 @@ class eZSectionFunctionCollection
         $policies = $roleIDs = $usedRoleIDs = $roles = $roleLimitations = array();
 
         $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
-        foreach ( array_keys( $limitations ) as $key )
+        foreach ( $limitations as $policyEntry )
         {
-            $policy =& $limitations[$key]->policy();
+            $policy = $policyEntry->policy();
             $policies[] = $policy;
 
-            $roleID= $policy->attribute( 'role_id' );
+            $roleID = $policy->attribute( 'role_id' );
             $roleIDs[] = $roleID;
             if ( !isset( $roleLimitations[$roleID] ) )
             {
                 $roleLimitations[$roleID] = array();
             }
-            $roleLimitations[$roleID][] =& $policy;
+            $roleLimitations[$roleID][] = $policy;
         }
 
-        foreach ( array_keys( $policies ) as $key )
+        foreach ( $policies as $policy )
         {
-            $roleID = $policies[$key]->attribute( 'role_id' );
+            $roleID = $policy->attribute( 'role_id' );
             if ( in_array( $roleID, $roleIDs ) && !in_array( $roleID, $usedRoleIDs ) )
             {
                 $roles[] = $policies[$key]->attribute( 'role' );

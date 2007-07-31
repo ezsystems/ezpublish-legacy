@@ -188,7 +188,7 @@ class eZPolicy extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &appendLimitation( $identifier, $values )
+    function appendLimitation( $identifier, $values )
     {
         include_once( 'kernel/classes/ezpolicylimitation.php' );
         include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
@@ -205,14 +205,14 @@ class eZPolicy extends eZPersistentObject
             $limitationValue->store();
             if ( isset( $limitation->Values ) )
             {
-                $limitation->Values[] =& $limitationValue;
+                $limitation->Values[] = $limitationValue;
             }
         }
         $db->commit();
 
         if ( isset( $this->Limitations ) )
         {
-            $this->Limitations[] =& $limitation;
+            $this->Limitations[] = $limitation;
         }
         return $limitation;
     }
@@ -331,9 +331,8 @@ class eZPolicy extends eZPersistentObject
 
                             $values = $limitation->attribute( 'values' );
 
-                            foreach ( array_keys( $values ) as $key )
+                            foreach ( $values as $limitationValue )
                             {
-                                $limitationValue =& $values[$key];
                                 $value = $limitationValue->attribute( 'value' );
                                 if ( strpos( $value, $limitValue ) === 0 )
                                 {
@@ -380,7 +379,7 @@ class eZPolicy extends eZPersistentObject
             }
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "policy limitations " . $this->ID );
 
-            $this->Limitations =& $limitations;
+            $this->Limitations = $limitations;
         }
         return $this->Limitations;
     }

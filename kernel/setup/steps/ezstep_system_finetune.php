@@ -45,7 +45,7 @@ class eZStepSystemFinetune extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSystemFinetune( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSystemFinetune( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'system_finetune', 'System finetune' );

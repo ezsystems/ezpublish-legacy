@@ -42,7 +42,7 @@ include_once( 'kernel/common/template.php' );
 
 $http = eZHTTPTool::instance();
 $Module = $Params['Module'];
-$roleID =& $Params['RoleID'];
+$roleID = $Params['RoleID'];
 
 $role = eZRole::fetch( $roleID );
 
@@ -81,7 +81,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 {
     $selectedObjectIDArray = eZContentBrowse::result( 'AssignRole' );
 
-    $assignedUserIDArray =& $role->fetchUserID();
+    $assignedUserIDArray = $role->fetchUserID();
 
     $db = eZDB::instance();
     $db->begin();
@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
- 
+
     // Clear role caches.
     eZRole::expireCache();
 
@@ -133,7 +133,7 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
 
 $tpl = templateInit();
 
-$userArray =& $role->fetchUserByRole();
+$userArray = $role->fetchUserByRole();
 
 $policies = $role->attribute( 'policies' );
 $tpl->setVariable( 'policies', $policies );
