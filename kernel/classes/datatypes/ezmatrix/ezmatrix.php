@@ -96,7 +96,7 @@ class eZMatrix
         $columnDefinition = $matrix['columns']['sequential'][$columnIndex];
         if ( $columnDefinition['index'] != $newColumnIndex )
         {
-            $this->setColumnIndex( $columnDefinition, $newColumnIndex );
+            $this->setColumnIndex( $columnIndex, $newColumnIndex );
             return true;
         }
         return false;
@@ -249,7 +249,7 @@ class eZMatrix
         $rule = array( $pos );
         $startPos = $pos;
 
-        $column = $column[$pos];
+        $column = $columns[$pos];
         while( $column['index'] != $startPos )
         {
             $pos = $column['index'];
@@ -257,7 +257,7 @@ class eZMatrix
             $column = $columns[$pos];
         }
 
-        return $retArray;
+        return $rule;
     }
 
     /*!

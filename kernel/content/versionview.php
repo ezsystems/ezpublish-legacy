@@ -49,7 +49,7 @@ $contentObject = eZContentObject::fetch( $ObjectID );
 if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$versionObject =& $contentObject->version( $EditVersion );
+$versionObject = $contentObject->version( $EditVersion );
 if ( !$versionObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -149,7 +149,7 @@ if ( is_numeric( $placementID ) )
     $assignment = eZNodeAssignment::fetchByID( $placementID );
 if ( $assignment !== null )
 {
-    $node =& $assignment->getParentNode();
+    $node = $assignment->getParentNode();
     if ( $node !== null )
     {
         $nodeObject = $node->attribute( "object" );
@@ -298,7 +298,7 @@ include_once( 'kernel/classes/eznodeviewfunctions.php' );
 unset( $contentObject );
 $contentObject = $node->attribute( 'object' ); // do not remove &
 
-$Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
+$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
                                                  false, false, false );
 
 $Result['requested_uri_string'] = $requestedURIString;

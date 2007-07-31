@@ -363,7 +363,7 @@ class eZMultiPrice extends eZSimplePrice
         $price = $this->priceByCurrency( $currencyCode );
         if ( $price )
         {
-            $price->removeByID();
+            $price->remove();
             $priceList = $this->priceList();
             unset( $priceList[$currencyCode] );
         }

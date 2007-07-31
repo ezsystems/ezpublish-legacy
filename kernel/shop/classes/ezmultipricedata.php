@@ -149,11 +149,8 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
         removes single record from 'ezmultipricedata' table
     */
-    static function removeByID( $id = false )
+    static function removeByID( $id )
     {
-        if ( $id === false)
-            $id = $this->attribute( 'id' );
-
         $db = eZDB::instance();
         $db->begin();
         eZPersistentObject::removeObject( eZMultiPriceData::definition(),
