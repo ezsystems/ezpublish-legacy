@@ -46,7 +46,7 @@ class eZStepWelcome extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepWelcome( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepWelcome( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'welcome', 'Welcome' );

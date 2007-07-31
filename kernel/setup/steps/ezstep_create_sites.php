@@ -79,7 +79,7 @@ class eZStepCreateSites extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepCreateSites( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepCreateSites( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'create_sites', 'Create sites' );
@@ -501,7 +501,7 @@ class eZStepCreateSites extends eZStepInstaller
                 {
                     $schemaArray = array_merge( $schemaArray, $dataArray );
                     $schemaArray['type'] = strtolower( $db->databaseName() );
-                    $schemaArray['instance'] =& $db;
+                    $schemaArray['instance'] = $db;
                     $result = true;
                     $dbSchema = eZDBSchema::instance( $schemaArray );
                     if ( !$dbSchema )
@@ -543,7 +543,7 @@ class eZStepCreateSites extends eZStepInstaller
                 // Inserting data from the dba-data files of the datatypes
                 include_once( 'kernel/classes/ezdatatype.php' );
                 eZDataType::loadAndRegisterAllTypes();
-                $registeredDataTypes =& eZDataType::registeredDataTypes();
+                $registeredDataTypes = eZDataType::registeredDataTypes();
                 foreach ( $registeredDataTypes as $dataType )
                 {
                     if ( !$dataType->importDBDataFromDBAFile() )
@@ -800,7 +800,7 @@ language_locale='eng-GB'";
             $contentClassList = eZContentClass::fetchList();
             foreach( $contentClassList as $contentClass )
             {
-                $classAttributes =& $contentClass->fetchAttributes();
+                $classAttributes = $contentClass->fetchAttributes();
                 foreach( $classAttributes as $classAttribute )
                 {
                     $classAttribute->NameList->setName( $classAttribute->NameList->name( 'eng-GB' ), $primaryLanguageLocaleCode );
@@ -930,9 +930,8 @@ language_locale='eng-GB'";
             if ( $package->attribute( 'type' ) == 'sitestyle' )
             {
                 $fileList = $package->fileList( 'default' );
-                foreach ( array_keys( $fileList ) as $key )
+                foreach ( $fileList as $file )
                 {
-                    $file =& $fileList[$key];
                     $fileIdentifier = $file["variable-name"];
                     if ( $fileIdentifier == 'sitecssfile' )
                     {

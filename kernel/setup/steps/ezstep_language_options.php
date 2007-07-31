@@ -46,7 +46,7 @@ class eZStepLanguageOptions extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepLanguageOptions(&$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepLanguageOptions( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'language_options', 'Language options' );
@@ -120,11 +120,11 @@ class eZStepLanguageOptions extends eZStepInstaller
                 if ( $primaryLanguage === null )
                     $primaryLanguage = eZLocale::create( $primaryLanguageCode );
 
-                $allLanguages[] =& $primaryLanguage;
+                $allLanguages[] = $primaryLanguage;
 
                 foreach ( $extraLanguageCodes as $extraLanguageCode )
                 {
-                    $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                    $allLanguages[] = eZLocale::create( $extraLanguageCode );
                     $allLanguageCodes[] = $extraLanguageCode;
                 }
 

@@ -44,7 +44,7 @@ class eZStepSecurity extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSecurity( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSecurity( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'security', 'Security' );

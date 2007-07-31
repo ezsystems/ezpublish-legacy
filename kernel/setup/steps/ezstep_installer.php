@@ -62,12 +62,12 @@ class eZStepInstaller
     \param ini settings object
     \param persistencelist, all previous posted data
     */
-    function eZStepInstaller( &$tpl, &$http, &$ini, &$persistenceList,
+    function eZStepInstaller( $tpl, $http, $ini, &$persistenceList,
                               $identifier, $name )
     {
-        $this->Tpl =& $tpl;
-        $this->Http =& $http;
-        $this->Ini =& $ini;
+        $this->Tpl = $tpl;
+        $this->Http = $http;
+        $this->Ini = $ini;
         $this->PersistenceList =& $persistenceList;
         $this->Identifier = $identifier;
         $this->Name = $name;
@@ -126,7 +126,7 @@ class eZStepInstaller
         return $result;
     }
 
-    function findAppropriateCharset( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    function findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
@@ -134,7 +134,7 @@ class eZStepInstaller
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
         {
 
-            $language =& $allLanguages[ 0 ];
+            $language = $allLanguages[ 0 ];
             $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
@@ -144,7 +144,7 @@ class eZStepInstaller
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
-                $language =& $allLanguages[$i];
+                $language = $allLanguages[$i];
                 $charsets = $language->allowedCharsets();
                 $realCharsets = array();
                 foreach ( $charsets as $charset )
@@ -179,7 +179,7 @@ class eZStepInstaller
         return $charset;
     }
 
-    function findAppropriateCharsetsList( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    function findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $canUseUnicode )
     {
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
         $commonCharsets = array();
@@ -187,7 +187,7 @@ class eZStepInstaller
         if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
         {
 
-            $language =& $allLanguages[ 0 ];
+            $language = $allLanguages[ 0 ];
             $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
@@ -197,7 +197,7 @@ class eZStepInstaller
 
             for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
-                $language =& $allLanguages[$i];
+                $language = $allLanguages[$i];
                 $charsets = $language->allowedCharsets();
                 $realCharsets = array();
                 foreach ( $charsets as $charset )
@@ -364,7 +364,7 @@ class eZStepInstaller
             $dbParameters['database'] = 'template1';
 
         $db = eZDB::instance( $dbDriver, $dbParameters, true );
-        $result['db_instance'] =& $db;
+        $result['db_instance'] = $db;
         $result['connected'] = $db->isConnected();
         if ( $db->isConnected() == false )
         {
@@ -448,7 +448,7 @@ class eZStepInstaller
                 if ( $primaryLanguage === null )
                     $primaryLanguage = eZLocale::create( $primaryLanguageCode );
 
-                $allLanguages[] =& $primaryLanguage;
+                $allLanguages[] = $primaryLanguage;
 
                 foreach ( $extraLanguageCodes as $extraLanguageCode )
                 {

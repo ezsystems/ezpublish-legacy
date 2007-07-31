@@ -45,13 +45,13 @@ class eZStepRegistration extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepRegistration( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepRegistration( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'registration', 'Registration' );
     }
 
-    function generateRegistration( &$mailTpl, $comments )
+    function generateRegistration( $mailTpl, $comments )
     {
         $databaseMap = eZSetupDatabaseMap();
         $databaseInfo = $this->PersistenceList['database_info'];
@@ -166,7 +166,7 @@ class eZStepRegistration extends eZStepInstaller
             $comments = $this->Http->postVariable( 'eZSetupRegistrationComment' );
         }
         $bodyText = $this->generateRegistration( $mailTpl, $comments );
-        $subject =& $mailTpl->variable( 'subject' );
+        $subject = $mailTpl->variable( 'subject' );
 
         // Fill in E-Mail data and send it
         include_once( 'lib/ezutils/classes/ezmail.php' );
@@ -203,7 +203,7 @@ class eZStepRegistration extends eZStepInstaller
                     include_once( 'kernel/common/template.php' );
                     $mailTpl = templateInit( 'email' );
                     $bodyText = $this->generateRegistration( $mailTpl, $comments );
-                    $subject =& $mailTpl->variable( 'subject' );
+                    $subject = $mailTpl->variable( 'subject' );
 
                     // Fill in E-Mail data and send it
                     include_once( 'lib/ezutils/classes/ezmail.php' );

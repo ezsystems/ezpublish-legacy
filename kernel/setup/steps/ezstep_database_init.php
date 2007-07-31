@@ -47,7 +47,7 @@ class eZStepDatabaseInit extends eZStepInstaller
      Constructor
      \reimp
     */
-    function eZStepDatabaseInit( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepDatabaseInit( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'database_init', 'Database init' );
@@ -117,7 +117,7 @@ class eZStepDatabaseInit extends eZStepInstaller
             return false;
         }
 
-        $db =& $result['db_instance'];
+        $db = $result['db_instance'];
         $this->PersistenceList['database_info']['use_unicode'] = $result['use_unicode'];
         $availDatabases = $db->availableDatabases();
 

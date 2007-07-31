@@ -58,7 +58,7 @@ class eZStepSiteDetails extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSiteDetails( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSiteDetails( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_details', 'Site details' );
@@ -181,7 +181,7 @@ class eZStepSiteDetails extends eZStepInstaller
             $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
         }
 
-        $db =& $result['db_instance'];
+        $db = $result['db_instance'];
 
         $dbStatus['connected'] = $result['connected'];
 

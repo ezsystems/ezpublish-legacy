@@ -44,7 +44,7 @@ class eZStepSiteTemplates extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSiteTemplates( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSiteTemplates( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_templates', 'Site templates' );
@@ -116,9 +116,8 @@ class eZStepSiteTemplates extends eZStepInstaller
         include_once( 'kernel/classes/ezpackage.php' );
 
         $packages = eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
-        for ( $key = 0; $key < count( $packages ); ++$key )
+        foreach( $packages as $key => $packages )
         {
-            $package =& $packages[$key];
             $site_templates[$key]['name'] = $package->attribute( 'summary' );
             $site_templates[$key]['identifier'] = $package->attribute( 'name' );
             $thumbnails = $package->thumbnailList( 'default' );

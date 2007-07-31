@@ -54,7 +54,7 @@ class eZStepSiteAdmin extends eZStepInstaller
     /*!
      Constructor
     */
-    function eZStepSiteAdmin( &$tpl, &$http, &$ini, &$persistenceList )
+    function eZStepSiteAdmin( $tpl, $http, $ini, &$persistenceList )
     {
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_admin', 'Site admin' );
