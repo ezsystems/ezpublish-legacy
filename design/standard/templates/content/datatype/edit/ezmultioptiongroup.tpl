@@ -3,7 +3,7 @@
 {default attribute_base=ContentObjectAttribute}
 
 {section var=GroupList loop=$attribute.content.optiongroup_list}
-{include uri='design:content/datatype/edit/multioptiongroup/multioptiongroup.tpl' name=ChildGroup1 attribute=$attribute group=$GroupList.item parent_group_id=$attribute.content.group_id depth=1}
+{include uri='design:content/datatype/edit/multioption2/multioption2.tpl' name=ChildGroup1 attribute=$attribute group=$GroupList.item parent_group_id=$attribute.content.group_id depth=1}
 {/section}
 
 <div class="toolbar">

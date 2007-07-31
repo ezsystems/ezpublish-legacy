@@ -75,7 +75,7 @@
                     <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new-sublevel_{$group.group_id}_{$MultiOptionList.id}]" value="{'Add multioption sub level'|i18n('design/standard/content/datatype')}" title="{'Add a new multioption sub level.'|i18n( 'design/standard/content/datatype' )}" />
                 </div>
                 {section-else}
-                {include uri='design:content/datatype/edit/multioptiongroup/multioptiongroup.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id depth=sum($depth,1)}
+                {include uri='design:content/datatype/edit/multioption2/multioption2.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id depth=sum($depth,1)}
             {/section}
             </td>
         </tr>

@@ -29,18 +29,18 @@
 //
 
 /*!
-  \class eZMultioptionGroup ezmultioptiongroup.php
+  \class eZMultioption2 ezmultioption2.php
   \ingroup eZDatatype
   \brief Encapsulates multiple options in one datatype.
 */
 include_once( "lib/ezxml/classes/ezxml.php" );
 
-class eZMultioptionGroup
+class eZMultioption2
 {
     /*!
-     Initializes with empty multioptiongroup list.
+     Initializes with empty multioption2 list.
     */
-    function eZMultioptionGroup( $name, $id = 0, $multioptionIDCounter = 0, $optionCounter = 0, $groupID = 0 )
+    function eZMultioption2( $name, $id = 0, $multioptionIDCounter = 0, $optionCounter = 0, $groupID = 0 )
     {
         $this->Name = $name;
         $this->ID = $id;
@@ -615,6 +615,7 @@ class eZMultioptionGroup
         {
             $xml = new eZXML();
             $dom =& $xml->domTree( $xmlString );
+//            var_dump( $xmlString );
             $root =& $dom->root();
 
             if ( $root->name() == 'ezmultioption' )
@@ -654,7 +655,7 @@ class eZMultioptionGroup
         else
         {
             //The control come here while creaging new object for MultiOption
-            $group = new eZMultioptionGroup( '' );
+            $group = new eZMultioption2( '' );
             $this->addChildGroup( $group );
             $nodeID = $group->addMultiOption( "", 0, false , '' );
             $group->addOption( $nodeID, "", "", "" );
@@ -674,7 +675,7 @@ class eZMultioptionGroup
             $this->GroupID = 0;
             $this->ID = 0;
 
-            $multiOptionGroup = new eZMultiOptionGroup( '', 0,0,0,1 );
+            $multiOptionGroup = new eZMultioption2( '', 0,0,0,1 );
             $multiOptionGroup->initCounters( $this );
             $multiOptionGroup->initGroupFromDom( $root );
             $this->initCounters( $multiOptionGroup );
@@ -724,7 +725,7 @@ class eZMultioptionGroup
                 $groupNode = $multioption->elementByName( "optiongroup" );
                 if( $groupNode )
                 {
-                    $multiOptionGroup = new eZMultiOptionGroup( '' );
+                    $multiOptionGroup = new eZMultioption2( '' );
                     $multiOptionGroup->initCounters( $this );
                     $multiOptionGroup->initGroupFromDom( $groupNode );
                     $this->initCounters( $multiOptionGroup );
@@ -739,7 +740,7 @@ class eZMultioptionGroup
             $groupList = $groupsNode->elementsByName( "optiongroup" );
             foreach ( $groupList as $group )
             {
-                $multiOptionGroup = new eZMultiOptionGroup( '' );
+                $multiOptionGroup = new eZMultioption2( '' );
                 $multiOptionGroup->initCounters( $this );
                 $multiOptionGroup->initGroupFromDom( $group );
                 $this->initCounters( $multiOptionGroup );
@@ -765,8 +766,8 @@ class eZMultioptionGroup
     */
     function &xmlString()
     {
-        $doc = new eZDOMDocument( "MultiOptionGroup" );
-        $root = $doc->createElementNode( "ezmultioptiongroup" );
+        $doc = new eZDOMDocument( "Multioption2" );
+        $root = $doc->createElementNode( "ezmultioption2" );
         $doc->setRoot( $root );
 
         $this->createDomElementForGroup( $doc, $root );

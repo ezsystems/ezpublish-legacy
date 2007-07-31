@@ -18,5 +18,5 @@
     {/section}
 {/section}
 
-{include uri='design:content/datatype/edit/multioptiongroup/multioption.tpl' name=ChildOption attribute=$attribute group=$group parent_group_id=$parent_group_id depth=$depth attribute_base=$attribute_base}
+{include uri='design:content/datatype/edit/multioption2/multioption.tpl' name=ChildOption attribute=$attribute group=$group parent_group_id=$parent_group_id depth=$depth attribute_base=$attribute_base}
 {/default}
