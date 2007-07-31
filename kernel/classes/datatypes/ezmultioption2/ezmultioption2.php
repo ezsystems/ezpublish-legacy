@@ -377,10 +377,18 @@ class eZMultiOption2
         $removed = false;
         foreach ( $this->Options as $key => $option )
         {
-            if ( isset($option['child_group']) && $option['child_group']->attribute( "group_id") == $groupID )
+            if ( isset( $option['child_group'] ) )
             {
-                unset( $this->Options[$key]['child_group'] );
-                return true;
+                 if (  $option['child_group']->attribute( "group_id" ) == $groupID )
+                 {
+                     unset( $this->Options[$key]['child_group'] );
+                     return true;
+                 }
+                 else
+                 {
+                     if ( $option['child_group']->removeChildGroup( $groupID, $depth + 1 ) )
+                         return true;
+                 }
             }
         }
 
