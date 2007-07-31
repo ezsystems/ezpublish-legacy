@@ -28,7 +28,7 @@ var rules{$attribute.id} = new Array(); //all rules [i]
 {/section}
 </script>
 {section var=GroupList loop=$attribute.content.optiongroup_list}
-{include uri='design:content/datatype/view/multioptiongroup/multioptiongroup.tpl' name=ChildGroup1 attribute=$attribute group=$GroupList.item parent_group_id=$attribute.content.group_id depth=1}
+{include uri='design:content/datatype/view/multioption2/multioption2.tpl' name=ChildGroup1 attribute=$attribute group=$GroupList.item parent_group_id=$attribute.content.group_id depth=1}
 {/section}
 <script type="text/javascript">
 initSelects();

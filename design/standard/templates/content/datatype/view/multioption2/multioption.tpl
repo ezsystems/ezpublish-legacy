@@ -45,7 +45,7 @@
 {/section}
 
 {section show=is_set($MultiOptionList.item.child_group)}
-    {include uri='design:content/datatype/view/multioptiongroup/multioptiongroup.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id depth=sum($depth,1)}
+    {include uri='design:content/datatype/view/multioption2/multioption2.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id depth=sum($depth,1)}
 {/section}
 </li>
 {undef $default_option_id}

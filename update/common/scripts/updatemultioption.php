@@ -64,12 +64,12 @@ function updateAtttributes( $conditions )
             $classAttribute =& $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( 'data_type_string' ) == 'ezmultioption' )
             {
-                $classAttribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
+                $classAttribute->setAttribute( 'data_type_string', 'ezmultioption2' );
                 $classAttribute->store();
             }
 
-            $attribute->setAttribute( 'data_type_string', 'ezmultioptiongroup' );
-            $attribute->DataTypeString = 'ezmultioptiongroup';
+            $attribute->setAttribute( 'data_type_string', 'ezmultioption2' );
+            $attribute->DataTypeString = 'ezmultioption2';
             $dataType = $attribute->dataType();
             $attributeContent = $attribute->attribute( 'content' );
             $attribute->setAttribute( "data_text", $attributeContent->xmlString() );
