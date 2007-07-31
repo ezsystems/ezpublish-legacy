@@ -63,7 +63,7 @@ class eZMatrixDefinition
                                        'identifier' => $columnElement->getAttribute( 'id' ),
                                        'index' =>  $columnElement->getAttribute( 'idx' ) );
             }
-            $this->ColumnNames =& $columnList;
+            $this->ColumnNames = $columnList;
         }
         else
         {

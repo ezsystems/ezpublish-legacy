@@ -165,7 +165,7 @@ class eZMatrixType extends eZDataType
                 $cells[] = $cell;
             }
             $matrix = $contentObjectAttribute->attribute( 'content' );
-            $matrix->Cells =& $cells;
+            $matrix->Cells = $cells;
 
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
             $matrix->decodeXML( $contentObjectAttribute->attribute( 'data_text' ) );
@@ -353,7 +353,7 @@ class eZMatrixType extends eZDataType
                 $i++;
             }
 
-            $matrixDefinition->ColumnNames =& $columns;
+            $matrixDefinition->ColumnNames = $columns;
             $classAttribute->setContent( $matrixDefinition );
             $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
 

@@ -281,7 +281,7 @@ $explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI 
 if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )
     $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
-$versions =& $object->versions();
+$versions = $object->versions();
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
@@ -292,7 +292,7 @@ $tpl->setVariable( 'can_edit', $canEdit );
 //$tpl->setVariable( 'can_remove', $canRemove );
 $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 
-eZDebug::writeNotice( 'The versions view has been deprecated, please use the /content/history/ view instead' );
+eZDebug::instance()->writeNotice( 'The versions view has been deprecated, please use the /content/history/ view instead' );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:content/versions.tpl' );
