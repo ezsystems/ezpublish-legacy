@@ -1057,6 +1057,45 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /*!
+     \Static
+
+     Sets node_id to zero if related node was deleted and assigns new node_id if related node was restored from the trash.
+    */
+    function updateXMLNodeID( &$contentObjectAttribute, $content )
+    {
+        $storeContent = false;
+        foreach ( array_keys( $content['relation_list'] ) as $key )
+        {
+            $relatedObject =& $content['relation_list'][$key];
+
+            if ( $relatedObject['node_id'] == 0 ) //if node_id == 0 (node was trashed and then restored) then assign a new node_id
+            {
+                $object = eZContentObject::fetch( $relatedObject['contentobject_id'] ); //fetch object related to trashed node
+                if ( $object->assignedNodes() )
+                {
+                    $relatedObject['node_id'] = $object->mainNodeID(); //set new node_id
+                    $storeContent = true;
+                }
+                continue;
+            }
+            $node = eZContentObjectTreeNode::fetch( $relatedObject['node_id'] ); //try to find out if node exists when node_id != 0
+            if ( !$node )
+            {
+                $relatedObject['node_id'] = 0;
+                $storeContent = true;
+            }
+        }
+        if ( $storeContent ) //storing data only if one of the previous checks was successful
+        {
+            eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
+            $contentObjectAttribute->setContent( $content );
+            $contentObjectAttribute->store();
+        }
+
+        return $content;
+    }
+
+    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -1069,6 +1108,8 @@ class eZObjectRelationListType extends eZDataType
         }
         $doc =& eZObjectRelationListType::parseXML( $xmlText );
         $content = eZObjectRelationListType::createObjectContentStructure( $doc );
+
+        $content = eZObjectRelationListType::updateXMLNodeID( $contentObjectAttribute, $content );
 
         return $content;
     }
