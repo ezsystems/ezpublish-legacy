@@ -2242,7 +2242,7 @@ $rbracket
                           ( $nodeType == EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION ) )
                 {
                     $resource = $node[1];
-                    $resourceObject =& $tpl->resourceHandler( $resource );
+                    $resourceObject = $tpl->resourceHandler( $resource );
                     if ( !$resourceObject )
                         continue;
 

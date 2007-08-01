@@ -182,7 +182,7 @@ class eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-    function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
+    function handleResource( $tpl, &$resourceData, $method, &$extraParameters )
     {
         return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
     }
@@ -194,7 +194,7 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-    function handleResourceData( &$tpl, &$handler, &$resourceData, $method, &$extraParameters )
+    function handleResourceData( $tpl, $handler, &$resourceData, $method, &$extraParameters )
     {
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
         $templateRoot =& $resourceData['root-node'];

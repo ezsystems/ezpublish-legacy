@@ -28,7 +28,7 @@
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
-$parameters =& $Params["Parameters"];
+$parameters = $Params["Parameters"];
 
 $overrideKeys = array( 'nodeID' => $Params['NodeID'],
                        'classID' => $Params['ClassID'] );
@@ -98,22 +98,22 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         {
             case "node_view":
             {
-                $templateCode =& generateNodeViewTemplate( $http, $template, $fileName );
+                $templateCode = generateNodeViewTemplate( $http, $template, $fileName );
             }break;
 
             case "object_view":
             {
-                $templateCode =& generateObjectViewTemplate( $http, $template, $fileName );
+                $templateCode = generateObjectViewTemplate( $http, $template, $fileName );
             }break;
 
             case "pagelayout":
             {
-                $templateCode =& generatePagelayoutTemplate( $http, $template, $fileName );
+                $templateCode = generatePagelayoutTemplate( $http, $template, $fileName );
             }break;
 
             default:
             {
-                $templateCode =& generateDefaultTemplate( $http, $template, $fileName );
+                $templateCode = generateDefaultTemplate( $http, $template, $fileName );
             }break;
         }
 
@@ -195,7 +195,7 @@ else if( $module->isCurrentAction( 'CancelOverride' ) )
 }
 
 
-function &generateNodeViewTemplate( &$http, $template, $fileName )
+function generateNodeViewTemplate( &$http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -291,7 +291,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
 }
 
 
-function &generateObjectViewTemplate( &$http, $template, $fileName )
+function generateObjectViewTemplate( &$http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -350,7 +350,7 @@ function &generateObjectViewTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function &generatePagelayoutTemplate( &$http, $template, $fileName )
+function generatePagelayoutTemplate( &$http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template
@@ -398,7 +398,7 @@ function &generatePagelayoutTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function &generateDefaultTemplate( &$http, $template, $fileName )
+function generateDefaultTemplate( &$http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template

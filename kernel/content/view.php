@@ -111,7 +111,7 @@ else
 }
 
 $res = eZTemplateDesignResource::instance();
-$keys =& $res->keys();
+$keys = $res->keys();
 if ( isset( $keys['layout'] ) )
     $layout = $keys['layout'];
 else

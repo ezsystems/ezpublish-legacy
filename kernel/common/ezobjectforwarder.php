@@ -242,8 +242,8 @@ class eZObjectForwarder
         $designKeysName = 'dKeys';
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$$designKeysName ) )\n" .
                                                                "{\n" .
-                                                               "    \$resH =& \$tpl->resourceHandler( 'design' );\n" .
-                                                               "    \$$designKeysName =& \$resH->keys();\n" .
+                                                               "    \$resH = \$tpl->resourceHandler( 'design' );\n" .
+                                                               "    \$$designKeysName = \$resH->keys();\n" .
                                                                "}", array( 'spacing' => $acquisitionSpacing ) );
         $attributeKeys =& $rule["attribute_keys"];
         if ( isset( $attributeKeys ) )

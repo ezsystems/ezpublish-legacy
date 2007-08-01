@@ -1075,15 +1075,14 @@ class eZTemplate
      \return The resource handler object for resource name \a $resourceName.
      \sa resourceFor
     */
-    function &resourceHandler( $resourceName )
+    function resourceHandler( $resourceName )
     {
-        $resource =& $this->DefaultResource;
-        if ( isset( $this->Resources[$resourceName] ) and
+        if ( isset( $this->Resources[$resourceName] ) &&
              is_object( $this->Resources[$resourceName] ) )
         {
-            $resource =& $this->Resources[$resourceName];
+            return $this->Resources[$resourceName];
         }
-        return $resource;
+        return $this->DefaultResource;
     }
 
     function hasChildren( &$function, $functionName )

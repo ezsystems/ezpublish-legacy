@@ -92,9 +92,9 @@ class eZTemplatesStatisticsReporter
         $templatesUsageStatistics = eZTemplate::templatesUsageStatistics();
         foreach( $templatesUsageStatistics as $templateInfo )
         {
-            $actualTemplateName =& $templateInfo['actual-template-name'];
-            $requestedTemplateName =& $templateInfo['requested-template-name'];
-            $templateFileName =& $templateInfo['template-filename'];
+            $actualTemplateName = $templateInfo['actual-template-name'];
+            $requestedTemplateName = $templateInfo['requested-template-name'];
+            $templateFileName = $templateInfo['template-filename'];
 
             if ( $as_html )
             {

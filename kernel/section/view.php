@@ -31,7 +31,7 @@ include_once( "kernel/classes/ezsection.php" );
 include_once( "kernel/common/template.php" );
 
 $http = eZHTTPTool::instance();
-$SectionID =& $Params["SectionID"];
+$SectionID = $Params["SectionID"];
 $Module = $Params['Module'];
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
