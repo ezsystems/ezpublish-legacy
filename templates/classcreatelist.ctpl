@@ -26,7 +26,7 @@
 /*START:code-template::object-creation&group-filter*/, /*END:code-template::object-creation&group-filter*/
 /*START:code-template::group-filter*/$includeFilter = true, $groupList = false, $fetchID = false/*END:code-template::group-filter*/ )
     {
-        $ini =& eZINI::instance();
+        $ini = eZINI::instance();
         $groupArray = array();
 /*START:code-template::role-caching*/
 
@@ -39,9 +39,9 @@
 
         if ( $enableCaching )
         {
-            $http =& eZHTTPTool::instance();
+            $http = eZHTTPTool::instance();
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-            $handler =& eZExpiryHandler::instance();
+            $handler = eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
             if ( $handler->hasTimestamp( 'user-class-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-class-cache' );
@@ -55,7 +55,7 @@
                 $cacheVar = 'CanInstantiateClassListGroup';
             }
 
-            $user =& eZUser::currentUser();
+            $user = eZUser::currentUser();
             $userID = $user->id();
             if ( ( $classesCachedTimestamp >= $expiredTimeStamp ) && $classesCachedForUser == $userID )
             {
@@ -87,7 +87,7 @@
         $languageCodeList = eZContentLanguage::fetchLocaleList();
         $allowedLanguages = array( '*' => array() );
 
-        $user =& eZUser::currentUser();
+        $user = eZUser::currentUser();
         $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
 
@@ -178,7 +178,7 @@
         if ( $fetchAll )
         {
             $classList = array();
-            $db =& eZDb::instance();
+            $db = eZDb::instance();
             // If $asObject is true we fetch all fields in class	
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
 /*START:code-template::class-sql-creation*/
@@ -205,7 +205,7 @@
             }
 
             $classList = array();
-            $db =& eZDb::instance();
+            $db = eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*, $classNameFilter[nameField]" : "cc.id, $classNameFilter[nameField]";
