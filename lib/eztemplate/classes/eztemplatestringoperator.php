@@ -498,7 +498,7 @@ class eZTemplateStringOperator
         /* MAIL: Type is static, input is not static */
         else if ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'email' ) )
         {
-            $ini =& $tpl->ini();
+            $ini = $tpl->ini();
             $dotText = addcslashes( $ini->variable( 'WashSettings', 'EmailDotText' ), "'" );
             $atText = addcslashes( $ini->variable( 'WashSettings', 'EmailAtText' ), "'" );
 
