@@ -2741,9 +2741,14 @@ class eZPackage
     */
     static function packageHandler( $handlerName )
     {
-        $handlers = $GLOBALS['eZPackageHandlers'];
-        if ( !isset( $handlers ) )
+        if ( !isset( $GLOBALS['eZPackageHandlers'] ) )
+        {
             $handlers = array();
+        }
+        else
+        {
+            $handlers = $GLOBALS['eZPackageHandlers'];
+        }
         $handler = false;
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
                                                     'repository-group' => 'PackageSettings',
@@ -2772,10 +2777,11 @@ class eZPackage
                 else
                 {
                     $handler = new $handlerClassName;
-                    $handlers[$result['type']] =& $handler;
+                    $handlers[$result['type']] = $handler;
                 }
             }
         }
+        $GLOBALS['eZPackageHandlers'] = $handlers;
         return $handler;
     }
 

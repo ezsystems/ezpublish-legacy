@@ -264,7 +264,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      False is returned if no class/attribute by that identifier is found.
      If multiple classes have the same identifier, the first found is returned.
     */
-    function classAttributeIDByIdentifier( $identifier )
+    static function classAttributeIDByIdentifier( $identifier )
     {
         $db = eZDB::instance();
         $dbName = $db->DB;

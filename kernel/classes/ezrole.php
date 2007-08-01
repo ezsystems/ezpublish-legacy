@@ -385,7 +385,7 @@ class eZRole extends eZPersistentObject
             $db = eZDB::instance();
             $db->begin();
 
-            foreach( $policyList as $policy )
+            foreach( $policyList as $key => $policy )
             {
                 if ( is_object( $policy ) )
                 {
@@ -394,7 +394,7 @@ class eZRole extends eZPersistentObject
                         if ( ( $functionName === false ) || ( $policy->attribute( 'function_name' ) == $functionName ) )
                         {
                             $policy->removeThis();
-                            unset( $policyList[$policyKey] );
+                            unset( $this->Policies[$key] );
                         }
                     }
                 }
