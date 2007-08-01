@@ -1533,8 +1533,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        // Create object by user id in section 1.
-        $contentObject = $class->instantiate( $userID, 1 );
+        // Create object by user id
+        $contentObject = $class->instantiate( $userID );
 
         //
         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
