@@ -318,7 +318,8 @@ foreach ( $scripts as $cronScript )
         {
             print( $endl );
         }
-        $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
+        if ( !$isQuiet )
+            $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
 
         eZDebug::addTimingPoint( "Script $scriptFile starting" );
         eZRunCronjobs::runScript( $cli, $scriptFile );
