@@ -60,7 +60,7 @@ class eZApproveType extends eZWorkflowEventType
         $this->setTriggerTypes( array( 'content' => array( 'publish' => array( 'before' ) ) ) );
     }
 
-    function &attributeDecoder( &$event, $attr )
+    function attributeDecoder( $event, $attr )
     {
         switch ( $attr )
         {
@@ -163,7 +163,7 @@ class eZApproveType extends eZWorkflowEventType
         return eZWorkflowEventType::attribute( $attr );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process, 'eZApproveType::execute' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'eZApproveType::execute' );
@@ -330,7 +330,7 @@ class eZApproveType extends eZWorkflowEventType
         }
     }
 
-    function initializeEvent( &$event )
+    function initializeEvent( $event )
     {
     }
 
@@ -376,7 +376,7 @@ class eZApproveType extends eZWorkflowEventType
         return $returnState;
     }
 
-    function validateHTTPInput( &$http, $base, &$workflowEvent, &$validation )
+    function validateHTTPInput( $http, $base, $workflowEvent, &$validation )
     {
         $returnState = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         $reason = array();
@@ -481,7 +481,7 @@ class eZApproveType extends eZWorkflowEventType
     }
 
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
         $sectionsVar = $base . "_event_ezapprove_section_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )
@@ -603,7 +603,7 @@ class eZApproveType extends eZWorkflowEventType
     /*
      \reimp
     */
-    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {
         $eventID = $workflowEvent->attribute( "id" );
         $module =& $GLOBALS['eZRequestedModule'];

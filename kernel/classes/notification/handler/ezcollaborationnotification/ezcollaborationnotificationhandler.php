@@ -97,15 +97,14 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     {
         $rules = eZCollaborationNotificationRule::fetchList();
         $selection = array();
-        for ( $i = 0; $i < count( $rules ); ++$i )
+        foreach( $rules as $rule )
         {
-            $rule =& $rules[$i];
             $selection[] = $rule->attribute( 'collab_identifier' );
         }
         return $selection;
     }
 
-    function handle( &$event )
+    function handle( $event )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezcollaboration' )
@@ -120,7 +119,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         return true;
     }
 
-    function handleCollaborationEvent( &$event, &$parameters )
+    function handleCollaborationEvent( $event, &$parameters )
     {
         $collaborationItem = $event->attribute( 'content' );
         if ( !$collaborationItem )
@@ -129,23 +128,25 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         return $collaborationHandler->handleCollaborationEvent( $event, $collaborationItem, $parameters );
     }
 
-    function sendMessage( &$event, $parameters )
+    function sendMessage( $event, $parameters )
     {
         $collections = eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
                                                                       $event->attribute( 'id' ),
                                                                       EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
-        foreach ( array_keys( $collections ) as $collectionKey )
+        foreach ( $collections as $collection )
         {
-            $collection =& $collections[$collectionKey];
             $items = $collection->attribute( 'items_to_send' );
             $addressList = array();
-            foreach ( array_keys( $items ) as $key )
+            foreach ( $items as $item )
             {
-                $addressList[] = $items[$key]->attribute( 'address' );
-                $items[$key]->remove();
+                $addressList[] = $item->attribute( 'address' );
+                $item->remove();
             }
-            $transport =& eZNotificationTransport::instance( 'ezmail' );
-            $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ), null,
+            $transport = eZNotificationTransport::instance( 'ezmail' );
+            $transport->send( $addressList,
+                              $collection->attribute( 'data_subject' ),
+                              $collection->attribute( 'data_text' ),
+                              null,
                               $parameters );
             if ( $collection->attribute( 'item_count' ) == 0 )
             {
@@ -154,7 +155,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
     }
 
-    function &rules( $user = false )
+    function rules( $user = false )
     {
         if ( $user === false )
         {
@@ -162,11 +163,10 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
         $email = $user->attribute( 'email' );
 
-        $ruleList = eZCollaborationNotificationRule::fetchList( $email );
-        return $ruleList;
+        return eZCollaborationNotificationRule::fetchList( $email );
     }
 
-    function fetchHttpInput( &$http, &$module )
+    function fetchHttpInput( $http, $module )
     {
         if ( $http->hasPostVariable( 'CollaborationHandlerSelection'  ) )
         {

@@ -227,7 +227,7 @@ class eZUser extends eZPersistentObject
         $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
         unset( $GLOBALS['eZUserObject_' . $userID] );
-        $GLOBALS['eZUserObject_' . $userID] =& $this;
+        $GLOBALS['eZUserObject_' . $userID] = $this;
         eZPersistentObject::store( $fieldFilters );
     }
 
@@ -737,9 +737,8 @@ WHERE user_id = '" . $userID . "' AND
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();
-            foreach ( array_keys( $users ) as $key )
+            foreach ( $users as $userRow )
             {
-                $userRow =& $users[$key];
                 $userID = $userRow['contentobject_id'];
                 $hashType = $userRow['password_hash_type'];
                 $hash = $userRow['password_hash'];
@@ -937,14 +936,14 @@ WHERE user_id = '" . $userID . "' AND
      All login handlers should use this function to ensure that the process
      is executed properly.
     */
-    static function setCurrentlyLoggedInUser( &$user, $userID )
+    static function setCurrentlyLoggedInUser( $user, $userID )
     {
         $http = eZHTTPTool::instance();
 
-        $GLOBALS["eZUserGlobalInstance_$userID"] =& $user;
+        $GLOBALS["eZUserGlobalInstance_$userID"] = $user;
         // Set/overwrite the global user, this will be accessed from
         // instance() when there is no ID passed to the function.
-        $GLOBALS["eZUserGlobalInstance_"] =& $user;
+        $GLOBALS["eZUserGlobalInstance_"] = $user;
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
         eZSessionRegenerate();
         $user->cleanup();
@@ -1073,7 +1072,7 @@ WHERE user_id = '" . $userID . "' AND
 
             if ( isset( $userInfo[$id] ) )
             {
-                $userArray =& $userInfo[$id];
+                $userArray = $userInfo[$id];
 
                 if ( is_numeric( $userArray['contentobject_id'] ) )
                 {
@@ -1331,12 +1330,11 @@ WHERE user_id = '" . $userID . "' AND
     /*!
      \return \c true if the user is locked (is enabled after failed login) and can be logged on the site.
     */
-    function &isLocked()
+    function isLocked()
     {
         $userID = $this->attribute( 'contentobject_id' );
         $isNotLocked = eZUser::isEnabledAfterFailedLogin( $userID, true );
-        $retValue = !$isNotLocked ? true : false;
-        return $retValue;
+        return !$isNotLocked;
     }
 
     /*!
@@ -1548,7 +1546,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function hasAccessTo( $module, $function = false )
     {
-        $accessArray =& $this->accessArray();
+        $accessArray = $this->accessArray();
 
         $access = 'no';
         $functionArray = array();
@@ -1619,7 +1617,7 @@ WHERE user_id = '" . $userID . "' AND
      \private
      Returns either cached or newly generated accessArray for the user.
     */
-    function &accessArray()
+    function accessArray()
     {
         if ( !isset( $this->AccessArray ) )
         {
@@ -1682,7 +1680,7 @@ WHERE user_id = '" . $userID . "' AND
                 $accessArray = $this->generateAccessArray();
             }
 
-            $this->AccessArray =& $accessArray;
+            $this->AccessArray = $accessArray;
         }
         return $this->AccessArray;
     }
@@ -2137,7 +2135,7 @@ WHERE user_id = '" . $userID . "' AND
                     }
                 }
 
-                $this->GroupsAsObjects =& $userGroupArray;
+                $this->GroupsAsObjects = $userGroupArray;
             }
             return $this->GroupsAsObjects;
         }
@@ -2214,7 +2212,7 @@ WHERE user_id = '" . $userID . "' AND
                     $http->setSessionVariable( 'eZUserGroupsCache', $userGroupArray );
                     $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', time() );
                 }
-                $this->Groups =& $userGroupArray;
+                $this->Groups = $userGroupArray;
             }
             return $this->Groups;
         }

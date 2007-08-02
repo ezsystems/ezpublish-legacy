@@ -125,13 +125,12 @@ $eZTemplateFunctionArray[] = array( 'function' => 'eZObjectForwardInit',
 
 if ( !function_exists( 'eZPHPOperatorInit' ) )
 {
-    function &eZPHPOperatorInit()
+    function eZPHPOperatorInit()
         {
             include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
             $ini = eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
-            $templatePHPOperator = new eZTemplatePHPOperator( $operatorList );
-            return $templatePHPOperator;
+            return new eZTemplatePHPOperator( $operatorList );
         }
 }
 

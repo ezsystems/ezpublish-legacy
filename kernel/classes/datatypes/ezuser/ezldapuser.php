@@ -55,7 +55,7 @@ class eZLDAPUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function &loginUser( $login, $password, $authenticationMatch = false )
+    function loginUser( $login, $password, $authenticationMatch = false )
     {
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
@@ -102,9 +102,8 @@ class eZLDAPUser extends eZUser
         $exists = false;
         if ( count( $users ) >= 1 )
         {
-            foreach ( array_keys( $users ) as $key )
+            foreach ( $users as $userRow )
             {
-                $userRow =& $users[$key];
                 $userID = $userRow['contentobject_id'];
                 $hashType = $userRow['password_hash_type'];
                 $hash = $userRow['password_hash'];
@@ -659,7 +658,7 @@ class eZLDAPUser extends eZUser
 
             $userID = $contentObjectID = $contentObject->attribute( 'id' );
 
-            $version =& $contentObject->version( 1 );
+            $version = $contentObject->version( 1 );
             $version->setAttribute( 'modified', time() );
             $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
             $version->store();
@@ -676,7 +675,7 @@ class eZLDAPUser extends eZUser
         }
 
         //================= common part : start ========================
-        $contentObjectAttributes =& $version->contentObjectAttributes();
+        $contentObjectAttributes = $version->contentObjectAttributes();
 
         // find ant set 'name' and 'description' attributes (as standard user group class)
         $firstNameIdentifier = 'first_name';
@@ -684,14 +683,16 @@ class eZLDAPUser extends eZUser
         $firstNameAttribute = null;
         $lastNameAttribute = null;
 
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $attribute )
         {
-            $attribute =& $contentObjectAttributes[ $key ];
             if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $firstNameIdentifier )
-                $firstNameAttribute =& $attribute;
-            else
-            if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $lastNameIdentifier )
-                $lastNameAttribute =& $attribute;
+            {
+                $firstNameAttribute = $attribute;
+            }
+            else if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $lastNameIdentifier )
+            {
+                $lastNameAttribute = $attribute;
+            }
         }
         if ( $firstNameAttribute )
         {
@@ -755,11 +756,10 @@ class eZLDAPUser extends eZUser
                     //eZUser::setCurrentlyLoggedInUser( $adminUser, $adminUser->attribute( 'contentobject_id' ) );
 
                     // Check: is there user has location (not main) in default placement
-                    $nodeAssignmentList =& $version->nodeAssignments();
+                    $nodeAssignmentList = $version->nodeAssignments();
                     $isAssignmentExist = false;
-                    foreach ( array_keys( $nodeAssignmentList ) as $nodeAssignmentKey )
+                    foreach ( $nodeAssignmentList as $nodeAssignment )
                     {
-                        $nodeAssignment =& $nodeAssignmentList[$nodeAssignmentKey];
                         if ( $defaultUserPlacement == $nodeAssignment->attribute( 'parent_node' ) )
                         {
                             $isAssignmentExist = true;
@@ -882,28 +882,27 @@ class eZLDAPUser extends eZUser
             $newNodeAssignment->store();
         }
 
-        $version =& $contentObject->version( 1 );
+        $version = $contentObject->version( 1 );
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $version->store();
 
-        $contentObjectAttributes =& $version->contentObjectAttributes();
+        $contentObjectAttributes = $version->contentObjectAttributes();
 
         // find ant set 'name' and 'description' attributes (as standard user group class)
         $nameIdentifier = 'name';
         $descIdentifier = 'description';
         $nameContentAttribute = null;
         $descContentAttribute = null;
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $attribute )
         {
-            $attribute =& $contentObjectAttributes[ $key ];
             if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $nameIdentifier )
             {
-                $nameContentAttribute =& $attribute;
-            } else
-            if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $descIdentifier )
+                $nameContentAttribute = $attribute;
+            }
+            else if ( $attribute->attribute( 'contentclass_attribute_identifier' ) == $descIdentifier )
             {
-                $descContentAttribute =& $attribute;
+                $descContentAttribute = $attribute;
             }
         }
         if ( $nameContentAttribute )
@@ -926,9 +925,8 @@ class eZLDAPUser extends eZUser
         $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID,
                                                                                      'version' => 1 ) );
         $newNodes = eZContentObjectTreeNode::fetchByContentObjectID( $contentObjectID, true, 1 );
-        foreach ( array_keys( $newNodes ) as $key )
+        foreach ( $newNodes as $newNode )
         {
-            $newNode =& $newNodes[ $key ];
             $newNodeIDs[] = $newNode->attribute( 'node_id' );
         }
 

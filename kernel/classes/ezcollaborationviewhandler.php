@@ -50,7 +50,7 @@ class eZCollaborationViewHandler
         $this->ViewMode = $viewMode;
         $this->ViewType = $viewType;
         $this->TemplateName = $viewMode;
-        $ini =& $this->ini();
+        $ini = $this->ini();
         if ( $viewType == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
         {
             $this->TemplatePrefix = "design:collaboration/view/";
@@ -80,10 +80,9 @@ class eZCollaborationViewHandler
      \static
      \return the ini object for collaboration.ini
     */
-    static function &ini()
+    static function ini()
     {
-        $iniInstance = eZINI::instance( 'collaboration.ini' );
-        return $iniInstance;
+        return eZINI::instance( 'collaboration.ini' );
     }
 
     /*!
@@ -112,8 +111,7 @@ class eZCollaborationViewHandler
     */
     static function fetchList()
     {
-        $ini =& eZCollaborationViewHandler::ini();
-        return $ini->variable( 'ViewSettings', 'ViewList' );
+        return eZCollaborationViewHandler::ini()->variable( 'ViewSettings', 'ViewList' );
     }
 
     /*!
@@ -122,8 +120,7 @@ class eZCollaborationViewHandler
     */
     static function fetchGroupList()
     {
-        $ini =& eZCollaborationViewHandler::ini();
-        return $ini->variable( 'ViewSettings', 'GroupViewList' );
+        return eZCollaborationViewHandler::ini()->variable( 'ViewSettings', 'GroupViewList' );
     }
 
     /*!
@@ -138,8 +135,7 @@ class eZCollaborationViewHandler
             $instance =& $GLOBALS["eZCollaborationGroupView"][$viewMode];
         else
         {
-            $instance = null;
-            return $instance;
+            return null;
         }
         if ( !isset( $instance ) )
         {

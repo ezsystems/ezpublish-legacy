@@ -57,7 +57,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, ezi18n( 'kernel/workflow/event', 'Multiplexer' ) );
     }
 
-    function &attributeDecoder( &$event, $attr )
+    function attributeDecoder( $event, $attr )
     {
         switch ( $attr )
         {
@@ -200,7 +200,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         return eZWorkflowEventType::attribute( $attr );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $processParameters = $process->attribute( 'parameter_list' );
         $storeProcessParameters = false;
@@ -357,12 +357,12 @@ class eZMultiplexerType extends eZWorkflowEventType
         return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
     }
 
-    function initializeEvent( &$event )
+    function initializeEvent( $event )
     {
     }
 
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
         $sectionsVar = $base . "_event_ezmultiplexer_section_ids_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )

@@ -376,7 +376,7 @@ class eZMediaType extends eZDataType
      Inserts the file using the eZMedia class.
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
-                             $objectAttribute, &$httpFile, $mimeData,
+                             $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
@@ -448,8 +448,8 @@ class eZMediaType extends eZDataType
      \reimp
      Inserts the file using the eZMedia class.
     */
-    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
-                                &$objectAttribute, $filePath,
+    function insertRegularFile( $object, $objectVersion, $objectLanguage,
+                                $objectAttribute, $filePath,
                                 &$result )
     {
         $result = array( 'errors' => array(),

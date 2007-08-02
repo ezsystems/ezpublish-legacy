@@ -110,7 +110,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return eZNotificationEventHandler::attribute( $attr );
     }
 
-    function &settings( $user = false )
+    function settings( $user = false )
     {
         if ( $user === false )
         {
@@ -126,12 +126,12 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $settings;
     }
 
-    function handle( &$event )
+    function handle( $event )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezcurrenttime' )
         {
-            $date =& $event->content();
+            $date = $event->content();
             $timestamp = $date->attribute( 'timestamp' );
 
             $addressArray = $this->fetchUsersForDigest( $timestamp );
@@ -145,7 +145,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 $tpl->setVariable( 'address', $address['address'] );
                 $result = $tpl->fetch( 'design:notification/handler/ezgeneraldigest/view/plain.tpl' );
                 $subject = $tpl->variable( 'subject' );
-                $transport =& eZNotificationTransport::instance( 'ezmail' );
+                $transport = eZNotificationTransport::instance( 'ezmail' );
                 $transport->send( $address, $subject, $result);
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
@@ -198,10 +198,10 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                         send_date < $time";
         $handlerResult = $db->arrayQuery( $query );
         $handlers = array();
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
         foreach ( $handlerResult as $handlerName )
         {
-            $handlers[$handlerName['handler']] =& $availableHandlers[$handlerName['handler']];
+            $handlers[$handlerName['handler']] = $availableHandlers[$handlerName['handler']];
         }
         return $handlers;
     }
@@ -232,7 +232,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $items;
     }
 
-    function storeSettings( &$http, &$module )
+    function storeSettings( $http, $module )
     {
         $user = eZUser::currentUser();
         $address = $user->attribute( 'email' );

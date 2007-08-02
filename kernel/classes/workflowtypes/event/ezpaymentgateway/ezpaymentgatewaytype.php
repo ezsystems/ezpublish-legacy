@@ -68,7 +68,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     gateways and asks user to choose one.
     */
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $this->logger->writeTimedString( 'execute' );
 
@@ -106,14 +106,13 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     'Current' gateway    - through this gateway payment will be made.
     */
 
-    function &attributeDecoder( &$event, $attr )
+    function attributeDecoder( $event, $attr )
     {
         switch ( $attr )
         {
             case 'selected_gateways_types':
             {
-                $selectedGatewaysTypes      = explode( ',', $event->attribute( 'data_text1' ) );
-                return $selectedGatewaysTypes;
+                return explode( ',', $event->attribute( 'data_text1' ) );
             }
             break;
 
@@ -125,13 +124,11 @@ class eZPaymentGatewayType extends eZWorkflowEventType
 
             case 'current_gateway':
             {
-                $gateway = $event->attribute( 'data_text2' );
-                return $gateway;
+                return $event->attribute( 'data_text2' );
             }
             break;
         }
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     function typeFunctionalAttributes( )
@@ -367,7 +364,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     Delegate to eZPaymentGateway subclass.
     */
 
-    function cleanup( &$process, &$event )
+    function cleanup( $process, $event )
     {
         $theGateway = $this->getCurrentGateway( $event );
         if( $theGateway != null and $theGateway->needCleanup() )
@@ -376,7 +373,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         }
     }
 
-    function initializeEvent( &$event )
+    function initializeEvent( $event )
     {
     }
 
@@ -385,7 +382,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     becomes 'selected'.
     */
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
         $gatewaysVar = $base . "_event_ezpaymentgateway_gateways_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $gatewaysVar ) )

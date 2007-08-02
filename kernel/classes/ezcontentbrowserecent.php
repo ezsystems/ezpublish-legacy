@@ -154,7 +154,7 @@ class eZContentBrowseRecent extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function &createNew( $userID, $nodeID, $nodeName )
+    static function createNew( $userID, $nodeID, $nodeName )
     {
         $recentCountList = eZPersistentObject::fetchObjectList( eZContentBrowseRecent::definition(),
                                                                 array(),
@@ -175,7 +175,7 @@ class eZContentBrowseRecent extends eZPersistentObject
         // If we already have the node in the list just return
         if ( count( $matchingRecentList ) > 0 )
         {
-            $oldItem =& $matchingRecentList[0];
+            $oldItem = $matchingRecentList[0];
             $oldItem->setAttribute( 'created', time() );
             $oldItem->store();
             return $oldItem;

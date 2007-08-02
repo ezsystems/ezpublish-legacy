@@ -147,10 +147,8 @@ class eZBinaryFileType extends eZDataType
             $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
             eZBinaryFile::removeByID( $contentObjectAttributeID, null );
 
-            foreach ( array_keys( $binaryFiles ) as $key )
+            foreach ( $binaryFiles as  $binaryFile )
             {
-                $binaryFile =& $binaryFiles[$key];
-
                 $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
                 $orig_dir = $storage_dir . '/original/' . $prefix;
@@ -199,7 +197,7 @@ class eZBinaryFileType extends eZDataType
         $isFileUploadsEnabled = ini_get( 'file_uploads' ) != 0;
         if ( !$isFileUploadsEnabled )
         {
-            $isFileWarningAdded =& $GLOBALS['eZBinaryFileTypeWarningAdded'];
+            $isFileWarningAdded = $GLOBALS['eZBinaryFileTypeWarningAdded'];
             if ( !isset( $isFileWarningAdded ) or
                  !$isFileWarningAdded )
             {
@@ -207,7 +205,7 @@ class eZBinaryFileType extends eZDataType
                                                               'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
                                             'text' => ezi18n( 'kernel/classes/datatypes',
                                                               'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
-                $isFileWarningAdded = true;
+                $GLOBALS['eZBinaryFileTypeWarningAdded'] = true;
             }
         }
     }
@@ -365,7 +363,7 @@ class eZBinaryFileType extends eZDataType
      Inserts the file using the eZBinaryFile class.
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
-                             $objectAttribute, &$httpFile, $mimeData,
+                             $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
         $result = array( 'errors' => array(),
@@ -420,8 +418,8 @@ class eZBinaryFileType extends eZDataType
      \reimp
      Inserts the file using the eZBinaryFile class.
     */
-    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
-                                &$objectAttribute, $filePath,
+    function insertRegularFile( $object, $objectVersion, $objectLanguage,
+                                $objectAttribute, $filePath,
                                 &$result )
     {
         $result = array( 'errors' => array(),

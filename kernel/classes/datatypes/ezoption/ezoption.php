@@ -42,7 +42,7 @@
   $option->addValue( "Green" );
 
   // Serialize the class to an XML document
-  $xmlString =& $option->xmlString();
+  $xmlString = $option->xmlString();
 
   \endcode
 */
@@ -70,7 +70,7 @@ class eZOption
     /*!
      Returns the name of the option set.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }
@@ -101,11 +101,10 @@ class eZOption
 
     function removeOptions( $array_remove )
     {
-        $options =& $this->Options;
         $shiftvalue = 0;
         foreach( $array_remove as $id )
         {
-            array_splice( $options, $id - $shiftvalue, 1 );
+            array_splice( $this->Options, $id - $shiftvalue, 1 );
             $shiftvalue++;
         }
         $this->OptionCount -= $shiftvalue;

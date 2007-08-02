@@ -240,7 +240,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the active orders
     */
-    static function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc", $show = SHOW_NORMAL_ORDERS )
+    static function active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc", $show = SHOW_NORMAL_ORDERS )
     {
         if ( $sortField == "user_name" )
         {
@@ -272,7 +272,9 @@ class eZOrder extends eZPersistentObject
                 return $retOrders;
             }
             else
+            {
                 return $orderArray;
+            }
         }
         else
         {
@@ -282,13 +284,12 @@ class eZOrder extends eZPersistentObject
                 $where['is_archived'] = $show;
             }
 
-            $objectList = eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                               null,
-                                                               $where ,
-                                                               array( $sortField => $sortOrder ),
-                                                               array( 'offset' => $offset,
-                                                                      'length' => $limit ), $asObject );
-            return $objectList;
+            return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                        null,
+                                                        $where ,
+                                                        array( $sortField => $sortOrder ),
+                                                        array( 'offset' => $offset,
+                                                               'length' => $limit ), $asObject );
         }
     }
 

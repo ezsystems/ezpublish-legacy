@@ -52,7 +52,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
         $this->setTriggerTypes( array( 'shop' => array( 'confirmorder' => array ( 'before' ) ) ) );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $ini = eZINI::instance( 'workflow.ini' );
 

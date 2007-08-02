@@ -48,7 +48,7 @@ class eZPublishType extends eZNotificationEventType
         $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_PUBLISH );
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type' );
         $event->setAttribute( 'data_int1', $params['object'] );

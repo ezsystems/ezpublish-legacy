@@ -307,7 +307,7 @@ class eZDataType
      \sa isHTTPFileInsertionSupported()
     */
     function insertHTTPFile( $object, $objectVersion, $objectLanguage,
-                             $objectAttribute, &$httpFile, $mimeData,
+                             $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
         eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
@@ -334,8 +334,8 @@ class eZDataType
 
      \sa isRegularFileInsertionSupported()
     */
-    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
-                                &$objectAttribute, $filePath,
+    function insertRegularFile( $object, $objectVersion, $objectLanguage,
+                                $objectAttribute, $filePath,
                                 &$result )
     {
         eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",

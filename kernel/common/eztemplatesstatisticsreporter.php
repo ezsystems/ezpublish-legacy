@@ -46,7 +46,7 @@ class eZTemplatesStatisticsReporter
     /*!
      static
     */
-    static function &generateStatistics( $as_html = true )
+    static function generateStatistics( $as_html = true )
     {
         $stats = '';
 

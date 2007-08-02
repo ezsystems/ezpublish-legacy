@@ -95,34 +95,15 @@ class eZCollaborationNotificationRule extends eZPersistentObject
                                                     null, null, $asObject );
     }
 
-    static function &fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )
+    static function fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )
     {
         if ( is_array( $collaborationIdentifier ) )
             $collaborationIdentifier = array( $collaborationIdentifier );
-        $objectList = eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+        return eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
                                                     null, array( 'user_id' => array( $userIDList ),
                                                                  'collab_identifier' => $collaborationIdentifier ),
                                                     null, null, $asObject );
-        return $objectList;
     }
-
-//     function &fetchUserList( $nodeIDList )
-//     {
-//         $rules = eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
-//                                                       array(), array( 'node_id' => array( $nodeIDList ) ),
-//                                                       array( 'address' => 'asc' , 'use_digest' => 'desc'  ),null,
-//                                                       false, false, array( array( 'operation' => 'distinct address,use_digest' ) )  );
-//         return $rules;
-//     }
-
-//     function node()
-//     {
-//         if ( $this->Node == null )
-//         {
-//             $this->Node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
-//         }
-//         return $this->Node;
-//     }
 
     static function removeByIdentifier( $collaborationIdentifier, $userID = false )
     {
@@ -132,13 +113,6 @@ class eZCollaborationNotificationRule extends eZPersistentObject
                                           array( 'collab_identifier' => $collaborationIdentifier,
                                                  'user_id' => $userID ) );
     }
-
-//     function removeByNodeAndAddress( $address, $nodeID )
-//     {
-//         eZPersistentObject::removeObject( eZCollaborationNotificationRule::definition(), array( 'address' => $address,
-//                                                                                                 'node_id' => $nodeID ) );
-//     }
-//     public $Node = null;
 
     /*!
      \static

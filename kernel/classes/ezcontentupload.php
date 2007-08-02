@@ -250,7 +250,7 @@ class eZContentUpload
         $mimeData = eZMimeType::findByFileContents( $filePath );
         $mime = $mimeData['name'];
 
-        $handler =& $this->findHandler( $result, $mimeData );
+        $handler = $this->findHandler( $result, $mimeData );
         if ( $handler === false )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -274,7 +274,7 @@ class eZContentUpload
         // if not we will have to detect it from the mimetype
         if ( is_object( $existingNode ) )
         {
-            $object =& $existingNode->object();
+            $object = $existingNode->object();
             $class = $object->contentClass();
             $classIdentifier = $class->attribute( 'identifier' );
         }
@@ -380,7 +380,7 @@ class eZContentUpload
             }
             $version = $object->createNewVersion( false, true );
             unset( $dataMap );
-            $dataMap =& $version->dataMap();
+            $dataMap = $version->dataMap();
             $publishVersion = $version->attribute( 'version' );
         }
         else
@@ -465,7 +465,7 @@ class eZContentUpload
         if ( $mime == '' )
             $mime = $file->attribute( "mime_type" );
 
-        $handler =& $this->findHandler( $result, $mimeData );
+        $handler = $this->findHandler( $result, $mimeData );
         if ( $handler === false )
         {
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
@@ -492,7 +492,7 @@ class eZContentUpload
         // if not we will have to detect it from the mimetype
         if ( is_object( $existingNode ) )
         {
-            $object =& $existingNode->object();
+            $object = $existingNode->object();
             $class = $object->contentClass();
             $classIdentifier = $class->attribute( 'identifier' );
         }
@@ -618,7 +618,7 @@ class eZContentUpload
             }
             $version = $object->createNewVersion( false, true );
             unset( $dataMap );
-            $dataMap =& $version->dataMap();
+            $dataMap = $version->dataMap();
             $publishVersion = $version->attribute( 'version' );
         }
         else
@@ -708,7 +708,7 @@ class eZContentUpload
         $objectID = $object->attribute( 'id' );
         unset( $object );
         $object = eZContentObject::fetch( $objectID );
-        $result['contentobject'] =& $object;
+        $result['contentobject'] = $object;
         $result['contentobject_id'] = $object->attribute( 'id' );
         $result['contentobject_version'] = $publishVersion;
         $result['contentobject_main_node'] = false;
@@ -763,13 +763,13 @@ class eZContentUpload
       file information using eZDataType::storedFileInformation().
       \return The information structure or \c false if it fails somehow.
     */
-    function objectFileInfo( &$contentObject )
+    function objectFileInfo( $contentObject )
     {
         $uploadINI = eZINI::instance( 'upload.ini' );
 
-        $class =& $contentObject->contentClass();
+        $class = $contentObject->contentClass();
         $classIdentifier = $class->attribute( 'identifier' );
-        $classDataMap =& $class->dataMap();
+        $classDataMap = $class->dataMap();
         $attributeIdentifier = false;
         if ( $uploadINI->hasGroup( $classIdentifier . '_ClassSettings' ) )
         {
@@ -784,12 +784,11 @@ class eZContentUpload
         }
 
         $dataMap = $contentObject->dataMap();
-        $fileAttribute =& $dataMap[$attributeIdentifier];
+        $fileAttribute = $dataMap[$attributeIdentifier];
 
         if ( $fileAttribute->hasStoredFileInformation( $contentObject, false, false ) )
         {
-            $info = $fileAttribute->storedFileInformation( $contentObject, false, false );
-            return $info;
+            return $fileAttribute->storedFileInformation( $contentObject, false, false );
         }
         return false;
     }
@@ -1283,7 +1282,7 @@ class eZContentUpload
      \return An object with the interface eZContentUploadHandler or \c false if an error occured.
              Will return \c true if there is no handler configured for this type.
     */
-    function &findHandler( &$result, $mimeInfo )
+    function findHandler( &$result, $mimeInfo )
     {
         $errors =& $result['errors'];
         $notices =& $result['notices'];
@@ -1327,8 +1326,7 @@ class eZContentUpload
                 if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
                 {
                     eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
-                    $retValue = false;
-                    return $retValue;
+                    return false;
                 }
                 return $handler;
             }
@@ -1337,11 +1335,9 @@ class eZContentUpload
                                                         "Could not find content upload handler '%handler_name'",
                                                         null, array( '%handler_name' => $handlerName ) ) );
 //             eZDebug::writeError( "Could not find content upload handler '$handlerName'", 'eZContentUpload::findHandler' );
-            $retValue = false;
-            return $retValue;
+            return false;
         }
-        $retValue = true;
-        return $retValue;
+        return true;
     }
 
     /// \privatesection

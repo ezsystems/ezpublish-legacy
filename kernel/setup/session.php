@@ -128,7 +128,7 @@ else
 /*
   Get all sessions by limit and offset, and returns it
 */
-function &eZFetchActiveSessions( $params = array() )
+function eZFetchActiveSessions( $params = array() )
 {
     if ( isset( $params['limit'] ) )
         $limit = $params['limit'];
@@ -272,7 +272,7 @@ ORDER BY $orderBy";
 /*
   Counts active sessions according the filters and returns the count.
 */
-function &eZFetchActiveSessionCount( $params = array() )
+function eZFetchActiveSessionCount( $params = array() )
 {
     $filterType = $params['filter_type'];
     switch ( $filterType )
@@ -330,11 +330,11 @@ function &eZFetchActiveSessionCount( $params = array() )
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
-    $query = "SELECT count( DISTINCT ezsession.user_id ) AS count 
-FROM ezsession
-$whereSQL
-$filterSQL
-$expirationFilterSQL";
+    $query = "SELECT count( DISTINCT ezsession.user_id ) AS count
+              FROM ezsession
+              $whereSQL
+              $filterSQL
+              $expirationFilterSQL";
 
     $rows = $db->arrayQuery( $query );
 
@@ -349,7 +349,7 @@ if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
 $sessionsActive = eZSessionCountActive( $param );
 $sessionsCount = eZFetchActiveSessionCount( $param );
-$sessionsList =& eZFetchActiveSessions( $param );
+$sessionsList = eZFetchActiveSessions( $param );
 
 
 if ( $param['offset'] >= $sessionsActive and $sessionsActive != 0 )

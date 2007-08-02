@@ -1835,10 +1835,10 @@ td.timingpoint2
     /*!
      Appends report to 'bottom' reports list.
     */
-    static function appendBottomReport( $reportName, &$reportContent )
+    static function appendBottomReport( $reportName, $reportContent )
     {
         $debug = eZDebug::instance();
-        $debug->bottomReportsList[$reportName] =& $reportContent;
+        $debug->bottomReportsList[$reportName] = $reportContent;
     }
 
     /*!

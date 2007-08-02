@@ -115,7 +115,7 @@ class eZPersistentObject
     values (for non-associative array) as table fields names and replaces them
     with short names (aliases) found in \a fieldDefs.
     */
-    static function replaceFieldsWithShortNames( &$db, &$fieldDefs, &$fields )
+    static function replaceFieldsWithShortNames( $db, $fieldDefs, &$fields )
     {
         if ( !$db->useShortNames() || !$fields )
             return;
@@ -528,17 +528,16 @@ class eZPersistentObject
     /*!
      Calls conditionTextByRow with an empty row and \a $conditions.
     */
-    static function conditionText( &$conditions )
+    static function conditionText( $conditions )
     {
-        $row = null;
-        return eZPersistentObject::conditionTextByRow( $conditions, $row );
+        return eZPersistentObject::conditionTextByRow( $conditions, null );
     }
 
     /*!
      Generates an SQL sentence from the conditions \a $conditions and row data \a $row.
      If \a $row is empty (null) it uses the condition data instead of row data.
     */
-    static function conditionTextByRow( &$conditions, &$row )
+    static function conditionTextByRow( $conditions, $row )
     {
         $db = eZDB::instance();
 
@@ -835,7 +834,7 @@ class eZPersistentObject
      \param $asObject If \c true then objects will be created,
                       if not it just returns \a $rows as it is.
     */
-    static function handleRows( &$rows, $class_name, $asObject )
+    static function handleRows( $rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
@@ -858,7 +857,7 @@ class eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
+    static function swapRow( $table, $keys, $order_id, $rows, $id1, $id2 )
     {
         $db = eZDB::instance();
         $text = $order_id . "='" . $db->escapeString( $rows[$id1][$order_id] ) . "' WHERE ";
@@ -1000,7 +999,7 @@ static function definition()
         return array();
     }
 
-    static function &escapeArray( &$array )
+    static function escapeArray( $array )
     {
         $db = eZDB::instance();
         $out = array();
@@ -1238,7 +1237,7 @@ static function definition()
     /*!
      \return short attribute name (alias) if it's defined, given attribute name otherwise
     */
-    static function getShortAttributeName( &$db, $def, $attrName )
+    static function getShortAttributeName( $db, $def, $attrName )
     {
         $fields = $def['fields'];
 

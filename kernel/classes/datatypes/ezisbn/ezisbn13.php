@@ -73,12 +73,11 @@ class eZISBN13
      Contains a list of all attributes for this class.
      \return the array with existing attributes.
     */
-    function &attributes()
+    function attributes()
     {
-        $attributeArray = array( 'has_content',
-                                 'group_ranges',
-                                 'groups' );
-        return $attributeArray;
+        return array( 'has_content',
+                      'group_ranges',
+                      'groups' );
     }
 
     /*!
@@ -119,11 +118,9 @@ class eZISBN13
      \param $value is the attribute you want to see if exist.
      \return true if the attribute is found.
     */
-    function &hasAttribute( $value )
+    function hasAttribute( $value )
     {
-        $attributes =& eZISBN13::attributes();
-        $hasAttribute = in_array( $value, $attributes );
-        return $hasAttribute;
+        return in_array( $value, eZISBN13::attributes() );
     }
 
     /*!

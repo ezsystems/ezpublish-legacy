@@ -47,7 +47,7 @@ class eZNotificationEventType
         $this->NotificationEventTypeString = $notificationEventTypeString;
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
     }
 
@@ -106,12 +106,12 @@ class eZNotificationEventType
         return null;
     }
 
-    function &eventDescription()
+    function eventDescription()
     {
         return $this->Attributes["name"];
     }
 
-    function execute( &$event )
+    function execute( $event )
     {
     }
 
@@ -182,10 +182,11 @@ class eZNotificationEventType
 
     static function register( $notificationTypeString, $className )
     {
-        $types =& $GLOBALS["eZNotificationEventTypes"];
-        if ( !is_array( $types ) )
+        if ( !is_array( $GLOBALS["eZNotificationEventTypes"] ) )
+        {
             $types = array();
-        $types[$notificationTypeString] = $className;
+        }
+        $GLOBALS["eZNotificationEventTypes"][$notificationTypeString] = $className;
     }
 
 

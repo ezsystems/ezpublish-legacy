@@ -134,13 +134,12 @@ class eZPolicyLimitation extends eZPersistentObject
      Create a new policy limitation for the policy \a $policyID with the identifier \a $identifier.
      \note The limitation is not stored.
     */
-    static function &create( $policyID, $identifier )
+    static function create( $policyID, $identifier )
     {
         $row = array( 'id' => null,
                       'policy_id' => $policyID,
                       'identifier' => $identifier );
-        $limitation = new eZPolicyLimitation( $row );
-        return $limitation;
+        return new eZPolicyLimitation( $row );
     }
 
     /*!

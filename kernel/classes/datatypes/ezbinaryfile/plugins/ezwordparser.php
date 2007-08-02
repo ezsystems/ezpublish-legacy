@@ -37,7 +37,7 @@
 
 class eZWordParser
 {
-    function &parseFile( $fileName )
+    function parseFile( $fileName )
     {
         $binaryINI = eZINI::instance( 'binaryfile.ini' );
 

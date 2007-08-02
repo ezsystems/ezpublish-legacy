@@ -53,13 +53,11 @@ class eZNotificationEventFilter
     static function process()
     {
         $eventList = eZNotificationEvent::fetchUnhandledList();
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
-        foreach( array_keys( $eventList ) as $key )
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
+        foreach( $eventList as $event )
         {
-            $event =& $eventList[$key];
-            foreach( array_keys( $availableHandlers ) as $handlerKey )
+            foreach( $availableHandlers as $handler )
             {
-                $handler =& $availableHandlers[$handlerKey];
                 if ( $handler === false )
                 {
                     eZDebug::writeError( "Notification handler does not exist: $handlerKey", 'eZNotificationEventFilter::process()' );
@@ -83,7 +81,7 @@ class eZNotificationEventFilter
         eZNotificationCollection::removeEmpty();
     }
 
-    static function &availableHandlers()
+    static function availableHandlers()
     {
         include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
@@ -153,13 +151,12 @@ class eZNotificationEventFilter
     */
     static function cleanup()
     {
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
 
         $db = eZDB::instance();
         $db->begin();
-        foreach( array_keys( $availableHandlers ) as $handlerKey )
+        foreach( $availableHandlers as $handler )
         {
-            $handler =& $availableHandlers[$handlerKey];
             if ( $handler !== false )
             {
                 $handler->cleanup();

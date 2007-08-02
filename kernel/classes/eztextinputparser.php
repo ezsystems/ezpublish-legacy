@@ -50,7 +50,7 @@ class eZTextInputParser
      Will parse the input text and create an array of the input.
      False will be returned if the parsing
     */
-    function &parseText( &$text )
+    function parseText( $text )
     {
         $returnArray = array();
         $pos = 0;

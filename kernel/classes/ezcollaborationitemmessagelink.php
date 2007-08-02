@@ -115,7 +115,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    static function &addMessage( &$collaborationItem, &$message, $messageType, $participantID = false )
+    static function addMessage( $collaborationItem, $message, $messageType, $participantID = false )
     {
         $messageID = $message->attribute( 'id' );
         eZDebug::writeDebug( $message );

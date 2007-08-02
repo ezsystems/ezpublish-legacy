@@ -82,7 +82,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return eZNotificationEventHandler::attribute( $attr );
     }
 
-    function handle( &$event )
+    function handle( $event )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $event, "trying to handle event" );
         if ( $event->attribute( 'event_type_string' ) == 'ezpublish' )
@@ -97,7 +97,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return true;
     }
 
-    function handlePublishEvent( &$event, &$parameters )
+    function handlePublishEvent( $event, &$parameters )
     {
         $versionObject = $event->attribute( 'content' );
         if ( !$versionObject )
@@ -229,7 +229,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return EZ_NOTIFICATIONEVENTHANDLER_EVENT_HANDLED;
     }
 
-    function sendMessage( &$event, $parameters )
+    function sendMessage( $event, $parameters )
     {
         $collection = eZNotificationCollection::fetchForHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
                                                                  $event->attribute( 'id' ),
@@ -261,7 +261,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
     }
 
-    function &subscribedNodes( $user = false )
+    function subscribedNodes( $user = false )
     {
         if ( $user === false )
         {
@@ -269,11 +269,10 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeList = eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
-        return $nodeList;
+        return eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
     }
 
-    static function &rules( $user = false, $offset = false, $limit = false )
+    static function rules( $user = false, $offset = false, $limit = false )
     {
         if ( $user === false )
         {
@@ -281,8 +280,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $userID = $user->attribute( 'contentobject_id' );
 
-        $ruleList = eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
-        return $ruleList;
+        return eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
     }
 
     static function rulesCount( $user = false )
@@ -296,7 +294,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return eZSubtreeNotificationRule::fetchListCount( $userID );
     }
 
-    function fetchHttpInput( &$http, &$module )
+    function fetchHttpInput( $http, $module )
     {
         if ( $http->hasPostVariable( 'NewRule_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) )
         {

@@ -116,7 +116,7 @@ class eZURLObjectLink extends eZPersistentObject
      \static
      \return all object versions which has the link.
     */
-    static function &fetchObjectVersionList( $urlID, $parameters = false )
+    static function fetchObjectVersionList( $urlID, $parameters = false )
     {
         $objectVersionList = array();
         $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
@@ -126,9 +126,8 @@ class eZURLObjectLink extends eZPersistentObject
                                                                    $parameters,
                                                                    true );
         $storedVersionList = array();
-        foreach ( array_keys( $urlObjectLinkList ) as $key )
+        foreach ( $urlObjectLinkList as $urlObjectLink )
         {
-            $urlObjectLink =& $urlObjectLinkList[$key];
             $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
             $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
             $objectAttribute = eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
@@ -143,7 +142,7 @@ class eZURLObjectLink extends eZPersistentObject
                     $versionID = $versionObject->attribute( 'id' );
                     if ( !in_array( $versionID, $storedVersionList ) )
                     {
-                        $objectVersionList[] =& $versionObject;
+                        $objectVersionList[] = $versionObject;
                         $storedVersionList[] = $versionID;
                     }
                 }
@@ -202,14 +201,12 @@ class eZURLObjectLink extends eZPersistentObject
                                                                    null,
                                                                    null,
                                                                    $asObject );
-        foreach ( array_keys( $urlObjectLinkList ) as $key )
+        foreach ( $urlObjectLinkList as $urlObjectLink )
         {
-            $urlObjectLink =& $urlObjectLinkList[$key];
             if ( $asObject )
             {
                 $linkID = $urlObjectLink->attribute( 'url_id' );
-                $link = eZURL::fetch( $linkID );
-                $linkList[] =& $link;
+                $linkList[] = eZURL::fetch( $linkID );
             }
             else
             {

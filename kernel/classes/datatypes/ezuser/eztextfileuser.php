@@ -64,7 +64,7 @@ class eZTextFileUser extends eZUser
      Logs in the user if applied username and password is
      valid. The userID is returned if succesful, false if not.
     */
-    function &loginUser( $login, $password, $authenticationMatch = false )
+    function loginUser( $login, $password, $authenticationMatch = false )
     {
         $http = eZHTTPTool::instance();
         $db = eZDB::instance();
@@ -233,8 +233,7 @@ class eZTextFileUser extends eZUser
                 if ( isset( $userID ) )
                     eZUser::setFailedLoginAttempts( $userID );
 
-                $user = false;
-                return $user;
+                return false;
             }
 
             while ( !feof( $handle ) )
@@ -362,8 +361,7 @@ class eZTextFileUser extends eZUser
                         if ( isset( $userID ) )
                             eZUser::setFailedLoginAttempts( $userID );
 
-                        $user = false;
-                        return $user;
+                        return false;
                     }
                 }
             }
@@ -373,8 +371,7 @@ class eZTextFileUser extends eZUser
         if ( isset( $userID ) )
             eZUser::setFailedLoginAttempts( $userID );
 
-        $user = false;
-        return $user;
+        return false;
     }
 }
 

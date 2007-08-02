@@ -65,7 +65,7 @@ $newType = $options["newtype"];
 $usecopy = $options["usecopy"];
 
 checkParameters( $cli, $script, $options, $host, $user, $password, $database, $listMode, $newType );
-$db =& connectToDatabase( $cli, $script, $host, $user, $password, $database );
+$db = connectToDatabase( $cli, $script, $host, $user, $password, $database );
 
 // If the listMode parameter is set or no newType is assigned then show the list.
 if ( $listMode || !isset( $newType ) )
@@ -117,7 +117,7 @@ function checkParameters( $cli, $script, $options, $host, $user, $password, $dat
 /**
  * Connect to the database
 **/
-function &connectToDatabase( $cli, $script, $host, $user, $password, $database )
+function connectToDatabase( $cli, $script, $host, $user, $password, $database )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
 

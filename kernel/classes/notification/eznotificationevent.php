@@ -128,12 +128,12 @@ class eZNotificationEvent extends eZPersistentObject
 
     function initializeEventType( $params = array() )
     {
-        $eventType =& $this->eventType();
+        $eventType = $this->eventType();
         $eventType->initializeEvent( $this, $params );
         eZDebugSetting::writeDebug( 'kernel-notification', $this, 'event after initialization' );
     }
 
-    function &eventType()
+    function eventType()
     {
         if ( ! isset ( $this->EventType ) )
         {
@@ -161,7 +161,7 @@ class eZNotificationEvent extends eZPersistentObject
     */
     function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
     static function fetchList()

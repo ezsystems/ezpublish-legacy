@@ -51,7 +51,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                                                                                'after' ) ) ) );
     }
 
-    function execute( &$process, &$event )
+    function execute( $process, $event )
     {
         $parameters = $process->attribute( 'parameter_list' );
         $object = eZContentObject::fetch( $parameters['object_id'] );
@@ -166,7 +166,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         }
     }
 
-    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    function customWorkflowEventHTTPAction( $http, $action, $workflowEvent )
     {
         $id = $workflowEvent->attribute( "id" );
         switch ( $action )
@@ -219,7 +219,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 
     }
 
-    function fetchHTTPInput( &$http, $base, &$event )
+    function fetchHTTPInput( $http, $base, $event )
     {
         $modifyDateVariable = $base . "_data_waituntildate_modifydate_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $modifyDateVariable ) )
@@ -236,10 +236,9 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         return new eZWaitUntilDate( $id, $version );
     }
 
-    function storeEventData( &$event, $version )
+    function storeEventData( $event, $version )
     {
-        $waitUntilDate =& $event->content();
-        $waitUntilDate->setVersion( $version );
+        $event->content()->setVersion( $version );
 
     }
 

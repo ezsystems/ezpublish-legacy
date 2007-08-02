@@ -196,7 +196,7 @@ class eZBinaryFile extends eZPersistentObject
      \return the medatata from the binary file, if extraction is supported
       for the current mimetype.
     */
-    function &metaData()
+    function metaData()
     {
         $debug = eZDebug::instance();
         $metaData = "";
@@ -235,9 +235,6 @@ class eZBinaryFile extends eZPersistentObject
                     $fetchedFilePath = $file->fetchUnique();
                     $metaData = $parserObject->parseFile( $fetchedFilePath );
                     $file->fileDeleteLocal( $fetchedFilePath );
-//                    $file->fetch();
-//                    $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
-//                    $file->deleteLocal();
                 }
             }
             else
