@@ -746,11 +746,17 @@ class eZContentObject extends eZPersistentObject
     {
         $id = (int) $id;
 
-        $fetchSQLString = "SELECT ezcontentobject.*\n" .
-                          "FROM\n" .
-                          "    ezcontentobject\n" .
-                          "WHERE\n" .
-                          "    ezcontentobject.id='$id'";
+        $fetchSQLString = "SELECT ezcontentobject.*,
+                               ezcontentclass.serialized_name_list as contentclass_serialized_name_list,
+                               ezcontentclass.identifier as contentclass_identifier,
+                               ezcontentclass.is_container as is_container
+                           FROM
+                               ezcontentobject,
+                               ezcontentclass
+                           WHERE
+                               ezcontentobject.id='$id' AND
+                               ezcontentclass.id = ezcontentobject.contentclass_id AND
+                               ezcontentclass.version=0";
 
         return $fetchSQLString;
     }
@@ -2746,6 +2752,8 @@ class eZContentObject extends eZPersistentObject
             }
             $query .= "
                         ezcontentclass.serialized_name_list AS class_serialized_name_list,
+                        ezcontentclass.identifier as contentclass_identifier,
+                        ezcontentclass.is_container as is_container,
                         ezcontentobject.* $versionNameTargets
                      FROM
                         ezcontentclass,
