@@ -600,7 +600,7 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     foreach ( $attributeList as $relationListAttribute )
     {
         $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
-        $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
+        $relationsDom = eZObjectRelationListType::parseXML( $relationsXmlText );
         $relationItems = $relationsDom->elementsByName( 'relation-item' ) ? $relationsDom->elementsByName( 'relation-item' ) : array();
         $isRelationModified = false;
 

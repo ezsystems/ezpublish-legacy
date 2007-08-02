@@ -759,7 +759,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
     }
 
-    function &assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null,
+    function assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null,
                             $remoteID = 0 )
     {
         if ( $fromNodeID == 0 && ( $this->attribute( 'status' ) == EZ_VERSION_STATUS_DRAFT ||
@@ -800,28 +800,6 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         $db->commit();
     }
-
-    /*!
-     Returns the attributes for the current content object version. The wanted language
-     must be specified.
-    */
-/*    function &contentObjectAtributes( $language = false, $asObject = true )
-    {
-        return eZContentObject::contentObjectAttributes( $asObject, $this->Version, $language );
-        if ( $language === false )
-        {
-            $language = eZContentObject::defaultLanguage();
-        }
-
-        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                    null, array( "version" => $this->Version,
-                                                                 "contentobject_id" => $this->ContentObjectID,
-                                                                 "language_code" => $language
-                                                                 ),
-                                                    null, null,
-                                                    $as_object );
-    }
-*/
 
     /*!
      \return the content object attribute
@@ -904,8 +882,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function reverseRelatedObjectList()
     {
-        $objectID = $this->attribute( 'contentobject_id' );
-        return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
+        return $this->attribute( 'contentobject' )->reverseRelatedObjectList( $this->Version );
     }
 
     /*!
@@ -1265,7 +1242,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, &$package, $handlerType = 'ezcontentobject' )
+    static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, $package, $handlerType = 'ezcontentobject' )
     {
         $debug = eZDebug::instance();
 
@@ -1439,7 +1416,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return $contentObjectVersion;
     }
 
-    function postUnserialize( &$package )
+    function postUnserialize( $package )
     {
         foreach( $this->translations( false ) as $language )
         {

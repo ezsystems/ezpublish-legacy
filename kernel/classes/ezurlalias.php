@@ -114,7 +114,7 @@ class eZURLAlias extends eZPersistentObject
      \return the URL alias object this URL alias points to or \c null if no such URL exists.
      \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
-    function &forwardURL()
+    function forwardURL()
     {
         die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }
@@ -140,7 +140,7 @@ class eZURLAlias extends eZPersistentObject
      \return the URL alias object
      \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
     */
-    function &createForForwarding( $forwardURL )
+    function createForForwarding( $forwardURL )
     {
         die( __CLASS__ . "::" . __FUNCTION__ ." is deprecated, use the class eZURLAliasML instead" );
     }

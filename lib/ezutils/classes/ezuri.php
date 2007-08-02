@@ -177,7 +177,7 @@ class eZURI
      \return the URI passed as to the object.
      \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function &uriString( $withLeadingSlash = false )
+    function uriString( $withLeadingSlash = false )
     {
         $uri = $this->URI;
         if ( $withLeadingSlash )
@@ -189,7 +189,7 @@ class eZURI
      \return the URI passed to the object with user parameters (if any).
      \note the URI will not include the leading \c / if \a $withLeadingSlash is \c true.
     */
-    function &originalURIString( $withLeadingSlash = false )
+    function originalURIString( $withLeadingSlash = false )
     {
         $uri = $this->OriginalURI;
         if ( $withLeadingSlash )
@@ -209,7 +209,7 @@ class eZURI
      \return the element at $index.
      If $relative is true the index is relative to the current index().
     */
-    function &element( $index = 0, $relative = true )
+    function element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
@@ -224,7 +224,7 @@ class eZURI
      \return all elements as a string, this is all elements after the current index.
      If $as_text is false the returned item is an array.
     */
-    function &elements( $as_text = true )
+    function elements( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
@@ -248,7 +248,7 @@ class eZURI
         {
             if ( $paramKey == 'namefilter' )
             {
-                $char =& $this->UserArray[$paramKey];
+                $char = $this->UserArray[$paramKey];
                 $char = urldecode( $char );
 
                 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
@@ -314,7 +314,7 @@ class eZURI
     /*!
      \return the current index.
     */
-    function &index()
+    function index()
     {
         return $this->Index;
     }
@@ -323,7 +323,7 @@ class eZURI
      \return the base string or the base elements as an array if $as_text is true.
      \sa elements
     */
-    function &base( $as_text = true )
+    function base( $as_text = true )
     {
         $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )
@@ -416,16 +416,11 @@ class eZURI
     */
     static function instance( $uri = false )
     {
-        $uri_obj =& $GLOBALS['eZURIInstance'];
-        if ( $uri )
+        if ( !isset( $GLOBALS['eZURIInstance'] ) )
         {
-            $uri_obj = new eZURI( $uri );
+            $GLOBALS['eZURIInstance'] = new eZURI( $uri );
         }
-        if ( get_class( $uri_obj ) != 'ezuri' )
-        {
-            $uri_obj = new eZURI( $uri );
-        }
-        return $uri_obj;
+        return $GLOBALS['eZURIInstance'];
     }
 
     /*!

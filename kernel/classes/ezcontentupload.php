@@ -130,7 +130,7 @@ class eZContentUpload
      Most data will be automatically derived from the \c action_name value taken from settings/upload.ini, other
      values will override default values.
     */
-    function upload( $parameters = array(), &$module )
+    static function upload( $parameters = array(), &$module )
     {
         $ini = eZINI::instance( 'upload.ini' );
 
@@ -988,6 +988,7 @@ class eZContentUpload
         {
             if ( $location == 'auto' or !is_numeric( $location ) )
             {
+                $debug = eZDebug::instance();
                 $contentINI = eZINI::instance( 'content.ini' );
 
                 $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
@@ -1022,7 +1023,7 @@ class eZContentUpload
 
                             if ( !eZContentUpload::checkAccess( $parentNodeID, $class ) )
                             {
-                                eZDebug::writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
+                                $debug->writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
                                 $parentNodes = false;
                                 break;
                             }
@@ -1030,7 +1031,7 @@ class eZContentUpload
 
                         if ( $parentNodes )
                         {
-                            eZDebug::writeNotice( "Matched assignment for upload :'$classData'", 'eZContentUpload::detectLocations' );
+                            $debug->writeNotice( "Matched assignment for upload :'$classData'", 'eZContentUpload::detectLocations' );
                             break;
                         }
                     }
@@ -1047,7 +1048,7 @@ class eZContentUpload
                         }
                         else
                         {
-                            eZDebug::writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
+                            $debug->writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
                             return null;
                         }
 
@@ -1065,7 +1066,7 @@ class eZContentUpload
                     }
                     else
                     {
-                        eZDebug::writeNotice( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
+                        $debug->writeNotice( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
                         return null;
                     }
                 }
@@ -1231,7 +1232,7 @@ class eZContentUpload
              It uses the action name \a $actionName to determine which result to look for.
      \param $cleanup If \c true it the persisten data is cleaned up by calling cleanup().
     */
-    function result( $actionName, $cleanup = true )
+    static function result( $actionName, $cleanup = true )
     {
         if ( isset( $this ) and
              strtolower( get_class( $this) ) == 'ezcontentupload' )
@@ -1259,7 +1260,7 @@ class eZContentUpload
      \static
      Cleans up the persistent data and result for action named \a $actionName
     */
-    function cleanup( $actionName )
+    static function cleanup( $actionName )
     {
         $http = eZHTTPTool::instance();
         $http->removeSessionVariable( 'ContentUploadParameters' );
@@ -1325,7 +1326,7 @@ class eZContentUpload
                 $handler = new $handlerClass();
                 if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
                 {
-                    eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
+                    eZDebug::instance()->writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
                     return false;
                 }
                 return $handler;

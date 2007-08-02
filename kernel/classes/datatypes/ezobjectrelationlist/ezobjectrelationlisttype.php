@@ -457,7 +457,7 @@ class eZObjectRelationListType extends eZDataType
                     $time = time();
 
                     // Make the previous version archived
-                    $currentVersion =& $object->currentVersion();
+                    $currentVersion = $object->currentVersion();
                     $currentVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
                     $currentVersion->setAttribute( 'modified', $time );
                     $currentVersion->store();
@@ -575,7 +575,7 @@ class eZObjectRelationListType extends eZDataType
                             }
                             else
                             {
-                                $newObject =& $object->copy( true );
+                                $newObject = $object->copy( true );
                                 $newObjectID = $newObject->attribute( 'id' );
                                 $copiedRelatedAccordance[ $relationItem['contentobject_id'] ][ $contentObjectID ] = array( 'to' => $newObjectID,
                                                                                                                            'from' => $originalContentObjectID );
@@ -1242,7 +1242,7 @@ class eZObjectRelationListType extends eZDataType
             $objectAttributeContent = eZObjectRelationListType::defaultObjectAttributeContent();
             return $objectAttributeContent;
         }
-        $doc =& eZObjectRelationListType::parseXML( $xmlText );
+        $doc = eZObjectRelationListType::parseXML( $xmlText );
         $content = eZObjectRelationListType::createObjectContentStructure( $doc );
 
         return $content;
@@ -1256,18 +1256,16 @@ class eZObjectRelationListType extends eZDataType
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
         {
-            $classAttributeContent = eZObjectRelationListType::defaultClassAttributeContent();
-            return $classAttributeContent;
+            return eZObjectRelationListType::defaultClassAttributeContent();
         }
-        $doc =& eZObjectRelationListType::parseXML( $xmlText );
-        $content = eZObjectRelationListType::createClassContentStructure( $doc );
-        return $content;
+        $doc = eZObjectRelationListType::parseXML( $xmlText );
+        return eZObjectRelationListType::createClassContentStructure( $doc );
     }
 
-    function &parseXML( $xmlText )
+    function parseXML( $xmlText )
     {
         $dom = new DOMDocument();
-        $success = $dom->loadXML( $xmlText );
+        $dom->loadXML( $xmlText );
         return $dom;
     }
 
@@ -1324,10 +1322,10 @@ class eZObjectRelationListType extends eZDataType
         return $content;
     }
 
-    function createObjectContentStructure( &$doc )
+    function createObjectContentStructure( $doc )
     {
         $content = eZObjectRelationListType::defaultObjectAttributeContent();
-        $root =& $doc->documentElement;
+        $root = $doc->documentElement;
         $relationList = $root->getElementsByTagName( 'relation-list' )->item( 0 );
         if ( $relationList )
         {
@@ -1357,7 +1355,7 @@ class eZObjectRelationListType extends eZDataType
         {
             case 'browse_for_placement':
             {
-                $module =& $classAttribute->currentModule();
+                $module = $classAttribute->currentModule();
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $customActionName = 'CustomActionButton[' . $classAttribute->attribute( 'id' ) . '_browsed_for_placement]';
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationListNode',

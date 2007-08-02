@@ -56,7 +56,7 @@ class eZURLTranslator
     /*!
      Adds a new URL alias.
     */
-    function &addURLAlias( $source, $destination, $isInternal = true )
+    function addURLAlias( $source, $destination, $isInternal = true )
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
     }
@@ -65,7 +65,7 @@ class eZURLTranslator
      Translates the url found in the object \a $uri and returns the corrected url object.
      \return false if no url translation was done.
     */
-    function &translate( &$uri )
+    function translate( &$uri )
     {
         die( __CLASS__ . "::" . __FUNCTION__ . " in file " . __FILE__ . ":" . __LINE__ . " is deprecated" );
         $newURI = false;

@@ -80,7 +80,7 @@ class eZModule
             {
                 $this->FunctionList = array();
             }
-            $this->Module =& $Module;
+            $this->Module = $Module;
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
@@ -273,11 +273,10 @@ class eZModule
     */
     function errorModule()
     {
-        $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
-        if ( !isset( $globalErrorModule ) )
-            $globalErrorModule = array( 'module' => 'error',
+        if ( !isset( $GLOBALS['eZModuleGlobalErrorModule'] ) )
+            $GLOBALS['eZModuleGlobalErrorModule'] = array( 'module' => 'error',
                                         'view' => 'view' );
-        return $globalErrorModule;
+        return $GLOBALS['eZModuleGlobalErrorModule'];
     }
 
     /*!
@@ -286,16 +285,15 @@ class eZModule
     */
     function setErrorModule( $moduleName, $viewName )
     {
-        $globalErrorModule =& $GLOBALS['eZModuleGlobalErrorModule'];
-        $globalErrorModule = array( 'module' => $moduleName,
-                                    'view' => $viewName );
+        $GLOBALS['eZModuleGlobalErrorModule'] = array( 'module' => $moduleName,
+                                                       'view' => $viewName );
     }
 
     /*!
      Tries to run the error module with the error code \a $errorCode.
      Sets the state of the module object to \c failed and sets the error code.
     */
-    function &handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
+    function handleError( $errorCode, $errorType = false, $parameters = array(), $userParameters = false )
     {
         if ( !$errorType )
         {
@@ -309,11 +307,10 @@ class eZModule
 
         if ( $module === null )
         {
-            $retValue = false;
-            return $retValue;
+            return false;
         }
 
-        $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
+        $result = $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
         // The error module may want to redirect to another URL, see error.ini
         if ( $this->exitStatus() != EZ_MODULE_STATUS_REDIRECT and
              $this->exitStatus() != EZ_MODULE_STATUS_RERUN )
@@ -399,7 +396,7 @@ class eZModule
     */
     function currentRedirectionURI()
     {
-        $module =& $this;
+        $module = $this;
         $viewName = eZModule::currentView();
         $parameters = $this->OriginalViewParameters;
         $unorderedParameters = $this->OriginalUnorderedParameters;
@@ -430,13 +427,13 @@ class eZModule
             $viewName = eZModule::currentView();
         $uri = $module->functionURI( $viewName );
         $uri .= '/';
-        $viewParameters =& $module->parameters( $viewName );
+        $viewParameters = $module->parameters( $viewName );
         $parameterIndex = 0;
         $unorderedURI = '';
         $hasUnorderedParameter = false;
         if ( $unorderedParameters !== null )
         {
-            $unorderedViewParameters =& $module->unorderedParameters( $viewName );
+            $unorderedViewParameters = $module->unorderedParameters( $viewName );
             if ( is_array( $unorderedViewParameters ) )
             {
                 foreach ( $unorderedViewParameters as $unorderedViewParameterName => $unorderedViewParameterVariable )
@@ -491,14 +488,16 @@ class eZModule
              is empty the current view is used.
      \sa unorderedParameters, viewData, currentView, currentModule
     */
-    function &parameters( $viewName = '' )
+    function parameters( $viewName = '' )
     {
         if ( $viewName == '' )
             $viewName = eZModule::currentView();
-        $viewData =& $this->viewData( $viewName );
+        $viewData = $this->viewData( $viewName );
         if ( isset( $viewData['params'] ) )
+        {
             return $viewData['params'];
-        $retValue = null;
+        }
+        return null;
         return $retValue;
     }
 
@@ -507,15 +506,16 @@ class eZModule
              is empty the current view is used.
      \sa parameters, viewData, currentView, currentModule
     */
-    function &unorderedParameters( $viewName = '' )
+    function unorderedParameters( $viewName = '' )
     {
         if ( $viewName == '' )
             $viewName = eZModule::currentView();
-        $viewData =& $this->viewData( $viewName );
+        $viewData = $this->viewData( $viewName );
         if ( isset( $viewData['unordered_params'] ) )
+        {
             return $viewData['unordered_params'];
-        $retValue = null;
-        return $retValue;
+        }
+        return null;
     }
 
     /*!
@@ -523,14 +523,14 @@ class eZModule
              is empty the current view is used.
      \sa parameters, unorderedParameters, currentView, currentModule
     */
-    function &viewData( $viewName = '' )
+    function viewData( $viewName = '' )
     {
         if ( $viewName == '' )
             $viewName = eZModule::currentView();
         if ( $this->singleFunction() )
-            $viewData =& $this->Module["function"];
+            $viewData = $this->Module["function"];
         else
-            $viewData =& $this->Functions[$viewName];
+            $viewData = $this->Functions[$viewName];
         return $viewData;
     }
 
@@ -990,17 +990,18 @@ class eZModule
         return isset( $this->ViewResult[$view] );
     }
 
-    function &viewResult( $view = '' )
+    function viewResult( $view = '' )
     {
         if ( $view == '' )
             $view = $this->currentView();
         if ( isset( $this->ViewResult[$view] ) )
+        {
             return $this->ViewResult[$view];
-        $retValue = null;
-        return $retValue;
+        }
+        return null;
     }
 
-    function &forward( &$module, $functionName, $parameters = false )
+    function forward( $module, $functionName, $parameters = false )
     {
         $Return = null;
         if ( $module && $functionName )
@@ -1016,15 +1017,15 @@ class eZModule
             $unorderedParameters = $this->OriginalUnorderedParameters;
             $userParameters = $this->UserParameters;
 
-            $Return =& $module->run( $functionName, $parameters, $unorderedParameters, $userParameters );
+            $Return = $module->run( $functionName, $parameters, $unorderedParameters, $userParameters );
 
             // override default navigation part
             if ( $Return['is_default_navigation_part'] === true )
             {
                 if ( $this->singleFunction() )
-                    $function =& $this->Module["function"];
+                    $function = $this->Module["function"];
                 else
-                    $function =& $this->Functions[$functionName];
+                    $function = $this->Functions[$functionName];
 
                 if ( isset( $function['default_navigation_part'] ) )
                 {
@@ -1050,7 +1051,7 @@ class eZModule
                                defined parameters.
      \return null if function could not be run or no return value was found.
     */
-    function &run( $functionName, $parameters, $overrideParameters = false, $userParameters = false )
+    function run( $functionName, $parameters, $overrideParameters = false, $userParameters = false )
     {
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
@@ -1063,10 +1064,10 @@ class eZModule
             return $Return;
         }
         if ( $this->singleFunction() )
-            $function =& $this->Module["function"];
+            $function = $this->Module["function"];
         else
-            $function =& $this->Functions[$functionName];
-        $functionParameterDefinitions =& $function["params"];
+            $function = $this->Functions[$functionName];
+        $functionParameterDefinitions = $function["params"];
         $params = array();
         $i = 0;
         $parameterValues = array();
@@ -1088,7 +1089,7 @@ class eZModule
             }
         }
 
-        $this->ViewParameters =& $parameters;
+        $this->ViewParameters = $parameters;
         $this->OriginalParameters = $parameters;
         $this->OriginalViewParameters = $parameterValues;
         $this->NamedParameters = $params;
@@ -1179,10 +1180,10 @@ class eZModule
                 $params[$param] = $value;
             }
         }
-        $params["Module"] =& $this;
+        $params["Module"] = $this;
         $params["ModuleName"] = $this->Name;
         $params["FunctionName"] = $functionName;
-        $params["Parameters"] =& $parameters;
+        $params["Parameters"] = $parameters;
         $params_as_var = isset( $this->Module["variable_params"] ) ? $this->Module["variable_params"] : false;
         include_once( "lib/ezutils/classes/ezprocess.php" );
         $this->ExitStatus = EZ_MODULE_STATUS_OK;
@@ -1200,8 +1201,8 @@ class eZModule
         $currentView = array( 'view' => $functionName,
                               'module' => $this->Name );
         $Return = eZProcess::run( $this->Path . "/" . $this->Name . "/" . $function["script"],
-                                   $params,
-                                   $params_as_var );
+                                  $params,
+                                  $params_as_var );
 
         if ( $this->hasViewResult( $functionName ) )
         {
@@ -1249,7 +1250,7 @@ class eZModule
     */
     function currentView()
     {
-        $currentView =& $GLOBALS['eZModuleCurrentView'];
+        $currentView = $GLOBALS['eZModuleCurrentView'];
         if ( $currentView !== false )
             return $currentView['view'];
         return false;
@@ -1262,7 +1263,7 @@ class eZModule
     */
     function currentModule()
     {
-        $currentView =& $GLOBALS['eZModuleCurrentView'];
+        $currentView = $GLOBALS['eZModuleCurrentView'];
         if ( $currentView !== false )
             return $currentView['module'];
         return false;
@@ -1341,10 +1342,9 @@ class eZModule
     */
     static function setGlobalPathList( $pathList )
     {
-        $globalPathList =& $GLOBALS['eZModuleGlobalPathList'];
         if ( !is_array( $pathList ) )
             $pathList = array( $pathList );
-        $globalPathList = $pathList;
+        $GLOBALS['eZModuleGlobalPathList'] = $pathList;
     }
 
     /*!
@@ -1355,12 +1355,15 @@ class eZModule
     */
     static function addGlobalPathList( $pathList )
     {
-        $globalPathList =& $GLOBALS['eZModuleGlobalPathList'];
-        if ( !is_array( $globalPathList ) )
-            $globalPathList = array();
+        if ( !is_array( $GLOBALS['eZModuleGlobalPathList'] ) )
+        {
+            $GLOBALS['eZModuleGlobalPathList'] = array();
+        }
         if ( !is_array( $pathList ) )
+        {
             $pathList = array( $pathList );
-        $globalPathList = array_merge( $globalPathList, $pathList );
+        }
+        $GLOBALS['eZModuleGlobalPathList'] = array_merge( $GLOBALS['eZModuleGlobalPathList'], $pathList );
     }
 
     /*!
@@ -1443,13 +1446,12 @@ class eZModule
         }
         $debug = eZDebug::instance();
         $debug->writeWarning( $msg );
-        
 
         $retValue = null;
         return $retValue;
     }
 
-    function &getNamedParameters()
+    function getNamedParameters()
     {
         return $this->NamedParameters;
     }

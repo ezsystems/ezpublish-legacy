@@ -139,7 +139,7 @@ class eZTemplateToolbarFunction
 
                 $resourceName = "";
                 $templateName = "";
-                $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
+                $resource = $tpl->resourceFor( $uriString, $resourceName, $templateName );
                 $resourceData = $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
                 $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 

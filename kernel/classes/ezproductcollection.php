@@ -89,7 +89,7 @@ class eZProductCollection extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy()
+    function copy()
     {
         $collection = clone $this;
 
@@ -129,7 +129,7 @@ class eZProductCollection extends eZPersistentObject
                                                     $asObject );
     }
 
-    static function &verify( $id )
+    static function verify( $id )
     {
         $invalidItemArray = array();
         $collection = eZProductCollection::fetch( $id );
@@ -144,13 +144,11 @@ class eZProductCollection extends eZPersistentObject
                                                                  true );
         $isValid = true;
 
-        foreach ( array_keys( $productItemList ) as $key )
+        foreach ( $productItemList as $productItem )
         {
-            $productItem =& $productItemList[$key];
-
             if ( !$productItem->verify( $currency ) )
             {
-                $invalidItemArray[] =& $productItem;
+                $invalidItemArray[] = $productItem;
                 //  eZDebug::writeDebug( $productItem , "invalid item" );
                 $isValid = false;
             }

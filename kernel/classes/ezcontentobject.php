@@ -1315,7 +1315,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copy( $allVersions = true )
+    function copy( $allVersions = true )
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy start, all versions=' . $allVersions ? 'true' : 'false', 'copy' );
         $user = eZUser::currentUser();
@@ -1462,7 +1462,7 @@ class eZContentObject extends eZPersistentObject
         $db = eZDB::instance();
         $objectID = (int) $objectID;
         // Get list of objects referring to this one.
-        $relatingObjects = $this->reverseRelatedObjectList( false, false, 0, false, array( 'AllRelations' => true ) );
+        $relatingObjects = $this->reverseRelatedObjectList( false, 0, false, array( 'AllRelations' => true ) );
 
         // Finds all the attributes that store relations to the given object.
 
@@ -2113,9 +2113,8 @@ class eZContentObject extends eZPersistentObject
     function fixupInput( &$contentObjectAttributes, $attributeDataBaseName )
     {
         $http = eZHTTPTool::instance();
-        foreach ( array_keys( $contentObjectAttributes ) as $key )
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$key];
             $contentObjectAttribute->fixupInput( $http, $attributeDataBaseName );
         }
     }
@@ -2157,7 +2156,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( $contentObjectAttribute->fetchInput( $http, $attributeDataBaseName ) )
                 {
-                    $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
+                    $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] = $contentObjectAttribute;
                     $attributeInputMap[$contentObjectAttribute->attribute('id')] = true;
                 }
 
@@ -2191,12 +2190,11 @@ class eZContentObject extends eZPersistentObject
                                          $objectVersion = false )
     {
         $http = eZHTTPTool::instance();
-        $contentObjectAttributes =& $this->contentObjectAttributes( true, $objectVersion );
+        $contentObjectAttributes = $this->contentObjectAttributes( true, $objectVersion );
         $oldAttributeDataBaseName = $customActionParameters['base_name'];
         $customActionParameters['base_name'] = $attributeDataBaseName;
-        foreach( array_keys( $contentObjectAttributes ) as $key )
+        foreach( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$key];
             if ( isset( $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )] ) )
             {
                 $customActionAttributeID = $customActionAttributeArray[$contentObjectAttribute->attribute( 'id' )]['id'];
@@ -2237,15 +2235,13 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function storeInput( &$contentObjectAttributes,
+    function storeInput( $contentObjectAttributes,
                          $attributeInputMap )
     {
         $db = eZDB::instance();
         $db->begin();
-        foreach ( array_keys( $contentObjectAttributes ) as $key )
+        foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
-            $contentObjectAttribute =& $contentObjectAttributes[$key];
-
             if ( isset( $attributeInputMap[$contentObjectAttribute->attribute('id')] ) )
             {
                 $contentObjectAttribute->store();
@@ -2258,7 +2254,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       Returns the parent objects.
     */
-    function &parents( )
+    function parents( )
     {
         $objectID = $this->ID;
 
@@ -2859,22 +2855,14 @@ class eZContentObject extends eZPersistentObject
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
     */
     function relatedContentObjectCount( $fromObjectVersion = false,
-                                        $fromObjectID = false,
                                         $attributeID = 0,
                                         $params = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "relatedContentObjectCount::objectID" );
-        return strtolower( get_class( $this ) ) == 'ezcontentobject' ?
-            $this->relatedObjectCount( $fromObjectVersion,
-                                       $fromObjectID,
-                                       $attributeID,
-                                       false,
-                                       $params ) :
-            eZContentObject::relatedObjectCount( $fromObjectVersion,
-                                                 $fromObjectID,
-                                                 $attributeID,
-                                                 false,
-                                                 $params );
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $this->ID, "relatedContentObjectCount::objectID" );
+        return $this->relatedObjectCount( $fromObjectVersion,
+                                          $attributeID,
+                                          false,
+                                          $params );
     }
 
     /*!
@@ -2898,23 +2886,19 @@ class eZContentObject extends eZPersistentObject
                 $params['IgnoreVisibility'] - ignores 'hidden' state of related objects if true
     */
     function reverseRelatedObjectList( $version = false,
-                                       $toObjectID = false,
                                        $attributeID = 0,
                                        $groupByAttribute = false,
                                        $params = false )
     {
-        return strtolower( get_class( $this ) ) == 'ezcontentobject' ?
-            $this->relatedObjects( $version, $toObjectID, $attributeID, $groupByAttribute, $params, true )
-            : eZContentObject::relatedObjects( $version, $toObjectID, $attributeID, $groupByAttribute, $params, true );
+        return $this->relatedObjects( $version, $this->ID, $attributeID, $groupByAttribute, $params, true );
     }
 
     /*!
      Returns the xml-linked objects count.
     */
-    function linkedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
+    function linkedContentObjectCount( $fromObjectVersion = false )
     {
         return $this->relatedObjectCount( $fromObjectVersion,
-                                          $fromObjectID,
                                           0,
                                           false,
                                           array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
@@ -2923,10 +2907,9 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the xml-embedded objects count.
     */
-    function embeddedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false )
+    function embeddedContentObjectCount( $fromObjectVersion = false )
     {
         return $this->relatedObjectCount( $fromObjectVersion,
-                                          $fromObjectID,
                                           0,
                                           false,
                                           array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
@@ -2935,10 +2918,9 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the reverse xml-linked objects count.
     */
-    function reverseLinkedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
+    function reverseLinkedObjectCount( $fromObjectVersion = false )
     {
         return $this->relatedObjectCount( $fromObjectVersion,
-                                          $fromObjectID,
                                           0,
                                           true,
                                           array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_LINK ) );
@@ -2947,10 +2929,9 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the reverse xml-embedded objects count.
     */
-    function reverseEmbeddedObjectCount( $fromObjectVersion = false, $fromObjectID = false )
+    function reverseEmbeddedObjectCount( $fromObjectVersion = false )
     {
         return $this->relatedObjectCount( $fromObjectVersion,
-                                          $fromObjectID,
                                           0,
                                           true,
                                           array( 'AllRelations' => EZ_CONTENT_OBJECT_RELATION_EMBED ) );
@@ -2975,10 +2956,9 @@ class eZContentObject extends eZPersistentObject
      \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
                                      if "false" returns related contentObjects
     */
-    function relatedObjectCount( $version = false, $objectID = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
+    function relatedObjectCount( $version = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
     {
-        if ( !$objectID )
-            $objectID = $this->ID;
+        $objectID = $this->ID;
         if ( $version == false )
             $version = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
         $version == (int) $version;
@@ -3074,20 +3054,18 @@ class eZContentObject extends eZPersistentObject
                            false    - return object-level relations
                            >0       - bit mask of EZ_CONTENT_OBJECT_RELATION_* values
     */
-    function reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0, $params = false )
+    function reverseRelatedObjectCount( $version = false, $attributeID = 0, $params = false )
     {
-        return strtolower( get_class( $this ) ) == 'ezcontentobject' ?
-            $this->relatedObjectCount( $version, $toObjectID, $attributeID, true, $params )
-            : eZContentObject::relatedObjectCount( $version, $toObjectID, $attributeID, true, $params );
+        return $this->relatedObjectCount( $version, $attributeID, true, $params );
     }
 
     /*!
      Returns the related objects.
      \note This function is a duplicate of reverseRelatedObjectList(), use that function instead.
     */
-    function contentObjectListRelatingThis( $version = false, $objectID = false )
+    function contentObjectListRelatingThis( $version = false )
     {
-        return $this->reverseRelatedObjectList( $version, $objectID );
+        return $this->reverseRelatedObjectList( $version );
     }
 
     function publishContentObjectRelations( $version )
@@ -3344,7 +3322,7 @@ class eZContentObject extends eZPersistentObject
             }
             else
             {
-                $contentObject =& $this;
+                $contentObject = $this;
             }
 
             if ( is_object( $contentObject ) )
@@ -3361,13 +3339,13 @@ class eZContentObject extends eZPersistentObject
                     else
                     {
                         // get contentobjects for 'user' and 'owner'
-                        $userList =& eZContentObject::fetchIDArray( array( $userID, $ownerID ) );
+                        $userList = eZContentObject::fetchIDArray( array( $userID, $ownerID ) );
 
                         // get parents for each location for 'user' and 'owner'.
                         $groupList = array();
                         foreach ( array_keys( $userList ) as $key )
                         {
-                            $groupList[] =& $userList[$key]->attribute( 'parent_nodes' );
+                            $groupList[] = $userList[$key]->attribute( 'parent_nodes' );
                         }
 
                         // find group(s) which is common for 'user' and 'owner'
@@ -5013,7 +4991,7 @@ class eZContentObject extends eZPersistentObject
         $oneLanguagePerVersion = false;
         if ( $specificVersion === false )
         {
-            $versions =& $this->versions();
+            $versions = $this->versions();
             // Since we are exporting all versions it should only contain
             // one language per version
             //$oneLanguagePerVersion = true; // uncomment to get one language per version

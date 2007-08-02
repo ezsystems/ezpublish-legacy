@@ -91,25 +91,23 @@ class eZSearch
     /*!
      \static
     */
-    static function &normalizeText( $text )
+    static function normalizeText( $text )
     {
         $searchEngine = eZSearch::getEngine();
-        $normalizedText = '';
 
         if ( is_object( $searchEngine ) )
         {
-            $normalizedText =& $searchEngine->normalizeText( $text );
-            
+            return $searchEngine->normalizeText( $text );
         }
 
-        return $normalizedText;
+        return '';
     }
 
     /*!
      \static
       returns search parameters in array based on supported search types and post variables
      */
-    static function &buildSearchArray()
+    static function buildSearchArray()
     {
         $searchEngine = eZSearch::getEngine();
 
@@ -382,9 +380,13 @@ class eZSearch
         }
 
         if ( $andSearchParts != null )
-            $searchArray['and'] =& $andSearchParts;
+        {
+            $searchArray['and'] = $andSearchParts;
+        }
         if ( $generalFilter != null )
-            $searchArray['general'] =& $generalFilter;
+        {
+            $searchArray['general'] = $generalFilter;
+        }
 
         eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;

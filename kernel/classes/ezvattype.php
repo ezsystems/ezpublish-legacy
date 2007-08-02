@@ -125,10 +125,9 @@ class eZVatType extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &isDynamic()
+    function isDynamic()
     {
-        $retVal = ( $this->ID == -1 );
-        return $retVal;
+        return ( $this->ID == -1 );
     }
 
     /**
@@ -300,7 +299,7 @@ class eZVatType extends eZPersistentObject
         $db->commit();
     }
 
-    function &VATTypeList()
+    function VATTypeList()
     {
         if ( !isset( $this->VatTypeList ) )
         {

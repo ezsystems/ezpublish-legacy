@@ -239,7 +239,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                     $asObject );
     }
 
-    static function &classInGroup( $contentclassID, $contentclassVersion, $groupID )
+    static function classInGroup( $contentclassID, $contentclassVersion, $groupID )
     {
         $rows = eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                      null,
@@ -249,8 +249,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                      null,
                                                      null,
                                                      false );
-        $retValue = count( $rows ) > 0;
-        return $retValue;
+        return count( $rows ) > 0;
     }
 
     /// \privatesection

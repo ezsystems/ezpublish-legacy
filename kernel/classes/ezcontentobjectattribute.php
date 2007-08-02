@@ -770,7 +770,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $dataType = $this->dataType();
         if ( $dataType )
         {
-            $customActionParameters['contentobject_attribute'] =& $this;
+            $customActionParameters['contentobject_attribute'] = $this;
             $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
                                                       $customActionAttributeArray, $customActionParameters );
         }
@@ -780,7 +780,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function onPublish( &$object, &$nodes  )
+    function onPublish( $object, $nodes  )
     {
         $dataType = $this->dataType();
         if ( $dataType )

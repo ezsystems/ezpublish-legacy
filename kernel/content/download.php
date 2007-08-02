@@ -62,7 +62,7 @@ $nodeAssignments = $contentObject->attribute( 'assigned_nodes' );
 if ( count( $nodeAssignments ) === 0 )
 {
     // oops, no locations. probably it's related object. Let's check his owners
-    $ownerList =& eZContentObject::reverseRelatedObjectList( false, $contentObjectID, false, false, false );
+    $ownerList = eZContentObject::fetch( $contentObjectID )->reverseRelatedObjectList( false, false, false, false );
     foreach ( $ownerList as $owner )
     {
         if ( is_object( $owner ) )
@@ -95,7 +95,7 @@ if ( $version != $currentVersion )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$fileHandler =& eZBinaryFileHandler::instance();
+$fileHandler = eZBinaryFileHandler::instance();
 $result = $fileHandler->handleDownload( $contentObject, $contentObjectAttribute, EZ_BINARY_FILE_TYPE_FILE );
 
 if ( $result == EZ_BINARY_FILE_RESULT_UNAVAILABLE )

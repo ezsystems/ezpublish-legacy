@@ -1353,7 +1353,7 @@ class eZContentFunctionCollection
         if ( $object === null )
             return false;
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID, $params ) );
+        return array( 'result' => $object->relatedContentObjectCount( false, $attributeID, $params ) );
     }
 
     function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility )
@@ -1407,7 +1407,7 @@ class eZContentFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
+        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectList( false, $attributeID, $groupByAttribute, $params ) );
     }
 
     // Fetches count of reverse related objects
@@ -1452,7 +1452,7 @@ class eZContentFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID, $params ) );
+        return array( 'result' => eZContentObject::fetch( $objectID )->reverseRelatedObjectCount( false, $attributeID, $params ) );
     }
 
     function fetchAvailableSortFieldList()

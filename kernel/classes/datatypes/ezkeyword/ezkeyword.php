@@ -288,7 +288,7 @@ class eZKeyword
     /*!
      Returns the objects which has atleast one of the same keywords
     */
-    function &relatedObjects()
+    function relatedObjects()
     {
         $return = false;
         if ( $this->ObjectAttributeID )
@@ -321,7 +321,7 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                $aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
+                $aNodes = eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
                 foreach ( $aNodes as $key => $node )
                 {
                     $theObject = $node->object();

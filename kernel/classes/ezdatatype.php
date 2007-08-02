@@ -183,23 +183,23 @@ class eZDataType
      \return a list of datatypes which has been registered.
      \note This will instantiate all datatypes.
     */
-    static function &registeredDataTypes()
+    static function registeredDataTypes()
     {
-        $types =& $GLOBALS["eZDataTypes"];
-        $type_objects =& $GLOBALS["eZDataTypeObjects"];
+        $types = $GLOBALS["eZDataTypes"];
         if ( isset( $types ) )
         {
             foreach ( $types as $dataTypeString => $className )
             {
-                $def =& $type_objects[$dataTypeString];
-                if ( strtolower( get_class( $def ) ) != $className )
-                    $def = new $className();
+                if ( !isset( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) )
+                {
+                    $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
+                }
             }
-            uasort( $type_objects,
+            uasort( $GLOBALS["eZDataTypeObjects"],
                     create_function( '$a, $b',
                                      'return strcmp( $a->Name, $b->Name);' ) );
         }
-        return $type_objects;
+        return $GLOBALS["eZDataTypeObjects"];
     }
 
     /*!

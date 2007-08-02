@@ -109,7 +109,7 @@ class eZCollaborationItemHandler
       If it returns \c false the handler does not support notificiation.
       If it returns an array the array contains a list associative arrays each containing a \c name and \c value entry.
     */
-    function &notificationTypes()
+    function notificationTypes()
     {
         return $this->NotificationTypes;
     }
@@ -278,7 +278,7 @@ class eZCollaborationItemHandler
     */
     function hasContentAttribute( &$collaborationItem, $attribute )
     {
-        $content =& $collaborationItem->content();
+        $content = $collaborationItem->content();
         if ( is_array( $content ) )
         {
             return array_key_exists( $attribute, $content );
@@ -289,9 +289,9 @@ class eZCollaborationItemHandler
     /*!
      \return the attribute \a $attribute if it exists in the content data or \c null.
     */
-    function &contentAttribute( &$collaborationItem, $attribute )
+    function contentAttribute( &$collaborationItem, $attribute )
     {
-        $content =& $collaborationItem->content();
+        $content = $collaborationItem->content();
         if ( is_array( $content ) )
         {
             if ( array_key_exists( $attribute, $content ) )

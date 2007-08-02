@@ -374,7 +374,7 @@ class eZCollaborationItem extends eZPersistentObject
         return eZCollaborationItem::fetchListTool( $parameters, false );
     }
 
-    static function &fetchListTool( $parameters = array(), $asCount )
+    static function fetchListTool( $parameters = array(), $asCount )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'offset' => false,

@@ -109,7 +109,7 @@ class eZCollaborationGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function addChild( &$group, $store = true )
+    function addChild( $group, $store = true )
     {
         $pathString = $this->PathString;
         if ( $pathString != '' )
@@ -191,7 +191,7 @@ class eZCollaborationGroup extends eZPersistentObject
                                                                  $parameters ) );
     }
 
-    static function &subTree( $parameters = array() )
+    static function subTree( $parameters = array() )
     {
         $parameters = array_merge( array( 'parent_group_id' => false,
                                           'depth' => false,
@@ -288,7 +288,7 @@ class eZCollaborationGroup extends eZPersistentObject
             $pathSQL = "path_string like '$pathString%' AND";
 
         $user = eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+        $userID = $user->attribute( 'contentobject_id' );
 
         $sql = "SELECT *
                 FROM
@@ -320,7 +320,7 @@ class eZCollaborationGroup extends eZPersistentObject
         $asObject = $parameters['as_object'];
 
         $user = eZUser::currentUser();
-        $userID =& $user->attribute( 'contentobject_id' );
+        $userID = $user->attribute( 'contentobject_id' );
 
         $groupID = $this->ID;
 

@@ -614,18 +614,17 @@ class eZInformationCollection extends eZPersistentObject
         return $result;
     }
 
-    function &creator()
+    function creator()
     {
        $creatorID = $this->attribute( 'creator_id' );
        if ( $creatorID == 0 )
        {
            return false;
        }
-       $creator = eZUser::fetch( $creatorID );
-       return $creator;
+       return eZUser::fetch( $creatorID );
     }
 
-    function &informationCollectionAttributes( $asObject = true )
+    function informationCollectionAttributes( $asObject = true )
     {
         $db = eZDB::instance();
 
@@ -659,10 +658,10 @@ class eZInformationCollection extends eZPersistentObject
       Fetches information collection attributes and indexes by the
       content class attribute identifier.
     */
-    function &dataMap()
+    function dataMap()
     {
         // Retreive the indexed information collection attributes
-        $informationCollectionAttributes =& $this->informationCollectionAttributes();
+        $informationCollectionAttributes = $this->informationCollectionAttributes();
 
         $retArray = array();
 
@@ -679,10 +678,9 @@ class eZInformationCollection extends eZPersistentObject
         return $retArray;
     }
 
-    function &object()
+    function object()
     {
-        $object = eZContentObject::fetch( $this->ContentObjectID );
-        return $object;
+        return eZContentObject::fetch( $this->ContentObjectID );
     }
 
     /*!
@@ -724,7 +722,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function &create( $contentObjectID, $userIdentifier, $creatorID = false )
+    function create( $contentObjectID, $userIdentifier, $creatorID = false )
     {
         $timestamp = time();
 
@@ -738,8 +736,7 @@ class eZInformationCollection extends eZPersistentObject
                       'creator_id' => $creatorID,
                       'created' => $timestamp,
                       'modified' => $timestamp );
-        $newInformationCollection = new eZInformationCollection( $row );
-        return $newInformationCollection;
+        return new eZInformationCollection( $row );
     }
 
     /*!

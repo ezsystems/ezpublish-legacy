@@ -156,40 +156,34 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &user()
+    function user()
     {
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::fetch( $this->UserID );
+            return eZUser::fetch( $this->UserID );
         }
-        else
-            $user = null;
-        return $user;
+        return null;
     }
 
-    function &collaborationItem()
+    function collaborationItem()
     {
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item = eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
+            return eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
         }
-        else
-            $item = null;
-        return $item;
+        return null;
     }
 
-    function &collaborationGroup()
+    function collaborationGroup()
     {
         if ( isset( $this->GroupID ) and $this->GroupID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $group = eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
+            return eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
         }
-        else
-            $group = null;
-        return $group;
+        return null;
     }
 
 

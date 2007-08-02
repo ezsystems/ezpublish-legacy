@@ -349,7 +349,7 @@ class eZTemplate
         $this->registerLiteral( "literal" );
 
         $res = new eZTemplateFileResource();
-        $this->DefaultResource =& $res;
+        $this->DefaultResource = $res;
         $this->registerResource( $res );
 
         $this->Resources = array();
@@ -445,7 +445,7 @@ class eZTemplate
             reset( $this->IncludeText );
             while ( ( $key = key( $this->IncludeText ) ) !== null )
             {
-                $item =& $this->IncludeText[$key];
+                $item = $this->IncludeText[$key];
                 echo "<p class=\"filename\">" . $key . "</p>";
                 echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
                 next( $this->IncludeText );
@@ -456,7 +456,7 @@ class eZTemplate
             reset( $this->IncludeOutput );
             while ( ( $key = key( $this->IncludeOutput ) ) !== null )
             {
-                $item =& $this->IncludeOutput[$key];
+                $item = $this->IncludeOutput[$key];
                 echo "<p class=\"filename\">" . $key . "</p>";
                 echo "<pre class=\"example\">" . htmlspecialchars( $item ) . "</pre>";
                 next( $this->IncludeOutput );
@@ -680,12 +680,12 @@ class eZTemplate
     {
         // Note: This code piece is replicated in the eZTemplateCompiler,
         //       if this code is changed the replicated code must be updated as well.
-        $func =& $this->Functions[$functionName];
+        $func = $this->Functions[$functionName];
         $debug = eZDebug::instance();
         if ( is_array( $func ) )
         {
             $this->loadAndRegisterFunctions( $this->Functions[$functionName] );
-            $func =& $this->Functions[$functionName];
+            $func = $this->Functions[$functionName];
         }
         if ( isset( $func ) and
              is_object( $func ) )
@@ -705,11 +705,11 @@ class eZTemplate
 
     function fetchFunctionObject( $functionName )
     {
-        $func =& $this->Functions[$functionName];
+        $func = $this->Functions[$functionName];
         if ( is_array( $func ) )
         {
             $this->loadAndRegisterFunctions( $this->Functions[$functionName] );
-            $func =& $this->Functions[$functionName];
+            $func = $this->Functions[$functionName];
         }
         return $func;
     }
@@ -790,7 +790,7 @@ class eZTemplate
     {
         $res = "";
         $template = "";
-        $resobj =& $this->resourceFor( $uri, $res, $template );
+        $resobj = $this->resourceFor( $uri, $res, $template );
 
         if ( !is_object( $resobj ) )
         {
@@ -923,7 +923,7 @@ class eZTemplate
 
         if ( !file_exists( $file ) )
             return false;
-        $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
+        $resourceHandler = $this->resourceFor( $file, $resourceName, $templateName );
         if ( !$resourceHandler )
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
@@ -972,11 +972,11 @@ class eZTemplate
 
         if ( !file_exists( $file ) )
             return false;
-        $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
+        $resourceHandler = $this->resourceFor( $file, $resourceName, $templateName );
         if ( !$resourceHandler )
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
-        $keyData =& $resourceData['key-data'];
+        $keyData = $resourceData['key-data'];
         $keyData = "file:" . $file;
         $key = md5( $keyData );
         $extraParameters = array();
@@ -1015,7 +1015,7 @@ class eZTemplate
 
     function compileTemplate( &$resourceData, &$extraParameters )
     {
-        $resourceObject =& $resourceData['handler'];
+        $resourceObject = $resourceData['handler'];
         if ( !$resourceObject )
             return false;
         $keyData = $resourceData['key-data'];
@@ -1027,7 +1027,7 @@ class eZTemplate
 
     function executeCompiledTemplate( &$resourceData, &$textElements, $rootNamespace, $currentNamespace, &$extraParameters )
     {
-        $resourceObject =& $resourceData['handler'];
+        $resourceObject = $resourceData['handler'];
         if ( !$resourceObject )
             return false;
         $keyData = $resourceData['key-data'];
@@ -1048,7 +1048,7 @@ class eZTemplate
      prepended to the URI, for instance file:my.tpl.
      If no resource type is found the URI the default resource handler is used.
     */
-    function &resourceFor( &$uri, &$res, &$template )
+    function resourceFor( $uri, &$res, &$template )
     {
         $args = explode( ":", $uri );
         if ( count( $args ) > 1 )
@@ -1063,12 +1063,11 @@ class eZTemplate
             $debug = eZDebug::instance();
             $debug->writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
         }
-        $resobj =& $this->DefaultResource;
         if ( isset( $this->Resources[$res] ) and is_object( $this->Resources[$res] ) )
         {
-            $resobj =& $this->Resources[$res];
+            return $this->Resources[$res];
         }
-        return $resobj;
+        return $this->DefaultResource;
     }
 
     /*!
@@ -1217,10 +1216,7 @@ class eZTemplate
                         {
                             if ( array_key_exists( $attributeValue, $value ) )
                             {
-                                unset( $tempValue );
-                                $tempValue =& $value[$attributeValue];
-                                unset( $value );
-                                $value =& $tempValue;
+                                $value = $value[$attributeValue];
                             }
                             else
                             {
@@ -2063,7 +2059,7 @@ class eZTemplate
             $function = $operatorDefinition['function'];
 //             print( "loadAndRegisterOperator: $function<br/>" );
             if ( function_exists( $function ) )
-                $operatorObject =& $function();
+                $operatorObject = $function();
         }
         else if ( isset( $operatorDefinition['script'] ) )
         {
@@ -2098,23 +2094,23 @@ class eZTemplate
 
     /*!
     */
-    function registerOperatorsInternal( &$operatorObject, $debug = false )
+    function registerOperatorsInternal( $operatorObject, $debug = false )
     {
         if ( !is_object( $operatorObject ) or
              !method_exists( $operatorObject, 'operatorList' ) )
             return false;
         foreach( $operatorObject->operatorList() as $operatorName )
         {
-            $this->Operators[$operatorName] =& $operatorObject;
+            $this->Operators[$operatorName] = $operatorObject;
         }
     }
 
     /*!
      Registers the operator $op_name to use the object $op_obj.
     */
-    function registerOperator( $op_name, &$op_obj )
+    function registerOperator( $op_name, $op_obj )
     {
-        $this->Operators[$op_name] =& $op_obj;
+        $this->Operators[$op_name] = $op_obj;
     }
 
     /*!
@@ -2387,9 +2383,8 @@ class eZTemplate
     */
     function resetElements()
     {
-        foreach ( array_keys( $this->Functions ) as $functionName )
+        foreach ( $this->Functions as $functionName => $functionObject )
         {
-            $functionObject =& $this->Functions[$functionName];
             if ( is_object( $functionObject ) and
                  method_exists( $functionObject, 'resetFunction' ) )
             {
@@ -2397,9 +2392,8 @@ class eZTemplate
             }
         }
 
-        foreach ( array_keys( $this->Operators ) as $operatorName )
+        foreach ( $this->Operators as  $operatorName => $operatorObject )
         {
-            $operatorObject =& $this->Operators[$operatorName];
             if ( is_object( $operatorObject ) and
                  method_exists( $operatorObject, 'resetOperator' ) )
             {
@@ -2617,7 +2611,7 @@ class eZTemplate
      \static
      Appends template info to stats.
     */
-    function appendTemplateToStatistics( &$templateName, &$templateFileName )
+    function appendTemplateToStatistics( $templateName, $templateFileName )
     {
         $actualTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateFileName );
         $requestedTemplateName = preg_replace( "#^[\w/]+templates/#", '', $templateName );

@@ -66,7 +66,7 @@ $db = eZDB::instance();
 $query = "SELECT count(*) as count FROM ezsearch_search_phrase";
 $searchListCount = $db->arrayQuery( $query );
 
-$mostFrequentPhraseArray =& eZSearchLog::mostFrequentPhraseArray( $viewParameters );
+$mostFrequentPhraseArray = eZSearchLog::mostFrequentPhraseArray( $viewParameters );
 
 $tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "most_frequent_phrase_array", $mostFrequentPhraseArray );

@@ -154,26 +154,24 @@ class eZWaitUntilDateValue extends eZPersistentObject
                                                  "workflow_event_version" => $version) );
     }
 
-    function &fetch( $id, $version, $asObject = true )
+    function fetch( $id, $version, $asObject = true )
     {
-        $object = eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
-                                                    null,
-                                                    array( "id" => $id,
-                                                           "workflow_event_version" => $version),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
+                                                null,
+                                                array( "id" => $id,
+                                                       "workflow_event_version" => $version),
+                                                $asObject );
     }
 
-    function &fetchAllElements( $workflowEventID, $version, $asObject = true )
+    function fetchAllElements( $workflowEventID, $version, $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
-                                                            null,
-                                                            array( "workflow_event_id" => $workflowEventID,
-                                                                   "workflow_event_version" => $version ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
+                                                    null,
+                                                    array( "workflow_event_id" => $workflowEventID,
+                                                           "workflow_event_version" => $version ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     public $ClassName;

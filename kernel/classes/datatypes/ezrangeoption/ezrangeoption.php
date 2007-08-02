@@ -61,7 +61,7 @@ class eZRangeOption
     /*!
      Returns the name of the option set.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }

@@ -770,7 +770,7 @@ class eZURLAliasML extends eZPersistentObject
      4   4    0      'superman'  'nop:'
      === ==== ====== =========== ==========
     */
-    static public function &fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
+    static public function fetchByParentID( $id, $maskLanguages = false, $onlyPrioritized = false, $includeRedirections = true )
     {
         $db = eZDB::instance();
         $id = (int)$id;
@@ -788,8 +788,7 @@ class eZURLAliasML extends eZPersistentObject
         $query = "SELECT * FROM ezurlalias_ml WHERE $langMask parent = {$id} $redirSQL";
         $rows = $db->arrayQuery( $query );
         $rows = eZURLAliasML::filterRows( $rows, $onlyPrioritized );
-        $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
-        return $objectList;
+        return eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
     }
 
     /*!

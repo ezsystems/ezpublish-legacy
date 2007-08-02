@@ -163,15 +163,15 @@ class eZContentCacheManager
 
             if ( $relationsMask )
             {
-                $objects = $object->reverseRelatedObjectList( false, false, false, false,
+                $objects = $object->reverseRelatedObjectList( false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
                 $relatedObjects = array_merge( $relatedObjects, $objects );
             }
         }
         else
         {
-            $normalRelated =& $object->relatedContentObjectArray();
-            $reversedRelated =& $object->contentObjectListRelatingThis();
+            $normalRelated = $object->relatedContentObjectArray();
+            $reversedRelated = $object->contentObjectListRelatingThis();
 
             $relatedObjects = array_merge( $normalRelated, $reversedRelated );
         }
@@ -522,15 +522,14 @@ class eZContentCacheManager
                                 or \c false for no additional nodes.
      \return An array with node IDs that must have their viewcaches cleared.
     */
-    static function &nodeList( $objectID, $versionNum )
+    static function nodeList( $objectID, $versionNum )
     {
         $nodeList = array();
 
         $object = eZContentObject::fetch( $objectID );
         if ( !$object )
         {
-            $nodeList = false;
-            return $nodeList;
+            return false;
         }
 
         eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_DEFAULT, $nodeList );
@@ -561,7 +560,7 @@ class eZContentCacheManager
     */
     static function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        $nodeList =& eZContentCacheManager::nodeList( $objectID, $versionNum );
+        $nodeList = eZContentCacheManager::nodeList( $objectID, $versionNum );
 
         if ( $nodeList === false and !is_array( $additionalNodeList ) )
             return false;
@@ -706,12 +705,9 @@ class eZContentCacheManager
                 $language = false; // Needs to be specified if you want to generate the cache for a specific language
                 $viewMode = 'full';
 
-                $assignedNodes =& $object->assignedNodes();
-                $assignedNodes_keys = array_keys( $assignedNodes );
-                foreach ( $assignedNodes_keys as $key )
+                $assignedNodes = $object->assignedNodes();
+                foreach ( $assignedNodes as $node )
                 {
-                    $node =& $assignedNodes[$key];
-
                     // We want to generate the cache for the specified user
                     $previewCacheUsers = $ini->variable( 'ContentSettings', 'PreviewCacheUsers' );
                     foreach ( $previewCacheUsers as $previewCacheUserID )
@@ -724,7 +720,7 @@ class eZContentCacheManager
                         }
                         else if ( $previewCacheUserID === 'current' )
                         {
-                            $previewCacheUser =& $user;
+                            $previewCacheUser = $user;
                         }
                         else
                         {
