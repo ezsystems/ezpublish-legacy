@@ -272,6 +272,11 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
+        
+        global $eZContentClassAttributeCacheListFull;
+        unset( $eZContentClassAttributeCacheListFull );
+        global $eZContentClassAttributeCache;
+        unset( $eZContentClassAttributeCache[$this->ID] );
 
         $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
 
@@ -293,6 +298,15 @@ class eZContentClassAttribute extends eZPersistentObject
     function storeDefined()
     {
         $dataType = $this->dataType();
+        if ( !$dataType )
+        {
+            return false;
+        }
+        
+        global $eZContentClassAttributeCacheListFull;
+        unset( $eZContentClassAttributeCacheListFull );
+        global $eZContentClassAttributeCache;
+        unset( $eZContentClassAttributeCache[$this->ID] );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -319,6 +333,11 @@ class eZContentClassAttribute extends eZPersistentObject
         $dataType = $this->dataType();
         if ( $dataType->isClassAttributeRemovable( $this ) )
         {
+            global $eZContentClassAttributeCacheListFull;
+            unset( $eZContentClassAttributeCacheListFull );
+            global $eZContentClassAttributeCache;
+            unset( $eZContentClassAttributeCache[$this->ID] );
+            
             $db =& eZDB::instance();
             $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $this->Version );
@@ -349,6 +368,10 @@ class eZContentClassAttribute extends eZPersistentObject
                                                        array( 'id' => $id,
                                                               'version' => $version ),
                                                        $asObject );
+            if ( $field_filters === null and $asObject )
+            {
+                $GLOBALS['eZContentClassAttributeCache'][$id][$version] =& $object;
+            }
         }
         return $object;
     }
@@ -378,17 +401,23 @@ class eZContentClassAttribute extends eZPersistentObject
                 if ( $version !== false )
                     $conditions['version'] = $version;
             }
-            $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+            $objects = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                 null, $conditions, null, null,
                                                                 $asObject );
-            foreach ( array_keys( $objectList ) as $objectKey )
+            if ( $asObject )
             {
-                $objectItem =& $objectList[$objectKey];
-                $objectID = $objectItem->ID;
-                $objectVersion = $objectItem->Version;
-                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                foreach ( array_keys( $objects ) as $objectKey )
+                {
+                    $objectItem =& $objects[$objectKey];
+                    $objectID = $objectItem->ID;
+                    $objectVersion = $objectItem->Version;
+                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                }
+                if (  $dataType === false && $version === false )
+                {
+                    $GLOBALS['eZContentClassAttributeCacheListFull'] =& $objects;
+                }
             }
-            $objects = $objectList;
         }
         return $objects;
     }

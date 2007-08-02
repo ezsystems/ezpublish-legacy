@@ -39,3 +39,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #10835: webdav: section id isn't set properly.
   ( Merged from stable/3.9 (3.9.3) rev. 19573 )
 - Fixed bug #11201: runcronjobs.php --quiet outputs script names - no longer quiet.
+- Fixed bug #011222: Sql tweaks to reduce sql queries number per page.
