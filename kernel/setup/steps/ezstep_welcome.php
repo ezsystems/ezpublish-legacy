@@ -65,7 +65,7 @@ class eZStepWelcome extends eZStepInstaller
         if ( $this->Http->hasPostVariable( 'eZSetupWizardLanguage' ) )
         {
             $wizardLanguage = $this->Http->postVariable( 'eZSetupWizardLanguage' );
-            $this->PersistenceList['wizard_language'] = $wizardLanguage;
+            $this->PersistenceList['setup_wizard'] = array( 'language' => $wizardLanguage );
 
             include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
             eZTranslatorManager::setActiveTranslation( $wizardLanguage );
