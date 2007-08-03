@@ -773,7 +773,7 @@ while ( $moduleRunRequired )
     {
         if ( isset( $moduleResult['rerun_uri'] ) )
         {
-            $uri = & eZURI::instance( $moduleResult['rerun_uri'] );
+            $uri = eZURI::instance( $moduleResult['rerun_uri'] );
             $moduleRunRequired = true;
         }
         else

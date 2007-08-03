@@ -416,11 +416,11 @@ class eZURI
     */
     static function instance( $uri = false )
     {
-        if ( !isset( $GLOBALS['eZURIInstance'] ) )
+        if ( !isset( $GLOBALS['eZURIInstance'][$uri] ) )
         {
-            $GLOBALS['eZURIInstance'] = new eZURI( $uri );
+            $GLOBALS['eZURIInstance'][$uri] = new eZURI( $uri );
         }
-        return $GLOBALS['eZURIInstance'];
+        return $GLOBALS['eZURIInstance'][$uri];
     }
 
     /*!
