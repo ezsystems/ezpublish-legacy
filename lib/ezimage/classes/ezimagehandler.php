@@ -474,7 +474,7 @@ class eZImageHandler
      Converts the source file \a $sourceMimeData to the destination file \a $destinationMimeData.
      If \a $filters is supplied then the filters will be applied to the conversion.
     */
-    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
     }
 
@@ -512,7 +512,7 @@ class eZImageFactory
      Creates a new image handler from the INI group \a $iniGroup and optionally INI file \a $iniFilename.
      \note The default implementation returns \c null.
     */
-    static function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function produceFromINI( $iniGroup, $iniFilename = false )
     {
         $imageHandler = null;
         return $imageHandler;

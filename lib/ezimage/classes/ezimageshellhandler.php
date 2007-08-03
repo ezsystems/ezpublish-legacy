@@ -64,7 +64,7 @@ class eZImageShellHandler extends eZImageHandler
     /*!
      Creates the shell string and runs the executable.
     */
-    function convert( &$manager, $sourceMimeData, &$destinationMimeData, $filters = false )
+    function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
         $debug = eZDebug::instance();
         $argumentList = array();
@@ -146,7 +146,7 @@ class eZImageShellHandler extends eZImageHandler
      The INI settings are read from ini file \a $iniFilename and group \a $iniGroup.
      If \a $iniFilename is not supplied \c image.ini is used.
     */
-    static function &createFromINI( $iniGroup, $iniFilename = false )
+    static function createFromINI( $iniGroup, $iniFilename = false )
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
@@ -306,10 +306,9 @@ class eZImageShellFactory extends eZImageFactory
      \reimp
      Creates eZImageShellHandler objects and returns them.
     */
-    static function &produceFromINI( $iniGroup, $iniFilename = false )
+    static function produceFromINI( $iniGroup, $iniFilename = false )
     {
-        $convertHandler =& eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
-        return $convertHandler;
+        return eZImageShellHandler::createFromINI( $iniGroup, $iniFilename );
     }
 }
 

@@ -111,7 +111,6 @@ class eZImageManager
     */
     function eZImageManager()
     {
-//         $this->MIMEOctet =& $this->createMIMEType( "application/octet-stream", "^.+$", "" );
         $this->SupportedFormats = array();
         $this->SupportedMIMEMap = array();
         $this->ImageHandlers = array();
@@ -163,13 +162,13 @@ class eZImageManager
 
      \note If the handler is not available (isAvailable()) it will not be added.
     */
-    function appendImageHandler( &$handler )
+    function appendImageHandler( $handler )
     {
         if ( !$handler )
             return false;
         if ( !$handler->isAvailable() )
             return false;
-        $this->ImageHandlers[] =& $handler;
+        $this->ImageHandlers[] = $handler;
         $this->ImageFilters = array_merge( $this->ImageFilters, $handler->supportedImageFilters() );
         $this->ImageFilters = array_unique( $this->ImageFilters );
         return true;
@@ -396,7 +395,7 @@ class eZImageManager
                 if ( array_key_exists( 'info', $mimeData ) && is_array( $mimeData['info'] ) )
                 {
                     $isMatch = true;
-                    $info =& $mimeData['info'];
+                    $info = $mimeData['info'];
                     foreach ( $item['match'] as $matchKey => $matchValue )
                     {
                         if ( !isset( $info[$matchKey] ) or
@@ -523,10 +522,10 @@ class eZImageManager
     */
     function appendMIMETypeSetting( $settings )
     {
-        $this->MIMETypeSettings[] =& $settings;
+        $this->MIMETypeSettings[] = $settings;
         if ( !isset( $this->MIMETypeSettingsMap[$settings['mime_type']] ) )
             $this->MIMETypeSettingsMap[$settings['mime_type']] = array();
-        $this->MIMETypeSettingsMap[$settings['mime_type']][] =& $settings;
+        $this->MIMETypeSettingsMap[$settings['mime_type']][] = $settings;
     }
 
     /*!
@@ -693,10 +692,10 @@ class eZImageManager
                 if ( $ini->hasVariable( $handlerName, 'Handler' ) )
                 {
                     $factoryName = $ini->variable( $handlerName, 'Handler' );
-                    $factory =& $this->factoryFor( $factoryName, $iniFile );
+                    $factory = $this->factoryFor( $factoryName, $iniFile );
                     if ( $factory )
                     {
-                        $convertHandler =& $factory->produceFromINI( $handlerName, $iniFile );
+                        $convertHandler = $factory->produceFromINI( $handlerName, $iniFile );
                         $this->appendImageHandler( $convertHandler );
                     }
                 }
@@ -718,7 +717,7 @@ class eZImageManager
      Finds the image handler factory with the name \a $factoryName and returns it.
      \param $iniFile The INI file to read from or if \c false use 'image.ini'
     */
-    function &factoryFor( $factoryName, $iniFile = false )
+    function factoryFor( $factoryName, $iniFile = false )
     {
         $debug = eZDebug::instance();
         if ( !$iniFile )
@@ -748,9 +747,7 @@ class eZImageManager
                 $className = $result['type'] . 'factory';
                 if ( class_exists( $className ) )
                 {
-                    $factory = new $className();
-                    $this->Factories[$factoryName] =& $factory;
-                    return $factory;
+                    return $this->Factories[$factoryName] = new $className();
                 }
                 else
                 {
@@ -764,8 +761,7 @@ class eZImageManager
                                        'eZImageManager::factoryFor' );
             }
         }
-        $retValue = false;
-        return $retValue;
+        return false;
     }
 
     /*!
@@ -1028,7 +1024,7 @@ class eZImageManager
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
         $this->analyzeImage( $sourceMimeData );
         $currentMimeData = $sourceMimeData;
-        $handlers =& $this->ImageHandlers;
+        $handlers = $this->ImageHandlers;
         $supportedMIMEMap = $this->SupportedMIMEMap;
         if ( is_string( $destinationMimeData ) )
         {
@@ -1091,9 +1087,8 @@ class eZImageManager
             else
             {
                 $hasDestination = false;
-                foreach ( array_keys( $handlers ) as $handlerKey )
+                foreach ( $handlers as $handler )
                 {
-                    $handler =& $handlers[$handlerKey];
                     $gotMimeData = true;
                     while( $gotMimeData )
                     {
@@ -1140,23 +1135,22 @@ class eZImageManager
             {
                 $nextMimeData = false;
                 $nextHandler = false;
-                foreach ( array_keys( $handlers ) as $handlerKey )
+                foreach ( $handlers as $handler )
                 {
-                    $handler =& $handlers[$handlerKey];
                     if ( !$handler )
                         continue;
                     $outputMimeData = $handler->outputMIMEType( $this, $currentMimeData, $destinationMimeData, $this->SupportedFormats, $aliasName );
                     if ( $outputMimeData['name'] == $destinationMimeData['name'] )
                     {
                         $nextMimeData = $outputMimeData;
-                        $nextHandler =& $handler;
+                        $nextHandler = $handler;
                         break;
                     }
                     if ( $outputMimeData and
                          !$nextMimeData )
                     {
                         $nextMimeData = $outputMimeData;
-                        $nextHandler =& $handler;
+                        $nextHandler = $handler;
                     }
                 }
                 if ( !$nextMimeData )
@@ -1296,12 +1290,11 @@ class eZImageManager
     */
     static function instance()
     {
-        $instance =& $GLOBALS["eZImageManager"];
-        if ( strtolower( get_class( $instance ) ) != "ezimagemanager" )
+        if ( !isset( $GLOBALS["eZImageManager"] ) )
         {
-            $instance = new eZImageManager();
+            $GLOBALS["eZImageManager"] = new eZImageManager();
         }
-        return $instance;
+        return $GLOBALS["eZImageManager"];
     }
 
     /// \privatesection

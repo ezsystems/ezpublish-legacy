@@ -50,9 +50,9 @@ class eZTranslationCache
      \static
      \return the cache table which has cache keys and cache data.
     */
-    static function &cacheTable()
+    static function cacheTable()
     {
-        $translationCache =& $GLOBALS['eZTranslationCacheTable'];
+        $translationCache = $GLOBALS['eZTranslationCacheTable'];
         if ( !is_array( $translationCache ) )
             $translationCache = array();
         return $translationCache;
@@ -65,22 +65,12 @@ class eZTranslationCache
     */
     static function contextCache( $contextName )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
-        $context = null;
+        $translationCache = eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$contextName] ) )
         {
-            $context =& $translationCache[$contextName]['root'];
-//             $debug = eZDebug::instance();
-//             $debug->writeDebug( "Cache hit for context '$contextName'",
-//                                  'eZTranslationCache::contextCache' );
+            return $translationCache[$contextName]['root'];
         }
-//         else
-//         {
-//             $debug = eZDebug::instance();
-//             $debug->writeDebug( "Cache miss for context '$contextName'",
-//                                  'eZTranslationCache::contextCache' );
-//         }
-        return $context;
+        return null;
     }
 
     /*!
@@ -91,9 +81,10 @@ class eZTranslationCache
     static function setContextCache( $contextName, $context )
     {
         if ( $context === null )
+        {
             return;
-        $translationCache =& eZTranslationCache::cacheTable();
-        if ( isset( $translationCache[$contextName] ) )
+        }
+        if ( isset( $GLOBALS['eZTranslationCacheTable'][$contextName] ) )
         {
             $debug = eZDebug::instance();
             $debug->writeWarning( "Translation cache for context '$contextName' already exists",
@@ -101,10 +92,10 @@ class eZTranslationCache
         }
         else
         {
-            $translationCache[$contextName] = array();
+            $GLOBALS['eZTranslationCacheTable'][$contextName] = array();
         }
-        $translationCache[$contextName]['root'] =& $context;
-        $translationCache[$contextName]['info'] = array( 'context' => $contextName );
+        $GLOBALS['eZTranslationCacheTable'][$contextName]['root'] = $context;
+        $GLOBALS['eZTranslationCacheTable'][$contextName]['info'] = array( 'context' => $contextName );
     }
 
     /*!

@@ -336,16 +336,19 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $cacheMap = $GLOBALS['eZOverrideTemplateCacheMap'][eZSys::ezcrc32( '/' . $path )];
-            if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
+            if( isset( $GLOBALS['eZOverrideTemplateCacheMap'][md5( '/' . $path )] ) )
             {
-                eval( "\$matchFile = " . $cacheMap['code'] . ";" );
+                $cacheMap = $GLOBALS['eZOverrideTemplateCacheMap'][md5( '/' . $path )];
+                if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
+                {
+                    eval( "\$matchFile = " . $cacheMap['code'] . ";" );
+                }
+                else
+                {
+                    $matchFile = $cacheMap;
+                }
+                $match['file'] = $matchFile;
             }
-            else
-            {
-                $matchFile = $cacheMap;
-            }
-            $match['file'] = $matchFile;
         }
         else
         {
@@ -478,7 +481,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $overrideKeys = $this->overrideKeys();
 
-        $overrideKey = eZSys::ezcrc32( implode( ',', $overrideKeys ) . $siteBase . $standardBase );
+        $overrideKey = md5( implode( ',', $overrideKeys ) . $siteBase . $standardBase );
         $cacheDir = eZSys::cacheDirectory();
 
         $overrideCacheFile = $cacheDir.'/override/override_'.$overrideKey.'.php';
@@ -501,7 +504,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             foreach ( array_keys( $matchFileArray ) as $matchKey )
             {
                 $countMatchFiles++;
-                $phpCode .= '\'' . eZSys::ezcrc32( $matchKey ) . '\' => ';
+                $phpCode .= '\'' . md5( $matchKey ) . '\' => ';
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
                     $baseDir = isset( $matchFileArray[$matchKey]['base_dir'] ) ? $matchFileArray[$matchKey]['base_dir'] : '';
