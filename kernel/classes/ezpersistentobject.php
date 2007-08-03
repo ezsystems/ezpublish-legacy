@@ -641,8 +641,8 @@ class eZPersistentObject
                            \c FIELD is an associative array containing:
                            - operation - A text field which is included in the field list
                            - name - If present it adds 'AS name' to the operation.
-     \param $custom_conds Array of ready sql conditions for 'WHERE' clause.
      \param $custom_tables Array of additional tables.
+     \param $custom_conds String with sql conditions for 'WHERE' clause.
 
      A full example:
      \code
