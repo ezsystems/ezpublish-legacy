@@ -237,6 +237,8 @@ class eZContentClassAttribute extends eZPersistentObject
         
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
+        global $eZContentClassAttributeCacheList;
+        unset( $eZContentClassAttributeCacheList[$this->attribute( 'contentclass_id' )] );
         global $eZContentClassAttributeCache;
         unset( $eZContentClassAttributeCache[$this->ID] );
 
@@ -264,6 +266,8 @@ class eZContentClassAttribute extends eZPersistentObject
         
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
+        global $eZContentClassAttributeCacheList;
+        unset( $eZContentClassAttributeCacheList[$this->attribute( 'contentclass_id' )] );
         global $eZContentClassAttributeCache;
         unset( $eZContentClassAttributeCache[$this->ID] );
 
@@ -291,6 +295,8 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             global $eZContentClassAttributeCacheListFull;
             unset( $eZContentClassAttributeCacheListFull );
+            global $eZContentClassAttributeCacheList;
+            unset( $eZContentClassAttributeCacheList[$this->attribute( 'contentclass_id' )] );
             global $eZContentClassAttributeCache;
             unset( $eZContentClassAttributeCache[$this->ID] );
             
@@ -390,18 +396,21 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             $cond = array( 'contentclass_id' => $classID,
                            'version' => $version );
-            $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+            $objects = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                 null, $cond, null, null,
                                                                 $asObject );
-            foreach ( array_keys( $objectList ) as $objectKey )
+            if ( $asObject )
             {
-                $objectItem =& $objectList[$objectKey];
-                $objectID = $objectItem->ID;
-                $objectVersion = $objectItem->Version;
-                if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
-                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                foreach ( array_keys( $objects ) as $objectKey )
+                {
+                    $objectItem =& $objects[$objectKey];
+                    $objectID = $objectItem->ID;
+                    $objectVersion = $objectItem->Version;
+                    if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
+                        $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                }
+                $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version] =& $objects;
             }
-            $objects = $objectList;
         }
         return $objects;
     }
@@ -411,13 +420,16 @@ class eZContentClassAttribute extends eZPersistentObject
         $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                            null, $cond, null, null,
                                                            $asObject );
-        foreach ( array_keys( $objectList ) as $objectKey )
+        if ( $asObject )
         {
-            $objectItem =& $objectList[$objectKey];
-            $objectID = $objectItem->ID;
-            $objectVersion = $objectItem->Version;
-            if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
-                $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+            foreach ( array_keys( $objectList ) as $objectKey )
+            {
+                $objectItem =& $objectList[$objectKey];
+                $objectID = $objectItem->ID;
+                $objectVersion = $objectItem->Version;
+                if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
+                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+            }
         }
         return $objectList;
     }
