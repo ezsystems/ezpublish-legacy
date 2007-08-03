@@ -1932,22 +1932,20 @@ class eZTemplateCompiler
         $rbracket = '}';
         $initText = "if ( !function_exists( 'compiledfetchvariable' ) )
 $lbracket
-    function compiledFetchVariable( &\$vars, \$namespace, \$name )
+    function compiledFetchVariable( \$vars, \$namespace, \$name )
     $lbracket
         \$exists = ( array_key_exists( \$namespace, \$vars ) and
                     array_key_exists( \$name, \$vars[\$namespace] ) );
         if ( \$exists )
         $lbracket
-            \$var = \$vars[\$namespace][\$name];
+            return \$vars[\$namespace][\$name];
         $rbracket
-        else
-            \$var = null;
-        return \$var;
+        return null;
     $rbracket
 $rbracket
 if ( !function_exists( 'compiledfetchtext' ) )
 $lbracket
-    function compiledFetchText( &\$tpl, \$rootNamespace, \$currentNamespace, \$namespace, &\$var )
+    function compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$var )
     $lbracket
         \$text = '';
         \$tpl->appendElement( \$text, \$var, \$rootNamespace, \$currentNamespace );
@@ -1957,7 +1955,7 @@ $rbracket
 if ( !function_exists( 'compiledAcquireResource' ) )
 $lbracket
     function compiledAcquireResource( \$phpScript, \$key, &\$originalText,
-                                      &\$tpl, \$rootNamespace, \$currentNamespace )
+                                      \$tpl, \$rootNamespace, \$currentNamespace )
     {
         include( '" . eZTemplateCompiler::TemplatePrefix() . "' . \$phpScript );
         if ( isset( \$text ) )
@@ -1970,7 +1968,7 @@ $lbracket
 $rbracket
 if ( !function_exists( 'compiledfetchattribute' ) )
 $lbracket
-    function compiledFetchAttribute( &\$value, \$attributeValue )
+    function compiledFetchAttribute( \$value, \$attributeValue )
     $lbracket
         if ( is_object( \$value ) )
         $lbracket
@@ -1979,9 +1977,7 @@ $lbracket
             $lbracket
                 if ( \$value->hasAttribute( \$attributeValue ) )
                 $lbracket
-                    unset( \$tempValue );
-                    \$tempValue = \$value->attribute( \$attributeValue );
-                    return \$tempValue;
+                    return \$value->attribute( \$attributeValue );
                 $rbracket
             $rbracket
         $rbracket
@@ -1989,9 +1985,7 @@ $lbracket
         $lbracket
             if ( isset( \$value[\$attributeValue] ) )
             $lbracket
-                unset( \$tempValue );
-                \$tempValue = \$value[\$attributeValue];
-                return \$tempValue;
+                return \$value[\$attributeValue];
             $rbracket
         $rbracket
         return null;
