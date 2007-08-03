@@ -52,10 +52,11 @@ class eZTranslationCache
     */
     static function cacheTable()
     {
-        $translationCache = $GLOBALS['eZTranslationCacheTable'];
-        if ( !is_array( $translationCache ) )
-            $translationCache = array();
-        return $translationCache;
+        if ( !isset( $GLOBALS['eZTranslationCacheTable'] ) )
+        {
+            $GLOBALS['eZTranslationCacheTable'] = array();
+        }
+        return $GLOBALS['eZTranslationCacheTable'];
     }
 
     /*!
@@ -141,7 +142,7 @@ class eZTranslationCache
     */
     static function canRestoreCache( $key, $timestamp )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache = eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$key] ) )
         {
             return false;
@@ -164,7 +165,7 @@ class eZTranslationCache
     */
     static function restoreCache( $key )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache = eZTranslationCache::cacheTable();
         if ( isset( $translationCache[$key] ) )
         {
             $debug = eZDebug::instance();
@@ -184,9 +185,7 @@ class eZTranslationCache
                                            'cache-date' => 'eZTranslationCacheCodeDate' ) );
         if ( $variables['cache-date'] != EZ_TRANSLATION_CACHE_CODE_DATE )
             return false;
-        $cache =& $translationCache[$key];
-        $cache['root'] =& $variables['root'];
-        $cache['info'] =& $variables['info'];
+        eZTranslationCache::setContextCache( $key, $variables['root'] );
         return true;
     }
 
