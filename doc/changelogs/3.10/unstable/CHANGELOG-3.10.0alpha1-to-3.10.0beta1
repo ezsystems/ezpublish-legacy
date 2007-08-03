@@ -42,3 +42,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #011222: Sql tweaks to reduce sql queries number per page.
 - Fixed bug #011110: class_identifier preloading.
 - Fixed bug #010954: SectionObject and ClassObject Cache.
+- Fixed bug #011216: eZPersistentObject custom_conds is not an array (rev. 19601)
