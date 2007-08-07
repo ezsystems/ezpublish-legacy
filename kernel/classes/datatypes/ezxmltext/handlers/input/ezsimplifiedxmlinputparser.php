@@ -785,14 +785,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $urlID = $this->convertHrefToID( $url );
                     if ( $urlID )
                     {
-                        if ( $this->eZPublishVersion >= 3.6 )
-                        {
-                            $urlIDAttributeName = 'url_id';
-                        }
-                        else
-                        {
-                            $urlIDAttributeName = 'id';
-                        }
+                        $urlIDAttributeName = 'url_id';
+
                         $element->setAttribute( $urlIDAttributeName, $urlID );
                     }
                 }
