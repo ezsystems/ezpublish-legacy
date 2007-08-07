@@ -474,9 +474,9 @@ function updateINI()
 
     $siteaccessList = getUserInput( "Please specify the eZ webin siteaccesses on your site (separated with space, for example eng nor): ");
     $siteaccessList = explode( ' ', $siteaccessList );
-    
+
     $ezWebinSiteacceses = siteAccessMap( $siteaccessList );
-    
+
     $parameters = array();
 
     $extraSettings = array();
@@ -489,19 +489,18 @@ function updateINI()
 
     $extraCommonSettings = array();
     $extraCommonSettings[] = eZCommonContentINISettings( $parameters );
-    
+
     //The following INI-files should be modified instead of being replaced
     $modifiableINIFiles = array();
     $modifiableINIFiles[] = 'design.ini';
-    
-    
+
     foreach ( $ezWebinSiteacceses as $sa )
     {
         if( $sa and is_array( $sa ) )
         {
             $saName = key($sa);
             $saPath = current($sa);
-            
+
             // NOTE: it's copy/paste from ezstep_create_sites.php
             foreach ( $extraSettings as $extraSetting )
             {
@@ -513,7 +512,7 @@ function updateINI()
                 $resetArray = false;
                 if ( isset( $extraSetting['reset_arrays'] ) )
                     $resetArray = $extraSetting['reset_arrays'];
-                
+
                 if ( in_array( $iniName, $modifiableINIFiles ) )
                 {
                     //Certain INI files we don't want to replace fully, for instance design.ini can have other values for sitestyles.
@@ -584,7 +583,7 @@ function siteAccessMap( $siteAccessNameArray )
         return false;
     }
 }
- 
+
 function checkSiteaccess( $siteAccess, $returnPathMap = false )
 {
     include_once( 'lib/ezutils/classes/ezextension.php' );
@@ -592,11 +591,11 @@ function checkSiteaccess( $siteAccess, $returnPathMap = false )
     $extensionNameArray = eZExtension::activeExtensions();
     $siteAccessPath = '/settings/siteaccess/';
     $siteAccessExists = false;
-    
+
     $path = 'settings/siteaccess/' . $siteAccess;
 
     $siteAccessExists = file_exists( $path );
-    
+
     if ( $siteAccessExists )
     {
         $ret = $returnPathMap ? array( $siteAccess => $path ) : true;
