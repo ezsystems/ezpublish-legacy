@@ -915,23 +915,33 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         else
         {
-            if ( isset( $this ) )
+            eZDebug::writeDebug( $this->Version );
+            eZDebug::writeDebug( $this->ID );
+            eZDebug::writeDebug( strtolower( get_class( $this ) ) );
+            if ( $version === false )
             {
-                $contentClass =& $this;
-                $contentClassID = $this->ID;
+               if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcontentclass' )
+               {
+                   $version = $this->Version;
+               }
+               else
+                   return;
             }
-            else if ( $contentClassID !== false  )
+            if ( $contentClassID === false )
             {
-                $contentClass = ( $version === false ) ?
-                    $contentClass = eZContentClass::fetch( $contentClassID, true ) :
-                    $contentClass = eZContentClass::fetch( $contentClassID, true, $version );
-                if ( !is_object( $contentClass ) )
-                    return;
+               if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcontentclass' )
+               {
+                   $contentClassID = $this->ID;
+               }
+               else
+                   return;
             }
-            else
-                return;
 
-            $version = $contentClass->Version;
+            $contentClass = eZContentClass::fetch( $contentClassID, true, $version );
+            eZDebug::writeDebug( $contentClass );
+            if ( !is_object( $contentClass ) )
+               return;
+
             $classAttributes =& $contentClass->fetchAttributes( );
 
             $db =& eZDB::instance();
