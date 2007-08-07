@@ -367,7 +367,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
-        $rows =& $element->childNodes;
+        $rows = $element->childNodes;
         $rowCount = $rows->length;
         $rowCount--;
         $lastRow = $element->lastChild;
