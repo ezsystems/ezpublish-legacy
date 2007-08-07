@@ -221,8 +221,6 @@ class eZXMLOutputHandler
         $output = $this->outputTag( $this->Document->documentElement, $params );
         $this->Output = $output[1];
 
-        $this->Document->cleanup();
-
         unset( $this->Document );
         unset( $this->XMLData );
 
@@ -341,37 +339,41 @@ class eZXMLOutputHandler
         }
 
         // Prepare attributes array
-        $attributeNodes = $element->attributes;
         $attributes = array();
-        foreach ( $attributeNodes as $attrNode )
+        if ( $element->hasAttributes() )
         {
-            if ( $attrNode->prefix && $attrNode->prefix != 'custom' )
-            {
-                $attrName = $attrNode->prefix . ':' . $attrNode->localName;
-            }
-            else
-            {
-                $attrName = $attrNode->nodeName;
-            }
+            $attributeNodes = $element->attributes;
 
-            // classes check
-            if ( $attrName == 'class' )
+            foreach ( $attributeNodes as $attrNode )
             {
-                $classesList = $this->XMLSchema->getClassesList( $tagName );
-                if ( !in_array( $attrNode->value, $classesList ) )
+                if ( $attrNode->prefix && $attrNode->prefix != 'custom' )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Using tag '$tagName' with class '$attrNode->value' is not allowed.", 'XML output handler' );
-                    return array( true, '' );
+                    $attrName = $attrNode->prefix . ':' . $attrNode->localName;
                 }
-            }
+                else
+                {
+                    $attrName = $attrNode->nodeName;
+                }
 
-            $attributes[$attrName] = $attrNode->value;
+                // classes check
+                if ( $attrName == 'class' )
+                {
+                    $classesList = $this->XMLSchema->getClassesList( $tagName );
+                    if ( !in_array( $attrNode->value, $classesList ) )
+                    {
+                        $debug = eZDebug::instance();
+                        $debug->writeWarning( "Using tag '$tagName' with class '$attrNode->value' is not allowed.", 'XML output handler' );
+                        return array( true, '' );
+                    }
+                }
+
+                $attributes[$attrName] = $attrNode->value;
+            }
         }
 
         // Set default attribute values if not present in the input
         $attrDefaults = $this->XMLSchema->attrDefaultValues( $tagName );
-        foreach( $attrDefaults as $name=>$value )
+        foreach ( $attrDefaults as $name=>$value )
         {
             if ( !isset( $attributes[$name] ) )
             {

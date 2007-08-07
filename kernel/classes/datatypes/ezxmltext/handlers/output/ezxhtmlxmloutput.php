@@ -367,12 +367,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
-        $rows =& $element->children();
-        $rowCount = count( $rows );
+        $rows =& $element->childNodes;
+        $rowCount = $rows->length;
         $rowCount--;
-        $lastRow =& $element->lastChild();
-        $cols =& $lastRow->children();
-        $colCount = count( $cols );
+        $lastRow = $element->lastChild;
+        $cols = $lastRow->childNodes;
+        $colCount = $cols->length;
         if ( $colCount )
             $colCount--;
 
@@ -392,8 +392,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $parentParams['table_row_count'] = $sibilingParams['table_row_count'];
 
         // Number of cols is lower by 1 for back-compatibility.
-        $cols =& $element->children();
-        $colCount = count( $cols );
+        $cols =& $element->childNodes;
+        $colCount = $cols->length;
         if ( $colCount )
             $colCount--;
 
@@ -425,10 +425,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     function renderParagraph( &$element, $childrenOutput, $vars )
     {
         // don't render if inside 'li' or inside 'td' (by option)
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
 
-        if ( ( $parent->nodeName == 'li' && count( $parent->Children ) == 1 ) ||
-             ( $parent->nodeName == 'td' && count( $parent->Children ) == 1 && !$this->RenderParagraphInTableCells ) )
+        if ( ( $parent->nodeName == 'li' && $parent->childNodes->length == 1 ) ||
+             ( $parent->nodeName == 'td' && $parent->childNodes->length == 1 && !$this->RenderParagraphInTableCells ) )
         {
             return $childrenOutput;
         }
@@ -553,7 +553,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {
-            $text = htmlspecialchars( $element->Content );
+            $text = htmlspecialchars( $element->textContent );
             // Get rid of linebreak and spaces stored in xml file
             $text = preg_replace( "#[\n]+#", "", $text );
 
@@ -567,7 +567,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         }
         else
         {
-            $text = $element->Content;
+            $text = $element->textContent;
         }
 
         return array( true, $text );
