@@ -39,9 +39,10 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #10835: webdav: section id isn't set properly.
   ( Merged from stable/3.9 (3.9.3) rev. 19573 )
 - Fixed bug #11201: runcronjobs.php --quiet outputs script names - no longer quiet.
-- Fixed bug #011222: Sql tweaks to reduce sql queries number per page.
-- Fixed bug #011110: class_identifier preloading.
-- Fixed bug #010954: SectionObject and ClassObject Cache.
-- Fixed bug #011216: eZPersistentObject custom_conds is not an array (rev. 19601)
-- Fixed bug #011189: content class: attributes can't be deleted
+- Fixed bug #11222: Sql tweaks to reduce sql queries number per page.
+- Fixed bug #11110: class_identifier preloading.
+- Fixed bug #10954: SectionObject and ClassObject Cache.
+- Fixed bug #11216: eZPersistentObject custom_conds is not an array (rev. 19601)
+- Fixed bug #11189: content class: attributes can't be deleted
 - Fixed bug #11098: content class import wizard does not show class name.
+- Fixed bug #11203: eztc.php doesn't compile siteaccess in extension.
