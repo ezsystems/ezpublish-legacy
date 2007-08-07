@@ -1001,7 +1001,8 @@ foreach ( $commandList as $commandItem )
                                         'design_map' => array( '*' => $siteaccess ),
                                         'restore_dates' => true,
                                         'user_id' => $user->attribute( 'contentobject_id' ),
-                                        'non-interactive' => true );
+                                        'non-interactive' => true,
+                                        'language_map' => $package->defaultLanguageMap() );
             $result = $package->install( $installParameters );
             if ( $result )
                 $cli->notice( "Package " . $cli->stylize( 'emphasize', $package->attribute( 'name' ) ) . " sucessfully installed" );

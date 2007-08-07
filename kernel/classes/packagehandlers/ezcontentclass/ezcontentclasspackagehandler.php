@@ -80,20 +80,27 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $dom =& $package->fetchDOMFromFile( $filepath );
             if ( $dom )
             {
+                $languageInfo = array();
+
                 $content =& $dom->root();
-                $className = $content->elementTextContentByName( 'name' );
                 $classIdentifier = $content->elementTextContentByName( 'identifier' );
 
-                // get info about translations.
-                $languageInfo = array();
-                $serializedNameList = $content->elementTextContentByName( 'serialized-name-list' );
-                if( $serializedNameList )
+                // BC ( <= 3.8 )
+                $className = $content->elementTextContentByName( 'name' );
+
+                if( !$className )
                 {
-                    $nameList = new eZContentClassNameList( $serializedNameList );
-                    $languageInfo = $nameList->languageLocaleList();
+                    // get info about translations.
+                    $serializedNameList = $content->elementTextContentByName( 'serialized-name-list' );
+                    if( $serializedNameList )
+                    {
+                        $nameList = new eZContentClassNameList( $serializedNameList );
+                        $languageInfo = $nameList->languageLocaleList();
+                        $className = $nameList->name();
+                    }
                 }
 
-                $explainInfo = array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,
+                $explainInfo = array( 'description' => ezi18n( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
                                                        array( '%classname' => $className,
                                                               '%classidentifier' => $classIdentifier ) ),
                                       'language_info' => $languageInfo );

@@ -44,3 +44,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #010954: SectionObject and ClassObject Cache.
 - Fixed bug #011216: eZPersistentObject custom_conds is not an array (rev. 19601)
 - Fixed bug #011189: content class: attributes can't be deleted
+- Fixed bug #11098: content class import wizard does not show class name.

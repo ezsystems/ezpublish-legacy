@@ -135,6 +135,8 @@ elseif ( !$persistentData['doItemInstall'] )
 
 if ( $persistentData['doItemInstall'] )
 {
+    $persistentData['language_map'] = $package->defaultLanguageMap();
+
     while( $currentItem < count( $installItemArray ) )
     {
         $installItem = $installItemArray[$currentItem];
