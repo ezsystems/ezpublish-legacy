@@ -1048,10 +1048,10 @@ class eZXMLInputParser
             $allowed = false;
             $removeAttr = false;
 
-            $fullName = $attr->prefix ? $attr->prefix . ':' . $attr->nodeName : $attr->nodeName;
+            $fullName = $attr->prefix ? $attr->prefix . ':' . $attr->localName : $attr->nodeName;
 
             // check for allowed custom attributes (3.9)
-            if ( $attr->prefix == 'custom' && in_array( $attr->nodeName, $schemaCustomAttributes ) )
+            if ( $attr->prefix == 'custom' && in_array( $attr->localName, $schemaCustomAttributes ) )
             {
                 $allowed = true;
             }
