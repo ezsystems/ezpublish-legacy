@@ -38,9 +38,6 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( "lib/ezxml/classes/ezdomnode.php" );
-include_once( "lib/ezxml/classes/ezdomdocument.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
 
 class eZXMLInputHandler
@@ -113,7 +110,8 @@ class eZXMLInputHandler
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
                 return null;
             }break;
         }
@@ -127,7 +125,9 @@ class eZXMLInputHandler
         $name = 'ezxmltext';
         $suffix = $this->editTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
+        {
             $name .= '_' . $suffix;
+        }
         return $name;
     }
 
@@ -139,7 +139,9 @@ class eZXMLInputHandler
         $name = 'ezxmltext';
         $suffix = $this->informationTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
+        {
             $name .= '_' . $suffix;
+        }
         return $name;
     }
 

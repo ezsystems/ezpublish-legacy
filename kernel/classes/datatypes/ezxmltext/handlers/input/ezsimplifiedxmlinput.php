@@ -38,31 +38,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 {
     function eZSimplifiedXMLInput( &$xmlData, $aliasedType, $contentObjectAttribute )
     {
-        // Initialize size array for image.
-        /*$imageIni = eZINI::instance( 'image.ini' );
-        if ( $imageIni->hasVariable( 'AliasSettings', 'AliasList' ) )
-        {
-            $sizeArray = $imageIni->variable( 'AliasSettings', 'AliasList' );
-            $sizeArray[] = 'original';
-        }
-        else
-            $sizeArray = array( 'original' );
-        */
-
         $this->eZXMLInputHandler( $xmlData, $aliasedType, $contentObjectAttribute );
 
         $this->IsInputValid = true;
         $this->ContentObjectAttribute = $contentObjectAttribute;
 
         $contentIni = eZINI::instance( 'content.ini' );
-
-        /*
-        if ( $contentIni->hasVariable( 'header', 'UseStrictHeaderRule' ) )
-        {
-            if ( $contentIni->variable( 'header', 'UseStrictHeaderRule' ) == "true" )
-                $this->IsStrictHeader = true;
-        }
-        */
     }
 
     /*!
@@ -70,7 +51,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
     {
-        $objectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $objectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $objectAttributeVersion = $contentObjectAttribute->attribute('version');
 
         foreach( $urlIDArray as $urlID )
@@ -90,19 +71,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     */
     function validateInput( $http, $base, $contentObjectAttribute )
     {
-        $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute('version');
-        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttributeID ) )
+        if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttributeID ) )
         {
-            $data = $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
+            $data = $http->postVariable( $base . '_data_text_' . $contentObjectAttributeID );
 
             // Set original input to a global variable
-            $originalInput = "originalInput_" . $contentObjectAttributeID;
+            $originalInput = 'originalInput_' . $contentObjectAttributeID;
             $GLOBALS[$originalInput] = $data;
 
             // Set input valid true to a global variable
-            $isInputValid = "isInputValid_" . $contentObjectAttributeID;
+            $isInputValid = 'isInputValid_' . $contentObjectAttributeID;
             $GLOBALS[$isInputValid] = true;
 
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
@@ -114,6 +95,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             // first empty paragraph
             $text = preg_replace('/^\n/', '<p></p>', $text );
+
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $text, 'eZSimplifiedXMLInput::validateInput text' );
 
             $parser = new eZSimplifiedXMLInputParser( $contentObjectID, true, EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS, true );
             $document = $parser->process( $text );
@@ -127,10 +110,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }
 
             $classAttribute = $contentObjectAttribute->contentClassAttribute();
-            if ( $classAttribute->attribute( "is_required" ) == true )
+            if ( $classAttribute->attribute( 'is_required' ) == true )
             {
-                $root =& $document->Root;
-                if ( !count( $root->Children ) )
+                $root = $document->documentElement;
+                if ( !$root->hasChildNodes() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Content required' ) );
@@ -140,7 +123,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $contentObjectAttribute->setValidationLog( $parser->getMessages() );
 
             $xmlString = eZXMLTextType::domString( $document );
-            //eZDebug::writeDebug( $xmlString, '$xmlString' );
 
             $urlIDArray = $parser->getUrlIDArray();
 
@@ -153,7 +135,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $contentObject->appendInputRelationList( $parser->getRelatedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_EMBED );
             $contentObject->appendInputRelationList( $parser->getLinkedObjectIDArray(), EZ_CONTENT_OBJECT_RELATION_LINK );
 
-            $contentObjectAttribute->setAttribute( "data_text", $xmlString );
+            $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -168,8 +150,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $contentObjectAttribute = $this->ContentObjectAttribute;
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
 
-        $originalInput = "originalInput_" . $contentObjectAttributeID;
-        $isInputValid = "isInputValid_" . $contentObjectAttributeID;
+        $originalInput = 'originalInput_' . $contentObjectAttributeID;
+        $isInputValid = 'isInputValid_' . $contentObjectAttributeID;
 
         if ( isset( $GLOBALS[$isInputValid] ) and $GLOBALS[$isInputValid] == false )
         {
@@ -177,25 +159,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         else
         {
-            $xml = new eZXML();
-            $dom = $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'TrimWhiteSpace' => false, 'SetParentNode' => true ) );
+            $dom = new DOMDocument();
+            $success = $dom->loadXML( $this->XMLData );
 
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 
             $editOutput = new eZSimplifiedXMLEditOutput();
+            $dom->formatOutput = true;
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $dom->saveXML(), 'eZSimplifiedXMLInput::inputXML xml string stored in database' );
             $output = $editOutput->performOutput( $dom );
-
-            if ( $dom )
-                $dom->cleanup();
-            //eZDebug::writeDebug( $output, '$output' );
         }
         return $output;
     }
 
-    //public $ContentObjectAttribute;
-
     public $IsInputValid;
-
-    //public $IsStrictHeader = false;
 }
+
 ?>

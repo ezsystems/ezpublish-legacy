@@ -26,9 +26,6 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
-
-include_once( "lib/ezxml/classes/ezxml.php" );
-
 class eZXMLSchema
 {
     public $Schema = array(
@@ -280,8 +277,8 @@ class eZXMLSchema
     /*!
        Checks if one element is allowed to be a child of another
 
-       \param $parent   parent element: eZDOMNode or string
-       \param $child    child element: eZDOMNode or string
+       \param $parent   parent element: DOMNode or string
+       \param $child    child element: DOMNode or string
 
        \return true  if elements match schema
        \return false if elements don't match schema

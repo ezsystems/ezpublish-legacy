@@ -70,7 +70,7 @@ class eZXMLText
             {
                 if ( $this->XMLInputHandler === null )
                 {
-                    $this->XMLInputHandler =& $this->inputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
+                    $this->XMLInputHandler = $this->inputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLInputHandler;
             }break;
@@ -79,7 +79,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
+                    $this->XMLOutputHandler = $this->outputHandler( $this->XMLData, false, true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -88,7 +88,7 @@ class eZXMLText
             {
                 if ( $this->XMLOutputHandler === null )
                 {
-                    $this->XMLOutputHandler =& $this->outputHandler( $this->XMLData, 'ezpdf', true, $this->ContentObjectAttribute );
+                    $this->XMLOutputHandler = $this->outputHandler( $this->XMLData, 'ezpdf', true, $this->ContentObjectAttribute );
                 }
                 return $this->XMLOutputHandler;
             }break;
@@ -101,19 +101,15 @@ class eZXMLText
             case 'is_empty' :
             {
                 $isEmpty = true;
-                $xml = new eZXML();
-                $dom = $xml->domTree( $this->XMLData, array(), true );
-                if ( $dom )
+                $dom = new DOMDocument();
+                $success = $dom->loadXML( $this->XMLData );
+                if ( $success )
                 {
-                    $node = $dom->get_elements_by_tagname( "section" );
+                    $sectionNode = $dom->documentElement;
 
-                    $sectionNode = $node[0];
-                    if ( ( strtolower( get_class( $sectionNode ) ) == "ezdomnode" ) or
-                         ( strtolower( get_class( $sectionNode ) ) == "domelement" ) )
+                    if ( $sectionNode->childNodes->length > 0 )
                     {
-                        $children = $sectionNode->children();
-                        if ( count( $children ) > 0 )
-                            $isEmpty = false;
+                        $isEmpty = false;
                     }
                 }
                 return $isEmpty;
@@ -129,7 +125,7 @@ class eZXMLText
     }
 
     /// \static
-    function &inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
+    static function inputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $inputDefinition = array( 'ini-name' => 'ezxml.ini',
                                   'repository-group' => 'HandlerSettings',
@@ -149,7 +145,7 @@ class eZXMLText
             $inputDefinition['alias-group'] = 'InputSettings';
             $inputDefinition['alias-variable'] = 'Alias';
         }
-        $inputHandler =& eZXMLText::fetchHandler( $inputDefinition,
+        $inputHandler = eZXMLText::fetchHandler( $inputDefinition,
                                                   'XMLInput',
                                                   $xmlData,
                                                   $contentObjectAttribute );
@@ -162,7 +158,7 @@ class eZXMLText
     }
 
     /// \static
-    function &outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
+    static function outputHandler( &$xmlData, $type = false, $useAlias = true, $contentObjectAttribute = false )
     {
         $outputDefinition = array( 'ini-name' => 'ezxml.ini',
                                    'repository-group' => 'HandlerSettings',
@@ -195,7 +191,7 @@ class eZXMLText
     }
 
     /// \static
-    function &fetchHandler( $definition, $classSuffix, &$xmlData, $contentObjectAttribute )
+    static function fetchHandler( $definition, $classSuffix, &$xmlData, $contentObjectAttribute )
     {
         $handler = null;
         if ( eZExtension::findExtensionType( $definition,

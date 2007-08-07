@@ -28,7 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
 //
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 if ( !class_exists( 'eZXMLSchema' ) )
     include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
@@ -92,7 +91,7 @@ class eZSimplifiedXMLEditOutput
 
     // Call this function to obtain edit output string
 
-    function performOutput( &$dom )
+    function performOutput( $dom )
     {
         $this->XMLSchema = eZXMLSchema::instance();
         $this->NestingLevel = 0;
@@ -101,36 +100,49 @@ class eZSimplifiedXMLEditOutput
 
         $this->createLinksArray( $dom );
 
-        if ( is_object( $dom->Root ) )
-            $this->outputTag( $dom->Root, $sectionLevel );
+        $this->outputTag( $dom->documentElement, $sectionLevel );
 
         return $this->Output;
     }
 
-    function outputTag( &$element, $sectionLevel )
+    function outputTag( $element, $sectionLevel )
     {
         $tagName = $element->nodeName;
         if ( isset( $this->OutputTags[$tagName] ) )
         {
-            $currentTag =& $this->OutputTags[$tagName];
+            $currentTag = $this->OutputTags[$tagName];
 
             if ( isset( $currentTag['attributes'] ) )
                 $attributeRules = $currentTag['attributes'];
         }
         else
+        {
             $currentTag = null;
+        }
+
+        //eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'outputting tag ' . $element->nodeName );
 
         // Prepare attributes array
-        $attributeNodes = $element->attributes();
-        $attributes = array();
-        foreach( $attributeNodes as $attrNode )
-        {
-            if ( $attrNode->Prefix && $attrNode->Prefix != 'custom' )
-                $attrName = $attrNode->Prefix . ':' . $attrNode->LocalName;
-            else
-                $attrName = $attrNode->nodeName;
 
-            $attributes[$attrName] = $attrNode->value;
+        $attributes = array();
+
+        if ( $element->hasAttributes() )
+        {
+            $attributeNodes = $element->attributes;
+
+            foreach ( $attributeNodes as $attrNode )
+            {
+                if ( $attrNode->prefix && $attrNode->prefix != 'custom' )
+                {
+                    $attrName = $attrNode->prefix . ':' . $attrNode->localName;
+                }
+                else
+                {
+                    $attrName = $attrNode->nodeName;
+                }
+
+                $attributes[$attrName] = $attrNode->value;
+            }
         }
 
         // Call tag handler
@@ -142,14 +154,16 @@ class eZSimplifiedXMLEditOutput
 
         $hasChildren = $element->hasChildNodes();
         $isInline = $this->XMLSchema->isInline( $element );
+        //eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $isInline ? 'yes' : 'no', 'is inline element?' );
         $isSingle = isset( $currentTag['isSingle'] ) && $currentTag['isSingle'];
+        //eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $isSingle ? 'yes' : 'no', 'is single element?' );
 
         // If output was not set by handler, do a normal tag output
         if ( !is_string( $result ) )
         {
             // Convert (if needed) and output attributes
             $attrString = '';
-            foreach( array_keys( $attributes ) as $name )
+            foreach ( array_keys( $attributes ) as $name )
             {
                 $value = $attributes[$name];
                 if ( isset( $attributeRules ) && isset( $attributeRules[$name] ) )
@@ -165,23 +179,27 @@ class eZSimplifiedXMLEditOutput
             $this->formatBeforeOpeningTag( $element, $isInline, $hasChildren );
 
             //Output opening tag
-            if ( $isSingle )
-                $closing = ' />';
-            else
-                $closing = '>';
+            $closing = $isSingle ? ' />' : '>';
+
             $this->Output .= '<' . $tagName . $attrString . $closing;
 
             if ( !$isSingle )
+            {
                 $this->formatAfterOpeningTag( $element, $isInline, $hasChildren );
+            }
 
             $this->NestingLevel++;
+
+            //eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Output, 'output so far' );
         }
 
-        // Process children
-        foreach( array_keys( $element->Children ) as $key )
+        if ( $element->hasChildNodes() )
         {
-            $child =& $element->Children[$key];
-            $this->outputTag( $child, $sectionLevel );
+            // Process children
+            foreach ( $element->childNodes as $child )
+            {
+                $this->outputTag( $child, $sectionLevel );
+            }
         }
 
         if ( is_string( $result ) )
@@ -232,7 +250,9 @@ class eZSimplifiedXMLEditOutput
                 $firstChild = $firstChild->firstChild;
             }
             if ( $firstChild && !$this->XMLSchema->isInline( $firstChild ) )
+            {
                 $this->Output .= "\n";
+            }
         }
     }
 
@@ -267,23 +287,23 @@ class eZSimplifiedXMLEditOutput
     {
         if ( !$isInline )
         {
-            $next =& $element->nextSibling();
+            $next = $element->nextSibling;
             if ( $next )
             {
                 $this->Output .= "\n";
             }
             else
             {
-                $parent =& $element->parentNode;
+                $parent = $element->parentNode;
                 while( $parent && $parent->nodeName == 'section' )
                 {
-                    $next =& $parent->nextSibling();
+                    $next = $parent->nextSibling;
                     if ( $next )
                     {
                         $this->Output .= "\n";
                         break;
                     }
-                    $parent =& $parent->parentNode;
+                    $parent = $parent->parentNode;
                 }
             }
         }
@@ -296,9 +316,14 @@ class eZSimplifiedXMLEditOutput
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
+            {
                 eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $params, $sectionLevel );' );
+            }
             else
-                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+            }
         }
         return $result;
     }
@@ -316,7 +341,7 @@ class eZSimplifiedXMLEditOutput
 
     function &outputText( &$element, &$attributes, &$sectionLevel )
     {
-        $text = $element->content();
+        $text = $element->textContent;
 
         if ( $element->parentNode->nodeName == 'literal' )
         {
@@ -331,10 +356,10 @@ class eZSimplifiedXMLEditOutput
             $text = str_replace("&gt;", ">", $text );
             $text = str_replace("&apos;", "'", $text );
             $text = str_replace("&quot;", '"', $text );
-    
+
             // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag )
             $text = preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $text );
-    
+
             $text = preg_replace( "#[\n]+#", "", $text );
         }
         return $text;
@@ -361,7 +386,7 @@ class eZSimplifiedXMLEditOutput
         $ret = null;
         if ( count( $attributes ) == 0 )
         {
-            $next =& $element->nextSibling();
+            $next = $element->nextSibling;
             if ( $next )
             {
                 $ret = "\n\n";
@@ -369,16 +394,16 @@ class eZSimplifiedXMLEditOutput
             else
             {
                 $ret = "";
-                $parent =& $element->parentNode;
+                $parent = $element->parentNode;
                 while( $parent && $parent->nodeName == 'section' )
                 {
-                    $next =& $parent->nextSibling();
+                    $next = $parent->nextSibling;
                     if ( $next )
                     {
                         $ret = "\n\n";
                         break;
                     }
-                    $parent =& $parent->parentNode;
+                    $parent = $parent->parentNode;
                 }
             }
         }
@@ -388,7 +413,7 @@ class eZSimplifiedXMLEditOutput
     function &outputLine( &$element, &$attributes, &$sectionLevel )
     {
         $ret = '';
-        $next =& $element->nextSibling();
+        $next = $element->nextSibling;
         if ( is_object( $next ) )
         {
             $ret = "\n";
@@ -409,16 +434,7 @@ class eZSimplifiedXMLEditOutput
         }
         elseif ( $nodeID )
         {
-            if ( $showPath == 'true' )
-            {
-                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false);
-                if ( $node )
-                    $href = 'eznode://' . $node['path_identification_string'];
-                else
-                    $href = 'eznode://' . $nodeID;
-            }
-            else
-                $href = 'eznode://' . $nodeID;
+            $href = eZSimplifiedXMLEditOutput::eznodeHref( $nodeID, $showPath );
         }
         $attributes['href'] = $href;
         return $ret;
@@ -439,7 +455,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputLink( &$element, &$attributes, &$sectionLevel )
+    function &outputLink( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $href = '';
@@ -449,24 +465,15 @@ class eZSimplifiedXMLEditOutput
         $anchorName = isset( $attributes['anchor_name'] ) ? $attributes['anchor_name'] : null;
         $showPath = isset( $attributes['show_path'] ) ? $attributes['show_path'] : null;
 
-        if ( $objectID != null )
+        if ( $objectID )
         {
             $href = 'ezobject://' .$objectID;
         }
-        elseif ( $nodeID != null )
+        elseif ( $nodeID )
         {
-            if ( $showPath == 'true' )
-            {
-                $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                if ( $node )
-                    $href = 'eznode://' . $node['path_identification_string'];
-                else
-                    $href = 'eznode://' . $nodeID;
-            }
-            else
-                $href = 'eznode://' . $nodeID;
+            $href = eZSimplifiedXMLEditOutput::eznodeHref( $nodeID, $showPath );
         }
-        elseif ( $linkID != null )
+        elseif ( $linkID )
         {
             // Fetch URL from cached array
             $href = $this->LinkArray[$linkID];
@@ -485,42 +492,62 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    // Helper function to prepare links array
+    /*!
+      Helper function to generate the href attribute value for the eznode:// protocol
+     */
+    static function eznodeHref( $nodeID, $showPath )
+    {
+        if ( $showPath == 'true' )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+            $href = $node ? 'eznode://' . $node['path_identification_string'] : 'eznode://' . $nodeID;
+        }
+        else
+        {
+            $href = 'eznode://' . $nodeID;
+        }
 
-    function createLinksArray( &$dom )
+        return $href;
+    }
+
+    /*!
+      Helper function to prepare links array
+    */
+    function createLinksArray( $dom )
     {
         $links = array();
         $node = array();
 
         if ( $dom )
         {
-            $node =& $dom->elementsByName( "section" );
-
             // Fetch all links and cache the url's
-            $links =& $dom->elementsByName( "link" );
+            $links = $dom->getElementsByTagName( "link" );
         }
-        if ( count( $links ) > 0 )
-        {
-            $linkIDArray = array();
-            // Find all Link id's
-            foreach ( $links as $link )
-            {
-                $linkIDValue = $link->attributeValue( 'url_id' );
-                if ( !$linkIDValue )
-                    continue;
-                if ( !in_array( $linkIDValue, $linkIDArray ) )
-                     $linkIDArray[] = $linkIDValue;
-            }
 
-            if ( count($linkIDArray) > 0 )
+        $linkIDArray = array();
+        // Find all Link id's
+        foreach ( $links as $link )
+        {
+            $linkIDValue = $link->getAttribute( 'url_id' );
+            if ( !$linkIDValue )
             {
-                $inIDSQL = implode( ', ', $linkIDArray );
-                $db = eZDB::instance();
-                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-                foreach ( $linkArray as $linkRow )
-                {
-                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
-                }
+                continue;
+            }
+            if ( !in_array( $linkIDValue, $linkIDArray ) )
+            {
+                 $linkIDArray[] = $linkIDValue;
+             }
+        }
+
+        if ( count( $linkIDArray ) > 0 )
+        {
+            $inIDSQL = implode( ', ', $linkIDArray );
+            $db = eZDB::instance();
+            $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+            foreach ( $linkArray as $linkRow )
+            {
+                $this->LinkArray[$linkRow['id']] = $linkRow['url'];
             }
         }
     }

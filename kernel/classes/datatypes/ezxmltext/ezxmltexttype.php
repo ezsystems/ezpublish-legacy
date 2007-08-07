@@ -100,7 +100,6 @@ This is a <emphasize>block</emphasize> of text.
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "kernel/common/template.php" );
 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
@@ -149,7 +148,7 @@ class eZXMLTextType extends eZDataType
         else
         {
             include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
-            $parser = new eZXMLInputParser;
+            $parser = new eZXMLInputParser();
             $doc = $parser->createRootNode();
             $xmlText = eZXMLTextType::domString( $doc );
             $contentObjectAttribute->setAttribute( "data_text", $xmlText );
@@ -306,7 +305,7 @@ class eZXMLTextType extends eZDataType
              It will take of care of the necessary charset conversions
              for content storage.
     */
-    static function domString( &$domDocument )
+    static function domString( $domDocument )
     {
         $ini = eZINI::instance();
         $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
@@ -324,9 +323,11 @@ class eZXMLTextType extends eZDataType
             include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
         }
-        $domString = $domDocument->toString( $charset );
+        $domString = $domDocument->saveXML();
 
+        /*
         $eZXMLini = eZINI::instance( 'ezxml.ini' );
+
         if ( $eZXMLini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
         {
             if ( $eZXMLini->variable( 'InputSettings', 'AllowNumericEntities' ) == 'true' )
@@ -334,6 +335,7 @@ class eZXMLTextType extends eZDataType
                 $domString = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $domString );
             }
         }
+        */
 
         return $domString;
     }
@@ -355,19 +357,13 @@ class eZXMLTextType extends eZDataType
     {
         $metaData = "";
 
-        $xml = new eZXML();
-        $dom = $xml->domTree( eZXMLTextType::rawXMLText( $contentObjectAttribute ) );
+        $dom = new DOMDocument();
+        $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
+        $success = $dom->loadXML( $text );
 
-        if ( $dom )
+        if ( $success )
         {
-            $textNodes = $dom->elementsByName( "#text" );
-            if ( is_array( $textNodes ) )
-            {
-                foreach ( $textNodes as $node )
-                {
-                    $metaData .= " " . $node->content();
-                }
-            }
+            $metaData = $dom->documentElement->textContent;
         }
         return $metaData;
     }
@@ -392,16 +388,17 @@ class eZXMLTextType extends eZDataType
     function title( $contentObjectAttribute, $value = null )
     {
         $text = eZXMLTextType::rawXMLText( $contentObjectAttribute );
-        // parse xml
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-        $xml = new eZXML();
-        $document = $xml->domTree( $text );
+
+        $dom = new DOMDocument();
+        $success = $dom->loadXML( $text );
 
         // Get first text element of xml
-        if ( !$document )
+        if ( !$success )
+        {
             return $text;
+        }
 
-        $root =& $document->root();
+        $root = $dom->documentElement;
         $section = $root->firstChild;
         $textDom = false;
         if ( $section )
@@ -409,13 +406,13 @@ class eZXMLTextType extends eZDataType
             $textDom = $section->firstChild;
         }
 
-        if ( $textDom and $textDom->hasChildren )
+        if ( $textDom and $textDom->hasChildNodes )
         {
-            $text = $textDom->firstChild->content();
+            $text = $textDom->firstChild->textContent;
         }
         elseif ( $textDom )
         {
-            $text = $textDom->content();
+            $text = $textDom->textContent;
         }
 
         return $text;
@@ -576,7 +573,7 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
      \param contentobject attribute object
-     \param ezdomnode object
+     \param domnode object
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
@@ -627,79 +624,26 @@ class eZXMLTextType extends eZDataType
     function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $xmlString = $objectAttribute->attribute( 'data_text' );
-        $xml = new eZXML();
-        $doc = $xml->domTree( $xmlString );
+        $doc = new DOMDocument();
+        $success = $doc->loadXML( $xmlString );
 
-        if ( !is_object( $doc ) )
-            return false;
-
-        $links =& $doc->elementsByName( 'link' );
-        $objects =& $doc->elementsByName( 'object' );
-        $embeds =& $doc->elementsByName( 'embed' );
-        $embedsInline =& $doc->elementsByName( 'embed-inline' );
-
-        $allTags = array_merge( $links, $embeds, $embedsInline, $objects );
-        $modified = false;
-
-        $contentObject = $objectAttribute->attribute( 'object' );
-        foreach( array_keys( $allTags ) as $key )
+        if ( !$success )
         {
-            $tag =& $allTags[$key];
-
-            $objectRemoteID = $tag->getAttribute( 'object_remote_id' );
-            $nodeRemoteID = $tag->getAttribute( 'node_remote_id' );
-            if ( $objectRemoteID )
-            {
-                $objectArray = eZContentObject::fetchByRemoteID( $objectRemoteID, false );
-                if ( !is_array( $objectArray ) )
-                {
-                    eZDebug::writeWarning( "Can't fetch object with remoteID = $objectRemoteID", 'eZXMLTextType::unserialize' );
-                    continue;
-                }
-
-                $objectID = $objectArray['id'];
-                if ( $tag->nodeName == 'object' )
-                    $tag->setAttribute( 'id', $objectID );
-                else
-                    $tag->setAttribute( 'object_id', $objectID );
-                $tag->removeAttribute( 'object_remote_id' );
-                $modified = true;
-
-                // add as related object
-                if ( $contentObject )
-                {
-                    $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
-                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), 0, $relationType );
-                }
-            }
-            elseif ( $nodeRemoteID )
-            {
-                $nodeArray = eZContentObjectTreeNode::fetchByRemoteID( $nodeRemoteID, false );
-                if ( !is_array( $nodeArray ) )
-                {
-                    eZDebug::writeWarning( "Can't fetch node with remoteID = $nodeRemoteID", 'eZXMLTextType::unserialize' );
-                    continue;
-                }
-
-                $nodeID = $nodeArray['node_id'];
-                $tag->setAttribute( 'node_id', $nodeID );
-                $tag->removeAttribute( 'node_remote_id' );
-                $modified = true;
-
-                // add as related object
-                if ( $contentObject )
-                {
-                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
-                    if ( $node )
-                    {
-                        $relationType = $tag->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
-                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
-                    }
-                }
-            }
+            return false;
         }
 
-        if ( $modified )
+        $links = $doc->getElementsByTagName( 'link' );
+        $objects = $doc->getElementsByTagName( 'object' );
+        $embeds = $doc->getElementsByTagName( 'embed' );
+        $embedsInline = $doc->getElementsByTagName( 'embed-inline' );
+
+        $modified = array();
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
+
+        if ( in_array( true, $modified ) )
         {
             $objectAttribute->setAttribute( 'data_text', eZXMLTextType::domString( $doc ) );
             return true;
@@ -709,6 +653,72 @@ class eZXMLTextType extends eZDataType
             return false;
         }
     }
+
+    static function transformRemoteLinksToLinks( DOMNodeList $nodeList, $objectAttribute )
+    {
+        $modified = false;
+
+        $contentObject = $objectAttribute->attribute( 'object' );
+        foreach ( $nodeList as $node )
+        {
+            $objectRemoteID = $node->getAttribute( 'object_remote_id' );
+            $nodeRemoteID = $node->getAttribute( 'node_remote_id' );
+            if ( $objectRemoteID )
+            {
+                $objectArray = eZContentObject::fetchByRemoteID( $objectRemoteID, false );
+                if ( !is_array( $objectArray ) )
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeWarning( "Can't fetch object with remoteID = $objectRemoteID", 'eZXMLTextType::unserialize' );
+                    continue;
+                }
+
+                $objectID = $objectArray['id'];
+                if ( $node->localName == 'object' )
+                    $node->setAttribute( 'id', $objectID );
+                else
+                    $node->setAttribute( 'object_id', $objectID );
+                $node->removeAttribute( 'object_remote_id' );
+                $modified = true;
+
+                // add as related object
+                if ( $contentObject )
+                {
+                    $relationType = $node->localName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                    $contentObject->addContentObjectRelation( $objectID, $objectAttribute->attribute( 'version' ), 0, $relationType );
+                }
+            }
+            elseif ( $nodeRemoteID )
+            {
+                $nodeArray = eZContentObjectTreeNode::fetchByRemoteID( $nodeRemoteID, false );
+                if ( !is_array( $nodeArray ) )
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeWarning( "Can't fetch node with remoteID = $nodeRemoteID", 'eZXMLTextType::unserialize' );
+                    continue;
+                }
+
+                $nodeID = $nodeArray['node_id'];
+                $node->setAttribute( 'node_id', $nodeID );
+                $node->removeAttribute( 'node_remote_id' );
+                $modified = true;
+
+                // add as related object
+                if ( $contentObject )
+                {
+                    $node = eZContentObjectTreeNode::fetch( $nodeID, false, false );
+                    if ( $node )
+                    {
+                        $relationType = $node->nodeName == 'link' ? EZ_CONTENT_OBJECT_RELATION_LINK : EZ_CONTENT_OBJECT_RELATION_EMBED;
+                        $contentObject->addContentObjectRelation( $node['contentobject_id'], $objectAttribute->attribute( 'version' ), 0, $relationType );
+                    }
+                }
+            }
+        }
+
+        return $modified;
+    }
+
     /*!
      Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
     */

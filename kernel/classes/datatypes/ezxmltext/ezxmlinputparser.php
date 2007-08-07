@@ -39,8 +39,6 @@
 
 */
 
-include_once( "lib/ezxml/classes/ezxml.php" );
-
 if ( !class_exists( 'eZXMLSchema' ) )
     include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 
@@ -146,14 +144,22 @@ class eZXMLInputParser
     {
         // Back-compatibility fixes:
         if ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_SCHEMA_ERRORS )
+        {
             $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_SCHEMA;
+        }
         elseif ( $detectErrorLevel === EZ_XMLINPUTPARSER_SHOW_ALL_ERRORS )
+        {
             $detectErrorLevel = EZ_XMLINPUTPARSER_ERROR_ALL;
+        }
 
         if ( $validateErrorLevel === false )
+        {
             $validateErrorLevel = EZ_XMLINPUTPARSER_ERROR_NONE;
+        }
         elseif ( $validateErrorLevel === true )
+        {
             $validateErrorLevel = $detectErrorLevel;
+        }
 
         $this->ValidateErrorLevel = $validateErrorLevel;
         $this->DetectErrorLevel = $detectErrorLevel;
@@ -167,37 +173,22 @@ class eZXMLInputParser
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
 
         $ini = eZINI::instance( 'ezxml.ini' );
-        if ( $this->eZPublishVersion >= 3.8 )
+        if ( $ini->hasVariable( 'InputSettings', 'TrimSpaces' ) )
         {
-            if ( $ini->hasVariable( 'InputSettings', 'TrimSpaces' ) )
-            {
-                $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
-                $this->TrimSpaces = $trimSpaces == 'true' ? true : false;
-            }
-
-            if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
-            {
-                $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
-                $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
-            }
-        }
-        else
-        {
-            $this->TrimSpaces = true;
-            $this->AllowMultipleSpaces = false;
+            $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
+            $this->TrimSpaces = $trimSpaces == 'true' ? true : false;
         }
 
-        if ( $this->eZPublishVersion >= 3.9 )
+        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
         {
-            if ( $ini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
-            {
-                $allowNumericEntities = $ini->variable( 'InputSettings', 'AllowNumericEntities' );
-                $this->AllowNumericEntities = $allowNumericEntities == 'true' ? true : false;
-            }
+            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
+            $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
         }
-        else
+
+        if ( $ini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
         {
-            $this->AllowNumericEntities = false;
+            $allowNumericEntities = $ini->variable( 'InputSettings', 'AllowNumericEntities' );
+            $this->AllowNumericEntities = $allowNumericEntities == 'true' ? true : false;
         }
 
         $contentIni = eZINI::instance( 'content.ini' );
@@ -227,10 +218,12 @@ class eZXMLInputParser
     function createRootNode()
     {
         if ( !$this->Document )
-            $this->Document = new $this->DOMDocumentClass( '', true );
+        {
+            $this->Document = new $this->DOMDocumentClass();
+        }
 
         // Creating root section with namespaces definitions
-        $mainSection =& $this->Document->createElement( 'section' );
+        $mainSection = $this->Document->createElement( 'section' );
         $this->Document->appendChild( $mainSection );
         foreach( array( 'image', 'xhtml', 'custom' ) as $prefix )
         {
@@ -252,23 +245,35 @@ class eZXMLInputParser
             $text = str_replace( "\n", '', $text);
         }
 
-        $this->Document = new $this->DOMDocumentClass( '', true );
+        $this->Document = new $this->DOMDocumentClass();
 
         if ( $createRootNode )
+        {
             $this->createRootNode();
+        }
 
         // Perform pass 1
         // Parsing the source string
         $this->performPass1( $text );
 
+        //$this->Document->formatOutput = true;
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after pass 1' );
+
         if ( $this->QuitProcess )
+        {
             return false;
+        }
 
         // Perform pass 2
         $this->performPass2();
 
+        //$this->Document->formatOutput = true;
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after pass 2' );
+
         if ( $this->QuitProcess )
+        {
             return false;
+        }
 
         return $this->Document;
     }
@@ -283,11 +288,11 @@ class eZXMLInputParser
         $ret = true;
         $pos = 0;
 
-        if ( $this->Document->Root )
+        if ( $this->Document->documentElement )
         {
             do
             {
-                $this->parseTag( $data, $pos, $this->Document->Root );
+                $this->parseTag( $data, $pos, $this->Document->documentElement );
                 if ( $this->QuitProcess )
                 {
                     $ret = false;
@@ -316,11 +321,6 @@ class eZXMLInputParser
         // Find tag, determine it's type, name and attributes.
         $initialPos = $pos;
 
-        /*if ( $this->trimSpaces )
-        {
-            while( $pos < strlen( $data ) && $data[$pos] == ' ' ) $pos++;
-        }*/
-
         if ( $pos >= strlen( $data ) )
         {
             return true;
@@ -333,10 +333,7 @@ class eZXMLInputParser
             $lineBreakPos = strpos( $data, "\n", $pos );
             if ( $lineBreakPos !== false )
             {
-                if ( $tagBeginPos === false )
-                    $tagBeginPos = $lineBreakPos;
-                else
-                    $tagBeginPos = min( $tagBeginPos, $lineBreakPos );
+                $tagBeginPos = $tagBeginPos === false ? $lineBreakPos : min( $tagBeginPos, $lineBreakPos );
             }
         }
 
@@ -350,7 +347,9 @@ class eZXMLInputParser
             $noChildren = true;
 
             if ( !$tagBeginPos )
+            {
                 $tagBeginPos = strlen( $data );
+            }
 
             $textContent = substr( $data, $pos, $tagBeginPos - $pos );
 
@@ -358,7 +357,9 @@ class eZXMLInputParser
 
             $pos = $tagBeginPos;
             if ( $textContent === '' )
+            {
                 return false;
+            }
         }
         // Process closing tag.
         elseif ( $data[$tagBeginPos] == '<' && $tagBeginPos + 1 < strlen( $data ) &&
@@ -391,9 +392,13 @@ class eZXMLInputParser
                     }
                     // If newTagName was '' we don't break children loop
                     elseif ( $parentNames[1] !== '' )
+                    {
                         return true;
+                    }
                     else
+                    {
                         return false;
+                    }
                 }
                 $firstLoop = false;
             }
@@ -441,7 +446,9 @@ class eZXMLInputParser
                 $attributeString = trim( $attributeString );
                 // Parse attribute string
                 if ( $attributeString )
+                {
                     $attributes = $this->parseAttributes( $attributeString );
+                }
             }
 
             // Determine tag's name
@@ -450,9 +457,13 @@ class eZXMLInputParser
                 $thisInputTag =& $this->InputTags[$tagName];
 
                 if ( isset( $thisInputTag['name'] ) )
+                {
                     $newTagName = $thisInputTag['name'];
+                }
                 else
+                {
                     $newTagName =& $this->callInputHandler( 'nameHandler', $tagName, $attributes );
+                }
             }
             else
             {
@@ -469,14 +480,16 @@ class eZXMLInputParser
 
             // Check 'noChildren' property
             if ( isset( $thisInputTag['noChildren'] ) )
+            {
                 $noChildren = true;
+            }
 
             $thisOutputTag =& $this->OutputTags[$newTagName];
 
             // Implementation of 'autoCloseOn' rule ( Handling of unclosed tags, ex.: <p>, <li> )
             if ( isset( $thisOutputTag['autoCloseOn'] ) &&
                  $parent &&
-                 $parent->parentNode &&
+                 $parent->parentNode instanceof DOMElement &&
                  in_array( $parent->nodeName, $thisOutputTag['autoCloseOn'] ) )
             {
                 // Wrong nesting: auto-close parent and try to re-parse this tag at higher level
@@ -495,7 +508,9 @@ class eZXMLInputParser
             {
                 // If $newTagName is an empty string then it's not a error
                 if ( $newTagName === false )
+                {
                     $this->handleError( EZ_XMLINPUTPARSER_ERROR_SYNTAX, "Can't convert tag's name: &lt;%1&gt;.", array( $tagName ) );
+                }
 
                 return false;
             }
@@ -509,9 +524,13 @@ class eZXMLInputParser
 
         // Create text or normal node.
         if ( $newTagName == '#text' )
+        {
             $element = $this->Document->createTextNode( $textContent );
+        }
         else
+        {
             $element = $this->Document->createElement( $newTagName );
+        }
 
         if ( $attributes )
         {
@@ -520,10 +539,13 @@ class eZXMLInputParser
 
         // Append element as a child or set it as root if there is no parent.
         if ( $parent )
+        {
             $parent->appendChild( $element );
+        }
         else
+        {
             $this->Document->appendChild( $element );
-        // php5 TODO : $this->Document->documentElement->appendChild( $element );
+        }
 
         $params = array();
         $params[] =& $data;
@@ -535,12 +557,16 @@ class eZXMLInputParser
         {
             // This tag is already parsed in handler
             if ( !$noChildren )
+            {
                 array_pop( $this->ParentStack );
+            }
             return false;
         }
 
         if ( $this->QuitProcess )
+        {
             return false;
+        }
 
         // Process children
         if ( !$noChildren )
@@ -549,7 +575,9 @@ class eZXMLInputParser
             {
                 $parseResult = $this->parseTag( $data, $pos, $element );
                 if ( $this->QuitProcess )
+                {
                     return false;
+                }
             }
             while( $parseResult !== true );
         }
@@ -576,17 +604,23 @@ class eZXMLInputParser
         foreach( $attributeArray as $attrStr )
         {
             if ( !$attrStr || strlen( $attrStr ) < 4 )
+            {
                 continue;
+            }
 
             list( $attrName, $attrValue ) = split( '="', $attrStr );
 
             $attrName = strtolower( trim( $attrName ) );
             if ( !$attrName )
+            {
                 continue;
+            }
 
             $attrValue = substr( $attrValue, 0, -1 );
             if ( $attrValue === '' || $attrValue === false )
+            {
                 continue;
+            }
 
             $attributes[$attrName] = $attrValue;
         }
@@ -607,7 +641,9 @@ class eZXMLInputParser
                 $qualifiedName = $thisOutputTag['attributes'][$key];
             }
             else
+            {
                 $qualifiedName = $key;
+            }
 
             // Filter classes
             if ( $qualifiedName == 'class' )
@@ -675,25 +711,28 @@ class eZXMLInputParser
         $textContent = $this->entitiesDecode( $textContent );
 
         if ( !$this->AllowNumericEntities )
+        {
             $textContent = $this->convertNumericEntities( $textContent );
+        }
 
         if ( !$this->AllowMultipleSpaces )
+        {
             $textContent = preg_replace( "/ {2,}/", " ", $textContent );
+        }
 
         return $textContent;
     }
 
     function entitiesDecode( $text )
     {
-        //$text = str_replace( "&amp;", "&", $text );
-        $text = str_replace( "&#039;", "'", $text );
+        $text = str_replace( '&#039;', "'", $text );
 
-        $text = str_replace( "&gt;", ">", $text );
-        $text = str_replace( "&lt;", "<", $text );
-        $text = str_replace( "&apos;", "'", $text );
-        $text = str_replace( "&quot;", '"', $text );
-        $text = str_replace( "&amp;", "&", $text );
-        $text = str_replace( "&nbsp;", " ", $text );
+        $text = str_replace( '&gt;', '>', $text );
+        $text = str_replace( '&lt;', '<', $text );
+        $text = str_replace( '&apos;', "'", $text );
+        $text = str_replace( '&quot;', '"', $text );
+        $text = str_replace( '&amp;', '&', $text );
+        $text = str_replace( '&nbsp;', ' ', $text );
         return $text;
     }
 
@@ -712,13 +751,15 @@ class eZXMLInputParser
         {
             $startPos = $pos;
             while( !( $text[$pos] == '&' && $text[$pos + 1] == '#' ) && $pos < strlen( $text ) - 1 )
+            {
                 $pos++;
+            }
 
             $domString .= substr( $text, $startPos, $pos - $startPos );
 
             if ( $pos < strlen( $text ) - 1 )
             {
-                $endPos = strpos( $text, ";", $pos + 2 );
+                $endPos = strpos( $text, ';', $pos + 2 );
                 if ( $endPos === false )
                 {
                     $convertedText .= '&#';
@@ -771,19 +812,15 @@ class eZXMLInputParser
     {
         $tmp = null;
 
-        //php5 TODO: $this->Document->documentElement;
-        $this->processSubtree( $this->Document->Root, $tmp );
+        $this->processSubtree( $this->Document->documentElement, $tmp );
     }
 
     // main recursive function for pass 2
 
-    function &processSubtree( &$element, &$lastHandlerResult )
+    function processSubtree( $element, &$lastHandlerResult )
     {
         $ret = null;
         $tmp = null;
-
-        //eZDOMNode::writeDebugStr( $element, '$element' );
-        //eZDOMNode::writeDebugStr( $this->Document->Root, 'root' );
 
         // Call "Init handler"
         $this->callOutputHandler( 'initHandler', $element, $tmp );
@@ -792,61 +829,81 @@ class eZXMLInputParser
         if ( $element->hasChildNodes() )
         {
             // Make another copy of children to save primary structure
-            // php5 TODO: childNodes->item(), childNodes->length()
-            $childrenCount = count( $element->Children );
+            $childNodes = $element->childNodes;
+            $childrenCount = $childNodes->length;
+
+            // we can not loop directly over the childNodes property, because this will change while we are working on it's parent's children
             $children = array();
-            foreach( array_keys( $element->Children ) as $child_key )
+            foreach ( $childNodes as $childNode )
             {
-                $children[] =& $element->Children[$child_key];
+                $children[] = $childNode;
             }
+
             $lastResult = null;
             $newElements = array();
-            for( $i = 0; $i < $childrenCount; $i++ )
+            foreach ( $children as $child )
             {
-                $childReturn =& $this->processSubtree( $children[$i], $lastResult );
+                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'processing children, current child: ' . $child->nodeName );
+                $childReturn = $this->processSubtree( $child, $lastResult );
 
+                unset( $lastResult );
                 if ( isset( $childReturn['result'] ) )
                 {
-                    unset( $lastResult );
-                    $lastResult =& $childReturn['result'];
+                    eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'return result is set for child ' . $child->nodeName );
+                    $lastResult = $childReturn['result'];
                 }
-                else
-                    unset( $lastResult );
 
                 if ( isset( $childReturn['new_elements'] ) )
+                {
                     $newElements = array_merge( $newElements, $childReturn['new_elements'] );
-
-                unset( $childReturn );
+                }
 
                 if ( $this->QuitProcess )
+                {
                     return $ret;
+                }
             }
 
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML before processNewElements for element ' . $element->nodeName );
             // process elements created in children handlers
             $this->processNewElements( $newElements );
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processNewElements for element ' . $element->nodeName );
         }
 
         // Call "Structure handler"
-        $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
+        $ret = $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after callOutputHandler structHandler for element ' . $element->nodeName );
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $ret, 'return value of callOutputHandler structHandler for element ' . $element->nodeName );
 
         // Process by schema (check if element is allowed to exist)
         if ( !$this->processBySchemaPresence( $element ) )
+        {
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaPresence for element ' . $element->nodeName );
             return $ret;
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaPresence for element ' . $element->nodeName );
 
         // Process by schema (check place in the tree)
         if ( !$this->processBySchemaTree( $element ) )
+        {
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaTree for element ' . $element->nodeName );
             return $ret;
+        }
+
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after processBySchemaTree for element ' . $element->nodeName );
+
 
         $tmp = null;
         // Call "Publish handler"
         $this->callOutputHandler( 'publishHandler', $element, $tmp );
 
         // Process attributes according to the schema
-        if( $element->hasAttributes() )
+        if ( $element->hasAttributes() )
         {
             if ( !$this->XMLSchema->hasAttributes( $element ) )
             {
-                $element->removeAttributes();
+                eZXMLInputParser::removeAllAttributes( $element );
             }
             else
             {
@@ -859,11 +916,23 @@ class eZXMLInputParser
         Helper functions for pass 2
     */
 
-    // Check if the element is allowed to exist in this document and remove it if not.
-    function processBySchemaPresence( &$element )
+    /*!
+       Removes all attribute nodes from element node $element
+    */
+    function removeAllAttributes( DOMElement $element )
     {
-        $parent =& $element->parentNode;
-        if ( $parent )
+        $attribs = $element->attributes;
+        for ( $i = $attribs->length - 1; $i >= 0; $i-- )
+        {
+            $element->removeAttributeNode( $attribs->item( $i ) );
+        }
+    }
+
+    // Check if the element is allowed to exist in this document and remove it if not.
+    function processBySchemaPresence( $element )
+    {
+        $parent = $element->parentNode;
+        if ( $parent instanceof DOMElement )
         {
             // If this is a foreign element, remove it
             if ( !$this->XMLSchema->exists( $element ) )
@@ -879,7 +948,8 @@ class eZXMLInputParser
 
             // Delete if children required and no children
             // If this is an auto-added element, then do not throw error
-            if ( ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
+
+            if ( $element->nodeType == XML_ELEMENT_NODE && ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
                  && !$element->hasChildNodes() )
             {
                 $parent->removeChild( $element );
@@ -901,10 +971,11 @@ class eZXMLInputParser
     }
 
     // Check that element has a correct position in the tree and fix it if not.
-    function processBySchemaTree( &$element )
+    function processBySchemaTree( $element )
     {
-        $parent =& $element->parentNode;
-        if ( $parent )
+        $parent = $element->parentNode;
+
+        if ( $parent instanceof DOMElement )
         {
             $schemaCheckResult = $this->XMLSchema->check( $parent, $element );
             if ( !$schemaCheckResult )
@@ -912,13 +983,13 @@ class eZXMLInputParser
                 if ( $schemaCheckResult === false )
                 {
                     // Remove indenting spaces
-                    if ( $element->Type == eZDOMNode::TYPE_TEXT && !trim( $element->content() ) )
+                    if ( $element->nodeType == XML_TEXT_NODE && !trim( $element->textContent ) )
                     {
                         $parent->removeChild( $element );
                         return false;
                     }
 
-                    $elementName = $element->nodeName == '#text' ? $element->nodeName : '&lt;' . $element->nodeName . '&gt;';
+                    $elementName = $element->nodeType == XML_ELEMENT_NODE ? '&lt;' . $element->nodeName . '&gt;' : $element->nodeName;
                     $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "%1 is not allowed to be a child of &lt;%2&gt;.",
                                         array( $elementName, $parent->nodeName ) );
                 }
@@ -938,20 +1009,20 @@ class eZXMLInputParser
     // Remove only nodes that don't match schema (recursively)
     function fixSubtree( &$element, &$mainChild )
     {
-        $parent =& $element->parentNode;
+        $parent = $element->parentNode;
         $mainParent =& $mainChild->parentNode;
         if ( $element->hasChildNodes() )
         {
-            foreach( array_keys( $element->Children ) as $child_key )
+            foreach( $element->childNodes as $child )
             {
-                $child =& $element->Children[$child_key];
-
                 $element->removeChild( $child );
-                // php5 TODO: use child returned by insertBefore (php dom manual)
-                $mainParent->insertBefore( $child, $mainChild );
+
+                $child = $mainParent->insertBefore( $child, $mainChild );
 
                 if ( !$this->XMLSchema->check( $mainParent, $child ) )
+                {
                     $this->fixSubtree( $child, $mainChild );
+                }
             }
         }
         $parent->removeChild( $element );
@@ -961,58 +1032,41 @@ class eZXMLInputParser
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
-        if ( $this->eZPublishVersion >= 3.9 )
-        {
-            $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
-        }
+        $schemaCustomAttributes = $this->XMLSchema->customAttributes( $element );
 
-        $attributes = $element->attributes();
+        $attributes = $element->attributes;
 
-        foreach( $attributes as $attr )
+        for ( $i = $attributes->length - 1; $i >=0; $i-- )
         {
-            if ( $attr->Prefix == 'tmp' )
+            $attr = $attributes->item( $i );
+            if ( $attr->prefix == 'tmp' )
             {
-                $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
+                $element->removeAttributeNode( $attr );
                 continue;
             }
 
             $allowed = false;
             $removeAttr = false;
 
-            // php5 TODO: small letters
-            if ( $attr->Prefix )
-                $fullName = $attr->Prefix . ':' . $attr->LocalName;
-            else
-                $fullName = $attr->LocalName;
+            $fullName = $attr->prefix ? $attr->prefix . ':' . $attr->nodeName : $attr->nodeName;
 
-            if ( $this->eZPublishVersion >= 3.9 )
+            // check for allowed custom attributes (3.9)
+            if ( $attr->prefix == 'custom' && in_array( $attr->nodeName, $schemaCustomAttributes ) )
             {
-                // check for allowed custom attributes (3.9)
-                if ( $attr->Prefix == 'custom' && in_array( $attr->LocalName, $schemaCustomAttributes ) )
-                {
-                    $allowed = true;
-                }
-                else
-                {
-                    if ( in_array( $fullName, $schemaAttributes ) )
-                    {
-                       $allowed = true;
-                    }
-                    elseif ( in_array( $fullName, $schemaCustomAttributes ) )
-                    {
-                        // add 'custom' prefix if it is not given
-                        $allowed = true;
-                        $removeAttr = true;
-                        $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $fullName, $attr->content() );
-                    }
-                }
+                $allowed = true;
             }
             else
             {
-                if ( $attr->Prefix == 'custom' ||
-                     in_array( $fullName, $schemaAttributes ) )
+                if ( in_array( $fullName, $schemaAttributes ) )
                 {
+                   $allowed = true;
+                }
+                elseif ( in_array( $fullName, $schemaCustomAttributes ) )
+                {
+                    // add 'custom' prefix if it is not given
                     $allowed = true;
+                    $removeAttr = true;
+                    $element->setAttributeNS( $this->Namespaces['custom'], 'custom:' . $fullName, $attr->value );
                 }
             }
 
@@ -1027,7 +1081,7 @@ class eZXMLInputParser
             {
                 // Remove attributes having default values
                 $default = $this->XMLSchema->attrDefaultValue( $element->nodeName, $fullName );
-                if ( $attr->Content == $default )
+                if ( $attr->value == $default )
                 {
                     $removeAttr = true;
                 }
@@ -1035,10 +1089,7 @@ class eZXMLInputParser
 
             if ( $removeAttr )
             {
-                if ( $attr->Prefix )
-                    $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
-                else
-                    $element->removeAttribute( $attr->nodeName );
+                $element->removeAttributeNode( $attr );
             }
         }
     }
@@ -1070,7 +1121,7 @@ class eZXMLInputParser
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
             {
-                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $params );' );
+                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $params );' );
             }
             else
             {
@@ -1085,46 +1136,58 @@ class eZXMLInputParser
     // Creates new element and adds it to array for further post-processing.
     // Use this function if you need to process newly created element (check it by schema
     // and call 'structure' and 'publish' handlers)
-    function &createAndPublishElement( $elementName, &$ret )
+    function createAndPublishElement( $elementName, &$ret )
     {
         $element = $this->Document->createElement( $elementName );
         $element->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:new-element', 'true' );
 
         if ( !isset( $ret['new_elements'] ) )
+        {
             $ret['new_elements'] = array();
+        }
 
-        $ret['new_elements'][] =& $element;
+        $ret['new_elements'][] = $element;
         return $element;
     }
 
-    function processNewElements( &$createdElements )
+    function processNewElements( $createdElements )
     {
         // Call handlers for newly created elements
-        foreach( array_keys( $createdElements ) as $key )
+        foreach ( $createdElements as $element )
         {
-            $element =& $createdElements[$key];
-
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', 'processing new element ' . $element->nodeName );
             $tmp = null;
 
             if ( !$this->processBySchemaPresence( $element ) )
+            {
+                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaPresence for new element ' . $element->nodeName );
                 continue;
+            }
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaPresence for new element ' . $element->nodeName );
+
 
             // Call "Structure handler"
             $this->callOutputHandler( 'structHandler', $element, $tmp );
 
             if ( !$this->processBySchemaTree( $element ) )
+            {
+                eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaTree for new element ' . $element->nodeName );
                 continue;
+            }
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after processBySchemaTree for new element ' . $element->nodeName );
+
 
             $tmp2 = null;
             // Call "Publish handler"
             $this->callOutputHandler( 'publishHandler', $element, $tmp2 );
+            eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'xml string after callOutputHandler publishHandler for new element ' . $element->nodeName );
 
             // Process attributes according to the schema
             if( $element->hasAttributes() )
             {
                 if ( !$this->XMLSchema->hasAttributes( $element ) )
                 {
-                    $element->removeAttributes();
+                    eZXMLInputParser::removeAllAttributes( $element );
                 }
                 else
                 {
@@ -1152,8 +1215,10 @@ class eZXMLInputParser
         {
             $this->IsInputValid = false;
             if ( $message )
+            {
                 $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', $message,
                                             false, $params );
+            }
         }
 
         if ( $type & $this->ValidateErrorLevel )
@@ -1163,7 +1228,7 @@ class eZXMLInputParser
         }
     }
 
-    public $DOMDocumentClass = 'eZDOMDocument';
+    public $DOMDocumentClass = 'DOMDOcument';
 
     public $XMLSchema;
     public $Document = null;
@@ -1185,9 +1250,7 @@ class eZXMLInputParser
     public $StrictHeaders = false;
 
     // options that depend on parameters passed
-    public $parseLineBreaks = false;
-    public $removeDefaultAttrs = false;
-
-    public $createdElements = array();
+    public $ParseLineBreaks = false;
+    public $RemoveDefaultAttrs = false;
 }
 ?>
