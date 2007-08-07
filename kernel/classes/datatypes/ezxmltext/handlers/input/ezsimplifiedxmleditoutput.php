@@ -260,16 +260,16 @@ class eZSimplifiedXMLEditOutput
     {
         if ( !$isInline && $hasChildren )
         {
-            $lastChild =& $element->lastChild();
+            $lastChild = $element->lastChild;
             if ( $lastChild && $lastChild->nodeName == 'paragraph' && !$lastChild->hasAttributes() )
             {
                 $tmp =& $lastChild;
-                $lastChild =& $tmp->lastChild();
+                $lastChild =& $tmp->lastChild;
             }
             if ( $lastChild && $lastChild->nodeName == 'line' )
             {
                 $tmp =& $lastChild;
-                $lastChild =& $tmp->lastChild();
+                $lastChild =& $tmp->lastChild;
             }
             if ( $lastChild && !$this->XMLSchema->isInline( $lastChild ) )
             {
