@@ -795,9 +795,6 @@ You will need to change the class of the node by using the swap functionality.' 
         }
         else
         {
-            eZDebug::writeDebug( $this->Version );
-            eZDebug::writeDebug( $this->ID );
-            eZDebug::writeDebug( strtolower( get_class( $this ) ) );
             if ( $version === false )
             {
                if ( isset( $this ) and strtolower( get_class( $this ) ) == 'ezcontentclass' )
@@ -818,7 +815,7 @@ You will need to change the class of the node by using the swap functionality.' 
             }
 
             $contentClass = eZContentClass::fetch( $contentClassID, true, $version );
-            eZDebug::writeDebug( $contentClass );
+
             if ( !is_object( $contentClass ) )
                return;
 
