@@ -339,6 +339,7 @@ class eZContentObject extends eZPersistentObject
         {
             $lang = $this->CurrentLanguage;
         }
+
         $objectID = $this->attribute( 'id' );
         $name =& $this->versionLanguageName( $objectID, $version, $lang );
         return $name;
@@ -395,15 +396,39 @@ class eZContentObject extends eZPersistentObject
         }
         $lang = $db->escapeString( $lang );
         $version = (int) $version;
-        $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
+
+        $initialLanguage = $this->attribute( 'initial_language_id' );
+
+        $query= "SELECT name, content_translation
+                 FROM ezcontentobject_name
+                 WHERE contentobject_id = '$contentObjectID'
+                       AND content_version = '$version'
+                       AND ( content_translation = '$lang' OR language_id = '$initialLanguage' )";
         $result = $db->arrayQuery( $query );
-        if ( count( $result ) < 1 )
+
+        $resCount = count( $result );
+        if( $resCount < 1 )
         {
             eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
-            return $name;
+        }
+        else if( $resCount > 1 )
+        {
+            // we have name in requested language => find and return it
+            foreach( $result as $row )
+            {
+                if( $row['content_translation'] == $lang )
+                {
+                    $name = $row['name'];
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // we don't have name in requested language(or requested language is the same as initial language) => use name in initial language
+            $name = $result[0]['name'];
         }
 
-        $name = $result[0]['name'];
         return $name;
     }
 

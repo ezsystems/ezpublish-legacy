@@ -46,3 +46,5 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 - Fixed bug #11189: content class: attributes can't be deleted
 - Fixed bug #11098: content class import wizard does not show class name.
 - Fixed bug #11203: eztc.php doesn't compile siteaccess in extension.
+- Fixed bug #11192: no object name if attribute isn't translatable.
+  (Merged from stable/3.9 (3.9.3) rev. 19625)
