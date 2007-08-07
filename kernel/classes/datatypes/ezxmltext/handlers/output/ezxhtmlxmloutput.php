@@ -507,7 +507,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             elseif ( $childOutput[0] === true && !array_key_exists( $key + 1, $childrenOutput ) )
             {
-                $next =& $element->nextSibling();
+                $next = $element->nextSibling;
                 if ( $next && $next->nodeName == 'line' )
                 {
                     $tagText = $this->renderTag( $element, $inlineContent, $vars );
