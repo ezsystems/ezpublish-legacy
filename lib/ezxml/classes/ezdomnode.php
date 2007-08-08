@@ -486,7 +486,7 @@ class eZDOMNode
     /*!
       \deprecated This function is deprecated.
                   Use getAttribute instead.
-    
+
       \return The value of the attribute named \a $attributeName.
       If no value is found \c false is returned.
 
@@ -599,7 +599,7 @@ class eZDOMNode
     /*!
       \deprecated This function is deprecated.
                   Use getAttributeNS instead.
-    
+
       \return The value of the attribute named \a $attributeName and having namespace \a $namespaceURI.
       If no value is found \c false is returned.
 
@@ -824,7 +824,7 @@ class eZDOMNode
 
     /*!
       Removes child by the given child object.
-      
+
       \note W3C DOM function
     */
     function removeChild( &$childToRemove )
@@ -1302,7 +1302,7 @@ class eZDOMNode
 
     /*!
       Outputs DOM subtree to the debug output in the easy readable form.
-      
+
       \param node  subtree root node
     */
 
@@ -1361,7 +1361,7 @@ class eZDOMNode
 
     /*!
       Outputs XML from DOM as a string.
-      
+
       \param node  subtree root node
     */
     function writeDebugStr( &$node, $text )
@@ -1379,7 +1379,7 @@ class eZDOMNode
 
     /// tagname, added for DOM XML compatibility.
     var $tagname = null;
-    
+
     /// DOM W3C compatibility
     var $nodeName = null;
 
