@@ -1071,17 +1071,20 @@ class eZObjectRelationListType extends eZDataType
             if ( $relatedObject['node_id'] == 0 ) //if node_id == 0 (node was trashed and then restored) then assign a new node_id
             {
                 $object = eZContentObject::fetch( $relatedObject['contentobject_id'] ); //fetch object related to trashed node
-                if ( $object->assignedNodes() )
+                $objectNodes = $object->assignedNodes();
+                if ( $objectNodes )
                 {
                     $relatedObject['node_id'] = $object->mainNodeID(); //set new node_id
+                    $relatedObject['parent_node_id'] = eZContentObjectTreeNode::getParentNodeId( $relatedObject['node_id'] ); //set new parent_node_id for restored node
                     $storeContent = true;
                 }
                 continue;
             }
             $node = eZContentObjectTreeNode::fetch( $relatedObject['node_id'] ); //try to find out if node exists when node_id != 0
-            if ( !$node )
+            if ( !$node ) // set node_id and parent_node_id to 0 if node not exists
             {
                 $relatedObject['node_id'] = 0;
+                $relatedObject['parent_node_id'] = 0;
                 $storeContent = true;
             }
         }
