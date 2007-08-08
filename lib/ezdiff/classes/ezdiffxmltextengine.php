@@ -81,9 +81,6 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
 
-        $domOld->cleanup();
-        $domNew->cleanup();
-
         if ( !$diffSimplifiedXML )
         {
             $old = trim( strip_tags( $old ) );
