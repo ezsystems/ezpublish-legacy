@@ -56,7 +56,6 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
         include_once( 'lib/ezutils/classes/ezini.php' );
         include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
-        include_once( 'lib/ezxml/classes/ezxml.php' );
 
         $changes = new eZXMLTextDiff();
         $contentINI = eZINI::instance( 'content.ini' );
@@ -65,17 +64,23 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 
         $oldXMLTextObject = $fromData->content();
         $newXMLTextObject = $toData->content();
-        
+
         $oldXML = $oldXMLTextObject->attribute( 'xml_data' );
         $newXML = $newXMLTextObject->attribute( 'xml_data' );
 
         $simplifiedXML = new eZSimplifiedXMLEditOutput();
-        $xml = new eZXML();
-        $domOld = $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
-        $domNew = $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, 'SetParentNode' => true ) );
+
+        $domOld = new DOMDocument();
+        $domOld->preserveWhiteSpace = false;
+        $domOld->loadXML( $oldXML );
+
+        $domNew = new DOMDocument();
+        $domNew->preserveWhiteSpace = false;
+        $domNew->loadXML( $newXML );
+
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
-        
+
         $domOld->cleanup();
         $domNew->cleanup();
 

@@ -85,7 +85,7 @@ class eZTOCOperator
             $xmlData = $content->attribute( 'xml_data' );
 
             $domTree = new DOMDocument();
-            $domTree->preserveWhitespace = false;
+            $domTree->preserveWhiteSpace = false;
             $success = $domTree->loadXML( $xmlData );
 
             $tocText = '';
