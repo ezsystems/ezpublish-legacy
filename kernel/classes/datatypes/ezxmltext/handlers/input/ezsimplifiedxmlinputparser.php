@@ -217,7 +217,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
             $data = $insertData . substr( $data, $pos );
             $pos = 0;
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             $ret = false;
         }
 
@@ -250,7 +250,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         if ( $newParentName == 'line' )
         {
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             $newParent->appendChild( $element );
             $newLine =& $newParent;
             $ret['result'] =& $newParent;
@@ -265,7 +265,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         elseif ( $newParentName == 'paragraph' )
         {
             $newLine = $this->createAndPublishElement( 'line', $ret );
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             $newParent->appendChild( $newLine );
             $newLine->appendChild( $element );
             $ret['result'] = $newLine;
@@ -344,7 +344,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $nextToNext = $next->nextSibling;
             if ( !$nextToNext || $nextToNext->nodeName != 'br' )
             {
-                $parent->removeChild( $next );
+                $next = $parent->removeChild( $next );
             }
         }
         return $ret;
@@ -366,14 +366,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             if ( $newParent && $newParent->nodeName == 'paragraph' )
             {
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 $newParent->appendChild( $element );
                 $ret['result'] =& $newParent;
             }
             elseif ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
             {
                 $para =& $newParent->parentNode;
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 $para->appendChild( $element );
                 $ret['result'] =& $newParent->parentNode;
             }
@@ -450,7 +450,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                        $elementToMove->nodeName != 'section' )
                 {
                     $next = $elementToMove->nextSibling;
-                    $parent->removeChild( $elementToMove );
+                    $elementToMove = $parent->removeChild( $elementToMove );
                     $newParent->appendChild( $elementToMove );
                     $elementToMove =& $next;
 
@@ -500,7 +500,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                        $elementToMove->nodeName != 'section' )
                 {
                     $next = $elementToMove->nextSibling;
-                    $parent->removeChild( $elementToMove );
+                    $elementToMove = $parent->removeChild( $elementToMove );
                     $current->appendChild( $elementToMove );
                     $elementToMove =& $next;
 
@@ -551,8 +551,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             if ( !$prev )
             {
                 $li = $this->Document->createElement( 'li' );
-                $parent->insertBefore( $li, $element );
-                $parent->removeChild( $element );
+                $li = $parent->insertBefore( $li, $element );
+                $element = $parent->removeChild( $element );
                 $li->appendChild( $element );
             }
             else
@@ -561,13 +561,13 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( $lastChild->nodeName != 'paragraph' )
                 {
                     $para = $this->Document->createElement( 'paragraph' );
-                    $parent->removeChild( $element );
+                    $element = $parent->removeChild( $element );
                     $prev->appendChild( $element );
                     $ret['result'] =& $para;
                 }
                 else
                 {
-                    $parent->removeChild( $element );
+                    $element = $parent->removeChild( $element );
                     $lastChild->appendChild( $element );
                     $ret['result'] = $lastChild;
                 }
@@ -579,7 +579,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $prev = $element->previousSibling;
             if ( $prev )
             {
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 $prev->appendChild( $element );
                 $ret['result'] =& $prev;
                 return $ret;
@@ -603,7 +603,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         // Remove empty text elements
         if ( $element->textContent == '' )
         {
-            $parent->removeChild( $element );
+            $element = $parent->removeChild( $element );
             return $ret;
         }
 
@@ -643,7 +643,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 if ( $element->textContent == '' )
                 {
                     $parent = $element->parentNode;
-                    $parent->removeChild( $element );
+                    $element = $parent->removeChild( $element );
                 }
             }
         }
@@ -669,7 +669,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $lineChildren[] = $lineChildNode;
             }
 
-            $element->removeChild( $line );
+            $line = $element->removeChild( $line );
             foreach ( $lineChildren as $lineChild )
             {
                 $element->appendChild( $lineChild );

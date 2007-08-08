@@ -871,6 +871,7 @@ class eZXMLInputParser
         }
 
         // Call "Structure handler"
+        eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML before callOutputHandler structHandler for element ' . $element->nodeName );
         $ret = $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $this->Document->saveXML(), 'XML after callOutputHandler structHandler for element ' . $element->nodeName );
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', $ret, 'return value of callOutputHandler structHandler for element ' . $element->nodeName );
@@ -942,7 +943,7 @@ class eZXMLInputParser
                     $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "Custom tag '%1' is not allowed.",
                                         array( $element->getAttribute( 'name' ) ) );
                 }
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 return false;
             }
 
@@ -952,7 +953,7 @@ class eZXMLInputParser
             if ( $element->nodeType == XML_ELEMENT_NODE && ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
                  && !$element->hasChildNodes() )
             {
-                $parent->removeChild( $element );
+                $element = $parent->removeChild( $element );
                 if ( !$element->getAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'new-element' ) )
                 {
                     $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "&lt;%1&gt; tag can't be empty.",
@@ -985,7 +986,7 @@ class eZXMLInputParser
                     // Remove indenting spaces
                     if ( $element->nodeType == XML_TEXT_NODE && !trim( $element->textContent ) )
                     {
-                        $parent->removeChild( $element );
+                        $element = $parent->removeChild( $element );
                         return false;
                     }
 
@@ -1015,7 +1016,7 @@ class eZXMLInputParser
         {
             foreach( $element->childNodes as $child )
             {
-                $element->removeChild( $child );
+                $child = $element->removeChild( $child );
 
                 $child = $mainParent->insertBefore( $child, $mainChild );
 
@@ -1025,7 +1026,7 @@ class eZXMLInputParser
                 }
             }
         }
-        $parent->removeChild( $element );
+        $element = $parent->removeChild( $element );
     }
 
     function processAttributesBySchema( &$element )
