@@ -957,16 +957,16 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $contentobject->purge();
             }
-            
+
             $version = $contentobject->CurrentVersion;
             if ( $contentobject->CurrentVersion == $versionNum ) //will assign another current_version in contetnObject.
             {
                //search for version that will be current after removing of this one.
-               $candidateToBeCurrent = $db->arrayQuery( "SELECT version 
-                                                 FROM ezcontentobject_version 
-                                                 WHERE contentobject_id={$contentobject->ID} AND 
-                                                       version!={$contentobject->CurrentVersion} 
-                                                 ORDER BY modified DESC", 
+               $candidateToBeCurrent = $db->arrayQuery( "SELECT version
+                                                 FROM ezcontentobject_version
+                                                 WHERE contentobject_id={$contentobject->ID} AND
+                                                       version!={$contentobject->CurrentVersion}
+                                                 ORDER BY modified DESC",
                                              array( 'offset' => 0, 'limit' => 1 ) );
 
                if ( isset($candidateToBeCurrent[0]['version']) && is_numeric($candidateToBeCurrent[0]['version']) )
