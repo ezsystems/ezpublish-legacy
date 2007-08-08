@@ -84,16 +84,17 @@ class eZTOCOperator
             $content = $dom->attribute( 'content' );
             $xmlData = $content->attribute( 'xml_data' );
 
-            $xml = new eZXML();
-            $domTree = $xml->domTree( $xmlData );
+            $domTree = new DOMDocument();
+            $domTree->preserveWhitespace = false;
+            $success = $domTree->loadXML( $xmlData );
 
             $tocText = '';
-            if ( is_object( $domTree ) )
+            if ( $success )
             {
                 $this->HeaderCounter = array();
                 $this->LastHeaderLevel = 0;
 
-                $rootNode = $domTree->root();
+                $rootNode = $domTree->documentElement;
                 $tocText .= $this->handleSection( $rootNode );
 
                 while ( $this->LastHeaderLevel > 0 )
@@ -112,10 +113,9 @@ class eZTOCOperator
         $this->HeaderCounter[$level + 1] = 0;
 
         $tocText = '';
-        $children =& $sectionNode->Children;
-        foreach ( array_keys( $children ) as $key )
+        $children = $sectionNode->childNodes;
+        foreach ( $children as $child )
         {
-            $child =& $children[$key];
             if ( $child->nodeName == 'section' )
             {
                 $tocText .= $this->handleSection( $child, $level + 1 );
@@ -158,7 +158,7 @@ class eZTOCOperator
                     $headerAutoName .= $this->HeaderCounter[$i];
                     $i++;
                 }
-                $tocText .= '<a href="#eztoc' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a>';
+                $tocText .= '<a href="#eztoc' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent . '</a>';
             }
         }
 
