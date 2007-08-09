@@ -142,7 +142,7 @@ $debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "err
                 $uri->increase();
             }
             $embedParameters = $uri->elements( false );
-            $embedResult =& $embedModule->run( $viewName, $embedParameters );
+            $embedResult = $embedModule->run( $viewName, $embedParameters );
             $embedContent = $embedResult['content'];
         }
 
