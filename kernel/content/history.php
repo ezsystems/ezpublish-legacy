@@ -388,7 +388,7 @@ $newerDraftVersionList = eZPersistentObject::fetchObjectList( eZContentObjectVer
                                                               null, true );
 $newerDraftVersionListCount = is_array( $newerDraftVersionList ) ? count( $newerDraftVersionList ) : 0;
 
-$versions =& $object->versions();
+$versions = $object->versions();
 
 $tpl->setVariable( 'newerDraftVersionList', $newerDraftVersionList );
 $tpl->setVariable( 'newerDraftVersionListCount', $newerDraftVersionListCount[0]['count'] );
