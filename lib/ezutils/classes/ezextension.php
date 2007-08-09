@@ -331,7 +331,7 @@ class eZExtension
      \return Extension information array. null if extension is not found,
              or does not contain extension information.
     */
-    function extensionInfo( $extension )
+    static function extensionInfo( $extension )
     {
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $infoFileName = eZDir::path( array( eZExtension::baseDirectory(), $extension, 'ezinfo.php' ) );
