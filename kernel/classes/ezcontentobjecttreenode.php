@@ -1735,6 +1735,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $depth            = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
         $depthOperator    = ( isset( $params['DepthOperator']     ) )                         ? $params['DepthOperator']      : false;
         $asObject         = ( isset( $params['AsObject']          ) )                         ? $params['AsObject']           : true;
+        $loadDataMap      = ( isset( $params['LoadDataMap'] ) )                               ? $params['LoadDataMap']        : false;
         $groupBy          = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
         $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
@@ -1807,7 +1808,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
-                       ezcontentclass.identifier as class_identifier
+                       ezcontentclass.identifier as class_identifier,
+                       ezcontentclass.is_container as is_container
                        $groupBySelectText
                        $versionNameTargets
                    FROM
@@ -1854,6 +1856,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $asObject )
         {
             $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            if ( $loadDataMap )
+                eZContentObject::fillNodeListAttributes( $retNodeList );
         }
         else
         {
@@ -2944,7 +2948,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $name = $db->escapeString( $name );
         $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
-                             ezcontentclass.serialized_name_list as class_serialized_name_list
+                             ezcontentclass.serialized_name_list as class_serialized_name_list,
+                             ezcontentclass.identifier as class_identifier,
+                             ezcontentclass.is_container as is_container
                       FROM
                             ezcontentobject_tree,
                             ezcontentobject,ezcontentclass
@@ -3274,7 +3280,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $objectID = (int)$objectID;
         $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
-                           ezcontentclass.serialized_name_list as class_serialized_name_list
+                           ezcontentclass.serialized_name_list as class_serialized_name_list,
+                           ezcontentclass.identifier as class_identifier,
+                           ezcontentclass.is_container as is_container
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
@@ -3318,7 +3326,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $objectIDString = $db->implodeWithTypeCast( ',', $objectIDArray, 'int' );
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
-                           ezcontentclass.serialized_name_list as class_serialized_name_list
+                           ezcontentclass.serialized_name_list as class_serialized_name_list,
+                           ezcontentclass.identifier as class_identifier,
+                           ezcontentclass.is_container as is_container
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
@@ -3421,7 +3431,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
-                       ezcontentclass.identifier as class_identifier
+                       ezcontentclass.identifier as class_identifier,
+                       ezcontentclass.is_container as is_container
                        $versionNameTargets
                 FROM ezcontentobject_tree,
                      ezcontentobject,
@@ -5428,7 +5439,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
-                       ezcontentclass.serialized_name_list as class_serialized_name_list
+                       ezcontentclass.serialized_name_list as class_serialized_name_list,
+                       ezcontentclass.identifier as class_identifier,
+                       ezcontentclass.is_container as is_container
                 FROM ezcontentobject_tree,
                      ezcontentobject,
                      ezcontentclass

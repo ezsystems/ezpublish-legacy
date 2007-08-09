@@ -47,7 +47,7 @@
     <tr>
         <th>&nbsp;</th>
         <td  {section show=$MultiOptionList.item.optionlist} colspan="{count($MultiOptionList.item.optionlist)|sum(1)}"{/section} >
-        {include uri='design:content/datatype/edit/multioptiongroup/multioptiongroup_rules.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id parent_multioption=$MultiOptionList.item depth=sum($depth,1) rules=$rules}
+        {include uri='design:content/datatype/edit/multioption2/multioption2_rules.tpl' name=ChildGroup attribute=$attribute group=$MultiOptionList.item.child_group parent_group_id=$group.group_id parent_multioption_id=$MultiOptionList.item.id parent_multioption=$MultiOptionList.item depth=sum($depth,1) rules=$rules}
         </td>
     </tr>
 {/section}

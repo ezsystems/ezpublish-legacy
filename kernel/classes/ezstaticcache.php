@@ -476,6 +476,15 @@ class eZStaticCache
         $fileContentCache = array();
         $doneDestList = array();
 
+        $ini = eZINI::instance( 'staticcache.ini');
+        $clearByCronjob = ( $ini->variable( 'CacheSettings', 'CronjobCacheClear' ) == 'enabled' );
+
+        if ( $clearByCronjob )
+        {
+            include_once( "lib/ezdb/classes/ezdb.php" );
+            $db = eZDB::instance();
+        }
+
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;
@@ -483,9 +492,19 @@ class eZStaticCache
             switch( $action ) {
                 case 'store':
                     list( $destination, $source ) = $parameters;
-                    if ( ! isset( $doneDestList[$destination] ) )
+
+                    if ( isset( $doneDestList[$destination] ) )
+                        continue 2;
+
+                    if ( $clearByCronjob )
                     {
-                        if ( ! isset( $fileContentCache[$source] ) )
+                        $param = $db->escapeString( $destination . ',' . $source );
+                        $db->query( 'INSERT INTO ezpending_actions( action, param ) VALUES ( \'static_store\', \''. $param . '\' )' );
+                        $doneDestList[$destination] = 1;
+                    }
+                    else
+                    {
+                        if ( !isset( $fileContentCache[$source] ) )
                         {
                             $fileContentCache[$source] = @file_get_contents( $source );
                         }
@@ -496,7 +515,7 @@ class eZStaticCache
                         else
                         {
                             eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
-                                $doneDestList[$destination] = 1;
+                            $doneDestList[$destination] = 1;
                         }
                     }
                     break;

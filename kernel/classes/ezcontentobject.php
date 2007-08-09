@@ -339,6 +339,7 @@ class eZContentObject extends eZPersistentObject
         {
             $lang = $this->CurrentLanguage;
         }
+
         $objectID = $this->attribute( 'id' );
         return $this->versionLanguageName( $objectID, $version, $lang );
     }
@@ -395,15 +396,40 @@ class eZContentObject extends eZPersistentObject
         }
         $lang = $db->escapeString( $lang );
         $version = (int) $version;
-        $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
+
+        $initialLanguage = $this->attribute( 'initial_language_id' );
+
+        $query= "SELECT name, content_translation
+                 FROM ezcontentobject_name
+                 WHERE contentobject_id = '$contentObjectID'
+                       AND content_version = '$version'
+                       AND ( content_translation = '$lang' OR language_id = '$initialLanguage' )";
         $result = $db->arrayQuery( $query );
-        if ( count( $result ) < 1 )
+
+        $resCount = count( $result );
+        if( $resCount < 1 )
         {
             $debug->writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
-            return $name;
+        }
+        else if( $resCount > 1 )
+        {
+            // we have name in requested language => find and return it
+            foreach( $result as $row )
+            {
+                if( $row['content_translation'] == $lang )
+                {
+                    $name = $row['name'];
+                    break;
+                }
+            }
+        }
+        else
+        {
+            // we don't have name in requested language(or requested language is the same as initial language) => use name in initial language
+            $name = $result[0]['name'];
         }
 
-        return $result[0]['name'];
+        return $name;
     }
 
     /*!
@@ -748,11 +774,17 @@ class eZContentObject extends eZPersistentObject
     {
         $id = (int) $id;
 
-        $fetchSQLString = "SELECT ezcontentobject.*\n" .
-                          "FROM\n" .
-                          "    ezcontentobject\n" .
-                          "WHERE\n" .
-                          "    ezcontentobject.id='$id'";
+        $fetchSQLString = "SELECT ezcontentobject.*,
+                               ezcontentclass.serialized_name_list as contentclass_serialized_name_list,
+                               ezcontentclass.identifier as contentclass_identifier,
+                               ezcontentclass.is_container as is_container
+                           FROM
+                               ezcontentobject,
+                               ezcontentclass
+                           WHERE
+                               ezcontentobject.id='$id' AND
+                               ezcontentclass.id = ezcontentobject.contentclass_id AND
+                               ezcontentclass.version=0";
 
         return $fetchSQLString;
     }
@@ -2698,6 +2730,8 @@ class eZContentObject extends eZPersistentObject
             }
             $query .= "
                         ezcontentclass.serialized_name_list AS class_serialized_name_list,
+                        ezcontentclass.identifier as contentclass_identifier,
+                        ezcontentclass.is_container as is_container,
                         ezcontentobject.* $versionNameTargets
                      FROM
                         ezcontentclass,

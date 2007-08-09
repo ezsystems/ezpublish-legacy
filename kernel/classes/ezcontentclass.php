@@ -942,6 +942,10 @@ You will need to change the class of the node by using the swap functionality.' 
     */
     function store( $store_childs = false, $fieldFilters = null )
     {
+
+        global $eZContentClassObjectCache;
+        unset( $eZContentClassObjectCache[$this->ID] );
+
         $db = eZDB::instance();
         $db->begin();
 
@@ -1128,16 +1132,22 @@ You will need to change the class of the node by using the swap functionality.' 
 
     static function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
-        $conds = array( "id" => $id,
+        global $eZContentClassObjectCache;
+
+        // If the object given by its id is not cached or should be returned as array
+        // then we fetch it from the DB (objects are always cached as arrays).
+        if ( !isset( $eZContentClassObjectCache[$id] ) or $asObject === false or $version != EZ_CLASS_VERSION_STATUS_DEFINED )
+        {
+            $conds = array( "id" => $id,
                         "version" => $version );
 
-        if ( $user_id !== false and is_numeric( $user_id ) )
-            $conds["creator_id"] = $user_id;
+            if ( $user_id !== false and is_numeric( $user_id ) )
+                $conds["creator_id"] = $user_id;
 
-        $version_sort = "desc";
-        if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
-            $version_sort = "asc";
-        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+            $version_sort = "desc";
+            if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+                $version_sort = "asc";
+            $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -1145,18 +1155,27 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
 
-        if ( count( $rows ) == 0 )
-        {
-            $contentClass = null;
-            return $contentClass;
-        }
+            if ( count( $rows ) == 0 )
+            {
+                $contentClass = null;
+                return $contentClass;
+            }
 
         $row = $rows[0];
         $row["version_count"] = count( $rows );
 
-        if ( $asObject )
+            if ( $asObject )
+            {
+                $contentClass = new eZContentClass( $row );
+                if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+                    $eZContentClassObjectCache[$id] = $contentClass;
+            }
+            else
+                $contentClass = $row;
+        }
+        else
         {
-            return new eZContentClass( $row );
+            $contentClass = $eZContentClassObjectCache[$id];
         }
 
         return $row;

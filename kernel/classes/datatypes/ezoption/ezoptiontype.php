@@ -441,8 +441,29 @@ class eZOptionType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $rootNode = $attributeNode->getElementsByTagName( 'ezoption' )->item( 0 );
-        $xmlString = $rootNode ? $rootNode->ownerDocument->saveXML( $rootNode ) : '';
+        $xmlString = '';
+        $optionNode = $attributeNode->getElementsByTagName( 'ezoption' )->item( 0 );
+
+        if ( $optionNode )
+        {
+            $xmlString = $optionNode->ownerDocument->saveXML( $optionNode );
+        }
+        else
+        {
+            // backward compatibility
+            $optionNode = $attributeNode->getElementsByTagName( 'data-text' )->item( 0 );
+            if ( $optionNode )
+            {
+                $xmlString = $optionNode->textContent;
+            }
+            else
+            {
+                // dl: unknown case. Probably should be removed at all.
+                $optionNode = $attributeNode->firstChild;
+                $xmlString = $optionNode->getAttribute( 'local_name' ) == 'data-text' ? '' : $optionNode->textContent;
+            }
+        }
+
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 

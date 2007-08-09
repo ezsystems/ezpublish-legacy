@@ -3011,7 +3011,17 @@ class eZPackage
         return $langaugeInfo;
     }
 
+    function defaultLanguageMap()
+    {
+        $languageMap = array();
+        $packageLanguages = $this->languageInfo();
+        foreach( $packageLanguages as $language )
+        {
+            $languageMap[$language] = $language;
+        }
 
+        return $languageMap;
+    }
 
     public $isInstalled = false;
     /// \privatesection

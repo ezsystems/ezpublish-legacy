@@ -298,7 +298,11 @@ $FunctionList['list'] = array( 'name' => 'tree',
                                                       array( 'name' => 'objectname_filter',
                                                              'type' => 'string',
                                                              'required' => false,
-                                                             'default' => null ) ) );
+                                                             'default' => null ),
+                                                      array( 'name' => 'load_data_map',
+                                                             'type' => 'bool',
+                                                             'required' => false,
+                                                             'default' => true ) ) );
 $FunctionList['list_count'] = array( 'name' => 'list_count',
                                      'operation_types' => array( 'read' ),
                                      'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
@@ -436,7 +440,11 @@ $FunctionList['tree'] = array( 'name' => 'tree',
                                                       array( 'name' => 'objectname_filter',
                                                              'type' => 'string',
                                                              'required' => false,
-                                                             'default' => null ) ) );
+                                                             'default' => null ),
+                                                      array( 'name' => 'load_data_map',
+                                                             'type' => 'bool',
+                                                             'required' => false,
+                                                             'default' => true ) ) );
 
 $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                      'operation_types' => array( 'read' ),

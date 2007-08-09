@@ -55,7 +55,7 @@ $script->startup();
 
 $scriptOptions = $script->getOptions( "[ts-list:]",
                                       "",
-                                      array( 'ts-list' => "A list of trunstaltions to genereate caches for, f.ex 'rus-RU nor-NO'\n".
+                                      array( 'ts-list' => "A list of translations to generate caches for, for example 'rus-RU nor-NO'\n".
                                                           "By default caches for all translations will be generated" ),
                                       false,
                                       array( 'user' => true )

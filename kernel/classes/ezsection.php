@@ -82,10 +82,26 @@ class eZSection extends eZPersistentObject
     */
     static function fetch( $sectionID, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZSection::definition(),
+        global $eZContentSectionObjectCache;
+
+        // If the object given by its id is not cached or should be returned as array
+        // then we fetch it from the DB (objects are always cached as arrays).
+        if ( !isset( $eZContentSectionObjectCache[$sectionID] ) or $asObject === false )
+        {
+            $section = eZPersistentObject::fetchObject( eZSection::definition(),
                                                 null,
                                                 array( "id" => $sectionID ),
                                                 $asObject );
+            if ( $asObject )
+            {
+                $eZContentSectionObjectCache[$sectionID] = $section;
+            }
+        }
+        else
+        {
+            $section = $eZContentSectionObjectCache[$sectionID];
+        }
+        return $section;
     }
 
     static function fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )

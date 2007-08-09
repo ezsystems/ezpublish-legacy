@@ -460,6 +460,8 @@ class eZDOMNode
                 return $child;
             }
         }
+
+        unset( $child );
         $child = false;
         return $child;
     }
@@ -508,7 +510,7 @@ class eZDOMNode
     /*!
       \deprecated This function is deprecated.
                   Use getAttribute instead.
-    
+
       \return The value of the attribute named \a $attributeName.
       If no value is found \c false is returned.
 
@@ -621,7 +623,7 @@ class eZDOMNode
     /*!
       \deprecated This function is deprecated.
                   Use getAttributeNS instead.
-    
+
       \return The value of the attribute named \a $attributeName and having namespace \a $namespaceURI.
       If no value is found \c false is returned.
 

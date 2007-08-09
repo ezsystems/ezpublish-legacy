@@ -649,8 +649,8 @@ class eZPersistentObject
                            \c FIELD is an associative array containing:
                            - operation - A text field which is included in the field list
                            - name - If present it adds 'AS name' to the operation.
-     \param $custom_conds Array of ready sql conditions for 'WHERE' clause.
      \param $custom_tables Array of additional tables.
+     \param $custom_conds String with sql conditions for 'WHERE' clause.
 
      A full example:
      \code
@@ -678,6 +678,36 @@ class eZPersistentObject
      $group = array( 'type' );
      $rows = eZPersistentObject::fetchObjectList( $def, array(), null, null, null, false, $group, $custom );
      return $rows[0]['count'];
+     \endcode
+
+     Example to fetch a result with custom conditions. The following example will fetch the attributes to
+     the contentobject with id 1 and add the contentobject.name in each attribute row with the array key
+     contentobject_name.
+     \code
+     $objectDef = eZContentObject::definition();
+     $objectAttributeDef = eZContentObjectAttribute::definition();
+
+     $fields = array();
+     $conds = array( $objectDef['name'] . '.id' => 1 );
+     $sorts = array( $objectAttributeDef['name'] . '.sort_key_string' => 'asc' );
+
+     $limit = null;
+     $asObject = false;
+     $group = false;
+
+     $customFields = array( $objectAttributeDef['name'] . '.*',
+                             array( 'operation' => $objectDef['name'] . '.name',
+                                    'name' => 'contentobject_name' ) );
+
+     $customTables = array( $objectDef['name'] );
+
+     $languageCode = 'eng-GB';
+     $customConds = ' AND ' . $objectDef['name'] . '.current_version=' . $objectAttributeDef['name'] . '.version' .
+                     ' AND ' . $objectDef['name'] . '.id=' . $objectAttributeDef['name'] . '.contentobject_id' .
+                     ' AND ' . $objectAttributeDef['name'] . '.language_code=\'' . $languageCode . '\'';
+
+     $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
+                                                  $group, $customFields, $customTables, $customConds );
      \endcode
     */
     static function fetchObjectList( $def,

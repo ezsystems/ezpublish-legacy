@@ -79,23 +79,29 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $dom = $package->fetchDOMFromFile( $filepath );
             if ( $dom )
             {
+                $languageInfo = array();
+
                 $content = $dom->documentElement;
                 $classIdentifier = $content->getElementsByTagName( 'identifier' )->item( 0 )->textContent;
 
-                // get info about translations.
-                $languageInfo = array();
-                $serializedNameListNode = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 );
-                if( $serializedNameListNode )
+                // BC ( <= 3.8 )
+                $classNameNode = $content->getElementsByTagName( 'name' )->item( 0 );
+
+                if( $classNameNode )
                 {
-                    $serializedNameList = $serializedNameListNode->textContent;
-                    $nameList = new eZContentClassNameList( $serializedNameList );
-                    $languageInfo = $nameList->languageLocaleList();
-                    $className = $nameList->name();
+                    $className = $classNameNode->textContent;
                 }
                 else
                 {
-                    // BC with 3.8 and below
-                    $className = $content->getElementsByTagName( 'name' )->item( 0 )->textContent;
+                    // get info about translations.
+                    $serializedNameListNode = $content->getElementsByTagName( 'serialized-name-list' )->item( 0 );
+                    if( $serializedNameListNode )
+                    {
+                        $serializedNameList = $serializedNameListNode->textContent;
+                        $nameList = new eZContentClassNameList( $serializedNameList );
+                        $languageInfo = $nameList->languageLocaleList();
+                        $className = $nameList->name();
+                    }
                 }
 
                 return array( 'description' => ezi18n( 'kernel/package', 'Content class %classname (%classidentifier)', false,

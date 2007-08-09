@@ -63,10 +63,11 @@ class eZModule
     */
     function initialize( $path, $file, $moduleName )
     {
-        unset( $FunctionArray );
-        unset( $Module );
         if ( file_exists( $file ) )
         {
+            unset( $FunctionList );
+            unset( $Module );
+            unset( $ViewList );
             include( $file );
             $this->Functions = $ViewList;
             if ( isset( $FunctionList ) and
@@ -589,6 +590,7 @@ class eZModule
     {
         return array( "uri",
                       "functions",
+                      'views',
                       "name",
                       "path",
                       "info",
