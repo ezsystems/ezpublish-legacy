@@ -254,6 +254,7 @@ if ( !function_exists( 'eZObjectForwardInit' ) )
                                                                      'class' => array( 'object', 'contentclass_id' ),
                                                                      'section' => array( 'object', 'section_id' ),
                                                                      'class_identifier' => array( 'object', 'class_identifier' ),
+                                                                     'class_group' => array( 'object','match_ingroup_id_list' ),
                                                                      'parent_node' => array( 'parent_node_id' ),
                                                                      'depth' => array( 'depth' ),
                                                                      'url_alias' => array( 'url_alias' ) ),
