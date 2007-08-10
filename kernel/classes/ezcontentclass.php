@@ -1168,7 +1168,10 @@ You will need to change the class of the node by using the swap functionality.' 
             {
                 $contentClass = new eZContentClass( $row );
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
+                {
                     $eZContentClassObjectCache[$id] = $contentClass;
+                }
+                return $contentClass;
             }
             else
                 $contentClass = $row;
@@ -1178,7 +1181,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $contentClass = $eZContentClassObjectCache[$id];
         }
 
-        return $row;
+        return $contentClass;
     }
 
     static function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
