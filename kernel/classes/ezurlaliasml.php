@@ -288,7 +288,7 @@ class eZURLAliasML extends eZPersistentObject
         $parentID = (int)$parentID;
         if ( !is_object( $language ) )
             $language = eZContentLanguage::fetchByLocale( $language );
-        $languageID = $language->attribute( 'id' );
+        $languageID = (int)$language->attribute( 'id' );
         $db = eZDB::instance();
         if ( $db->databaseName() == "oracle" )
         {
@@ -511,7 +511,7 @@ class eZURLAliasML extends eZPersistentObject
             $topElement = eZURLAliasML::findUniqueText( $parentID, $topElement, $action );
 
             // Step 4, update | create element
-            $textMD5 = $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $textMD5 = $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
             $query = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
             $rows = $db->arrayQuery( $query );
             // TODO: optimize on InnoDB with INSERT ... ON DUPLICATE
@@ -625,7 +625,7 @@ class eZURLAliasML extends eZPersistentObject
                 return array( 'status' => EZ_URLALIAS_LINK_ALREADY_TAKEN,
                               'path' => join( '/', $createdPath ) );
             }
-            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( $topElement ) . "'" );
+            $sql = "SELECT * FROM ezurlalias_ml WHERE parent = {$parentID} AND text_md5 = " . $db->md5( "'" . $db->escapeString( eZURLAliasML::strtolower( $topElement ) ) . "'" );
             $rows = $db->arrayQuery( $sql );
             if ( count( $rows ) > 0 )
             {
@@ -711,7 +711,7 @@ class eZURLAliasML extends eZPersistentObject
         $query = "SELECT * FROM ezurlalias_ml WHERE $langMask action = '$actionStr'";
         if ( !$includeRedirections )
         {
-            $query .= " AND is_original = 1";
+            $query .= " AND is_original = 1 AND is_alias = 0";
         }
         $rows = $db->arrayQuery( $query );
         if ( count( $rows ) == 0 )
@@ -867,14 +867,15 @@ class eZURLAliasML extends eZPersistentObject
             {
                 foreach ( $actionRows as $row )
                 {
-                    $wantedMask = $language->attribute( 'id' );
-                    if ( ( $wantedMask & $row['lang_mask'] ) > 0 )
+                    $langMask   = (int)$row['lang_mask'];
+                    $wantedMask = (int)$language->attribute( 'id' );
+                    if ( ( $wantedMask & $langMask ) > 0 )
                     {
                         $defaultRow = $row;
                         break 2;
                     }
                     // If the 'always available' bit is set then choose it as the default
-                    if ( ($row['lang_mask'] & 1) > 0 )
+                    if ( ($langMask & 1) > 0 )
                     {
                         $defaultRow = $row;
                     }
@@ -1293,7 +1294,12 @@ class eZURLAliasML extends eZPersistentObject
             }
             if ( strcmp( join( "/", $verifiedPath ), $internalURIString ) != 0 ) // Check for case difference
                 $doRedirect = true;
-            if ( $doRedirect )
+            if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
+            {
+                $uriString = 'error/301';
+                $return = $matches[1];
+            }
+            else if ( $doRedirect )
             {
                 if ( $redirectAction !== false )
                 {
@@ -1339,11 +1345,6 @@ class eZURLAliasML extends eZPersistentObject
                     $uriString = 'error/301';
                     $return = join( "/", $pathData );
                 }
-            }
-            else if ( preg_match( "#^module:(.+)$#", $action, $matches ) )
-            {
-                $uriString = 'error/301';
-                $return = $matches[1];
             }
             else
             {
@@ -1640,6 +1641,7 @@ class eZURLAliasML extends eZPersistentObject
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
         $scores = array();
         $score = 1;
+        $mask   = (int)$mask;
         krsort( $prioritizedLanguages );
         foreach ( $prioritizedLanguages as $prioritizedLanguage )
         {
