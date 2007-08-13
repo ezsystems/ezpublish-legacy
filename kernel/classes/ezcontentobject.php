@@ -748,7 +748,6 @@ class eZContentObject extends eZPersistentObject
         $id = (int) $id;
 
         $fetchSQLString = "SELECT ezcontentobject.*,
-                               ezcontentclass.serialized_name_list as contentclass_serialized_name_list,
                                ezcontentclass.identifier as contentclass_identifier,
                                ezcontentclass.is_container as is_container
                            FROM

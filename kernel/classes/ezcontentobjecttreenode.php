@@ -2836,7 +2836,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.name as class_name,
-                             ezcontentclass.serialized_name_list as class_serialized_name_list,
                              ezcontentclass.identifier as class_identifier,
                              ezcontentclass.is_container as is_container
                       FROM
@@ -3161,7 +3160,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name,
-                           ezcontentclass.serialized_name_list as class_serialized_name_list,
                            ezcontentclass.identifier as class_identifier,
                            ezcontentclass.is_container as is_container
                     FROM ezcontentobject_tree,
@@ -3208,7 +3206,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name,
-                           ezcontentclass.serialized_name_list as class_serialized_name_list,
                            ezcontentclass.identifier as class_identifier,
                            ezcontentclass.is_container as is_container
                     FROM ezcontentobject_tree,
@@ -5319,7 +5316,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.name as class_name,
-                       ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
                        ezcontentclass.is_container as is_container
                 FROM ezcontentobject_tree,
