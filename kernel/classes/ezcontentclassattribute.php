@@ -272,7 +272,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
-        
+
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
         global $eZContentClassAttributeCacheList;
