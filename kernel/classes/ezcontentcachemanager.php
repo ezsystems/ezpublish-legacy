@@ -127,12 +127,12 @@ class eZContentCacheManager
         if ( $viewCacheIni->hasVariable( 'ViewCacheSettings', 'ClearRelationTypes' ) )
         {
             $relTypes = $viewCacheIni->variable( 'ViewCacheSettings', 'ClearRelationTypes' );
-    
+
             if ( !count( $relTypes ) )
                 return;
-    
+
             $relatedObjects = array();
-            
+
             $relationsMask = 0;
             if ( in_array( 'object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
@@ -148,14 +148,14 @@ class eZContentCacheManager
 
             if ( in_array( 'attribute', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
-            
+
             if ( $relationsMask )
             {
                 $objects = $object->relatedContentObjectList( false, false, false, false,
                                                               array( 'AllRelations' => $relationsMask ) );
                 $relatedObjects = array_merge( $relatedObjects, $objects );
             }
-    
+
             $relationsMask = 0;
             if ( in_array( 'reverse_object', $relTypes ) )
                 $relationsMask |= EZ_CONTENT_OBJECT_RELATION_COMMON | EZ_CONTENT_OBJECT_RELATION_EMBED;
