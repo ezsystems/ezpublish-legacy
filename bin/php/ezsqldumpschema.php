@@ -225,7 +225,8 @@ if ( file_exists( $database ) and is_file( $database ) )
 
     if ( $schemaArray === false )
     {
-        eZDebug::writeError( "Error reading schema from file $database" );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Error reading schema from file $database" );
         $script->shutdown( 1 );
         exit( 1 );
     }

@@ -327,7 +327,6 @@ class eZXMLSchema
         }
         else
         {
-            //eZDebug::writeError( "No schema set for <" . $childName . "> tag.", 'eZXMLSchema' );
             return null;
         }
         return true;

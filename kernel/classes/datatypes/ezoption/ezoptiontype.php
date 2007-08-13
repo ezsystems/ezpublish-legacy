@@ -239,7 +239,6 @@ class eZOptionType extends eZDataType
                     if ( $beforeID >= 0 )
                     {
                         $option->insertOption( array(), $beforeID );
-//                         eZDebug::writeDebug( $option, "option added before $beforeID" );
                         $contentObjectAttribute->setContent( $option );
                         $contentObjectAttribute->store();
                         $option = new eZOption( "" );
@@ -266,7 +265,8 @@ class eZOptionType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZOptionType" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown custom HTTP action: " . $action, "eZOptionType" );
             }break;
         }
     }

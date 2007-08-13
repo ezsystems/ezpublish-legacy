@@ -353,7 +353,8 @@ class eZEnumType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
+                $debug = eZDebug::instance();
+                $debug->writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
             }break;
         }
     }
@@ -492,7 +493,8 @@ class eZEnumType extends eZDataType
         }
         else
         {
-            eZDebug::writeError( "Can't find attributes for enumeration", 'eZEnumType::unserializeContentObjectAttribute' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Can't find attributes for enumeration", 'eZEnumType::unserializeContentObjectAttribute' );
         }
     }
 

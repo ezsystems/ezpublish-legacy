@@ -109,7 +109,8 @@ class eZRangeOption
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZRangeOption::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$name' does not exist", 'eZRangeOption::attribute' );
                 return null;
             }break;
         }

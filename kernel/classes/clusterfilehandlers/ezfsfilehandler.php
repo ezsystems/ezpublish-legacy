@@ -72,7 +72,8 @@ class eZFSFileHandler
             {
                 if ( !$mutex->lock() )
                 {
-                    eZDebug::writeWarning( "Failed to acquire lock for file " . $this->filePath );
+                    $debug = eZDebug::instance();
+                    $debug->writeWarning( "Failed to acquire lock for file " . $this->filePath );
                     return false;
                 }
                 $mutex->setMeta( 'pid', getmypid() );
@@ -93,7 +94,8 @@ class eZFSFileHandler
             }
             if ( !$mutex->steal() )
             {
-                eZDebug::writeWarning( "Failed to steal lock for file " . $this->filePath . " from PID $oldPid" );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Failed to steal lock for file " . $this->filePath . " from PID $oldPid" );
                 return false;
             }
             $mutex->setMeta( 'pid', getmypid() );

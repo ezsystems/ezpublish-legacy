@@ -305,7 +305,8 @@ class eZMultiOption
             } break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
                 return null;
             }break;
         }

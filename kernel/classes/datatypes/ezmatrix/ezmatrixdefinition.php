@@ -90,7 +90,8 @@ class eZMatrixDefinition
             return $this->ColumnNames;
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
         return null;
     }
 

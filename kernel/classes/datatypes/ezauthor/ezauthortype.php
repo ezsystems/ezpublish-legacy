@@ -268,7 +268,8 @@ class eZAuthorType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZAuthorType" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown custom HTTP action: " . $action, "eZAuthorType" );
             }break;
         }
     }

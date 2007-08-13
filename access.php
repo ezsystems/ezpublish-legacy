@@ -222,7 +222,8 @@ function accessType( &$uri, $host, $port, $file )
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown access match: $match", "access" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown access match: $match", "access" );
             } break;
         }
 
@@ -309,7 +310,10 @@ function changeAccess( $access )
 
     eZUpdateDebugSettings();
     if ( accessDebugEnabled() )
-        eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
+    {
+        $debug = eZDebug::instance();
+        $debug->writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
+    }
 
     return $access;
 }
@@ -404,7 +408,8 @@ function accessAllowed( $uri )
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown access rule: $name=$value", 'Access' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown access rule: $name=$value", 'Access' );
             } break;
         }
     }
@@ -448,7 +453,8 @@ function precheckAllowed( &$prechecks )
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown precheck rule: $name=$value", 'Access' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown precheck rule: $name=$value", 'Access' );
             } break;
         }
     }

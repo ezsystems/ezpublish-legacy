@@ -581,7 +581,8 @@ class eZLDAPUser extends eZUser
             }
             else
             {
-                eZDebug::writeError( 'Cannot initialize connection for LDAP server', 'eZLDAPUser::loginUser()' );
+                $debug = eZDebug::instance();
+                $debug->writeError( 'Cannot initialize connection for LDAP server', 'eZLDAPUser::loginUser()' );
                 $user = false;
                 return $user;
             }
@@ -608,17 +609,19 @@ class eZLDAPUser extends eZUser
         if ( !is_array( $userAttributes ) or
              !isset( $userAttributes[ 'login' ] ) or empty( $userAttributes[ 'login' ] ) )
         {
-            eZDebug::writeWarning( 'Empty user login passed.',
-                                   $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Empty user login passed.',
+                                  $thisFunctionErrorLabel );
             return false;
         }
 
         if ( ( !is_array( $parentNodeIDs ) or count( $parentNodeIDs ) < 1 ) and
              !is_numeric( $defaultUserPlacement ) )
         {
-            eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new user (login = "' .
-                                   $userAttributes[ 'login' ] . '")',
-                                   $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'No one parent node IDs was passed for publishing new user (login = "' .
+                                  $userAttributes[ 'login' ] . '")',
+                                  $thisFunctionErrorLabel );
             return false;
         }
         $parentNodeIDs[] = $defaultUserPlacement;
@@ -639,8 +642,9 @@ class eZLDAPUser extends eZUser
                  !isset( $last_name ) or empty( $last_name ) or
                  !isset( $email ) or empty( $email ) )
             {
-                eZDebug::writeWarning( 'Cannot create user with empty first name (last name or email).',
-                                       $thisFunctionErrorLabel );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( 'Cannot create user with empty first name (last name or email).',
+                                      $thisFunctionErrorLabel );
                 return false;
             }
 
@@ -773,8 +777,9 @@ class eZLDAPUser extends eZUser
                         $existingNode = eZContentObjectTreeNode::fetchNode( $contentObjectID, $defaultUserPlacement );
                         if ( !is_object( $existingNode ) )
                         {
-                            eZDebug::writeError( "Cannot find assigned node as $defaultUserPlacement's child.",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            $debug = eZDebug::instance();
+                            $debug->writeError( "Cannot find assigned node as $defaultUserPlacement's child.",
+                                                'kernel/classes/datatypes/ezuser/ezldapuser' );
                         }
                         else
                         {
@@ -790,23 +795,26 @@ class eZLDAPUser extends eZUser
 
                         if ( !$mainNode->canMoveFrom() )
                         {
-                            eZDebug::writeError( "Cannot move node $mainNodeID.",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            $debug = eZDebug::instance();
+                            $debug->writeError( "Cannot move node $mainNodeID.",
+                                                'kernel/classes/datatypes/ezuser/ezldapuser' );
                         }
                         $newParentNode = eZContentObjectTreeNode::fetch( $defaultUserPlacement );
                         // Check if we try to move the node as child of itself or one of its children
                         if ( in_array( $mainNodeID, $newParentNode->pathArray() ) )
                         {
-                            eZDebug::writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
-                                                 'kernel/classes/datatypes/ezuser/ezldapuser' );
+                            $debug = eZDebug::instance();
+                            $debug->writeError( "Cannot move node $mainNodeID as child of itself or one of its own children (node $defaultUserPlacement).",
+                                                'kernel/classes/datatypes/ezuser/ezldapuser' );
                         }
                         else
                         {
                             include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
                             if ( !eZContentObjectTreeNodeOperations::move( $mainNodeID, $defaultUserPlacement ) )
                             {
-                                eZDebug::writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
-                                                     'kernel/classes/datatypes/ezuser/ezldapuser' );
+                                $debug = eZDebug::instance();
+                                $debug->writeError( "Failed to move node $mainNodeID as child of parent node $defaultUserPlacement",
+                                                    'kernel/classes/datatypes/ezuser/ezldapuser' );
                             }
                         }
                     }
@@ -835,15 +843,17 @@ class eZLDAPUser extends eZUser
              !isset( $newGroupAttributes[ 'name' ] ) or
              empty( $newGroupAttributes[ 'name' ] ) )
         {
-            eZDebug::writeWarning( 'Cannot create user group with empty name.',
-                                   $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Cannot create user group with empty name.',
+                                  $thisFunctionErrorLabel );
             return $newNodeIDs;
         }
         if ( !is_array( $parentNodeIDs ) or count( $parentNodeIDs ) < 1 )
         {
-            eZDebug::writeWarning( 'No one parent node IDs was passed for publishing new group (group name = "' .
-                                   $newGroupAttributes[ 'name' ] . '")',
-                                   $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'No one parent node IDs was passed for publishing new group (group name = "' .
+                                  $newGroupAttributes[ 'name' ] . '")',
+                                  $thisFunctionErrorLabel );
             return $newNodeIDs;
         }
 
@@ -947,8 +957,9 @@ class eZLDAPUser extends eZUser
         $thisFunctionErrorLabel = 'eZLDAPUser.php, function goAndPublishGroups()';
         if ( !isset( $groupsTree[ $curDN ] ) )
         {
-            eZDebug::writeError( 'Passed $curDN is not in result tree array.',
-                                 $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Passed $curDN is not in result tree array.',
+                                $thisFunctionErrorLabel );
             return false;
         }
 
@@ -973,8 +984,9 @@ class eZLDAPUser extends eZUser
 
         if ( empty( $currentName ) )
         {
-            eZDebug::writeWarning( "Cannot create/use group with empty name (dn = $curDN)",
-                                   $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "Cannot create/use group with empty name (dn = $curDN)",
+                                  $thisFunctionErrorLabel );
             return false;
         }
 
@@ -988,8 +1000,9 @@ class eZLDAPUser extends eZUser
                 if ( in_array( $parent['data']['dn'], $stack ) )
                 {
                     $groupsTree[ '_recursion_detected_' ] = true;
-                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
-                                         $thisFunctionErrorLabel );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
+                                        $thisFunctionErrorLabel );
                     return false;
                 }
                 if ( isset( $parent[ 'nodes' ] ) and count( $parent[ 'nodes' ] ) > 0 )
@@ -1058,14 +1071,16 @@ class eZLDAPUser extends eZUser
                     }
                     else
                     {
-                        eZDebug::writeError( 'Cannot fetch parent node for creating new user group ' . $parentNodeID,
-                                             $thisFunctionErrorLabel );
+                        $debug = eZDebug::instance();
+                        $debug->writeError( 'Cannot fetch parent node for creating new user group ' . $parentNodeID,
+                                            $thisFunctionErrorLabel );
                     }
                 }
             }
             else
             {
-                eZDebug::writeError( "Cannot get any published parent group for group/user with name = '$currentName'" .
+                $debug = eZDebug::instance();
+                $debug->writeError( "Cannot get any published parent group for group/user with name = '$currentName'" .
                                      " (dn = '" . $current[ 'data' ]['dn'] . "')",
                                      $thisFunctionErrorLabel );
             }
@@ -1113,14 +1128,16 @@ class eZLDAPUser extends eZUser
              !isset( $requiredParams[ 'LDAPGroupMemberAttribute' ] ) or empty( $requiredParams[ 'LDAPGroupMemberAttribute' ] ) or
              !isset( $requiredParams[ 'ds' ] ) or !$requiredParams[ 'ds' ] )
         {
-            eZDebug::writeError( 'Missing one of required parameters.',
-                                 $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Missing one of required parameters.',
+                                $thisFunctionErrorLabel );
             return false;
         }
         if ( !isset( $groupsTree[ $curDN ] ) )
         {
-            eZDebug::writeError( 'Passed $curDN is not in result tree array. Algorithm\'s usage error.',
-                                 $thisFunctionErrorLabel );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Passed $curDN is not in result tree array. Algorithm\'s usage error.',
+                                $thisFunctionErrorLabel );
             return false;
         }
         array_push( $stack, $curDN );
@@ -1155,8 +1172,9 @@ class eZLDAPUser extends eZUser
                 {
                     $requiredParams[ 'LDAPGroupNameAttribute' ];
 
-                    eZDebug::writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
-                                         $thisFunctionErrorLabel );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( 'Recursion is detected in the user-groups tree while getting parent groups for ' . $curDN,
+                                        $thisFunctionErrorLabel );
                     $groupsTree[ '_recursion_detected_' ] = true;
                     return false;
                 }

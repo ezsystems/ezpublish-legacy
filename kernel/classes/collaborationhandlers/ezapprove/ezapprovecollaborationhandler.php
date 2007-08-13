@@ -178,7 +178,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
         {
-//             eZDebug::writeDebug( $collaborationItem, "reactivating approval $approvalID" );
             $collaborationItem->setAttribute( 'data_int3', EZ_COLLABORATION_APPROVE_STATUS_WAITING );
             $collaborationItem->setAttribute( 'status', EZ_COLLABORATION_STATUS_ACTIVE );
             $timestamp = time();
@@ -298,7 +297,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             {
                 $message = eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
                 $message->store();
-//                 eZDebug::writeDebug( $message );
                 eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );
             }
         }

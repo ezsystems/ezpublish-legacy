@@ -266,7 +266,8 @@ if ( $includeSchema and
 
 if ( $schemaArray === false )
 {
-    eZDebug::writeError( "Error reading schema from file $filename" );
+    $debug = eZDebug::instance();
+    $debug->writeError( "Error reading schema from file $filename" );
     $script->shutdown( 1 );
     exit( 1 );
 }

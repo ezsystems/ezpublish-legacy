@@ -102,7 +102,8 @@ class eZEnum
             }break;
             default :
             {
-                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZEnum::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$attr' does not exist", 'eZEnum::attribute' );
                 return null;
             }break;
         }

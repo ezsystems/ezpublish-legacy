@@ -864,8 +864,6 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
 
     $redirectURI = eZSys::indexDir();
-//     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
-//     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
     $moduleRedirectUri = $module->redirectURI();
     $redirectStatus = $module->redirectStatus();

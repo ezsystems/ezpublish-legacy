@@ -105,9 +105,6 @@ class eZUserLoginHandler
      */
     static function instance( $protocol = "standard" )
     {
-        //eZDebug::writeNotice( 'Trying to fetch loginhandler : ' . $protocol,
-        //                      'eZUserLoginHandler::instance()' );
-
         if ( $protocol == "standard" )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );

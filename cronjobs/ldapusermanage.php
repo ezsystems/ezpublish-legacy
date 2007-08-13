@@ -207,7 +207,8 @@ if ( $ds )
     }
     if ( !$r )
     {
-        eZDebug::writeError( 'Cannot bind in to LDAP server', 'ldapusermanage.php' );
+        $debug = eZDebug::instance();
+        $debug->writeError( 'Cannot bind in to LDAP server', 'ldapusermanage.php' );
         return false;
     }
     ldap_set_option( $ds, LDAP_OPT_SIZELIMIT, 0 );
@@ -215,7 +216,8 @@ if ( $ds )
 }
 else
 {
-    eZDebug::writeError( 'Cannot initialize connection for LDAP server', 'ldapusermanage.php' );
+    $debug = eZDebug::instance();
+    $debug->writeError( 'Cannot initialize connection for LDAP server', 'ldapusermanage.php' );
     return false;
 }
 

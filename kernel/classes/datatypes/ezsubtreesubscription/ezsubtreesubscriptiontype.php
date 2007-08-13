@@ -77,7 +77,6 @@ class eZSubtreeSubscriptionType extends eZDataType
                     $newSubscriptions[] = $node->attribute( 'node_id' );
                 }
             }
-//             eZDebug::writeDebug( $newSubscriptions, "New subscriptions shell be created" );
 
             foreach ( $newSubscriptions as $nodeID )
             {

@@ -363,7 +363,8 @@ class eZObjectRelationType extends eZDataType
 
             default :
             {
-                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZObjectRelationType" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown custom HTTP action: " . $action, "eZObjectRelationType" );
             } break;
         }
     }
@@ -464,7 +465,8 @@ class eZObjectRelationType extends eZDataType
             } break;
             default:
             {
-                eZDebug::writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
             } break;
         }
     }
@@ -592,7 +594,8 @@ class eZObjectRelationType extends eZDataType
             $relatedObject = eZContentObject::fetch( $relatedObjectID );
             if ( !$relatedObject )
             {
-                eZDebug::writeNotice( 'Related object with ID: ' . $relatedObjectID . ' does not exist.' );
+                $debug = eZDebug::instance();
+                $debug->writeNotice( 'Related object with ID: ' . $relatedObjectID . ' does not exist.' );
             }
             else
             {

@@ -136,10 +136,16 @@ class eZImageVariation extends eZPersistentObject
                 }
             }
             else
-                eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageVariation::createOriginal' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageVariation::createOriginal' );
+            }
         }
         else
-            eZDebug::writeError( "Unknown imagefile '$fullPath'", 'eZImageVariation::createOriginal' );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( "Unknown imagefile '$fullPath'", 'eZImageVariation::createOriginal' );
+        }
         return $variation;
     }
 
@@ -262,7 +268,8 @@ class eZImageVariation extends eZPersistentObject
 
         if ( !$file->exists() || $file->size() == 0 )
         {
-            eZDebug::writeError( "Could not create variation for $imageFullPath" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Could not create variation for $imageFullPath" );
             $retValue = false;
             return $retValue;
         }

@@ -227,7 +227,8 @@ class eZMatrixType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZMatrixType' );
+                $debug = eZDebug::instance();
+                $debug->writeError( 'Unknown custom HTTP action: ' . $action, 'eZMatrixType' );
             }break;
         }
     }
@@ -406,7 +407,8 @@ class eZMatrixType extends eZDataType
             }break;
             default :
             {
-                eZDebug::writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
+                $debug = eZDebug::instance();
+                $debug->writeError( 'Unknown custom HTTP action: ' . $action, 'eZEnumType' );
             }break;
         }
     }

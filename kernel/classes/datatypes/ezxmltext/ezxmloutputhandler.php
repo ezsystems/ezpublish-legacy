@@ -126,7 +126,8 @@ class eZXMLOutputHandler
             } break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
                 return null;
             } break;
         }

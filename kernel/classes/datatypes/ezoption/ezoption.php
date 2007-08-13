@@ -135,7 +135,8 @@ class eZOption
             }break;
             default:
             {
-                eZDebug::writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
                 return null;
             }break;
         }

@@ -28,9 +28,11 @@
 
 $module = $Params['Module'];
 
+$debug = eZDebug::instance();
+
 if ( !$module->hasActionParameter( 'ClassID' ) )
 {
-    eZDebug::writeError( 'Missing ClassID parameter for action ' . $module->currentAction(),
+    $debug->writeError( 'Missing ClassID parameter for action ' . $module->currentAction(),
                          'class/translation' );
     return $module->redirectToView( 'grouplist' );
 }
@@ -39,7 +41,7 @@ $classID = $module->actionParameter( 'ClassID' );
 
 if ( !$module->hasActionParameter( 'LanguageCode' ) )
 {
-    eZDebug::writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
+    $debug->writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
                          'class/translation' );
     return $module->redirectToView( 'view', array( $classID ) );
 }
@@ -90,7 +92,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         {
             if ( !$class->removeTranslation( $languageID ) )
             {
-                eZDebug::writeError( "Class with id " . $class->attribute( 'id' ) . ": cannot remove the translation with language id $languageID!", 'class/translation' );
+                $debug->writeError( "Class with id " . $class->attribute( 'id' ) . ": cannot remove the translation with language id $languageID!", 'class/translation' );
             }
         }
 
