@@ -149,7 +149,6 @@ class eZProductCollection extends eZPersistentObject
             if ( !$productItem->verify( $currency ) )
             {
                 $invalidItemArray[] = $productItem;
-                //  eZDebug::writeDebug( $productItem , "invalid item" );
                 $isValid = false;
             }
         }

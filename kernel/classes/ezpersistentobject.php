@@ -341,7 +341,8 @@ class eZPersistentObject
                  strlen( $value ) > $field_def['max_length'] )
             {
                 $obj->setAttribute( $field_name, substr( $value, 0, $field_def['max_length'] ) );
-                eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
+                $debug = eZDebug::instance();
+                $debug->writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
             }
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != EZ_DB_BINDING_NO &&
@@ -594,7 +595,8 @@ class eZPersistentObject
                                   } break;
                               default:
                                   {
-                                    eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                      $debug = eZDebug::instance();
+                                      $debug->writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
                                   } break;
                           }
 
@@ -1241,8 +1243,9 @@ static function definition()
         }
         else
         {
-            eZDebug::writeError( "Undefined attribute '$attr', cannot set",
-                                 $def['class_name'] );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Undefined attribute '$attr', cannot set",
+                                $def['class_name'] );
         }
     }
 

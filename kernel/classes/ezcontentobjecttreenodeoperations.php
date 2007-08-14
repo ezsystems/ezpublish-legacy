@@ -141,7 +141,8 @@ class eZContentObjectTreeNodeOperations
         }
         else
         {
-            eZDebug::writeError( "Node $nodeID was moved to $newParentNodeID but fetching the new node failed" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Node $nodeID was moved to $newParentNodeID but fetching the new node failed" );
         }
 
         $db->commit();

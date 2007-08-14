@@ -232,7 +232,8 @@ class eZSerializedObjectNameList
         }
         else
         {
-            eZDebug::writeWarning( "Trying to get name for language '$languageLocale' without initialized name list.", 'eZSerializedObjectNameList::hasNameInLocale' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "Trying to get name for language '$languageLocale' without initialized name list.", 'eZSerializedObjectNameList::hasNameInLocale' );
         }
 
         return $hasName;
@@ -257,12 +258,14 @@ class eZSerializedObjectNameList
             }
             else
             {
-                eZDebug::writeWarning( "Language locale is not specified while setting name '$name'", 'eZSerializedObjectNameList::setNameByLanguageLocale' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Language locale is not specified while setting name '$name'", 'eZSerializedObjectNameList::setNameByLanguageLocale' );
             }
         }
         else
         {
-            eZDebug::writeWarning( "Trying to set name '$name' for language '$languageLocale' without initialized name list.", 'eZSerializedObjectNameList::setNameByLanguageLocale' );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "Trying to set name '$name' for language '$languageLocale' without initialized name list.", 'eZSerializedObjectNameList::setNameByLanguageLocale' );
         }
     }
 
@@ -374,7 +377,8 @@ class eZSerializedObjectNameList
         }
         else
         {
-            eZDebug::writeWarning( "Can't set '$languageLocale' as default language. '$languageLocale' language doesn't exist in system", "eZSerializedObjectNameList::setDefaultLanguageByLocale" );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "Can't set '$languageLocale' as default language. '$languageLocale' language doesn't exist in system", "eZSerializedObjectNameList::setDefaultLanguageByLocale" );
         }
 
         return $language;

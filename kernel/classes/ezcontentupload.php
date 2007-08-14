@@ -117,11 +117,13 @@ class eZContentUpload
     function attribute( $attributeName )
     {
         if ( isset( $this->Parameters[$attributeName] ) )
-            return $this->Parameters[$attributeName];
         {
-            eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
-            return null;
+            return $this->Parameters[$attributeName];
         }
+
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
+        return null;
     }
 
     /*!
@@ -1335,7 +1337,7 @@ class eZContentUpload
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         "Could not find content upload handler '%handler_name'",
                                                         null, array( '%handler_name' => $handlerName ) ) );
-//             eZDebug::writeError( "Could not find content upload handler '$handlerName'", 'eZContentUpload::findHandler' );
+
             return false;
         }
         return true;

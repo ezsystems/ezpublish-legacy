@@ -105,12 +105,14 @@ class eZContentFunctions
             }
             else
             {
-                eZDebug::writeError( "Content class with identifier '$classIdentifier' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Content class with identifier '$classIdentifier' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
             }
         }
         else
         {
-            eZDebug::writeError( "Node with id 'parentNodeID' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Node with id 'parentNodeID' doesn't exist.", 'eZContentFunctions::createAndPublishObject' );
         }
 
         return $contentObject;

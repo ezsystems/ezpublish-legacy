@@ -78,7 +78,8 @@ class eZBinaryFileHandler
             return $this->Info[$attribute];
         }
 
-        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
         return null;
     }
 
@@ -214,7 +215,8 @@ class eZBinaryFileHandler
             } break;
             default:
             {
-                eZDebug::writeWarning( "Unknown binary file type '$downloadType'", 'eZBinaryFileHandler::downloadURL' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Unknown binary file type '$downloadType'", 'eZBinaryFileHandler::downloadURL' );
             } break;
         }
         $url = "/content/download/$contentObjectID/$contentObjectAttributeID/$downloadType/$name";
@@ -286,7 +288,10 @@ class eZBinaryFileHandler
                 $instance = new $classname();
             }
             else
-                eZDebug::writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
+            }
         }
         return $instance;
     }

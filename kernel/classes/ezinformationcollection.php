@@ -465,140 +465,141 @@ class eZInformationCollection extends eZPersistentObject
         return $resultArray[0]['count'];
     }
 
-   /*!
-    \static
-    \param $definition      - required, definition of fields
-    \param $sortArray       - required, the input array
+    /*!
+     \static
+     \param $definition      - required, definition of fields
+     \param $sortArray       - required, the input array
 
-     This function converts sorting on the form array ( 'field', true ) to the array( 'field' => true )
-     and checks if the field exists in the definition. The functions is used to make sorting the same
-     way as done in fetch('content','list', ... )
-   */
-   static function getSortArrayFromParam( $definition, $sortArray )
-   {
-      if ( count( $sortArray ) < 2 )
-         return null;
+      This function converts sorting on the form array ( 'field', true ) to the array( 'field' => true )
+      and checks if the field exists in the definition. The functions is used to make sorting the same
+      way as done in fetch('content','list', ... )
+    */
+    static function getSortArrayFromParam( $definition, $sortArray )
+    {
+        if ( count( $sortArray ) < 2 )
+        {
+            return null;
+        }
 
-      $sortField = $sortArray[0];
+        $sortField = $sortArray[0];
 
-      // Check if we have the specified sort_field in the definition
-      if ( isset( $definition[ 'fields' ][ $sortField ] ) )
-      {
-         $sortDir = $sortArray[1] ? 'asc' : 'desc';
-         $sorts = array( $sortField => $sortDir );
-         return $sorts;
-      }
-      eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
-      return null;
-   }
+        // Check if we have the specified sort_field in the definition
+        if ( isset( $definition[ 'fields' ][ $sortField ] ) )
+        {
+            $sortDir = $sortArray[1] ? 'asc' : 'desc';
+            $sorts = array( $sortField => $sortDir );
+            return $sorts;
+        }
 
-   /*!
-    \static
-    \param $creatorID       - optional, default false, limits the fetched set to a creator_id
-    \param $contentObjectID - optional, default false, limits the fetched set of collection to
-                              a specific content object
-    \param $userIdentifier  - optional, default false, limits the fetched set to a user_identifier
-    \param $limitArray      - optional, default false, limits the number of returned results
-                              on the form:  array( 'limit' => $limit, 'offset' => $offset )
-    \param $sortArray       - optional, default false, how to sort the result,
-                              on the form: array( 'field', true/false ), true = asc
-    \param $asObject        - optional, default true, specifies if results should be returned as objects.
+        $debug = eZDebug::instance();
+        $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
+        return null;
+    }
+
+    /*!
+     \static
+     \param $creatorID       - optional, default false, limits the fetched set to a creator_id
+     \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                               a specific content object
+     \param $userIdentifier  - optional, default false, limits the fetched set to a user_identifier
+     \param $limitArray      - optional, default false, limits the number of returned results
+                               on the form:  array( 'limit' => $limit, 'offset' => $offset )
+     \param $sortArray       - optional, default false, how to sort the result,
+                               on the form: array( 'field', true/false ), true = asc
+     \param $asObject        - optional, default true, specifies if results should be returned as objects.
 
       Fetches a list of information collections.
     */
     static function fetchCollectionsList( $contentObjectID = false, $creatorID = false , $userIdentifier = false, $limitArray  = false, $sortArray = false, $asObject = true )
     {
-         $conditions = array();
-         if ( $contentObjectID )
+        $conditions = array();
+        if ( $contentObjectID )
             $conditions = array( 'contentobject_id' => $contentObjectID  );
-         if ( $creatorID )
+        if ( $creatorID )
             $conditions['creator_id'] = $creatorID;
-         if ( $userIdentifier )
+        if ( $userIdentifier )
             $conditions['user_identifier'] = $userIdentifier;
 
-         $limit = null;
-         if ( isset( $limitArray['limit'] ) )
-         {
+        $limit = null;
+        if ( isset( $limitArray['limit'] ) )
+        {
             $limit = $limitArray;
             if ( ! ( $limit['offset'] ) )
-               $limit['offset'] = 0;
-         }
+            {
+                $limit['offset'] = 0;
+            }
+        }
 
-         $sorts = null;
-         if ( !( $sortArray === false ) )
-         {
+        $sorts = null;
+        if ( $sortArray !== false )
+        {
             if ( count( $sortArray ) >= 2 )
             {
-               $def = eZInformationCollection::definition();
+                $def = eZInformationCollection::definition();
 
-               if ( ! ( is_array( $sortArray[0] ) ) )
-               {
-                  $sortArray = array( 0 => $sortArray );
-               }
+                if ( ! ( is_array( $sortArray[0] ) ) )
+                {
+                    $sortArray = array( 0 => $sortArray );
+                }
 
-               foreach ( $sortArray as $sortElement )
-               {
-                  $result = eZInformationCollection::getSortArrayFromParam( $def, $sortElement );
-                  $sorts = array_merge($sorts, $result );
-               }
+                foreach ( $sortArray as $sortElement )
+                {
+                    $result = eZInformationCollection::getSortArrayFromParam( $def, $sortElement );
+                    $sorts = array_merge($sorts, $result );
+                }
             }
             else
             {
-               eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
             }
-         }
+        }
 
-         return eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
-                                                      null,
-                                                      $conditions,
-                                                      $sorts,
-                                                      $limit,
-                                                      $asObject );
+        return eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                    null,
+                                                    $conditions,
+                                                    $sorts,
+                                                    $limit,
+                                                    $asObject );
     }
 
-   /*!
-     \static
+    /*!
+      \static
 
-     \param $creatorID       - optional, default false, the user to fetch collections for
-     \param $contentObjectID - optional, default false, limits the fetched set of collection to
-                               a specific content object
+      \param $creatorID       - optional, default false, the user to fetch collections for
+      \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                                a specific content object
 
-     Fetch the number of items limited by the parameters
-   */
+      Fetch the number of items limited by the parameters
+    */
     static function fetchCollectionsCount( $contentObjectID = false, $creatorID = false, $userIdentifier = false )
     {
-         $conditions = array();
-         if ( is_numeric( $contentObjectID ) )
+        $conditions = array();
+        if ( is_numeric( $contentObjectID ) )
             $conditions = array( 'contentobject_id' => $contentObjectID  );
-         if ( is_numeric( $creatorID ) )
+        if ( is_numeric( $creatorID ) )
             $conditions['creator_id'] = $creatorID ;
-         if ( $userIdentifier )
+        if ( $userIdentifier )
             $conditions['user_identifier'] = $userIdentifier;
 
-         $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
-                                                           array(),
-                                                           $conditions,
-                                                           false,
-                                                           null,
-                                                           false,
-                                                           false,
-                                                           array( array( 'operation' => 'count( id )',
-                                                                         'name' => 'count' ) ) );
-         return $resultSet[0]['count'];
-   }
+        $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                          array(),
+                                                          $conditions,
+                                                          false,
+                                                          null,
+                                                          false,
+                                                          false,
+                                                          array( array( 'operation' => 'count( id )',
+                                                                        'name' => 'count' ) ) );
+        return $resultSet[0]['count'];
+    }
 
     function fetchCountList( $objectAttributeID )
     {
         $db = eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
         $valueSQL = "";
-//         if ( $value !== false )
-//         {
-//             if ( is_integer( $value ) )
-//             {
-//                 $valueSQL = " AND data_int='" . $db->escapeString( $value ) . "'";
-//             }
-//         }
+
         $objectAttributeID =(int) $objectAttributeID;
         $resArray = $db->arrayQuery( "SELECT data_int, count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id

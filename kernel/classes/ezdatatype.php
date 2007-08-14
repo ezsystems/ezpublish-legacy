@@ -246,13 +246,14 @@ class eZDataType
     function attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
-            return $this->Attributes[$attr];
-        else
         {
-            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZDataType::attribute' );
-            $attributeData = null;
-            return $attributeData;
+            return $this->Attributes[$attr];
         }
+
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZDataType::attribute' );
+        $attributeData = null;
+        return $attributeData;
     }
 
     /*!
@@ -310,8 +311,9 @@ class eZDataType
                              $objectAttribute, $httpFile, $mimeData,
                              &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
-                               'eZDataType::insertHTTPFile' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of HTTP files",
+                              'eZDataType::insertHTTPFile' );
         return null;
     }
 
@@ -338,8 +340,9 @@ class eZDataType
                                 $objectAttribute, $filePath,
                                 &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
-                               'eZDataType::insertRegularFile' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of regular files",
+                              'eZDataType::insertRegularFile' );
         return null;
     }
 
@@ -366,8 +369,9 @@ class eZDataType
                                  &$objectAttribute, $string,
                                  &$result )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
-                               'eZDataType::insertSimplestring' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support insertion of simple strings",
+                              'eZDataType::insertSimplestring' );
         return null;
     }
 
@@ -452,8 +456,9 @@ class eZDataType
     */
     function productOptionInformation( $objectAttribute, $optionID, $productItem )
     {
-        eZDebug::writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
-                               'eZDataType::productOptionInformation' );
+        $debug = eZDebug::instance();
+        $debug->writeWarning( "The datatype " . strtolower( get_class( $this ) ) . " for attribute ID " . $objectAttribute->attribute( 'id' ) . " does not support product options",
+                              'eZDataType::productOptionInformation' );
         return null;
     }
 
@@ -890,7 +895,8 @@ class eZDataType
         }
         else
         {
-            eZDebug::writeError( '$classAttribute isn\'t an object.', 'eZDataType::contentActionList' );
+            $debug = eZDebug::instance();
+            $debug->writeError( '$classAttribute isn\'t an object.', 'eZDataType::contentActionList' );
         }
         return $actionList;
     }
@@ -1097,8 +1103,9 @@ class eZDataType
                 }
                 else
                 {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::serializeContentObjectAttribute' );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "The attribute '$attributeName' does not exists for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                        'eZDataType::serializeContentObjectAttribute' );
                 }
             }
         }
@@ -1138,14 +1145,16 @@ class eZDataType
                     }
                     else
                     {
-                        eZDebug::writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                             'eZDataType::unserializeContentObjectAttribute' );
+                        $debug = eZDebug::instance();
+                        $debug->writeError( "The xml element '$xmlName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                            'eZDataType::unserializeContentObjectAttribute' );
                     }
                 }
                 else
                 {
-                    eZDebug::writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
-                                         'eZDataType::unserializeContentObjectAttribute' );
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "The attribute '$attributeName' does not exist for contentobject attribute " . $objectAttribute->attribute( 'id' ),
+                                        'eZDataType::unserializeContentObjectAttribute' );
                 }
             }
         }
@@ -1214,9 +1223,10 @@ class eZDataType
             }
             else
             {
-                eZDebug::writeWarning( "Extension '$extensionDirectory' does not have the subdirectory 'datatypes'\n" .
-                                       "Looked for directory '" . $extensionPath . "'\n" .
-                                       "Cannot look for datatype '$type' in this extension." );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Extension '$extensionDirectory' does not have the subdirectory 'datatypes'\n" .
+                                      "Looked for directory '" . $extensionPath . "'\n" .
+                                      "Cannot look for datatype '$type' in this extension." );
             }
         }
         $foundEventType = false;
@@ -1232,7 +1242,8 @@ class eZDataType
         }
         if ( !$foundEventType )
         {
-            eZDebug::writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), "eZDataType::loadAndRegisterType" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Datatype not found: '$type', searched in these directories: " . implode( ', ', $triedDirectories ), "eZDataType::loadAndRegisterType" );
             return false;
         }
         include_once( $includeFile );

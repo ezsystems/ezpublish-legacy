@@ -158,7 +158,6 @@ class eZProductCategory extends eZPersistentObject
             foreach ( $rows as $row )
             {
                 $query = "UPDATE ezcontentobject_attribute SET data_int=0, sort_key_int=0 WHERE id=" . (int) $row['id'];
-                eZDebug::writeDebug( $query, '$query' );
                 $db->query( $query );
             }
         }

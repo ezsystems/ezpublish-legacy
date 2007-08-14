@@ -100,14 +100,22 @@ class eZWorkflowType
             if ( !isset( $GLOBALS["eZWorkflowTypeObjects"][$typeString] ) )
             {
                 if ( class_exists( $class_name ) )
+                {
                     $GLOBALS["eZWorkflowTypeObjects"][$typeString] = new $class_name();
+                }
                 else
-                    eZDebug::writeError( "Undefined event type class: $class_name", "eZWorkflowType::createType" );
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Undefined event type class: $class_name", "eZWorkflowType::createType" );
+                }
             }
             return $GLOBALS["eZWorkflowTypeObjects"][$typeString];
         }
         else
-            eZDebug::writeError( "Undefined type: $typeString", "eZWorkflowType::createType" );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( "Undefined type: $typeString", "eZWorkflowType::createType" );
+        }
         return null;
     }
 
@@ -129,7 +137,8 @@ class eZWorkflowType
                     }
                     else
                     {
-                        eZDebug::writeError( "Undefined event type class: $class_name", "eZWorkflowType::fetchRegisteredTypes" );
+                        $debug = eZDebug::instance();
+                        $debug->writeError( "Undefined event type class: $class_name", "eZWorkflowType::fetchRegisteredTypes" );
                     }
                 }
             }
@@ -167,7 +176,8 @@ class eZWorkflowType
         }
         if ( isset( $GLOBALS["eZWorkflowTypes"][$typeString] ) )
         {
-            eZDebug::writeError( "Type already registered: $typeString", "eZWorkflowType::registerType" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Type already registered: $typeString", "eZWorkflowType::registerType" );
         }
         else
         {
@@ -180,7 +190,8 @@ class eZWorkflowType
         $typeElements = explode( "_", $typeString );
         if ( count( $typeElements ) < 2 )
         {
-            eZDebug::writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Workflow type not found: $typeString", "eZWorkflowType::loadAndRegisterType" );
             return false;
         }
 
@@ -217,7 +228,8 @@ class eZWorkflowType
             }
         }
 
-        eZDebug::writeError( "Workflow type not found: $typeString, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZWorkflowType::loadAndRegisterType" );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Workflow type not found: $typeString, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZWorkflowType::loadAndRegisterType" );
         return false;
     }
 
@@ -254,7 +266,9 @@ class eZWorkflowType
                     return $this->Attributes[$attr];
             } break;
         }
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
+
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
         return null;
     }
 

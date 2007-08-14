@@ -99,7 +99,8 @@ class eZContentBrowse
             return $this->Parameters[$attributeName];
         }
 
-        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
         return null;
     }
 
@@ -222,7 +223,10 @@ class eZContentBrowse
             $parameters['cancel_page'] = false;
 
         if ( !isset( $parameters['from_page'] ) )
-            eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
+        }
 
         $http = eZHTTPTool::instance();
         $http->setSessionVariable( 'BrowseParameters', $parameters );
@@ -293,7 +297,8 @@ class eZContentBrowse
             {
                 if ( !is_numeric( $value ) )
                 {
-                    eZDebug::writeError( "Non-numeric value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Non-numeric value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
                                          'eZContentBrowse::result' );
                     continue;
                 }
@@ -301,7 +306,8 @@ class eZContentBrowse
                 $intValue = (int)$value;
                 if ( $value != $intValue )
                 {
-                    eZDebug::writeError( "Non-integer value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Non-integer value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
                                          'eZContentBrowse::result' );
                     continue;
                 }

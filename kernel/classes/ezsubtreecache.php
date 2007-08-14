@@ -166,7 +166,8 @@ class eZSubtreeCache
         }
         else
         {
-            eZDebug::writeWarning( "$dir should be a directory. Template-block caches for 'subtree_expiry' are not removed.", "eZSubtreeCache::renameDir" );
+            $debug = eZDebug::instance();
+            $debug->writeWarning( "$dir should be a directory. Template-block caches for 'subtree_expiry' are not removed.", "eZSubtreeCache::renameDir" );
         }
     }
 

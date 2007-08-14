@@ -101,7 +101,8 @@ class eZURLAliasFilter
                     include_once( $filterPath );
                     if ( !class_exists( $filterName ) )
                     {
-                        eZDebug::writeError( "URLAlias filter class named '$filterName' does not exist after loading PHP file $filterPath, ignoring entry." );
+                        $debug = eZDebug::instance();
+                        $debug->writeError( "URLAlias filter class named '$filterName' does not exist after loading PHP file $filterPath, ignoring entry." );
                         break;
                     }
                     $filters[] = new $filterName;

@@ -134,7 +134,8 @@ class eZPackageCreationHandler
             return $this->Attributes[$name];
         }
 
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
         return null;
     }
 

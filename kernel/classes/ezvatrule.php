@@ -369,7 +369,6 @@ class eZVatRule extends eZPersistentObject
     {
         $db = eZDB::instance();
         $query = "DELETE FROM ezvatrule_product_category WHERE product_category_id=" . (int) $cartegoryID;
-        eZDebug::writeDebug( $query, '$query' );
         $db->query( $query );
     }
 

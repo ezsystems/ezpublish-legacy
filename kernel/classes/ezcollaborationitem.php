@@ -429,7 +429,8 @@ class eZCollaborationItem extends eZPersistentObject
                             } break;
                             default:
                             {
-                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaborationItem::fetchList' );
+                                $debug = eZDebug::instance();
+                                $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaborationItem::fetchList' );
                                 continue;
                             };
                         }

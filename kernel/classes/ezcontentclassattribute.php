@@ -329,7 +329,10 @@ class eZContentClassAttribute extends eZPersistentObject
         else
         {
             if ( !$quiet )
-                eZDebug::writeError( 'Datatype [' . $dataType->attribute( 'name' ) . '] can not be deleted to avoid system crash' );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeError( 'Datatype [' . $dataType->attribute( 'name' ) . '] can not be deleted to avoid system crash' );
+            }
             return false;
         }
     }

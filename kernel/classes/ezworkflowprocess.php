@@ -380,7 +380,8 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT:
                         {
-                            eZDebug::writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
+                            $debug = eZDebug::instance();
+                            $debug->writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED:
                         {
@@ -396,11 +397,13 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_NONE:
                         {
-                            eZDebug::writeWarning( "Workflow executing status is EZ_WORKFLOW_TYPE_STATUS_NONE", "eZWorkflowProcess::run" );
+                            $debug = eZDebug::instance();
+                            $debug->writeWarning( "Workflow executing status is EZ_WORKFLOW_TYPE_STATUS_NONE", "eZWorkflowProcess::run" );
                         } break;
                         default:
                         {
-                            eZDebug::writeWarning( "Unknown status '$currentEventStatus'", "eZWorkflowProcess::run" );
+                            $debug = eZDebug::instance();
+                            $debug->writeWarning( "Unknown status '$currentEventStatus'", "eZWorkflowProcess::run" );
                         } break;
                     }
                     $eventLog[] = array( "status" => $currentEventStatus,
@@ -411,7 +414,10 @@ class eZWorkflowProcess extends eZPersistentObject
                                          "type_group" => $eventType->attribute( "group_name" ) );
                 }
                 else
-                    eZDebug::writeError( "Expected an eZWorkFlowType object", "eZWorkflowProcess::run" );
+                {
+                    $debug = eZDebug::instance();
+                    $debug->writeError( "Expected an eZWorkFlowType object", "eZWorkflowProcess::run" );
+                }
             }
             else
             {

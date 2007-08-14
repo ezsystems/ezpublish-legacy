@@ -1704,7 +1704,8 @@ class eZURLAliasML extends eZPersistentObject
                 break;
 
             default:
-                eZDebug::writeError( "Unknown action type '{$type}', cannot handle it" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Unknown action type '{$type}', cannot handle it" );
                 return false;
         }
         return $url;

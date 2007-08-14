@@ -1727,8 +1727,9 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupInternalDrafts()' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                'eZContentObject::cleanupInternalDrafts()' );
             return;
         }
 
@@ -1761,8 +1762,9 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                 'eZContentObject::cleanupAllInternalDrafts()' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                'eZContentObject::cleanupAllInternalDrafts()' );
             return;
         }
 
@@ -2426,7 +2428,7 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $toObjectID ) )
         {
             $debug->writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
-                                 "eZContentObject::addContentObjectRelation" );
+                                "eZContentObject::addContentObjectRelation" );
             return false;
         }
         $fromObjectID =(int) $fromObjectID;
@@ -4850,7 +4852,7 @@ class eZContentObject extends eZPersistentObject
             if ( !$contentObjectVersion )
             {
                 $db->commit();
-                //eZDebug::writeError( 'Unserialize error', 'eZContentObject::unserialize' );
+
                 $retValue = false;
                 return $retValue;
             }

@@ -168,7 +168,7 @@ class eZNodeAssignment extends eZPersistentObject
      */
     function isNopOperation()
     {
-        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;   
+        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;
     }
 
     /*!
@@ -211,7 +211,8 @@ class eZNodeAssignment extends eZPersistentObject
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
-            eZDebug::writeError( $parameters, "Cannot create node assignment without contentobject_id" );
+            $debug = eZDebug::instance();
+            $debug->writeError( $parameters, "Cannot create node assignment without contentobject_id" );
             $retValue = null;
             return $retValue;
         }

@@ -265,12 +265,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
             $attributes = $contentObject->contentObjectAttributes();
             $optionsPrice = $this->calculatePriceWithOptions( $currency );
-/*            if (  $optionsPrice === false )
-            {
-                eZDebug::writeDebug( $optionPrice , "Option price is not the same" );
 
-                return false;
-            } */
             foreach ( $attributes as $attribute )
             {
                 $dataType = $attribute->dataType();
