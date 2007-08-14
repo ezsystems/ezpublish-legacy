@@ -50,3 +50,4 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
   (Merged from stable/3.9 (3.9.3) rev. 19625)
 - Fixed bug #010792: node_id on objectrelations are not updateted on trash / restore
 - Fixed bug #009775: class_group override doesn't work when using "node_view_gui' (rev. 19646)
+- Fixed bug #011251: Wrong name of a subitem in context menu (GUI issue)
