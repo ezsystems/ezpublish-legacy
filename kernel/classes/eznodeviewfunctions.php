@@ -425,36 +425,55 @@ class eZNodeviewfunctions
         $node = eZContentObjectTreeNode::fetch( $NodeID );
 
         if ( !is_object( $node ) )
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        {
+            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+                           'store'   => false );
+        }
 
         $object =& $node->attribute( 'object' );
 
         if ( !is_object( $object ) )
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        {
+            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+                           'store'   => false );
+        }
 
         if ( !get_class( $object ) == 'ezcontentobject' )
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
+        {
+            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+                           'store'   => false );
+        }
         if ( $node === null )
-            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        {
+            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' ),
+                           'store'   => false );
+        }
 
         if ( $object === null )
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        {
+            return  array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+                           'store'   => false );
+        }
 
         if ( $node->attribute( 'is_invisible' ) && !eZContentObjectTreeNode::showInvisibleNodes() )
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        {
+            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' ),
+                          'store'   => false );
+        }
 
 //    if ( !$object->attribute( 'can_read' ) )
         if ( !$object->canRead() )
         {
-            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
+            return array( 'content' => $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED,
+                                                             'kernel',
+                                                             array( 'AccessList' => $object->accessList( 'read' ) ) ),
+                          'store'   => false );
         }
 
         $Result =& eZNodeviewfunctions::generateNodeViewData( $tpl, $node, $object,
                                                               $LanguageCode, $ViewMode, $Offset,
                                                               $viewParameters, $collectionAttributes,
                                                               $validation );
-
         $retval = array( 'content' => $Result,
                          'scope'   => 'viewcache',
                          'store'   => $Result['cache_ttl'] != 0 );
