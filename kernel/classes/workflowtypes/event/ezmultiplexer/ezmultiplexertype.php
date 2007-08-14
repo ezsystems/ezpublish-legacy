@@ -321,9 +321,6 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $childStatus = $childProcess->run( $workflow, $workflowEvent, $eventLog );
                 $childProcess->store();
 
-//                 eZDebug::writeNotice( $childProcess, "childProcess" );
-//                 eZDebug::writeNotice( $childStatus, "childStatus" );
-
                 if ( $childStatus ==  EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON )
                 {
                     $this->setActivationDate( $childProcess->attribute( 'activation_date' ) );

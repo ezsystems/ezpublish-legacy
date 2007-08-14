@@ -213,7 +213,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
     */
     function add( $packageType, $package, $cli, $parameters )
     {
-        //eZDebug::writeDebug( $parameters, 'extension add parameters' );
         include_once( 'lib/ezutils/classes/ezini.php' );
         include_once( 'lib/ezfile/classes/ezdir.php' );
 

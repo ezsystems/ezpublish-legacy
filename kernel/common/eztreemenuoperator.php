@@ -92,7 +92,10 @@ class eZTreeMenuOperator
         $language = $namedParameters['language'];
         // node_id is not used anymore
         if ( isset( $namedParameters['node_id'] ) )
-            eZDebug::writeNotice( 'Deprecated parameter "node_id" in treemenu template operator' );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeNotice( 'Deprecated parameter "node_id" in treemenu template operator' );
+        }
 
         if ( $classFilter === false )
         {

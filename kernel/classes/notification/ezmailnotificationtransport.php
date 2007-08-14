@@ -57,7 +57,8 @@ class eZMailNotificationTransport extends eZNotificationTransport
 
         if ( $addressList == false )
         {
-            eZDebug::writeError( 'Error with receiver', 'eZMailNotificationTransport::send()' );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Error with receiver', 'eZMailNotificationTransport::send()' );
             return false;
         }
 

@@ -85,7 +85,8 @@ class eZNotificationTransport
         if ( $impl === null )
         {
             $impl = new eZNotificationTransport();
-            eZDebug::writeError( 'Transport implementation not supported: ' . $transport, 'eZNotificationTransport::instance' );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Transport implementation not supported: ' . $transport, 'eZNotificationTransport::instance' );
         }
         return $impl;
     }

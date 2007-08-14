@@ -151,7 +151,8 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
     }
 }
 
-eZDebug::writeNotice( 'The diff view has been deprecated, please use the /content/history/ view instead' );
+$debug = eZDebug::instance();
+$debug->writeNotice( 'The diff view has been deprecated, please use the /content/history/ view instead' );
 
 $Result = array();
 

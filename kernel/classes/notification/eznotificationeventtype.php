@@ -102,7 +102,8 @@ class eZNotificationEventType
             return $this->Attributes[$attr];
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZNotificationEventType::attribute' );
         return null;
     }
 
@@ -146,7 +147,8 @@ class eZNotificationEventType
         $types = $GLOBALS["eZNotificationEventTypes"];
         if ( isset( $types[$type] ) )
         {
-            eZDebug::writeError( "Notification event type already registered: $type", "eZNotificationEventType::loadAndRegisterType" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Notification event type already registered: $type", "eZNotificationEventType::loadAndRegisterType" );
             return false;
         }
 
@@ -173,7 +175,8 @@ class eZNotificationEventType
         }
         if ( !$foundEventType )
         {
-            eZDebug::writeError( "Notification event type not found: $type, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZNotificationEventType::loadAndRegisterType" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Notification event type not found: $type, searched in these directories: " . implode( ', ', $repositoryDirectories ), "eZNotificationEventType::loadAndRegisterType" );
             return false;
         }
         include_once( $includeFile );

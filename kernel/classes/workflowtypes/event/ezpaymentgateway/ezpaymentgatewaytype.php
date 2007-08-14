@@ -230,10 +230,14 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $gateways =& $GLOBALS["eZPaymentGateways"];
         if ( !is_array( $gateways ) )
+        {
             $gateways = array();
+        }
+
         if ( isset( $gateways[$gateway] ) )
         {
-            eZDebug::writeError( "Gateway already registered: $gateway", "eZPaymentGatewayType::registerGateway" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Gateway already registered: $gateway", "eZPaymentGatewayType::registerGateway" );
         }
         else
         {

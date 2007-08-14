@@ -30,8 +30,9 @@ $module = $Params['Module'];
 
 if ( !$module->hasActionParameter( 'NodeID' ) )
 {
-    eZDebug::writeError( 'Missing NodeID parameter for action ' . $module->currentAction(),
-                         'content/translation' );
+    $debug = eZDebug::instance();
+    $debug->writeError( 'Missing NodeID parameter for action ' . $module->currentAction(),
+                        'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 
@@ -39,8 +40,9 @@ $nodeID = $module->actionParameter( 'NodeID' );
 
 if ( !$module->hasActionParameter( 'LanguageCode' ) )
 {
-    eZDebug::writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
-                         'content/translation' );
+    $debug = eZDebug::instance();
+    $debug->writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
+                        'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 
@@ -54,12 +56,14 @@ if ( !$module->hasActionParameter( 'ViewMode' ) )
 
 if ( $module->isCurrentAction( 'Cancel' ) )
 {
-    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );    
+    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
 
 if ( !$module->hasActionParameter( 'ObjectID' ) )
 {
-    eZDebug::writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(), 'content/translation' );
+    $debug = eZDebug::instance();
+    $debug->writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(),
+                        'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 $objectID = $module->actionParameter( 'ObjectID' );
@@ -142,14 +146,16 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     }
 
     $languageIDArray = $module->actionParameter( 'LanguageID' );
-    
+
     if ( $module->hasActionParameter( 'ConfirmRemoval' ) && $module->actionParameter( 'ConfirmRemoval' ) )
     {
         foreach( $languageIDArray as $languageID )
         {
             if ( !$object->removeTranslation( $languageID ) )
             {
-                eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!", 'content/translation' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
+                                    'content/translation' );
             }
         }
 
@@ -182,7 +188,7 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
     include_once( "kernel/common/template.php" );
 
     $tpl = templateInit();
-        
+
     $tpl->setVariable( 'object_id', $objectID );
     $tpl->setVariable( 'object', $object );
     $tpl->setVariable( 'node_id', $nodeID );

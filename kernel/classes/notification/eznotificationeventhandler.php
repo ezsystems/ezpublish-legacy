@@ -77,7 +77,8 @@ class eZNotificationEventHandler
             return $this->Name;
         }
 
-        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
+        $debug = eZDebug::instance();
+        $debug->writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
         return null;
     }
 

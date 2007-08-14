@@ -911,7 +911,8 @@ class eZContentFunctionCollection
                         $debug->writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
                         break;
                     case 'Group':
-                        eZDebug::writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
+                        $debug = eZDebug::instance();
+                        $debug->writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
                         break;
                     case 'Node':
                         $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $limitationArray['Node'] ) . ')';
@@ -1167,7 +1168,8 @@ class eZContentFunctionCollection
                 }
                 else
                 {
-                    eZDebug::writeWarning( "Unknown relation type: '$relationType'.", "eZContentFunctionCollection::contentobjectRelationTypeMask()" );
+                    $debug = eZDebug::instance();
+                    $debug->writeWarning( "Unknown relation type: '$relationType'.", "eZContentFunctionCollection::contentobjectRelationTypeMask()" );
                 }
             }
         }
@@ -1266,7 +1268,8 @@ class eZContentFunctionCollection
             }
             else
             {
-                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
             }
         }
         if ( !$attributeID )
@@ -1369,7 +1372,8 @@ class eZContentFunctionCollection
             }
             else
             {
-                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
             }
         }
         if ( isset( $ignoreVisibility ) )

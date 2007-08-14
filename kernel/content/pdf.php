@@ -252,7 +252,8 @@ function contentPDFPassthrough( $cacheFile )
 
     if( !$file->exists() )
     {
-        eZDebug::writeEror( "Cache-file for pdf doesn't exist", 'content::pdf::contentPDFPassthrough' );
+        $debug = eZDebug::instance();
+        $debug->writeEror( "Cache-file for pdf doesn't exist", 'content::pdf::contentPDFPassthrough' );
         return;
     }
 

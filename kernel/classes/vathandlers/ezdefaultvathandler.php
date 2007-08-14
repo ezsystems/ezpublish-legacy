@@ -69,11 +69,6 @@ class eZDefaultVATHandler
             $country = '*';
         }
 
-        /*
-        eZDebug::writeDebug( sprintf( "getVatPercent( country='%s', category='%s' )",
-                                      $country, $productCategory->attribute( 'name' ) ) );
-        */
-
         $vatType = eZDefaultVATHandler::chooseVatType( $productCategory, $country );
 
         return $vatType->attribute( 'percentage' );
@@ -90,8 +85,9 @@ class eZDefaultVATHandler
         $ini = eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
-            eZDebug::writeError( "Cannot find product category: please specify its attribute identifier " .
-                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Cannot find product category: please specify its attribute identifier " .
+                                "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
             return null;
         }
 
@@ -99,8 +95,9 @@ class eZDefaultVATHandler
 
         if ( !$categoryAttributeName )
         {
-            eZDebug::writeError( "Cannot find product category: empty attribute name specified " .
-                                 "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Cannot find product category: empty attribute name specified " .
+                                "in the following setting: shop.ini.[VATSettings].ProductCategoryAttribute" );
 
             return null;
         }
@@ -109,10 +106,11 @@ class eZDefaultVATHandler
 
         if ( !isset( $productDataMap[$categoryAttributeName] ) )
         {
-            eZDebug::writeError( "Cannot find product category: there is no attribute '$categoryAttributeName' in object '" .
-                                   $object->attribute( 'name' ) .
-                                   "' of class '" .
-                                   $object->attribute( 'class_name' ) . "'." );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Cannot find product category: there is no attribute '$categoryAttributeName' in object '" .
+                                  $object->attribute( 'name' ) .
+                                  "' of class '" .
+                                  $object->attribute( 'class_name' ) . "'." );
             return null;
         }
 
@@ -121,7 +119,8 @@ class eZDefaultVATHandler
 
         if ( $productCategory === null )
         {
-            eZDebug::writeNotice( "Product category is not specified in object '" .
+            $debug = eZDebug::instance();
+            $debug->writeNotice( "Product category is not specified in object '" .
                                    $object->attribute( 'name' ) .
                                    "' of class '" .
                                    $object->attribute( 'class_name' ) . "'." );
@@ -194,13 +193,6 @@ class eZDefaultVATHandler
             else
                 $vatPriority = 0;
 
-            /*
-            eZDebug::writeDebug( sprintf( "Rule: country='%s' categories='%s' => country_match=%d cat_match=%d : pri=%d",
-                                          $ruleCountry,
-                                          $rule->attribute( 'product_categories_string' ),
-                                          $countryMatch, $categoryMatch, $vatPriority ) );
-            */
-
             if ( !isset( $vatPriorities[$vatPriority] ) )
                 $vatPriorities[$vatPriority] = $ruleVatID;
         }
@@ -214,19 +206,21 @@ class eZDefaultVATHandler
 
         if ( $bestPriority == 0 )
         {
-            eZDebug::writeError( "Cannot find a suitable VAT type " .
-                                 "for country '" . $country . "'" .
-                                 " and category '" . $productCategory->attribute( 'name' ). "'." );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Cannot find a suitable VAT type " .
+                                "for country '" . $country . "'" .
+                                " and category '" . $productCategory->attribute( 'name' ). "'." );
 
-            return new eZVATType(  array( "id" => 0,
-                                          "name" => ezi18n( 'kernel/shop', 'None' ),
-                                          "percentage" => 0.0 ) );
+            return new eZVATType( array( "id" => 0,
+                                         "name" => ezi18n( 'kernel/shop', 'None' ),
+                                         "percentage" => 0.0 ) );
         }
 
         $bestVatTypeID = array_shift( $vatPriorities );
         $bestVatType = eZVatType::fetch( $bestVatTypeID );
 
-        eZDebug::writeDebug(
+        $debug = eZDebug::instance();
+        $debug->writeDebug(
             sprintf( "Best matching VAT for '%s'/'%s' is '%s' (%d%%)",
                      $country,
                      $productCategory->attribute( 'name' ),

@@ -120,11 +120,12 @@ if ( $EditLanguage != null )
    $localeObject = eZLocale::instance( $EditLanguage );
        if ( !$localeObject || !$localeObject->isValid() )
        {
-           eZDebug::writeError( "No such locale $EditLanguage!", 'Can not find language.' );       
+           $debug = eZDebug::instance();
+           $debug->writeError( "No such locale $EditLanguage!", 'Can not find language.' );
            return $Module->handleError( EZ_ERROR_KERNEL_LANGUAGE_NOT_FOUND, 'kernel',
                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );
        }
-}                                                                         
+}
 
 // Action for edit_draft.tpl page,
 // This will create a new draft of the object which the user can edit.
@@ -627,6 +628,7 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $uri = $module->redirectionURI( 'content', 'edit', array( $object->attribute( 'id'), 'f', $EditLanguage ) );
                 $module->redirectTo( $uri );
+                $debug = eZDebug::instance();
                 eZDebug::writeDebug( $uri, "uri  " .  $object->attribute( 'id')  );
                 $hasRedirected = true;
             }

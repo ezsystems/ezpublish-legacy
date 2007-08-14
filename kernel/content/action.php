@@ -37,6 +37,7 @@ include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
 $http = eZHTTPTool::instance();
+$debug = eZDebug::instance();
 $module = $Params['Module'];
 
 /* We retrieve the class ID for users as this is used in many places in this
@@ -108,7 +109,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         $languageID = eZContentLanguage::idByLocale( $languageCode );
         if ( $languageID === false )
         {
-            eZDebug::writeError( "The language code [$languageCode] specified in ContentLanguageCode does not exist in the system." );
+            $debug->writeError( "The language code [$languageCode] specified in ContentLanguageCode does not exist in the system." );
             return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
     }
@@ -248,8 +249,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
 
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
@@ -280,31 +281,31 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     $selectedNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
     if ( !$selectedNode )
     {
-        eZDebug::writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as parent node for node $nodeID",
-                               'content/action' );
+        $debug->writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as parent node for node $nodeID",
+                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     // check if the object can be moved to (under) the selected node
     if ( !$selectedNode->canMoveTo( $classID ) )
     {
-        eZDebug::writeError( "Cannot move node $nodeID as child of parent node $selectedNodeID, the current user does not have create permission for class ID $classID",
-                             'content/action' );
+        $debug->writeError( "Cannot move node $nodeID as child of parent node $selectedNodeID, the current user does not have create permission for class ID $classID",
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     // Check if we try to move the node as child of itself or one of its children
     if ( in_array( $node->attribute( 'node_id' ), $selectedNode->pathArray()  ) )
     {
-        eZDebug::writeError( "Cannot move node $nodeID as child of itself or one of its own children (node $selectedNodeID).",
-                             'content/action' );
+        $debug->writeError( "Cannot move node $nodeID as child of itself or one of its own children (node $selectedNodeID).",
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
     }
 
     include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
     if( !eZContentObjectTreeNodeOperations::move( $nodeID, $selectedNodeID ) )
     {
-        eZDebug::writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
-                             'content/action' );
+        $debug->writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
+                            'content/action' );
     }
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
@@ -317,8 +318,8 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
 
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
@@ -381,7 +382,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
 {
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -394,7 +395,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
 
     if ( !$node->canSwap() )
     {
-        eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
+        $debug->writeError( "Cannot swap node $nodeID (no edit permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
@@ -421,14 +422,14 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
     if ( !$selectedNode )
     {
-        eZDebug::writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as exchanging node for node $nodeID",
-                               'content/action' );
+        $debug->writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as exchanging node for node $nodeID",
+                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$selectedNode->canSwap() )
     {
-        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
-                             'content/action' );
+        $debug->writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
@@ -460,12 +461,12 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
 
     if ( !$nodeParent->canMoveTo( $selectedObjectClassID ) )
     {
-        eZDebug::writeError( "Cannot move an object of class $selectedObjectClassID to node $nodeParentNodeID (no create permission)" );
+        $debug->writeError( "Cannot move an object of class $selectedObjectClassID to node $nodeParentNodeID (no create permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
     if ( !$selectedNodeParent->canMoveTo( $objectClassID ) )
     {
-        eZDebug::writeError( "Cannot move an object of class $objectClassID to node $selectedNodeParentNodeID (no create permission)" );
+        $debug->writeError( "Cannot move an object of class $objectClassID to node $selectedNodeParentNodeID (no create permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
@@ -532,8 +533,8 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
 
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
@@ -544,7 +545,7 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
 
     if ( !$node->canSwap() )
     {
-        eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
+        $debug->writeError( "Cannot swap node $nodeID (no edit permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
@@ -587,14 +588,14 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
 
     if ( !$module->hasActionParameter( 'ObjectID' ) )
     {
-        eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
@@ -644,8 +645,8 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
     }
     else
     {
-        eZDebug::writeError( "No MainAssignmentID found for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "No MainAssignmentID found for action " . $module->currentAction(),
+                            'content/action' );
     }
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
@@ -655,13 +656,13 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 {
     if ( !$module->hasActionParameter( 'ObjectID' ) )
     {
-        eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
-                             'content/action' );
+        $debug->writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
+                            'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -832,13 +833,13 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 {
     if ( !$module->hasActionParameter( 'ObjectID' ) )
     {
-        eZDebug::writeError( "Missing ObjectID parameter for action RemoveAssignment",
+        $debug->writeError( "Missing ObjectID parameter for action RemoveAssignment",
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action RemoveAssignment",
+        $debug->writeError( "Missing NodeID parameter for action RemoveAssignment",
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -862,7 +863,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     if ( $module->hasActionParameter( 'AssignmentIDSelection' ) )
     {
-        eZDebug::writeError( "Use of POST variable 'AssignmentIDSelection' is deprecated, use the node ID and put it in 'LocationIDSelection' instead" );
+        $debug->writeError( "Use of POST variable 'AssignmentIDSelection' is deprecated, use the node ID and put it in 'LocationIDSelection' instead" );
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
@@ -1100,7 +1101,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
     }
     else
     {
-        eZDebug::writeError( "Variable 'ContentNodeID' can not be found in template." );
+        $debug->writeError( "Variable 'ContentNodeID' can not be found in template." );
         $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
         return;
     }
@@ -1109,7 +1110,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $contentNode = eZContentObjectTreeNode::fetch( $contentNodeID );
         if ( !$contentNode->attribute( 'can_edit' ) )
         {
-            eZDebug::writeError( 'Current user can not update the priorities because he has no permissions to edit the node' );
+            $debug->writeError( 'Current user can not update the priorities because he has no permissions to edit the node' );
             $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
             return;
         }
@@ -1288,7 +1289,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
                 }
             }
         }
-        eZDebug::writeError( "Unknown content object action", "kernel/content/action.php" );
+        $debug->writeError( "Unknown content object action", "kernel/content/action.php" );
     }
 }
 else if ( $http->hasPostVariable( 'RedirectButton' ) )
@@ -1330,13 +1331,13 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
 {
     if ( !$module->hasActionParameter( 'ObjectID' ) )
     {
-        eZDebug::writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
+        $debug->writeError( "Missing ObjectID parameter for action " . $module->currentAction(),
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$module->hasActionParameter( 'NodeID' ) )
     {
-        eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
+        $debug->writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -1410,7 +1411,7 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
 {
     if ( !$module->hasActionParameter( 'UploadActionName' ) )
     {
-        eZDebug::writeError( "Missing UploadActionName parameter for action " . $module->currentAction(),
+        $debug->writeError( "Missing UploadActionName parameter for action " . $module->currentAction(),
                              'content/action' );
         include_once( 'kernel/classes/ezredirectmanager.php' );
         eZRedirectManager::redirectTo( $module, 'content/view/full/2', true );
@@ -1439,13 +1440,13 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
             $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
             if ( !is_object( $parentNode ) )
             {
-                eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, the parent does not exist",
+                $debug->writeError( "Cannot upload file as child of parent node $parentNodeID, the parent does not exist",
                                      'content/action:' . $module->currentAction() );
                 return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
             }
             if ( !$parentNode->canCreate() )
             {
-                eZDebug::writeError( "Cannot upload file as child of parent node $parentNodeID, no permissions" . $module->currentAction(),
+                $debug->writeError( "Cannot upload file as child of parent node $parentNodeID, no permissions" . $module->currentAction(),
                                      'content/action:' . $module->currentAction() );
                 return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }

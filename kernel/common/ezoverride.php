@@ -78,7 +78,6 @@ class eZOverride
                             $match["file"] = $file;
                             $foundOverrideFile = true;
                             $matchedKeys[$matchKeyName] = $matchKeyValue;
-//                             eZDebug::writeNotice( "Match found, using override " . $match["file"]  );
                             break;
                         }
                     }

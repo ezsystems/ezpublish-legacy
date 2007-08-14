@@ -45,7 +45,8 @@ if ( !is_object( $object ) )
 }
 if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
 {
-    eZDebug::writeError( "Object with ID " . (int)$objectID . " is not archived, cannot restore." );
+    $debug = eZDebug::instance();
+    $debug->writeError( "Object with ID " . (int)$objectID . " is not archived, cannot restore." );
     return $module->redirectToView( 'trash' );
 }
 
