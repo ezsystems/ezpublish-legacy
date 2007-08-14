@@ -96,7 +96,8 @@ function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList
         $testElement[0] = EZ_SETUP_TEST_FAILURE;
         if ( !isset( $testTable[$testItem] ) )
         {
-            eZDebug::writeError( "The setup test '$testName' is not defined", $client );
+            $debug = eZDebug::instance();
+            $debug->writeError( "The setup test '$testName' is not defined", $client );
             continue;
         }
         if ( $http->hasPostVariable( $testItem . '_Ignore' ) and

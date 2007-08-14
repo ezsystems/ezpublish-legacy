@@ -74,14 +74,21 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
                 $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else
-                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
+            {
+                $debug = eZDebug::instance();
+                $debug->writeError( "Uploaded file is not an eZ publish package" );
+            }
         }
         else
-            eZDebug::writeError( "Failed fetching upload package file" );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( "Failed fetching upload package file" );
+        }
     }
     else
     {
-        eZDebug::writeError( "No uploaded package file was found" );
+        $debug = eZDebug::instance();
+        $debug->writeError( "No uploaded package file was found" );
     }
 }
 else if ( $module->isCurrentAction( 'UploadCancel' ) )

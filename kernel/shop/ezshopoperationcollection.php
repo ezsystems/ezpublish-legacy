@@ -69,7 +69,8 @@ class eZShopOperationCollection
 
         if ( !$order )
         {
-            eZDebug::writeError( "No such order: $orderID" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "No such order: $orderID" );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
@@ -94,8 +95,6 @@ class eZShopOperationCollection
         }
         else
         {
-            //eZDebug::writeError( $acctInfo, "User country was not found in the following account information" );
-
             $header = ezi18n( 'kernel/shop', 'Error checking out' );
             $msg = ezi18n( 'kernel/shop',
                            'Unable to calculate VAT percentage because your country is unknown. ' .
@@ -120,8 +119,9 @@ class eZShopOperationCollection
         $productCollection = $order->attribute( 'productcollection' );
         if ( !$productCollection )
         {
-            eZDebug::writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
-                                   "ezshopoperationcollection::handleUserCountry" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
+                                "ezshopoperationcollection::handleUserCountry" );
             return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
         }
 
@@ -157,9 +157,10 @@ class eZShopOperationCollection
 
             // Update item's VAT percentage.
             $vatValue = $priceObj->VATPercent( $productContentObject, $country );
-            eZDebug::writeNotice( "Updating product item collection item ('" .
-                                  $productContentObject->attribute( 'name' ) . "'): " .
-                                  "setting VAT $vatValue% according to order's country '$country'." );
+            $debug = eZDebug::instance();
+            $debug->writeNotice( "Updating product item collection item ('" .
+                                 $productContentObject->attribute( 'name' ) . "'): " .
+                                 "setting VAT $vatValue% according to order's country '$country'." );
             $item->setAttribute( "vat_value", $vatValue );
 
             $item->store();
@@ -352,7 +353,8 @@ class eZShopOperationCollection
 
         if ( !$priceFound )
         {
-            eZDebug::writeError( 'Attempted to add object without price to basket.' );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Attempted to add object without price to basket.' );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
@@ -408,7 +410,8 @@ class eZShopOperationCollection
         $collection = $basket->attribute( 'productcollection' );
         if ( !$collection )
         {
-            eZDebug::writeError( 'Unable to find product collection.' );
+            $debug = eZDebug::instance();
+            $debug->writeError( 'Unable to find product collection.' );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
         else

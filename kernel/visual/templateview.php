@@ -139,7 +139,6 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
             else
             {
                 $notRemoved[] = array( 'filename' => $fileName );
-                // eZDebug::writeError( "Could not remove override template, check permissions on $fileName", "Template override" );
             }
         }
         if ( $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" ) == false )

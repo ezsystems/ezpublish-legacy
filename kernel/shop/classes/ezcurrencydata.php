@@ -285,9 +285,14 @@ class eZCurrencyData extends eZPersistentObject
     {
         $statusNumeric = eZCurrencyData::statusStringToNumeric( $status );
         if ( $statusNumeric !== false )
+        {
             $this->setAttribute( 'status', $statusNumeric );
+        }
         else
-            eZDebug::writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
+        }
     }
 
     static function statusStringToNumeric( $statusString )

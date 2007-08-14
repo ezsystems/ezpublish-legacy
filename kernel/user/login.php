@@ -224,10 +224,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
             $userDataMap = $userObject->attribute( 'data_map' );
             if ( !isset( $userDataMap[$userUriAttrName] ) )
             {
-                eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$userUriAttrName' in object '" .
-                                       $userObject->attribute( 'name' ) .
-                                       "' of class '" .
-                                       $userObject->attribute( 'class_name' ) . "'." );
+                $debug = eZDebug::instance();
+                $debug->writeWarning( "Cannot find redirection URI: there is no attribute '$userUriAttrName' in object '" .
+                                      $userObject->attribute( 'name' ) .
+                                      "' of class '" .
+                                      $userObject->attribute( 'class_name' ) . "'." );
             }
             elseif ( ( $uriAttribute = $userDataMap[$userUriAttrName] ) &&
                      ( $uri = $uriAttribute->attribute( 'content' ) ) )
@@ -253,10 +254,11 @@ if ( $Module->isCurrentAction( 'Login' ) and
 
                     if ( !isset( $groupDataMap[$groupUriAttrName] ) )
                     {
-                        eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$groupUriAttrName' in object '" .
-                                               $group->attribute( 'name' ) .
-                                               "' of class '" .
-                                               $group->attribute( 'class_name' ) . "'." );
+                        $debug = eZDebug::instance();
+                        $debug->writeWarning( "Cannot find redirection URI: there is no attribute '$groupUriAttrName' in object '" .
+                                              $group->attribute( 'name' ) .
+                                              "' of class '" .
+                                              $group->attribute( 'class_name' ) . "'." );
                         continue;
                     }
                     $uri = $groupDataMap[$groupUriAttrName]->attribute( 'content' );

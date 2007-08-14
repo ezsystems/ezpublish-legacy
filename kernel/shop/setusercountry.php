@@ -33,19 +33,28 @@ include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 $module = $Params['Module'];
 
 if ( $module->isCurrentAction( 'Set' ) && $module->hasActionParameter( 'Country' ) )
+{
     $country = $module->actionParameter( 'Country' );
+}
 elseif ( isset( $Params['Country'] ) )
+{
     $country = $Params['Country'];
+}
 else
+{
     $country = null;
+}
 
+$debug = eZDebug::instance();
 if ( $country !== null )
 {
     eZShopFunctions::setPreferredUserCountry( $country );
-    eZDebug::writeNotice( "Set user country to <$country>" );
+    $debug->writeNotice( "Set user country to <$country>" );
 }
 else
-    eZDebug::writeWarning( "No country chosen to set." );
+{
+    $debug->writeWarning( "No country chosen to set." );
+}
 
 include_once( 'kernel/classes/ezredirectmanager.php' );
 eZRedirectManager::redirectTo( $module, false );

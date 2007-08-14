@@ -123,9 +123,6 @@ function eZSetupMergePersistenceList( &$persistenceList, $persistenceDataList )
             $oldValues =& $persistenceList[$persistenceName];
             foreach ( $persistenceValues as $persistenceValueName => $persistenceValueData )
             {
-//                eZDebug::writeDebug( $oldValues, 'oldValues' );
-//                eZDebug::writeDebug( $persistenceValueName, 'persistenceValueName' );
-//                eZDebug::writeDebug( $persistenceValueData, 'persistenceValueData' );
                 if ( !isset( $oldValues[$persistenceValueName] ) )
                 {
                     $oldValues[$persistenceValueName] = $persistenceValueData['value'];

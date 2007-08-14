@@ -71,13 +71,6 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $fileName = $outDir . "/" . ( $forcedFileName ? $forcedFileName : basename( $url ) );
 
-        /* Do nothing if the file already exists (no need to download).
-        if ( file_exists( $fileName ) )
-        {
-            eZDebug::writeNotice( "Skipping download to '$fileName': file already exists." );
-            return $fileName;
-        }
-        */
         $debug = eZDebug::instance();
         $debug->writeNotice( "Downloading file '$fileName' from $url" );
 

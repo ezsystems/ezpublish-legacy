@@ -75,20 +75,32 @@ if ( $currentStep )
     {
         $preFunctionName = $currentStep['pre_function'];
         if ( function_exists( $preFunctionName ) )
+        {
             $preFunctionName( $tpl, $persistentData );
+        }
         else
-            eZDebug::writeWarning( 'Unknown pre step function ' . $preFunctionName );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Unknown pre step function ' . $preFunctionName );
+        }
     }
     if ( isset( $currentStep['function'] ) )
     {
         $functionName = $currentStep['function'];
         if ( function_exists( $functionName ) )
+        {
             $functionName( $tpl, $persistentData, $currentStep );
+        }
         else
-            eZDebug::writeWarning( 'Unknown step function ' . $functionName );
+        {
+            $debug = eZDebug::instance();
+            $debug->writeWarning( 'Unknown step function ' . $functionName );
+        }
     }
     if ( isset( $currentStep['template'] ) )
+    {
         $template = $currentStep['template'];
+    }
 }
 
 $tpl->setVariable( 'persistent_data', $persistentData );

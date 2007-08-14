@@ -74,7 +74,8 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
     {
         $errMsg = ezi18n( 'design/standard/user', 'The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!', null, array( $defaultUserPlacement ) );
         $checkErrNodeId = true;
-        eZDebug::writeError( "$errMsg" );
+        $debug = eZDebug::instance();
+        $debug->writeError( "$errMsg" );
         $tpl->setVariable( 'errMsg', $errMsg );
         $tpl->setVariable( 'checkErrNodeId', $checkErrNodeId );
     }
@@ -249,7 +250,8 @@ if ( !function_exists( 'checkContentActions' ) )
                     } break;
                     default:
                     {
-                        eZDebug::writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
+                        $debug = eZDebug::instance();
+                        $debug->writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
                     }
                 }
             }
@@ -286,10 +288,12 @@ if ( $includeResult != 1 )
     return $includeResult;
 }
 $ini = eZINI::instance();
-//eZDebug::writeDebug( $includeResult );
 
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
+{
     $Result['pagelayout'] = 'loginpagelayout.tpl';
+}
+
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/user', 'User' ) ),
                          array( 'url' => false,

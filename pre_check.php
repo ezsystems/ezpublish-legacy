@@ -33,13 +33,11 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 function eZCheckValidity( &$siteBasics, &$uri )
 {
-//     eZDebug::writeDebug( "Checking validity" );
     $ini = eZINI::instance();
     $checkValidity = ( $ini->variable( "SiteAccessSettings", "CheckValidity" ) == "true" );
     $check = null;
     if ( $checkValidity )
     {
-//         eZDebug::writeDebug( "Setup required" );
         $check = array( "module" => "setup",
                         'function' => 'init' );
         // Turn off some features that won't bee needed yet

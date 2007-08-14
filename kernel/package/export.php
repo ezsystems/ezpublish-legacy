@@ -81,7 +81,8 @@ if ( $fileName != "" and file_exists( $fileName ) )
     $fh = fopen( $fileName, "rb" );
     if ( $fileOffset )
     {
-        eZDebug::writeDebug( $fileOffset, "seeking to fileoffset" );
+        $debug = eZDebug::instance();
+        $debug->writeDebug( $fileOffset, "seeking to fileoffset" );
         fseek( $fh, $fileOffset );
     }
 

@@ -103,10 +103,11 @@ class eZExchangeRatesUpdateHandler
 
         if ( !$foundHandler )
         {
-            eZDebug::writeError( "Exchange rates update handler '$handlerName' not found, " .
-                                 "searched in these directories: " .
-                                 implode( ', ', $dirList ),
-                                 'eZExchangeRatesUpdateHandler::create' );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Exchange rates update handler '$handlerName' not found, " .
+                                "searched in these directories: " .
+                                implode( ', ', $dirList ),
+                                'eZExchangeRatesUpdateHandler::create' );
             return false;
         }
 

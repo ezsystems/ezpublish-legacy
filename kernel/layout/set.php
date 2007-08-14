@@ -80,7 +80,8 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
 }
 else
 {
-    eZDebug::writeError( 'No such layout style: ' . $LayoutStyle, 'layout/set' );
+    $debug = eZDebug::instance();
+    $debug->writeError( 'No such layout style: ' . $LayoutStyle, 'layout/set' );
 }
 
 ?>

@@ -43,20 +43,14 @@ $http = eZHTTPTool::instance();
 $nodeID =& $Params['ContentNodeID'];
 $user = eZUser::currentUser();
 
-$redirectURI = '';
-if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-{
-    $redirectURI = $http->sessionVariable( "LastAccessesURI" );
-}
+$redirectURI = $http->hasSessionVariable( "LastAccessesURI" ) ? $http->sessionVariable( "LastAccessesURI" ): '';
 
-if ( $http->hasPostVariable( 'ViewMode' ) )
-   $viewMode = $http->postVariable( 'ViewMode' );
-else
-    $viewMode = 'full';
+$viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMode' ) : 'full';
 
 if ( !$user->isLoggedIn() )
 {
-    eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
+    $debug = eZDebug::instance();
+    $debug->writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;
@@ -65,14 +59,16 @@ if ( !$user->isLoggedIn() )
 $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$contentNode )
 {
-    eZDebug::writeError( 'The nodeID parameter was empty, user ID: ' . $user->attribute( 'contentobject_id' ),
+    $debug = eZDebug::instance();
+    $debug->writeError( 'The nodeID parameter was empty, user ID: ' . $user->attribute( 'contentobject_id' ),
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;
 }
 if ( !$contentNode->attribute( 'can_read' ) )
 {
-    eZDebug::writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
+    $debug = eZDebug::instance();
+    $debug->writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;

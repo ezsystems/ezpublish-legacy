@@ -175,7 +175,8 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
         else
         {
             $error = "permission_denied";
-            eZDebug::writeError( "Could not create override template, check permissions on $fileName", "Template override" );
+            $debug = eZDebug::instance();
+            $debug->writeError( "Could not create override template, check permissions on $fileName", "Template override" );
         }
     }
     else
@@ -222,7 +223,8 @@ function generateNodeViewTemplate( &$http, $template, $fileName )
             }
             else
             {
-                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Could not open file $fileName, check read permissions" );
             }
             fclose( $fp );
         }break;
@@ -318,7 +320,8 @@ function generateObjectViewTemplate( &$http, $template, $fileName )
             }
             else
             {
-                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Could not open file $fileName, check read permissions" );
             }
             fclose( $fp );
         }break;
@@ -371,7 +374,8 @@ function generatePagelayoutTemplate( &$http, $template, $fileName )
             }
             else
             {
-                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Could not open file $fileName, check read permissions" );
             }
             fclose( $fp );
         }break;
@@ -419,7 +423,8 @@ function generateDefaultTemplate( &$http, $template, $fileName )
             }
             else
             {
-                eZDebug::writeError( "Could not open file $fileName, check read permissions" );
+                $debug = eZDebug::instance();
+                $debug->writeError( "Could not open file $fileName, check read permissions" );
             }
             fclose( $fp );
         }break;
