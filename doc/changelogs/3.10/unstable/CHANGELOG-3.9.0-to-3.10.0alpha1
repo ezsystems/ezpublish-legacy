@@ -364,3 +364,4 @@ Changes from 3.9.0 to 3.10.0alpha1
   from Approved Email Validation Codes.
 - Fixed bug #11144: "persistent_variable" override isn't working with viewcache disabled.
   (Mered from stable/3.8(3.8.9) rev. 19442)
+- Fixed bug #11254: updating content-structure dynamic tree menu and TemplateCache enabled.

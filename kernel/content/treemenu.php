@@ -120,9 +120,10 @@ $roleList = implode( ',', $user->roleIDList() );
 $showHidden = $siteINI->variable( 'SiteAccessSettings', 'ShowHiddenNodes' ) == 'true';
 
 $handler = false;
-if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' )
+if ( $contentstructuremenuINI->variable( 'TreeMenu', 'UseCache' ) == 'enabled' and
+     $siteINI->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
 {
-    list( $handler, $cacheFileContent ) = eZTemplateCacheBlock::retrieve( array( 
+    list( $handler, $cacheFileContent ) = eZTemplateCacheBlock::retrieve( array(
         'content_structure',
         $nodeID,
         $showHidden,
@@ -208,7 +209,7 @@ else
 
         $conditions['SortBy'] = $sortArray;
     }
-    
+
     $children = $node->subTree( $conditions );
 
     $createHereMenu = $contentstructuremenuINI->variable( 'TreeMenu', 'CreateHereMenu' );
