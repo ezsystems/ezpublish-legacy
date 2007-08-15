@@ -51,28 +51,28 @@ while( true )
                                        'offset' => $offset ) );
     $inSQL = '';
 
-    if ( is_array( $entries ) && count( $entries ) )
+    if ( is_array( $entries ) and count( $entries ) )
     {
         $db->begin();
         foreach ( $entries as $entry )
         {
             $param = $entry['param'];
-            $destination = explode(',', $param);
+            $destination = explode( ',', $param );
             $source = $destination[1];
             $destination = $destination[0];
             $success = false;
-            
-            if ( !isset( $doneDestList[ $destination ] ) )
+
+            if ( !isset( $doneDestList[$destination] ) )
             {
-                if ( !isset( $fileContentCache[ $source ] ) )
+                if ( !isset( $fileContentCache[$source] ) )
                 {
                     if ( !$isQuiet )
                     {
                         $cli->output( "\tFetching URL: $source" );
                     }
-                    $fileContentCache[$source] = @file_get_contents( $source );
+                    $fileContentCache[$source] = file_get_contents( $source );
                 }
-                if ( $fileContentCache[ $source ] === false )
+                if ( $fileContentCache[$source] === false )
                 {
                     $cli->output( "\tCould not grab content, is the hostname correct and Apache running?" );
                 }
@@ -83,20 +83,22 @@ while( true )
                     $success = true;
                 }
             }
-            else 
+            else
             {
                 $success = true;
             }
-            
+
             if ( $success )
             {
                 if ( $inSQL != '' )
+                {
                     $inSQL .= ', ';
+                }
                 $inSQL .= '\'' . $param . '\'';
             }
         }
 
-        $db->query( "DELETE FROM ezpending_actions WHERE action = 'index_object' AND param IN ($inSQL)" );
+        $db->query( "DELETE FROM ezpending_actions WHERE action='index_object' AND param IN ($inSQL)" );
         $db->commit();
     }
     else
