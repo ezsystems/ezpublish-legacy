@@ -639,9 +639,9 @@ class eZXMLTextType extends eZDataType
 
         $modified = array();
         $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
-        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
-        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
-        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $links, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $objects, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $embeds, $objectAttribute );
+        $modified[] = eZXMLTextType::transformRemoteLinksToLinks( $embedsInline, $objectAttribute );
 
         if ( in_array( true, $modified ) )
         {
