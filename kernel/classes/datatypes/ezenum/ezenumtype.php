@@ -61,7 +61,7 @@ class eZEnumType extends eZDataType
     /*!
      Sets value according to current version
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -137,7 +137,7 @@ class eZEnumType extends eZDataType
     /*!
      Delete stored object attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         eZEnumObjectValue::removeAllElements( $contentObjectAttributeID, $version );
@@ -435,7 +435,7 @@ class eZEnumType extends eZDataType
      \return a DOM representation of the content object attribute
     */
 
-    function serializeContentObjectAttribute( $package, &$contentObjectAttribute )
+    function serializeContentObjectAttribute( $package, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );

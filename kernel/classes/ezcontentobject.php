@@ -2021,7 +2021,7 @@ class eZContentObject extends eZPersistentObject
         return true;
     }
 
-    function validateInput( &$contentObjectAttributes, $attributeDataBaseName,
+    function validateInput( $contentObjectAttributes, $attributeDataBaseName,
                             $inputParameters = false, $parameters = array() )
     {
         $result = array( 'unvalidated-attributes' => array(),
@@ -2082,7 +2082,7 @@ class eZContentObject extends eZPersistentObject
                                                                   $inputParameters, $parameters );
             }
             $statusMap[$contentObjectAttribute->attribute( 'id' )] = array( 'value' => $status,
-                                                                            'attribute' => &$contentObjectAttribute );
+                                                                            'attribute' => $contentObjectAttribute );
 
             if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
                 $requireFixup = true;
@@ -2144,7 +2144,7 @@ class eZContentObject extends eZPersistentObject
         return $result;
     }
 
-    function fixupInput( &$contentObjectAttributes, $attributeDataBaseName )
+    function fixupInput( $contentObjectAttributes, $attributeDataBaseName )
     {
         $http = eZHTTPTool::instance();
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
@@ -2153,7 +2153,7 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
-    function fetchInput( &$contentObjectAttributes, $attributeDataBaseName,
+    function fetchInput( $contentObjectAttributes, $attributeDataBaseName,
                          $customActionAttributeArray, $customActionParameters )
     {
         $result = array( 'attribute-input-map' => array() );
@@ -2203,7 +2203,7 @@ class eZContentObject extends eZPersistentObject
         return $result;
     }
 
-    function handleCustomHTTPActions( &$contentObjectAttribute, $attributeDataBaseName,
+    function handleCustomHTTPActions( $contentObjectAttribute, $attributeDataBaseName,
                                       $customActionAttributeArray, $customActionParameters )
     {
         $http = eZHTTPTool::instance();

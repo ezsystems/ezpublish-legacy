@@ -116,7 +116,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      Sets value according to current version
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -135,7 +135,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      Delete stored attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $sys = eZSys::instance();

@@ -58,7 +58,7 @@ class eZURLType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -109,7 +109,7 @@ class eZURLType extends eZDataType
     /*!
      \reimp
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $urls = array();
@@ -277,7 +277,7 @@ class eZURLType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;

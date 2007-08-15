@@ -351,7 +351,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      Sets default multioption values.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
         {
@@ -419,7 +419,7 @@ class eZMultiOptionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;

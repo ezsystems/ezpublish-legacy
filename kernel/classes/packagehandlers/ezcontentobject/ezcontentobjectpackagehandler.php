@@ -1098,7 +1098,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $object = eZContentObject::fetchByRemoteID( $remoteID );
             if ( is_object( $object ) )
             {
-                $object->postUnserialize( $package );
+                $object->postUnserialize( $this->Package );
                 eZContentObject::clearCache( $object->attribute( 'id' ) );
             }
             unset( $object );

@@ -113,7 +113,7 @@ class eZIdentifierType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -249,7 +249,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
@@ -278,7 +278,7 @@ class eZIdentifierType extends eZDataType
       \private
       Assigns the identifiervalue for the first version of the current attribute.
     */
-    function assignValue( &$contentClassAttribute, &$contentObjectAttribute )
+    function assignValue( &$contentClassAttribute, $contentObjectAttribute )
     {
 
         $retValue = false;
@@ -356,7 +356,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
@@ -375,7 +375,7 @@ class eZIdentifierType extends eZDataType
       \private
       Store the new value to the attribute.
     */
-    function storeIdentifierValue( &$contentClassAttribute, &$contentObjectAttribute, $identifierValue )
+    function storeIdentifierValue( &$contentClassAttribute, $contentObjectAttribute, $identifierValue )
     {
         $value = eZIdentifierType::generateIdentifierString( $contentClassAttribute, $identifierValue );
         $contentObjectAttribute->setAttribute( 'data_text', $value );

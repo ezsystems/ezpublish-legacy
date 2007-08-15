@@ -59,7 +59,7 @@ class eZMediaType extends eZDataType
     /*!
      Sets value according to current version
     */
-    function postInitializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -92,7 +92,7 @@ class eZMediaType extends eZDataType
     /*!
      Delete stored attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );

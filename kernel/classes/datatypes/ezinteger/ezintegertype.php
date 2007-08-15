@@ -68,7 +68,7 @@ class eZIntegerType extends eZDataType
     /*!
      Private method, only for using inside this class.
     */
-    function validateIntegerHTTPInput( $data, &$contentObjectAttribute, &$classAttribute )
+    function validateIntegerHTTPInput( $data, $contentObjectAttribute, &$classAttribute )
     {
         $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
         $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
@@ -158,14 +158,14 @@ class eZIntegerType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
-    function fixupObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
     }
 
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -418,7 +418,7 @@ class eZIntegerType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
@@ -455,7 +455,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }

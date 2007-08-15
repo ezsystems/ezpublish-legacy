@@ -56,7 +56,7 @@ class eZObjectRelationType extends eZDataType
      Initializes the class attribute with some data.
      \reimp
      */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -269,7 +269,7 @@ class eZObjectRelationType extends eZDataType
      \private
      Delete the old version from ezcontentobject_link if count of translations > 1
     */
-    function removeContentObjectRelation( &$contentObjectAttribute )
+    function removeContentObjectRelation( $contentObjectAttribute )
     {
         $obj = $contentObjectAttribute->object();
         $atrributeTrans = $contentObjectAttribute->fetchAttributeTranslations( );
@@ -402,7 +402,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -500,7 +500,7 @@ class eZObjectRelationType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( is_numeric( $string ) && ! eZContentObject::fetch( $string ) )
             return false;
@@ -666,7 +666,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      Removes objects with given ID from the relations list
     */
-    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
         $contentObjectAttribute->setAttribute( "data_int", null );
         return true;

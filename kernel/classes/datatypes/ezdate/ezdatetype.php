@@ -52,7 +52,7 @@ class eZDateType extends eZDataType
     }
 
 
-    function validateDateTimeHTTPInput( $day, $month, $year, &$contentObjectAttribute )
+    function validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute )
     {
         include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
         $state = eZDateTimeValidator::validateDate( $day, $month, $year );
@@ -226,7 +226,7 @@ class eZDateType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -286,7 +286,7 @@ class eZDateType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_int' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_int', $string );
     }
@@ -309,7 +309,7 @@ class eZDateType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }

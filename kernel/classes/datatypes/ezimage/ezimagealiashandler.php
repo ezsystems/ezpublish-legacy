@@ -53,7 +53,7 @@ class eZImageAliasHandler
     /*!
      Creates the handler and creates a reference to the contentobject attribute that created it.
     */
-    function eZImageAliasHandler( &$contentObjectAttribute )
+    function eZImageAliasHandler( $contentObjectAttribute )
     {
         $this->ContentObjectAttributeData = array();
         if ( is_object( $contentObjectAttribute ) )
@@ -268,7 +268,7 @@ class eZImageAliasHandler
 
      The normalization ensures that the name only contains filename and URL friendly characters.
     */
-    function imageName( &$contentObjectAttribute, &$contentVersion, $language = false )
+    function imageName( $contentObjectAttribute, &$contentVersion, $language = false )
     {
         if ( $language === false )
         {
@@ -306,7 +306,7 @@ class eZImageAliasHandler
 
      The normalization ensures that the name only contains filename and URL friendly characters.
     */
-    function imageNameByNode( &$contentObjectAttribute, &$mainNode, $language = false )
+    function imageNameByNode( $contentObjectAttribute, &$mainNode, $language = false )
     {
         if ( $language === false )
         {
@@ -339,7 +339,7 @@ class eZImageAliasHandler
      If the object is in the node tree it will contain a path that matches the node path,
      if not it will be placed in the versioned storage repository.
     */
-    function imagePath( &$contentObjectAttribute, &$contentVersion, $isImageOwner = null )
+    function imagePath( $contentObjectAttribute, &$contentVersion, $isImageOwner = null )
     {
         $useVersion = false;
         if ( $isImageOwner === null )
@@ -387,7 +387,7 @@ class eZImageAliasHandler
 
      Similar to \a imagePath() but fetches name information from the node \a $mainNode.
     */
-    function imagePathByNode( &$contentObjectAttribute, &$mainNode )
+    function imagePathByNode( $contentObjectAttribute, &$mainNode )
     {
         $pathString = $mainNode->pathWithNames();
         $ini = eZINI::instance( 'image.ini' );

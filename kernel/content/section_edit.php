@@ -30,15 +30,15 @@ include_once('lib/ezutils/classes/ezdebug.php');
 include_once('lib/ezutils/classes/ezhttptool.php');
 include_once('lib/ezdb/classes/ezdb.php');
 
-function sectionEditPostFetch( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
+function sectionEditPostFetch( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
 }
 
-function sectionEditPreCommit( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function sectionEditPreCommit( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage )
 {
 }
 
-function sectionEditActionCheck( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+function sectionEditActionCheck( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     if ( $module->isCurrentAction( 'SectionEdit' ) )
     {
@@ -86,7 +86,7 @@ function sectionEditActionCheck( &$module, &$class, $object, &$version, &$conten
     }
 }
 
-function sectionEditPreTemplate( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
+function sectionEditPreTemplate( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
 }
 

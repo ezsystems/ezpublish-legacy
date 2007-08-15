@@ -114,7 +114,7 @@ $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, $object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage )
+    function checkContentActions( &$module, &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage )
     {
         if ( $module->isCurrentAction( 'Cancel' ) )
         {

@@ -109,7 +109,7 @@ class eZPriceType extends eZDataType
     /*!
      reimp
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -215,7 +215,7 @@ class eZPriceType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         $intPrice = (int)($contentObjectAttribute->attribute( 'data_float' ) * 100.00);
         return $intPrice;
@@ -245,7 +245,7 @@ class eZPriceType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;

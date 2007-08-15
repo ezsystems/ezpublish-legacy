@@ -63,7 +63,7 @@ class eZTextType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -223,7 +223,7 @@ class eZTextType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }

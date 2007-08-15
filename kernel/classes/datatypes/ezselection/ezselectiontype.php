@@ -226,7 +226,7 @@ class eZSelectionType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -330,7 +330,7 @@ class eZSelectionType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;
@@ -381,7 +381,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }

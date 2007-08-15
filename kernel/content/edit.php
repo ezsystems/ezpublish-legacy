@@ -514,7 +514,7 @@ if ( !$isAccessChecked )
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, $object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result )
+    function checkContentActions( &$module, &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
         {

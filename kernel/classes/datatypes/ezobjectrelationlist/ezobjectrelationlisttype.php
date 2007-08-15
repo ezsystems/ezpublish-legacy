@@ -145,7 +145,7 @@ class eZObjectRelationListType extends eZDataType
      Validates the input and returns true if the input was
      valid for this datatype.
     */
-    function fixupObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
@@ -292,7 +292,7 @@ class eZObjectRelationListType extends eZDataType
         return true;
     }
 
-    function createNewObject( &$contentObjectAttribute, $name )
+    function createNewObject( $contentObjectAttribute, $name )
     {
         $debug = eZDebug::instance();
         $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -514,7 +514,7 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectAttribute->store();
     }
 
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
 
         static $copiedRelatedAccordance;
@@ -1126,7 +1126,7 @@ class eZObjectRelationListType extends eZDataType
      Removes the relation object \a $deletionItem if the item is owned solely by this
      version and is not published in the content tree.
     */
-    function removeRelationObject( &$contentObjectAttribute, &$deletionItem )
+    function removeRelationObject( $contentObjectAttribute, &$deletionItem )
     {
         if ( eZObjectRelationListType::isItemPublished( $deletionItem ) )
         {
@@ -1190,7 +1190,7 @@ class eZObjectRelationListType extends eZDataType
     }
 
 
-    function createInstance( &$class, $priority, &$contentObjectAttribute, $nodePlacement = false )
+    function createInstance( &$class, $priority, $contentObjectAttribute, $nodePlacement = false )
     {
         $currentObject = $contentObjectAttribute->attribute( 'object' );
         $sectionID = $currentObject->attribute( 'section_id' );
@@ -1212,7 +1212,7 @@ class eZObjectRelationListType extends eZDataType
         return $relationItem;
     }
 
-    function appendObject( $objectID, $priority, &$contentObjectAttribute )
+    function appendObject( $objectID, $priority, $contentObjectAttribute )
     {
         $object = eZContentObject::fetch( $objectID );
         $class = $object->attribute( 'content_class' );
@@ -1489,7 +1489,7 @@ class eZObjectRelationListType extends eZDataType
         return implode( '-', $objectIDList );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         $objectIDList = explode( '-', $string );
 
@@ -1725,7 +1725,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      Removes objects with given ID from the relations list
     */
-    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
         $xmlText = $contentObjectAttribute->attribute( 'data_text' );
         if ( trim( $xmlText ) == '' ) return;

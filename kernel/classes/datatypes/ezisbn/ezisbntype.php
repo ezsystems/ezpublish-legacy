@@ -418,7 +418,7 @@ class eZISBNType extends eZDataType
         return $contentObjectAttribute->attribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( EZ_DATATYPESTRING_ISBN_CONTENT_VALUE, $string );
     }

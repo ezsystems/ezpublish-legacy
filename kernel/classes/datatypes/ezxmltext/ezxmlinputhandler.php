@@ -150,7 +150,7 @@ class eZXMLInputHandler
      Handles custom actions for input handler.
      \note Default does nothing, reimplement to check actions.
     */
-    function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )
+    function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute )
     {
     }
 

@@ -53,7 +53,7 @@ class eZImageType extends eZDataType
                            array( 'serialize_supported' => true ) );
     }
 
-    function repairContentObjectAttribute( &$contentObjectAttribute )
+    function repairContentObjectAttribute( $contentObjectAttribute )
     {
         include_once( "kernel/classes/datatypes/ezimage/ezimage.php" );
         $image = eZImage::fetch( $contentObjectAttribute->attribute( 'id' ),
@@ -95,7 +95,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -107,7 +107,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version === null )
         {

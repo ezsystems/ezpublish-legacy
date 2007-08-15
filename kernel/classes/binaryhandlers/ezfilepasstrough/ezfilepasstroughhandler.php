@@ -45,7 +45,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
         $this->eZBinaryFileHandler( EZ_FILE_PASSTROUGH_ID, "PHP passtrough", EZ_BINARY_FILE_HANDLE_DOWNLOAD );
     }
 
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type,
+    function handleFileDownload( &$contentObject, $contentObjectAttribute, $type,
                                  $fileInfo )
     {
         $fileName = $fileInfo['filepath'];

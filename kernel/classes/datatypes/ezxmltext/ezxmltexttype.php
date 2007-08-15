@@ -138,7 +138,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -376,7 +376,7 @@ class eZXMLTextType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
@@ -722,7 +722,7 @@ class eZXMLTextType extends eZDataType
     /*!
      Delete stored object attribute, this will clean up the ezurls and ezobjectlinks
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
 

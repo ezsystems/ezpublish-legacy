@@ -842,7 +842,7 @@ class eZDataType
      Tries to do a repair on the content object attribute \a $contentObjectAttribute and returns \c true if it succeeds.
      \return \c false if it fails or \c null if it is not supported to do a repair.
     */
-    function repairContentObjectAttribute( &$contentObjectAttribute )
+    function repairContentObjectAttribute( $contentObjectAttribute )
     {
         return null;
     }
@@ -1254,7 +1254,7 @@ class eZDataType
      Removes objects with given ID from the relations list
      \note Default implementation does nothing.
     */
-    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    function removeRelatedObjectItem( $contentObjectAttribute, $objectID )
     {
     }
 

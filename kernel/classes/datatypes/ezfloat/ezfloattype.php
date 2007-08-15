@@ -64,7 +64,7 @@ class eZFloatType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -178,7 +178,7 @@ class eZFloatType extends eZDataType
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
-    function fixupObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, $contentObjectAttribute )
     {
     }
 
@@ -365,7 +365,7 @@ class eZFloatType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_float' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_float', $string );
     }

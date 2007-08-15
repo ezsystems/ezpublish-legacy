@@ -138,7 +138,7 @@ class eZAuthorType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -201,7 +201,7 @@ class eZAuthorType extends eZDataType
         return eZStringUtils::implodeStr( $authorList, "&" );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         $authorList = eZStringUtils::explodeStr( $string, '&' );
 

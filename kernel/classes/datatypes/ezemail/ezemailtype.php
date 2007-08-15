@@ -50,7 +50,7 @@ class eZEmailType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -62,7 +62,7 @@ class eZEmailType extends eZDataType
     /*
      Private method, only for using inside this class.
     */
-    function validateEMailHTTPInput( $email, &$contentObjectAttribute )
+    function validateEMailHTTPInput( $email, $contentObjectAttribute )
     {
         include_once( "lib/ezutils/classes/ezmail.php" );
         if ( !eZMail::validate( $email ) )
@@ -206,7 +206,7 @@ class eZEmailType extends eZDataType
         return $contentObjectAttribute->attribute( 'data_text' );
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         return $contentObjectAttribute->setAttribute( 'data_text', $string );
     }
@@ -235,7 +235,7 @@ class eZEmailType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }

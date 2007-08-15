@@ -164,7 +164,7 @@ class eZBinaryFileHandler
     /*!
      \return the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
     */
-    function downloadFileObject( &$contentObject, &$contentObjectAttribute )
+    function downloadFileObject( &$contentObject, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
@@ -179,7 +179,7 @@ class eZBinaryFileHandler
      \return the file object type which corresponds to \a $contentObject and \a $contentObjectAttribute.
      \deprecated
     */
-    function downloadType( &$contentObject, &$contentObjectAttribute )
+    function downloadType( &$contentObject, $contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
@@ -196,7 +196,7 @@ class eZBinaryFileHandler
      \return the download url for the file object which corresponds to \a $contentObject and \a $contentObjectAttribute.
      \deprecated
     */
-    function downloadURL( &$contentObject, &$contentObjectAttribute )
+    function downloadURL( &$contentObject, $contentObjectAttribute )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
@@ -223,7 +223,7 @@ class eZBinaryFileHandler
         return $url;
     }
 
-    function handleDownload( &$contentObject, &$contentObjectAttribute, $type )
+    function handleDownload( &$contentObject, $contentObjectAttribute, $type )
     {
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         include_once( 'kernel/classes/datatypes/ezimage/ezimagealiashandler.php' );
@@ -249,7 +249,7 @@ class eZBinaryFileHandler
         return $this->handleFileDownload( $contentObject, $contentObjectAttribute, $type, $fileInfo );
     }
 
-    function handleFileDownload( &$contentObject, &$contentObjectAttribute, $type, $mimeData )
+    function handleFileDownload( &$contentObject, $contentObjectAttribute, $type, $mimeData )
     {
         return false;
     }

@@ -54,7 +54,7 @@ class eZTimeType extends eZDataType
     /*!
      Private method only for use inside this class
     */
-    function validateTimeHTTPInput( $hours, $minute, &$contentObjectAttribute )
+    function validateTimeHTTPInput( $hours, $minute, $contentObjectAttribute )
     {
         include_once( 'lib/ezutils/classes/ezdatetimevalidator.php' );
         $state = eZDateTimeValidator::validateTime( $hours, $minute );
@@ -207,7 +207,7 @@ class eZTimeType extends eZDataType
     /*!
      \reimp
     */
-    function sortKey( &$contentObjectAttribute )
+    function sortKey( $contentObjectAttribute )
     {
         $timestamp = $contentObjectAttribute->attribute( 'data_int' );
         if ( !is_null( $timestamp ) )
@@ -242,7 +242,7 @@ class eZTimeType extends eZDataType
             return '';
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string != '' )
         {
@@ -278,7 +278,7 @@ class eZTimeType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {

@@ -54,7 +54,7 @@ class eZUserType extends eZDataType
     /*!
      Delete stored object attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         $db = eZDB::instance();
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
@@ -377,7 +377,7 @@ class eZUserType extends eZDataType
     }
 
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string == '' )
             return true;

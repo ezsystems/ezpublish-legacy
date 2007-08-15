@@ -56,7 +56,7 @@ class eZKeywordType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -196,7 +196,7 @@ class eZKeywordType extends eZDataType
     /*!
      Delete stored object attribute
     */
-    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $contentObjectAttribute, $version = null )
     {
         if ( $version != null ) // Do not delete if discarding draft
         {
@@ -284,7 +284,7 @@ class eZKeywordType extends eZDataType
         return  $keyword->keywordString();
     }
 
-    function fromString( &$contentObjectAttribute, $string )
+    function fromString( $contentObjectAttribute, $string )
     {
         if ( $string != '' )
         {
