@@ -196,7 +196,7 @@ class eZTranslationCache
     */
     static function storeCache( $key )
     {
-        $translationCache =& eZTranslationCache::cacheTable();
+        $translationCache = eZTranslationCache::cacheTable();
         if ( !isset( $translationCache[$key] ) )
         {
             $debug = eZDebug::instance();
