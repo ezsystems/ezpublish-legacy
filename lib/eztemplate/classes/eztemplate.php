@@ -1117,7 +1117,7 @@ class eZTemplate
     /*!
      Returns the actual value of a template type or null if an unknown type.
     */
-    function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
+    function elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
                            $checkExistance = false, $checkForProxy = false )
     {
         /*
@@ -1410,110 +1410,6 @@ class eZTemplate
         else if ( !$checkExistance )
             $this->warning( "", "Operator '$operatorName' is not registered",
                             $placement );
-    }
-
-    /*!
-     Returns the value of the template variable $data, or null if no defined variable for that name.
-    */
-    function &variableElementValue( &$data, $def_nspace )
-    {
-        if ( $data["type"] != "variable" )
-        {
-            $retValue = null;
-            return $retValue;
-        }
-
-        $nspace = $data["namespace"];
-        if ( $nspace === false )
-            $nspace = $def_nspace;
-        else
-        {
-            if ( $def_nspace != "" )
-                $nspace = $def_nspace . ':' . $nspace;
-        }
-        $name = $data["name"];
-        if ( !$this->hasVariable( $name, $nspace ) )
-        {
-            $var_name = $name;
-            $this->warning( "", "Undefined variable: \"$var_name\"" . ( $nspace != "" ? " in namespace \"$nspace\"" : "" ) );
-            $retValue = null;
-            return $retValue;
-        }
-        $value =& $this->variable( $name, $nspace );
-        $return_value =& $value;
-        $attrs = $data["attributes"];
-        if ( count( $attrs ) > 0 )
-        {
-            foreach( $attrs as $key => $attr )
-            {
-                $attr_value = $this->attributeValue( $attr, $def_nspace );
-                if ( !is_null( $attr_value ) )
-                {
-                    if ( !is_numeric( $attr_value ) and
-                         !is_string( $attr_value ) )
-                    {
-                        $this->error( "",
-                                      "Cannot use type " . gettype( $attr_value ) . " for attribute lookup" );
-                        $retValue = null;
-                        return $retValue;
-                    }
-                    if ( is_array( $return_value ) )
-                    {
-                        if ( isset( $return_value[$attr_value] ) )
-                            $return_value =& $return_value[$attr_value];
-                        else
-                        {
-                            $this->error( "",
-                                          "No such attribute for array: $attr_value" );
-                            $retValue = null;
-                            return $retValue;
-                        }
-                    }
-                    else if ( is_object( $return_value ) )
-                    {
-                        if ( method_exists( $return_value, "attribute" ) and
-                             method_exists( $return_value, "hasattribute" ) )
-                        {
-                            if ( $return_value->hasAttribute( $attr_value ) )
-                            {
-                                unset( $return_attribute_value );
-                                $return_attribute_value = $return_value->attribute( $attr_value );
-                                unset( $return_value );
-                                $return_value =& $return_attribute_value;
-                            }
-                            else
-                            {
-                                $this->error( "",
-                                              "No such attribute for object: $attr_value" );
-                                $retValue = null;
-                                return $retValue;
-                            }
-                        }
-                        else
-                        {
-                            $this->error( "",
-                                          "Cannot retrieve attribute of object(" . get_class( $return_value ) .
-                                          "), no attribute functions available." );
-                            $retValue = null;
-                            return $retValue;
-                        }
-                    }
-                    else
-                    {
-                        $this->error( "",
-                                      "Cannot retrieve attribute of a " . gettype( $return_value ) );
-                        $retValue = null;
-                        return $retValue;
-                    }
-                }
-                else
-                {
-                    $retValue = null;
-                    return $retValue;
-                }
-            }
-        }
-        return $return_value;
     }
 
     /*!
