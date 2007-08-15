@@ -113,7 +113,7 @@ class eZTemplateDigestOperator
         return false;
     }
 
-    function hashTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function hashTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         if ( ( count( $parameters ) != 1) )
@@ -154,7 +154,7 @@ class eZTemplateDigestOperator
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
                      $placement )
     {
         $digestData = $operatorValue;

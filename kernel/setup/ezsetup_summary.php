@@ -48,7 +48,7 @@ class eZSetupSummary
      \param template
      \param persistence list
     */
-    function eZSetupSummary( &$tpl, &$persistenceList )
+    function eZSetupSummary( $tpl, &$persistenceList )
     {
         $this->Tpl =& $tpl;
         $this->PersistenceList =& $persistenceList;

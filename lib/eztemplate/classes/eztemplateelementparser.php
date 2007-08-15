@@ -69,7 +69,7 @@ class eZTemplateElementParser
     /*!
      Parses the variable and operators into a structure.
     */
-    function parseVariableTag( &$tpl, $relatedTemplateName, &$text, $startPosition, &$endPosition, $textLength, $defaultNamespace,
+    function parseVariableTag( $tpl, $relatedTemplateName, &$text, $startPosition, &$endPosition, $textLength, $defaultNamespace,
                                $allowedType = false, $maxElements = false, $endMarker = false,
                                $undefinedType = EZ_TEMPLATE_TYPE_ATTRIBUTE )
     {
@@ -329,7 +329,7 @@ class eZTemplateElementParser
     /*!
      Returns the end position of the variable.
     */
-    function variableEndPos( &$tpl, $relatedTemplateName, &$text, $startPosition, $textLength,
+    function variableEndPos( $tpl, $relatedTemplateName, &$text, $startPosition, $textLength,
                              &$namespace, &$name, &$scope )
     {
         $currentPosition = $startPosition;
@@ -492,7 +492,7 @@ class eZTemplateElementParser
      Returns the end position of the identifier.
      If no identifier was found the end position is returned.
     */
-    function identifierEndPosition( &$tpl, &$text, $start_pos, $len )
+    function identifierEndPosition( $tpl, &$text, $start_pos, $len )
     {
         $pos = $start_pos;
         while ( $pos < $len )
@@ -510,7 +510,7 @@ class eZTemplateElementParser
      Returns the end position of the quote $quote.
      If no quote was found the end position is returned.
     */
-    function quoteEndPos( &$tpl, &$text, $startPosition, $textLength, $quote )
+    function quoteEndPos( $tpl, &$text, $startPosition, $textLength, $quote )
     {
         $currentPosition = $startPosition;
         while ( $currentPosition < $textLength )
@@ -528,7 +528,7 @@ class eZTemplateElementParser
      Returns the end position of the numeric.
      If no numeric was found the end position is returned.
     */
-    function numericEndPos( &$tpl, &$text, $start_pos, $len,
+    function numericEndPos( $tpl, &$text, $start_pos, $len,
                             &$float )
     {
         $pos = $start_pos;
@@ -588,7 +588,7 @@ class eZTemplateElementParser
     /*!
      Returns the position of the first non-whitespace characters.
     */
-    function whitespaceEndPos( &$tpl, &$text, $currentPosition, $textLength )
+    function whitespaceEndPos( $tpl, &$text, $currentPosition, $textLength )
     {
         if ( $currentPosition >= $textLength )
             return $currentPosition;
@@ -603,7 +603,7 @@ class eZTemplateElementParser
     /*!
      Returns the position of the first non-whitespace characters.
     */
-    function isWhitespace( &$tpl, &$text, $startPosition )
+    function isWhitespace( $tpl, &$text, $startPosition )
     {
         return preg_match( "/[ \t\r\n]/", $text[$startPosition] );
     }

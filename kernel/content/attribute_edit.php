@@ -464,7 +464,7 @@ if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
 $tpl->setVariable( "location_ui_enabled", $locationUIEnabled );
 
 
-if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
+if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $tpl, $FromLanguage ) ) )
     return;
 
 $templateName = 'design:content/edit.tpl';

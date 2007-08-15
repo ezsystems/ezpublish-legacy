@@ -117,7 +117,7 @@ class eZTemplateSectionFunction
                                             'transform-parameters' => true ) );
     }
 
-    function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )
+    function functionTemplateStatistics( $functionName, &$node, $tpl, $resourceData, $namespace, &$stats )
     {
         if ( $functionName != $this->Name )
             return false;
@@ -193,7 +193,7 @@ class eZTemplateSectionFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $useLastValue = false;
         if ( isset( $parameters['last-value'] ) and
@@ -725,7 +725,7 @@ class eZTemplateSectionFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $children = $functionChildren;
         $parameters = $functionParameters;
@@ -1025,7 +1025,7 @@ class eZTemplateSectionFunction
      Goes trough all children and process them into text.
      \return \c true.
     */
-    function processChildrenOnce( &$textElements, &$children, &$tpl, $rootNamespace, $name )
+    function processChildrenOnce( &$textElements, &$children, $tpl, $rootNamespace, $name )
     {
         foreach ( array_keys( $children ) as $childKey )
         {
@@ -1044,7 +1044,7 @@ class eZTemplateSectionFunction
     function processChildren( &$textElements,
                               &$children, $key, &$item, &$index, &$isFirstRun,
                               &$delimiterStructure, &$sequenceStructure, &$filterStructure,
-                              &$tpl, $rootNamespace, $name, $functionPlacement,
+                              $tpl, $rootNamespace, $name, $functionPlacement,
                               &$variableIterator, $noLastValue,
                               &$iteratorData )
     {

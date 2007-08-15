@@ -92,7 +92,7 @@ class eZTemplateDoFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         // {/do while <condition> [sequence <sequence_array> as $<sequence_var>]}
 
@@ -130,7 +130,7 @@ class eZTemplateDoFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
         $loop = new eZTemplateLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,

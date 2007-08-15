@@ -189,7 +189,7 @@ class eZPackageCreationHandler
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
     */
-    function initializeStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeStep( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->initializeStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -206,7 +206,7 @@ class eZPackageCreationHandler
      \virtual
      Called each time a step is loaded, and can be used to fetch and process input data in each step.
     */
-    function loadStep( &$package, &$http, $currentStepID, &$persistentData, &$tpl, &$module )
+    function loadStep( &$package, &$http, $currentStepID, &$persistentData, $tpl, &$module )
     {
         $methodMap = $this->loadStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -270,7 +270,7 @@ class eZPackageCreationHandler
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
-    function commitStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitStep( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -500,7 +500,7 @@ class eZPackageCreationHandler
 
      \note This function is called from initializePackageChangelog()
     */
-    function initialChangelogEntry( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initialChangelogEntry( &$package, &$http, $step, &$persistentData, $tpl )
     {
         return '- Creation of package.';
     }
@@ -649,7 +649,7 @@ class eZPackageCreationHandler
      Initializes the package information step with some default values.
      It will call generatePackageInformation() after the values are initialized.
     */
-    function initializePackageInformation( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageInformation( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['name'] = false;
         $persistentData['summary'] = false;
@@ -762,7 +762,7 @@ class eZPackageCreationHandler
     /*!
      Commits package information.
     */
-    function commitPackageInformation( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageInformation( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -770,7 +770,7 @@ class eZPackageCreationHandler
      Initializes the package changelog step with some values taken from the
      current users and the funcvtion initialChangelogEntry().
     */
-    function initializePackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageChangelog( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $user = eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );
@@ -834,7 +834,7 @@ class eZPackageCreationHandler
     /*!
      Parses the changelog entry text and turns into an array with change entries.
     */
-    function commitPackageChangelog( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageChangelog( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $changelogEntries = array();
         $changelogText = $persistentData['changelog_text'];
@@ -871,7 +871,7 @@ class eZPackageCreationHandler
     /*!
      Initializes the package maintainer step with some values taken from the current user.
     */
-    function initializePackageMaintainer( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageMaintainer( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $maintainerPerson = false;
         $maintainerEmail = false;
@@ -923,7 +923,7 @@ class eZPackageCreationHandler
     /*!
      Commits maintainer step data. Does nothing for now.
     */
-    function commitPackageMaintainer( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageMaintainer( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -963,7 +963,7 @@ class eZPackageCreationHandler
     /*!
      Initializes the package thumbnail step.
     */
-    function initializePackageThumbnail( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializePackageThumbnail( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['thumbnail'] = false;
     }
@@ -996,7 +996,7 @@ class eZPackageCreationHandler
     /*!
      Commits thumbnail step data. Does nothing for now.
     */
-    function commitPackageThumbnail( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitPackageThumbnail( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 

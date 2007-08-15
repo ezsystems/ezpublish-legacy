@@ -64,7 +64,7 @@ class eZTemplateLoopSequence
 class eZTemplateLoop
 {
     function eZTemplateLoop( $functionName, &$functionParameters, &$functionChildren, &$functionPlacement,
-                             &$tpl, &$textElements, &$rootNamespace, &$currentNamespace )
+                             $tpl, &$textElements, &$rootNamespace, &$currentNamespace )
     {
         $this->SkipDelimiter         = true;
         $this->SkipSequenceIncrement = false;

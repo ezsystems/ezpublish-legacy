@@ -111,11 +111,11 @@ $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Datatype wizard' ) ) );
 
 
-function datatypeBasic( &$tpl, &$persistentData, $stepData )
+function datatypeBasic( $tpl, &$persistentData, $stepData )
 {
 }
 
-function datatypeBasicFetchData( &$tpl, &$persistentData )
+function datatypeBasicFetchData( $tpl, &$persistentData )
 {
     $http = eZHTTPTool::instance();
     $datatypeName = false;
@@ -146,7 +146,7 @@ function datatypeBasicFetchData( &$tpl, &$persistentData )
     $persistentData['desc-name'] = $descName;
 }
 
-function datatypeDescribe( &$tpl, &$persistentData, $stepData )
+function datatypeDescribe( $tpl, &$persistentData, $stepData )
 {
     $datatypeName = $persistentData['name'];
     $classInput = $persistentData['class-input'];
@@ -169,7 +169,7 @@ function datatypeDescribe( &$tpl, &$persistentData, $stepData )
     $tpl->setVariable( 'desc-name', $descName );
 }
 
-function datatypeDescribeFetchData( &$tpl, &$persistentData )
+function datatypeDescribeFetchData( $tpl, &$persistentData )
 {
     $http = eZHTTPTool::instance();
     $className = false;
@@ -191,7 +191,7 @@ function datatypeDescribeFetchData( &$tpl, &$persistentData )
     $persistentData['description'] = $description;
 }
 
-function datatypeDownload( &$tpl, &$persistentData, $stepData )
+function datatypeDownload( $tpl, &$persistentData, $stepData )
 {
     $datatypeName = $persistentData['name'];
     $classInput = $persistentData['class-input'];

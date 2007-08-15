@@ -181,7 +181,7 @@ class eZPackageInstallationHandler
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
     */
-    function initializeStep( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    function initializeStep( &$package, &$http, $step, &$persistentData, $tpl, &$module )
     {
         $methodMap = $this->initializeStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -244,7 +244,7 @@ class eZPackageInstallationHandler
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
-    function commitStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitStep( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
         if ( count( $methodMap ) > 0 )

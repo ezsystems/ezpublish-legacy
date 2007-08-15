@@ -56,7 +56,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
     */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
+                                         $tpl, &$resourceData, $parameters, $namespaceValue )
     {
         if ( $this->Name != 'design' and $this->Name != 'standard' )
             return false;

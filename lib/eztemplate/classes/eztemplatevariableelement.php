@@ -64,7 +64,7 @@ class eZTemplateVariableElement
     /*!
      Process the variable with it's operators and appends the result to $text.
     */
-    function process( &$tpl, &$text, $nspace, $current_nspace )
+    function process( $tpl, &$text, $nspace, $current_nspace )
     {
         $value = $tpl->elementValue( $this->Variable, $nspace );
         $tpl->appendElement( $text, $value, $nspace, $current_nspace );
@@ -73,7 +73,7 @@ class eZTemplateVariableElement
     /*!
      Returns the variable array.
     */
-    function &variable()
+    function variable()
     {
         return $this->Variable;
     }

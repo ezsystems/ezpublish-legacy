@@ -690,7 +690,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     }
 }
 
-function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
+function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
     // When the object has been published we will use the nodes as
     // node-assignments by faking the list, this is required since new

@@ -390,7 +390,7 @@ class eZTemplateCompiler
      Tries to execute the compiled template and returns \c true if succsesful.
      Returns \c false if caching is disabled or the compiled template could not be executed.
     */
-    static function executeCompilation( &$tpl, &$textElements, $key, &$resourceData,
+    static function executeCompilation( $tpl, &$textElements, $key, &$resourceData,
                                  $rootNamespace, $currentNamespace )
      {
         $debug = eZDebug::instance();
@@ -430,7 +430,7 @@ class eZTemplateCompiler
      \return true if a text result was created.
     */
     static function executeCompilationHelper( $phpScript, &$text,
-                                       &$tpl, $key, &$resourceData,
+                                       $tpl, $key, &$resourceData,
                                        $rootNamespace, $currentNamespace )
     {
         $vars =& $tpl->Variables;
@@ -459,7 +459,7 @@ class eZTemplateCompiler
      \note Each call to this will set the PHP time limit to 30
      \return false if the cache does not exist.
     */
-    static function compileTemplate( &$tpl, $key, &$resourceData )
+    static function compileTemplate( $tpl, $key, &$resourceData )
     {
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
@@ -644,7 +644,7 @@ class eZTemplateCompiler
         return true;
     }
 
-    static function prepareVariableStatistics( &$tpl, &$resourceData, &$stats )
+    static function prepareVariableStatistics( $tpl, &$resourceData, &$stats )
     {
 //         $path = $resourceData['template-filename'];
 //         $info =& $GLOBALS['eZTemplateCompileVariableInfo'][$path];
@@ -655,7 +655,7 @@ class eZTemplateCompiler
 
     /*!
     */
-    static function calculateVariableStatistics( &$tpl, &$node, &$resourceData, &$stats )
+    static function calculateVariableStatistics( $tpl, &$node, &$resourceData, &$stats )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -671,7 +671,7 @@ class eZTemplateCompiler
             $tpl->error( 'calculateVariableStatistics', "Unknown root type $nodeType, should be " . EZ_TEMPLATE_NODE_ROOT );
     }
 
-    static function calculateVariableStatisticsChildren( &$tpl, &$nodeChildren, &$resourceData, $namespace, &$stats )
+    static function calculateVariableStatisticsChildren( $tpl, &$nodeChildren, &$resourceData, $namespace, &$stats )
     {
         foreach ( $nodeChildren as $node )
         {
@@ -730,7 +730,7 @@ class eZTemplateCompiler
         }
     }
 
-    static function calculateVariableNodeStatistics( &$tpl, $variableData, $variablePlacement, &$resourceData, $namespace, &$stats )
+    static function calculateVariableNodeStatistics( $tpl, $variableData, $variablePlacement, &$resourceData, $namespace, &$stats )
     {
         if ( !is_array( $variableData ) )
             return false;
@@ -912,7 +912,7 @@ class eZTemplateCompiler
      combined tree will be present in \a $newNode.
      \sa processNodeCombiningChildren
     */
-    static function processNodeCombining( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    static function processNodeCombining( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -933,7 +933,7 @@ class eZTemplateCompiler
      Does node combining on the children \a $nodeChildren.
      \sa processNodeCombining
     */
-    static function processNodeCombiningChildren( $useComments, &$php, &$tpl, &$nodeChildren, &$resourceData, &$parentNode )
+    static function processNodeCombiningChildren( $useComments, &$php, $tpl, &$nodeChildren, &$resourceData, &$parentNode )
     {
         $newNodeChildren = array();
         $lastNode = false;
@@ -1025,7 +1025,7 @@ class eZTemplateCompiler
      Combining nodes only works for text nodes and variable nodes without
      variable lookup, attributes and operators.
     */
-    static function combineStaticNodes( &$tpl, &$resourceData, &$lastNode, &$newNode )
+    static function combineStaticNodes( $tpl, &$resourceData, &$lastNode, &$newNode )
     {
         if ( $lastNode == false or
              $newNode == false )
@@ -1135,7 +1135,7 @@ class eZTemplateCompiler
      Iterates over the items in the tree \a $node and tries to extract static data
      from operators which supports it.
     */
-    static function processStaticOptimizations( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    static function processStaticOptimizations( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -1235,7 +1235,7 @@ class eZTemplateCompiler
      tree in \a $newNode.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processNodeTransformation( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
+    static function processNodeTransformation( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $newNode = eZTemplateCompiler::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
     }
@@ -1245,7 +1245,7 @@ class eZTemplateCompiler
      \sa processNodeTransformationChildren
      \note This method can be called from operator and functions as long as they have the \a $privateData parameter.
     */
-    static function processNodeTransformationNodes( &$tpl, &$node, &$nodes, &$privateData )
+    static function processNodeTransformationNodes( $tpl, &$node, &$nodes, &$privateData )
     {
         $useComments = $privateData['use-comments'];
         $php =& $privateData['php-creator'];
@@ -1257,7 +1257,7 @@ class eZTemplateCompiler
      Iterates over the children \a $children and does transformation on them.
      \sa processNodeTransformation, processNodeTransformationChild
     */
-    static function processNodeTransformationChildren( $useComments, &$php, &$tpl, &$node, &$children, &$resourceData )
+    static function processNodeTransformationChildren( $useComments, &$php, $tpl, &$node, &$children, &$resourceData )
     {
         if ( $children )
         {
@@ -1280,7 +1280,7 @@ class eZTemplateCompiler
      Iterates over the children of the root node \a $node and does transformation on them.
      \sa processNodeTransformation, processNodeTransformationChild
     */
-    static function processNodeTransformationRoot( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    static function processNodeTransformationRoot( $useComments, &$php, $tpl, &$node, &$resourceData )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -1314,7 +1314,7 @@ class eZTemplateCompiler
      If the node is not a function it will return \c false.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processNodeTransformationChild( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    static function processNodeTransformationChild( $useComments, &$php, $tpl, &$node, &$resourceData )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
@@ -1444,7 +1444,7 @@ class eZTemplateCompiler
      Iterates over the element list \a $elements and transforms them.
      \sa processElementTransformationChild
     */
-    static function processElementTransformationList( &$tpl, &$node, &$elements, &$privateData )
+    static function processElementTransformationList( $tpl, &$node, &$elements, &$privateData )
     {
         $useComments = $privateData['use-comments'];
         $php =& $privateData['php-creator'];
@@ -1462,7 +1462,7 @@ class eZTemplateCompiler
      If the node is not a function it will return \c false.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processElementTransformationChild( $useComments, &$php, &$tpl, &$node,
+    static function processElementTransformationChild( $useComments, &$php, $tpl, &$node,
                                                 &$elementTree, &$elementList, &$resourceData )
     {
         $count = count( $elementList );
@@ -1650,7 +1650,7 @@ class eZTemplateCompiler
      - has-operators - true if operators are present
      - has-attributes - true if attributes are used
     */
-    static function inspectVariableData( &$tpl, $variableData, $variablePlacement, &$resourceData )
+    static function inspectVariableData( $tpl, $variableData, $variablePlacement, &$resourceData )
     {
         $dataInspection = array( 'is-constant' => false,
                                  'is-variable' => false,
@@ -1786,7 +1786,7 @@ class eZTemplateCompiler
      \return the operator hint for the operator \a $operatorName, or \c false if
              the operator does not exist or has no hints.
     */
-    static function operatorHint( &$tpl, $operatorName )
+    static function operatorHint( $tpl, $operatorName )
     {
         if ( isset( $tpl->Operators[$operatorName] ) and
              is_array( $tpl->Operators[$operatorName] ) )
@@ -1820,7 +1820,7 @@ class eZTemplateCompiler
              The operator is specified in \a $operatorName.
 
     */
-    static function operatorStaticData( &$tpl, $operatorName )
+    static function operatorStaticData( $tpl, $operatorName )
     {
         if ( is_array( $tpl->Operators[$operatorName] ) )
         {
@@ -1849,7 +1849,7 @@ class eZTemplateCompiler
      are returned as EZ_TEMPLATE_TYPE_TEXT and EZ_TEMPLATE_TYPE_NUMERIC while other
      types are turned into text and returned as EZ_TEMPLATE_TYPE_TEXT.
     */
-    static function createStaticVariableData( &$tpl, $staticData, $variableItemPlacement )
+    static function createStaticVariableData( $tpl, $staticData, $variableItemPlacement )
     {
         if ( is_string( $staticData ) )
             return array( EZ_TEMPLATE_TYPE_TEXT,
@@ -2053,7 +2053,7 @@ $rbracket
      The code is generated using the php creator specified in \a $php.
     */
 
-    static function generatePHPCode( $useComments, &$php, &$tpl, &$node, &$resourceData )
+    static function generatePHPCode( $useComments, &$php, $tpl, &$node, &$resourceData )
     {
         $parameters = array();
         $currentParameters = array( 'spacing' => 0 );
@@ -2075,7 +2075,7 @@ $rbracket
      Generates the PHP code for all node children specified in \a $nodeChildren.
      \sa generatePHPCode
     */
-    static function generatePHPCodeChildren( $useComments, &$php, &$tpl, &$nodeChildren, &$resourceData, &$parameters, $currentParameters )
+    static function generatePHPCodeChildren( $useComments, &$php, $tpl, &$nodeChildren, &$resourceData, &$parameters, $currentParameters )
     {
         foreach ( $nodeChildren as $node )
         {
@@ -2927,7 +2927,7 @@ else
      The namespace to merge with is specified in \a $namespace and
      the scope of the merging is defined by \a $namespaceScope.
     */
-    static function generateMergeNamespaceCode( &$php, &$tpl, $namespace, $namespaceScope, $parameters = array(), $skipSimpleAssignment = false )
+    static function generateMergeNamespaceCode( &$php, $tpl, $namespace, $namespaceScope, $parameters = array(), $skipSimpleAssignment = false )
     {
         if ( $namespace != '' )
         {
@@ -2982,7 +2982,7 @@ else
      Generates PHP code for the variable node \a $node.
      Use generateVariableDataCode if you want to create code for arbitrary variable data structures.
     */
-    static function generateVariableCode( &$php, &$tpl, $node, &$knownTypes, $dataInspection, $parameters, &$resourceData )
+    static function generateVariableCode( &$php, $tpl, $node, &$knownTypes, $dataInspection, $parameters, &$resourceData )
     {
         $variableData = $node[2];
         $persistence = array();
@@ -2995,7 +2995,7 @@ else
      variable lookup, attribute lookup and operator execution.
      Use generateVariableCode if you want to create code for a variable tree node.
     */
-    static function generateVariableDataCode( &$php, &$tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters, &$resourceData )
+    static function generateVariableDataCode( &$php, $tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters, &$resourceData )
     {
         $staticTypeMap = array( EZ_TEMPLATE_TYPE_STRING => 'string',
                                 EZ_TEMPLATE_TYPE_NUMERIC => 'numeric',

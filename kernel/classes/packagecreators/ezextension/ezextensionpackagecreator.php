@@ -142,11 +142,11 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         return 'extension';
     }
 
-    function initializeExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeExtensionName( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 
-    function loadExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function loadExtensionName( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
@@ -165,7 +165,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         return true;
     }
 
-    function commitExtensionName( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitExtensionName( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['extensionname'] = $http->postVariable( 'PackageExtensionName' );
     }

@@ -66,7 +66,7 @@ class eZTemplateMenuFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName != $this->BlockName )
             return false;
@@ -140,7 +140,7 @@ class eZTemplateMenuFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         switch ( $functionName )

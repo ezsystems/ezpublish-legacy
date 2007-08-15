@@ -271,12 +271,12 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $tpl->setVariable( 'object', $object );
             $templateResult = $tpl->fetch( 'design:content/collectedinfomail/' . $informationCollectionTemplate . '.tpl' );
 
-            $subject =& $tpl->variable( 'subject' );
-            $receiver =& $tpl->variable( 'email_receiver' );
-            $ccReceivers =& $tpl->variable( 'email_cc_receivers' );
-            $bccReceivers =& $tpl->variable( 'email_bcc_receivers' );
-            $sender =& $tpl->variable( 'email_sender' );
-            $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
+            $subject = $tpl->variable( 'subject' );
+            $receiver = $tpl->variable( 'email_receiver' );
+            $ccReceivers = $tpl->variable( 'email_cc_receivers' );
+            $bccReceivers = $tpl->variable( 'email_bcc_receivers' );
+            $sender = $tpl->variable( 'email_sender' );
+            $redirectToNodeID = $tpl->variable( 'redirect_to_node_id' );
 
             $ini = eZINI::instance();
             $mail = new eZMail();

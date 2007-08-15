@@ -49,7 +49,7 @@ class eZWizardBase
      \param Module
      \param Storage Name, optional.
     */
-    function eZWizardBase( &$tpl, &$module, $storageName = false )
+    function eZWizardBase( $tpl, &$module, $storageName = false )
     {
         if ( $storageName )
         {
@@ -427,7 +427,7 @@ class eZWizardBaseClassLoader
      \static
      Create new specified class
     */
-    function createClass( &$tpl,
+    function createClass( $tpl,
                           &$module,
                           $stepArray,
                           $basePath,

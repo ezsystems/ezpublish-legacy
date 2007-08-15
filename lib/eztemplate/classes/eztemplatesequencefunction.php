@@ -80,7 +80,7 @@ class eZTemplateSequenceFunction
                                                     'tree-transformation' => true ) );
     }
 
-    function templateNodeSequenceCreate( &$node, &$tpl, $parameters, $nameValue, $loopValue )
+    function templateNodeSequenceCreate( &$node, $tpl, $parameters, $nameValue, $loopValue )
     {
         $newNodes = array();
 
@@ -95,7 +95,7 @@ class eZTemplateSequenceFunction
         return $newNodes;
     }
 
-    function templateNodeSequenceIterate( &$node, &$tpl, $parameters, $nameValue )
+    function templateNodeSequenceIterate( &$node, $tpl, $parameters, $nameValue )
     {
         $newNodes = array();
 
@@ -109,7 +109,7 @@ class eZTemplateSequenceFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $newNodes = array();
         $namespaceValue = false;
@@ -143,7 +143,7 @@ class eZTemplateSequenceFunction
     /*!
      Either initializes the sequence or iterates it.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         $loop = null;

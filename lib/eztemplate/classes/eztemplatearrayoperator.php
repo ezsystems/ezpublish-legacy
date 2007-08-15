@@ -304,7 +304,7 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function arrayTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function arrayTrans( $operatorName, &$node, $tpl, &$resourceData,
                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         switch( $operatorName )
@@ -1056,7 +1056,7 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function compareTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function compareTrans( $operatorName, &$node, $tpl, &$resourceData,
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $isArray = false;
@@ -1250,7 +1250,7 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function extractTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function extractTrans( $operatorName, &$node, $tpl, &$resourceData,
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $offset = 0;
@@ -1356,7 +1356,7 @@ class eZTemplateArrayOperator
     /*!
      \reimp
     */
-    function mergeTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function mergeTrans( $operatorName, &$node, $tpl, &$resourceData,
                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $code = '';
@@ -1587,7 +1587,7 @@ class eZTemplateArrayOperator
                                                                                  "default"   => false ) ) );
     }
 
-    function modify( &$tpl, &$operatorName, &$operatorParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters,
                      &$rootNamespace, &$currentNamespace, &$operatorValue,
                      &$namedParameters, $placement )
     {

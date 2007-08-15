@@ -719,7 +719,7 @@ class eZTemplate
      \return The root node of the tree if \a $returnResourceData is false,
              if \c true the entire resource data structure.
     */
-    function &load( $uri, $extraParameters = false, $returnResourceData = false )
+    function load( $uri, $extraParameters = false, $returnResourceData = false )
     {
         $resourceData = $this->loadURIRoot( $uri, true, $extraParameters );
         if ( !$resourceData or
@@ -732,7 +732,7 @@ class eZTemplate
             return $resourceData['root-node'];
     }
 
-    function parse( &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
+    function parse( $sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
         include_once( 'lib/eztemplate/classes/eztemplatemultipassparser.php' );
         $parser = eZTemplateMultiPassParser::instance();
@@ -816,21 +816,20 @@ class eZTemplate
             if ( !$resourceData['compiled-template'] and
                  $resourceData['root-node'] === null )
             {
-                $root =& $resourceData['root-node'];
-                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-                $templateText =& $resourceData["text"];
+                $resourceData['root-node'] = array( EZ_TEMPLATE_NODE_ROOT, false );
+                $templateText = $resourceData["text"];
                 $keyData = $resourceData['key-data'];
                 $this->setIncludeText( $uri, $templateText );
                 $rootNamespace = '';
-                $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+                $this->parse( $templateText, $resourceData['root-node'], $rootNamespace, $resourceData );
 
                 if ( eZTemplate::isDebugEnabled() )
                 {
-                    $this->appendDebugNodes( $root, $resourceData );
+                    $this->appendDebugNodes( $resourceData['root-node'], $resourceData );
                 }
 
                 if ( $canCache )
-                    $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
+                    $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $resourceData['root-node'] );
             }
             if ( !$resourceData['compiled-template'] and
                  $canCache and
@@ -944,7 +943,7 @@ class eZTemplate
 
         $root =& $resourceData['root-node'];
         $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-        $templateText =& $resourceData["text"];
+        $templateText = $resourceData["text"];
         $rootNamespace = '';
         $this->parse( $templateText, $root, $rootNamespace, $resourceData );
         if ( eZTemplate::isDebugEnabled() )
@@ -990,7 +989,7 @@ class eZTemplate
         {
             $root =& $resourceData['root-node'];
             $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-            $templateText =& $resourceData["text"];
+            $templateText = $resourceData["text"];
             $rootNamespace = '';
             $this->parse( $templateText, $root, $rootNamespace, $resourceData );
             if ( eZTemplate::isDebugEnabled() )
@@ -1602,7 +1601,7 @@ class eZTemplate
      Returns the content of the variable $var using namespace $namespace,
      if $attrs is supplied the result of the attributes is returned.
     */
-    function &variable( $var, $namespace = "", $attrs = array() )
+    function variable( $var, $namespace = "", $attrs = array() )
     {
         $val = null;
         $exists = ( array_key_exists( $namespace, $this->Variables ) and
@@ -1611,35 +1610,41 @@ class eZTemplate
         {
             if ( count( $attrs ) > 0 )
             {
-                $ptr =& $this->Variables[$namespace][$var];
+                $element = $this->Variables[$namespace][$var];
                 foreach( $attrs as $attr )
                 {
-                    unset( $tmp );
-                    if ( is_object( $ptr ) )
+                    if ( is_object( $element ) )
                     {
-                        if ( $ptr->hasAttribute( $attr ) )
-                            $tmp = $ptr->attribute( $attr );
+                        if ( $element->hasAttribute( $attr ) )
+                        {
+                            $element = $element->attribute( $attr );
+                        }
                         else
+                        {
                             return $val;
+                        }
                     }
-                    else if ( is_array( $ptr ) )
+                    else if ( is_array( $element ) )
                     {
-                        if ( array_key_exists( $attr, $ptr ) )
-                            $tmp =& $ptr[$attr];
+                        if ( array_key_exists( $attr, $element ) )
+                        {
+                            $val = $element[$attr];
+                        }
                         else
+                        {
                             return $val;
+                        }
                     }
                     else
+                    {
                         return $val;
-                    unset( $ptr );
-                    $ptr =& $tmp;
+                    }
+                    $val = $element;
                 }
-                if ( isset( $ptr ) )
-                    return $ptr;
             }
             else
             {
-                $val =& $this->Variables[$namespace][$var];
+                $val = $this->Variables[$namespace][$var];
             }
         }
         return $val;
@@ -1687,43 +1692,10 @@ class eZTemplate
 
         return null;
     }
-/*    function &variableAttribute( &$var, $attrs )
-    {
-        $val = null;
-        if ( count( $attrs ) > 0 )
-        {
-            $ptr =& $var;
-            foreach( $attrs as $attr )
-            {
-                unset( $tmp );
-                if ( is_object( $ptr ) )
-                {
-                    if ( $ptr->hasAttribute( $attr ) )
-                        $tmp = $ptr->attribute( $attr );
-                    else
-                        return $val;
-                }
-                else if ( is_array( $ptr ) )
-                {
-                    if ( isset( $ptr[$attr] ) )
-                        $tmp =& $ptr[$attr];
-                    else
-                        return $val;
-                }
-                else
-                    return $val;
-                unset( $ptr );
-                $ptr =& $tmp;
-            }
-            if ( isset( $ptr ) )
-                return $ptr;
-        }
-        return $val;
-    } */
 
     /*!
     */
-    function appendElement( &$text, &$item, $nspace, $name )
+    function appendElement( &$text, $item, $nspace, $name )
     {
         $this->appendElementText( $textElements, $item, $nspace, $name );
         $text .= implode( '', $textElements );
@@ -1731,7 +1703,7 @@ class eZTemplate
 
     /*!
     */
-    function appendElementText( &$textElements, &$item, $nspace, $name )
+    function appendElementText( &$textElements, $item, $nspace, $name )
     {
         if ( !is_array( $textElements ) )
             $textElements = array();

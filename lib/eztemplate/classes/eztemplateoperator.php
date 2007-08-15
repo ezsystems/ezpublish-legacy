@@ -74,7 +74,7 @@ class eZTemplateOperator
     function modify( /*! The operator element, can be used for doing advanced querying but should be avoided. */
                      &$element,
                      /*! The template object which called this class */
-                     &$tpl,
+                     $tpl,
                      /*! The name of this operator */
                      &$op_name,
                      /*! The parameters for this operator */

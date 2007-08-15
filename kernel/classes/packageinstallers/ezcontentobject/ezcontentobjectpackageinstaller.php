@@ -85,7 +85,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeSiteAccess( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeSiteAccess( &$package, &$http, $step, &$persistentData, $tpl )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
@@ -137,7 +137,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeTopNodes( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    function initializeTopNodes( &$package, &$http, $step, &$persistentData, $tpl, &$module )
     {
         if ( !isset( $persistentData['top_nodes_map'] ) )
         {

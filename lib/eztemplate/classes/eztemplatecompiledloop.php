@@ -37,7 +37,7 @@
 class eZTemplateCompiledLoop
 {
     function eZTemplateCompiledLoop( $name, &$newNodes, &$parameters, &$nodePlacement, $uniqid,
-                                     &$node, &$tpl, &$privateData )
+                                     &$node, $tpl, &$privateData )
     {
         $this->Name          =& $name;
         $this->Parameters    =& $parameters;

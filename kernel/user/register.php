@@ -239,9 +239,9 @@ if ( !function_exists( 'checkContentActions' ) )
 
                         $subject = ezi18n( 'kernel/user/register', 'New user registered' );
                         if ( $tpl->hasVariable( 'subject' ) )
-                            $subject =& $tpl->variable( 'subject' );
+                            $subject = $tpl->variable( 'subject' );
                         if ( $tpl->hasVariable( 'email_receiver' ) )
-                            $feedbackReceiver =& $tpl->variable( 'email_receiver' );
+                            $feedbackReceiver = $tpl->variable( 'email_receiver' );
 
                         $mail->setReceiver( $feedbackReceiver );
                         $mail->setSubject( $subject );

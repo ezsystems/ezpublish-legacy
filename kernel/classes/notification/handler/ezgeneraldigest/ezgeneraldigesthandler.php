@@ -150,7 +150,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                 eZDebugSetting::writeDebug( 'kernel-notification', $result, "digest result" );
             }
 
-            $collectionItemIDList =& $tpl->variable( 'collection_item_id_list' );
+            $collectionItemIDList = $tpl->variable( 'collection_item_id_list' );
             eZDebugSetting::writeDebug( 'kernel-notification', $collectionItemIDList, "handled items" );
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )

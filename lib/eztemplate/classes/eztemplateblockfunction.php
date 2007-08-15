@@ -113,7 +113,7 @@ class eZTemplateBlockFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName == $this->BlockName or
              $functionName == $this->AppendBlockName )
@@ -203,7 +203,7 @@ class eZTemplateBlockFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         switch ( $functionName )
         {

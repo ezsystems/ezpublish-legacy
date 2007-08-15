@@ -86,7 +86,7 @@ function sectionEditActionCheck( &$module, &$class, &$object, &$version, &$conte
     }
 }
 
-function sectionEditPreTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
+function sectionEditPreTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
 }
 

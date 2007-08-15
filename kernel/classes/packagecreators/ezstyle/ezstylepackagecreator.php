@@ -196,7 +196,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     }
 
 
-    function initializeCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeCSSFile( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -229,7 +229,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitCSSFile( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitCSSFile( &$package, &$http, $step, &$persistentData, $tpl )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
         $siteFile = eZHTTPFile::fetch( 'PackageSiteCSSFile' );
@@ -247,7 +247,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         $persistentData['classescssfile'] = $classesMimeData;
     }
 
-    function initializeImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeImageFiles( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['imagefiles'] = array();
     }
@@ -278,7 +278,7 @@ class eZStylePackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitImageFiles( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitImageFiles( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 

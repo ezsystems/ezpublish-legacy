@@ -103,7 +103,7 @@ class eZTemplateForeachFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         /*
         {foreach <array> as [$keyVar =>] $itemVar
@@ -254,7 +254,7 @@ class eZTemplateForeachFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         /*
         {foreach <array> as [$keyVar =>] $itemVar

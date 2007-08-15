@@ -74,7 +74,7 @@ class eZTemplateFileResource
     /*!
     */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$resourceData, $parameters, $namespaceValue )
+                                         $tpl, &$resourceData, $parameters, $namespaceValue )
     {
         if ( $this->Name != 'file' )
             return false;
@@ -121,7 +121,7 @@ class eZTemplateFileResource
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function compileTemplate( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
+    function compileTemplate( $tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
         return eZTemplateCompiler::compileTemplate( $tpl, $key, $resourceData );
@@ -130,7 +130,7 @@ class eZTemplateFileResource
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function executeCompiledTemplate( &$tpl, &$textElements,
+    function executeCompiledTemplate( $tpl, &$textElements,
                                       $keyData, $uri, $resourceData, $templatePath,
                                       &$extraParameters, $timestamp,
                                       $rootNamespace, $currentNamespace )
@@ -152,7 +152,7 @@ class eZTemplateFileResource
     /*!
      \return \c true if a compiled template can be generated for this request.
     */
-    function canCompileTemplate( &$tpl, &$resourceData, &$extraParameters )
+    function canCompileTemplate( $tpl, &$resourceData, &$extraParameters )
     {
         return eZTemplateCompiler::isCompilationEnabled();
     }

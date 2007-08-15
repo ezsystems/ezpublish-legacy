@@ -77,7 +77,7 @@ class eZTemplateIncludeFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         if ( $functionName != $this->IncludeName )
             return false;
@@ -153,7 +153,7 @@ class eZTemplateIncludeFunction
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         if ( !isset( $params["uri"] ) )
@@ -218,7 +218,7 @@ class eZTemplateIncludeFunction
      \static
      Takes care of loading the template file and set it in the \a $text parameter.
     */
-    static function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
+    static function handleInclude( &$textElements, &$uri, $tpl, $rootNamespace, $name )
     {
         $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
     }

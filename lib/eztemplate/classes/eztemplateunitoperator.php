@@ -90,7 +90,7 @@ class eZTemplateUnitOperator
     /*!
       \reimp
     */
-    function operatorTransform( $operatorName, &$node, &$tpl, &$resourceData,
+    function operatorTransform( $operatorName, &$node, $tpl, &$resourceData,
                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) ||
@@ -385,7 +385,7 @@ class eZTemplateUnitOperator
     /*!
      Performs unit conversion.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
                      $placement )
     {
         $unit = $namedParameters["unit"];

@@ -57,7 +57,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
      for more information on the parsing process.
 
     */
-    function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
+    function parse( $tpl, $sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
         $debug = eZDebug::instance();
         $relatedResource = $resourceData['resource'];
@@ -104,7 +104,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
     }
 
-    function parseIntoTextElements( &$tpl, $sourceText, $sourcePosition,
+    function parseIntoTextElements( $tpl, $sourceText, $sourcePosition,
                                      $leftDelimiter, $rightDelimiter, $sourceLength,
                                      $relatedTemplateName )
     {
@@ -334,7 +334,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         return $textElements;
     }
 
-    function parseWhitespaceRemoval( &$tpl, &$textElements )
+    function parseWhitespaceRemoval( $tpl, &$textElements )
     {
         $debug = eZDebug::instance();
         if ( $tpl->ShowDetails )
@@ -424,7 +424,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $root[1][] =& $node;
     }
 
-    function parseIntoTree( &$tpl, &$textElements, &$treeRoot,
+    function parseIntoTree( $tpl, &$textElements, &$treeRoot,
                             $rootNamespace, $relatedResource, $relatedTemplateName )
     {
         $outerElseTags = array( 'else' => array( 'if', 'elseif' ), 'section-else' => array( 'section' ) );
@@ -827,7 +827,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
      * parse 'sequence' loop parameter: "sequence <array> as <$seqVar>"
      */
-    function parseSequenceParameter( $parseSequenceKeyword, $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseSequenceParameter( $parseSequenceKeyword, $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                      $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         if ( $parseSequenceKeyword )
@@ -889,7 +889,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     // for <firstValue> to <lastValue> as <$loopVar> [sequence <array> as <$var>]
     \endcode
     */
-    function parseForFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseForFunction( &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         $firstValStartPos = $cur_pos;
@@ -959,7 +959,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     }
     \endcode
     */
-    function parseForeachFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseForeachFunction( &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                    $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         // parse array
@@ -1056,7 +1056,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         [{skip}]
     {/do while <condition> [sequence <array> as $seqVar]}
     */
-    function parseDoFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseDoFunction( &$args, $tpl, &$text, &$text_len, &$cur_pos,
                               $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         // skip whitespaces
@@ -1099,7 +1099,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     \endcode
     */
 
-    function parseDefFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseDefFunction( $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         if ( $cur_pos == $text_len && $funcName == 'def' ) // no more arguments
@@ -1165,7 +1165,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
     Parse arguments for {if}/{elseif}
     */
-    function parseUnnamedCondition( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseUnnamedCondition( $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                     $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
@@ -1182,7 +1182,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
     Parse arguments for {while}
     */
-    function parseWhileFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseWhileFunction( &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                  $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
@@ -1209,7 +1209,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     /*!
     Parse arguments for {set}/{let}/{default}
     */
-    function parseSetFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseSetFunction( $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         while ( $cur_pos < $text_len )
@@ -1279,7 +1279,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     This method has been created to correctly handle the case when ($) is used in variable name, e.g. {set-block variable=$var}
     Here we strip the dollar sign and pass the variable name as string.
     */
-    function parseBlockFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseBlockFunction( $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                  $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         while ( $cur_pos < $text_len )
@@ -1329,7 +1329,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     This method has been created to correctly handle the case when ($) is used in variable name, e.g. {section var=$item}
     Here we strip the dollar sign and pass the variable name as string.
     */
-    function parseSectionFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+    function parseSectionFunction( $funcName, &$args, $tpl, &$text, &$text_len, &$cur_pos,
                                    $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         while ( $cur_pos < $text_len )
@@ -1377,7 +1377,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
     }
 
-    function showParseErrorMessage( &$tpl, &$text, $text_len, &$cur_pos, $tplName, $startLine, $startColumn, $funcName, $message )
+    function showParseErrorMessage( $tpl, &$text, $text_len, &$cur_pos, $tplName, $startLine, $startColumn, $funcName, $message )
     {
         $subText = substr( $text, 0, $cur_pos );
         $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );

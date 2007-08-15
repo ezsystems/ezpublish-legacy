@@ -285,7 +285,7 @@ class eZTemplateStringOperator
                                                                              "default" => false ) ) );
     }
 
-    function phpMapTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function phpMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -322,7 +322,7 @@ class eZTemplateStringOperator
         return $newElements;
     }
 
-    function customMapTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function customMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -400,7 +400,7 @@ class eZTemplateStringOperator
     /*!
      * \private
      */
-    function wash( $operatorValue, &$tpl, $type = 'xhtml' )
+    function wash( $operatorValue, $tpl, $type = 'xhtml' )
     {
         switch ( $type )
         {
@@ -442,7 +442,7 @@ class eZTemplateStringOperator
         return $operatorValue;
     }
 
-    function washTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function washTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -527,7 +527,7 @@ class eZTemplateStringOperator
     /*
      The modify function takes care of the various operations.
     */
-    function modify( &$tpl,
+    function modify( $tpl,
                      &$operatorName,
                      &$operatorParameters,
                      &$rootNamespace,

@@ -104,7 +104,7 @@ class eZTemplateTextOperator
                                                                             'default' => false ) ) );
     }
 
-    function indentTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function indentTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -191,7 +191,7 @@ class eZTemplateTextOperator
         return $newElements;
     }
 
-    function concatTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function concatTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -229,7 +229,7 @@ class eZTemplateTextOperator
     /*!
      Handles concat and indent operators.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
                      $placement )
     {
         switch ( $operatorName )

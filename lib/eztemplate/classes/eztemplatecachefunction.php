@@ -71,7 +71,7 @@ class eZTemplateCacheFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $ini = eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
@@ -211,7 +211,7 @@ class eZTemplateCacheFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         switch ( $functionName )
         {
@@ -237,7 +237,7 @@ class eZTemplateCacheFunction
         }
     }
 
-    function processCachedPreprocess( &$tpl, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function processCachedPreprocess( $tpl, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $keys                = null;
         $subtreeExpiry       = null;
@@ -273,7 +273,7 @@ class eZTemplateCacheFunction
                        );
     }
 
-    function processCached( &$tpl, $functionChildren, $rootNamespace, $currentNamespace,
+    function processCached( $tpl, $functionChildren, $rootNamespace, $currentNamespace,
                             $placementString, $keys, $subtreeExpiry, $expiry, $ignoreContentExpiry, $subtreeExpiry )
     {
         // Fetch the current siteaccess
@@ -319,7 +319,7 @@ class eZTemplateCacheFunction
         // Check if we can restore
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $cacheFile = eZClusterFileHandler::instance( $phpPath );
-        $args = array( "tpl" => &$tpl,
+        $args = array( "tpl" => $tpl,
                        "functionChildren" => $functionChildren,
                        "rootNamespace" => $rootNamespace,
                        "currentNamespace" => $currentNamespace );
@@ -344,7 +344,7 @@ class eZTemplateCacheFunction
      \static
      Performs processing of the cache-block using the non-compiled way and with caching off.
      */
-    function processUncached( &$tpl, $functionChildren, $rootNamespace, $currentNamespace )
+    function processUncached( $tpl, $functionChildren, $rootNamespace, $currentNamespace )
     {
         $children = $functionChildren;
 

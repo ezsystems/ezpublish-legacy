@@ -94,7 +94,7 @@ class eZTemplateSwitchFunction
         return array( "case" => true );
     }
 
-    function templateNodeCaseTransformation( &$tpl, &$newNodes, &$caseNodes, &$caseCounter, &$node, $privateData )
+    function templateNodeCaseTransformation( $tpl, &$newNodes, &$caseNodes, &$caseCounter, &$node, $privateData )
     {
         if ( $node[2] == 'case' )
         {
@@ -154,7 +154,7 @@ class eZTemplateSwitchFunction
 
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $newNodes = array();
         $namespaceValue = false;
@@ -229,7 +229,7 @@ class eZTemplateSwitchFunction
     /*!
      Processes the function with all it's children.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $children = $functionChildren;
         $params = $functionParameters;

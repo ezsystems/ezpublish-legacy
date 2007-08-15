@@ -213,7 +213,7 @@ class eZTemplateTypeOperator
     /*!
      \reimp
     */
-    function isTransform( $operatorName, &$node, &$tpl, &$resourceData,
+    function isTransform( $operatorName, &$node, $tpl, &$resourceData,
                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -311,7 +311,7 @@ class eZTemplateTypeOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters, $placement )
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters, $placement )
     {
         if ( isset( $this->PHPNameMap[$operatorName] ) )
         {
@@ -410,7 +410,7 @@ class eZTemplateTypeOperator
         }
     }
 
-    function checkType( $typeFunction, &$tpl, &$value, &$operatorParameters, &$rootNamespace, &$currentNamespace, $placement )
+    function checkType( $typeFunction, $tpl, &$value, &$operatorParameters, &$rootNamespace, &$currentNamespace, $placement )
     {
         if ( count( $operatorParameters ) > 0 )
         {

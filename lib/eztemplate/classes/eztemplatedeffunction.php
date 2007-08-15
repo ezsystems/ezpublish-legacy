@@ -97,7 +97,7 @@ class eZTemplateDefFunction
      * Compiles the function into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$parameters, $privateData )
+                                         $tpl, &$parameters, $privateData )
     {
         $undef = ( $functionName == 'undef' );
         $newNodes = array();
@@ -143,7 +143,7 @@ class eZTemplateDefFunction
     /*!
      * Actually executes the function (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $undef = ( $functionName == EZ_TEMPLATE_UNDEF_FUNCTION_NAME ) ? true : false;
 

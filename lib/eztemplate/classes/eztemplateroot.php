@@ -70,7 +70,7 @@ class eZTemplateRoot
     /*!
      Runs process() on all child elements.
     */
-    function process( &$tpl, &$text, $nspace, $current_nspace )
+    function process( $tpl, &$text, $nspace, $current_nspace )
     {
         foreach( array_keys( $this->Children ) as $key )
         {

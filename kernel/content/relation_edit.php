@@ -256,7 +256,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
+function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
     $relatedObjects = $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );

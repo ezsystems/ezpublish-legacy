@@ -125,11 +125,11 @@ $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Template operator wizard' ) ) );
 
 
-function templateOperatorBasic( &$tpl, &$persistentData, $stepData )
+function templateOperatorBasic( $tpl, &$persistentData, $stepData )
 {
 }
 
-function templateOperatorBasicFetchData( &$tpl, &$persistentData )
+function templateOperatorBasicFetchData( $tpl, &$persistentData )
 {
     $http = eZHTTPTool::instance();
     $operatorName = false;
@@ -164,7 +164,7 @@ function templateOperatorBasicFetchData( &$tpl, &$persistentData )
     $persistentData['parameter-check'] = $parameterCheck;
 }
 
-function templateOperatorDescribe( &$tpl, &$persistentData, $stepData )
+function templateOperatorDescribe( $tpl, &$persistentData, $stepData )
 {
     $operatorName = $persistentData['name'];
     $fullClassName = 'Template' . strtoupper( $operatorName[0] ) . substr( $operatorName, 1 ) . 'Operator';
@@ -194,7 +194,7 @@ function templateOperatorDescribe( &$tpl, &$persistentData, $stepData )
     $tpl->setVariable( 'parameter_check', $parameterCheck );
 }
 
-function templateOperatorDescribeFetchData( &$tpl, &$persistentData )
+function templateOperatorDescribeFetchData( $tpl, &$persistentData )
 {
     $http = eZHTTPTool::instance();
     $className = false;
@@ -216,7 +216,7 @@ function templateOperatorDescribeFetchData( &$tpl, &$persistentData )
     $persistentData['example-code'] = $exampleCode;
 }
 
-function templateOperatorDownload( &$tpl, &$persistentData, $stepData )
+function templateOperatorDownload( $tpl, &$persistentData, $stepData )
 {
     $singleOperator = $persistentData['single-operator'];
     $useInput = $persistentData['use-input'];

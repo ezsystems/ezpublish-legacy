@@ -147,7 +147,7 @@ class eZTemplateLocaleOperator
     /*!
      Transforms
      */
-    function l10nTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function l10nTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -239,7 +239,7 @@ class eZTemplateLocaleOperator
         }
     }
 
-    function dateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function dateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                      &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -288,7 +288,7 @@ class eZTemplateLocaleOperator
         return false;
     }
 
-    function currentDateTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function currentDateTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $newElements = array();
@@ -296,7 +296,7 @@ class eZTemplateLocaleOperator
         return $newElements;
     }
 
-    function makeDateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function makeDateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $values = array();
@@ -323,7 +323,7 @@ class eZTemplateLocaleOperator
         return $newElements;
     }
 
-    function getTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function getTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                     &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $newElements = array();
@@ -372,7 +372,7 @@ class eZTemplateLocaleOperator
      - clean_currency
      - number
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
                      $placement )
     {
         if ( $operatorName == $this->LocaleFetchName )

@@ -85,7 +85,7 @@ class eZTemplateDelimitFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         $newNodes = array();
 
@@ -103,7 +103,7 @@ class eZTemplateDelimitFunction
     /*!
      Outputs the left or right delimiter if the function names match.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $nspace, $current_nspace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $nspace, $current_nspace )
     {
         switch ( $functionName )
         {

@@ -95,7 +95,7 @@ class eZTemplateFunctionElement
      Tries to run the function with the children, the actual function execution
      is done by the template class.
     */
-    function process( &$tpl, &$text, $nspace, $current_nspace )
+    function process( $tpl, &$text, $nspace, $current_nspace )
     {
         $tmp = $tpl->doFunction( $this->Name, $this, $nspace, $current_nspace );
         if ( $tmp === false )

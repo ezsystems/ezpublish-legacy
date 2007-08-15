@@ -108,7 +108,7 @@ class eZi18nOperator
                                             'element-transformation-func' => 'i18nTrans') );
     }
 
-    function i18nTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function i18nTrans( $operatorName, &$node, $tpl, &$resourceData,
                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         // i18n( $input, $context, $comment, $arguments )
@@ -175,7 +175,7 @@ class eZi18nOperator
     /*!
      \reimp
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
         include_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )

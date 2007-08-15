@@ -92,7 +92,7 @@ class eZTemplateWhileFunction
      * Compiles the function and its children into PHP code.
      */
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, &$parameters, $privateData )
+                                         $tpl, &$parameters, $privateData )
     {
         // {while <condition> [sequence <sequence_array> as $<sequence_var>]}
 
@@ -130,7 +130,7 @@ class eZTemplateWhileFunction
     /*!
      * Actually executes the function and its children (in processed mode).
      */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( count( $functionParameters ) == 0 )
         {

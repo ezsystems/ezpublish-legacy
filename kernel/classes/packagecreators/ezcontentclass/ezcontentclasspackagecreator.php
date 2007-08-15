@@ -97,7 +97,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         return 'contentclass';
     }
 
-    function initializeClassData( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeClassData( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 
@@ -122,7 +122,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
         return $result;
     }
 
-    function commitClassData( &$package, &$http, $step, &$persistentData, &$tpl )
+    function commitClassData( &$package, &$http, $step, &$persistentData, $tpl )
     {
     }
 

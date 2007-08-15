@@ -130,7 +130,7 @@ class eZURLOperator
                       );
     }
 
-    function iniTrans( $operatorName, &$node, &$tpl, &$resourceData,
+    function iniTrans( $operatorName, &$node, $tpl, &$resourceData,
                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         if ( count ( $parameters ) < 2 )
@@ -233,7 +233,7 @@ class eZURLOperator
             return false;
     }
 
-    function urlTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+    function urlTransformation( $operatorName, &$node, $tpl, &$resourceData,
                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $newElements = array();
@@ -602,7 +602,7 @@ CODEPIECE;
 
     /*!
      */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {

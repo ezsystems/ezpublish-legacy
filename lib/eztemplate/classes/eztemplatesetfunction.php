@@ -77,7 +77,7 @@ class eZTemplateSetFunction
         return array( $this->SetName, $this->LetName, $this->DefaultName );
     }
 
-    function functionTemplateStatistics( $functionName, &$node, &$tpl, $resourceData, $namespace, &$stats )
+    function functionTemplateStatistics( $functionName, &$node, $tpl, $resourceData, $namespace, &$stats )
     {
         $newNamespace = $namespace;
         $parameters = eZTemplateNodeTool::extractFunctionNodeParameters( $node );
@@ -166,7 +166,7 @@ class eZTemplateSetFunction
     }
 
     function templateNodeTransformation( $functionName, &$node,
-                                         &$tpl, $parameters, $privateData )
+                                         $tpl, $parameters, $privateData )
     {
         switch( $functionName )
         {
@@ -264,11 +264,11 @@ class eZTemplateSetFunction
     }
 
     function templateHookProcess( $functionName, $functionHookName, $functionHook,
-                                  &$tpl, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+                                  $tpl, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
     }
 
-    function defineVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
+    function defineVariables( $tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
     {
         $oldCurrentNamespace = $currentNamespace;
         $definedVariables = array();
@@ -303,7 +303,7 @@ class eZTemplateSetFunction
                       $oldCurrentNamespace );
     }
 
-    function createDefaultVariables( &$tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
+    function createDefaultVariables( $tpl, $functionParameters, $functionPlacement, $name, $rootNamespace, &$currentNamespace )
     {
         $oldCurrentNamespace = $currentNamespace;
         $definedVariables = array();
@@ -331,7 +331,7 @@ class eZTemplateSetFunction
                       $oldCurrentNamespace );
     }
 
-    function cleanupVariables( &$tpl, $rootNamespace, &$currentNamespace, &$setData )
+    function cleanupVariables( $tpl, $rootNamespace, &$currentNamespace, &$setData )
     {
         $definedVariables =& $setData[0];
         foreach ( $definedVariables as $variable )
@@ -344,7 +344,7 @@ class eZTemplateSetFunction
     /*!
      Loads the file specified in the parameter 'uri' with namespace 'name'.
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( $tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( $functionName != $this->SetName and
              $functionName != $this->LetName and

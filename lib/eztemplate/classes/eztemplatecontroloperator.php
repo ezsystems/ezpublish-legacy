@@ -85,7 +85,7 @@ class eZTemplateControlOperator
     /*!
      \reimp
     */
-    function condTransform( $operatorName, &$node, &$tpl, &$resourceData,
+    function condTransform( $operatorName, &$node, $tpl, &$resourceData,
                             &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         switch( $operatorName )
@@ -215,7 +215,7 @@ class eZTemplateControlOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
                      $placement )
     {
         switch ( $operatorName )

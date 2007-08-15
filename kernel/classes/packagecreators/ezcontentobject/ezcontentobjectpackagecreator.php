@@ -106,12 +106,12 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         return 'contentobject';
     }
 
-    function initializeObjectList( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeObjectList( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['node_list'] = array();
     }
 
-    function loadObjectList( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    function loadObjectList( &$package, &$http, $step, &$persistentData, $tpl, &$module )
     {
         if ( $http->hasPostVariable( 'AddSubtree' ) )
         {
@@ -187,7 +187,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         return true;
     }
 
-    function initializeObjectLimits( &$package, &$http, $step, &$persistentData, &$tpl )
+    function initializeObjectLimits( &$package, &$http, $step, &$persistentData, $tpl )
     {
         $persistentData['object_options'] = array( 'include_classes' => 1,
                                                    'include_templates' => 1,
@@ -210,7 +210,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         }
     }
 
-    function loadObjectLimits( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    function loadObjectLimits( &$package, &$http, $step, &$persistentData, $tpl, &$module )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
