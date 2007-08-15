@@ -622,7 +622,7 @@ class eZTemplateArithmeticOperator
                 if ( count( $operatorParameters ) == 0 )
                     $mixedValue =& $operatorValue;
                 else
-                    $mixedValue =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $mixedValue = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 if ( count( $operatorParameters ) > 1 )
                     $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
                 if ( is_array( $mixedValue ) )
@@ -642,7 +642,7 @@ class eZTemplateArithmeticOperator
                     $value = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $value += $tmpValue;
                 }
                 $operatorValue = $value;
@@ -694,7 +694,7 @@ class eZTemplateArithmeticOperator
                     $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     @$value /= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -732,7 +732,7 @@ class eZTemplateArithmeticOperator
                     $value = $tpl->elementValue( $operatorParameters[$i++], $rootNamespace, $currentNamespace, $placement );
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     $value *= $tmpValue;
                 }
                 $operatorValue = $value;
@@ -756,7 +756,7 @@ class eZTemplateArithmeticOperator
                 }
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     if ( $tmpValue > $value )
                         $value = $tmpValue;
                 }
@@ -772,7 +772,7 @@ class eZTemplateArithmeticOperator
                 $value = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                 {
-                    $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                    $tmpValue = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     if ( $tmpValue < $value )
                         $value = $tmpValue;
                 }

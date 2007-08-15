@@ -545,7 +545,7 @@ class eZTemplate
         $root = null;
         if ( is_string( $template ) )
         {
-            $resourceData =& $this->loadURIRoot( $template, true, $extraParameters );
+            $resourceData = $this->loadURIRoot( $template, true, $extraParameters );
             if ( $resourceData and
                  $resourceData['root-node'] !== null )
                 $root =& $resourceData['root-node'];
@@ -608,7 +608,7 @@ class eZTemplate
         return $text;
     }
 
-    function process( &$root, &$text, $rootNamespace, $currentNamespace )
+    function process( $root, &$text, $rootNamespace, $currentNamespace )
     {
         $this->createLocalVariablesList();
 
@@ -623,7 +623,7 @@ class eZTemplate
         $this->destroyLocalVariablesList();
     }
 
-    function processNode( &$node, &$textElements, $rootNamespace, $currentNamespace )
+    function processNode( $node, &$textElements, $rootNamespace, $currentNamespace )
     {
         $debug = eZDebug::instance();
         $rslt = null;
@@ -721,7 +721,7 @@ class eZTemplate
     */
     function &load( $uri, $extraParameters = false, $returnResourceData = false )
     {
-        $resourceData =& $this->loadURIRoot( $uri, true, $extraParameters );
+        $resourceData = $this->loadURIRoot( $uri, true, $extraParameters );
         if ( !$resourceData or
              $resourceData['root-node'] === null )
         {
@@ -739,7 +739,7 @@ class eZTemplate
         $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $resourceData );
     }
 
-    function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
+    function loadURIData( $resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
     {
         $resourceData = $this->resourceData( $resourceObject, $uri, $resourceName, $template );
 
@@ -767,14 +767,14 @@ class eZTemplate
      \note If you only have the URI you should call resourceFor() first to
            figure out the resource handler.
     */
-    function resourceData( &$resourceObject, $uri, $resourceName, $templateName )
+    function resourceData( $resourceObject, $uri, $resourceName, $templateName )
     {
         $resourceData = array();
         $resourceData['uri'] = $uri;
         $resourceData['resource'] = $resourceName;
         $resourceData['template-name'] = $templateName;
         $resourceData['template-filename'] = $templateName;
-        $resourceData['handler'] =& $resourceObject;
+        $resourceData['handler'] = $resourceObject;
         $resourceData['test-compile'] = $this->TestCompile;
         return $resourceData;
     }
@@ -786,7 +786,7 @@ class eZTemplate
      - "text", the text.
      - "time-stamp", the timestamp.
     */
-    function &loadURIRoot( $uri, $displayErrors = true, &$extraParameters )
+    function loadURIRoot( $uri, $displayErrors = true, &$extraParameters )
     {
         $res = "";
         $template = "";
@@ -805,7 +805,7 @@ class eZTemplate
         if ( !$this->isCachingAllowed() )
             $canCache = false;
 
-        $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
+        $resourceData = $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
 
         if ( $resourceData )
         {
@@ -857,7 +857,7 @@ class eZTemplate
             $this->Level--;
             return;
         }
-        $resourceData =& $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
+        $resourceData = $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
         if ( !$resourceData or
              ( !$resourceData['compiled-template'] and
                $resourceData['root-node'] === null ) )
@@ -1118,7 +1118,7 @@ class eZTemplate
      Returns the actual value of a template type or null if an unknown type.
     */
     function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
-                            $checkExistance = false, $checkForProxy = false )
+                           $checkExistance = false, $checkForProxy = false )
     {
         /*
          * We use a small dirty hack in this function...
@@ -1133,15 +1133,13 @@ class eZTemplate
         {
             $this->error( "elementValue",
                           "Missing array data structure, got " . gettype( $dataElements ) );
-            $retVal = null;
-            return $retVal;
+            return null;
         }
         foreach ( $dataElements as $dataElement )
         {
             if ( is_null( $dataElement ) )
             {
-                $retVal = null;
-                return $retVal;
+                return null;
             }
             $dataType = $dataElement[0];
             switch ( $dataType )
@@ -1153,8 +1151,7 @@ class eZTemplate
                                         'Found void datatype, should not be used' );
                     else
                     {
-                        $retVal = null;
-                        return $retVal;
+                        return null;
                     }
                 } break;
                 case EZ_TEMPLATE_TYPE_STRING:
@@ -1188,8 +1185,7 @@ class eZTemplate
                         if ( !$checkExistance )
                             $this->error( '', "Unknown template variable '$variableName' in namespace '$namespace'", $placement );
                         {
-                            $retVal = null;
-                            return $retVal;
+                            return null;
                         }
                     }
                 } break;
@@ -1208,8 +1204,7 @@ class eZTemplate
                                 $this->error( "",
                                               "Cannot use type " . gettype( $attributeValue ) . " for attribute lookup", $placement );
                             {
-                                $retVal = null;
-                                return $retVal;
+                                return null;
                             }
                         }
                         if ( is_array( $value ) )
@@ -1231,8 +1226,7 @@ class eZTemplate
                                     $this->error( "",
                                                   $errorMessage, $placement );
                                 }
-                                $retVal = null;
-                                return $retVal;
+                                return null;
                             }
                         }
                         else if ( is_object( $value ) )
@@ -1242,10 +1236,7 @@ class eZTemplate
                             {
                                 if ( $value->hasAttribute( $attributeValue ) )
                                 {
-                                    unset( $tempValue );
-                                    $tempValue = $value->attribute( $attributeValue );
-                                    unset( $value );
-                                    $value =& $tempValue;
+                                    $value = $value->attribute( $attributeValue );
                                 }
                                 else
                                 {
@@ -1262,8 +1253,7 @@ class eZTemplate
                                         $this->error( "",
                                                       $errorMessage, $placement );
                                     }
-                                    $retVal = null;
-                                    return $retVal;
+                                    return null;
                                 }
                             }
                             else
@@ -1273,8 +1263,7 @@ class eZTemplate
                                                   "Cannot retrieve attribute of object(" . strtolower( get_class( $value ) ) .
                                                   "), no attribute functions available",
                                                   $placement );
-                                $retVal = null;
-                                return $retVal;
+                                return null;
                             }
                         }
                         else
@@ -1283,8 +1272,7 @@ class eZTemplate
                                 $this->error( "",
                                               "Cannot retrieve attribute of a " . gettype( $value ),
                                               $placement );
-                            $retVal = null;
-                            return $retVal;
+                            return null;
                         }
                     }
                     else
@@ -1293,8 +1281,7 @@ class eZTemplate
                             $this->error( '',
                                           'Attribute value was null, cannot get attribute',
                                           $placement );
-                        $retVal = null;
-                        return $retVal;
+                        return null;
                     }
                 } break;
                 case EZ_TEMPLATE_TYPE_OPERATOR:
@@ -1312,7 +1299,6 @@ class eZTemplate
                     $valueData = array( 'value' => $value );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
                                             $valueData, $placement, $checkExistance );
-                    unset( $value );
                     $value = $valueData['value'];
                 } break;
                 default:
@@ -1320,8 +1306,7 @@ class eZTemplate
                     if ( !$checkExistance )
                         $this->error( "elementValue",
                                       "Unknown data type: '$dataType'" );
-                    $retVal = null;
-                    return $retVal;
+                    return null;
                 }
             }
         }
@@ -1330,8 +1315,7 @@ class eZTemplate
         {
             if ( $checkForProxy )
                 $dataElements['proxy-object-found'] = true;
-            $retVal = $value->templateValue();
-            return $retVal;
+            return $value->templateValue();
         }
         return $value;
     }
@@ -1659,12 +1643,12 @@ class eZTemplate
      \note This sets the variable using reference
      \sa setVariable
     */
-    function setVariableRef( $var, &$val, $namespace = "" )
+    function setVariableRef( $var, $val, $namespace = "" )
     {
         if ( array_key_exists( $namespace, $this->Variables ) and
              array_key_exists( $var, $this->Variables[$namespace] ) )
             unset( $this->Variables[$namespace][$var] );
-        $this->Variables[$namespace][$var] =& $val;
+        $this->Variables[$namespace][$var] = $val;
     }
 
     /*!
@@ -1769,7 +1753,45 @@ class eZTemplate
      Returns the attribute(s) of the template variable $var,
      $attrs is an array of attribute names to use iteratively for each new variable returned.
     */
-    function &variableAttribute( &$var, $attrs )
+    function variableAttribute( $var, $attrs )
+    {
+        foreach( $attrs as $attr )
+        {
+            if ( is_object( $var ) )
+            {
+                if ( $var->hasAttribute( $attr ) )
+                {
+                    $var = $var->attribute( $attr );
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if ( is_array( $var ) )
+            {
+                if ( isset( $var[$attr] ) )
+                {
+                    $var = $var[$attr];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        if ( isset( $var ) )
+        {
+            return $var;
+        }
+
+        return null;
+    }
+/*    function &variableAttribute( &$var, $attrs )
     {
         $val = null;
         if ( count( $attrs ) > 0 )
@@ -1801,7 +1823,7 @@ class eZTemplate
                 return $ptr;
         }
         return $val;
-    }
+    } */
 
     /*!
     */

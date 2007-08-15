@@ -284,7 +284,7 @@ class eZTemplateSetFunction
                 {
                     if ( !$tpl->hasVariable( $key, $name ) )
                     {
-                        $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
+                        $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                         $tpl->setVariableRef( $key, $itemValue, $name );
                         $definedVariables[] = $key;
                     }
@@ -319,7 +319,7 @@ class eZTemplateSetFunction
                 {
                     if ( !$tpl->hasVariable( $key, $name ) )
                     {
-                        $itemValue =& $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
+                        $itemValue = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                         $tpl->setVariableRef( $key, $itemValue, $name );
                         $definedVariables[] = $key;
                     }

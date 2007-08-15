@@ -747,26 +747,26 @@ class eZTemplateSectionFunction
         if ( isset( $parameters["loop"] ) )
         {
             $hasLoopItemParameter = true;
-            $loopItem =& $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $loopItem = $tpl->elementValue( $parameters["loop"], $rootNamespace, $currentNamespace, $functionPlacement );
         }
 
         $variableIterator = null;
         if ( isset( $parameters['var'] ) )
         {
-            $variableIterator =& $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $variableIterator = $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
 
         $noLastValue = true;
         if ( isset( $parameters['last-value'] ) )
         {
-            $lastValue =& $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $lastValue = $tpl->elementValue( $parameters['last-value'], $rootNamespace, $currentNamespace, $functionPlacement );
             $noLastValue = !$lastValue;
         }
 
         $reverseLoop = false;
         if ( isset( $parameters['reverse'] ) )
         {
-            $reverseLoop =& $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
+            $reverseLoop = $tpl->elementValue( $parameters['reverse'], $rootNamespace, $currentNamespace, $functionPlacement );
         }
         if ( $hasLoopItemParameter and $loopItem === null )
             return;
@@ -774,7 +774,7 @@ class eZTemplateSectionFunction
         $showItem = null;
         $showSet = isset( $parameters["show"] );
         if ( $showSet )
-            $showItem =& $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $showItem = $tpl->elementValue( $parameters["show"], $rootNamespace, $currentNamespace, $functionPlacement );
 
         $sequenceStructure = null;
         if ( isset( $parameters["sequence"] ) )
@@ -783,7 +783,7 @@ class eZTemplateSectionFunction
         $iterationMaxCount = false;
         if ( isset( $parameters["max"] ) )
         {
-            $iterationMaxCount =& $tpl->elementValue( $parameters["max"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $iterationMaxCount = $tpl->elementValue( $parameters["max"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationMaxCount ) )
             {
                 $iterationMaxCount = count( $iterationMaxCount );
@@ -798,7 +798,7 @@ class eZTemplateSectionFunction
         $iterationOffset = false;
         if ( isset( $parameters["offset"] ) )
         {
-            $iterationOffset =& $tpl->elementValue( $parameters["offset"], $rootNamespace, $currentNamespace, $functionPlacement );
+            $iterationOffset = $tpl->elementValue( $parameters["offset"], $rootNamespace, $currentNamespace, $functionPlacement );
             if ( is_array( $iterationOffset ) )
             {
                 $iterationOffset = count( $iterationOffset );

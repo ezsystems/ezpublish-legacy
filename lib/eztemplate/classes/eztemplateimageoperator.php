@@ -701,7 +701,7 @@ class eZTemplateImageOperator
         $imageAlternativeText = false;
         foreach ( array_keys( $operatorParameters ) as $operatorParameterKey )
         {
-            $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace, $placement );
+            $operatorParameter = $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace, $placement );
             unset( $imageLayer );
             $imageLayer = null;
             $imageParameters = array();

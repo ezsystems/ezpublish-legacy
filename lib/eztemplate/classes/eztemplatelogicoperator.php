@@ -675,17 +675,17 @@ class eZTemplateLogicOperator
                 {
                     if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         $value = ( $lastOperand != $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = false;
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                            $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                             if ( $operand != $lastOperand )
                             {
                                 $value = true;
@@ -708,17 +708,17 @@ class eZTemplateLogicOperator
                 {
                     if ( count( $operatorParameters ) == 1 )
                     {
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         $value = ( $lastOperand == $value );
                     }
                     else
                     {
                         $similar = false;
                         $value = true;
-                        $lastOperand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                        $lastOperand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                         for ( $i = 1; $i < count( $operatorParameters ); ++$i )
                         {
-                            $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                            $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                             if ( $operand != $lastOperand )
                             {
                                 $value = false;

@@ -325,12 +325,12 @@ class eZTemplateTypeOperator
             {
                 if ( count( $operatorParameters ) == 1 )
                 {
-                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $className = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                     $value = strtolower( get_class( $value ) ) == strtolower( $className );
                 }
                 else
                 {
-                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $className = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                     $value = strtolower( get_class( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace, $placement ) ) ) == strtolower( $className );
                 }
             } break;
@@ -343,7 +343,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
                     }
 
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
                     $value = $operand !== null;
 
 
@@ -360,7 +360,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
                     $value = $operand === null;
                 }
                 else
@@ -374,7 +374,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 }
                 else
                     $operand =& $value;
@@ -399,7 +399,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                     $value = strtolower( get_class( $operand ) );
                 }
                 else
@@ -417,7 +417,7 @@ class eZTemplateTypeOperator
             $value = true;
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )
             {
-                $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
+                $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                 if ( !$typeFunction( $operand) )
                     $value = false;
             }

@@ -62,7 +62,7 @@ replace "=& eZObjectRelationListType::parseXML" "= eZObjectRelationListType::par
 replace "function &attribute(" "function attribute(" -- `find * -name "*.php"`
 replace "=& eZHTTPTool::instance(" "= eZHTTPTool::instance(" -- `find * -name "*.php"`
 
-
+replace "=& \$tpl->elementValue(" "= \$tpl->elementValue(" -- `find * -name "*.php"`
 
 
 

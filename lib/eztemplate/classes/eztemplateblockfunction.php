@@ -252,7 +252,7 @@ class eZTemplateBlockFunction
                 if ( isset( $parameters["variable"] ) )
                 {
                     $hasLoopItemParameter = true;
-                    $variableItem =& $tpl->elementValue( $parameters["variable"], $rootNamespace, $currentNamespace, $functionPlacement );
+                    $variableItem = $tpl->elementValue( $parameters["variable"], $rootNamespace, $currentNamespace, $functionPlacement );
                 }
                 else
                 {
