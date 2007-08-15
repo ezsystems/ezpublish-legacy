@@ -60,7 +60,7 @@ class eZSearchEngine
     /*!
      Adds an object to the search database.
     */
-    function addObject( &$contentObject, $uri )
+    function addObject( $contentObject, $uri )
     {
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion = $contentObject->currentVersion();

@@ -826,7 +826,7 @@ class eZDataType
      Clones the date from the old class attribute to the new one.
      \note Default implementation does nothing which is good enough for datatypes which does not use external tables.
     */
-    function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
+    function cloneClassAttribute( $oldClassAttribute, $newClassAttribute )
     {
     }
 
@@ -834,7 +834,7 @@ class eZDataType
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
@@ -851,7 +851,7 @@ class eZDataType
      Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
      \note Default implementation does nothing.
     */
-    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
     }
 
@@ -874,7 +874,7 @@ class eZDataType
      Clean up stored class attribute
      \note Default implementation does nothing.
     */
-    function deleteStoredClassAttribute( &$classAttribute, $version = null )
+    function deleteStoredClassAttribute( $classAttribute, $version = null )
     {
     }
 
@@ -957,7 +957,7 @@ class eZDataType
           $includeAll set to \c false, if it returns false or an empty \c 'list'
           it will return \c true.
     */
-    function isClassAttributeRemovable( &$classAttribute )
+    function isClassAttributeRemovable( $classAttribute )
     {
         $info = $this->classAttributeRemovableInformation( $classAttribute, false );
         return ( $info === false or count( $info['list'] ) == 0 );
@@ -975,7 +975,7 @@ class eZDataType
      \param $includeAll Controls whether the returned information will contain all
                         sources for not being to remove or just the first that it finds.
     */
-    function classAttributeRemovableInformation( &$classAttribute, $includeAll = true )
+    function classAttributeRemovableInformation( $classAttribute, $includeAll = true )
     {
         return false;
     }
@@ -1057,7 +1057,7 @@ class eZDataType
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         if ( !$this->Attributes['properties']['serialize_supported'] )
             $attributeNode->setAttribute( 'unsupported', 'true' );
@@ -1068,7 +1068,7 @@ class eZDataType
      \note This function is called after the attribute has been stored and a second store is
            called after this function is done.
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
     }
 

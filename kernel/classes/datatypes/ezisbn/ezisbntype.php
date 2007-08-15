@@ -335,7 +335,7 @@ class eZISBNType extends eZDataType
         return eZISBNType::storeClassAttributeContent( $classAttribute, $classAttribute->content() );
     }
 
-    function storeClassAttributeContent( &$classAttribute, $content )
+    function storeClassAttributeContent( $classAttribute, $content )
     {
         if ( is_array( $content ) )
         {

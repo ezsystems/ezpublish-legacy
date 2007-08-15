@@ -534,7 +534,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      Sets default multioption values.
     */
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
         {
@@ -557,7 +557,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( $http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
         return false;
     }
@@ -642,7 +642,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_text1' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-value', $defaultValue ) );
@@ -651,7 +651,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
         $classAttribute->setAttribute( 'data_text1', $defaultValue );

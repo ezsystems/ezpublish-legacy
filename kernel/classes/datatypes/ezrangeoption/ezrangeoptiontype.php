@@ -210,7 +210,7 @@ class eZRangeOptionType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion == false )
         {
@@ -251,7 +251,7 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $classAttribute->attribute( 'data_text1' );
         $defaultNameNode = $attributeParametersNode->ownerDocument->createElement( 'default-name', $defaultName );
@@ -261,7 +261,7 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultName = $attributeParametersNode->getElementsByTagName( 'default-name' )->item( 0 )->textContent;
         $classAttribute->setAttribute( 'data_text1', $defaultName );

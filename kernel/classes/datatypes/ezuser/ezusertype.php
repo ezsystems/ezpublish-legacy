@@ -284,7 +284,7 @@ class eZUserType extends eZDataType
      - The current user, anonymous user and administrator user is not using this class
      - There are more classes with the ezuser datatype
     */
-    function classAttributeRemovableInformation( &$contentClassAttribute, $includeAll = true )
+    function classAttributeRemovableInformation( $contentClassAttribute, $includeAll = true )
     {
         $result  = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                             "Cannot remove the account:" ),

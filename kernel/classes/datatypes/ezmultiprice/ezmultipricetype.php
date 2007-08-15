@@ -116,7 +116,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Set default object attribute value.
     */
-    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         $contentClassAttribute = $objectAttribute->contentClassAttribute();
         $multiprice = new eZMultiPrice( $contentClassAttribute, $objectAttribute );
@@ -368,7 +368,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $price = $classAttribute->content();
         if ( $price )
@@ -407,7 +407,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $vatNode = $attributeParametersNode->getElementsByTagName( 'vat-included' )->item( 0 );
         $vatIncluded = strtolower( $vatNode->getAttribute( 'is-set' ) ) == 'true';

@@ -45,7 +45,7 @@ class eZPrice extends eZSimplePrice
     /*!
      Constructor
     */
-    function eZPrice( &$classAttribute, $contentObjectAttribute, $storedPrice = null )
+    function eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice = null )
     {
         eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
 

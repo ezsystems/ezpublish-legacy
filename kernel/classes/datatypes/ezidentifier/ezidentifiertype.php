@@ -249,7 +249,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
@@ -278,7 +278,7 @@ class eZIdentifierType extends eZDataType
       \private
       Assigns the identifiervalue for the first version of the current attribute.
     */
-    function assignValue( &$contentClassAttribute, $contentObjectAttribute )
+    function assignValue( $contentClassAttribute, $contentObjectAttribute )
     {
 
         $retValue = false;
@@ -375,7 +375,7 @@ class eZIdentifierType extends eZDataType
       \private
       Store the new value to the attribute.
     */
-    function storeIdentifierValue( &$contentClassAttribute, $contentObjectAttribute, $identifierValue )
+    function storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue )
     {
         $value = eZIdentifierType::generateIdentifierString( $contentClassAttribute, $identifierValue );
         $contentObjectAttribute->setAttribute( 'data_text', $value );
@@ -383,7 +383,7 @@ class eZIdentifierType extends eZDataType
         return true;
     }
 
-    function generateIdentifierString( &$contentClassAttribute, $identifierValue = false )
+    function generateIdentifierString( $contentClassAttribute, $identifierValue = false )
     {
         $preText = $contentClassAttribute->attribute( EZ_DATATYPESTRING_PRETEXT_FIELD );
         $postText = $contentClassAttribute->attribute( EZ_DATATYPESTRING_POSTTEXT_FIELD );
@@ -413,7 +413,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $digits     = $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD );
         $preText    = $classAttribute->attribute( EZ_DATATYPESTRING_PRETEXT_FIELD );
@@ -438,7 +438,7 @@ class eZIdentifierType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $digits     = $attributeParametersNode->getElementsByTagName( 'digits' )->item( 0 )->textContent;
         $preText    = $attributeParametersNode->getElementsByTagName( 'pre-text' )->item( 0 )->textContent;

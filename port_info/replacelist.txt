@@ -68,11 +68,14 @@ replace "&\$db" "\$db" -- `find * -name "*.php"`
 replace "&\$package" "\$package" -- `find * -name "*.php"`
 replace "&\$http" "\$http" -- `find * -name "*.php"`
 replace "&\$object" "\$object" -- `find * -name "*.php"`
+replace "&\$originalContentObjectAttribute" "\$originalContentObjectAttribute" -- `find * -name "*.php"`
+replace "&\$classAttribute" "\$classAttribute" -- `find * -name "*.php"`
+replace "&\$attributeParametersNode" "\$attributeParametersNode" -- `find * -name "*.php"`
+replace "&\$attributeNode" "\$attributeNode" -- `find * -name "*.php"`
 
 
-
-
-
+replace "&\$contentClassAttribute" "\$contentClassAttribute" -- `find * -name "*.php"`
+replace "&\$contentObject" "\$contentObject" -- `find * -name "*.php"`
 
 
 

@@ -514,7 +514,7 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectAttribute->store();
     }
 
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
 
         static $copiedRelatedAccordance;
@@ -673,7 +673,7 @@ class eZObjectRelationListType extends eZDataType
         return eZObjectRelationListType::storeClassAttributeContent( $classAttribute, $content );
     }
 
-    function storeClassAttributeContent( &$classAttribute, $content )
+    function storeClassAttributeContent( $classAttribute, $content )
     {
         if ( is_array( $content ) )
         {
@@ -695,7 +695,7 @@ class eZObjectRelationListType extends eZDataType
         return false;
     }
 
-    function storeClassDOMDocument( $doc, &$classAttribute )
+    function storeClassDOMDocument( $doc, $classAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
         $classAttribute->setAttribute( 'data_text5', $docText );
@@ -1550,7 +1550,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $dom = $attributeParametersNode->ownerDocument;
         $content = $classAttribute->content();
@@ -1584,7 +1584,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $content = $classAttribute->content();
         $defaultPlacementNode = $attributeParametersNode->getElementsByTagName( 'default-placement' )->item( 0 );

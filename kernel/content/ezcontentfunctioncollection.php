@@ -120,7 +120,7 @@ class eZContentFunctionCollection
         if ( $nonTranslationList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$nonTranslationList );
+        return array( 'result' => $nonTranslationList );
     }
 
     function fetchTranslationList()
@@ -134,7 +134,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$translationList );
+            $result = array( 'result' => $translationList );
         }
 
         return $result;
@@ -185,7 +185,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$localeList );
+            $result = array( 'result' => $localeList );
         }
 
         return $result;
@@ -205,7 +205,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$localeObj );
+            $result = array( 'result' => $localeObj );
         }
 
         return $result;
@@ -276,7 +276,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$attribute );
+            $result = array( 'result' => $attribute );
         }
 
         return $result;
@@ -326,7 +326,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$children );
+            $result = array( 'result' => $children );
         }
         return $result;
     }
@@ -454,7 +454,7 @@ class eZContentFunctionCollection
         $searchResult = eZSearch::search( $searchText,
                                           $parameters,
                                           $searchArray );
-        return array( 'result' => &$searchResult );
+        return array( 'result' => $searchResult );
     }
 
     function fetchTrashObjectCount( $objectNameFilter )
@@ -497,7 +497,7 @@ class eZContentFunctionCollection
                                                                           'initial_language_id' => true ),
                                                                    array( 'length' => $limit, 'offset' => $offset ),
                                                                    true );
-        return array( 'result' => &$draftVersionList );
+        return array( 'result' => $draftVersionList );
     }
 
     function fetchDraftVersionCount()
@@ -524,7 +524,7 @@ class eZContentFunctionCollection
                                                                            'status' => EZ_VERSION_STATUS_PENDING ),
                                                              null, array( 'length' => $limit, 'offset' => $offset ),
                                                              true );
-        return array( 'result' => &$pendingList );
+        return array( 'result' => $pendingList );
 
     }
 
@@ -553,7 +553,7 @@ class eZContentFunctionCollection
                                                               null, array(  'contentobject_id' => $contentObject->attribute("id") ),
                                                                    null, array( 'length' => $limit, 'offset' => $offset ),
                                                                    true );
-        return array( 'result' => &$versionList );
+        return array( 'result' => $versionList );
 
     }
 
@@ -613,7 +613,7 @@ class eZContentFunctionCollection
         return array( 'result' => eZContentClass::canInstantiateClasses() );
     }
 
-    function contentobjectAttributes( &$version, $languageCode )
+    function contentobjectAttributes( $version, $languageCode )
     {
         if ( $languageCode == '' )
         {
@@ -1115,7 +1115,7 @@ class eZContentFunctionCollection
         return array( 'result' => $resultNodeArray );
     }
 
-    function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID, $languageCode = false )
+    function checkAccess( $access, $contentObject, $contentClassID, $parentContentClassID, $languageCode = false )
     {
         if ( strtolower( get_class( $contentObject ) ) == 'ezcontentobjecttreenode' )
         {

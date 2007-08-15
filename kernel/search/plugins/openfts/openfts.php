@@ -56,7 +56,7 @@ class openFts
     /*!
      Adds an object to the search database.
     */
-    function addObject( &$contentObject, $uri )
+    function addObject( $contentObject, $uri )
     {
         $db = eZDB::instance();
 

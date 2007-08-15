@@ -159,7 +159,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $objectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -477,7 +477,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $file = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_FILE_FIELD );
         $section = $classAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_SECTION_FIELD );
@@ -506,7 +506,7 @@ class eZIniSettingType extends eZDataType
 
      Use Override to do ini alterations if the specified site access does not exist
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $file = $attributeParametersNode->getElementsByTagName( 'file' )->item( 0 )->textContent;
         $section = $attributeParametersNode->getElementsByTagName( 'section' )->item( 0 )->textContent;
@@ -603,7 +603,7 @@ class eZIniSettingType extends eZDataType
 
      \param contentClassAttribute to set site access list and override options
     */
-    function setSiteAccessList( &$contentClassAttribute )
+    function setSiteAccessList( $contentClassAttribute )
     {
         $config = eZINI::instance( 'site.ini' );
         $siteAccessArray = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );

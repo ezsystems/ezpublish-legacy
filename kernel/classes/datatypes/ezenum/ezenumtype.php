@@ -61,7 +61,7 @@ class eZEnumType extends eZDataType
     /*!
      Sets value according to current version
     */
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -93,7 +93,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
+    function cloneClassAttribute( $oldClassAttribute, $newClassAttribute )
     {
         $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
         $oldEnums = eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
@@ -147,7 +147,7 @@ class eZEnumType extends eZDataType
     /*!
      Delete stored class attribute
     */
-    function deleteStoredClassAttribute( &$contentClassAttribute, $version = null )
+    function deleteStoredClassAttribute( $contentClassAttribute, $version = null )
     {
         $contentClassAttributeID = $contentClassAttribute->attribute( 'id' );
         eZEnumValue::removeAllElements( $contentClassAttributeID, $version );
@@ -510,7 +510,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $isOption = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
         $isMultiple = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD );
@@ -535,7 +535,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $isOption = strtolower( $attributeParametersNode->attributeValue( 'is-option' ) ) == 'true';
         $isMultiple = strtolower( $attributeParametersNode->attributeValue( 'is-multiple' ) ) == 'true';

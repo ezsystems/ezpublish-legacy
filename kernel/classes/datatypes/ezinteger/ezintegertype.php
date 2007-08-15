@@ -68,7 +68,7 @@ class eZIntegerType extends eZDataType
     /*!
      Private method, only for using inside this class.
     */
-    function validateIntegerHTTPInput( $data, $contentObjectAttribute, &$classAttribute )
+    function validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute )
     {
         $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
         $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
@@ -165,7 +165,7 @@ class eZIntegerType extends eZDataType
     /*!
      Sets the default value.
     */
-    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $contentObjectAttribute, $currentVersion, $originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -471,7 +471,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD );
         $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
@@ -496,7 +496,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( $classAttribute, $attributeNode, $attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->getElementsByTagName( 'default-value' )->item( 0 )->textContent;
         $minValue = $attributeParametersNode->getElementsByTagName( 'min-value' )->item( 0 )->textContent;

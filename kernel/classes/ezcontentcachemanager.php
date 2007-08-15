@@ -402,7 +402,7 @@ class eZContentCacheManager
 
      \note This function is recursive.
     */
-    static function nodeListForObject( &$contentObject, $versionNum, $clearCacheType, &$nodeList )
+    static function nodeListForObject( $contentObject, $versionNum, $clearCacheType, &$nodeList )
     {
         $assignedNodes = $contentObject->assignedNodes();
 

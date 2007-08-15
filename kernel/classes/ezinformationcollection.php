@@ -220,7 +220,7 @@ class eZInformationCollection extends eZPersistentObject
      \static
      \return \c true if anonymous users can submit data to the information collection \a $contentObject.
     */
-    static function allowAnonymous( &$contentObject )
+    static function allowAnonymous( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -267,7 +267,7 @@ class eZInformationCollection extends eZPersistentObject
      - unique
      - overwrite
     */
-    static function userDataHandling( &$contentObject )
+    static function userDataHandling( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -303,7 +303,7 @@ class eZInformationCollection extends eZPersistentObject
         return $userData;
     }
 
-    function sendOutEmail( &$contentObject )
+    function sendOutEmail( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -336,7 +336,7 @@ class eZInformationCollection extends eZPersistentObject
         return $sendEmail;
     }
 
-    function displayHandling( &$contentObject )
+    function displayHandling( $contentObject )
     {
         if ( !$contentObject )
             return false;
@@ -372,7 +372,7 @@ class eZInformationCollection extends eZPersistentObject
         return $display;
     }
 
-    function redirectURL( &$contentObject )
+    function redirectURL( $contentObject )
     {
         if ( !$contentObject )
             return false;
