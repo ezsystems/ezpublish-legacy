@@ -302,7 +302,7 @@ class eZKeywordType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -324,7 +324,7 @@ class eZKeywordType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $keyWordString = $attributeNode->getElementsByTagName( 'keyword-string' )->item( 0 )->textContent;
         $keyword = new eZKeyword();

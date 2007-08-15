@@ -321,8 +321,8 @@ class eZCountryType extends eZDataType
     /*!
      \reimp
     */
-    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
-                                 &$objectAttribute, $string,
+    function insertSimpleString( $object, $objectVersion, $objectLanguage,
+                                 $objectAttribute, $string,
                                  &$result )
     {
         $result = array( 'errors' => array(),

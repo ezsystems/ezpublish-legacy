@@ -40,7 +40,7 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
 
-function checkRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
+function checkRelationAssignments( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, &$validation )
 {
     $http = eZHTTPTool::instance();
     // Add object relations
@@ -90,11 +90,11 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
     }
 }
 
-function storeRelationAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
+function storeRelationAssignments( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage )
 {
 }
 
-function checkRelationActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+function checkRelationActions( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     $http = eZHTTPTool::instance();
     if ( $module->isCurrentAction( 'BrowseForObjects' ) )
@@ -256,7 +256,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
     }
 }
 
-function handleRelationTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
+function handleRelationTemplate( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
     $relatedObjects = $object->relatedContentObjectArray( $editVersion );
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );

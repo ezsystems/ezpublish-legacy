@@ -684,7 +684,7 @@ class eZObjectRelationListType extends eZDataType
         return false;
     }
 
-    function storeObjectAttributeContent( &$objectAttribute, $content )
+    function storeObjectAttributeContent( $objectAttribute, $content )
     {
         if ( is_array( $content ) )
         {
@@ -701,7 +701,7 @@ class eZObjectRelationListType extends eZDataType
         $classAttribute->setAttribute( 'data_text5', $docText );
     }
 
-    function storeObjectDOMDocument( $doc, &$objectAttribute )
+    function storeObjectDOMDocument( $doc, $objectAttribute )
     {
         $docText = eZObjectRelationListType::domString( $doc );
         $objectAttribute->setAttribute( 'data_text', $docText );
@@ -813,7 +813,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
         $content =& $objectAttribute->content();
         if ( is_array( $content ) and
@@ -1620,7 +1620,7 @@ class eZObjectRelationListType extends eZDataType
      and add "contentobject-remote-id" attribute.
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $debug = eZDebug::instance();
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -1675,14 +1675,14 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezobjectrelationlist' )->item( 0 );
         $xmlString = $rootNode ? $rootNode->textContent : '';
         $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 
-    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $xmlString = $objectAttribute->attribute( 'data_text' );
         $doc = $this->parseXML( $xmlString );

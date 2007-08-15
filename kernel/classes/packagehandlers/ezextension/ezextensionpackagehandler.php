@@ -61,7 +61,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
      \reimp
      Returns an explanation for the extension install item.
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( $package, $installItem )
     {
         if ( $installItem['filename'] )
         {
@@ -270,7 +270,7 @@ class eZExtensionPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function handleAddParameters( $packageType, &$package, $cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         $arguments = array_unique( $arguments );
         $extensionsToAdd = array();

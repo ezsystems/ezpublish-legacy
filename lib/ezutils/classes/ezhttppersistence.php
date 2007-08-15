@@ -119,8 +119,8 @@ class eZHTTPPersistence
     static function handleChecked( $base_name,
                             /*! The definition of the objects, uses the same syntax as eZPersistentObject */
                             &$def,
-                            &$objects,
-                            &$http,
+                            $objects,
+                            $http,
                             $is_array = true )
     {
         if ( $is_array )
@@ -141,7 +141,7 @@ class eZHTTPPersistence
      \deprecated This function has some serious flaws and will be removed in a future release
     */
     static function handleCheckedElement( $base_name, &$def,
-                                   &$object, &$http )
+                                   $object, $http )
     {
         $fields =& $def["fields"];
         $keys =& $def["keys"];
@@ -174,7 +174,7 @@ class eZHTTPPersistence
      $rejects array otherwise the $keepers array.
     */
     static function splitSelected( $base_name,
-                            &$objects, /*! The eZHTTPTool object */ &$http, $cond,
+                            $objects, /*! The eZHTTPTool object */ $http, $cond,
                             &$keepers, &$rejects )
     {
         $keepers = array();

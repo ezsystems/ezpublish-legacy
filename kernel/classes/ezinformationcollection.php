@@ -164,7 +164,7 @@ class eZInformationCollection extends eZPersistentObject
      The template name is determined from the content class type and object attributes.
      See settings/collect.ini for more information.
     */
-    static function templateForObject( &$object )
+    static function templateForObject( $object )
     {
         return eZInformationCollection::typeForObject( $object );
     }
@@ -176,7 +176,7 @@ class eZInformationCollection extends eZPersistentObject
      The template name is determined from the content class type and object attributes.
      See settings/collect.ini for more information.
     */
-    static function typeForObject( &$object )
+    static function typeForObject( $object )
     {
         if ( !$object )
             return false;

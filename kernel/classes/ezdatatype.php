@@ -365,8 +365,8 @@ class eZDataType
 
      \sa isSimpleStringInsertionSupported()
     */
-    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
-                                 &$objectAttribute, $string,
+    function insertSimpleString( $object, $objectVersion, $objectLanguage,
+                                 $objectAttribute, $string,
                                  &$result )
     {
         $debug = eZDebug::instance();
@@ -754,7 +754,7 @@ class eZDataType
      object attribute input.
      \note Default implementation does nothing.
     */
-    function fixupObjectAttributeHTTPInput( $http, $base, &$objectAttribute )
+    function fixupObjectAttributeHTTPInput( $http, $base, $objectAttribute )
     {
     }
 
@@ -834,7 +834,7 @@ class eZDataType
      Initializes the object attribute with some data.
      \note Default implementation does nothing.
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
     }
 
@@ -851,14 +851,14 @@ class eZDataType
      Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
      \note Default implementation does nothing.
     */
-    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
     }
 
     /*
      Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
     */
-    function postStore( &$objectAttribute )
+    function postStore( $objectAttribute )
     {
     }
 
@@ -866,7 +866,7 @@ class eZDataType
      Clean up stored object attribute
      \note Default implementation does nothing.
     */
-    function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
     }
 
@@ -938,7 +938,7 @@ class eZDataType
      and returns a validation state as defined in eZInputValidator.
      \note Default implementation does nothing and returns accepted.
     */
-    function validateAddToBasket( &$objectAttribute, $data, &$errors )
+    function validateAddToBasket( $objectAttribute, $data, &$errors )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -991,7 +991,7 @@ class eZDataType
     /*!
      \return the sort key for the datatype. This is used for sorting on attribute level.
     */
-    function sortKey( &$objectAttribute )
+    function sortKey( $objectAttribute )
     {
         return "";
     }
@@ -1031,7 +1031,7 @@ class eZDataType
     {
         return '';
     }
-    function fromString( &$objectAttribute, $string )
+    function fromString( $objectAttribute, $string )
     {
     }
 
@@ -1078,7 +1078,7 @@ class eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $dom = new DOMDocument();
 
@@ -1128,7 +1128,7 @@ class eZDataType
      \param contentobject attribute object
      \param ezdomnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         if ( $this->Attributes["properties"]['object_serialize_map'] )
         {

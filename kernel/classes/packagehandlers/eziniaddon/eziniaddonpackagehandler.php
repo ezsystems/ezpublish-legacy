@@ -178,7 +178,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
      \param iniOverrideArray structure  array( <site_access> => array( <ini_block_name> => array( <ini_block_values> ) ) )
      \param remoteIDArrat structure: array( <class|node|object> => array( <id> => <remote_id> ) )
     */
-    function addOverrideAddon( &$package, $filename, &$iniOverrideArray, $remoteIDArray )
+    function addOverrideAddon( $package, $filename, &$iniOverrideArray, $remoteIDArray )
     {
         foreach( array_keys( $iniOverrideArray ) as $siteAccess )
         {

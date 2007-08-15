@@ -32,7 +32,7 @@ include_once( "kernel/classes/ezworkflowgroup.php" );
 include_once( "kernel/classes/ezworkflowgrouplink.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-function removeSelectedGroups( &$http, &$groups, $base )
+function removeSelectedGroups( $http, &$groups, $base )
 {
     if ( $http->hasPostVariable( "DeleteGroupButton" ) )
     {

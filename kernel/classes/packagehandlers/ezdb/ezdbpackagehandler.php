@@ -128,12 +128,12 @@ class eZDBPackageHandler extends eZPackageHandler
         }
     }
 
-    function handleAddParameters( $packageType, &$package, $cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
 
-    function handleParameters( $packageType, &$package, $cli, $type, $arguments )
+    function handleParameters( $packageType, $package, $cli, $type, $arguments )
     {
         $sqlFileList = array();
         $currentType = false;
@@ -234,7 +234,7 @@ class eZDBPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    function createInstallNode( $package, $export, &$installNode, $installItem, $installType )
     {
         if ( $installNode->attributeValue( 'type' ) == 'sql' )
         {
@@ -271,7 +271,7 @@ class eZDBPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
+    function parseInstallNode( $package, &$installNode, &$installParameters, $isInstall )
     {
         if ( $installNode->getAttribute( 'type' ) == 'sql' )
         {

@@ -55,7 +55,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
      \reimp
      Returns an explanation for the extension install item.
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( $package, $installItem )
     {
         $itemPath = $package->path() . '/' . $installItem['sub-directory'];
         $xmlPath = $itemPath . '/' . $installItem['filename'] . '.xml';
@@ -101,7 +101,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( $packageType, &$package, $cli, $parameters )
+    function add( $packageType, $package, $cli, $parameters )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         include_once( 'lib/ezfile/classes/ezdir.php' );
@@ -129,7 +129,7 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function handleAddParameters( $packageType, &$package, $cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         $scriptArgumentList = array_chunk( $arguments, 3 );
         $params = array();

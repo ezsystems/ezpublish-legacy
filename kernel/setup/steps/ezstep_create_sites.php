@@ -380,7 +380,7 @@ class eZStepCreateSites extends eZStepInstaller
         return $result;
     }
 
-    function initializePackage( // &$package,
+    function initializePackage( // $package,
                                 $siteType,
                                 &$accessMap, $charset,
                                 &$extraLanguageCodes, &$allLanguages, &$primaryLanguage,

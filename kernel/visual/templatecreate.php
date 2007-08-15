@@ -196,7 +196,7 @@ else if( $module->isCurrentAction( 'CancelOverride' ) )
 }
 
 
-function generateNodeViewTemplate( &$http, $template, $fileName )
+function generateNodeViewTemplate( $http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -293,7 +293,7 @@ function generateNodeViewTemplate( &$http, $template, $fileName )
 }
 
 
-function generateObjectViewTemplate( &$http, $template, $fileName )
+function generateObjectViewTemplate( $http, $template, $fileName )
 {
     $matchArray = $http->postVariable( 'Match' );
 
@@ -353,7 +353,7 @@ function generateObjectViewTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function generatePagelayoutTemplate( &$http, $template, $fileName )
+function generatePagelayoutTemplate( $http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template
@@ -402,7 +402,7 @@ function generatePagelayoutTemplate( &$http, $template, $fileName )
     return $templateCode;
 }
 
-function generateDefaultTemplate( &$http, $template, $fileName )
+function generateDefaultTemplate( $http, $template, $fileName )
 {
     $templateCode = "";
     // Check what kind of contents we should create in the template

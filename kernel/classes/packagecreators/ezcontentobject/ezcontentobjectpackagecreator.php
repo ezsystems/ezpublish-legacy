@@ -71,7 +71,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
      \reimp
      Creates the package and adds the selected content classes.
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
         $this->createPackage( $package, $http, $persistentData, $cleanupFiles );
 
@@ -93,7 +93,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
      \reimp
      Returns \c 'stable', content class packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -101,17 +101,17 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     /*!
      \return \c 'contentclass'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'contentobject';
     }
 
-    function initializeObjectList( &$package, &$http, $step, &$persistentData, $tpl )
+    function initializeObjectList( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['node_list'] = array();
     }
 
-    function loadObjectList( &$package, &$http, $step, &$persistentData, $tpl, &$module )
+    function loadObjectList( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
         if ( $http->hasPostVariable( 'AddSubtree' ) )
         {
@@ -175,7 +175,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     /*!
      Checks if at least one content class has been selected.
     */
-    function validateObjectList( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateObjectList( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         if ( count( $persistentData['node_list'] ) == 0 )
         {
@@ -187,7 +187,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         return true;
     }
 
-    function initializeObjectLimits( &$package, &$http, $step, &$persistentData, $tpl )
+    function initializeObjectLimits( $package, $http, $step, &$persistentData, $tpl )
     {
         $persistentData['object_options'] = array( 'include_classes' => 1,
                                                    'include_templates' => 1,
@@ -210,7 +210,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         }
     }
 
-    function loadObjectLimits( &$package, &$http, $step, &$persistentData, $tpl, &$module )
+    function loadObjectLimits( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
@@ -233,7 +233,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     /*!
      Checks if at least one content class has been selected.
     */
-    function validateObjectLimits( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateObjectLimits( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $options =& $persistentData['object_options'];
 
@@ -269,7 +269,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
      \reimp
      Fetches the selected content classes and generates a name, summary and description from the selection.
     */
-    function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
+    function generatePackageInformation( $packageInformation, $package, $http, $step, &$persistentData )
     {
         $nodeList = $persistentData['node_list'];
         $options = $persistentData['object_options'];

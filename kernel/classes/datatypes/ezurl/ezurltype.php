@@ -162,7 +162,7 @@ class eZURLType extends eZDataType
     /*!
       Makes some post-store operations. Called by framework after store of eZContentObjectAttribute object.
     */
-    function postStore( &$objectAttribute )
+    function postStore( $objectAttribute )
     {
         // Update url-object link
         $urlValue = $objectAttribute->content();
@@ -294,7 +294,7 @@ class eZURLType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $dom = $node->ownerDocument;
@@ -327,7 +327,7 @@ class eZURLType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $urlNode = $attributeNode->getElementsByTagName( 'url' )->item( 0 );
 

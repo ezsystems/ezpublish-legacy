@@ -71,7 +71,7 @@ class eZMultiOption2Type extends eZDataType
      Validates the input for this datatype.
      \return True if input is valid.
     */
-    function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
@@ -115,7 +115,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      Fetches the http post var integer input and stores it in the data instance.
     */
-    function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function fetchObjectAttributeHTTPInput( $http, $base, &$contentObjectAttribute )
     {
         $editMode = $http->postVariable( $base . "_data_edit_mode_" . $contentObjectAttribute->attribute( "id" ) );
         if( $editMode == 'rules' )
@@ -506,7 +506,7 @@ class eZMultiOption2Type extends eZDataType
 
      \param $optionString must contain the multioption ID an underscore (_) and a the option ID.
     */
-    function productOptionInformation( &$objectAttribute, $optionID, &$productItem )
+    function productOptionInformation( $objectAttribute, $optionID, &$productItem )
     {
         $optiongroup =& $objectAttribute->attribute( 'content' );
 
@@ -557,7 +557,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
+    function fetchClassAttributeHTTPInput( $http, $base, &$classAttribute )
     {
         return false;
     }
@@ -568,7 +568,7 @@ class eZMultiOption2Type extends eZDataType
      Validates the input for an object attribute during add to basket process
      and returns a validation state as defined in eZInputValidator.
     */
-    function validateAddToBasket( &$objectAttribute, $data, &$errors )
+    function validateAddToBasket( $objectAttribute, $data, &$errors )
     {
 
         $optiongroup = $objectAttribute->attribute( 'content' );
@@ -660,7 +660,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -674,7 +674,7 @@ class eZMultiOption2Type extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->firstChild();
         $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? '' : $rootNode->toString( 0 );

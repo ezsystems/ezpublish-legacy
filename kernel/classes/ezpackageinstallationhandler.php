@@ -43,7 +43,7 @@ class eZPackageInstallationHandler
     /*!
      Constructor
     */
-    function eZPackageInstallationHandler( &$package, $type, $installItem, $name = null, $steps = null )
+    function eZPackageInstallationHandler( $package, $type, $installItem, $name = null, $steps = null )
     {
         $this->Package = $package;
         $this->Attributes = array( 'type' => $type,
@@ -64,7 +64,7 @@ class eZPackageInstallationHandler
 
       It will also make sure that steps can be looked up by their ID.
     */
-    function generateStepMap( &$package, &$persistentData )
+    function generateStepMap( $package, &$persistentData )
     {
         $steps = $this->attribute( 'steps' );
         $map = array();
@@ -181,7 +181,7 @@ class eZPackageInstallationHandler
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
     */
-    function initializeStep( &$package, &$http, $step, &$persistentData, $tpl, &$module )
+    function initializeStep( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
         $methodMap = $this->initializeStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -202,7 +202,7 @@ class eZPackageInstallationHandler
              It is also possible to return a step identifier, in which case
              this will be the next step.
     */
-    function validateStep( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $nextStep = $this->validateAndAdvanceStep( $package, $http, $currentStepID, $stepMap, $persistentData, $errorList );
         if ( $nextStep === true )
@@ -225,7 +225,7 @@ class eZPackageInstallationHandler
     /*!
      \virtual
     */
-    function validateAndAdvanceStep( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateAndAdvanceStep( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $methodMap = $this->validateStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -244,7 +244,7 @@ class eZPackageInstallationHandler
      This is called after a step has validated it's information. It can
      be used to put values in the \a $persistentData variable for later retrieval.
     */
-    function commitStep( &$package, &$http, $step, &$persistentData, $tpl )
+    function commitStep( $package, $http, $step, &$persistentData, $tpl )
     {
         $methodMap = $this->commitStepMethodMap();
         if ( count( $methodMap ) > 0 )
@@ -263,7 +263,7 @@ class eZPackageInstallationHandler
      This is usually the function that creates the package and
      adds the proper elements.
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
     }
 
@@ -273,7 +273,7 @@ class eZPackageInstallationHandler
      \param handler name'
      \param install Item
     */
-    static function instance( &$package, $handlerName, $installItem )
+    static function instance( $package, $handlerName, $installItem )
     {
         // if no installItem is given, then this is the whole package installer
         /*if ( $installItem == null )
@@ -345,7 +345,7 @@ class eZPackageInstallationHandler
 
      \note This function is called from createPackage and checkPackageMaintainer()
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         if ( strtolower( get_class( $package ) ) == 'ezpackage' )
         {

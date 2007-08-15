@@ -45,7 +45,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function eZContentObjectPackageInstaller( &$package, $type, $installItem )
+    function eZContentObjectPackageInstaller( $package, $type, $installItem )
     {
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
@@ -69,7 +69,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
      \reimp
      Returns \c 'stable', content class packages are always stable.
     */
-    function packageInitialState( &$package, &$persistentData )
+    function packageInitialState( $package, &$persistentData )
     {
         return 'stable';
     }
@@ -77,7 +77,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \return \c 'contentclass'.
     */
-    function packageType( &$package, &$persistentData )
+    function packageType( $package, &$persistentData )
     {
         return 'contentobject';
     }
@@ -85,7 +85,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeSiteAccess( &$package, &$http, $step, &$persistentData, $tpl )
+    function initializeSiteAccess( $package, $http, $step, &$persistentData, $tpl )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance();
@@ -119,7 +119,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function validateSiteAccess( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateSiteAccess( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
         foreach( $persistentData['site_access_map'] as $originalSiteAccess => $newSiteAccess )
@@ -137,7 +137,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function initializeTopNodes( &$package, &$http, $step, &$persistentData, $tpl, &$module )
+    function initializeTopNodes( $package, $http, $step, &$persistentData, $tpl, &$module )
     {
         if ( !isset( $persistentData['top_nodes_map'] ) )
         {
@@ -190,7 +190,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function validateTopNodes( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    function validateTopNodes( $package, $http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         $validate = true;
         foreach( array_keys( $persistentData['top_nodes_map'] ) as $topNodeArrayKey )
@@ -210,7 +210,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     /*!
      \reimp
     */
-    function finalize( &$package, &$http, &$persistentData )
+    function finalize( $package, $http, &$persistentData )
     {
         $debug = eZDebug::instance();
         $debug->writeDebug( 'finalize is called', 'eZContentObjectPackageInstaller::finalize' );

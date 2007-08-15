@@ -67,7 +67,7 @@ $contentINI = eZINI::instance( 'content.ini' );
 /*!
  Copy the specified object to a given node
 */
-function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
+function copyObject( &$Module, $object, $allVersions, $newParentNodeID )
 {
     if ( !$newParentNodeID )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );
@@ -131,7 +131,7 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
 /*!
 Browse for node to place the object copy into
 */
-function browse( &$Module, &$object )
+function browse( &$Module, $object )
 {
     if ( $Module->hasActionParameter( 'LanguageCode' ) )
         $languageCode = $Module->actionParameter( 'LanguageCode' );
@@ -185,7 +185,7 @@ function browse( &$Module, &$object )
 Redirect to the page that lets a user to choose which versions to copy:
 either all version or the current one.
 */
-function chooseObjectVersionsToCopy( &$Module, &$Result, &$object )
+function chooseObjectVersionsToCopy( &$Module, &$Result, $object )
 {
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );

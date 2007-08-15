@@ -1114,7 +1114,7 @@ class eZPackage
     /*!
      Imports a package from a gzip compressed tarball file \a $archiveName
     */
-    static function &import( $archiveName, &$packageName, $dbAvailable = true, $repositoryID = false )
+    static function &import( $archiveName, $packageName, $dbAvailable = true, $repositoryID = false )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
         $debug = eZDebug::instance();

@@ -647,7 +647,7 @@ class eZMediaType extends eZDataType
 
 
 
-    function fromString( &$objectAttribute, $string )
+    function fromString( $objectAttribute, $string )
     {
         if( !$string )
             return true;
@@ -699,7 +699,7 @@ class eZMediaType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
 
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -744,7 +744,7 @@ class eZMediaType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $mediaNode = $attributeNode->getElementsByTagName( 'media-file' )->item( 0 );
         if ( !$mediaNode )

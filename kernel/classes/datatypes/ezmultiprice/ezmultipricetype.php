@@ -116,7 +116,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Set default object attribute value.
     */
-    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         $contentClassAttribute = $objectAttribute->contentClassAttribute();
         $multiprice = new eZMultiPrice( $contentClassAttribute, $objectAttribute );
@@ -283,7 +283,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      Clean up stored object attribute
     */
-    function deleteStoredObjectAttribute( &$objectAttribute, $version = null )
+    function deleteStoredObjectAttribute( $objectAttribute, $version = null )
     {
         $multiprice = $objectAttribute->content();
         $multiprice->removeByID( $objectAttribute->attribute( 'id' ), $version );
@@ -450,7 +450,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -466,7 +466,7 @@ class eZMultiPriceType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->getElementsByTagName( 'ezmultiprice' )->item( 0 );
 

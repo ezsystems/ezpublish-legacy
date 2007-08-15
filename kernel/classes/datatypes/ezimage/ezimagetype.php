@@ -513,7 +513,7 @@ class eZImageType extends eZDataType
      \reimp
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -539,7 +539,7 @@ class eZImageType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         // Remove all existing image data for the case this is a translated attribute,
         // so initial language's image alias will not be removed in 'initializeFromFile'
@@ -573,7 +573,7 @@ class eZImageType extends eZDataType
         return $original['url'];
     }
 
-    function fromString( &$objectAttribute, $string )
+    function fromString( $objectAttribute, $string )
     {
         $content = $objectAttribute->attribute( 'content' );
         $content->initializeFromFile( $string, "" );

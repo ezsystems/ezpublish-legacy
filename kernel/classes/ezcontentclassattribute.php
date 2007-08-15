@@ -535,7 +535,7 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$module, &$http, $action )
+    function customHTTPAction( &$module, $http, $action )
     {
         $dataType = $this->dataType();
         $this->Module =& $module;

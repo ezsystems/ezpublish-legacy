@@ -214,8 +214,8 @@ class eZStringType extends eZDataType
      \reimp
      Inserts the string \a $string in the \c 'data_text' database field.
     */
-    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
-                                 &$objectAttribute, $string,
+    function insertSimpleString( $object, $objectVersion, $objectLanguage,
+                                 $objectAttribute, $string,
                                  &$result )
     {
         $result = array( 'errors' => array(),

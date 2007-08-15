@@ -193,7 +193,7 @@ class eZContentCacheManager
      \param $versionNum The version of the object to use or \c true for current version
      \param[out] $nodeIDList Array with node IDs
     */
-    static function appendKeywordNodeIDs( &$object, $versionNum, &$nodeIDList )
+    static function appendKeywordNodeIDs( $object, $versionNum, &$nodeIDList )
     {
         if ( $versionNum === true )
             $versionNum = false;

@@ -39,7 +39,7 @@ define( 'eZNodeViewFunctions_FileGenerateTimeout', 3 );
 class eZNodeviewfunctions
 {
     // Deprecated function for generating the view cache
-    static function generateNodeView( $tpl, &$node, &$object, $languageCode, $viewMode, $offset,
+    static function generateNodeView( $tpl, &$node, $object, $languageCode, $viewMode, $offset,
                                 $cacheDir, $cachePath, $viewCacheEnabled,
                                 $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                 $collectionAttributes = false, $validation = false )
@@ -79,7 +79,7 @@ class eZNodeviewfunctions
         return $retval;
     }
 
-    static function generateNodeViewData( $tpl, &$node, &$object, $languageCode, $viewMode, $offset,
+    static function generateNodeViewData( $tpl, &$node, $object, $languageCode, $viewMode, $offset,
                                     $viewParameters = array( 'offset' => 0, 'year' => false, 'month' => false, 'day' => false ),
                                     $collectionAttributes = false, $validation = false )
     {

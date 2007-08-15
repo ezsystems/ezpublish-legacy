@@ -143,7 +143,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $value = $objectAttribute->attribute( 'data_int' );
@@ -156,7 +156,7 @@ class eZSubtreeSubscriptionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $valueNode = $attributeNode->getElementsByTagName( 'value' )->item( 0 );
         $value = $valueNode ? $valueNode->textContent : 0;

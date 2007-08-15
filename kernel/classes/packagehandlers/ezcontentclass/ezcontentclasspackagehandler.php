@@ -63,7 +63,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
      \reimp
      Returns an explanation for the content class install item.
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( $package, $installItem )
     {
         if ( $installItem['filename'] )
         {
@@ -395,7 +395,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
      Adds the content class with ID \a $classID to the package.
      If \a $classIdentifier is \c false then it will be fetched from the class.
     */
-    function addClass( &$package, $classID, $classIdentifier = false )
+    function addClass( $package, $classID, $classIdentifier = false )
     {
         $class = false;
         if ( is_numeric( $classID ) )
@@ -419,7 +419,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function handleAddParameters( $packageType, &$package, $cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
@@ -427,7 +427,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \private
     */
-    function handleParameters( $packageType, &$package, $cli, $type, $arguments )
+    function handleParameters( $packageType, $package, $cli, $type, $arguments )
     {
         $classList = false;
         foreach ( $arguments as $argument )

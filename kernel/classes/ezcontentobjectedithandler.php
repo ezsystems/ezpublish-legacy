@@ -52,7 +52,7 @@ class eZContentObjectEditHandler
 
      Override this function in the extension to handle edit input parameters.
     */
-    function fetchInput( &$http, &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    function fetchInput( $http, &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
     {
     }
 
@@ -106,7 +106,7 @@ class eZContentObjectEditHandler
      \static
      Calls all extension object edit input handler, and executes this the fetchInput function
     */
-    static function executeInputHandlers( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+    static function executeInputHandlers( &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
     {
         $http = eZHTTPTool::instance();
         $contentINI = eZINI::instance( 'content.ini' );
@@ -119,7 +119,7 @@ class eZContentObjectEditHandler
                 $className = $extensionDirectory . 'Handler';
                 $inputHandler = new $className();
                 call_user_func_array( array( $inputHandler, 'fetchInput' ),
-                                      array( &$http, &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage ) );
+                                      array( $http, &$module, &$class, $object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage ) );
             }
         }
     }

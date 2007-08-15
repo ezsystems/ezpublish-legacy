@@ -688,7 +688,7 @@ class eZContentUpload
      \return \c true if everything was OK, \c false if something failed.
     */
     function publishObject( &$result, &$errors, &$notices,
-                            &$object, $publishVersion, &$class, $parentNodes, $parentMainNode )
+                            $object, $publishVersion, &$class, $parentNodes, $parentMainNode )
     {
         if ( is_array( $parentNodes ) )
         {

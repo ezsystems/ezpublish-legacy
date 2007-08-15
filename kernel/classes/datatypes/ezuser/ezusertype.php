@@ -409,7 +409,7 @@ class eZUserType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $userID = $objectAttribute->attribute( "contentobject_id" );
@@ -433,7 +433,7 @@ class eZUserType extends eZDataType
      \param contentobject attribute object
      \param ezdomnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $userNode = $attributeNode->getElementsByTagName( 'account' )->item( 0 );
         if ( is_object( $userNode ) )

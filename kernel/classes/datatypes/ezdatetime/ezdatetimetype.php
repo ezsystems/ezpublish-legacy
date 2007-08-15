@@ -557,7 +557,7 @@ class eZDateTimeType extends eZDataType
      \reimp
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node  = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $stamp = $objectAttribute->attribute( 'data_int' );
@@ -575,7 +575,7 @@ class eZDateTimeType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $dateTimeNode = $attributeNode->getElementsByTagName( 'date_time' )->item( 0 );
         if ( is_object( $dateTimeNode ) )

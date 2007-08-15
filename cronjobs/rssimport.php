@@ -425,7 +425,7 @@ function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
     }
 }
 
-function setObjectAttributeValue( &$objectAttribute, $value )
+function setObjectAttributeValue( $objectAttribute, $value )
 {
     if ( $value === false )
     {

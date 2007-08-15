@@ -159,7 +159,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function initializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function initializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -639,7 +639,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $makeEmptyArray = $objectAttribute->attribute( 'data_int' );
@@ -658,7 +658,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $makeEmptyArray = $attributeNode->getElementsByTagName( 'make_empty_array' )->item( 0 )->textContent;
         $value = $attributeNode->getElementsByTagName( 'value' )->item( 0 )->textContent;

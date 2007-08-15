@@ -114,7 +114,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
 
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( $package, $installItem )
     {
         $this->Package =& $package;
 
@@ -222,7 +222,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param package
      \param options
     */
-    function generatePackage( &$package, $options )
+    function generatePackage( $package, $options )
     {
         $this->Package =& $package;
         $remoteIDArray = array();
@@ -1213,7 +1213,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param subdirectory
      \param install parameters.
     */
-    function installTemplates( $templateList, &$package, $subdirectory, &$installParameters )
+    function installTemplates( $templateList, $package, $subdirectory, &$installParameters )
     {
         if ( !$templateList )
         {
@@ -1493,7 +1493,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function handleAddParameters( $packageType, &$package, $cli, $arguments )
+    function handleAddParameters( $packageType, $package, $cli, $arguments )
     {
         return $this->handleParameters( $packageType, $package, $cli, 'add', $arguments );
     }
@@ -1501,7 +1501,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      \private
     */
-    function handleParameters( $packageType, &$package, $cli, $type, $arguments )
+    function handleParameters( $packageType, $package, $cli, $type, $arguments )
     {
         $nodeList = array();
         $includeClasses = true;

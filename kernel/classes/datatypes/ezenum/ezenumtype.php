@@ -435,7 +435,7 @@ class eZEnumType extends eZDataType
      \return a DOM representation of the content object attribute
     */
 
-    function serializeContentObjectAttribute( &$package, &$contentObjectAttribute )
+    function serializeContentObjectAttribute( $package, &$contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
@@ -468,7 +468,7 @@ class eZEnumType extends eZDataType
      \param contentobject attribute object
      \param ezdomnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         if ( $attributeNode->hasChildren() )
         {

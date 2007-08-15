@@ -65,7 +65,7 @@ function copyPublishContentObject( &$sourceObject,
                                    &$sourceSubtreeNodeIDList,
                                    &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                   &$objectIDBlackList, &$nodeIDBlackList,
+                                   $objectIDBlackList, &$nodeIDBlackList,
                                    &$notifications,
                                    $allVersions = false, $keepCreator = false, $keepTime = false )
 {
@@ -850,7 +850,7 @@ function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $c
                                         'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
 }
 
-function showNotificationAfterCopying( &$http, &$Module, &$Result, &$Notifications, &$srcNode )
+function showNotificationAfterCopying( $http, &$Module, &$Result, &$Notifications, &$srcNode )
 {
     include_once( 'kernel/common/template.php' );
     $tpl = templateInit();

@@ -199,7 +199,7 @@ class eZXMLTextType extends eZDataType
      It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
      \note Default implementation does nothing.
     */
-    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( $objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
     }
 
@@ -485,7 +485,7 @@ class eZXMLTextType extends eZDataType
      \reimp
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
 
         $DOMNode = $this->createContentObjectAttributeDOMNode( $objectAttribute );
@@ -575,7 +575,7 @@ class eZXMLTextType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         /* For all links found in the XML, do the following:
          * Search for url specified in 'href' link attribute (in ezurl table).
@@ -621,7 +621,7 @@ class eZXMLTextType extends eZDataType
         }
     }
 
-    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $xmlString = $objectAttribute->attribute( 'data_text' );
         $doc = new DOMDocument();

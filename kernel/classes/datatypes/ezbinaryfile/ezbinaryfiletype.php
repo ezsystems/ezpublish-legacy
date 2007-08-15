@@ -619,7 +619,7 @@ class eZBinaryFileType extends eZDataType
 
 
 
-    function fromString( &$objectAttribute, $string )
+    function fromString( $objectAttribute, $string )
     {
         if( !$string )
             return true;
@@ -639,7 +639,7 @@ class eZBinaryFileType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
@@ -668,7 +668,7 @@ class eZBinaryFileType extends eZDataType
      \param contentobject attribute object
      \param domnode object
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $debug = eZDebug::instance();
 

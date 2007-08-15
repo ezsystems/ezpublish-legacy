@@ -590,7 +590,7 @@ class eZContentObjectAttribute extends eZPersistentObject
       Validates the data contents, returns true on success false if the data
       does not validate.
      */
-    function validateInput( &$http, $base,
+    function validateInput( $http, $base,
                             &$inputParameters, $validationParameters = array() )
     {
         $dataType = $this->dataType();
@@ -697,7 +697,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       Tries to fixup the input text to be acceptable.
      */
-    function fixupInput( &$http, $base )
+    function fixupInput( $http, $base )
     {
         $dataType = $this->dataType();
         if ( $dataType )
@@ -707,7 +707,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       Fetches the data from http post vars and sets them correctly.
     */
-    function fetchInput( &$http, $base )
+    function fetchInput( $http, $base )
     {
         $dataType = $this->dataType();
         if ( $dataType )
@@ -719,7 +719,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
       Validates the information collection data.
     */
-    function validateInformation( &$http, $base,
+    function validateInformation( $http, $base,
                                   &$inputParameters, $validationParameters = array() )
     {
         $dataType = $this->dataType();
@@ -737,7 +737,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Collects the information entered by the user from http post vars
     */
-    function collectInformation( &$collection, &$collectionAttribute, &$http, $base )
+    function collectInformation( &$collection, &$collectionAttribute, $http, $base )
     {
         $dataType = $this->dataType();
         if ( $dataType )
@@ -754,7 +754,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$http, $action, $parameters = array() )
+    function customHTTPAction( $http, $action, $parameters = array() )
     {
         $dataType = $this->dataType();
         if ( $dataType )
@@ -764,7 +764,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Sends custom actions to datatype for custom handling.
     */
-    function handleCustomHTTPActions( &$http, $attributeDataBaseName,
+    function handleCustomHTTPActions( $http, $attributeDataBaseName,
                                       $customActionAttributeArray, $customActionParameters )
     {
         $dataType = $this->dataType();
@@ -796,8 +796,8 @@ class eZContentObjectAttribute extends eZPersistentObject
      If \c false is passed to any of these parameters they will be fetched from the
      current attribute, if these are available it is adviced to pass them since it will save time.
     */
-    function insertHTTPFile( &$object, $objectVersion, $objectLanguage,
-                             &$httpFile, $mimeData,
+    function insertHTTPFile( $object, $objectVersion, $objectLanguage,
+                             $httpFile, $mimeData,
                              &$result )
     {
         if ( !$object )
@@ -821,7 +821,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      If \c false is passed to any of these parameters they will be fetched from the
      current attribute, if these are available it is adviced to pass them since it will save time.
     */
-    function insertRegularFile( &$object, $objectVersion, $objectLanguage,
+    function insertRegularFile( $object, $objectVersion, $objectLanguage,
                                 $filePath,
                                 &$result )
     {
@@ -846,7 +846,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      If \c false is passed to any of these parameters they will be fetched from the
      current attribute, if these are available it is adviced to pass them since it will save time.
     */
-    function insertSimpleString( &$object, $objectVersion, $objectLanguage,
+    function insertSimpleString( $object, $objectVersion, $objectLanguage,
                                  $string,
                                  &$result )
     {
@@ -865,7 +865,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Calls hasStoredFileInformation() on the current datatype and returns the result.
     */
-    function hasStoredFileInformation( &$object, $objectVersion, $objectLanguage )
+    function hasStoredFileInformation( $object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
             $object = $this->object();
@@ -881,7 +881,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Calls storedFileInformation() on the current datatype and returns the result.
     */
-    function storedFileInformation( &$object, $objectVersion, $objectLanguage )
+    function storedFileInformation( $object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
             $object = $this->object();
@@ -897,7 +897,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Calls handleDownload() on the current datatype and returns the result.
     */
-    function handleDownload( &$object, $objectVersion, $objectLanguage )
+    function handleDownload( $object, $objectVersion, $objectLanguage )
     {
         if ( !$object )
             $object = $this->object();
@@ -1370,7 +1370,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
     */
-    function serialize( &$package )
+    function serialize( $package )
     {
         $result = false;
         $dataType = $this->dataType();
@@ -1380,7 +1380,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $result;
     }
 
-    function unserialize( &$package, $attributeDOMNode )
+    function unserialize( $package, $attributeDOMNode )
     {
         $dataType = $this->dataType();
         if ( $dataType )

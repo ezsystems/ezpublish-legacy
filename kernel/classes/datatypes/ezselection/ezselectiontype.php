@@ -455,7 +455,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
        $idString = $objectAttribute->attribute( 'data_text' );
@@ -468,7 +468,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $idStringNode = $attributeNode->getElementsByTagName( 'idstring' )->item( 0 );
         $idString = $idStringNode ? $idStringNode->textContent : '';

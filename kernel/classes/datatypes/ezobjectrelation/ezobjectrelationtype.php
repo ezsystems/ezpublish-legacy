@@ -583,7 +583,7 @@ class eZObjectRelationType extends eZDataType
      Export related object's remote_id.
      \reimp
     */
-    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( $package, $objectAttribute )
     {
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
@@ -612,7 +612,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
         $relatedObjectRemoteIDNode = $attributeNode->getElementsByTagName( 'related-object-remote-id' )->item( 0 );
         $relatedObjectID = null;
@@ -638,7 +638,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function postUnserializeContentObjectAttribute( &$package, &$objectAttribute )
+    function postUnserializeContentObjectAttribute( $package, $objectAttribute )
     {
         $attributeChanged = false;
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );

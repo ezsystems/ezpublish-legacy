@@ -1391,7 +1391,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     /*!
       \return \c true if the object \a $object should always be considered a folder.
     */
-    function isObjectFolder( &$object, &$class )
+    function isObjectFolder( $object, &$class )
     {
         $classIdentifier = $class->attribute( 'identifier' );
         if ( $this->FolderClasses === null )

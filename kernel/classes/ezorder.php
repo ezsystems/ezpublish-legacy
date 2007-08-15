@@ -774,7 +774,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \returns the discountrules for a user
     */
-    static function discount( $userID, &$object )
+    static function discount( $userID, $object )
     {
         include_once( 'kernel/classes/ezdiscount.php' );
 

@@ -222,7 +222,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$object );
+            $result = array( 'result' => $object );
         }
 
         return $result;
@@ -242,7 +242,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$object );
+            $result = array( 'result' => $object );
         }
 
         return $result;
@@ -259,7 +259,7 @@ class eZContentFunctionCollection
         }
         else
         {
-            $result = array( 'result' => &$objectList );
+            $result = array( 'result' => $objectList );
         }
 
         return $result;
