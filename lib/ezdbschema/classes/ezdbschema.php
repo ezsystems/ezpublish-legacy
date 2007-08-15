@@ -48,14 +48,14 @@ class eZDbSchema
         {
             $db =& $params;
             unset( $params );
-            $params = array( 'instance' => &$db );
+            $params = array( 'instance' => $db );
         }
 
         if ( !isset( $params['instance'] ) )
         {
             include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
-            $params['instance'] = &$db;
+            $params['instance'] = $db;
         }
 
         unset( $db );

@@ -64,6 +64,8 @@ replace "=& eZHTTPTool::instance(" "= eZHTTPTool::instance(" -- `find * -name "*
 
 replace "=& \$tpl->elementValue(" "= \$tpl->elementValue(" -- `find * -name "*.php"`
 replace "&\$tpl" "\$tpl" -- `find * -name "*.php"`
+replace "&\$db" "\$db" -- `find * -name "*.php"`
+
 
 
 

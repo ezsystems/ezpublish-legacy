@@ -1387,7 +1387,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $dataType->unserializeContentObjectAttribute( $package, $this, $attributeDOMNode );
     }
 
-    function postUnserialize( &$package )
+    function postUnserialize( $package )
     {
         $dataType = $this->dataType();
         if ( $dataType )

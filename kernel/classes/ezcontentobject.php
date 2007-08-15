@@ -4962,12 +4962,10 @@ class eZContentObject extends eZPersistentObject
       objects contained in the package are already installed. (maintain objects' cross-relations)
     */
 
-    function postUnserialize( &$package )
+    function postUnserialize( $package )
     {
-        $versions = $this->versions();
-        foreach( array_keys( $versions ) as $key )
+        foreach( $this->versions() as $version )
         {
-            $version = $versions[$key];
             $version->postUnserialize( $package );
         }
     }

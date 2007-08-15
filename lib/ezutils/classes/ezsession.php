@@ -41,7 +41,7 @@
   hook point does not exist the session handler will not handle the hooks.
 
   \code
-  function cleanupStuff( &$db, $key, $escKey )
+  function cleanupStuff( $db, $key, $escKey )
   {
       // Do cleanup here
   }
@@ -52,23 +52,23 @@
 
   When new data is inserted to the database it will call the \c update_pre and
   \c update_post hooks. The signature of the function is
-  function insert( &$db, $key, $escapedKey, $expirationTime, $userID, $value )
+  function insert( $db, $key, $escapedKey, $expirationTime, $userID, $value )
 
   When existing data is updated in the databbase it will call the \c insert_pre
   and \c insert_post hook. The signature of the function is
-  function update( &$db, $key, $escapedKey, $expirationTime, $userID, $value )
+  function update( $db, $key, $escapedKey, $expirationTime, $userID, $value )
 
   When a specific session is destroyed in the database it will call the
   \c destroy_pre and \c destroy_post hooks. The signature of the function is
-  function destroy( &$db, $key, $escapedKey )
+  function destroy( $db, $key, $escapedKey )
 
   When multiple sessions are expired (garbage collector) in the database it
   will call the \c gc_pre and \c gc_post hooks. The signature of the function is
-  function gcollect( &$db, $expiredTime )
+  function gcollect( $db, $expiredTime )
 
   When all sessionss are removed from the database it will call the
   \c empty_pre and \c empty_post hooks. The signature of the function is
-  function empty( &$db )
+  function empty( $db )
 
   \param $db The database object used by the session manager.
   \param $key The session key which are being worked on, see also \a $escapedKey

@@ -45,7 +45,7 @@ class eZDBTool
      \return true if the database does not contain any relation objects.
      \note If db is not specified it will use eZDB::instance()
     */
-    static function isEmpty( &$db )
+    static function isEmpty( $db )
     {
         if ( $db === null )
             $db = eZDB::instance();
@@ -58,7 +58,7 @@ class eZDBTool
      Tries to remove all relation types from the database.
      \note If db is not specified it will use eZDB::instance()
     */
-    static function cleanup( &$db )
+    static function cleanup( $db )
     {
         if ( $db === null )
             $db = eZDB::instance();

@@ -426,7 +426,7 @@ class eZTemplate
     */
     function display( $template = false, $extraParameters = false )
     {
-        $output =& $this->fetch( $template, $extraParameters );
+        $output = $this->fetch( $template, $extraParameters );
         if ( $this->ShowDetails )
         {
             echo '<h1>Result:</h1>' . "\n";
@@ -880,14 +880,13 @@ class eZTemplate
         }
         if ( !$templateCompilationUsed )
         {
-            $root =& $resourceData['root-node'];
             $text = null;
             if ( eZTemplate::isDebugEnabled() )
             {
                 $fname = $resourceData['template-filename'];
                 $debug->writeDebug( "START URI: $uri, $fname" );
             }
-            $this->process( $root, $text, $rootNamespace, $currentNamespace );
+            $this->process( $resourceData['root-node'], $text, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isDebugEnabled() )
                 $debug->writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
@@ -902,9 +901,9 @@ class eZTemplate
 
     }
 
-    function canCompileTemplate( &$resourceData, &$extraParameters )
+    function canCompileTemplate( $resourceData, &$extraParameters )
     {
-        $resourceObject =& $resourceData['handler'];
+        $resourceObject = $resourceData['handler'];
         if ( !$resourceObject )
             return false;
         $canGenerate = $resourceObject->canCompileTemplate( $this, $resourceData, $extraParameters );
@@ -926,9 +925,8 @@ class eZTemplate
         if ( !$resourceHandler )
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
-        $keyData =& $resourceData['key-data'];
-        $keyData = "file:" . $file;
-        $key = md5( $keyData );
+        $resourceData['key-data'] = "file:" . $file;
+        $key = md5( $resourceData['key-data'] );
         $extraParameters = array();
 
         // Disable caching/compiling while fetchin the resource
@@ -1387,7 +1385,7 @@ class eZTemplate
         {
             $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
         }
-        $op =& $this->Operators[$operatorName];
+        $op = $this->Operators[$operatorName];
         if ( isset( $op ) )
         {
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
@@ -1463,7 +1461,7 @@ class eZTemplate
         {
             $this->loadAndRegisterOperators( $this->Operators[$name] );
         }
-        $op =& $this->Operators[$name];
+        $op = $this->Operators[$name];
         if ( isset( $op ) and
              method_exists( $op, "namedparameterlist" ) )
         {
@@ -1489,7 +1487,7 @@ class eZTemplate
         {
             $this->loadAndRegisterOperators( $this->Operators[$operatorName] );
         }
-        $op =& $this->Operators[$operatorName];
+        $op = $this->Operators[$operatorName];
         if ( isset( $op ) )
         {
             $op->modify( $element, $this, $operatorName, $operatorParameters, $namespace, $current_nspace, $value, $named_params );
@@ -1501,13 +1499,13 @@ class eZTemplate
     /*!
      Tries to run the function object $func_obj
     */
-    function doFunction( &$name, &$func_obj, $nspace, $current_nspace )
+    function doFunction( $name, $func_obj, $nspace, $current_nspace )
     {
-        $func =& $this->Functions[$name];
+        $func = $this->Functions[$name];
         if ( is_array( $func ) )
         {
             $this->loadAndRegisterFunctions( $this->Functions[$name] );
-            $func =& $this->Functions[$name];
+            $func = $this->Functions[$name];
         }
         if ( isset( $func ) and
              is_object( $func ) )
@@ -1722,8 +1720,7 @@ class eZTemplate
                 if ( is_array( $templateData ) and
                      isset( $templateData['type'] ) )
                 {
-                    $templateType =& $templateData['type'];
-                    if ( $templateType == 'template' and
+                    if ( $templateData['type'] == 'template' and
                          isset( $templateData['uri'] ) and
                          isset( $templateData['template_variable_name'] ) )
                     {
@@ -1803,14 +1800,13 @@ class eZTemplate
                 $functionNames = $functionDefinition['function_names'];
             foreach ( $functionNames as $functionName )
             {
-                $this->Functions[$functionName] =& $functionDefinition;
+                $this->Functions[$functionName] = $functionDefinition;
             }
             if ( isset( $functionDefinition['function_attributes'] ) )
             {
                 foreach ( $functionDefinition['function_attributes'] as $functionAttributeName )
                 {
-                    unset( $this->FunctionAttributes[$functionAttributeName] );
-                    $this->FunctionAttributes[$functionAttributeName] =& $functionDefinition;
+                    $this->FunctionAttributes[$functionAttributeName] = $functionDefinition;
                 }
             }
         }
@@ -1851,21 +1847,20 @@ class eZTemplate
     /*!
      \private
     */
-    function registerFunctionsInternal( &$functionObject, $debug = false )
+    function registerFunctionsInternal( $functionObject, $debug = false )
     {
         if ( !is_object( $functionObject ) or
              !method_exists( $functionObject, 'functionList' ) )
             return false;
         foreach ( $functionObject->functionList() as $functionName )
         {
-            $this->Functions[$functionName] =& $functionObject;
+            $this->Functions[$functionName] = $functionObject;
         }
         if ( method_exists( $functionObject, "attributeList" ) )
         {
             $functionAttributes = $functionObject->attributeList();
             foreach ( $functionAttributes as $attributeName => $hasChildren )
             {
-                unset( $this->FunctionAttributes[$attributeName] );
                 $this->FunctionAttributes[$attributeName] = $hasChildren;
             }
         }
@@ -1880,9 +1875,9 @@ class eZTemplate
      the name of the function and the value being a boolean.
      If the boolean is true the function will have children.
     */
-    function registerFunction( $func_name, &$func_obj )
+    function registerFunction( $func_name, $func_obj )
     {
-        $this->Functions[$func_name] =& $func_obj;
+        $this->Functions[$func_name] = $func_obj;
         if ( method_exists( $func_obj, "attributeList" ) )
         {
             $attrs = $func_obj->attributeList();
@@ -1934,7 +1929,7 @@ class eZTemplate
                 $operatorNames = $operatorDefinition['operator_names'];
             foreach ( $operatorNames as $operatorName )
             {
-                $this->Operators[$operatorName] =& $operatorDefinition;
+                $this->Operators[$operatorName] = $operatorDefinition;
             }
         }
         else
@@ -2195,17 +2190,17 @@ class eZTemplate
     /*!
      Sets the original text for uri $uri to $text.
     */
-    function setIncludeText( $uri, &$text )
+    function setIncludeText( $uri, $text )
     {
-        $this->IncludeText[$uri] =& $text;
+        $this->IncludeText[$uri] = $text;
     }
 
     /*!
      Sets the output for uri $uri to $output.
     */
-    function setIncludeOutput( $uri, &$output )
+    function setIncludeOutput( $uri, $output )
     {
-        $this->IncludeOutput[$uri] =& $output;
+        $this->IncludeOutput[$uri] = $output;
     }
 
     /*!
@@ -2366,13 +2361,12 @@ class eZTemplate
     */
     static function instance()
     {
-        $tpl =& $GLOBALS["eZTemplateInstance"];
-        if ( strtolower( get_class( $tpl ) ) != "eztemplate" )
+        if ( !isset( $GLOBALS['eZTemplateInstance'] ) )
         {
-            $tpl = new eZTemplate();
+            $GLOBALS['eZTemplateInstance'] = new eZTemplate();
         }
 
-        return $tpl;
+        return $GLOBALS['eZTemplateInstance'];
     }
 
     /*!
@@ -2513,7 +2507,7 @@ class eZTemplate
         $statsSize = count( $tpl->TemplatesUsageStatistics );
         if ( $statsSize > 0 )
         {
-            $lastTemplateInfo =& $tpl->TemplatesUsageStatistics[$statsSize-1];
+            $lastTemplateInfo = $tpl->TemplatesUsageStatistics[$statsSize-1];
             if ( $lastTemplateInfo['actual-template-name'] === $actualTemplateName &&
                  $lastTemplateInfo['requested-template-name'] === $requestedTemplateName &&
                  $lastTemplateInfo['template-filename'] === $templateFileName )

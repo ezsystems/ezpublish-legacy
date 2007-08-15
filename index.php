@@ -405,21 +405,21 @@ $useCronjob = $ini->variable( 'Session', 'BasketCleanup' ) == 'cronjob';
 if ( !$useCronjob )
 {
     // Functions for session to make sure baskets are cleaned up
-    function eZSessionBasketDestroy( &$db, $key, $escapedKey )
+    function eZSessionBasketDestroy( $db, $key, $escapedKey )
     {
         include_once( 'kernel/classes/ezbasket.php' );
-        $basket =& eZBasket::fetch( $key );
+        $basket = eZBasket::fetch( $key );
         if ( is_object( $basket ) )
             $basket->remove();
     }
 
-    function eZSessionBasketGarbageCollector( &$db, $time )
+    function eZSessionBasketGarbageCollector( $db, $time )
     {
         include_once( 'kernel/classes/ezbasket.php' );
         eZBasket::cleanupExpired( $time );
     }
 
-    function eZSessionBasketEmpty( &$db )
+    function eZSessionBasketEmpty( $db )
     {
         include_once( 'kernel/classes/ezbasket.php' );
         eZBasket::cleanup();
