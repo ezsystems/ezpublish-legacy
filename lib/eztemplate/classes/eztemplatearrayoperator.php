@@ -305,7 +305,7 @@ class eZTemplateArrayOperator
      \reimp
     */
     function arrayTrans( $operatorName, &$node, $tpl, &$resourceData,
-                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                         $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         switch( $operatorName )
         {
@@ -1057,7 +1057,7 @@ class eZTemplateArrayOperator
      \reimp
     */
     function compareTrans( $operatorName, &$node, $tpl, &$resourceData,
-                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                           $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $isArray = false;
         $isString = false;
@@ -1251,7 +1251,7 @@ class eZTemplateArrayOperator
      \reimp
     */
     function extractTrans( $operatorName, &$node, $tpl, &$resourceData,
-                           &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                           $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $offset = 0;
         $length = false;
@@ -1357,7 +1357,7 @@ class eZTemplateArrayOperator
      \reimp
     */
     function mergeTrans( $operatorName, &$node, $tpl, &$resourceData,
-                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                         $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $code = '';
         $stringCode = '';

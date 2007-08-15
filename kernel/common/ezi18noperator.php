@@ -109,7 +109,7 @@ class eZi18nOperator
     }
 
     function i18nTrans( $operatorName, &$node, $tpl, &$resourceData,
-                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                        $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         // i18n( $input, $context, $comment, $arguments )
         // Check if if the three first parameters are constants, if not we cannot compile it

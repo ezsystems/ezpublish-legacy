@@ -628,7 +628,7 @@ class eZXMLInputParser
         return $attributes;
     }
 
-    function setAttributes( &$element, $attributes )
+    function setAttributes( $element, $attributes )
     {
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
 
@@ -1008,7 +1008,7 @@ class eZXMLInputParser
     }
 
     // Remove only nodes that don't match schema (recursively)
-    function fixSubtree( &$element, &$mainChild )
+    function fixSubtree( $element, &$mainChild )
     {
         $parent = $element->parentNode;
         $mainParent =& $mainChild->parentNode;
@@ -1029,7 +1029,7 @@ class eZXMLInputParser
         $element = $parent->removeChild( $element );
     }
 
-    function processAttributesBySchema( &$element )
+    function processAttributesBySchema( $element )
     {
         // Remove attributes that don't match schema
         $schemaAttributes = $this->XMLSchema->attributes( $element );
@@ -1114,7 +1114,7 @@ class eZXMLInputParser
         return $result;
     }
 
-    function &callOutputHandler( $handlerName, &$element, &$params )
+    function &callOutputHandler( $handlerName, $element, &$params )
     {
         $result = null;
         $thisOutputTag =& $this->OutputTags[$element->nodeName];

@@ -85,7 +85,7 @@ class eZTemplateExecuteOperator
     }
 
     function fetchTransform( $operatorName, &$node, $tpl, &$resourceData,
-                             &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                             $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $parameterTranslation = false;
         $constParameters = array();

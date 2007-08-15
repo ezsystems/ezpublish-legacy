@@ -114,7 +114,7 @@ class eZTemplateDigestOperator
     }
 
     function hashTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( ( count( $parameters ) != 1) )
         {

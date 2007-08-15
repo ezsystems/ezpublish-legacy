@@ -988,7 +988,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
       print( $third ); // prints 'item', $newPath is now ''
       \endcode
     */
-    function splitFirstPathElement( $path, &$element )
+    function splitFirstPathElement( $path, $element )
     {
         if ( $path[0] == '/' )
             $path = substr( $path, 1 );
@@ -1025,7 +1025,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
       print( $third ); // prints 'path', $newPath is now ''
       \endcode
     */
-    function splitLastPathElement( $path, &$element )
+    function splitLastPathElement( $path, $element )
     {
         $len = strlen( $path );
         if ( $len > 0 and $path[$len - 1] == '/' )

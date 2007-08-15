@@ -134,7 +134,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     /*
         Parsing Handlers (called at pass 1)
     */
-    function &parsingHandlerLiteral( &$element, &$param )
+    function &parsingHandlerLiteral( $element, &$param )
     {
         $ret = null;
         $data =& $param[0];
@@ -351,7 +351,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for in-paragraph nodes.
-    function &appendParagraph( &$element, &$newParent )
+    function &appendParagraph( $element, &$newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -389,7 +389,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for 'header' tag.
-    function &structHandlerHeader( &$element, &$param )
+    function &structHandlerHeader( $element, &$param )
     {
         $ret = null;
         $parent = $element->parentNode;
@@ -516,7 +516,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for 'custom' tag.
-    function &structHandlerCustom( &$element, &$params )
+    function &structHandlerCustom( $element, &$params )
     {
         $ret = null;
         if ( $this->XMLSchema->isInline( $element ) )
@@ -531,7 +531,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for 'ul' and 'ol' tags.
-    function &structHandlerLists( &$element, &$params )
+    function &structHandlerLists( $element, &$params )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -591,7 +591,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for #text
-    function &structHandlerText( &$element, &$newParent )
+    function &structHandlerText( $element, &$newParent )
     {
         $ret = null;
         $parent = $element->parentNode;
@@ -680,7 +680,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'link' element.
-    function &publishHandlerLink( &$element, &$params )
+    function &publishHandlerLink( $element, &$params )
     {
         $ret = null;
 
@@ -818,7 +818,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'embed' element.
-    function &publishHandlerEmbed( &$element, &$params )
+    function &publishHandlerEmbed( $element, &$params )
     {
         $ret = null;
 
@@ -914,7 +914,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'object' element.
-    function &publishHandlerObject( &$element, &$params )
+    function &publishHandlerObject( $element, &$params )
     {
         $ret = null;
 
@@ -958,7 +958,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'custom' element.
-    function &publishHandlerCustom( &$element, &$params )
+    function &publishHandlerCustom( $element, &$params )
     {
         $ret = null;
 
@@ -968,7 +968,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function convertCustomAttributes( &$element )
+    function convertCustomAttributes( $element )
     {
         $schemaAttrs = $this->XMLSchema->attributes( $element );
         $attributes = $element->attributes;

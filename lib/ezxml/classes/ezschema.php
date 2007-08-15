@@ -283,7 +283,7 @@ class eZSchema
       \private
       Debug function. Prints the element information.
     */
-    function printElement( &$element, &$dom, $level )
+    function printElement( $element, &$dom, $level )
     {
         $spacer = str_repeat( "&nbsp;", $level*4 );
 

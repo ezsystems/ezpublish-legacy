@@ -136,7 +136,7 @@ if ( !$skipClasses || !$skipCustom )
 }
 
 // update AvailableClasses setting
-function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
+function updateAvailableClasses( $doc, $element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
 {
     $children =& $element->Children;
     foreach( array_keys( $children ) as $key )
@@ -173,7 +173,7 @@ function updateAvailableClasses( &$doc, &$element, &$isIniModified, &$contentIni
 }
 
 // update CustomAttributes setting
-function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
+function updateCustomAttributes( $doc, $element, &$isIniModified, &$contentIniDirect, &$XMLSchema, $dumpOnly, $isQuiet = false )
 {
     $children =& $element->Children;
     foreach( array_keys( $children ) as $key )
@@ -222,7 +222,7 @@ function updateCustomAttributes( &$doc, &$element, &$isIniModified, &$contentIni
 }
 
 
-function convertObjects( &$doc, &$element, &$isTextModified )
+function convertObjects( $doc, $element, &$isTextModified )
 {
     $children =& $element->Children;
     foreach( array_keys( $children ) as $key )

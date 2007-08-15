@@ -812,7 +812,7 @@ class eZMultiOption2
         return $xml;
     }
 
-    function createDomElementForGroup( &$doc, &$groupNode, $depth = 0 )
+    function createDomElementForGroup( $doc, &$groupNode, $depth = 0 )
     {
 
         $root =& $groupNode;

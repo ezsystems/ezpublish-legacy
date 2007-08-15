@@ -286,7 +286,7 @@ class eZTemplateStringOperator
     }
 
     function phpMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $phpFunctionList = explode( ',', $this->phpMap[$operatorName] );
@@ -323,7 +323,7 @@ class eZTemplateStringOperator
     }
 
     function customMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                       &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                       $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -443,7 +443,7 @@ class eZTemplateStringOperator
     }
 
     function washTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $tmpVarCount = 0;

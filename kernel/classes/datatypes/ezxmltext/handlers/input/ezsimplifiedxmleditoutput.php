@@ -223,7 +223,7 @@ class eZSimplifiedXMLEditOutput
         return;
     }
 
-    function formatBeforeOpeningTag( &$element, $isInline, $hasChildren )
+    function formatBeforeOpeningTag( $element, $isInline, $hasChildren )
     {
         // Add indenting for block tags
         if ( !$isInline )
@@ -235,7 +235,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function formatAfterOpeningTag( &$element, $isInline, $hasChildren )
+    function formatAfterOpeningTag( $element, $isInline, $hasChildren )
     {
         // Add linebreak in case we have block tag as a first child
         if ( !$isInline && $hasChildren )
@@ -256,7 +256,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function formatBeforeClosingTag( &$element, $isInline, $hasChildren )
+    function formatBeforeClosingTag( $element, $isInline, $hasChildren )
     {
         if ( !$isInline && $hasChildren )
         {
@@ -283,7 +283,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function formatAfterClosingTag( &$element, $isInline, $hasChildren )
+    function formatAfterClosingTag( $element, $isInline, $hasChildren )
     {
         if ( !$isInline )
         {
@@ -309,7 +309,7 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function &callOutputHandler( $handlerName, &$element, &$params, &$sectionLevel )
+    function &callOutputHandler( $handlerName, $element, &$params, &$sectionLevel )
     {
         $result = null;
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
@@ -331,7 +331,7 @@ class eZSimplifiedXMLEditOutput
     /*
         Tag handlers
     */
-    function &outputSection( &$element, &$attributes, &$sectionLevel )
+    function &outputSection( $element, &$attributes, &$sectionLevel )
     {
         $sectionLevel++;
 
@@ -339,7 +339,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputText( &$element, &$attributes, &$sectionLevel )
+    function &outputText( $element, &$attributes, &$sectionLevel )
     {
         $text = $element->textContent;
 
@@ -365,7 +365,7 @@ class eZSimplifiedXMLEditOutput
         return $text;
     }
 
-    function &outputTd( &$element, &$attributes, &$sectionLevel )
+    function &outputTd( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
 
@@ -374,14 +374,14 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputHeader( &$element, &$attributes, &$sectionLevel )
+    function &outputHeader( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $attributes['level'] = $sectionLevel;
         return $ret;
     }
 
-    function &outputParagraph( &$element, &$attributes, &$sectionLevel )
+    function &outputParagraph( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         if ( count( $attributes ) == 0 )
@@ -410,7 +410,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputLine( &$element, &$attributes, &$sectionLevel )
+    function &outputLine( $element, &$attributes, &$sectionLevel )
     {
         $ret = '';
         $next = $element->nextSibling;
@@ -421,7 +421,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputEmbed( &$element, &$attributes, &$sectionLevel )
+    function &outputEmbed( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $href = '';
@@ -440,7 +440,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputObject( &$element, &$attributes, &$sectionLevel )
+    function &outputObject( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         if ( isset( $attributes['image:ezurl_id'] ) )

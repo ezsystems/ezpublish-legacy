@@ -254,7 +254,7 @@ class eZTemplateLogicOperator
 
 
     function logicalComparisonTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                               &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                               $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -498,7 +498,7 @@ class eZTemplateLogicOperator
     }
 
     function negateTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -517,7 +517,7 @@ class eZTemplateLogicOperator
     }
 
     function trueFalseTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                      &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                      $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( ( count( $parameters ) != 0 ) )
@@ -534,7 +534,7 @@ class eZTemplateLogicOperator
     }
 
     function chooseTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;

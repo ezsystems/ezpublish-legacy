@@ -86,7 +86,7 @@ class eZTemplateControlOperator
      \reimp
     */
     function condTransform( $operatorName, &$node, $tpl, &$resourceData,
-                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                            $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         switch( $operatorName )
         {

@@ -1481,7 +1481,7 @@ class eZTemplate
      Tries to run the operator $operatorName with parameters $operatorParameters
      on the value $value.
     */
-    function doOperator( &$element, &$namespace, &$current_nspace, &$value, &$operatorName, &$operatorParameters, &$named_params )
+    function doOperator( $element, &$namespace, &$current_nspace, &$value, &$operatorName, &$operatorParameters, &$named_params )
     {
         if ( is_array( $this->Operators[$operatorName] ) )
         {

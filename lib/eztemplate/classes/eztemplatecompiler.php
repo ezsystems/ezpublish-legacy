@@ -1444,7 +1444,7 @@ class eZTemplateCompiler
      Iterates over the element list \a $elements and transforms them.
      \sa processElementTransformationChild
     */
-    static function processElementTransformationList( $tpl, &$node, &$elements, &$privateData )
+    static function processElementTransformationList( $tpl, &$node, $elements, &$privateData )
     {
         $useComments = $privateData['use-comments'];
         $php =& $privateData['php-creator'];
@@ -1463,7 +1463,7 @@ class eZTemplateCompiler
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
     static function processElementTransformationChild( $useComments, &$php, $tpl, &$node,
-                                                &$elementTree, &$elementList, &$resourceData )
+                                                $elementTree, $elementList, &$resourceData )
     {
         $count = count( $elementList );
         $lastElement = null;

@@ -76,7 +76,7 @@ class eZTemplateNl2BrOperator
     }
 
     function nl2brTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;

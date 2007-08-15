@@ -214,7 +214,7 @@ class eZTemplateTypeOperator
      \reimp
     */
     function isTransform( $operatorName, &$node, $tpl, &$resourceData,
-                          &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                          $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $values[] = $parameters[0];

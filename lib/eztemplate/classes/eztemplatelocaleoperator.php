@@ -148,7 +148,7 @@ class eZTemplateLocaleOperator
      Transforms
      */
     function l10nTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -240,7 +240,7 @@ class eZTemplateLocaleOperator
     }
 
     function dateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                     &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                     $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -289,7 +289,7 @@ class eZTemplateLocaleOperator
     }
 
     function currentDateTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                        $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = time();\n" );
@@ -297,7 +297,7 @@ class eZTemplateLocaleOperator
     }
 
     function makeDateTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                         &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                         $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $arguments = array();
@@ -324,7 +324,7 @@ class eZTemplateLocaleOperator
     }
 
     function getTimeTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                    &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                    $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $values = array();

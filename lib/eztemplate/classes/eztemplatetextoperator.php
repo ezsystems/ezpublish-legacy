@@ -105,7 +105,7 @@ class eZTemplateTextOperator
     }
 
     function indentTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $count = $type = $filler = false;
@@ -192,7 +192,7 @@ class eZTemplateTextOperator
     }
 
     function concatTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;

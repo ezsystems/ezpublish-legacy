@@ -128,7 +128,7 @@ for ( $i = 0; $i < count( $urlList ); ++$i )
     $urlIDMap[$url->attribute( 'id' )] =& $url;
 }
 
-function findAndReplaceLinks( &$doc, &$node )
+function findAndReplaceLinks( $doc, $node )
 {
     global $urlRefMap;
     global $urlIDMap;

@@ -88,7 +88,7 @@ class eZTemplatePHPOperator
     }
 
     function phpOperatorTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                        &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+                                        $element, &$lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;

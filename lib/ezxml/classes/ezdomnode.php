@@ -882,7 +882,7 @@ class eZDOMNode
         return $this->collectTextContent( $this );
     }
 
-    function collectTextContent( &$element )
+    function collectTextContent( $element )
     {
         $ret = '';
         if ( $element->Type == eZDOMNode::TYPE_TEXT )

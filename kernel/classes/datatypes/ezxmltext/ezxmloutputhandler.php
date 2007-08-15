@@ -328,7 +328,7 @@ class eZXMLOutputHandler
     //                    This array is passed with no reference. Can by modified in tag's handler
     //                    for subordinate tags.
 
-    function outputTag( &$element, &$sibilingParams, $parentParams = array() )
+    function outputTag( $element, &$sibilingParams, $parentParams = array() )
     {
         $tagName = $element->localName;
         if ( isset( $this->OutputTags[$tagName] ) )
@@ -562,7 +562,7 @@ class eZXMLOutputHandler
         return $output;
     }
 
-    function renderTag( &$element, $content, $vars )
+    function renderTag( $element, $content, $vars )
     {
         $currentTag =& $this->OutputTags[$element->nodeName];
         if ( $currentTag && isset( $currentTag['quickRender'] ) )
@@ -611,7 +611,7 @@ class eZXMLOutputHandler
 
     // Default render handler
     // Renders all the content of children tags inside the current tag
-    function renderAll( &$element, $childrenOutput, $vars )
+    function renderAll( $element, $childrenOutput, $vars )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
@@ -622,7 +622,7 @@ class eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function callTagInitHandler( $handlerName, &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function callTagInitHandler( $handlerName, $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $result = array();
         $thisOutputTag =& $this->OutputTags[$element->nodeName];
@@ -636,7 +636,7 @@ class eZXMLOutputHandler
         return $result;
     }
 
-    function callTagRenderHandler( $handlerName, &$element, $childrenOutput, $vars )
+    function callTagRenderHandler( $handlerName, $element, $childrenOutput, $vars )
     {
         $result = array();
         $thisOutputTag =& $this->OutputTags[$element->nodeName];

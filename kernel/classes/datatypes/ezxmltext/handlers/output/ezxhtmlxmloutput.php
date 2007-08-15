@@ -159,7 +159,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $this->RenderParagraphInTableCells = false;
     }
 
-    function initHandlerSection( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerSection( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
         if( !isset( $parentParams['section_level'] ) )
@@ -180,7 +180,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerHeader( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerHeader( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $level = $parentParams['section_level'];
         $this->HeaderCount[$level]++;
@@ -208,7 +208,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerLink( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerLink( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
 
@@ -286,7 +286,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerEmbed( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerEmbed( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         // default return value in case of errors
         $ret = array( 'no_render' => true );
@@ -374,7 +374,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTable( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTable( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
         $rows = $element->childNodes;
@@ -391,7 +391,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTr( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTr( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array();
         if( !isset( $sibilingParams['table_row_count'] ) )
@@ -412,7 +412,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTd( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTd( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         if( !isset( $sibilingParams['table_col_count'] ) )
             $sibilingParams['table_col_count'] = 0;
@@ -424,7 +424,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerCustom( &$element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerCustom( $element, &$attributes, &$sibilingParams, &$parentParams )
     {
         $ret = array( 'template_name' => $attributes['name'] );
         return $ret;
@@ -432,7 +432,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     // Render handlers
 
-    function renderParagraph( &$element, $childrenOutput, $vars )
+    function renderParagraph( $element, $childrenOutput, $vars )
     {
         // don't render if inside 'li' or inside 'td' (by option)
         $parent = $element->parentNode;
@@ -467,7 +467,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderInline( &$element, $childrenOutput, $vars )
+    function renderInline( $element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -496,7 +496,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderLine( &$element, $childrenOutput, $vars )
+    function renderLine( $element, $childrenOutput, $vars )
     {
         $renderedArray = array();
         $lastTagInline = null;
@@ -535,7 +535,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $renderedArray;
     }
 
-    function renderCustom( &$element, $childrenOutput, $vars )
+    function renderCustom( $element, $childrenOutput, $vars )
     {
         if ( $this->XMLSchema->isInline( $element ) )
         {
@@ -548,7 +548,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function renderChildrenOnly( &$element, $childrenOutput, $vars )
+    function renderChildrenOnly( $element, $childrenOutput, $vars )
     {
         $tagText = '';
         foreach( $childrenOutput as $childOutput )
@@ -559,7 +559,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function renderText( &$element, $childrenOutput, $vars )
+    function renderText( $element, $childrenOutput, $vars )
     {
         if ( $element->parentNode->nodeName != 'literal' )
         {

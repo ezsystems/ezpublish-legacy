@@ -72,7 +72,7 @@ class eZTemplateOperator
      \note Remember to use references on the function arguments.
     */
     function modify( /*! The operator element, can be used for doing advanced querying but should be avoided. */
-                     &$element,
+                     $element,
                      /*! The template object which called this class */
                      $tpl,
                      /*! The name of this operator */
