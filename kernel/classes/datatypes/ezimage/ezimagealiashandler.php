@@ -674,7 +674,7 @@ class eZImageAliasHandler
 
      If you want to remove the alias information use removeAliases().
     */
-    function removeAllAliases( $contentObjectAttribute )
+    static function removeAllAliases( $contentObjectAttribute )
     {
         // VS-DBFILE
 
@@ -967,9 +967,9 @@ class eZImageAliasHandler
             $success = $dom->loadXML( $xmlString );
         }
 
-        $contentObjectAttributeData['DataTypeCustom']['dom_tree'] = $domTree;
+        $contentObjectAttributeData['DataTypeCustom']['dom_tree'] = $dom;
 
-        return $domTree;
+        return $dom;
     }
 
     /*!

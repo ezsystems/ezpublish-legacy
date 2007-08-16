@@ -102,6 +102,10 @@ class eZXMLText
             {
                 $isEmpty = true;
                 $dom = new DOMDocument();
+                if ( !$this->XMLData )
+                {
+                    return $isEmpty;
+                }
                 $success = $dom->loadXML( $this->XMLData );
                 if ( $success )
                 {
