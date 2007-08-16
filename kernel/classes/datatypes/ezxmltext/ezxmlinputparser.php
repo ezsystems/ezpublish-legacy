@@ -64,7 +64,7 @@ class eZXMLInputParser
 
     'name'        - a string representing a new name of the tag,
     'nameHandler' - a name of the function that returns new tag name. Function format:
-                    function &tagNameHandler( $tagName, &$attributes )
+                    function tagNameHandler( $tagName, &$attributes )
 
     If no of those elements are defined the original tag's name is used.
 
@@ -454,7 +454,7 @@ class eZXMLInputParser
             // Determine tag's name
             if ( isset( $this->InputTags[$tagName] ) )
             {
-                $thisInputTag =& $this->InputTags[$tagName];
+                $thisInputTag = $this->InputTags[$tagName];
 
                 if ( isset( $thisInputTag['name'] ) )
                 {
@@ -462,7 +462,7 @@ class eZXMLInputParser
                 }
                 else
                 {
-                    $newTagName =& $this->callInputHandler( 'nameHandler', $tagName, $attributes );
+                    $newTagName = $this->callInputHandler( 'nameHandler', $tagName, $attributes );
                 }
             }
             else
@@ -484,7 +484,7 @@ class eZXMLInputParser
                 $noChildren = true;
             }
 
-            $thisOutputTag =& $this->OutputTags[$newTagName];
+            $thisOutputTag = isset( $this->OutputTags[$newTagName] ) ? $this->OutputTags[$newTagName] : null;
 
             // Implementation of 'autoCloseOn' rule ( Handling of unclosed tags, ex.: <p>, <li> )
             if ( isset( $thisOutputTag['autoCloseOn'] ) &&
@@ -551,7 +551,7 @@ class eZXMLInputParser
         $params[] =& $data;
         $params[] =& $pos;
         $params[] =& $tagBeginPos;
-        $result =& $this->callOutputHandler( 'parsingHandler', $element, $params );
+        $result = $this->callOutputHandler( 'parsingHandler', $element, $params );
 
         if ( $result === false )
         {
@@ -1011,7 +1011,7 @@ class eZXMLInputParser
     function fixSubtree( $element, &$mainChild )
     {
         $parent = $element->parentNode;
-        $mainParent =& $mainChild->parentNode;
+        $mainParent = $mainChild->parentNode;
         if ( $element->hasChildNodes() )
         {
             foreach( $element->childNodes as $child )
@@ -1095,15 +1095,16 @@ class eZXMLInputParser
         }
     }
 
-    function &callInputHandler( $handlerName, $tagName, &$attributes )
+    function callInputHandler( $handlerName, $tagName, &$attributes )
     {
         $result = null;
-        $thisInputTag =& $this->InputTags[$tagName];
+        $thisInputTag = $this->InputTags[$tagName];
         if ( isset( $thisInputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisInputTag[$handlerName] ) ) )
             {
-                eval( '$result =& $this->' . $thisInputTag[$handlerName] . '( $tagName, $attributes );' );
+                $result = call_user_func_array( array( $this, $thisInputTag[$handlerName] ),
+                                                array( $tagName, $attributes ) );
             }
             else
             {
@@ -1114,15 +1115,16 @@ class eZXMLInputParser
         return $result;
     }
 
-    function &callOutputHandler( $handlerName, $element, &$params )
+    function callOutputHandler( $handlerName, $element, &$params )
     {
         $result = null;
-        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
             {
-                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $params );' );
+                $result = call_user_func_array( array( $this, $thisOutputTag[$handlerName] ),
+                                                array( $element, $params ) );
             }
             else
             {
