@@ -49,7 +49,7 @@ class eZNotificationFunctionCollection
     function handlerList()
     {
         include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
-        $availableHandlers =& eZNotificationEventFilter::availableHandlers();
+        $availableHandlers = eZNotificationEventFilter::availableHandlers();
         return array( 'result' => $availableHandlers );
     }
 
@@ -83,7 +83,7 @@ class eZNotificationFunctionCollection
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
 
-        $nodes =& eZSubTreeHandler::rules( false, $offset, $limit );
+        $nodes = eZSubTreeHandler::rules( false, $offset, $limit );
         return array( 'result' => $nodes );
     }
 }

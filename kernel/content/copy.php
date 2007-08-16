@@ -90,7 +90,7 @@ function copyObject( &$Module, $object, $allVersions, $newParentNodeID )
 
     $db = eZDB::instance();
     $db->begin();
-    $newObject =& $object->copy( $allVersions );
+    $newObject = $object->copy( $allVersions );
     // We should reset section that will be updated in updateSectionID().
     // If sectionID is 0 than the object has been newly created
     $newObject->setAttribute( 'section_id', 0 );
@@ -243,7 +243,7 @@ else if ( $Module->isCurrentAction( 'CopyNode' ) )
         // actually do copying of the pre-configured object version(s)
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
-        $newParentNodeID =& $selectedNodeIDArray[0];
+        $newParentNodeID = $selectedNodeIDArray[0];
         return copyObject( $Module, $object, $allVersions, $newParentNodeID );
     }
 }

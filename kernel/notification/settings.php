@@ -43,25 +43,22 @@ $Module = $Params['Module'];
 $user = eZUser::currentUser();
 
 include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
-$availableHandlers =& eZNotificationEventFilter::availableHandlers();
+$availableHandlers = eZNotificationEventFilter::availableHandlers();
 
 
 $db = eZDB::instance();
 $db->begin();
 if ( $http->hasPostVariable( 'Store' ) )
 {
-    foreach ( array_keys( $availableHandlers ) as $key )
+    foreach ( $availableHandlers as $handler )
     {
-        $handler =& $availableHandlers[$key];
         $handler->storeSettings( $http, $Module );
     }
 
 }
 
-foreach ( array_keys( $availableHandlers ) as $key )
+foreach ( $availableHandlers as $handler )
 {
-    $handler =& $availableHandlers[$key];
-
     $handler->fetchHttpInput( $http, $Module );
 }
 $db->commit();

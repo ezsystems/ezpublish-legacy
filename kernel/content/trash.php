@@ -75,9 +75,8 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                                                                    true );
                 $debug = eZDebug::instance();
                 $debug->writeNotice( $deleteID, "deleteID" );
-                foreach ( array_keys( $objectList ) as $key )
+                foreach ( $objectList as $object )
                 {
-                    $object =& $objectList[$key];
                     $object->purge();
                 }
             }
@@ -103,9 +102,8 @@ else if ( $http->hasPostVariable( 'EmptyButton' )  )
 
         $db = eZDB::instance();
         $db->begin();
-        foreach ( array_keys( $objectList ) as $key )
+        foreach ( $objectList as $object )
         {
-            $object =& $objectList[$key];
             $object->purge();
         }
         $db->commit();

@@ -66,22 +66,21 @@ class eZTipafriendCounter extends eZPersistentObject
                       'name' => 'eztipafriend_counter' );
     }
 
-    function create( $node_id )
+    static function create( $nodeID )
     {
-        $row = array( 'node_id' => $node_id,
-                      'count' => 0,
-                      'requested' => time() );
-        return new eZTipafriendCounter( $row );
+        return new eZTipafriendCounter( array( 'node_id' => $nodeID,
+                                               'count' => 0,
+                                               'requested' => time() ) );
     }
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function removeForNode( $node_id )
+    static function removeForNode( $nodeID )
     {
         eZPersistentObject::removeObject( eZTipafriendCounter::definition(),
-                                          array( 'node_id' => $node_id ) );
+                                          array( 'node_id' => $nodeID ) );
     }
 
     /*!
@@ -90,9 +89,9 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function clear( $node_id )
+    function clear( $nodeID )
     {
-        eZTipafriendCounter::removeForNode( $node_id );
+        eZTipafriendCounter::removeForNode( $nodeID );
     }
 
     /*!
@@ -104,11 +103,11 @@ class eZTipafriendCounter extends eZPersistentObject
     {
     }
 
-    function fetch( $node_id, $asObject = true )
+    static function fetch( $nodeID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTipafriendCounter::definition(),
                                                 null,
-                                                array( 'node_id' => $node_id ),
+                                                array( 'node_id' => $nodeID ),
                                                 $asObject );
     }
 
@@ -118,7 +117,7 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function cleanup()
+    static function cleanup()
     {
         $db = eZDB::instance();
         $db->query( "DELETE FROM eztipafriend_counter" );

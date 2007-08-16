@@ -179,7 +179,7 @@ switch( $operationResult['status'] )
             if ( !strtolower( get_class( $object ) ) == 'ezcontentobject' )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-            $node =& $operationResult[ 'node' ];
+            $node = $operationResult[ 'node' ];
 
             if ( $node === null )
                 return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -220,7 +220,7 @@ switch( $operationResult['status'] )
         }
         else if ( isset( $operationResult['result'] ) )
         {
-            $result =& $operationResult['result'];
+            $result = $operationResult['result'];
             $resultContent = false;
             if ( is_array( $result ) )
             {
@@ -230,8 +230,8 @@ switch( $operationResult['status'] )
                     $Result['path'] = $result['path'];
             }
             else
-                $resultContent =& $result;
-            $Result['content'] =& $resultContent;
+                $resultContent = $result;
+            $Result['content'] = $resultContent;
         }
     }break;
     case EZ_MODULE_OPERATION_CANCELED:
@@ -295,8 +295,7 @@ function contentPDFGenerate( $cacheFile,
 
     if( $object == false )
     {
-        unset( $object );
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
     }
 
     $res = eZTemplateDesignResource::instance();

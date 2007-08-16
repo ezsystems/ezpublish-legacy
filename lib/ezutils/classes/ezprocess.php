@@ -49,6 +49,7 @@ class eZProcess
      */
     function runFile( $Params, $file, $params_as_var )
     {
+        $Result = false;
         if ( $params_as_var )
         {
             foreach ( $Params as $key => $dummy )
@@ -68,7 +69,9 @@ class eZProcess
 
             $includeResult = include( $file );
             if ( !isset( $Result ) and $includeResult != 1 )
+            {
                 $Result = $includeResult;
+            }
         }
         else
             eZDebug::writeWarning( "PHP script $file does not exist, cannot run.",

@@ -340,8 +340,7 @@ class eZContentObject extends eZPersistentObject
             $lang = $this->CurrentLanguage;
         }
 
-        $objectID = $this->attribute( 'id' );
-        return $this->versionLanguageName( $objectID, $version, $lang );
+        return $this->versionLanguageName( $version, $lang );
     }
 
     function names()
@@ -360,17 +359,17 @@ class eZContentObject extends eZPersistentObject
         return $names;
     }
 
-    function versionLanguageName( $contentObjectID, $version, $lang = false )
+    function versionLanguageName( $version, $lang = false )
     {
         $name = false;
         $debug = eZDebug::instance();
-        if ( !$contentObjectID > 0 || !$version > 0 )
+        if ( !$version > 0 )
         {
             $debug->writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
             return $name;
         }
         $db = eZDb::instance();
-        $contentObjectID =(int) $contentObjectID;
+        $contentObjectID = $this->attribute( 'id' );
         if ( !$lang )
         {
             // If $lang not given we will use the initial language of the object
@@ -2403,7 +2402,10 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $attributeID = 0, $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
+    function addContentObjectRelation( $toObjectID,
+                                       $fromObjectVersion = false,
+                                       $attributeID = 0,
+                                       $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
     {
         $debug = eZDebug::instance();
         if ( $attributeID !== 0 )

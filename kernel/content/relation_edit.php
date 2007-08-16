@@ -306,11 +306,11 @@ function handleRelationTemplate( &$module, &$class, $object, &$version, $content
         if ( isset( $classGroupMap[$classIdentifier] ) )
         {
             $groupName = $classGroupMap[$classIdentifier];
-            $groupedRelatedObjects[$groupName][] =& $relatedObjects[$relatedObjectKey];
+            $groupedRelatedObjects[$groupName][] = $relatedObjects[$relatedObjectKey];
         }
         else
         {
-            $groupedRelatedObjects[$defaultGroup][] =& $relatedObjects[$relatedObjectKey];
+            $groupedRelatedObjects[$defaultGroup][] = $relatedObjects[$relatedObjectKey];
         }
     }
     $tpl->setVariable( 'related_contentobjects', $relatedObjects );

@@ -101,7 +101,7 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
                 $object->setAlwaysAvailableLanguageID( $newInitialLanguageID );
             }
 
-            $nodes =& $object->assignedNodes();
+            $nodes = $object->assignedNodes();
             foreach ( $nodes as $node )
             {
                 $node->updateSubTreePath();

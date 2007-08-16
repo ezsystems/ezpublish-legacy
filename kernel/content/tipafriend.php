@@ -140,7 +140,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mail->setSubject( $subject );
 
         // fetch
-        $res =& eZTemplateDesignResource::instance();
+        $res = eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                               array( 'class',            $object->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $object->attribute( 'class_identifier' ) ),
@@ -163,7 +163,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         $mailtpl->setVariable( 'receivers_name', $receiversName );
         $mailtpl->setVariable( 'receivers_email', $receiversEmail );
         $mailtpl->setVariable( 'comment', $comment );
-        $mailtext =& $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
+        $mailtext = $mailtpl->fetch( 'design:content/tipafriendmail.tpl' );
 
         $mail->setBody( $mailtext );
 
@@ -198,7 +198,7 @@ else if ( $http->hasPostVariable( 'CancelButton' ) )
 
 if ( !$overrideKeysAreSet )
 {
-    $res =& eZTemplateDesignResource::instance();
+    $res = eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object',           $object->attribute( 'id' ) ),
                           array( 'class',            $object->attribute( 'contentclass_id' ) ),
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ),

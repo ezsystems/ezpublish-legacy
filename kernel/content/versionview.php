@@ -97,9 +97,8 @@ if ( is_array( $nodeAssignments ) and
 }
 else if ( !$placementID && count( $nodeAssignments ) )
 {
-    foreach ( array_keys( $nodeAssignments ) as $key )
+    foreach ( $nodeAssignments as $nodeAssignment )
     {
-        $nodeAssignment =& $nodeAssignments[$key];
         if ( $nodeAssignment->attribute( 'is_main' ) )
         {
             $placementID = $nodeAssignment->attribute( 'id' );
@@ -119,11 +118,11 @@ else if ( !$placementID && count( $nodeAssignments ) )
 }
 $parentNodeID = false;
 $mainAssignment = false;
-foreach ( array_keys( $nodeAssignments ) as $key )
+foreach ( $nodeAssignments as $nodeAssignment )
 {
-    if ( $nodeAssignments[$key]->attribute( 'is_main' ) == 1 )
+    if ( $nodeAssignment->attribute( 'is_main' ) == 1 )
     {
-        $mainAssignment =& $nodeAssignments[$key];
+        $mainAssignment = $nodeAssignment;
         $parentNodeID = $mainAssignment->attribute( 'parent_node' );
         break;
     }

@@ -43,7 +43,7 @@ $collabItem = eZCollaborationItem::fetch( $ItemID );
 if ( $collabItem === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$collabHandler =& $collabItem->handler();
+$collabHandler = $collabItem->handler();
 $collabItem->handleView( $ViewMode );
 $template = $collabHandler->template( $ViewMode );
 $collabTitle = $collabItem->title();

@@ -4091,7 +4091,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         // Clean up tip-a-friend counter
         include_once( 'kernel/classes/eztipafriendcounter.php' );
-        eZTipafriendCounter::remove( $nodeID );
+        eZTipafriendCounter::removeForNode( $nodeID );
 
         $db->commit();
     }

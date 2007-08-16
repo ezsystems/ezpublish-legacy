@@ -72,7 +72,7 @@ if ( $Offset < $pageLimit )
 
 $requestedURI = '';
 $userRedirectURI = '';
-$requestedURI =& $GLOBALS['eZRequestedURI'];
+$requestedURI = $GLOBALS['eZRequestedURI'];
 if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
@@ -134,7 +134,7 @@ $childrenList = array(); // Contains children of Nodes from $deleteIDArray
 $reverselistCountChildrenArray = array();
 foreach( $rows as $child )
 {
-    $contentObject =& eZContentObject::fetchByNodeID( $child['node_id'] );
+    $contentObject = eZContentObject::fetchByNodeID( $child['node_id'] );
     $contentObject_ID = $contentObject->attribute('id');
     $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, 1 );
     $reverselistCountChildrenArray[$contentObject_ID] = $reverseObjectCount;

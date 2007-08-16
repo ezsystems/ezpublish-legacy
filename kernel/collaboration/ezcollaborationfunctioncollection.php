@@ -57,7 +57,7 @@ class eZCollaborationFunctionCollection
             $user = eZUser::currentUser();
             $participantID = $user->attribute( 'contentobject_id' );
         }
-        $participant =& eZCollaborationItemParticipantLink::fetch( $itemID, $participantID );
+        $participant = eZCollaborationItemParticipantLink::fetch( $itemID, $participantID );
         if ( $participant === null )
         {
             $resultArray = array( 'error' => array( 'error_type' => 'kernel',
@@ -65,7 +65,7 @@ class eZCollaborationFunctionCollection
         }
         else
         {
-            $resultArray = array( 'result' => &$participant );
+            $resultArray = array( 'result' => $participant );
         }
         return $resultArray;
     }
@@ -77,7 +77,7 @@ class eZCollaborationFunctionCollection
                                  'offset' => $offset,
                                  'limit' => $limit,
                                  'sort_by' => $sortBy );
-        $children =& eZCollaborationItemParticipantLink::fetchParticipantList( $itemParameters );
+        $children = eZCollaborationItemParticipantLink::fetchParticipantList( $itemParameters );
         if ( $children === null )
         {
             $resultArray = array( 'error' => array( 'error_type' => 'kernel',
@@ -99,7 +99,7 @@ class eZCollaborationFunctionCollection
                                  'sort_by' => $sortBy );
         if ( $field !== false )
             $itemParameters['sort_field'] = $field;
-        $children =& eZCollaborationItemParticipantLink::fetchParticipantMap( $itemParameters );
+        $children = eZCollaborationItemParticipantLink::fetchParticipantMap( $itemParameters );
         if ( $children === null )
         {
             $resultArray = array( 'error' => array( 'error_type' => 'kernel',
@@ -107,7 +107,7 @@ class eZCollaborationFunctionCollection
         }
         else
         {
-            $resultArray = array( 'result' => &$children );
+            $resultArray = array( 'result' => $children );
         }
         return $resultArray;
     }
@@ -172,11 +172,11 @@ class eZCollaborationFunctionCollection
                                  'limit' => $limit,
                                  'sort_by' => $sortBy,
                                  'depth' => $depth );
-        $children =& eZCollaborationGroup::subTree( $treeParameters );
+        $children = eZCollaborationGroup::subTree( $treeParameters );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
+        return array( 'result' => $children );
     }
 
     function fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )

@@ -69,7 +69,7 @@ function checkNodeAssignments( &$module, &$class, $object, &$version, $contentOb
          $module->isCurrentAction( 'AddPrimaryNodeAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
-        $assignedNodes =& $version->nodeAssignments();
+        $assignedNodes = $version->nodeAssignments();
         $assignedIDArray = array();
         $setMainNode = false;
         $hasMainNode = false;
@@ -163,7 +163,7 @@ function checkNodeMovements( &$module, &$class, $object, &$version, $contentObje
 
         if ( $selectedNodeIDArray != null )
         {
-            $assignedNodes =& $version->nodeAssignments();
+            $assignedNodes = $version->nodeAssignments();
             $assignedIDArray = array();
             foreach ( $assignedNodes as  $assignedNode )
             {
@@ -418,7 +418,7 @@ function checkNodeActions( &$module, &$class, $object, &$version, $contentObject
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
         $assigned = $version->nodeAssignments();
-        $publishedAssigned =& $object->assignedNodes( false );
+        $publishedAssigned = $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
         {
@@ -515,7 +515,7 @@ function checkNodeActions( &$module, &$class, $object, &$version, $contentObject
                 $publishParentNodeID = $publishedNode->attribute( 'parent_node_id' );
                 if ( $publishParentNodeID > 1 )
                 {
-                    $childrenCount =& $publishedNode->childrenCount();
+                    $childrenCount = $publishedNode->childrenCount();
                     if ( $childrenCount != 0 )
                     {
                         $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
@@ -538,7 +538,7 @@ function checkNodeActions( &$module, &$class, $object, &$version, $contentObject
                     $publishedNode = eZContentObjectTreeNode::fetchNode( $objectID, $nodeAssignment->attribute( 'from_node_id' ) );
                     $childrenCount = 0;
                     if ( $publishedNode !== null )
-                        $childrenCount =& $publishedNode->childrenCount();
+                        $childrenCount = $publishedNode->childrenCount();
                     if ( $childrenCount != 0 )
                     {
                         $module->redirectToView( 'removenode', array( $objectID, $editVersion, $editLanguage, $nodeID ) );
@@ -765,18 +765,22 @@ function handleNodeTemplate( &$module, &$class, $object, &$version, $contentObje
                 if ( isset( $remoteMap[$remoteID] ) )
                 {
                     if ( is_array( $remoteMap[$remoteID] ) )
-                        $remoteMap[$remoteID][] =& $assignedNode;
+                    {
+                        $remoteMap[$remoteID][] = $assignedNode;
+                    }
                     else
                     {
-                        $currentRemote =& $remoteMap[$remoteID];
+                        $currentRemote = $remoteMap[$remoteID];
                         unset( $remoteMap[$remoteID] );
                         $remoteMap[$remoteID] = array();
-                        $remoteMap[$remoteID][] =& $currentRemote;
-                        $remoteMap[$remoteID][] =& $assignedNode;
+                        $remoteMap[$remoteID][] = $currentRemote;
+                        $remoteMap[$remoteID][] = $assignedNode;
                     }
                 }
                 else
-                    $remoteMap[$remoteID] =& $assignedNode;
+                {
+                    $remoteMap[$remoteID] = $assignedNode;
+                }
             }
         }
         else

@@ -942,8 +942,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
         if ( $mainNodeChanged )
         {
-            $allNodes =& $object->assignedNodes();
-            $mainNode =& $allNodes[0];
+            $allNodes = $object->assignedNodes();
+            $mainNode = $allNodes[0];
             eZContentObjectTreeNode::updateMainNodeID( $mainNode->attribute( 'node_id' ), $objectID, false, $mainNode->attribute( 'parent_node_id' ) );
         }
         $db->commit();
@@ -1181,7 +1181,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     if ( $http->hasPostVariable( "ActionAddToBasket" ) )
     {
         $shopModule = eZModule::exists( "shop" );
-        $result =& $shopModule->run( "basket", array() );
+        $result = $shopModule->run( "basket", array() );
         if ( isset( $result['content'] ) && $result['content'] )
         {
             return $result;
@@ -1200,7 +1200,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
         $shopModule = eZModule::exists( "shop" );
-        $result =& $shopModule->run( "wishlist", array() );
+        $result = $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
     }
@@ -1501,6 +1501,6 @@ else if ( !isset( $result ) )
 
 // return module contents
 $Result = array();
-$Result['content'] =& $result;
+$Result['content'] = isset( $result ) ? $result : null;
 
 ?>

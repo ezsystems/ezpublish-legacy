@@ -208,7 +208,7 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     foreach ( array_keys ( $limitList ) as $key )
     {
         if ( $classID == $key )
-            $versionlimit =& $limitList[$key];
+            $versionlimit = $limitList[$key];
     }
     if ( $versionlimit < 2 )
         $versionlimit = 2;
@@ -229,14 +229,13 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     else
     {
         $params = array( 'conditions'=> array( 'status' => 3 ) );
-        $versions =& $object->versions( true, $params );
+        $versions = $object->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
             $modified = $versions[0]->attribute( 'modified' );
-            $removeVersion =& $versions[0];
-            foreach ( array_keys( $versions ) as $versionKey )
+            $removeVersion = $versions[0];
+            foreach ( $versions as $version )
             {
-                $version =& $versions[$versionKey];
                 $currentModified = $version->attribute( 'modified' );
                 if ( $currentModified < $modified )
                 {

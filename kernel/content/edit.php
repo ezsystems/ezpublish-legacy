@@ -151,7 +151,7 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
     foreach ( array_keys ( $limitList ) as $key )
     {
         if ( $classID == $key )
-            $versionlimit =& $limitList[$key];
+            $versionlimit = $limitList[$key];
     }
     if ( $versionlimit < 2 )
         $versionlimit = 2;
@@ -180,10 +180,9 @@ if ( $http->hasPostVariable( 'NewDraftButton' ) )
         if ( count( $versions ) > 0 )
         {
             $modified = $versions[0]->attribute( 'modified' );
-            $removeVersion =& $versions[0];
-            foreach ( array_keys( $versions ) as $versionKey )
+            $removeVersion = $versions[0];
+            foreach ( $versions as $version )
             {
-                $version =& $versions[$versionKey];
                 $currentModified = $version->attribute( 'modified' );
                 if ( $currentModified < $modified )
                 {
@@ -398,12 +397,12 @@ if ( !is_numeric( $EditVersion ) )
             // No permission checking required since it will ask the user what to do.
 
             // There are already drafts for the specified language so we need to ask the user what to do.
-            $mostRecentDraft =& $draftVersions[0];
+            $mostRecentDraft = $draftVersions[0];
             foreach( $draftVersions as $currentDraft )
             {
                 if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
                 {
-                    $mostRecentDraft =& $currentDraft;
+                    $mostRecentDraft = $currentDraft;
                 }
             }
 
@@ -436,12 +435,12 @@ if ( !is_numeric( $EditVersion ) )
                                              array( 'AccessList' => $obj->accessList( 'edit' ) ) );
             }
             // There are already drafts for the specified language so we need to ask the user what to do.
-            $mostRecentDraft =& $draftVersions[0];
+            $mostRecentDraft = $draftVersions[0];
             foreach( $draftVersions as $currentDraft )
             {
                 if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
                 {
-                    $mostRecentDraft =& $currentDraft;
+                    $mostRecentDraft = $currentDraft;
                 }
             }
             include_once( 'kernel/common/template.php' );
@@ -713,22 +712,32 @@ if ( !function_exists( 'checkContentActions' ) )
                         }
                         else if ( isset( $operationResult['result'] ) )
                         {
-                            $result =& $operationResult['result'];
+                            $result = $operationResult['result'];
                             $resultContent = false;
                             if ( is_array( $result ) )
                             {
                                 if ( isset( $result['content'] ) )
+                                {
                                     $resultContent = $result['content'];
+                                }
                                 if ( isset( $result['path'] ) )
+                                {
                                     $Result['path'] = $result['path'];
+                                }
                             }
                             else
-                                $resultContent =& $result;
+                            {
+                                $resultContent = $result;
+                            }
                             // Temporary fix to make approval workflow work with edit.
                             if ( strpos( $resultContent, 'Deffered to cron' ) === 0 )
+                            {
                                 $Result = null;
+                            }
                             else
-                                $Result['content'] =& $resultContent;
+                            {
+                                $Result['content'] = $resultContent;
+                            }
                         }
                     }break;
                     case EZ_MODULE_OPERATION_CANCELED:

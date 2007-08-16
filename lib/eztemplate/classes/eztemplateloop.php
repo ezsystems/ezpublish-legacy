@@ -63,8 +63,8 @@ class eZTemplateLoopSequence
 */
 class eZTemplateLoop
 {
-    function eZTemplateLoop( $functionName, &$functionParameters, &$functionChildren, &$functionPlacement,
-                             $tpl, &$textElements, &$rootNamespace, &$currentNamespace )
+    function eZTemplateLoop( $functionName, &$functionParameters, $functionChildren, $functionPlacement,
+                             $tpl, &$textElements, $rootNamespace, $currentNamespace )
     {
         $this->SkipDelimiter         = true;
         $this->SkipSequenceIncrement = false;
@@ -75,15 +75,15 @@ class eZTemplateLoop
         $this->LoopVariablesNames    = array();
 
 
-        $this->FunctionName       =  $functionName;
+        $this->FunctionName       = $functionName;
         $this->FunctionParameters =& $functionParameters;
-        $this->FunctionChildren   =& $functionChildren;
+        $this->FunctionChildren   = $functionChildren;
 
-        $this->Tpl                =& $tpl;
+        $this->Tpl                = $tpl;
         $this->TextElements       =& $textElements;
-        $this->RootNamespace      =& $rootNamespace;
-        $this->CurrentNamespace   =& $currentNamespace;
-        $this->FunctionPlacement  =& $functionPlacement;
+        $this->RootNamespace      = $rootNamespace;
+        $this->CurrentNamespace   = $currentNamespace;
+        $this->FunctionPlacement  = $functionPlacement;
 
         $this->Initialized = $this->processFunctionParameters();
     }
@@ -189,11 +189,11 @@ class eZTemplateLoop
         }
         foreach ( array_keys( $this->FunctionChildren ) as $childKey )
         {
-            $child =& $this->FunctionChildren[$childKey];
+            $child = $this->FunctionChildren[$childKey];
 
             if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
             {
-                $childFunctionName  =& $child[2];
+                $childFunctionName = $child[2];
 
                 if ( $childFunctionName == 'break' )
                     return true;
@@ -211,7 +211,7 @@ class eZTemplateLoop
                 elseif ( $childFunctionName == 'delimiter' )
                 {
                     if ( is_null( $this->Delimiter ) )
-                        $this->Delimiter =& $child;
+                        $this->Delimiter = $child;
                     continue;
                 }
             }
@@ -252,8 +252,8 @@ class eZTemplateLoop
         if ( is_null( $this->Delimiter ) || $this->SkipDelimiter )
             return false;
 
-        $delimiterChildren =& $this->Delimiter[1];
-        $delimiterParameters =& $this->Delimiter[3]; // Get parameters
+        $delimiterChildren = $this->Delimiter[1];
+        $delimiterParameters = $this->Delimiter[3]; // Get parameters
         $delimiterMatch = true;
         // Check for "modulo"
         if ( isset( $delimiterParameters["modulo"] ) and $index !== false )
@@ -266,8 +266,10 @@ class eZTemplateLoop
         }
         if ( $delimiterMatch )
         {
-            foreach ( array_keys( $delimiterChildren ) as $key )
-                $this->Tpl->processNode( $delimiterChildren[$key], $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+            foreach ( $delimiterChildren as $delimiterChild )
+            {
+                $this->Tpl->processNode( $delimiterChild, $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+            }
         }
 
         return false;

@@ -49,8 +49,8 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->attribute( 'can_read' ) )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-    $version =& $object->currentVersion();
-    $contentObjectAttributes =& $version->contentObjectAttributes();
+    $version = $object->currentVersion();
+    $contentObjectAttributes = $version->contentObjectAttributes();
 
     $user = eZUser::currentUser();
     $isLoggedIn = $user->attribute( 'is_logged_in' );
@@ -146,7 +146,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               'node_id' => $node->attribute( 'node_id' ) );
 
         $Result['path'] = $path;
-        $Result['title_path'] =& $titlePath;
+        $Result['title_path'] = $titlePath;
 
         return $Result;
     }

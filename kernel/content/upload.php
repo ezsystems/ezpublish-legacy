@@ -86,8 +86,8 @@ if ( $module->isCurrentAction( 'UploadFile' ) )
 
     if ( $upload->handleUpload( $result, 'UploadFile', $location, false, $objectName ) )
     {
-        $object =& $result['contentobject'];
-        $mainNode =& $result['contentobject_main_node'];
+        $object = $result['contentobject'];
+        $mainNode = $result['contentobject_main_node'];
         if ( $result['redirect_url'] )
         {
             return $module->redirectTo( $result['redirect_url'] );

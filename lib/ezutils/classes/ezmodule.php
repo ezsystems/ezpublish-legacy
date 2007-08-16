@@ -859,7 +859,7 @@ class eZModule
     */
     function addHook( $hookName, $function, $priority = 1, $expandParameters = true, $append = false )
     {
-        $hookEntries = $this->HookList[$hookName];
+        $hookEntries = isset( $this->HookList[$hookName] ) ? $this->HookList[$hookName] : false;
         if ( !is_array( $hookEntries ) )
         {
             $hookEntries = array();
@@ -888,7 +888,7 @@ class eZModule
     function runHooks( $hookName, $parameters = null )
     {
         $status = null;
-        $hookEntries = $this->HookList[$hookName];
+        $hookEntries = isset( $this->HookList[$hookName] ) ? $this->HookList[$hookName] : false;
         if ( isset( $hookEntries ) and
              is_array( $hookEntries ) )
         {

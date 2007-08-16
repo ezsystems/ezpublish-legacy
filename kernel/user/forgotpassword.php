@@ -59,7 +59,7 @@ if ( strlen( $hashKey ) == 32 )
         $password = eZUser::createPassword( $passwordLength );
         $passwordConfirm = $password;
 
-        $userToSendEmail =& $user;
+        $userToSendEmail = $user;
         $user->setInformation( $user->id(), $user->attribute( 'login' ), $email, $password, $passwordConfirm );
 
         $db = eZDB::instance();
@@ -132,13 +132,13 @@ if ( $module->isCurrentAction( "Generate" ) )
         }
         if ( count($users) > 0 )
         {
-            $user =& $users[0];
+            $user = $users[0];
             $time = time();
             $hashKey = md5( $time . ":" . mt_rand() );
             $forgotPasswdObj = eZForgotPassword::createNew( $user->id(), $hashKey, $time );
             $forgotPasswdObj->store();
 
-            $userToSendEmail =& $user;
+            $userToSendEmail = $user;
             include_once( "kernel/common/template.php" );
             include_once( 'lib/ezutils/classes/ezmail.php' );
             include_once( 'lib/ezutils/classes/ezmailtransport.php' );

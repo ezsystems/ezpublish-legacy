@@ -411,7 +411,7 @@ class eZTemplateStringOperator
 
             case "email":
             {
-                $ini =& $tpl->ini();
+                $ini = $tpl->ini();
                 $dotText = $ini->variable( 'WashSettings', 'EmailDotText' );
                 $atText = $ini->variable( 'WashSettings', 'EmailAtText' );
                 $operatorValue = str_replace( array( '.',

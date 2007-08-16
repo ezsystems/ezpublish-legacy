@@ -97,7 +97,7 @@ $isTranslatingContent = false;
 if ( $FromLanguage !== false )
 {
     $isTranslatingContent = true;
-    $fromContentObjectAttributes =& $object->contentObjectAttributes( true, false, $FromLanguage );
+    $fromContentObjectAttributes = $object->contentObjectAttributes( true, false, $FromLanguage );
     if ( $fromContentObjectAttributes === null or
          count( $fromContentObjectAttributes ) == 0 )
     {
@@ -272,7 +272,7 @@ if ( $storingAllowed && $hasObjectInput)
                                         $customActionAttributeArray,
                                         array( 'module' => &$Module,
                                                'current-redirection-uri' => $currentRedirectionURI ) );
-    $attributeInputMap =& $fetchResult['attribute-input-map'];
+    $attributeInputMap = $fetchResult['attribute-input-map'];
     if ( $Module->isCurrentAction( 'Discard' ) )
         $inputValidated = true;
 
@@ -392,11 +392,11 @@ $res = eZTemplateDesignResource::instance();
 
 $assignments = $version->attribute( 'parent_nodes' );
 $mainAssignment = false;
-foreach ( array_keys( $assignments ) as $key )
+foreach ( $assignments as $assignment )
 {
-    if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+    if ( $assignment->attribute( 'is_main' ) == 1 )
     {
-        $mainAssignment =& $assignments[$key];
+        $mainAssignment = $assignment;
         break;
     }
 }
@@ -433,11 +433,10 @@ if ( $OmitSectionSetting !== true )
 }
 
 $contentObjectDataMap = array();
-foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
+foreach ( $contentObjectAttributes as $contentObjectAttribute )
 {
-    $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
     $contentObjectAttributeIdentifier = $contentObjectAttribute->attribute( 'contentclass_attribute_identifier' );
-    $contentObjectDataMap[$contentObjectAttributeIdentifier] =& $contentObjectAttribute;
+    $contentObjectDataMap[$contentObjectAttributeIdentifier] = $contentObjectAttribute;
 }
 
 $object->setCurrentLanguage( $EditLanguage );

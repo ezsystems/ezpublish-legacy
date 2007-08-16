@@ -497,7 +497,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
                 continue;
             }
 
-            $sourceObject =& $sourceNodeList[ $i ]->object();
+            $sourceObject = $sourceNodeList[ $i ]->object();
 
             $srcSubtreeNodeIDlist = ($sourceNodeID == $sourceSubTreeMainNodeID) ? $syncNodeIDListSrc : $sourceNodeIDList;
             $copyResult = copyPublishContentObject( $sourceObject,
@@ -573,9 +573,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     $idListStr = $db->implodeWithTypeCast( ',', $syncObjectIDListNew, 'int' );
     $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
-    foreach ( array_keys( $relatedRecordsList ) as $key )
+    foreach ( $relatedRecordsList as $relatedEntry )
     {
-        $relatedEntry =& $relatedRecordsList[ $key ];
         $kindex = array_search( $relatedEntry[ 'to_contentobject_id' ], $syncObjectIDListSrc );
         if ( $kindex !== false )
         {
@@ -600,9 +599,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         {
             continue;
         }
-        foreach ( array_keys( $attributeList ) as $key )
+        foreach ( $attributeList as $xmlAttribute )
         {
-            $xmlAttribute =& $attributeList[ $key ];
             $xmlText = $xmlAttribute->attribute( 'data_text' );
             $xmlTextLen = strlen ( $xmlText );
             $isTextModified = false;
@@ -972,7 +970,7 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
         // actually do copying of the pre-configured object version(s)
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
-        $newParentNodeID =& $selectedNodeIDArray[0];
+        $newParentNodeID = $selectedNodeIDArray[0];
         copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );
 
         if ( $showNotification )

@@ -174,7 +174,7 @@ $classArray = eZContentClass::fetchList();
 
 $sectionArray = eZSection::fetchList();
 
-$searchArray =& eZSearch::buildSearchArray();
+$searchArray = eZSearch::buildSearchArray();
 
 if ( $useSearchCode )
 {
