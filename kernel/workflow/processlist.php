@@ -63,7 +63,7 @@ foreach ( $plist as $p )
                                              'name' => $mementoChildData['name'] ) );
     if ( count( $triggers ) > 0 )
     {
-        $trigger =& $triggers[0];
+        $trigger = $triggers[0];
         if ( is_object( $trigger ) )
         {
             $nkey = $trigger->attribute( 'module_name' ) . '/' . $trigger->attribute( 'function_name' ) . '/' . $trigger->attribute( 'name' );

@@ -38,7 +38,7 @@ if ( isset( $Params["GroupID"] ) )
     $WorkflowGroupID = $Params["GroupID"];
 
 // include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
-// $execStack =& eZExecutionStack::instance();
+// $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
@@ -118,8 +118,8 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
 $workflowList = array();
 foreach( array_keys( $workflows ) as $workflowID )
 {
-    $workflow =& $workflows[$workflowID];
-    $workflowList[$workflow->attribute( 'id' )] =& $workflow;
+    $workflow = $workflows[$workflowID];
+    $workflowList[$workflow->attribute( 'id' )] = $workflow;
 }
 */
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );

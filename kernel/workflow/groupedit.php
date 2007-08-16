@@ -38,7 +38,7 @@ else
     $WorkflowGroupID = false;
 
 // include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-// $execStack =& eZExecutionStack::instance();
+// $execStack = eZExecutionStack::instance();
 // $execStack->addEntry( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID,
 //                       $Module->attribute( "name" ), "groupedit" );
 
@@ -56,7 +56,7 @@ else
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
 }
 
-//$assignedWorkflows =& $workflowGroup->fetchWorkflowList();
+//$assignedWorkflows = $workflowGroup->fetchWorkflowList();
 //$isRemoveTried = false;
 
 $http = eZHTTPTool::instance();

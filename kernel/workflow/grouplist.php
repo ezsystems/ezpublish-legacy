@@ -41,25 +41,24 @@ function removeSelectedGroups( $http, &$groups, $base )
                                                $keepers, $rejects ) )
         {
             $groups = $keepers;
-            for ( $i = 0; $i < count( $rejects ); ++$i )
+            foreach( $rejects as $reject )
             {
-                $reject =& $rejects[$i];
                 $group_id = $reject->attribute("id");
 
                 // Remove all workflows in current group
-                $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $group_id, $asObject = true);
-                $workflow_list =  eZWorkflow::fetchList( );
+                $list_in_group = eZWorkflowGroupLink::fetchWorkflowList( 0, $group_id, $asObject = true);
+                $workflow_list = eZWorkflow::fetchList( );
 
                 $list = array();
-                for ( $k=0; $k<count( $workflow_list ); $k++ )
+                foreach( $workflow_list as $workflow )
                 {
-                    for ( $j=0;$j<count( $list_in_group );$j++ )
+                    foreach( $list_in_group as $group )
                     {
-                        $id =  $workflow_list[$k]->attribute("id");
-                        $workflow_id =  $list_in_group[$j]->attribute("workflow_id");
+                        $id = $workflow->attribute("id");
+                        $workflow_id = $group->attribute("workflow_id");
                         if ( $id === $workflow_id )
                         {
-                            $list[] =& $workflow_list[$k];
+                            $list[] = $workflow;
                         }
                     }
                 }

@@ -106,7 +106,7 @@ class eZContentStructureTreeOperator
                 $sortingMethod = explode("/", $namedParameters[ 'sort_by' ]);
                 $sortingMethod[1] = ($sortingMethod[1] == 'ascending') ? '1' : '0';
                 $sortArray = array();
-                $sortArray[] =& $sortingMethod;
+                $sortArray[] = $sortingMethod;
             }
         }
 
@@ -270,7 +270,7 @@ class eZContentStructureTreeOperator
     */
     function oneLevelChildren( &$contentTree, &$classFilter, &$sortBy, &$nodesLeft, $fetchHidden )
     {
-        $parentNode =& $contentTree['parent_node'];
+        $parentNode = $contentTree['parent_node'];
 
         if ( !is_array( $parentNode ) || count( $parentNode['node'] ) == 0 )
         {
@@ -354,7 +354,7 @@ class eZContentStructureTreeOperator
             --$depthLeft;
             if ( $depthLeft != 0 )
             {
-                $children =& $contentTree['children'];
+                $children = $contentTree['children'];
 
                 foreach( $children as $child )
                 {

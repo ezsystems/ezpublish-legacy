@@ -73,7 +73,7 @@ class eZPackageOperator
     */
     function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $package =& $operatorValue;
+        $package = $operatorValue;
         $class = $namedParameters['class'];
         switch ( $class )
         {
@@ -83,9 +83,8 @@ class eZPackageOperator
                 {
                     if ( !is_array( $fileList = $operatorValue->fileList( 'default' ) ) )
                         $fileList = array();
-                    foreach ( array_keys( $fileList ) as $key )
+                    foreach ( $fileList as $file )
                     {
-                        $file =& $fileList[$key];
                         $fileType = $file["type"];
                         if ( $fileType == 'thumbnail' )
                         {
@@ -103,9 +102,8 @@ class eZPackageOperator
                 {
                     $variableName = $namedParameters['data'];
                     $fileList = $operatorValue->fileList( 'default' );
-                    foreach ( array_keys( $fileList ) as $key )
+                    foreach ( $fileList as $file )
                     {
-                        $file =& $fileList[$key];
                         $fileIdentifier = $file["variable-name"];
                         if ( $fileIdentifier == $variableName )
                         {

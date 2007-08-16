@@ -66,7 +66,7 @@ if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( '
 
 if( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
-    $collectionIDArray =& $http->sessionVariable( 'CollectionIDArray' );
+    $collectionIDArray = $http->sessionVariable( 'CollectionIDArray' );
 
     if( is_array( $collectionIDArray ) )
     {

@@ -74,7 +74,7 @@ if ( $http->hasPostVariable( "RunProcess" ) )
 //     return;
     if ( strtolower( get_class( $workflowEvent ) ) == "ezworkflowevent" )
     {
-        $eventType =& $workflowEvent->eventType();
+        $eventType = $workflowEvent->eventType();
         $lastEventStatus = $eventType->execute( $process, $workflowEvent );
     }
     $event_pos = $process->attribute( "event_position" );

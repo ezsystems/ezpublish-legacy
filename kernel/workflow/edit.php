@@ -217,10 +217,9 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
 $requireFixup = false;
-foreach( array_keys( $event_list ) as $key )
+foreach( $event_list as $event )
 {
-    $event =& $event_list[$key];
-    $eventType =& $event->eventType();
+    $eventType = $event->eventType();
     $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event, $validation );
 
     if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
@@ -232,10 +231,9 @@ foreach( array_keys( $event_list ) as $key )
 // Fixup input
 if ( $requireFixup )
 {
-    foreach( array_keys( $event_list ) as $key )
+    foreach( $event_list as $event )
     {
-        $event =& $event_list[$key];
-        $eventType =& $event->eventType();
+        $eventType = $event->eventType();
         $status = $eventType->fixupHTTPInput( $http, "WorkflowEvent", $event );
     }
 }
@@ -278,10 +276,9 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 
 
 // Fetch HTTP input
-foreach( array_keys( $event_list ) as $key )
+foreach( $event_list as $event )
 {
-    $event =& $event_list[$key];
-    $eventType =& $event->eventType();
+    $eventType = $event->eventType();
     $eventType->fetchHTTPInput( $http, "WorkflowEvent", $event );
     if ( $customActionAttributeID == $event->attribute( "id" ) )
     {
@@ -301,9 +298,8 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
 
     $workflowgroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
-    for ( $i=0;$i<count(  $workflowgroups );$i++ )
+    foreach( $workflowgroups as $workflowgroup )
     {
-        $workflowgroup =& $workflowgroups[$i];
         $workflowgroup->setAttribute("workflow_version", 0 );
         $workflowgroup->store();
     }
@@ -349,7 +345,7 @@ else if ( $http->hasPostVariable( "NewButton" ) )
     $new_event->store();
 
     $db->commit();
-    $event_list[] =& $new_event;
+    $event_list[] = $new_event;
 }
 else if ( $canStore )
 {

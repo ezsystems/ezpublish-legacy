@@ -34,7 +34,7 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 $Module = $Params['Module'];
 
 // include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
-// $execStack =& eZExecutionStack::instance();
+// $execStack = eZExecutionStack::instance();
 // $execStack->clear();
 // $execStack->addEntry( $Module->functionURI( 'list' ),
 //                       $Module->attribute( 'name' ), 'list' );
@@ -55,10 +55,9 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
 $groupList = eZWorkflowGroup::fetchList();
 $workflows = eZWorkflow::fetchList();
 $workflowList = array();
-foreach( array_keys( $workflows ) as $workflowID )
+foreach( $workflows as $workflow )
 {
-    $workflow =& $workflows[$workflowID];
-    $workflowList[$workflow->attribute( 'id' )] =& $workflow;
+    $workflowList[$workflow->attribute( 'id' )] = $workflow;
 }
 
 $Module->setTitle( 'Workflow list' );

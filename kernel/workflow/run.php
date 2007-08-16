@@ -50,7 +50,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http = eZHTTPTool::instance();
 
 // include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-// $execStack =& eZExecutionStack::instance();
+// $execStack = eZExecutionStack::instance();
 // $execStack->addEntry( $Module->functionURI( "run" ) . "/" . $WorkflowProcessID,
 //                       $Module->attribute( "name" ), "run" );
 

@@ -112,9 +112,8 @@ class eZDateOperatorCollection
                 {
                     $days[$day] = false;
                 }
-                foreach ( array_keys( $operatorValue ) as $key )
+                foreach ( $operatorValue as $item )
                 {
-                    $item =& $operatorValue[$key];
                     $value = null;
                     if ( is_object( $item ) and
                          method_exists( $item, 'hasattribute' ) and

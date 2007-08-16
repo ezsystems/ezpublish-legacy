@@ -63,12 +63,11 @@ class eZSimpleTagsOperator
     */
     function initializeIncludes()
     {
-        $init =& $GLOBALS['eZSimpleTagsInit'];
         // If we have this global variable we shouldn't do any processing
-        if ( isset( $init ) and $init )
+        if ( !empty( $GLOBALS['eZSimpleTagsInit'] ) )
             return;
 
-        $init = true;
+        $GLOBALS['eZSimpleTagsInit'] = true;
         $ini = eZINI::instance( 'template.ini' );
         $extensions = $ini->variable( 'SimpleTagsOperator', 'Extensions' );
         include_once( 'lib/ezutils/classes/ezextension.php' );

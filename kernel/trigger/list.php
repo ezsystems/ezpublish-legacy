@@ -89,10 +89,8 @@ foreach ( $operations as $operation )
         $trigger['key'] = $trigger['module'] . '_' . $trigger['operation'] . '_' . $trigger['connect_type'][0];
         $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
 
-        foreach ( array_keys ( $triggers ) as $key )
+        foreach ( $triggers as $existendTrigger )
         {
-            $existendTrigger =& $triggers[$key];
-
             if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
                  $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
                  $existendTrigger->attribute( 'connect_type' ) == $trigger['connect_type'][0] )
@@ -109,10 +107,8 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
 {
     $db = eZDB::instance();
     $db->begin();
-    foreach ( array_keys( $possibleTriggers ) as $key )
+    foreach ( $possibleTriggers as $trigger )
     {
-        $trigger =& $possibleTriggers[$key];
-
         if ( $http->hasPostVariable( 'WorkflowID_' . $trigger['key'] ) )
         {
             $workflowID = $http->postVariable( 'WorkflowID_' . $trigger['key'] );
@@ -133,10 +129,10 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
                 }
                 else
                 {
-                    $existendTrigger =& $triggers[$trigger['key']];
+                    $existendTrigger = $triggers[$trigger['key']];
                     if ( $existendTrigger->attribute( 'workflow_id' ) != $workflowID )
                     {
-                        $existendTrigger =& $triggers[$trigger['key']];
+                        $existendTrigger = $triggers[$trigger['key']];
                         $existendTrigger->setAttribute( 'workflow_id', $workflowID );
                         $existendTrigger->store();
                     }
@@ -145,7 +141,7 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
             }
             else if ( array_key_exists( $trigger['key'], $triggers ) )
             {
-                $existendTrigger =& $triggers[$trigger['key']];
+                $existendTrigger = $triggers[$trigger['key']];
                 $existendTrigger->remove();
                 //remove trigger
             }

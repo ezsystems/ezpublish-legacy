@@ -181,7 +181,7 @@ $debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "err
 
 
 $userRedirectURI = '';
-$requestedURI =& $GLOBALS['eZRequestedURI'];
+$requestedURI = $GLOBALS['eZRequestedURI'];
 if ( strtolower( get_class( $requestedURI ) ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );

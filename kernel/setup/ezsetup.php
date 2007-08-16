@@ -28,8 +28,7 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-$siteBasics =& $GLOBALS['eZSiteBasics'];
-$siteBasics['no-cache-adviced'] = false;
+$GLOBALS['eZSiteBasics']['no-cache-adviced'] = false;
 
 include_once( "lib/eztemplate/classes/eztemplate.php" );
 include_once( "lib/eztemplate/classes/eztemplatesectionfunction.php" );
@@ -169,7 +168,7 @@ while( !$done && $step != null )
 // Some common variables for all steps
     $tpl->setVariable( "script", eZSys::serverVariable( 'PHP_SELF' ) );
 
-    $siteBasics =& $GLOBALS['eZSiteBasics'];
+    $siteBasics = $GLOBALS['eZSiteBasics'];
     $useIndex = $siteBasics['validity-check-required'];
 
     if ( $useIndex )
