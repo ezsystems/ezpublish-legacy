@@ -399,7 +399,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
-    $nodeParentNodeID = & $node->attribute( 'parent_node_id' );
+    $nodeParentNodeID = $node->attribute( 'parent_node_id' );
 
     $object = $node->object();
     if ( !$object )

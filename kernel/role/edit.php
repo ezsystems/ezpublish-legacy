@@ -191,7 +191,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                 $currentModule = $http->postVariable( 'CurrentModule' );
                 $currentFunction = $http->postVariable( 'CurrentFunction' );
 
-                $mod = & eZModule::exists( $currentModule );
+                $mod = eZModule::exists( $currentModule );
                 $functions = $mod->attribute( 'available_functions' );
                 $currentFunctionLimitations = $functions[ $currentFunction ];
                 foreach ( $currentFunctionLimitations as $functionLimitation )
@@ -224,7 +224,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                                                         'FunctionName' => $currentFunction,
                                                         'Limitation' => '' ) );
 
-        $mod = & eZModule::exists( $currentModule );
+        $mod = eZModule::exists( $currentModule );
         $functions = $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
@@ -281,7 +281,7 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
     $currentModule = $http->postVariable( 'Modules' );
     if ( $currentModule != '*' )
     {
-        $mod = & eZModule::exists( $currentModule );
+        $mod = eZModule::exists( $currentModule );
         $functions = $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
     }
@@ -370,7 +370,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
     if ( $http->hasPostVariable( 'CurrentModule' ) )
         $currentModule = $http->postVariable( 'CurrentModule' );
 
-    $mod = & eZModule::exists( $currentModule );
+    $mod = eZModule::exists( $currentModule );
     $functions = $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 
@@ -433,9 +433,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $currentFunction = $http->postVariable( 'ModuleFunction' );
 
     $currentFunctionLimitations = array();
-    foreach( array_keys( $functions[ $currentFunction ] ) as $key )
+    foreach( $functions[ $currentFunction ] as $key => $limitation )
     {
-        $limitation =& $functions[ $currentFunction ][ $key ];
         if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             $basePath = 'kernel/'; //set default basepath for limitationValueClasses
@@ -707,7 +706,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 if ( $http->hasPostVariable( 'DiscardLimitation' )  || $http->hasPostVariable( 'Step2')  )
 {
     $currentModule = $http->postVariable( 'CurrentModule' );
-    $mod = & eZModule::exists( $currentModule );
+    $mod = eZModule::exists( $currentModule );
     $functions = $mod->attribute( 'available_functions' );
     $functionNames = array_keys( $functions );
 

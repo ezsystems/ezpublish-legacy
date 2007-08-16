@@ -28,11 +28,10 @@
 function makeTriggerArray( $triggerList )
 {
     $triggerArray = array();
-    foreach ( array_keys( $triggerList ) as $key )
+    foreach ( $triggerList as $trigger )
     {
-        $trigger =& $triggerList[$key];
         $newKey = $trigger->attribute( 'module_name' ) . '_' . $trigger->attribute( 'function_name' ) . '_' . $trigger->attribute( 'connect_type' );
-        $triggerArray[$newKey] =& $trigger;
+        $triggerArray[$newKey] = $trigger;
     }
     return $triggerArray;
 }
@@ -48,8 +47,8 @@ $http = eZHTTPTool::instance();
 
 $Module = $Params['Module'];
 
-$moduleName= & $Params['ModuleName1'];
-$functionName= & $Params['FunctionName1'];
+$moduleName = $Params['ModuleName1'];
+$functionName = $Params['FunctionName1'];
 
 $wfINI = eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );

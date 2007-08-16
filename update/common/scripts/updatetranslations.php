@@ -90,7 +90,7 @@ include_once( 'lib/ezdb/classes/ezdb.php' );
 $db = eZDB::instance();
 $db->setIsSQLOutputEnabled( $showSQL );
 
-$attributeList =& eZContentClassAttribute::fetchList( true, array( 'version' => 0 ) );
+$attributeList = eZContentClassAttribute::fetchList( true, array( 'version' => 0 ) );
 
 $classAttributeIDList = array();
 $classDataTypeList = array();
@@ -111,10 +111,8 @@ $script->resetIteration( $objectCount );
 while ( $index < $objectCount )
 {
     $objectList = eZContentObject::fetchList( true, null, $index, $maxFetch );
-    foreach ( array_keys( $objectList ) as $objectKey )
+    foreach ( $objectList as $object )
     {
-        $object =& $objectList[$objectKey];
-
         $currentVersion = $object->currentVersion();
 
         if ( !is_object( $currentVersion ) )
@@ -124,18 +122,17 @@ while ( $index < $objectCount )
             continue;
         }
 
-        $versions =& $object->versions();
-        $classAttributes = & eZContentClassAttribute::fetchListByClassID( $object->attribute( 'contentclass_id' ) );
+        $versions = $object->versions();
+        $classAttributes = eZContentClassAttribute::fetchListByClassID( $object->attribute( 'contentclass_id' ) );
 
         $updated = false;
         $allFixed = true;
-        foreach ( array_keys( $versions ) as $versionKey )
+        foreach ( $versions as $version )
         {
-            $version =& $versions[$versionKey];
             $translations = $version->translationList( false, false );
             foreach ( $translations as $languageCode )
             {
-                $attributes =& $version->contentObjectAttributes( $languageCode );
+                $attributes = $version->contentObjectAttributes( $languageCode );
 
                 foreach ( $classAttributes as $classAttribute )
                 {
@@ -160,7 +157,7 @@ while ( $index < $objectCount )
                         //this initilizes the new translated attribute with values from the original attribute
                         //uncomment to create 'empty' attributes instead (also change the initialize command below)
 
-                        $orgAttributes =& $version->contentObjectAttributes();
+                        $orgAttributes = $version->contentObjectAttributes();
                         foreach ( $orgAttributes as $orgAttribute )
                         {
                             if ( $classAttributeID == $orgAttribute->attribute( 'contentclassattribute_id' ) )
@@ -178,9 +175,8 @@ while ( $index < $objectCount )
                     }
                 }
 
-                foreach ( array_keys( $attributes ) as $attributeKey )
+                foreach ( $attributes as $attribute )
                 {
-                    $attribute =& $attributes[$attributeKey];
                     $dataType = $attribute->dataType();
                     $status = $dataType->repairContentObjectAttribute( $attribute );
                     if ( $status === true )

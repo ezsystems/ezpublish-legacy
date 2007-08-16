@@ -71,9 +71,8 @@ else
 $currentFunctionLimitations = array();
 if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
 {
-    foreach ( array_keys( $functions[$currentFunction] ) as $key )
+    foreach ( $functions[$currentFunction] as $key => $limitation )
     {
-        $limitation =& $functions[$currentFunction][$key];
         if ( ( count( $limitation['values'] ) == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             $basePath = 'kernel/'; //set default basepath for limitationValueClasses

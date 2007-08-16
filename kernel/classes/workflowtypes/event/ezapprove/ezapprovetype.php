@@ -289,7 +289,7 @@ class eZApproveType extends eZWorkflowEventType
             $approveUserIDArray = array_unique( $approveUserIDArray );
 
             $collaborationID = false;
-            $db = & eZDb::instance();
+            $db = eZDb::instance();
             $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
             if ( count( $taskResult ) > 0 )
                 $collaborationID = $taskResult[0]['collaboration_id'];
@@ -595,7 +595,7 @@ class eZApproveType extends eZWorkflowEventType
         $authorID = $userID;
         $collaborationItem = eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
                                                                             $authorID, $editors );
-        $db = & eZDb::instance();
+        $db = eZDb::instance();
         $db->query( 'INSERT INTO ezapprove_items( workflow_process_id, collaboration_id )
                        VALUES(' . $process->attribute( 'id' ) . ',' . $collaborationItem->attribute( 'id' ) . ' ) ' );
     }
@@ -726,7 +726,7 @@ class eZApproveType extends eZWorkflowEventType
 
     function checkApproveCollaboration( &$process, &$event )
     {
-        $db = & eZDb::instance();
+        $db = eZDb::instance();
         $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
         $collaborationID = $taskResult[0]['collaboration_id'];
         $collaborationItem = eZCollaborationItem::fetch( $collaborationID );

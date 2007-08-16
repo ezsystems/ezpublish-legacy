@@ -717,7 +717,7 @@ class eZModule
         }
         if ( isset( $this->Functions[$view]['single_post_actions'] ) )
         {
-            $singlePostActions =& $this->Functions[$view]['single_post_actions'];
+            $singlePostActions = $this->Functions[$view]['single_post_actions'];
             foreach( $singlePostActions as $postActionName => $realActionName )
             {
                 if ( $http->hasPostVariable( $postActionName ) )
@@ -729,7 +729,7 @@ class eZModule
         }
         if ( isset( $this->Functions[$view]['post_actions'] ) )
         {
-            $postActions =& $this->Functions[$view]['post_actions'];
+            $postActions = $this->Functions[$view]['post_actions'];
             foreach( $postActions as $postActionName )
             {
                 if ( $http->hasPostVariable( $postActionName ) )
@@ -739,19 +739,7 @@ class eZModule
                 }
             }
         }
-/*        if ( isset( $this->Functions[$view]['group_post_actions'] ) )
-        {
-            $singlePostActions =& $this->Functions[$view]['group_post_actions'];
-            foreach( $singlePostActions as $postActionName => $realActionName )
-            {
-                if ( $http->hasPostVariable( $postActionName ) )
-                {
-                    $this->ViewActions[$view] = $realActionName;
-                    return $this->ViewActions[$view];
-                }
-            }
-        }
-*/
+
         $this->ViewActions[$view] = false;
         return false;
     }
@@ -774,16 +762,18 @@ class eZModule
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
-            $postParameters =& $this->Functions[$view]['post_action_parameters'][$currentAction];
-            if ( isset( $postParameters[$parameterName] ) and
+            $postParameters = $this->Functions[$view]['post_action_parameters'][$currentAction];
+            if ( isset( $postParameters[$parameterName] ) &&
                  $http->hasPostVariable( $postParameters[$parameterName] ) )
+            {
                 return $http->postVariable( $postParameters[$parameterName] );
+            }
             $debug = eZDebug::instance();
             $debug->writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
         }
         if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
         {
-            $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
+            $postParameters = $this->Functions[$view]['post_value_action_parameters'][$currentAction];
             if ( isset( $postParameters[$parameterName] ) )
             {
                 $postVariables = $http->attribute( 'post' );
@@ -816,14 +806,16 @@ class eZModule
         $http = eZHTTPTool::instance();
         if ( isset( $this->Functions[$view]['post_action_parameters'][$currentAction] ) )
         {
-            $postParameters =& $this->Functions[$view]['post_action_parameters'][$currentAction];
+            $postParameters = $this->Functions[$view]['post_action_parameters'][$currentAction];
             if ( isset( $postParameters[$parameterName] ) and
                  $http->hasPostVariable( $postParameters[$parameterName] ) )
+            {
                 return true;
+            }
         }
         if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
         {
-            $postParameters =& $this->Functions[$view]['post_value_action_parameters'][$currentAction];
+            $postParameters = $this->Functions[$view]['post_value_action_parameters'][$currentAction];
             if ( isset( $postParameters[$parameterName] ) )
             {
                 $postVariables = $http->attribute( 'post' );
@@ -867,9 +859,11 @@ class eZModule
     */
     function addHook( $hookName, $function, $priority = 1, $expandParameters = true, $append = false )
     {
-        $hookEntries =& $this->HookList[$hookName];
+        $hookEntries = $this->HookList[$hookName];
         if ( !is_array( $hookEntries ) )
+        {
             $hookEntries = array();
+        }
         $entry = array( 'function' => $function,
                         'expand_parameters' => $expandParameters );
 
@@ -884,7 +878,7 @@ class eZModule
             while ( isset( $hookEntries[$position] ) )
                 --$position;
         }
-        $hookEntries[$position] = $entry;
+        $this->HookList[$hookName][$position] = $entry;
     }
 
     /*!
@@ -894,27 +888,33 @@ class eZModule
     function runHooks( $hookName, $parameters = null )
     {
         $status = null;
-        $hookEntries =& $this->HookList[$hookName];
+        $hookEntries = $this->HookList[$hookName];
         if ( isset( $hookEntries ) and
              is_array( $hookEntries ) )
         {
             ksort( $hookEntries );
-            foreach ( array_keys( $hookEntries ) as $hookKey )
+            foreach ( $hookEntries as $hookEntry )
             {
-                $hookEntry =& $hookEntries[$hookKey];
-                $function =& $hookEntry['function'];
-                $expandParameters =& $hookEntry['expand_parameters'];
+                $function = $hookEntry['function'];
+                $expandParameters = $hookEntry['expand_parameters'];
                 if ( is_string( $function ) )
                 {
                     $functionName = $function;
                     if ( function_exists( $functionName ) )
                     {
-                        if ( $parameters === null or $expandParameters === null )
-                            $retVal =& $functionName( $this );
+                        if ( $parameters === null ||
+                             $expandParameters === null )
+                        {
+                            $retVal = $functionName( $this );
+                        }
                         else if ( $expandParameters )
+                        {
                             $retVal = call_user_func_array( $functionName, array_merge( array( &$this ), $parameters ) );
+                        }
                         else
-                            $retVal =& $functionName( $this, $parameters );
+                        {
+                            $retVal = $functionName( $this, $parameters );
+                        }
                     }
                     else
                     {
@@ -924,19 +924,25 @@ class eZModule
                 }
                 else if ( is_array( $function ) )
                 {
-                    if ( isset( $function[0] ) and
+                    if ( isset( $function[0] ) &&
                          isset( $function[1] ) )
                     {
-                        $object =& $function[0];
+                        $object = $function[0];
                         $functionName = $function[1];
                         if ( method_exists( $object, $functionName ) )
                         {
                             if ( $parameters === null )
-                                $retVal =& $object->$function( $this );
+                            {
+                                $retVal = $object->$function( $this );
+                            }
                             else if ( $expandParameters )
+                            {
                                 $retVal = call_user_method_array( $functionName, $object, array_merge( array( &$this ), $parameters ) );
+                            }
                             else
-                                $retVal =& $object->$functionName( $this, $parameters );
+                            {
+                                $retVal = $object->$functionName( $this, $parameters );
+                            }
                         }
                         else
                         {
@@ -959,19 +965,19 @@ class eZModule
                 switch( $retVal )
                 {
                     case EZ_MODULE_HOOK_STATUS_OK:
-                        break;
+                    {
+                    } break;
+
                     case EZ_MODULE_HOOK_STATUS_FAILED:
                     {
                         $debug = eZDebug::instance();
                         $debug->writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
-                        break;
-                    }
+                    } break;
+
                     case EZ_MODULE_HOOK_STATUS_CANCEL_RUN:
                     {
-                        $status = $retVal;
-                        return $status;
-                        break;
-                    }
+                        return $retVal;
+                    } break;
                 }
             }
         }
