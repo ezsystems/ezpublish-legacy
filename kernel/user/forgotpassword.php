@@ -43,7 +43,7 @@ $tpl->setVariable( 'wrong_key', false );
 
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
-$hashKey =& $Params["HashKey"];
+$hashKey = $Params["HashKey"];
 $ini = eZINI::instance();
 
 if ( strlen( $hashKey ) == 32 )

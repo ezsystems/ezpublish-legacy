@@ -159,7 +159,7 @@ else if ( $Module->isCurrentAction( 'Export' ) && $inputValidated )
     $originalPdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
     if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == EZ_PDFEXPORT_CREATE_ONCE )
     {
-        $filename =& $originalPdfExport->attribute( 'filepath' );
+        $filename = $originalPdfExport->attribute( 'filepath' );
         if ( file_exists( $filename ) )
         {
             unlink( $filename );
@@ -221,7 +221,7 @@ function generatePDF( &$pdfExport, $toFile = false )
     $node = $pdfExport->attribute( 'source_node' );
     if ( $node )
     {
-        $object =& $node->attribute( 'object' );
+        $object = $node->attribute( 'object' );
 
         $tpl = templateInit();
 

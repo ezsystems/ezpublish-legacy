@@ -41,18 +41,13 @@ class eZProcess
 {
     static function run( $file, $Params = array(), $params_as_var = false )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezprocess" )
-            $instance =& $this;
-        else
-            $instance = eZProcess::instance();
-        return $instance->runFile( $Params, $file, $params_as_var );
+        return eZProcess::instance()->runFile( $Params, $file, $params_as_var );
     }
 
     /*!
      Helper function, executes the file.
      */
-    function &runFile( &$Params, $file, $params_as_var )
+    function runFile( $Params, $file, $params_as_var )
     {
         if ( $params_as_var )
         {
@@ -62,7 +57,9 @@ class eZProcess
                      $key != "this" and
                      $key != "file" and
                      !is_numeric( $key ) )
-                    ${$key} =& $Params[$key];
+                {
+                    ${$key} = $Params[$key];
+                }
             }
         }
 

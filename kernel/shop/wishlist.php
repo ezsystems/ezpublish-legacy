@@ -56,7 +56,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     //    {
     //        $content = $attribute->content();
     //        $price += $content->attribute( 'price' );
-    //        $priceObj =& $content;
+    //        $priceObj = $content;
     //    }
     //}
 
@@ -211,7 +211,7 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $collection = eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
     if ( $collection and $http->hasPostVariable( "ProductItemIDList" ) )
     {
-        $collectionItems =& $collection->itemList();
+        $collectionItems = $collection->itemList();
         $productItemIDlist = $http->postVariable( "ProductItemIDList" );
         $productItemCountList = $http->hasPostVariable( "ProductItemCountList" ) ? $http->postVariable( "ProductItemCountList" ) : false;
         if ( $productItemCountList == false )

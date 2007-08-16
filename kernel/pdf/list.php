@@ -61,10 +61,9 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
 
 $exportArray = eZPDFExport::fetchList();
 $exportList = array();
-foreach( array_keys( $exportArray ) as $exportID )
+foreach( $exportArray as $export )
 {
-    $export =& $exportArray[$exportID];
-    $exportList[$export->attribute( 'id' )] =& $export;
+    $exportList[$export->attribute( 'id' )] = $export;
 }
 
 $tpl = templateInit();

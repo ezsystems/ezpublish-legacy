@@ -217,7 +217,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop/vatrules', 'VAT rules' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 $Result['content'] = $tpl->fetch( "design:shop/vatrules.tpl" );
 
 ?>

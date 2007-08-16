@@ -40,7 +40,7 @@ $http = eZHTTPTool::instance();
 //$viewParameters = array( 'offset' => $Offset );
 
 //$nodeID = $http->postVariable( 'ContentNodeID' );
-$nodeID =& $Params['ContentNodeID'];
+$nodeID = $Params['ContentNodeID'];
 $user = eZUser::currentUser();
 
 $redirectURI = $http->hasSessionVariable( "LastAccessesURI" ) ? $http->sessionVariable( "LastAccessesURI" ): '';

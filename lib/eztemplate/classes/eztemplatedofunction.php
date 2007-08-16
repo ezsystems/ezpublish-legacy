@@ -99,7 +99,7 @@ class eZTemplateDoFunction
         $tpl->DoCounter++;
         $newNodes      = array();
         $nodePlacement = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
-        $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->DoCounter;
+        $uniqid        = md5( $nodePlacement[2] ) . "_" . $tpl->DoCounter;
 
         // initialize loop
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );

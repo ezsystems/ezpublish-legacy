@@ -199,7 +199,7 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
                               'url'  => false ) );
 
         $Result = array();
-        $Result['path'] =& $path;
+        $Result['path'] = $path;
         $Result['content'] = $tpl->fetch( "design:shop/removevattypes.tpl" );
         return;
     }
@@ -256,7 +256,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
 
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 $Result['content'] = $tpl->fetch( "design:shop/vattype.tpl" );
 
 ?>

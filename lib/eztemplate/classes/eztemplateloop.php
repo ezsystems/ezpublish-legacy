@@ -32,9 +32,9 @@
 // private class, should not be used outside of this file
 class eZTemplateLoopSequence
 {
-    function eZTemplateLoopSequence( &$array )
+    function eZTemplateLoopSequence( $array )
     {
-        $this->ArrayRef =& $array;
+        $this->ArrayRef = $array;
         $this->CurVal   =  current( $this->ArrayRef );
     }
 

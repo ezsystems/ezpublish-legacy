@@ -53,7 +53,7 @@ include_once( "kernel/common/template.php" );
 $tpl = templateInit();
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
-$Params['TemplateObject'] =& $tpl;
+$Params['TemplateObject'] = $tpl;
 
 // $http->removeSessionVariable( "RegisterUserID" );
 

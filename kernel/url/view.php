@@ -30,7 +30,7 @@
 */
 
 $Module = $Params['Module'];
-$urlID =& $Params['ID'];
+$urlID = $Params['ID'];
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
@@ -99,7 +99,7 @@ else
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 $http = eZHTTPTool::instance();
-$objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
+$objectList = eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
 $urlViewCount= eZURLObjectLink::fetchObjectVersionCount( $urlID );
 
 if ( $Module->isCurrentAction( 'EditObject' ) )

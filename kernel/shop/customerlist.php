@@ -35,7 +35,7 @@ include_once( "kernel/common/template.php" );
 
 include_once( "kernel/classes/ezorder.php" );
 
-$module =& $Params["module"];
+$module = $Params["module"];
 
 $offset = $Params['Offset'];
 $limit = 15;
@@ -61,7 +61,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Customer list' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 
 $Result['content'] = $tpl->fetch( "design:shop/customerlist.tpl" );
 

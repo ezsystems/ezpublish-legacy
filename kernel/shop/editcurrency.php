@@ -39,7 +39,7 @@ $module = $Params['Module'];
 $ini = eZINI::instance( 'site.ini' );
 
 $error = false;
-$originalCurrencyCode =& $Params['Currency'];
+$originalCurrencyCode = $Params['Currency'];
 $currencyParams = array( 'code' => false,
                          'symbol' => false,
                          'locale' => $ini->variable( 'RegionalSettings', 'Locale' ),

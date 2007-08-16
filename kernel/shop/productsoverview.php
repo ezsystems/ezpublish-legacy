@@ -34,8 +34,8 @@ include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
 $module = $Params['Module'];
-$offset =& $Params['Offset'];
-$productClassIdentifier =& $Params['ProductClass'];
+$offset = $Params['Offset'];
+$productClassIdentifier = $Params['ProductClass'];
 $productClass = false;
 $priceAttributeIdentifier = false;
 
@@ -59,18 +59,19 @@ if ( count( $productClassList ) > 0 )
 {
     if ( $productClassIdentifier )
     {
-        $keys = array_keys( $productClassList );
-        foreach( $keys as $key )
+        foreach( $productClassList as $productClassItem )
         {
-            $productClass =& $productClassList[$key];
-            if ( $productClass->attribute( 'identifier' ) === $productClassIdentifier )
+            if ( $productClassItem->attribute( 'identifier' ) === $productClassIdentifier )
+            {
+                $productClass = $productClassItem;
                 break;
+            }
         }
     }
     else
     {
         // use first element of $productClassList
-        $productClass =& $productClassList[0];
+        $productClass = $productClassList[0];
     }
 }
 

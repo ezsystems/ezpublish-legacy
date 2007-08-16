@@ -34,11 +34,11 @@ include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 $Module = $Params['Module'];
 $ClassID = null;
 if ( isset( $Params["ClassID"] ) )
-    $ClassID =& $Params["ClassID"];
+    $ClassID = $Params["ClassID"];
 
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
+    $GroupID = $Params["GroupID"];
 
 $class = eZContentClass::fetch( $ClassID );
 $ClassName = $class->attribute( 'name' );

@@ -145,7 +145,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
                               'url_alias' => $node->attribute( 'url_alias' ),
                               'node_id' => $node->attribute( 'node_id' ) );
 
-        $Result['path'] =& $path;
+        $Result['path'] = $path;
         $Result['title_path'] =& $titlePath;
 
         return $Result;

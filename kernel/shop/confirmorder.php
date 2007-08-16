@@ -102,18 +102,24 @@ switch( $operationResult['status'] )
         }
         else if ( isset( $operationResult['result'] ) )
         {
-            $result =& $operationResult['result'];
+            $result = $operationResult['result'];
             $resultContent = false;
             if ( is_array( $result ) )
             {
                 if ( isset( $result['content'] ) )
+                {
                     $resultContent = $result['content'];
+                }
                 if ( isset( $result['path'] ) )
+                {
                     $Result['path'] = $result['path'];
+                }
             }
             else
-                $resultContent =& $result;
-            $Result['content'] =& $resultContent;
+            {
+                $resultContent = $result;
+            }
+            $Result['content'] = $resultContent;
         }
     }break;
     case EZ_MODULE_OPERATION_CANCELED:

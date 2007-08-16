@@ -28,9 +28,9 @@
 
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
-$function =& $Params['Function'];
-$key =& $Params['Key'];
-$value =& $Params['Value'];
+$function = $Params['Function'];
+$key = $Params['Key'];
+$value = $Params['Value'];
 
 include_once( 'kernel/classes/ezpreferences.php' );
 

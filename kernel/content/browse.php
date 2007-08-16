@@ -180,7 +180,7 @@ $res->setKeys( array( array( 'view_offset', $Offset ),
                       array( 'navigation_part_identifier', $Result['navigation_part'] )
                       ) );
 
-//$Result['path'] =& $path;
+//$Result['path'] = $path;
 $Result['content'] = $tpl->fetch( 'design:content/browse.tpl' );
 
 if (isset( $globalSectionID ))

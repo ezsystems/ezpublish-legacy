@@ -35,7 +35,7 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 $Module = $Params['Module'];
 $WorkflowGroupID = null;
 if ( isset( $Params["GroupID"] ) )
-    $WorkflowGroupID =& $Params["GroupID"];
+    $WorkflowGroupID = $Params["GroupID"];
 
 // include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
 // $execStack =& eZExecutionStack::instance();

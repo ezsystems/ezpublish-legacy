@@ -87,12 +87,9 @@ $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'sort_field', $sortField );
 $tpl->setVariable( 'sort_order', $sortOrder );
 
-$path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
-                 'url' => false );
-
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
+                                'url' => false ) );
 
 $Result['content'] = $tpl->fetch( 'design:shop/archivelist.tpl' );
 ?>

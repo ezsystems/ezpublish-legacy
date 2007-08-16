@@ -34,7 +34,7 @@ include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 $Module = $Params['Module'];
 $GroupID = false;
 if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
+    $GroupID = $Params["GroupID"];
 
 $http = eZHTTPTool::instance();
 $http->setSessionVariable( 'FromGroupID', $GroupID );

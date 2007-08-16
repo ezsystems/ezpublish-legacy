@@ -27,7 +27,7 @@
 //
 
 $Module = $Params['Module'];
-$ObjectID =& $Params['ObjectID'];
+$ObjectID = $Params['ObjectID'];
 
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( "lib/ezdb/classes/ezdb.php" );

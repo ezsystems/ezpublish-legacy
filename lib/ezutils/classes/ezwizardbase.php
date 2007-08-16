@@ -56,8 +56,8 @@ class eZWizardBase
             $this->StorageName = $storageName;
         }
 
-        $this->TPL =& $tpl;
-        $this->Module =& $module;
+        $this->TPL = $tpl;
+        $this->Module = $module;
         $this->HTTP = eZHTTPTool::instance();
         $this->VariableList = $this->HTTP->sessionVariable( $this->StorageName . $this->VariableListName );
         $this->MetaData = $this->HTTP->sessionVariable( $this->StorageName . $this->MetaDataName );

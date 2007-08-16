@@ -73,10 +73,8 @@ else // no action yet: just displaying the template
     $tpl->setVariable( "delete_result", $orderNumbersString );
     $Result = array();
 
-    $path = array();
-    $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
-                     'url' => false );
-    $Result['path'] =& $path;
+    $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
+                                    'url' => false ) );
     $Result['content'] = $tpl->fetch( "design:shop/removeorder.tpl" );
 }
 ?>

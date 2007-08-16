@@ -109,7 +109,7 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Status' ),
                  'url' => false );
 
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 $Result['content'] = $tpl->fetch( "design:shop/status.tpl" );
 
 ?>

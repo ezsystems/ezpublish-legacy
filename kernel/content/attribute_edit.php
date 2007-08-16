@@ -49,9 +49,9 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 if ( isset( $Module ) )
     $Module = $Params['Module'];
-$ObjectID =& $Params['ObjectID'];
+$ObjectID = $Params['ObjectID'];
 if ( !isset( $EditVersion ) )
-    $EditVersion =& $Params['EditVersion'];
+    $EditVersion = $Params['EditVersion'];
 
 if ( !isset( $EditLanguage ) and
      isset( $Params['EditLanguage'] ) )

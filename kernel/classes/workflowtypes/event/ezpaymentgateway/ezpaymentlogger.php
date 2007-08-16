@@ -44,14 +44,12 @@ class eZPaymentLogger
 
     static function CreateNew($fileName)
     {
-        $theLogger = new eZPaymentLogger( $fileName, "wt" );
-        return $theLogger;
+        return new eZPaymentLogger( $fileName, "wt" );
     }
 
     static function CreateForAdd($fileName)
     {
-        $theLogger = new eZPaymentLogger( $fileName, "a+t" );
-        return $theLogger;
+        return new eZPaymentLogger( $fileName, "a+t" );
     }
 
     function writeString( $string, $label='' )

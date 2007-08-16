@@ -79,7 +79,7 @@ replace "&\$contentObject" "\$contentObject" -- `find * -name "*.php"`
 
 replace "&\$element" "\$element" -- `find * -name "*.php"`
 replace "&\$doc" "\$doc" -- `find * -name "*.php"`
-
+replace "=& \$path" "= \$path" -- `find * -name "*.php"`
 
 
 

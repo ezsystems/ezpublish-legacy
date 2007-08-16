@@ -142,7 +142,7 @@ if ( $module->isCurrentAction( 'Remove' ) )
             $path = array( array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                                   'url' => false ) );
             $Result = array();
-            $Result['path'] =& $path;
+            $Result['path'] = $path;
             $Result['content'] = $tpl->fetch( "design:shop/removeproductcategories.tpl" );
             return;
         }
@@ -204,7 +204,7 @@ $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                  'url' => false );
 $Result = array();
-$Result['path'] =& $path;
+$Result['path'] = $path;
 $Result['content'] = $tpl->fetch( "design:shop/productcategories.tpl" );
 
 ?>

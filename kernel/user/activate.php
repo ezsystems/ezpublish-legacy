@@ -34,8 +34,8 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
 
 $Module = $Params['Module'];
 //$http = eZHTTPTool::instance();
-$hash =& $Params['Hash'];
-$mainNodeID =& $Params['MainNodeID'];
+$hash = $Params['Hash'];
+$mainNodeID = $Params['MainNodeID'];
 
 // Check if key exists
 $accountActivated = false;

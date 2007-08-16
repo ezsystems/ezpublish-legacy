@@ -87,9 +87,9 @@ $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 eZSys::initIni( $ini );
 
-$uri =& eZURI::instance( eZSys::requestURI() );
+$uri = eZURI::instance( eZSys::requestURI() );
 
-$GLOBALS['eZRequestedURI'] =& $uri;
+$GLOBALS['eZRequestedURI'] = $uri;
 
 include_once( 'pre_check.php' );
 
@@ -100,7 +100,7 @@ $access = accessType( $uri,
                       eZSys::serverPort(),
                       eZSys::indexFile() );
 $access = changeAccess( $access );
-$GLOBALS['eZCurrentAccess'] =& $access;
+$GLOBALS['eZCurrentAccess'] = $access;
 
 $db = eZDB::instance();
 if ( $db->isConnected() )
@@ -128,15 +128,14 @@ $function_name = 'treemenu';
 $uri->increase();
 $uri->increase();
 
-$currentUser =& eZUser::currentUser();
+$currentUser = eZUser::currentUser();
 $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
 $hasAccessToSite = false;
 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
 {
     $policyChecked = false;
-    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+    foreach ( $siteAccessResult['policies'] as $policy )
     {
-        $policy =& $siteAccessResult['policies'][$key];
         if ( isset( $policy['SiteAccess'] ) )
         {
             $policyChecked = true;
@@ -168,8 +167,8 @@ if ( !$hasAccessToSite )
     return;
 }
 
-$GLOBALS['eZRequestedModule'] =& $module;
-$moduleResult =& $module->run( $function_name, false, false, false );
+$GLOBALS['eZRequestedModule'] = $module;
+$moduleResult = $module->run( $function_name, false, false, false );
 
 eZExecution::cleanup();
 eZExecution::setCleanExit();

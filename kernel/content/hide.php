@@ -27,7 +27,7 @@
 //
 
 $Module = $Params['Module'];
-$NodeID =& $Params['NodeID'];
+$NodeID = $Params['NodeID'];
 
 $curNode = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$curNode )

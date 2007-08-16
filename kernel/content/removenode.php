@@ -46,7 +46,7 @@ $ObjectID = $Params['ObjectID'];
 
 $NodeID = $Params['NodeID'];
 if ( !isset( $EditVersion ) )
-    $EditVersion =& $Params['EditVersion'];
+    $EditVersion = $Params['EditVersion'];
 
 $object = eZContentObject::fetch( $ObjectID );
 if ( $object === null )

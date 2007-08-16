@@ -34,7 +34,7 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 $Module = $Params['Module'];
 $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
-    $GroupID =& $Params["GroupID"];
+    $GroupID = $Params["GroupID"];
 $http = eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteClassIDArray" );
 $DeleteResult = array();

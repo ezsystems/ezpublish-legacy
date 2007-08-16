@@ -32,7 +32,7 @@ include_once( "kernel/classes/ezpackage.php" );
 $http = eZHTTPTool::instance();
 
 $module = $Params['Module'];
-$packageName =& $Params['PackageName'];
+$packageName = $Params['PackageName'];
 $currentItem = 0;
 $doItemInstall = false;
 

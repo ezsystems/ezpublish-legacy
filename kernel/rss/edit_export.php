@@ -85,7 +85,7 @@ else if ( $Module->isCurrentAction( 'BrowseImage' ) )
 }
 else if ( $Module->isCurrentAction( 'RemoveImage' ) )
 {
-    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+    $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->setAttribute( 'image_id', 0 );
     $rssExport->store();
 }
@@ -172,9 +172,8 @@ if ( is_numeric( $RSSExportID ) )
             $rssItems = $rssExport->fetchItems();
             $rssExport->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
             $rssExport->store();
-            foreach( array_keys( $rssItems ) as $key )
+            foreach( $rssItems as $rssItem )
             {
-                $rssItem =& $rssItems[$key];
                 $rssItem->setAttribute( 'status', EZ_RSSEXPORT_STATUS_DRAFT );
                 $rssItem->store();
             }
