@@ -185,7 +185,7 @@ class eZDataType
     */
     static function registeredDataTypes()
     {
-        $types = $GLOBALS["eZDataTypes"];
+        $types = isset( $GLOBALS["eZDataTypes"] ) ? $GLOBALS["eZDataTypes"] : null;
         if ( isset( $types ) )
         {
             foreach ( $types as $dataTypeString => $className )
@@ -198,8 +198,9 @@ class eZDataType
             uasort( $GLOBALS["eZDataTypeObjects"],
                     create_function( '$a, $b',
                                      'return strcmp( $a->Name, $b->Name);' ) );
-        }
         return $GLOBALS["eZDataTypeObjects"];
+        }
+        return null;
     }
 
     /*!
