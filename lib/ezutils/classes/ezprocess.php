@@ -49,7 +49,7 @@ class eZProcess
      */
     function runFile( $Params, $file, $params_as_var )
     {
-        $Result = false;
+        $Result = null;
         if ( $params_as_var )
         {
             foreach ( $Params as $key => $dummy )
@@ -68,7 +68,8 @@ class eZProcess
         {
 
             $includeResult = include( $file );
-            if ( !isset( $Result ) and $includeResult != 1 )
+            if ( empty( $Result ) &&
+                 $includeResult != 1 )
             {
                 $Result = $includeResult;
             }
