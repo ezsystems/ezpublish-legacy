@@ -454,9 +454,9 @@ class eZXMLOutputHandler
                 continue;
             }
 
-            if ( substr( $name, 0, 6 ) == 'custom:' )
+            if ( strpos( $name, 'custom:' ) === 0 )
             {
-                $name = substr( $name, strpos( $name, ':' ) + 1 );
+                $name = substr( $name, 7 );
             }
 
             $vars[$name] = $value;
