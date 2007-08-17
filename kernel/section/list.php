@@ -57,42 +57,80 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
     return;
 }
 
+
+
+
+
+
+
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    $currentUser =& eZUser::currentUser();
+    $accessResult = $currentUser->hasAccessTo( 'section', '*' );
+    //var_dump( $accessResult );
+
+
+
+
+
+
+
+
+
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
-    $sectionIDArray = $http->postVariable( 'SectionIDArray' );
-    $http->setSessionVariable( 'SectionIDArray', $sectionIDArray );
-    $sections = array();
-    foreach ( $sectionIDArray as $sectionID )
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    $currentUser =& eZUser::currentUser();
+    $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
+    if ( $accessResult['accessWord'] == 'yes' )
     {
-        $section = eZSection::fetch( $sectionID );
-        $sections[] =& $section;
+        $sectionIDArray = $http->postVariable( 'SectionIDArray' );
+        $http->setSessionVariable( 'SectionIDArray', $sectionIDArray );
+        $sections = array();
+        foreach ( $sectionIDArray as $sectionID )
+        {
+            $section = eZSection::fetch( $sectionID );
+            $sections[] =& $section;
+        }
+        $tpl->setVariable( 'delete_result', $sections );
+        $Result = array();
+        $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
+        $Result['path'] = array( array( 'url' => false,
+                                        'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
+        return;
     }
-    $tpl->setVariable( 'delete_result', $sections );
-    $Result = array();
-    $Result['content'] =& $tpl->fetch( "design:section/confirmremove.tpl" );
-    $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
-    return;
-
+    else
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
 }
 
 if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 {
-    $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
-
-    $db =& eZDB::instance();
-    $db->begin();
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
-    foreach ( $sectionIDArray as $sectionID )
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    $currentUser =& eZUser::currentUser();
+    $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
+    if ( $accessResult['accessWord'] == 'yes' )
     {
-        $section = eZSection::fetch( $sectionID );
-        if( $section === null )
-            continue;
-        // Clear content cache if needed
-        eZContentCacheManager::clearContentCacheIfNeededBySectionID( $sectionID );
-        $section->remove( );
+        $sectionIDArray =& $http->sessionVariable( 'SectionIDArray' );
+
+        $db =& eZDB::instance();
+        $db->begin();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        foreach ( $sectionIDArray as $sectionID )
+        {
+            $section = eZSection::fetch( $sectionID );
+            if( $section === null )
+                continue;
+            // Clear content cache if needed
+            eZContentCacheManager::clearContentCacheIfNeededBySectionID( $sectionID );
+            $section->remove( );
+        }
+        $db->commit();
     }
-    $db->commit();
+    else
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
 }
 
 $viewParameters = array( 'offset' => $offset );

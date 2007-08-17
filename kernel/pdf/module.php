@@ -69,8 +69,9 @@ $ViewList['list'] = array(
     'post_action_parameters' => array( 'RemoveExport' => array( 'DeleteIDArray' => 'DeleteIDArray' ) ),
     'unordered_params' => array( 'language' => 'Language' ) );
 
-$FunctionList['create'] = array( );
 
-$FunctionList['edit'] = array( );
+$FunctionList = array();
+$FunctionList['create'] = array();
+$FunctionList['edit'] = array();
 
 ?>
