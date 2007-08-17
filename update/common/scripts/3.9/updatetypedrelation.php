@@ -95,11 +95,7 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmltexttype.php' );
-
-$xml = new eZXML();
-
 
 function AddObjectRelation( $fromObjectID, $fromObjectVersion, $toObjectID, $relationType )
 {
@@ -153,9 +149,9 @@ function AddNewRelations( $objectID, $version, $relatedObjectIDArray, $cli )
 }
 
 
-function getRelatedObjectsID( &$domDocument, $tagName, $objectIDArray )
+function getRelatedObjectsID( $domDocument, $tagName, $objectIDArray )
 {
-    $xmlNodeList = $domDocument->get_elements_by_tagname( $tagName );
+    $xmlNodeList = $domDocument->getElementsByTagName( $tagName );
     if ( !is_array( $xmlNodeList ) )
     {
         return;
@@ -230,8 +226,11 @@ for ( $offset = 0; ; $offset += QUERY_LIMIT )
             }
         }
 
-        $text = $xmlField['data_text'];
-        $doc =& $xml->domTree( $text, array( "TrimWhiteSpace" => false ) );
+        if ( empty( $xmlField['data_text'] ) )
+        {
+            continue;
+        }
+        $doc = DomDocument::loadXML( $xmlField['data_text'] );
 
         if ( $doc )
         {
