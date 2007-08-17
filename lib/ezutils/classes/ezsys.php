@@ -144,11 +144,7 @@ class eZSys
     */
     static function osType()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->OSType;
+        return eZSys::instance()->OSType;
     }
 
     /*!
@@ -162,11 +158,7 @@ class eZSys
     */
     static function osName()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->OS;
+        return eZSys::instance()->OS;
     }
 
     /*!
@@ -175,11 +167,7 @@ class eZSys
     */
     static function filesystemType()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->FileSystemType;
+        return eZSys::instance()->FileSystemType;
     }
 
     /*!
@@ -188,11 +176,7 @@ class eZSys
     */
     static function fileSeparator()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->FileSeparator;
+        return eZSys::instance()->FileSeparator;
     }
 
     /*!
@@ -272,11 +256,7 @@ class eZSys
     */
     static function escapeShellArgument( $argument )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        $escapeChar = $instance->ShellEscapeCharacter;
+        $escapeChar = eZSys::instance()->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
         $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
         $argument = $escapeChar . $argument . $escapeChar;
@@ -291,10 +271,7 @@ class eZSys
     */
     static function createShellArgument( $argumentText, $replaceList )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
         $elements = $instance->splitArgumentIntoElements( $argumentText );
         $replacedElements = array();
         foreach ( $elements as $element )
@@ -326,10 +303,6 @@ class eZSys
     */
     static function splitArgumentIntoElements( $argumentText )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
         $argumentElements = array();
         $pos = 0;
 
@@ -410,10 +383,7 @@ class eZSys
     */
     static function mergeArgumentElements( $argumentElements )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
         $argumentText = '';
         foreach ( $argumentElements as $element )
         {
@@ -435,11 +405,7 @@ class eZSys
     */
     static function backupFilename()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->BackupFilename;
+        return eZSys::instance()->BackupFilename;
     }
 
     /*!
@@ -448,11 +414,7 @@ class eZSys
     */
     static function lineSeparator()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->LineSeparator;
+        return eZSys::instance()->LineSeparator;
     }
 
     /*!
@@ -461,11 +423,7 @@ class eZSys
     */
     static function envSeparator()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->EnvSeparator;
+        return eZSys::instance()->EnvSeparator;
     }
 
     /*!
@@ -523,10 +481,7 @@ class eZSys
     */
     static function rootDir()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
         if ( !$instance->RootDir )
         {
             $cwd  = getcwd();
@@ -592,10 +547,7 @@ class eZSys
     */
     static function indexFile( $withAccessList = true )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
         $text = $instance->IndexFile;
 
         $ini = eZINI::instance();
@@ -631,11 +583,7 @@ class eZSys
     */
     static function indexFileName()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->IndexFile;
+        return eZSys::instance()->IndexFile;
     }
 
     /*!
@@ -716,8 +664,7 @@ class eZSys
     */
     static function serverPort()
     {
-        $port =& $GLOBALS['eZSysServerPort'];
-        if ( !isset( $port ) )
+        if ( empty( $GLOBALS['eZSysServerPort'] ) )
         {
             $hostname = eZSys::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
@@ -728,8 +675,9 @@ class eZSys
             {
                 $port = eZSys::serverVariable( 'SERVER_PORT' );
             }
+            $GLOBALS['eZSysServerPort'] = $port;
         }
-        return $port;
+        return $GLOBALS['eZSysServerPort'];
     }
 
     /*!
@@ -865,10 +813,7 @@ class eZSys
     */
     static function addAccessPath( $path )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
         if ( !is_array( $path ) )
             $path = array( $path );
         $instance->AccessPath = array_merge( $instance->AccessPath, $path );
@@ -880,11 +825,7 @@ class eZSys
     */
     static function clearAccessPath()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        $instance->AccessPath = array();
+        eZSys::instance()->AccessPath = array();
     }
 
     /*!
@@ -919,10 +860,7 @@ class eZSys
     {
         $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
 
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
+        $instance = eZSys::instance();
 
         if ( eZSys::isDebugEnabled() )
         {
@@ -1084,9 +1022,9 @@ class eZSys
         }
 
         $instance->AccessPath = array();
-        $instance->SiteDir =& $siteDir;
-        $instance->WWWDir =& $wwwDir;
-        $instance->IndexFile =& $index;
+        $instance->SiteDir = $siteDir;
+        $instance->WWWDir = $wwwDir;
+        $instance->IndexFile = $index;
         $instance->RequestURI = $requestURI;
 
         if ( eZSys::isDebugEnabled() )
@@ -1105,11 +1043,7 @@ class eZSys
     */
     static function requestURI()
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "ezsys" )
-            $instance =& $this;
-        else
-            $instance = eZSys::instance();
-        return $instance->RequestURI;
+        return eZSys::instance()->RequestURI;
     }
 
     /*!
@@ -1118,12 +1052,11 @@ class eZSys
     */
     static function instance()
     {
-        $instance =& $GLOBALS["eZSysInstance"];
-        if ( strtolower( get_class( $instance ) ) != "ezsys" )
+        if ( empty( $GLOBALS['eZSysInstance'] ) )
         {
-            $instance = new eZSys();
+            $GLOBALS['eZSysInstance'] = new eZSys();
         }
-        return $instance;
+        return $GLOBALS['eZSysInstance'];
     }
 
     /*!

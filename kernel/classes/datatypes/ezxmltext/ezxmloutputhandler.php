@@ -49,15 +49,15 @@ class eZXMLOutputHandler
     /*!
      Constructor
     */
-    function eZXMLOutputHandler( &$xmlData, $aliasedType, $contentObjectAttribute = null )
+    function eZXMLOutputHandler( $xmlData, $aliasedType, $contentObjectAttribute = null )
     {
-        $this->XMLData =& $xmlData;
+        $this->XMLData = $xmlData;
         $this->AliasedType = $aliasedType;
         $this->AliasedHandler = null;
 
         if ( is_object( $contentObjectAttribute ) )
         {
-            $this->ContentObjectAttribute =& $contentObjectAttribute;
+            $this->ContentObjectAttribute = $contentObjectAttribute;
             $this->ObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         }
 
@@ -297,7 +297,7 @@ class eZXMLOutputHandler
             }
             elseif ( $nodes )
             {
-                $node =& $nodes;
+                $node = $nodes;
                 $nodeID = $node->attribute( 'node_id' );
                 $this->NodeArray["$nodeID"] = $node;
             }
@@ -321,19 +321,19 @@ class eZXMLOutputHandler
 
     // Main recursive functions for rendering tags
     //  $element        - current element
-    //  $sibilingParams - array of parameters that are passed by reference to all the children of the
+    //  $siblingParams - array of parameters that are passed by reference to all the children of the
     //                    current tag to provide a way to "communicate" between their handlers.
     //                    This array is empty for the first child.
     //  $parentParams   - parameter passed to this tag handler by the parent tag's handler.
     //                    This array is passed with no reference. Can by modified in tag's handler
     //                    for subordinate tags.
 
-    function outputTag( $element, &$sibilingParams, $parentParams = array() )
+    function outputTag( $element, &$siblingParams, $parentParams = array() )
     {
         $tagName = $element->localName;
         if ( isset( $this->OutputTags[$tagName] ) )
         {
-            $currentTag =& $this->OutputTags[$tagName];
+            $currentTag = $this->OutputTags[$tagName];
         }
         else
         {
@@ -394,7 +394,7 @@ class eZXMLOutputHandler
         // 'template_name'   (string) :
         //                   Overrides tag template name.
 
-        $result = $this->callTagInitHandler( 'initHandler', $element, $attributes, $sibilingParams, $parentParams );
+        $result = $this->callTagInitHandler( 'initHandler', $element, $attributes, $siblingParams, $parentParams );
 
         // Process children
         $childrenOutput = array();
@@ -435,11 +435,11 @@ class eZXMLOutputHandler
 
         if ( !isset( $currentTag['quickRender'] ) && isset( $currentTag['attrNamesTemplate'] ) )
         {
-            $attrRenameRules =& $currentTag['attrNamesTemplate'];
+            $attrRenameRules = $currentTag['attrNamesTemplate'];
         }
         elseif ( isset( $currentTag['quickRender'] ) && isset( $currentTag['attrNamesQuick'] ) )
         {
-            $attrRenameRules =& $currentTag['attrNamesQuick'];
+            $attrRenameRules = $currentTag['attrNamesQuick'];
         }
         else
         {
@@ -564,7 +564,7 @@ class eZXMLOutputHandler
 
     function renderTag( $element, $content, $vars )
     {
-        $currentTag =& $this->OutputTags[$element->nodeName];
+        $currentTag = $this->OutputTags[$element->nodeName];
         if ( $currentTag && isset( $currentTag['quickRender'] ) )
         {
             $renderedTag = '';
@@ -622,15 +622,16 @@ class eZXMLOutputHandler
         return array( false, $tagText );
     }
 
-    function callTagInitHandler( $handlerName, $element, &$attributes, &$sibilingParams, &$parentParams )
+    function callTagInitHandler( $handlerName, $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $result = array();
-        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
             {
-                eval( '$result = $this->' . $thisOutputTag[$handlerName] . '( $element, $attributes, $sibilingParams, $parentParams );' );
+                $result = call_user_func_array( array( $this, $thisOutputTag[$handlerName] ),
+                                                array( $element, &$attributes, &$siblingParams, &$parentParams ) );
             }
         }
         return $result;
@@ -639,7 +640,7 @@ class eZXMLOutputHandler
     function callTagRenderHandler( $handlerName, $element, $childrenOutput, $vars )
     {
         $result = array();
-        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             $handlerFunction = $thisOutputTag[$handlerName];
@@ -651,7 +652,8 @@ class eZXMLOutputHandler
 
         if ( is_callable( array( $this, $handlerFunction ) ) )
         {
-            eval( '$result = $this->' . $handlerFunction . '( $element, $childrenOutput, $vars );' );
+            $result = call_user_func_array( array( $this, $handlerFunction ),
+                                            array( $element, $childrenOutput, $vars ) );
         }
         else
         {

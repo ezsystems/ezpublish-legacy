@@ -134,10 +134,10 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     /*
         Parsing Handlers (called at pass 1)
     */
-    function &parsingHandlerLiteral( $element, &$param )
+    function parsingHandlerLiteral( $element, &$param )
     {
         $ret = null;
-        $data =& $param[0];
+        $data = $param[0];
         $pos =& $param[1];
 
         $tablePos = strpos( $data, '</literal>', $pos );
@@ -162,14 +162,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function &breakInlineFlow( $element, $param )
+    function breakInlineFlow( $element, $param )
     {
         // Breaks the flow of inline tags. Used for non-inline tags caught within inline.
         // Works for tags with no children only.
         $ret = null;
         $data =& $param[0];
         $pos =& $param[1];
-        $tagBeginPos =& $param[2];
+        $tagBeginPos = $param[2];
         $parent = $element->parentNode;
 
         $wholeTagString = substr( $data, $tagBeginPos, $pos - $tagBeginPos );
@@ -178,7 +178,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
              $this->XMLSchema->isInline( $parent ) )
         {
             $insertData = '';
-            $currentParent =& $parent;
+            $currentParent = $parent;
             // Close all parent tags
             end( $this->ParentStack );
             do
@@ -187,14 +187,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $currentParentName = $stackData[0];
                 $insertData .= "</$currentParentName>";
                 $currentParent->setAttributeNS( 'http://ez.no/namespaces/ezpublish3/temporary/', 'tmp:new-element', 'true' );
-                $currentParent =& $currentParent->parentNode;
+                $currentParent = $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
             while( $this->XMLSchema->isInline( $currentParent ) );
 
             $insertData .= $wholeTagString;
 
-            $currentParent =& $parent;
+            $currentParent = $parent;
             end( $this->ParentStack );
             $appendData = '';
             do
@@ -208,7 +208,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
                 $currentParentAttrString .= " tmp:new-element='true'";
                 $appendData = "<$currentParentName$currentParentAttrString>" . $appendData;
-                $currentParent =& $currentParent->parentNode;
+                $currentParent = $currentParent->parentNode;
                 prev( $this->ParentStack );
             }
             while( $this->XMLSchema->isInline( $currentParent ) );
@@ -252,8 +252,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         {
             $element = $parent->removeChild( $element );
             $newParent->appendChild( $element );
-            $newLine =& $newParent;
-            $ret['result'] =& $newParent;
+            $newLine = $newParent;
+            $ret['result'] = $newParent;
         }
         elseif ( $parentName == 'paragraph' )
         {
@@ -284,7 +284,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for temporary <br> elements
-    function &structHandlerBr( $element, $newParent )
+    function structHandlerBr( $element, $newParent )
     {
         $ret = array();
         $ret['result'] = $newParent;
@@ -351,7 +351,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for in-paragraph nodes.
-    function &appendParagraph( $element, &$newParent )
+    function appendParagraph( $element, &$newParent )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -368,28 +368,28 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             {
                 $element = $parent->removeChild( $element );
                 $newParent->appendChild( $element );
-                $ret['result'] =& $newParent;
+                $ret['result'] = $newParent;
             }
             elseif ( $newParent && $newParent->parentNode && $newParent->parentNode->nodeName == 'paragraph' )
             {
-                $para =& $newParent->parentNode;
+                $para = $newParent->parentNode;
                 $element = $parent->removeChild( $element );
                 $para->appendChild( $element );
-                $ret['result'] =& $newParent->parentNode;
+                $ret['result'] = $newParent->parentNode;
             }
             elseif ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
                 $newPara = $this->createAndPublishElement( 'paragraph', $ret );
                 $parent->replaceChild( $newPara, $element );
                 $newPara->appendChild( $element );
-                $ret['result'] =& $newPara;
+                $ret['result'] = $newPara;
             }
         }
         return $ret;
     }
 
     // Structure handler for 'header' tag.
-    function &structHandlerHeader( $element, &$param )
+    function structHandlerHeader( $element, &$param )
     {
         $ret = null;
         $parent = $element->parentNode;
@@ -406,8 +406,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $current = $element;
             while( $current->parentNode )
             {
-                $tmp =& $current;
-                $current =& $tmp->parentNode;
+                $current = $current->parentNode;
                 if ( $current->nodeName == 'section' )
                 {
                     $sectionLevel++;
@@ -429,10 +428,10 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $this->handleError( EZ_XMLINPUTPARSER_ERROR_SCHEMA, "Incorrect headers nesting" );
                 }
 
-                $newParent =& $parent;
+                $newParent = $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
-                   $newSection =& $this->Document->createElement( 'section' );
+                   $newSection = $this->Document->createElement( 'section' );
                    if ( $i == $sectionLevel )
                    {
                        $newSection = $newParent->insertBefore( $newSection, $element );
@@ -442,7 +441,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                        $newParent->appendChild( $newSection );
                    }
 
-                   $newParent =& $newSection;
+                   $newParent = $newSection;
                    unset( $newSection );
                 }
                 $elementToMove = $element;
@@ -452,7 +451,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $next = $elementToMove->nextSibling;
                     $elementToMove = $parent->removeChild( $elementToMove );
                     $newParent->appendChild( $elementToMove );
-                    $elementToMove =& $next;
+                    $elementToMove = $next;
 
                     if ( $elementToMove->nodeName == 'header' )
                     {
@@ -462,10 +461,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         {
                             if ( $headerLevel == $level )
                             {
-                                $newParent2 =& $this->Document->createElement( 'section' );
+                                $newParent2 = $this->Document->createElement( 'section' );
                                 $newParent->parentNode->appendChild( $newParent2 );
-                                unset( $newParent );
-                                $newParent =& $newParent2;
+                                $newParent = $newParent2;
                             }
                             elseif ( $headerLevel < $level )
                             {
@@ -488,8 +486,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $current = $element;
                 while( $level < $newLevel )
                 {
-                    $tmp =& $current;
-                    $current =& $tmp->parentNode;
+                    $current = $current->parentNode;
                     if ( $current->nodeName == 'section' )
                     {
                         $newLevel--;
@@ -502,7 +499,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $next = $elementToMove->nextSibling;
                     $elementToMove = $parent->removeChild( $elementToMove );
                     $current->appendChild( $elementToMove );
-                    $elementToMove =& $next;
+                    $elementToMove = $next;
 
                     if ( $elementToMove->nodeName == 'header' &&
                          $elementToMove->getAttribute( 'level' ) <= $level )
@@ -516,22 +513,22 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Structure handler for 'custom' tag.
-    function &structHandlerCustom( $element, &$params )
+    function structHandlerCustom( $element, &$params )
     {
         $ret = null;
         if ( $this->XMLSchema->isInline( $element ) )
         {
-            $ret =& $this->appendLineParagraph( $element, $params );
+            $ret = $this->appendLineParagraph( $element, $params );
         }
         else
         {
-            $ret =& $this->appendParagraph( $element, $params );
+            $ret = $this->appendParagraph( $element, $params );
         }
         return $ret;
     }
 
     // Structure handler for 'ul' and 'ol' tags.
-    function &structHandlerLists( $element, &$params )
+    function structHandlerLists( $element, &$params )
     {
         $ret = array();
         $parent = $element->parentNode;
@@ -563,7 +560,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $para = $this->Document->createElement( 'paragraph' );
                     $element = $parent->removeChild( $element );
                     $prev->appendChild( $element );
-                    $ret['result'] =& $para;
+                    $ret['result'] = $para;
                 }
                 else
                 {
@@ -581,17 +578,17 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             {
                 $element = $parent->removeChild( $element );
                 $prev->appendChild( $element );
-                $ret['result'] =& $prev;
+                $ret['result'] = $prev;
                 return $ret;
             }
         }
-        $ret =& $this->appendParagraph( $element, $params );
+        $ret = $this->appendParagraph( $element, $params );
 
         return $ret;
     }
 
     // Structure handler for #text
-    function &structHandlerText( $element, &$newParent )
+    function structHandlerText( $element, &$newParent )
     {
         $ret = null;
         $parent = $element->parentNode;
@@ -655,7 +652,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         Publish handlers. (called at pass 2)
     */
     // Publish handler for 'paragraph' element.
-    function &publishHandlerParagraph( $element, &$params )
+    function publishHandlerParagraph( $element, &$params )
     {
         $ret = null;
         // Removes single line tag
@@ -680,7 +677,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'link' element.
-    function &publishHandlerLink( $element, &$params )
+    function publishHandlerLink( $element, &$params )
     {
         $ret = null;
 
@@ -818,7 +815,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'embed' element.
-    function &publishHandlerEmbed( $element, &$params )
+    function publishHandlerEmbed( $element, &$params )
     {
         $ret = null;
 
@@ -914,7 +911,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'object' element.
-    function &publishHandlerObject( $element, &$params )
+    function publishHandlerObject( $element, &$params )
     {
         $ret = null;
 
@@ -958,7 +955,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     }
 
     // Publish handler for 'custom' element.
-    function &publishHandlerCustom( $element, &$params )
+    function publishHandlerCustom( $element, &$params )
     {
         $ret = null;
 

@@ -159,7 +159,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $this->RenderParagraphInTableCells = false;
     }
 
-    function initHandlerSection( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerSection( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
         if( !isset( $parentParams['section_level'] ) )
@@ -180,7 +180,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerHeader( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerHeader( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $level = $parentParams['section_level'];
         $this->HeaderCount[$level]++;
@@ -208,7 +208,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerLink( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerLink( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
 
@@ -222,7 +222,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         elseif ( $element->getAttribute( 'node_id' ) != null )
         {
             $nodeID = $element->getAttribute( 'node_id' );
-            $node =& $this->NodeArray[$nodeID];
+            $node = $this->NodeArray[$nodeID];
 
             if ( $node != null )
             {
@@ -241,7 +241,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         elseif ( $element->getAttribute( 'object_id' ) != null )
         {
             $objectID = $element->getAttribute( 'object_id' );
-            $object =& $this->ObjectArray["$objectID"];
+            $object = $this->ObjectArray["$objectID"];
             if ( $object )
             {
                 $node = $object->attribute( 'main_node' );
@@ -286,7 +286,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerEmbed( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerEmbed( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         // default return value in case of errors
         $ret = array( 'no_render' => true );
@@ -295,7 +295,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $objectID = $element->getAttribute( 'object_id' );
         if ( $objectID )
         {
-            $object =& $this->ObjectArray["$objectID"];
+            $object = $this->ObjectArray["$objectID"];
         }
         else
         {
@@ -304,9 +304,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 if ( isset( $this->NodeArray[$nodeID] ) )
                 {
-                    $node =& $this->NodeArray[$nodeID];
+                    $node = $this->NodeArray[$nodeID];
                     $objectID = $node->attribute( 'contentobject_id' );
-                    $object =& $node->object();
+                    $object = $node->object();
                     $tplSuffix = '_node';
                 }
                 else
@@ -374,7 +374,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTable( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTable( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         // Numbers of rows and cols are lower by 1 for back-compatibility.
         $rows = $element->childNodes;
@@ -391,18 +391,18 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTr( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTr( $element, &$attributes, &$siblingParams, &$parentParams )
     {
         $ret = array();
-        if( !isset( $sibilingParams['table_row_count'] ) )
-            $sibilingParams['table_row_count'] = 0;
+        if( !isset( $siblingParams['table_row_count'] ) )
+            $siblingParams['table_row_count'] = 0;
         else
-            $sibilingParams['table_row_count']++;
+            $siblingParams['table_row_count']++;
 
-        $parentParams['table_row_count'] = $sibilingParams['table_row_count'];
+        $parentParams['table_row_count'] = $siblingParams['table_row_count'];
 
         // Number of cols is lower by 1 for back-compatibility.
-        $cols =& $element->childNodes;
+        $cols = $element->childNodes;
         $colCount = $cols->length;
         if ( $colCount )
             $colCount--;
@@ -412,20 +412,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         return $ret;
     }
 
-    function initHandlerTd( $element, &$attributes, &$sibilingParams, &$parentParams )
+    function initHandlerTd( $element, &$attributes, &$siblingParams, &$parentParams )
     {
-        if( !isset( $sibilingParams['table_col_count'] ) )
-            $sibilingParams['table_col_count'] = 0;
+        if( !isset( $siblingParams['table_col_count'] ) )
+            $siblingParams['table_col_count'] = 0;
         else
-            $sibilingParams['table_col_count']++;
+            $siblingParams['table_col_count']++;
 
-        $ret = array( 'tpl_vars' => array( 'col_count' => $sibilingParams['table_col_count'],
-                                           'row_count' => $parentParams['table_row_count'] ) );
+        $ret = array( 'tpl_vars' => array( 'col_count' => &$siblingParams['table_col_count'],
+                                           'row_count' => &$parentParams['table_row_count'] ) );
         return $ret;
     }
 
-    function initHandlerCustom( $element, &$attributes, &$sibilingParams, &$parentParams )
-    {
+    function initHandlerCustom( $element, &$attributes, &$siblingParams, &$parentParams )
+{
         $ret = array( 'template_name' => $attributes['name'] );
         return $ret;
     }

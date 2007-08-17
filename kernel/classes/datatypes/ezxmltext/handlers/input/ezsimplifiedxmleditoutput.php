@@ -149,7 +149,7 @@ class eZSimplifiedXMLEditOutput
         $result = null;
         if ( $currentTag && isset( $currentTag['handler'] ) )
         {
-            $result =& $this->callOutputHandler( 'handler', $element, $attributes, $sectionLevel );
+            $result = $this->callOutputHandler( 'handler', $element, $attributes, $sectionLevel );
         }
 
         $hasChildren = $element->hasChildNodes();
@@ -263,13 +263,11 @@ class eZSimplifiedXMLEditOutput
             $lastChild = $element->lastChild;
             if ( $lastChild && $lastChild->nodeName == 'paragraph' && !$lastChild->hasAttributes() )
             {
-                $tmp =& $lastChild;
-                $lastChild =& $tmp->lastChild;
+                $lastChild = $lastChild->lastChild;
             }
             if ( $lastChild && $lastChild->nodeName == 'line' )
             {
-                $tmp =& $lastChild;
-                $lastChild =& $tmp->lastChild;
+                $lastChild = $lastChild->lastChild;
             }
             if ( $lastChild && !$this->XMLSchema->isInline( $lastChild ) )
             {
@@ -309,15 +307,16 @@ class eZSimplifiedXMLEditOutput
         }
     }
 
-    function &callOutputHandler( $handlerName, $element, &$params, &$sectionLevel )
+    function callOutputHandler( $handlerName, $element, &$params, &$sectionLevel )
     {
         $result = null;
-        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
         if ( isset( $thisOutputTag[$handlerName] ) )
         {
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
             {
-                eval( '$result =& $this->' . $thisOutputTag[$handlerName] . '( $element, $params, $sectionLevel );' );
+                $result = call_user_func_array( array( $this, $thisOutputTag[$handlerName] ),
+                                                array( $element, &$params, &$sectionLevel ) );
             }
             else
             {
@@ -331,7 +330,7 @@ class eZSimplifiedXMLEditOutput
     /*
         Tag handlers
     */
-    function &outputSection( $element, &$attributes, &$sectionLevel )
+    function outputSection( $element, &$attributes, &$sectionLevel )
     {
         $sectionLevel++;
 
@@ -339,7 +338,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputText( $element, &$attributes, &$sectionLevel )
+    function outputText( $element, &$attributes, &$sectionLevel )
     {
         $text = $element->textContent;
 
@@ -365,7 +364,7 @@ class eZSimplifiedXMLEditOutput
         return $text;
     }
 
-    function &outputTd( $element, &$attributes, &$sectionLevel )
+    function outputTd( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
 
@@ -374,14 +373,14 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputHeader( $element, &$attributes, &$sectionLevel )
+    function outputHeader( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $attributes['level'] = $sectionLevel;
         return $ret;
     }
 
-    function &outputParagraph( $element, &$attributes, &$sectionLevel )
+    function outputParagraph( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         if ( count( $attributes ) == 0 )
@@ -410,7 +409,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputLine( $element, &$attributes, &$sectionLevel )
+    function outputLine( $element, &$attributes, &$sectionLevel )
     {
         $ret = '';
         $next = $element->nextSibling;
@@ -421,7 +420,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputEmbed( $element, &$attributes, &$sectionLevel )
+    function outputEmbed( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $href = '';
@@ -440,7 +439,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputObject( $element, &$attributes, &$sectionLevel )
+    function outputObject( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         if ( isset( $attributes['image:ezurl_id'] ) )
@@ -455,7 +454,7 @@ class eZSimplifiedXMLEditOutput
         return $ret;
     }
 
-    function &outputLink( $element, &$attributes, &$sectionLevel )
+    function outputLink( $element, &$attributes, &$sectionLevel )
     {
         $ret = null;
         $href = '';

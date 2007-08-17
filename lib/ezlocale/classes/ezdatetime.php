@@ -116,7 +116,7 @@ class eZDateTime
             $datetime = mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
                                 $arr['mon'], $arr['mday'], $arr['year'] );
         }
-        $this->DateTime =& $datetime;
+        $this->DateTime = $datetime;
         $this->Locale = eZLocale::instance();
         $this->IsValid = $datetime > 0;
     }
@@ -394,7 +394,7 @@ class eZDateTime
         else
             $date = mktime( $arr['hours'], $arr['minutes'], $arr['seconds'],
                             $month );
-        $this->DateTime =& $date;
+        $this->DateTime = $date;
     }
 
     /*!
@@ -406,7 +406,7 @@ class eZDateTime
         $arr = getdate( $this->DateTime );
         $date = mktime( $hour + $arr['hours'], $minute + $arr['minutes'], $second + $arr['seconds'],
                         $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
-        $this->DateTime =& $date;
+        $this->DateTime = $date;
     }
 
     /*!
@@ -434,7 +434,7 @@ class eZDateTime
             if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
                 $dt2 = $datetime->timeStamp();
             else
-                $dt2 =& $datetime;
+                $dt2 = $datetime;
             if ( $dt1 > $dt2 )
                 return true;
             else if ( $equal and $dt1 == $dt2 )
@@ -467,7 +467,7 @@ class eZDateTime
             if ( strtolower( get_class( $datetime ) ) == 'ezdatetime' )
                 $dt2 = $datetime->timeStamp();
             else
-                $dt2 =& $datetime;
+                $dt2 = $datetime;
             return $dt1 == $dt2;
         }
     }

@@ -234,19 +234,12 @@ class eZXMLSchema
 
     static function instance()
     {
-        $impl =& $GLOBALS["eZXMLSchemaGlobalInstance"];
-
-        $class = strtolower( get_class( $impl ) );
-        if ( $class != "ezxmlschema" )
+        if ( empty( $GLOBALS["eZXMLSchemaGlobalInstance"] ) )
         {
-            unset( $impl );
-            $impl = new eZXMLSchema();
-
-            // Set global instance
-            $GLOBALS["eZXMLSchemaGlobalInstance"] =& $impl;
+            $GLOBALS["eZXMLSchemaGlobalInstance"] = new eZXMLSchema();
         }
 
-        return $impl;
+        return $GLOBALS["eZXMLSchemaGlobalInstance"];
     }
 
     // Determines if the tag is inline

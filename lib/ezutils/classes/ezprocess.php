@@ -81,12 +81,11 @@ class eZProcess
 
     static function instance()
     {
-        $instance =& $GLOBALS["eZProcessInstance"];
-        if ( strtolower( get_class( $instance ) ) != "ezprocess" )
+        if ( empty( $GLOBALS['eZProcessInstance'] ) )
         {
-            $instance = new eZProcess();
+            $GLOBALS['eZProcessInstance'] = new eZProcess();
         }
-        return $instance;
+        return $GLOBALS['eZProcessInstance'];
     }
 }
 
