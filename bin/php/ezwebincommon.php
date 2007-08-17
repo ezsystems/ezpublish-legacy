@@ -444,4 +444,144 @@ function checkSiteaccess( $siteAccess, $bailOutOnError = false )
     return $siteAccessExists;
 }
 
+//
+// For BC with eZWebin 1.2
+//
+function postInstallAdminSiteaccessINIUpdate( $params )
+{
+    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['admin_siteaccess'], null, false, null, true );
+    $siteINI->setVariable( "DesignSettings", "SiteDesign", $params['admin_siteaccess'] );
+    $siteINI->setVariable( "DesignSettings", "AdditionalSiteDesignList", array( "admin" ) );
+    $siteINI->setVariable( "SiteAccessSettings", "RelatedSiteAccessList", $params['all_siteaccess_list'] );
+    $siteINI->setVariable( "FileSettings", "VarDir", "var/ezwebin_site" );
+    $siteINI->save();
+}
+
+function postInstallUserSiteaccessINIUpdate( $params )
+{
+    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/siteaccess/" . $params['user_siteaccess'], null, false, null, true );
+    $siteINI->setVariable( "DesignSettings", "SiteDesign", $params['main_site_design'] );
+    $siteINI->setVariable( "SiteAccessSettings", "RelatedSiteAccessList", $params['all_siteaccess_list'] );
+    $siteINI->setVariable( "FileSettings", "VarDir", "var/ezwebin_site" );
+    $siteINI->save( false, false, false, false, true, true );
+}
+
+function createTranslationSiteAccesses( $params )
+{
+    foreach( $params['locales'] as $locale )
+    {
+        eZSiteInstaller::createSiteAccess( array( 'src' => array( 'siteaccess' => $params['user_siteaccess'] ),
+                                                  'dst' => array( 'siteaccess' => eZSiteInstaller::languageNameFromLocale( $locale ),
+                                                                  'locale' => $locale ) ) );
+    }
+}
+
+function resetINI( $settingsGroups, $iniToReset )
+{
+    foreach( $settingsGroups['groups'] as $settingsGroup )
+    {
+        if( $settingsGroup['name'] === $iniToReset )
+        {
+            $iniFilename = $settingsGroup['name'] . '.append.php';
+            $ini =& eZINI::instance( $iniFilename, $settingsGroups['settings_dir'] );
+            $ini->reset();
+        }
+    }
+}
+
+function languageMatrixDefinition()
+{
+    $matrixDefinition = new eZMatrixDefinition();
+    $matrixDefinition->addColumn( "Site URL", "site_url" );
+    $matrixDefinition->addColumn( "Siteaccess", "siteaccess" );
+    $matrixDefinition->addColumn( "Language name", "language_name" );
+    $matrixDefinition->decodeClassAttribute( $matrixDefinition->xmlString() );
+
+    return $matrixDefinition;
+}
+
+function templateLookObjectData( $params )
+{
+    $languageSettingsMatrixDefinition = languageMatrixDefinition();
+
+    $siteaccessUrls = $params['siteaccess_urls'];
+
+    // set 'language settings' matrix data
+    $siteaccessAliasTable = array();
+    foreach( $siteaccessUrls['translation'] as $name => $urlInfo )
+    {
+        $siteaccessAliasTable[] = $urlInfo['url'];
+        $siteaccessAliasTable[] = $name;
+        $siteaccessAliasTable[] = ucfirst( $name );
+    }
+
+    //create data array
+    $templateLookData = array( "site_map_url" => array( "DataText" => "Site map",
+                                                        "Content" => "/content/view/sitemap/2" ),
+                                "tag_cloud_url" => array( "DataText" => "Tag cloud",
+                                                          "Content" => "/content/view/tagcloud/2" ),
+                                "login_label" => array( "DataText" => "Login" ),
+                                "logout_label" => array( "DataText" => "Logout" ),
+                                "my_profile_label" => array( "DataText" => "My profile" ),
+                                "register_user_label" => array( "DataText" => "Register" ),
+                                "rss_feed" => array( "DataText" => "/rss/feed/my_feed" ),
+                                "shopping_basket_label" => array( "DataText" => "Shopping basket" ),
+                                "site_settings_label" => array( "DataText" => "Site settings" ),
+                                "language_settings" => array( "MatrixTitle" => "Language settings",
+                                                              "MatrixDefinition" => $languageSettingsMatrixDefinition,
+                                                              "MatrixCells" => $siteaccessAliasTable ),
+                                "footer_text" => array( "DataText" => "Copyright &#169; 2007 eZ systems AS. All rights reserved." ),
+                                "hide_powered_by" => array( "DataInt" => 0 ),
+                                "footer_script" => array( "DataText" => "" ) );
+
+    return $templateLookData;
+}
+
+function updateINIAccessType( $accessType, $params )
+{
+    if( $accessType === 'url' || $accessType === 'url' )
+        return;
+
+    // avoid double check of 'hostname' and 'host'
+    if( $accessType === 'hostname' || $accessType === 'host' )
+        $accessType = 'hostname';
+
+    $portMatch = array();
+    $hostMatch = array();
+
+    $siteINI =& eZINI::instance( "site.ini.append.php", "settings/override", null, false, null, true );
+
+    $siteaccessTypes = $params['siteaccess_urls'];
+
+    // append webin's hosts to existing info.
+    if( $accessType === 'hostname' || $accessType === 'host' )
+        $hostMatch = $siteINI->variable( 'SiteAccessSettings', 'HostMatchMapItems' );
+
+    foreach( $siteaccessTypes as $siteaccessList )
+    {
+        foreach( $siteaccessList as $siteaccessName => $urlInfo )
+        {
+            switch( $accessType )
+            {
+                case 'port':
+                    {
+                        $port = $urlInfo['port'];
+                        $siteINI->setVariable( 'PortAccessSettings', $port, $siteaccessName );
+                    } break;
+
+                case 'hostname':
+                    {
+                        $host = $urlInfo['host'];
+                        $hostMatch[] = $host . ';' . $siteaccessName;
+                    }
+            }
+        }
+    }
+
+    if( $accessType === 'hostname' )
+        $siteINI->setVariable( 'SiteAccessSettings', 'HostMatchMapItems', $hostMatch );
+
+    $siteINI->save( false, false, false, false, true, true );
+}
+
 ?>

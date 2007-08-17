@@ -51,8 +51,6 @@
 */
 include_once( 'bin/php/ezwebincommon.php' );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
-include_once( '../ezbacktrace.php' );
-
 
 
 // script initializing
@@ -171,6 +169,9 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
 {
     if( file_exists( installScriptDir( $packageRepository ) ) )
     {
+        //
+        // Prepare siteaccesses access info.
+        //
         $locales = eZContentLanguage::fetchLocaleList();
         $primaryLanguage = eZContentLanguage::topPriorityLanguage();
 
@@ -213,6 +214,9 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
             }
         }
 
+        //
+        // Prepare install params.
+        //
         $params = array( 'object_remote_map' => array( '1bb4fe25487f05527efa8bfd394cecc7' => 14,
                                                        '5f7f0bdb3381d6a461d8c29ff53d908f' => 11,
                                                        '15b256dbea2ae72418ff5facc999e8f9' => 42 ),
@@ -237,28 +241,142 @@ if( downloadPackages( $packageList, $packageURL, $packageDir, $packageRepository
                                     'user_id' => $user->attribute( 'contentobject_id' ),
                                     'non-interactive' => true );
 
+        //
+        // Do the job
+        //
         include_once( installScriptDir( $packageRepository ) . "/settings/ezwebininstaller.php" );
+        $webinInstaller = new eZWebinInstaller( $params );
 
-        $installer = new eZWebinInstaller( $params );
+        if( defined( 'EZWEBIN_INSTALLER_MAJOR_VERSION' ) && EZWEBIN_INSTALLER_MAJOR_VERSION >= "1.3" )
+        {
 
-        $installer->createSiteAccess( array( 'src' => array( 'siteaccess' => $adminSiteaccess ),
-                                             'dst' => array( 'siteaccess' => 'ezwebin_site_admin' ) ) );
-        $installer->createSiteAccess( array( 'src' => array( 'siteaccess' => $userSiteaccess ),
-                                             'dst' => array( 'siteaccess' => 'ezwebin_site' ) ) );
+            $webinInstaller->createSiteAccess( array( 'src' => array( 'siteaccess' => $adminSiteaccess ),
+                                                      'dst' => array( 'siteaccess' => 'ezwebin_site_admin' ) ) );
+            $webinInstaller->createSiteAccess( array( 'src' => array( 'siteaccess' => $userSiteaccess ),
+                                                      'dst' => array( 'siteaccess' => 'ezwebin_site' ) ) );
 
-        $installer->preInstall();
+            $webinInstaller->preInstall();
 
-        installPackages( $packageList, $installParameters );
+            installPackages( $packageList, $installParameters );
 
-        $installer->install();
+            $webinInstaller->install();
 
+            $siteaccessUrls = $webinInstaller->setting( 'siteaccess_urls' );
+        }
+        else
+        {
+            //
+            // BC for eZWebin < 1.3
+            //
+
+            include_once( 'kernel/classes/ezsiteinstaller.php' );
+
+            $siteInstaller = new eZSiteInstaller();
+
+            $params['locales'] = $params['all_language_codes'];
+
+            // extra siteaccess based on languages info, like 'eng', 'rus', ...
+            $params['language_based_siteaccess_list'] = $siteInstaller->languageNameListFromLocaleList( $params['locales'] );
+
+            $params['user_siteaccess_list'] = array_merge( array( $params['user_siteaccess'] ),
+                                                           $params['language_based_siteaccess_list'] );
+            $params['all_siteaccess_list'] = array_merge( $params['user_siteaccess_list'],
+                                                          $params['admin_siteaccess'] );
+            $params['main_site_design'] = 'ezwebin';
+
+
+            // Create siteaccesses URLs
+            $siteaccessUrls = array( 'admin'       => $siteInstaller->createSiteaccessUrls( array( 'siteaccess_list' => array( $params['admin_siteaccess'] ),
+                                                                                                   'access_type' => $accessType,
+                                                                                                   'port' => $adminAccessTypeValue,
+                                                                                                   'host' => $params['host'] ) ),
+                                     'user'        => $siteInstaller->createSiteaccessUrls( array( 'siteaccess_list' => array( $params['user_siteaccess'] ),
+                                                                                                   'access_type' => $accessType,
+                                                                                                   'port' => $accessTypeValue,
+                                                                                                   'host' => $params['host'] ) ),
+                                     'translation' => $siteInstaller->createSiteaccessUrls( array( 'siteaccess_list' => $params['language_based_siteaccess_list'],
+                                                                                                   'access_type' => $accessType,
+                                                                                                   'port' => $accessTypeValue + 1, // $accessTypeValue is for 'ezwein_site_user', so take next port number.
+                                                                                                   'host' => $params['host'],
+                                                                                                   'exclude_port_list' => array( $adminAccessTypeValue,
+                                                                                                                                 $accessTypeValue ) ) ) );
+            $params['siteaccess_urls'] = $siteaccessUrls;
+
+            // prepare 'admin_url' for 'eZSiteINISettings'. Will unset it later.
+            $params['siteaccess_urls']['admin_url'] = $siteaccessUrls['admin']['ezwebin_site_admin']['url'];
+
+            // Include setting files
+            $settingsFiles = $package->attribute( 'settings-files' );
+            foreach( $settingsFiles as $settingsFileName )
+                include_once( installScriptDir( $packageRepository ) . '/settings/' . $settingsFileName );
+
+            $siteInstaller->createSiteAccess( array( 'src' => array( 'siteaccess' => $adminSiteaccess ),
+                                                     'dst' => array( 'siteaccess' => 'ezwebin_site_admin' ) ) );
+            $siteInstaller->createSiteAccess( array( 'src' => array( 'siteaccess' => $userSiteaccess ),
+                                                     'dst' => array( 'siteaccess' => 'ezwebin_site' ) ) );
+
+            // Call user function for additional setup tasks.
+            if ( function_exists( 'eZSitePreInstall' ) )
+                eZSitePreInstall();
+
+            installPackages( $packageList, $installParameters );
+
+            $settings = array();
+            $settings[] = array( 'settings_dir' => 'settings/siteaccess/' . $params['user_siteaccess'],
+                                 'groups' => eZSiteINISettings( $params ) );
+            $settings[] = array( 'settings_dir' => 'settings/siteaccess/' . $params['admin_siteaccess'],
+                                 'groups' => eZSiteAdminINISettings( $params ) );
+            $settings[] = array( 'settings_dir' => 'settings/override',
+                                 'groups' => eZSiteCommonINISettings( $params ) );
+
+
+            foreach( $settings as $settingsGroup )
+            {
+                resetINI( $settingsGroup, 'override.ini' );
+                $siteInstaller->updateINIFiles( $settingsGroup );
+            }
+
+            // 'admin_url' is not needed anymore.
+            unset( $params['siteaccess_urls']['admin_url'] );
+
+            updateINIAccessType( $accessType, $params );
+
+            $siteInstaller->updateRoles( array( 'roles' => eZSiteRoles( $params ) ) );
+            $siteInstaller->updatePreferences( array( 'prefs' => eZSitePreferences( $params ) ) );
+
+            setVersion( 'ezwebin', '1.2.0' );
+
+            postInstallAdminSiteaccessINIUpdate( $params );
+            postInstallUserSiteaccessINIUpdate( $params );
+            createTranslationSiteAccesses( $params );
+
+            // updateTemplateLookClassAttributes() and updateTemplateLookObjectAttributes();
+            $classIdentifier = 'template_look';
+            $newAttributeIdArr = expandClass( $classIdentifier );
+            foreach( $newAttributeIdArr as $id )
+            {
+                updateObject( $classIdentifier, $id );
+            }
+            $templateLookData = templateLookObjectData( $params );
+            $siteInstaller->updateContentObjectAttributes( array( 'object_id' => $webinInstaller->setting( 'template_look_object_id' ),
+                                                                  'attributes_data' => $templateLookData ) );
+
+
+            $siteInstaller->swapNodes( array( 'src_node' => array( 'name' => "eZ publish" ),
+                                              'dst_node' => array( 'name' => "Home" ) ) );
+            $siteInstaller->removeContentObject( array( 'name' => 'eZ publish' ) );
+
+            $webinInstaller->postInstall();
+        }
+
+        //
+        // Output installation status.
+        //
         showMessage2( 'Installation complete.' );
-
-        $siteaccassUrls = $installer->setting( 'siteaccess_urls' );
 
         showMessage( 'URLs to access eZWebin sites:' );
 
-        foreach( $siteaccassUrls as $siteaccessType => $siteaccessInfo )
+        foreach( $siteaccessUrls as $siteaccessType => $siteaccessInfo )
         {
             showMessage( "  $siteaccessType:" );
             foreach( $siteaccessInfo as $siteaccessName => $urlInfo )
