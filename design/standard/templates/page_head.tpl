@@ -43,7 +43,7 @@
     {/section}
 
     <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-    <meta name="generator" content="eZ publish" />
+    <meta name="generator" content="eZ Publish" />
 
 {section show=$enable_link}
     {include uri="design:link.tpl" enable_help=$enable_help enable_link=$enable_link}
