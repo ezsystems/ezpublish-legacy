@@ -74,7 +74,7 @@ $ViewList['settingstoolbar'] = array(
     'params' => array() );
 
 $ViewList['session'] = array(
-    'functions' => array( 'session' ),
+    'functions' => array( 'administrate' ),
     'script'                  => 'session.php',
     'ui_context'              => 'administration',
     'default_navigation_part' => 'ezsetupnavigationpart',
