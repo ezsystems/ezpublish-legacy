@@ -57,25 +57,6 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
     return;
 }
 
-
-
-
-
-
-
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-    $currentUser =& eZUser::currentUser();
-    $accessResult = $currentUser->hasAccessTo( 'section', '*' );
-    //var_dump( $accessResult );
-
-
-
-
-
-
-
-
-
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
