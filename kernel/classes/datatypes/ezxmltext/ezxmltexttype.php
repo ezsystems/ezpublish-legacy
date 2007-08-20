@@ -307,37 +307,7 @@ class eZXMLTextType extends eZDataType
     */
     static function domString( $domDocument )
     {
-        $ini = eZINI::instance();
-        $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
-        if ( $xmlCharset == 'enabled' )
-        {
-            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $charset = eZTextCodec::internalCharset();
-        }
-        else if ( $xmlCharset == 'disabled' )
-            $charset = true;
-        else
-            $charset = $xmlCharset;
-        if ( $charset !== true )
-        {
-            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-            $charset = eZCharsetInfo::realCharsetCode( $charset );
-        }
-        $domString = $domDocument->saveXML();
-
-        /*
-        $eZXMLini = eZINI::instance( 'ezxml.ini' );
-
-        if ( $eZXMLini->hasVariable( 'InputSettings', 'AllowNumericEntities' ) )
-        {
-            if ( $eZXMLini->variable( 'InputSettings', 'AllowNumericEntities' ) == 'true' )
-            {
-                $domString = preg_replace( '/&amp;#([0-9]+);/', '&#\1;', $domString );
-            }
-        }
-        */
-
-        return $domString;
+        return $domDocument->saveXML();
     }
 
     /*!
