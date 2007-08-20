@@ -1104,7 +1104,7 @@ class eZXMLInputParser
             if ( is_callable( array( $this, $thisInputTag[$handlerName] ) ) )
             {
                 $result = call_user_func_array( array( $this, $thisInputTag[$handlerName] ),
-                                                array( $tagName, $attributes ) );
+                                                array( $tagName, &$attributes ) );
             }
             else
             {
@@ -1124,7 +1124,7 @@ class eZXMLInputParser
             if ( is_callable( array( $this, $thisOutputTag[$handlerName] ) ) )
             {
                 $result = call_user_func_array( array( $this, $thisOutputTag[$handlerName] ),
-                                                array( $element, $params ) );
+                                                array( $element, &$params ) );
             }
             else
             {
