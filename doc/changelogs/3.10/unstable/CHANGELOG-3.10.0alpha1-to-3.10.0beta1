@@ -2,6 +2,7 @@ Changes from 3.10.0alpha1 to 3.10.0beta1
 
 *Kernel:
 - Implemented enhancement #10855: Patch for adding ClearCacheMethod[]=none.
+- Implemented enhancement #11291: Extending the extended attribute filter.
 
 *Design:
 

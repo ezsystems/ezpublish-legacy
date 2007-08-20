@@ -643,7 +643,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function createSortingSQLStrings( $sortList, $treeTableName = 'ezcontentobject_tree' )
+    function createSortingSQLStrings( $sortList, $treeTableName = 'ezcontentobject_tree', $allowCustomColumns = false )
     {
         $sortingInfo = array( 'sortCount'           => 0,
                               'sortingFields'       => " path_string ASC",
@@ -784,8 +784,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         default:
                         {
-                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::getSortingInfo' );
-                            continue;
+                            if ( $allowCustomColumns )
+                            {
+                                $sortingFields .= $sortField;
+                            }
+                            else
+                            {
+                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::createSortingSQLStrings' );
+                                continue;
+                            }
                         };
                     }
                     $sortOrder = true; // true is ascending
@@ -869,7 +876,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function createExtendedAttributeFilterSQLStrings( &$extendedAttributeFilter )
     {
         $filter = array( 'tables'   => '',
-                         'joins'    => '' );
+                         'joins'    => '',
+                         'columns'  => '' );
 
         if ( $extendedAttributeFilter and count( $extendedAttributeFilter ) > 1 )
         {
@@ -899,6 +907,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $filter['tables']   = $sqlResult['tables'];
             $filter['joins']    = $sqlResult['joins'];
+            $filter['columns']  = $sqlResult['columns'];
 
         }
 
@@ -1772,7 +1781,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
 
-        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+        $allowCustomSorting = false;
+        if ( is_array ( $params['ExtendedAttributeFilter'] ) )
+        {
+            $allowCustomSorting = true;
+        }
+
+        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'], 'ezcontentobject_tree', $allowCustomSorting );
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
         {
@@ -1831,6 +1846,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                        ezcontentclass.is_container as is_container
                        $groupBySelectText
                        $versionNameTargets
+                       $extendedAttributeFilter[columns]
                    FROM
                       ezcontentobject_tree,
                       ezcontentobject,ezcontentclass
@@ -4348,7 +4364,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
             $tempPathString = $contentObjectTreeNode['path_string'];
 
-            // Create WHERE section 
+            // Create WHERE section
             $pathStringArray[] = "tree.path_string like '$tempPathString%'";
             $path2StringArray[] = "tree2.path_string like '$tempPathString%'";
         }
@@ -5984,7 +6000,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $node->updateAndStoreModified();
-        
+
         $db->commit();
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
