@@ -57,6 +57,8 @@ $ViewList['view'] = array(
     'ui_context' => 'view',
     'params' => array( 'CollectionID' ) );
 
+
+$FunctionList = array();
 $FunctionList['read'] = array();
 
 ?>

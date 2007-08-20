@@ -411,7 +411,7 @@ class eZContentCacheManager
         $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
         //Check if clear_cache_type on class type is none before we begin
-        if ( $dependentClassInfo['clear_cache_type'] == EZ_VCSC_CLEAR_NO_CACHE )
+        if ( $dependentClassInfo['clear_cache_type'] === EZ_VCSC_CLEAR_NO_CACHE )
         {
             $clearCacheType = $dependentClassInfo['clear_cache_type'];
         }

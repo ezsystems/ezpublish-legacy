@@ -1515,6 +1515,7 @@ class eZSiteInstaller
                     }
                 }
                 break;
+            case 'host':
             case 'hostname':
                 {
                     $hostMatchMapItems = array();

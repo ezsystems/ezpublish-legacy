@@ -39,12 +39,12 @@ include_once( 'kernel/classes/ezscript.php' );
 
 $cli = eZCLI::instance();
 $script = eZScript::instance( array( 'description' => ( "eZ publish nice url updater.\n\n" .
-                                                        "Will go trough and remake all nice urls" .
-                                                        "\n" .
-                                                        "updateniceurls.php" ),
-                                     'use-session' => true,
-                                     'use-modules' => true,
-                                     'use-extensions' => true ) );
+                                                         "Will go trough and remake all nice urls" .
+                                                         "\n" .
+                                                         "updateniceurls.php" ),
+                                      'use-session' => true,
+                                      'use-modules' => true,
+                                      'use-extensions' => true ) );
 
 $script->startup();
 
@@ -92,7 +92,7 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
 include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-$db = eZDB::instance();
+$db = eZDb::instance();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
@@ -117,14 +117,14 @@ $db->setIsSQLOutputEnabled( $showSQL );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
 eZContentLanguage::setCronjobMode( true );
 
-$debug = eZDebug::instance();
-
 $fetchLimit = 200;
 $percentLength = 6;
 $timeLength = 12;
 $maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
+
+$debug = eZDebug::instance();
 
 function microtimeFloat()
 {
@@ -332,8 +332,8 @@ function removeURLList( $rows )
     if ( count( $rows ) == 0 )
         return;
     $db   = eZDB::instance();
-    $cond = createURLListCondition( $rows );
-    $sql  = "DELETE FROM ezurlalias WHERE $cond";
+    $cond =  createURLListCondition( $rows );
+    $sql  =  "DELETE FROM ezurlalias WHERE $cond";
     $db->query( $sql );
 }
 
@@ -342,8 +342,8 @@ function markAsImported( $rows )
     if ( count( $rows ) == 0 )
         return;
     $db   = eZDB::instance();
-    $cond = createURLListCondition( $rows );
-    $sql  = "UPDATE ezurlalias SET is_imported = 1 WHERE $cond";
+    $cond =  createURLListCondition( $rows );
+    $sql  =  "UPDATE ezurlalias SET is_imported = 1 WHERE $cond";
     $db->query( $sql );
 }
 
@@ -523,10 +523,11 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     while ( !$done )
     {
         $nodeList = $rootNode->subTree( array( 'Offset' => $offset,
-                                               'Limit' => $fetchLimit,
-                                               'Limitation' => array() ) );
-        foreach ( $nodeList as $node )
+                                             'Limit' => $fetchLimit,
+                                             'Limitation' => array() ) );
+        foreach ( array_keys( $nodeList ) as $key )
         {
+            $node = $nodeList[ $key ];
             $hasChanged = $node->updateSubTreePath();
             if ( $hasChanged )
             {

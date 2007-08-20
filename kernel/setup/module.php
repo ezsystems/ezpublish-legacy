@@ -35,6 +35,7 @@ $Module = array( "name" => "eZSetup",
 
 $ViewList = array();
 $ViewList["init"] = array(
+    'functions' => array( 'install' ),
     "script" => "ezsetup.php",
     'single_post_actions' => array( 'ChangeStepAction' => 'ChangeStep' ),
     'post_value_action_parameters' => array( 'ChangeStep' => array( 'Step' => 'StepButton' ) ),
@@ -64,6 +65,7 @@ $ViewList['cachetoolbar'] = array(
     'params' => array() );
 
 $ViewList['settingstoolbar'] = array(
+    'functions' => array( 'setup' ),
     'script' => 'settingstoolbar.php',
     'single_post_actions' => array( 'SetButton' => 'Set' ),
     'post_action_parameters' => array( 'Set' => array( 'SiteAccess' => 'SiteAccess',
@@ -72,6 +74,7 @@ $ViewList['settingstoolbar'] = array(
     'params' => array() );
 
 $ViewList['session'] = array(
+    'functions' => array( 'session' ),
     'script'                  => 'session.php',
     'ui_context'              => 'administration',
     'default_navigation_part' => 'ezsetupnavigationpart',
@@ -87,17 +90,20 @@ $ViewList['session'] = array(
     'params' => array( 'UserID' ) );
 
 $ViewList["info"] = array(
+    'functions' => array( 'system_info' ),
     "script" => "info.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
 $ViewList["rad"] = array(
+    'functions' => array( 'setup' ),
     "script" => "rad.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( ) );
 
 $ViewList["datatype"] = array(
+    'functions' => array( 'setup' ),
     "script" => "datatype.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -106,6 +112,7 @@ $ViewList["datatype"] = array(
     "params" => array( ) );
 
 $ViewList["templateoperator"] = array(
+    'functions' => array( 'setup' ),
     "script" => "templateoperator.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -114,6 +121,7 @@ $ViewList["templateoperator"] = array(
     "params" => array( ) );
 
 $ViewList["extensions"] = array(
+    'functions' => array( 'setup' ),
     "script" => "extensions.php",
     'ui_context' => 'administration',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -121,11 +129,13 @@ $ViewList["extensions"] = array(
     "params" => array( ) );
 
 $ViewList['menu'] = array(
+    'functions' => array( 'setup' ),
     'script' => 'setupmenu.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'params' => array( ) );
 
 $ViewList['systemupgrade'] = array(
+    'functions' => array( 'setup' ),
     'script' => 'systemupgrade.php',
     'ui_context' => 'administration',
     'default_navigation_part' => 'ezsetupnavigationpart',
@@ -136,11 +146,13 @@ $ViewList['systemupgrade'] = array(
 
 /*! Provided for backwards compatability */
 $ViewList["toolbarlist"] = array(
+    'functions' => array( 'setup' ),
     "script" => "toolbarlist.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     "params" => array( 'SiteAccess' ) );
 
 $ViewList["toolbar"] = array(
+    'functions' => array( 'setup' ),
     "script" => "toolbar.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -148,6 +160,7 @@ $ViewList["toolbar"] = array(
     "params" => array( 'SiteAccess', 'Position' ) );
 
 $ViewList["menuconfig"] = array(
+    'functions' => array( 'setup' ),
     "script" => "menuconfig.php",
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
@@ -155,12 +168,14 @@ $ViewList["menuconfig"] = array(
     "params" => array() );
 
 $ViewList["templatelist"] = array(
+    'functions' => array( 'setup' ),
     'script' => 'templatelist.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList["templateview"] = array(
+    'functions' => array( 'setup' ),
     "script" => "templateview.php",
     "default_navigation_part" => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'SelectCurrentSiteAccessButton' => 'SelectCurrentSiteAccess',
@@ -170,6 +185,7 @@ $ViewList["templateview"] = array(
     "params" => array( ) );
 
 $ViewList["templateedit"] = array(
+    'functions' => array( 'setup' ),
     "script" => "templateedit.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -178,6 +194,7 @@ $ViewList["templateedit"] = array(
     "params" => array( ) );
 
 $ViewList["templatecreate"] = array(
+    'functions' => array( 'setup' ),
     "script" => "templatecreate.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezsetupnavigationpart',
@@ -186,7 +203,10 @@ $ViewList["templatecreate"] = array(
     "params" => array( ) );
 
 
-
+$FunctionList = array();
+$FunctionList['administrate'] = array();
+$FunctionList['install'] = array();
 $FunctionList['managecache'] = array();
+$FunctionList['setup'] = array();
 
 ?>

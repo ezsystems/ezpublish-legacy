@@ -61,7 +61,7 @@ function updateAtttributes( $conditions )
 
         foreach ( $attributes as $attribute )
         {
-            $classAttribute =& $attribute->contentClassAttribute();
+            $classAttribute = $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( 'data_type_string' ) == 'ezmultioption' )
             {
                 $classAttribute->setAttribute( 'data_type_string', 'ezmultioption2' );
@@ -136,7 +136,7 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
     if ( $dbName !== false )
         $params['database'] = $dbName;
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
