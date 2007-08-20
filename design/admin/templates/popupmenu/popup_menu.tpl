@@ -225,7 +225,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="reverse-related" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Reverse related for subtree'|i18n( 'design/admin/popupmenu' )}</a>
     <hr />
     <a id="menu-history" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Manage versions'|i18n( 'design/admin/popupmenu' )}</a>
-    <a id="menu-url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Manage URL Aliases'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Manage URL aliases'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
@@ -254,7 +254,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
     <hr />
     <a id="class-history" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage versions'|i18n( 'design/admin/popupmenu' )}</a>
-    <a id="url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage URL Aliases'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="url-alias" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Manage URL aliases'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 <!-- Edit class submenu -->
