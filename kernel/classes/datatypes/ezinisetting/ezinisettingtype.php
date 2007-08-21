@@ -522,7 +522,7 @@ class eZIniSettingType extends eZDataType
         $localIniInstanceArray = array();
         foreach ( $remoteIniInstanceArray as $remoteIniInstance )
         {
-            if ( in_array( $remoteSiteAccessArray[$remoteIniInstance], $localSiteAccessArray ) )
+            if ( isset( $remoteSiteAccessArray[$remoteIniInstance] ) and in_array( $remoteSiteAccessArray[$remoteIniInstance], $localSiteAccessArray ) )
             {
                 $localSiteAccessArray[] = array_keys( $localSiteAccessArray, $remoteSiteAccessArray[$remoteIniInstance] );
             }
