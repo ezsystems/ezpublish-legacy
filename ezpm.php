@@ -992,7 +992,7 @@ foreach ( $commandList as $commandItem )
     }
     else if ($command == 'install' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'] );
+        $package = eZPackage::fetch( $commandItem['name'] );
         if ( $package )
         {
             $user =& eZUser::currentUser();
