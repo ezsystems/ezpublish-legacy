@@ -71,7 +71,7 @@
 <table class="list" cellspacing="0" >
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
-    <th>{'Path'|i18n( 'design/admin/content/urlalias' )}</th>
+    <th>{'URL alias'|i18n( 'design/admin/content/urlalias' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias' )}</th>
 </tr>
 {foreach $aliasList as $element sequence array('bglight', 'bgdark') as $seq}
@@ -195,7 +195,7 @@
 
 <table class="list" cellspacing="0" >
 <tr>
-    <th>{'Path'|i18n( 'design/admin/content/urlalias' )}</th>
+    <th>{'URL alias'|i18n( 'design/admin/content/urlalias' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
