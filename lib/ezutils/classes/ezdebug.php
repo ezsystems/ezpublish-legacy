@@ -1240,7 +1240,7 @@ showDebug();
       \private
      Returns the microtime as a float value. $mtime must be in microtime() format.
     */
-    function timeToFloat( $mtime )
+    static function timeToFloat( $mtime )
     {
         $tTime = explode( " ", $mtime );
         ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );
@@ -1258,14 +1258,15 @@ showDebug();
         if ( $mtime == false )
             $mtime = microtime();
         $time = eZDebug::timeToFloat( microtime() );
-        $this->ScriptStart = $time;
+        $debug = eZDebug::instance();
+        $debug->ScriptStart = $time;
     }
 
     /*!
       Creates an accumulator group with key \a $key and group name \a $name.
       If \a $name is not supplied name is taken from \a $key.
     */
-    function createAccumulatorGroup( $key, $name = false )
+    static function createAccumulatorGroup( $key, $name = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -1284,7 +1285,7 @@ showDebug();
      If \a $name is not supplied name is taken from \a $key.
      If \a $inGroup is supplied it will place the accumulator under the specified group.
     */
-    function createAccumulator( $key, $inGroup = false, $name = false )
+    static function createAccumulator( $key, $inGroup = false, $name = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -1312,17 +1313,18 @@ showDebug();
      Starts an time count for the accumulator \a $key.
      You can also specify a name which will be displayed.
     */
-    function accumulatorStart( $key, $inGroup = false, $name = false, $recursive = false )
+    static function accumulatorStart( $key, $inGroup = false, $name = false, $recursive = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
+        $debug = eZDebug::instance();
         $key = $key === false ? 'Default Debug-Accumulator' : $key;
-        if ( ! array_key_exists( $key, $this->TimeAccumulatorList ) )
+        if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
-            $this->createAccumulator( $key, $inGroup, $name );
+            $debug->createAccumulator( $key, $inGroup, $name );
         }
 
-        $accumulator =& $this->TimeAccumulatorList[$key];
+        $accumulator =& $debug->TimeAccumulatorList[$key];
         if ( $recursive )
         {
             if ( isset( $accumulator['recursive_counter'] ) )
@@ -1332,13 +1334,13 @@ showDebug();
             }
             $accumulator['recursive_counter'] = 0;
         }
-        $accumulator['temp_time'] = $this->timeToFloat( microtime() );
+        $accumulator['temp_time'] = $debug->timeToFloat( microtime() );
     }
 
     /*!
      Stops a previous time count and adds the total time to the accumulator \a $key.
     */
-    function accumulatorStop( $key, $recursive = false )
+    static function accumulatorStop( $key, $recursive = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;

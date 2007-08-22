@@ -306,9 +306,7 @@ class eZCharTransform
             }
             if ( $time >= max( EZ_CHARTRANSFORM_CODEDATE, $timestamp ) )
             {
-                //var_dump( file_get_contents( $filepath ) );
                 // Execute the PHP file causing $text will be transformed
-                eZDebug::writeDebug( 'loading cache from: ' . $filepath, 'eZCharTransform::executeCacheFile' );*/
                 include "$filepath";
                 return true;
             }

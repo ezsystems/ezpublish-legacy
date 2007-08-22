@@ -572,7 +572,7 @@ $str
                 $min_char =& $this->MinCharValue;
                 $max_char =& $this->MaxCharValue;
                 $read_extra =& $this->ReadExtraMap;
-                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePage::load' );*/
+
                 include( $cache );
                 unset( $umap );
                 unset( $utf8map );
