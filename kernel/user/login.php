@@ -128,6 +128,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                       eZSys::indexFile() );
                 $siteAccessResult = $user->hasAccessTo( 'user', 'login' );
                 $hasAccessToSite = false;
+
                 // A check that the user has rights to access current siteaccess.
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
@@ -145,6 +146,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
                                 $hasAccessToSite = true;
                                 break;
                             }
+                        }
+                        else
+                        {
+                            $policyChecked = false;
                         }
                         if ( $hasAccessToSite )
                             break;

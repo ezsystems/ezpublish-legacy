@@ -31,10 +31,12 @@ $Module = array( 'name' => 'User management',
 
 $ViewList = array();
 $ViewList['logout'] = array(
+    'functions' => array( 'login' ),
     'script' => 'logout.php',
     'ui_context' => 'authentication',
     'params' => array( ) );
 $ViewList['login'] = array(
+    'functions' => array( 'login' ),
     'script' => 'login.php',
     'ui_context' => 'authentication',
     'default_action' => array( array( 'name' => 'Login',
@@ -100,6 +102,7 @@ $ViewList['edit'] = array(
     'params' => array( 'UserID' ) );
 
 $ViewList['register'] = array(
+    'functions' => array( 'register' ),
     'script' => 'register.php',
     'params' => array( ),
     'ui_context' => 'edit',
@@ -109,12 +112,14 @@ $ViewList['register'] = array(
                                     'CustomActionButton' => 'CustomAction' ) );
 
 $ViewList['activate'] = array(
+    'functions' => array( 'login' ),
     'script' => 'activate.php',
     'ui_context' => 'authentication',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( 'Hash', 'MainNodeID' ) );
 
 $ViewList['success'] = array(
+    'functions' => array( 'register' ),
     'script' => 'success.php',
     'ui_context' => 'authentication',
     'default_navigation_part' => 'ezmynavigationpart',
@@ -131,9 +136,11 @@ $SiteAccess = array(
     'parameter' => array()
     );
 
+$FunctionList = array();
 $FunctionList['login'] = array( 'SiteAccess' => $SiteAccess );
-$FunctionList['selfedit'] = array();
 $FunctionList['password'] = array();
 $FunctionList['preferences'] = array();
+$FunctionList['register'] = array();
+$FunctionList['selfedit'] = array();
 
 ?>
