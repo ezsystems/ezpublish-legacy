@@ -51,7 +51,7 @@ class eZCollaborationEventType extends eZNotificationEventType
         $this->eZNotificationEventType( EZ_NOTIFICATIONTYPESTRING_COLLABORATION );
     }
 
-    function initializeEvent( &$event, $params )
+    function initializeEvent( $event, $params )
     {
         eZDebugSetting::writeDebug( 'kernel-notification', $params, 'params for type collaboration' );
         $event->setAttribute( 'data_int1', $params['collaboration_id'] );

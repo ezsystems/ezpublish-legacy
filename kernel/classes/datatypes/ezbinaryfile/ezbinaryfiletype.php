@@ -105,7 +105,7 @@ class eZBinaryFileType extends eZDataType
     */
     function informationTemplate( $contentobjectAttribute )
     {
-        $handler =& $this->fileHandler();
+        $handler = $this->fileHandler();
         $handlerTemplate = $handler->informationTemplate( $contentobjectAttribute );
         $template = $this->DataTypeString;
         if ( $handlerTemplate !== false )
@@ -367,7 +367,6 @@ class eZBinaryFileType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
         $binary = eZBinaryFile::fetch( $attributeID, $objectVersion );
@@ -381,7 +380,7 @@ class eZBinaryFileType extends eZDataType
 
         if ( !$httpFile->store( "original", false, false ) )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
                                                         'Failed to store file %filename. Please contact the site administrator.', null,
                                                         array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;
@@ -423,7 +422,6 @@ class eZBinaryFileType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
         $binary = eZBinaryFile::fetch( $attributeID, $objectVersion );

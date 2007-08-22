@@ -69,7 +69,7 @@ class eZSelectionType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( $http, $base, $classAttribute )
     {
-        $attributeContent =& $this->classAttributeContent( $classAttribute );
+        $attributeContent = $this->classAttributeContent( $classAttribute );
         $classAttributeID = $classAttribute->attribute( 'id' );
         $isMultipleSelection = false;
 

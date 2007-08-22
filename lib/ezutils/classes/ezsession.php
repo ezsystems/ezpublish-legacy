@@ -91,7 +91,7 @@ function eZSessionClose( )
     // eZDB will handle closing the database
 }
 
-function &eZSessionRead( $key )
+function eZSessionRead( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
@@ -107,7 +107,6 @@ function &eZSessionRead( $key )
         $sessionUpdatesTime = $sessionRes[0]['expiration_time'] - $ini->variable( 'Session', 'SessionTimeout' );
         $sessionIdle = time() - $sessionUpdatesTime;
 
-        $data =& $sessionRes[0]['data'];
         $GLOBALS['eZSessionUserID'] = $sessionRes[0]['user_id'];
         $GLOBALS['eZSessionIdleTime'] = $sessionIdle;
 
@@ -118,12 +117,11 @@ function &eZSessionRead( $key )
          */
         require_once( 'kernel/classes/ezcontentclass.php' );
 
-        return $data;
+        return $sessionRes[0]['data'];
     }
     else
     {
-        $retVal = false;
-        return $retVal;
+        return false;
     }
 }
 
@@ -348,18 +346,23 @@ function eZRegisterSessionFunctions()
 function eZSessionStart()
 {
     // Check if we are allowed to use sessions
-    if ( isset( $GLOBALS['eZSiteBasics'] ) and
-         isset( $GLOBALS['eZSiteBasics']['session-required'] ) and
+    if ( isset( $GLOBALS['eZSiteBasics'] ) &&
+         isset( $GLOBALS['eZSiteBasics']['session-required'] ) &&
          !$GLOBALS['eZSiteBasics']['session-required'] )
+    {
         return false;
-    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
-    if ( isset( $hasStarted ) and
-         $hasStarted )
+    }
+    if ( isset( $GLOBALS['eZSessionIsStarted'] ) &&
+         $GLOBALS['eZSessionIsStarted'] )
+    {
          return false;
+    }
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     if ( !$db->isConnected() )
+    {
         return false;
+    }
     eZRegisterSessionFunctions();
     $ini = eZINI::instance();
     $cookieTimeout = isset( $GLOBALS['RememberMeTimeout'] ) ? $GLOBALS['RememberMeTimeout'] : $ini->variable( 'Session', 'CookieTimeout' );
@@ -369,8 +372,7 @@ function eZSessionStart()
         session_set_cookie_params( (int)$cookieTimeout );
     }
     session_start();
-    $hasStarted = true;
-    return true;
+    return $GLOBALS['eZSessionIsStarted'] = true;
 }
 
 /*!
@@ -378,16 +380,19 @@ function eZSessionStart()
 */
 function eZSessionStop()
 {
-    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
-    if ( isset( $hasStarted ) and
-         !$hasStarted )
+    if ( isset( $GLOBALS['eZSessionIsStarted'] ) &&
+         !$GLOBALS['eZSessionIsStarted'] )
+    {
          return false;
+    }
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     if ( !$db->isConnected() )
+    {
         return false;
+    }
     session_write_close();
-    $hasStarted = false;
+    $GLOBALS['eZSessionIsStarted'] = false;
     return true;
 }
 
@@ -399,12 +404,15 @@ function eZSessionStop()
 */
 function eZSessionRegenerate()
 {
-    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
-    if ( isset( $hasStarted ) and
-         !$hasStarted )
+    if ( isset( $GLOBALS['eZSessionIsStarted'] ) &&
+         !$GLOBALS['eZSessionIsStarted'] )
+    {
          return false;
+    }
     if ( !function_exists( 'session_regenerate_id' ) )
+    {
         return false;
+    }
     // This doesn't seem to work as expected
 //     session_regenerate_id();
     return true;
@@ -415,17 +423,20 @@ function eZSessionRegenerate()
 */
 function eZSessionRemove()
 {
-    $hasStarted =& $GLOBALS['eZSessionIsStarted'];
-    if ( isset( $hasStarted ) and
-         !$hasStarted )
+    if ( isset( $GLOBALS['eZSessionIsStarted'] ) &&
+         !$GLOBALS['eZSessionIsStarted'] )
+    {
          return false;
+    }
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db = eZDB::instance();
     if ( !$db->isConnected() )
+    {
         return false;
+    }
     $_SESSION = array();
     session_destroy();
-    $hasStarted = false;
+    $GLOBALS['eZSessionIsStarted'] = false;
     return true;
 }
 

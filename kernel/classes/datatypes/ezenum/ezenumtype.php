@@ -297,7 +297,7 @@ class eZEnumType extends eZDataType
             $array_enumID = $http->postVariable(  $enumID );
             $array_enumElement = $http->postVariable( $enumElement );
             $array_enumValue = $http->postVariable( $enumValue );
-            $enum =& $contentClassAttribute->content();
+            $enum = $contentClassAttribute->content();
             $enum->setValue( $array_enumID, $array_enumElement, $array_enumValue, $version );
             $contentClassAttribute->setContent( $enum );
         }
@@ -337,7 +337,7 @@ class eZEnumType extends eZDataType
         {
             case 'new_enumelement' :
             {
-                $enum =& $contentClassAttribute->content( );
+                $enum = $contentClassAttribute->content( );
                 $enum->addEnumeration('');
                 $contentClassAttribute->setContent( $enum );
             }break;
@@ -412,7 +412,7 @@ class eZEnumType extends eZDataType
     */
     function objectDisplayInformation( $objectAttribute, $mergeInfo = false )
     {
-        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $classAttribute = $objectAttribute->contentClassAttribute();
         $isOption = $classAttribute->attribute( 'data_int2' );
 
         $editGrouped = ( $isOption == false );
@@ -518,10 +518,8 @@ class eZEnumType extends eZDataType
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-multiple', $isMultiple ? 'true' : 'false' ) );
         $elementListNode = eZDOMDocument::createElementNode( 'elements' );
         $attributeParametersNode->appendChild( $elementListNode );
-        for ( $i = 0; $i < count( $enumList ); ++$i )
+        foreach( $enumList as $enumElement )
         {
-            $enumElement =& $enumList[$i];
-            unset( $elementNode );
             $elementNode = eZDOMDocument::createElementNode( 'element',
                                                               array( 'id' => $enumElement->attribute( 'id' ),
                                                                      'name' => $enumElement->attribute( 'enumelement' ),
@@ -541,7 +539,7 @@ class eZEnumType extends eZDataType
         $classAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $isMultiple );
 
         $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
-        $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
+        $elementListNode = $attributeParametersNode->elementByName( 'elements' );
         $elementList = $elementListNode->children();
         foreach ( $elementList as $element )
         {

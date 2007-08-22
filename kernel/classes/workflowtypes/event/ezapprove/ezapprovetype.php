@@ -588,7 +588,7 @@ class eZApproveType extends eZWorkflowEventType
         }
     }
 
-    function createApproveCollaboration( &$process, &$event, $userID, $contentobjectID, $contentobjectVersion, $editors )
+    function createApproveCollaboration( $process, $event, $userID, $contentobjectID, $contentobjectVersion, $editors )
     {
         if ( $editors === null )
             return false;
@@ -724,7 +724,7 @@ class eZApproveType extends eZWorkflowEventType
         }
     }
 
-    function checkApproveCollaboration( &$process, &$event )
+    function checkApproveCollaboration( $process, $event )
     {
         $db = eZDb::instance();
         $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );

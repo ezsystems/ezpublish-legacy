@@ -456,20 +456,13 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                             - \b EZ_PHPCREATOR_VARIABLE_APPEND_TEXT, append to text using \c .
                             - \b EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT, append to array using \c []
      \param $variableParameters Optional parameters for the statement
-            - \a is-reference, whether to do the assignment with reference or not (default is not)
     */
     static function variableNameText( $variableName, $assignmentType, $variableParameters = array() )
     {
-        $variableParameters = array_merge( array( 'is-reference' => false ),
-                                           $variableParameters );
-        $isReference = $variableParameters['is-reference'];
         $text = '$' . $variableName;
         if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_ASSIGNMENT )
         {
-            if ( $isReference )
-                $text .= ' =& ';
-            else
-                $text .= ' = ';
+            $text .= ' = ';
         }
         else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_TEXT )
         {
@@ -477,10 +470,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         }
         else if ( $assignmentType == EZ_PHPCREATOR_VARIABLE_APPEND_ELEMENT )
         {
-            if ( $isReference )
-                $text .= '[] =& ';
-            else
-                $text .= '[] = ';
+            $text .= '[] = ';
         }
         return $text;
     }
@@ -606,7 +596,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                     {
                         $text .= ",\n" . str_repeat( ' ', $column );
                     }
-                    $element =& $value[$key];
+                    $element = $value[$key];
                     $keyText = ' ';
                     if ( !$isIndexed )
                     {
@@ -715,7 +705,7 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
                 {
                     $text .= ",\n" . str_repeat( ' ', $column );
                 }
-                $element =& $value[$key];
+                $element = $value[$key];
                 $keyText = ' ';
                 if ( !$isIndexed )
                 {
@@ -1080,9 +1070,8 @@ print( $values['MyValue'] );
     function writeElements()
     {
         $count = count( $this->Elements );
-        for ( $i = 0; $i < $count; ++$i )
+        foreach( $this->Elements as $element )
         {
-            $element =& $this->Elements[$i];
             if ( $element[0] == EZ_PHPCREATOR_DEFINE )
             {
                 $this->writeDefine( $element );
@@ -1361,9 +1350,8 @@ print( $values['MyValue'] );
     */
     function temporaryVariableName( $prefix )
     {
-        $temporaryCounter =& $this->TemporaryCounter;
-        $variableName = $prefix . '_' . $temporaryCounter;
-        ++$temporaryCounter;
+        $variableName = $prefix . '_' . $this->TemporaryCounter;
+        ++$this->TemporaryCounter;
         return $variableName;
     }
 

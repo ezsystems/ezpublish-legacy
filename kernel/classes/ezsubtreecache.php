@@ -87,10 +87,8 @@ class eZSubtreeCache
 
         $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
 
-        $keys = array_keys( $nodeList );
-        foreach ( $keys as $key )
+        foreach ( $nodeList as $node )
         {
-            $node =& $nodeList[$key];
             $pathString = $node->attribute( 'path_string' );
             $pathString = trim( $pathString, '/' );
             $nodeListID = explode( '/', $pathString );

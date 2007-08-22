@@ -262,10 +262,11 @@ class eZUserType extends eZDataType
     function objectAttributeContent( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject_' . $userID];
-        if ( !isset( $user ) or
-             strtolower( get_class( $user ) ) != 'ezuser' )
-            $user = eZUser::fetch( $userID );
+        if ( empty( $GLOBALS['eZUserObject_' . $userID] ) )
+        {
+            $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
+        }
+        $user = eZUser::fetch( $userID );
         eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
         return $user;
     }
@@ -289,8 +290,6 @@ class eZUserType extends eZDataType
         $result  = array( 'text' => ezi18n( 'kernel/classes/datatypes',
                                             "Cannot remove the account:" ),
                           'list' => array() );
-        $reasons =& $result['list'];
-
         $currentUser = eZUser::currentUser();
         $userObject  = $currentUser->attribute( 'contentobject' );
         $ini         = eZINI::instance();
@@ -300,8 +299,8 @@ class eZUserType extends eZDataType
 
         if ( $classID == $userObject->attribute( 'contentclass_id' ) )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account owner is currently logged in." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account owner is currently logged in." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -310,8 +309,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account is currently used by the anonymous user." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account is currently used by the anonymous user." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -323,8 +322,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account is currenty used the administrator user." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "The account is currenty used the administrator user." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -336,8 +335,8 @@ class eZUserType extends eZDataType
         $rows = $db->arrayQuery( $sql );
         if ( $rows[0]['count'] == 0 )
         {
-            $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "You can not remove the last class holding user accounts." ) );
+            $result['list'][] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
+                                                         "You can not remove the last class holding user accounts." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -365,10 +364,11 @@ class eZUserType extends eZDataType
     function toString( $contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        $user =& $GLOBALS['eZUserObject_' . $userID];
-        if ( !isset( $user ) or
-             strtolower( get_class( $user ) ) != 'ezuser' )
-            $user = eZUser::fetch( $userID );
+        if ( empty( $GLOBALS['eZUserObject_' . $userID] ) )
+        {
+            $GLOBALS['eZUserObject_' . $userID] = eZUser::fetch( $userID );
+        }
+        $user = $GLOBALS['eZUserObject_' . $userID];
 
         return implode( '|', array( $user->attribute( 'login' ),
                                     $user->attribute( 'email' ),

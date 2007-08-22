@@ -303,7 +303,7 @@ class eZModule
             $errorType = 'kernel';
         }
         $errorModule = eZModule::errorModule();
-        $module = eZModule::findModule( $errorModule['module'], $this );
+        $module = eZModule::findModule( $errorModule['module'] );
 
         if ( $module === null )
         {
@@ -359,7 +359,7 @@ class eZModule
     /*!
      Same as redirect() but takes a module object instead of the name.
     */
-    function redirectModule( &$module, $viewName, $parameters = array(),
+    function redirectModule( $module, $viewName, $parameters = array(),
                              $unorderedParameters = null, $userParameters = false,
                              $anchor = false )
     {
@@ -417,7 +417,7 @@ class eZModule
     /*!
      Sames as redirectionURI but takes a module object instead of the name.
     */
-    function redirectionURIForModule( &$module, $viewName, $parameters = array(),
+    function redirectionURIForModule( $module, $viewName, $parameters = array(),
                                       $unorderedParameters = null, $userParameters = false,
                                       $anchor = false )
     {
@@ -902,7 +902,7 @@ class eZModule
                         }
                         else if ( $expandParameters )
                         {
-                            $retVal = call_user_func_array( $functionName, array_merge( array( &$this ), $parameters ) );
+                            $retVal = call_user_func_array( $functionName, array_merge( array( $this ), $parameters ) );
                         }
                         else
                         {
@@ -929,7 +929,7 @@ class eZModule
                             }
                             else if ( $expandParameters )
                             {
-                                $retVal = call_user_method_array( $functionName, $object, array_merge( array( &$this ), $parameters ) );
+                                $retVal = call_user_method_array( $functionName, $object, array_merge( array( $this ), $parameters ) );
                             }
                             else
                             {
@@ -972,11 +972,11 @@ class eZModule
         return $status;
     }
 
-    function setViewResult( &$result, $view = '' )
+    function setViewResult( $result, $view = '' )
     {
         if ( $view == '' )
             $view = $this->currentView();
-        $this->ViewResult[$view] =& $result;
+        $this->ViewResult[$view] = $result;
     }
 
     function hasViewResult( $view = '' )
@@ -1118,7 +1118,7 @@ class eZModule
         $unorderedParameters = array();
         if ( isset( $function["unordered_params"] ) )
         {
-            $unorderedParams =& $function["unordered_params"];
+            $unorderedParams = $function["unordered_params"];
 
             foreach ( $unorderedParams as $urlParamName => $variableParamName )
             {
@@ -1373,23 +1373,20 @@ class eZModule
     */
     static function exists( $moduleName, $pathList = null )
     {
-        $module = null;
-        eZModule::findModule( $moduleName, $module, $pathList );
-        return $module;
+        return eZModule::findModule( $moduleName, $pathList );
     }
 
     /*!
      \static
-     Tries to locate the module named \a $moduleName and sets the \a $module parameter
-     with the eZModule object, if \a $module is already a module object it's contents
-     are overwritten. Returns \c null if no module can be found.
+     Tries to locate the module named \a $moduleName and returns the eZModule object.
+     Returns \c null if no module can be found.
 
      It uses the globalPathList() to search for modules, use \a $pathList to add
      additional path.
      \param $moduleName The name of the module to find
      \param $pathList Is either an array with path strings or a single path string
     */
-    static function findModule( $moduleName, &$module, $pathList = null )
+    static function findModule( $moduleName, $pathList = null )
     {
         if ( $pathList === null )
             $pathList = array();
@@ -1408,10 +1405,8 @@ class eZModule
             $file = "$dir/module.php";
             if ( file_exists( $file ) )
             {
-                if ( $module === null )
-                    $module = new eZModule( $path, $file, $moduleName );
-                else
-                    $module->initialize( $path, $file, $moduleName );
+                $module = new eZModule( $path, $file, $moduleName );
+                $module->initialize( $path, $file, $moduleName );
                 return $module;
             }
             else if ( !file_exists( $dir ) )
@@ -1441,8 +1436,7 @@ class eZModule
         }
         eZDebug::writeWarning( $msg );
 
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     function getNamedParameters()

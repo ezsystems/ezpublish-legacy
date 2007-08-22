@@ -284,7 +284,7 @@ class eZObjectRelationType extends eZDataType
         //get eZContentObjectVersion
         $currVerobj = $obj->currentVersion();
         // get array of ezcontentobjecttranslations
-        $transList =& $currVerobj->translations( false );
+        $transList = $currVerobj->translations( false );
         // get count of LanguageCode in transList
         $countTsl = count( $transList );
         // Delete the old version from ezcontentobject_link if count of translations > 1
@@ -327,7 +327,7 @@ class eZObjectRelationType extends eZDataType
 
             case "browse_object" :
             {
-                $module =& $parameters['module'];
+                $module = $parameters['module'];
                 $redirectionURI = $parameters['current-redirection-uri'];
                 $ini = eZINI::instance( 'content.ini' );
 
@@ -430,7 +430,7 @@ class eZObjectRelationType extends eZDataType
         {
             case 'browse_for_selection_node':
             {
-                $module =& $classAttribute->currentModule();
+                $module = $classAttribute->currentModule();
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 $customActionName = 'CustomActionButton[' . $classAttribute->attribute( 'id' ) . '_browsed_for_selection_node]';
                 eZContentBrowse::browse( array( 'action_name' => 'SelectObjectRelationNode',
@@ -479,7 +479,7 @@ class eZObjectRelationType extends eZDataType
         {
             if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
             {
-                $attributes =& $object->contentObjectAttributes();
+                $attributes = $object->contentObjectAttributes();
                 return eZContentObjectAttribute::metaDataArray( $attributes );
             }
             else

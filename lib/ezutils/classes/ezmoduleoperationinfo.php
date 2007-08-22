@@ -134,7 +134,7 @@ class eZModuleOperationInfo
                                  'eZModuleOperationInfo::execute' );
             return null;
         }
-        $operationDefinition =& $this->OperationList[$operationName];
+        $operationDefinition = $this->OperationList[$operationName];
         if ( !isset( $operationName['default_call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for operation '$operationName' in module '$moduleName'",
@@ -153,7 +153,7 @@ class eZModuleOperationInfo
                                  'eZModuleOperationInfo::execute' );
             return null;
         }
-        $callMethod =& $operationDefinition['default_call_method'];
+        $callMethod = $operationDefinition['default_call_method'];
         $resultArray = null;
         $this->Memento = null;
         if ( isset( $callMethod['include_file'] ) and
@@ -178,7 +178,7 @@ class eZModuleOperationInfo
 
                 if ( $mainMemento !== null )
                 {
-                    $this->Memento =& $mainMemento;
+                    $this->Memento = $mainMemento;
                     $mementoOperationData = $this->Memento->data();
                     if ( isset( $mementoOperationData['loop_run'] ) )
                         $bodyCallCount['loop_run'] = $mementoOperationData['loop_run'];
@@ -195,9 +195,8 @@ class eZModuleOperationInfo
                     $lastResultArray = array();
                     $mementoRestoreSuccess = true;
                     // restoring running operation
-                    foreach ( array_keys( $mementoList ) as $key )
+                    foreach ( $mementoList as $memento )
                     {
-                        $memento =& $mementoList[$key];
                         $mementoData = $memento->data();
                         $memento->remove();
 
@@ -562,20 +561,20 @@ class eZModuleOperationInfo
                   $status['Status'] == EZ_TRIGGER_FETCH_TEMPLATE ||
                   $status['Status'] == EZ_TRIGGER_REDIRECT )
         {
-            $bodyMemento =& $this->storeBodyMemento( $triggerName, $triggerKeys,
-                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                                     $bodyCallCount, $currentLoopData, $operationName );
-            $workflowProcess =& $status['WorkflowProcess'];
+            $bodyMemento = $this->storeBodyMemento( $triggerName, $triggerKeys,
+                                                    $operationKeys, $operationParameterDefinitions, $operationParameters,
+                                                    $bodyCallCount, $currentLoopData, $operationName );
+            $workflowProcess = $status['WorkflowProcess'];
             if ( ! is_null( $workflowProcess ) )
             {
                 $workflowProcess->setAttribute( 'memento_key', $bodyMemento->attribute( 'memento_key' ) );
                 $workflowProcess->store();
             }
 
-            $bodyReturnValue['result'] =& $status['Result'];
+            $bodyReturnValue['result'] = $status['Result'];
             if ( $status['Status'] == EZ_TRIGGER_REDIRECT )
             {
-                $bodyReturnValue['redirect_url'] =& $status['Result'];
+                $bodyReturnValue['redirect_url'] = $status['Result'];
             }
             return EZ_MODULE_OPERATION_HALTED;
         }
@@ -583,7 +582,7 @@ class eZModuleOperationInfo
                   $status['Status'] == EZ_TRIGGER_WORKFLOW_RESET )
         {
              return EZ_MODULE_OPERATION_CANCELED;
-             $bodyReturnValue['result'] =& $status['Result'];
+             $bodyReturnValue['result'] = $status['Result'];
         }
     }
 
@@ -600,7 +599,7 @@ class eZModuleOperationInfo
             $keyArray['session_key'] = $http->getSessionKey();
             $mementoData['loop_run'] = $bodyCallCount['loop_run'];
             $memento = eZOperationMemento::create( $keyArray, $mementoData, true );
-            $this->Memento =& $memento;
+            $this->Memento = $memento;
         }
         else
         {
@@ -616,7 +615,7 @@ class eZModuleOperationInfo
     {
         $keyArray = $this->makeKeyArray( $operationKeys, $operationParameterDefinitions, $operationParameters );
     }
-    function &storeBodyMemento( $bodyName, $bodyKeys,
+    function storeBodyMemento( $bodyName, $bodyKeys,
                                $operationKeys, $operationParameterDefinitions, $operationParameters,
                                &$bodyCallCount, $currentLoopData, $operationName )
     {
@@ -644,7 +643,7 @@ class eZModuleOperationInfo
             $operationParameters = $mementoData['parameters'];
         if ( isset( $mementoData[ 'main_memento' ] ) )
         {
-            $this->Memento =& $mementoData[ 'main_memento' ];
+            $this->Memento = $mementoData[ 'main_memento' ];
             $mainMementoData = $this->Memento->data();
             if ( isset( $mainMementoData['loop_run'] ) )
             {
@@ -685,7 +684,7 @@ class eZModuleOperationInfo
             return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_NO_CLASS,
                           'internal_error_class_name' => $className );
         }
-        $classObject =& $this->objectForClass( $className );
+        $classObject = $this->objectForClass( $className );
         if ( $classObject === null )
         {
             return array( 'internal_error' => EZ_MODULE_OPERATION_ERROR_CLASS_INSTANTIATE_FAILED,
@@ -734,19 +733,21 @@ class eZModuleOperationInfo
         return $this->callClassMethod( $methodName, $classObject, $parameterArray );
     }
 
-    function &objectForClass( $className )
+    function objectForClass( $className )
     {
-        $classObjectList =& $GLOBALS['eZModuleOperationClassObjectList'];
-        if ( !isset( $classObjectList ) )
-            $classObjectList = array();
-        if ( isset( $classObjectList[$className] ) )
-            return $classObjectList[$className];
-        $classObject = new $className();
-        $classObjectList[$className] =& $classObject;
-        return $classObject;
+        if ( !isset( $GLOBALS['eZModuleOperationClassObjectList'] ) )
+        {
+            $GLOBALS['eZModuleOperationClassObjectList'] = array();
+        }
+        if ( isset( $GLOBALS['eZModuleOperationClassObjectList'][$className] ) )
+        {
+            return $GLOBALS['eZModuleOperationClassObjectList'][$className];
+        }
+
+        return $GLOBALS['eZModuleOperationClassObjectList'][$className] = new $className();
     }
 
-    function callClassMethod( $methodName, &$classObject, $parameterArray )
+    function callClassMethod( $methodName, $classObject, $parameterArray )
     {
         if ( $this->UseOldCall )
             return call_user_method_array( $methodName, $classObject, $parameterArray );

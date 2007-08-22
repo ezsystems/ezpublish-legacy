@@ -202,15 +202,13 @@ class eZMediaType extends eZDataType
         $isFileUploadsEnabled = ini_get( 'file_uploads' ) != 0;
         if ( !$isFileUploadsEnabled )
         {
-            $isFileWarningAdded =& $GLOBALS['eZMediaTypeWarningAdded'];
-            if ( !isset( $isFileWarningAdded ) or
-                 !$isFileWarningAdded )
+            if ( empty( $GLOBALS['eZMediaTypeWarningAdded'] ) )
             {
                 eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
                                                               'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
                                             'text' => ezi18n( 'kernel/classes/datatypes',
                                                               'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
-                $isFileWarningAdded = true;
+                $GLOBALS['eZMediaTypeWarningAdded'] = true;
             }
         }
     }
@@ -380,7 +378,6 @@ class eZMediaType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
         $media = eZMedia::fetch( $attributeID, $objectVersion );
@@ -390,13 +387,13 @@ class eZMediaType extends eZDataType
         $httpFile->setMimeType( $mimeData['name'] );
         if ( !$httpFile->store( "original", false, false ) )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezmedia',
-                                                        'Failed to store media file %filename. Please contact the site administrator.', null,
-                                                        array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezmedia',
+                                                                  'Failed to store media file %filename. Please contact the site administrator.', null,
+                                                                  array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;
         }
 
-        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $classAttribute = $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
         $pluginPage = eZMediaType::pluginPage( $player );
 
@@ -453,7 +450,6 @@ class eZMediaType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
         $media = eZMedia::fetch( $attributeID, $objectVersion );
@@ -479,7 +475,7 @@ class eZMediaType extends eZDataType
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileStore( $destination, 'mediafile', true, $mimeData['name'] );
 
-        $classAttribute =& $objectAttribute->contentClassAttribute();
+        $classAttribute = $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
         $pluginPage = eZMediaType::pluginPage( $player );
 

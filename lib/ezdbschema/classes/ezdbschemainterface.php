@@ -91,7 +91,7 @@ class eZDBSchemaInterface
      */
     function eZDBSchemaInterface( $params )
     {
-        $this->DBInstance =& $params['instance'];
+        $this->DBInstance = $params['instance'];
         $this->Schema = false;
         $this->Data = false;
         if ( isset( $params['schema'] ) )
@@ -555,7 +555,7 @@ class eZDBSchemaInterface
                 {
                     foreach ( $table_diff['changed_fields'] as $field_name => $changed_field )
                     {
-                        $changed_field_def =& $changed_field['field-def'];
+                        $changed_field_def = $changed_field['field-def'];
                         $diffPrams = array_merge( $params, array( 'different-options' => $changed_field['different-options'] ) );
                         $this->appendSQLComments( $changed_field_def, $sql );
                         $sql .= $this->generateAlterFieldSql( $table, $field_name, $changed_field_def, $diffPrams );
@@ -1086,23 +1086,22 @@ class eZDBSchemaInterface
 
             if ( $toLocal )
             {
-                $searchColName =& $genericColName;
-                $replacementColName =& $localColName;
+                $searchColName = $genericColName;
+                $replacementColName = $localColName;
             }
             else
             {
-                $searchColName =& $localColName;
-                $replacementColName =& $genericColName;
+                $searchColName = $localColName;
+                $replacementColName = $genericColName;
             }
 
             if ( !isset( $schema[$tableName] ) )
                 continue;
 
             // transform column names in tables
-            $fieldsSchema =& $schema[$tableName]['fields'];
-            if ( isset( $fieldsSchema[$searchColName] )  )
+            if ( isset( $schema[$tableName]['fields'][$searchColName] )  )
             {
-                $schema[$tableName]['fields'][$replacementColName] =& $schema[$tableName]['fields'][$searchColName];
+                $schema[$tableName]['fields'][$replacementColName] = $schema[$tableName]['fields'][$searchColName];
                 unset( $schema[$tableName]['fields'][$searchColName] );
                 ksort( $schema[$tableName]['fields'] );
                 eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
@@ -1111,12 +1110,11 @@ class eZDBSchemaInterface
 
 
             // transform column names in indexes
-            $indexesSchema =& $schema[$tableName]['indexes'];
-            foreach ( $indexesSchema as $indexName => $indexSchema )
+            foreach ( $schema[$tableName]['indexes'] as $indexName => $indexSchema )
             {
                 if ( ( $key = array_search( $searchColName, $indexSchema['fields'] ) ) !== false )
                 {
-                    $indexesSchema[$indexName]['fields'][$key] = $replacementColName;
+                    $schema[$tableName]['indexes'][$indexName]['fields'][$key] = $replacementColName;
                     eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
                                                 "transformed index columnn name $indexName.$searchColName to $replacementColName" );
                 }
@@ -1142,35 +1140,40 @@ class eZDBSchemaInterface
             if ( count($matches) == 3 )
                 $genericType = $matches[1];
 
-            $fieldsSchema =& $schema[$tableName]['fields'];
             if ( !isset( $schema[$tableName]['fields'][$colName] ) )
                 continue;
 
-            $fieldSchema =& $fieldsSchema[$colName];
+            $fieldSchema = $schema[$tableName]['fields'][$colName];
 
             if ( $toLocal )
             {
-                $searchType        =& $genericType;
-                $searchLength      =& $genericLength;
-                $replacementType   =& $localType;
-                $replacementLength =& $localLength;
+                $searchType        = $genericType;
+                $searchLength      = $genericLength;
+                $replacementType   = $localType;
+                $replacementLength = $localLength;
             }
             else // to generic
             {
-                $searchType        =& $localType;
-                $searchLength      =& $localLength;
-                $replacementType   =& $genericType;
-                $replacementLength =& $genericLength;
+                $searchType        = $localType;
+                $searchLength      = $localLength;
+                $replacementType   = $genericType;
+                $replacementLength = $genericLength;
             }
 
             $fieldSchema['type'] = $replacementType;
             if ( $replacementLength !== null )
+            {
                 $fieldSchema['length'] = $replacementLength;
+            }
             else
+            {
                 unset( $fieldSchema['length'] );
+            }
 
             eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
                                         "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
+
+            $schema[$tableName]['fields'][$colName] = $fieldSchema;
         }
 
         // Find indexes that needs to be fixed
@@ -1250,24 +1253,23 @@ class eZDBSchemaInterface
 
             if ( $toLocal )
             {
-                $searchIdxName      =& $genericIdxName;
-                $replacementIdxName =& $localIdxName;
+                $searchIdxName      = $genericIdxName;
+                $replacementIdxName = $localIdxName;
             }
             else
             {
-                $searchIdxName      =& $localIdxName;
-                $replacementIdxName =& $genericIdxName;
+                $searchIdxName      = $localIdxName;
+                $replacementIdxName = $genericIdxName;
             }
 
             if ( !isset( $schema[$tableName] ) )
                 continue;
 
-            $fieldsSchema =& $schema[$tableName]['indexes'];
-            if ( isset( $fieldsSchema[$searchIdxName] )  )
+            if ( isset( $schema[$tableName]['indexes'][$searchIdxName] )  )
             {
                 eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
                                             "replaced $tableName.$searchIdxName => $replacementIdxName" );
-                $schema[$tableName]['indexes'][$replacementIdxName] =& $schema[$tableName]['indexes'][$searchIdxName];
+                $schema[$tableName]['indexes'][$replacementIdxName] = $schema[$tableName]['indexes'][$searchIdxName];
                 unset( $schema[$tableName]['indexes'][$searchIdxName] );
                 ksort( $schema[$tableName]['indexes'] );
             }
@@ -1282,11 +1284,11 @@ class eZDBSchemaInterface
             if ( !isset( $schema[$tableName] ) || !isset( $schema[$tableName]['fields'][$colName] ) )
                 continue;
 
-            $fieldSchema =& $schema[$tableName]['fields'][$colName];
+            $fieldSchema = $schema[$tableName]['fields'][$colName];
 
             switch ( $colOptOverride )
             {
-            case 'null':
+                case 'null':
                 {
                     if ( $toLocal )
                     {
@@ -1310,13 +1312,13 @@ class eZDBSchemaInterface
                         $fieldSchema['default'] = $tmp;
                     }
                 } break;
-            default:
+                default:
                 {
                     eZDebug::writeWarning( "Column option override '$colOptOverride' is not supported" );
                 } break;
             }
 
-
+            $schema[$tableName]['fields'][$colName] = $fieldSchema;
         }
 
 
@@ -1356,20 +1358,20 @@ class eZDBSchemaInterface
 
             if ( $toLocal )
             {
-                $searchColName =& $genericColName;
-                $replacementColName =& $localColName;
+                $searchColName = $genericColName;
+                $replacementColName = $localColName;
             }
             else
             {
-                $searchColName =& $localColName;
-                $replacementColName =& $genericColName;
+                $searchColName = $localColName;
+                $replacementColName = $genericColName;
             }
 
             if ( !isset( $data[$tableName] ) )
                 continue;
 
             // transform column names in tables
-            $fieldsData =& $data[$tableName]['fields'];
+            $fieldsData = $data[$tableName]['fields'];
             foreach ( $fieldsData as $key => $fieldName )
             {
                 if ( $searchColName == $fieldName )

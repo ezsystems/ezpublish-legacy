@@ -137,10 +137,10 @@ class eZCollaborationItemHandler
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function handleCollaborationEvent( &$event, &$item, &$parameters )
+    static function handleCollaborationEvent( $event, $item, &$parameters )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-        $participantList =& eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
+        $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $item->attribute( 'id' ),
                                                                                              'participant_type' => EZ_COLLABORATION_PARTICIPANT_TYPE_USER,
                                                                                              'as_object' => false ) );
 

@@ -75,9 +75,7 @@ class eZMailTransport
         $ini = eZINI::instance();
 
         $transportType = trim( $ini->variable( 'MailSettings', 'Transport' ) );
-        $transportObject =& $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )];
-        if ( !isset( $transportObject ) or
-             !is_object( $transportObject ) )
+        if ( empty( $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )] ) )
         {
             $transportClassFile = 'ez' . strtolower( $transportType ) . 'transport.php';
             $transportClassPath = 'lib/ezutils/classes/' . $transportClassFile;
@@ -95,9 +93,9 @@ class eZMailTransport
                                      'eZMailTransport::send' );
                 return false;
             }
-            $transportObject = new $transportClass();
+            $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )] = new $transportClass();
         }
-        return $transportObject->sendMail( $mail );
+        return $GLOBALS['eZMailTransportHandler_' . strtolower( $transportType )]->sendMail( $mail );
     }
 }
 

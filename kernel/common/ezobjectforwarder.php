@@ -245,9 +245,9 @@ class eZObjectForwarder
                                                                "    \$resH = \$tpl->resourceHandler( 'design' );\n" .
                                                                "    \$$designKeysName = \$resH->keys();\n" .
                                                                "}", array( 'spacing' => $acquisitionSpacing ) );
-        $attributeKeys = $rule["attribute_keys"];
-        if ( isset( $attributeKeys ) )
+        if ( isset( $rule["attribute_keys"] ) )
         {
+            $attributeKeys = $rule["attribute_keys"];
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if " . ( $resourceData['use-comments'] ? ( "/*OF:" . __LINE__ . "*/" ) : "" ) . "( !isset( \$" . $designKeysName . "Stack ) )\n" .
                                                                    "{\n" .
                                                                    "    \$" . $designKeysName . "Stack = array();\n" .
@@ -577,7 +577,7 @@ class eZObjectForwarder
             if ( $hasAttributeAccess )
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n", array( 'spacing' => $acquisitionSpacing ) );
         }
-        if ( isset( $attributeKeys ) )
+        if ( isset( $rule["attribute_keys"] ) )
         {
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$designKeysName = array_pop( \$" . $designKeysName . "Stack );",
                                                                    array( 'spacing' => $acquisitionSpacing ) );

@@ -108,13 +108,15 @@ class eZModuleFunctionInfo
     {
         if ( isset( $this->FunctionList[$functionName]['parameters'] ) )
         {
-            $parameterList =& $this->FunctionList[$functionName]['parameters'];
-            foreach ( array_keys( $parameterList ) as $key )
+            $parameterList = $this->FunctionList[$functionName]['parameters'];
+            foreach ( $parameterList as $parameter )
             {
-                if ( $parameterList[$key]['name'] == $parameterName )
+                if ( $parameter['name'] == $parameterName )
                 {
-                    if ( $parameterList[$key]['type'] == 'array' )
+                    if ( $parameter['type'] == 'array' )
+                    {
                         return true;
+                    }
                     return false;
                 }
             }
@@ -173,7 +175,7 @@ class eZModuleFunctionInfo
             {
                 return $Return;
             }
-            $classObject =& $this->objectForClass( $callMethod['class'] );
+            $classObject = $this->objectForClass( $callMethod['class'] );
             if ( $classObject === null )
             {
                 return $Return;
@@ -291,16 +293,17 @@ class eZModuleFunctionInfo
         return null;
     }
 
-    function &objectForClass( $className )
+    function objectForClass( $className )
     {
-        $classObjectList =& $GLOBALS['eZModuleFunctionClassObjectList'];
-        if ( !isset( $classObjectList ) )
-            $classObjectList = array();
-        if ( isset( $classObjectList[$className] ) )
-            return $classObjectList[$className];
-        $classObject = new $className();
-        $classObjectList[$className] =& $classObject;
-        return $classObject;
+        if ( !isset( $GLOBALS['eZModuleFunctionClassObjectList'] ) )
+        {
+            $GLOBALS['eZModuleFunctionClassObjectList'] = array();
+        }
+        if ( isset( $GLOBALS['eZModuleFunctionClassObjectList'][$className] ) )
+        {
+            return $GLOBALS['eZModuleFunctionClassObjectList'][$className];
+        }
+        return $GLOBALS['eZModuleFunctionClassObjectList'][$className] = new $className();
     }
 
     function executeClassMethod( $extension, $includeFile, $className, $methodName,
@@ -318,7 +321,7 @@ class eZModuleFunctionInfo
             return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_NO_CLASS,
                           'internal_error_class_name' => $className );
         }
-        $classObject =& $this->objectForClass( $className );
+        $classObject = $this->objectForClass( $className );
         if ( $classObject === null )
         {
             return array( 'internal_error' => EZ_MODULE_FUNCTION_ERROR_CLASS_INSTANTIATE_FAILED,

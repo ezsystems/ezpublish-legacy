@@ -69,9 +69,8 @@ class eZSubtreeSubscriptionType extends eZDataType
         if ( $attribute->attribute( 'data_int' ) == '1' )
         {
             $newSubscriptions = array();
-            foreach ( array_keys( $publishedNodes ) as $key )
+            foreach ( $publishedNodes as $node )
             {
-                $node =& $publishedNodes[$key];
                 if ( !in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
                     $newSubscriptions[] = $node->attribute( 'node_id' );
@@ -87,9 +86,8 @@ class eZSubtreeSubscriptionType extends eZDataType
         }
         else
         {
-            foreach ( array_keys( $publishedNodes ) as $key )
+            foreach ( $publishedNodes as $node )
             {
-                $node =& $publishedNodes[$key];
                 if ( in_array( $node->attribute( 'node_id' ), $nodeIDList ) )
                 {
                     eZSubtreeNotificationRule::removeByNodeAndUserID( $user->attribute( 'contentobject_id' ), $node->attribute( 'node_id' ) );

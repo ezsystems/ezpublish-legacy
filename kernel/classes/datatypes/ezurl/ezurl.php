@@ -343,7 +343,7 @@ class eZURL extends eZPersistentObject
                     return $urls;
                 }
                 else
-                    $urls =& $urlArray;
+                    $urls = $urlArray;
                 return $urls;
             }
         }
@@ -438,8 +438,7 @@ class eZURL extends eZPersistentObject
 
         if ( count( $urlArray ) == 1 )
         {
-            $urlRow =& $urlArray[0];
-            $url = new eZURL( $urlRow );
+            $url = new eZURL( $urlArray[0] );
         }
         return $url;
     }

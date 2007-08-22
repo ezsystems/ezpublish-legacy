@@ -172,9 +172,8 @@ class eZOperationMemento extends eZPersistentObject
     static function createKey( $parameters )
     {
         $string = '';
-        foreach ( array_keys( $parameters ) as $key )
+        foreach ( $parameters as $key => $value )
         {
-            $value =& $parameters[$key];
             $string .= $key . $value;
         }
         return md5( $string );

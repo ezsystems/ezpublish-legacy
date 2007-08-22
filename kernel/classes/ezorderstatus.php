@@ -167,8 +167,7 @@ class eZOrderStatus extends eZPersistentObject
     */
     function fetchMap( $asObject = true, $showInactive = false )
     {
-        $map =& $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive];
-        if ( !isset( $map ) )
+        if ( empty( $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
@@ -195,8 +194,10 @@ class eZOrderStatus extends eZPersistentObject
                     $map[$statusItem['status_id']] = $statusItem;
                 }
             }
+            $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive] = $map;
         }
-        return $map;
+
+        return $GLOBALS['eZOrderStatusMap'][$asObject][$showInactive];
     }
 
     /*!
@@ -206,20 +207,19 @@ class eZOrderStatus extends eZPersistentObject
     */
     static function fetchList( $asObject = true, $showInactive = false )
     {
-        $list =& $GLOBALS['eZOrderStatusList'][$asObject][$showInactive];
-        if ( !isset( $list ) )
+        if ( empty( $GLOBALS['eZOrderStatusList'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
                 $conds['is_active'] = 1;
-            $list = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
-                                                         null,
-                                                         $conds,
-                                                         array( 'status_id' => false ),
-                                                         null,
-                                                         $asObject );
+            $GLOBALS['eZOrderStatusList'][$asObject][$showInactive] = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
+                                                                                                           null,
+                                                                                                           $conds,
+                                                                                                           array( 'status_id' => false ),
+                                                                                                           null,
+                                                                                                           $asObject );
         }
-        return $list;
+        return $GLOBALS['eZOrderStatusList'][$asObject][$showInactive];
     }
 
     /*!
@@ -246,20 +246,19 @@ class eZOrderStatus extends eZPersistentObject
     */
     static function fetchOrderedList( $asObject = true, $showInactive = false )
     {
-        $list =& $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive];
-        if ( !isset( $list ) )
+        if ( empty( $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive] ) )
         {
             $conds = array();
             if ( !$showInactive )
                 $conds['is_active'] = 1;
-            $list = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
-                                                         null,
-                                                         $conds,
-                                                         array( 'name' => false ),
-                                                         null,
-                                                         $asObject );
+            $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive] = eZPersistentObject::fetchObjectList( eZOrderStatus::definition(),
+                                                                                                            null,
+                                                                                                            $conds,
+                                                                                                            array( 'name' => false ),
+                                                                                                            null,
+                                                                                                            $asObject );
         }
-        return $list;
+        return $GLOBALS['eZOrderStatusOList'][$asObject][$showInactive];
     }
 
     /*!
@@ -320,17 +319,16 @@ class eZOrderStatus extends eZPersistentObject
     */
     function createUndefined()
     {
-        $obj =& $GLOBALS['eZOrderStatusUndefined'];
-        if ( !isset( $obj ) )
+        if ( empty( $GLOBALS['eZOrderStatusUndefined'] ) )
         {
             $row = array(
                 'id' => null,
                 'status_id' => EZ_ORDER_STATUS_UNDEFINED,
                 'is_active' => true,
                 'name' => ezi18n( 'kernel/shop', 'Undefined' ) );
-            $obj = new eZOrderStatus( $row );
+            $GLOBALS['eZOrderStatusUndefined'] = new eZOrderStatus( $row );
         }
-        return $obj;
+        return $GLOBALS['eZOrderStatusUndefined'];
     }
 
     /*!

@@ -42,7 +42,7 @@
   $author->addValue( "Green" );
 
   // Serialize the class to an XML document
-  $xmlString =& $author->xmlString();
+  $xmlString = $author->xmlString();
 
   \endcode
 */
@@ -91,16 +91,14 @@ class eZAuthor
 
     function removeAuthors( $array_remove )
     {
-        $authors =& $this->Authors;
-
         if ( count( $array_remove ) > 0 )
             foreach ( $array_remove as $id )
             {
-                foreach ( $authors as $authorKey => $author )
+                foreach ( $this->Authors as $authorKey => $author )
                 {
                     if ( $author['id'] == $id )
                     {
-                        array_splice( $authors, $authorKey, 1 );
+                        array_splice( $this->Authors, $authorKey, 1 );
                         $this->AuthorCount --;
                     }
                 }

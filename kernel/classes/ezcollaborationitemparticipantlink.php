@@ -145,24 +145,25 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
                 WHERE  collaboration_id='$collaborationID' AND participant_id='$userID'";
         $db->query( $sql );
-        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID];
-        if ( isset( $collabLink ) )
-            $collabLink->setAttribute( 'last_read', $timestamp );
+        if ( !empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID] ) )
+            $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$userID]->setAttribute( 'last_read', $timestamp );
     }
 
     static function fetch( $collaborationID, $participantID, $asObject = true )
     {
-        $collabLink =& $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
-        if ( isset( $collabLink ) )
-            return $collabLink;
-        return eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
-                                                null,
-                                                array( "collaboration_id" => $collaborationID,
-                                                       'participant_id' => $participantID ),
-                                                $asObject );
+        if ( empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID] ) )
+        {
+            $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID] =
+                eZPersistentObject::fetchObject( eZCollaborationItemParticipantLink::definition(),
+                                                 null,
+                                                 array( "collaboration_id" => $collaborationID,
+                                                        'participant_id' => $participantID ),
+                                                 $asObject );
+        }
+        return $GLOBALS["eZCollaborationItemParticipantLinkCache"][$collaborationID][$participantID];
     }
 
-    static function &fetchParticipantList( $parameters = array() )
+    static function fetchParticipantList( $parameters = array() )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,
@@ -177,9 +178,10 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $linkList = null;
         if ( !$offset and !$limit )
         {
-            $linkList =& $GLOBALS['eZCollaborationItemParticipantLinkListCache'];
-            if ( isset( $linkList ) )
-                return $linkList;
+            if ( !empty( $GLOBALS['eZCollaborationItemParticipantLinkListCache'] ) )
+            {
+                return $GLOBALS['eZCollaborationItemParticipantLinkListCache'];
+            }
         }
         $limitArray = null;
         if ( $offset and $limit )
@@ -189,37 +191,40 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                                           array( "collaboration_id" => $itemID ),
                                                           null, $limitArray,
                                                           $asObject );
-        for ( $i = 0; $i < count( $linkList ); ++$i )
+        foreach( $linkList as $linkItem )
         {
-            $linkItem =& $linkList[$i];
             if ( $asObject )
+            {
                 $participantID = $linkItem->attribute( 'participant_id' );
+            }
             else
+            {
                 $participantID = $linkItem['participant_id'];
-            if ( !isset( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] ) )
-                $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] =& $linkList[$i];
+            }
+            if ( empty( $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] ) )
+            {
+                $GLOBALS["eZCollaborationItemParticipantLinkCache"][$itemID][$participantID] = $linkItem;
+            }
         }
-        return $linkList;
+        return $GLOBALS['eZCollaborationItemParticipantLinkListCache'] = $linkList;
     }
 
-    static function &fetchParticipantMap( $originalParameters = array() )
+    static function fetchParticipantMap( $originalParameters = array() )
     {
         $parameters = array_merge( array( 'sort_field' => 'role' ),
                                    $originalParameters );
         $itemID = $parameters['item_id'];
         $sortField = $parameters['sort_field'];
-        $list =& eZCollaborationItemParticipantLink::fetchParticipantList( $originalParameters );
+        $list = eZCollaborationItemParticipantLink::fetchParticipantList( $originalParameters );
         if ( $list === null )
         {
             $listMap = null;
             return $listMap;
         }
 
-        $listKeys = array_keys( $list );
         $listMap = array();
-        foreach ( $listKeys as $listKey )
+        foreach ( $list as $listItem )
         {
-            $listItem =& $list[$listKey];
             $sortKey = null;
             if ( $sortField == 'role' )
             {
@@ -236,7 +241,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                     $listMap[$sortKey] = array( 'name' => $sortName,
                                                 'items' => array() );
                 }
-                $listMap[$sortKey]['items'][] =& $listItem;
+                $listMap[$sortKey]['items'][] = $listItem;
             }
         }
         return $listMap;
@@ -258,48 +263,48 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
 
     static function roleString( $participantRole )
     {
-        $roleMap =& $GLOBALS['eZCollaborationParticipantRoleMap'];
-        if ( !isset( $roleMap ) )
+        if ( empty( $GLOBALS['eZCollaborationParticipantRoleMap'] ) )
         {
-            $roleMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => 'standard',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => 'observer',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => 'owner',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => 'approver',
-                              EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
+            $GLOBALS['eZCollaborationParticipantRoleMap'] =
+                array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => 'standard',
+                       EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => 'observer',
+                       EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => 'owner',
+                       EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => 'approver',
+                       EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
         }
+        $roleMap = $GLOBALS['eZCollaborationParticipantRoleMap'];
         if ( isset( $roleMap[$participantRole] ) )
-            $retString = $roleMap[$participantRole];
-        else
-            $retString = null;
-        return $retString;
+        {
+            return $roleMap[$participantRole];
+        }
+
+        return null;
     }
 
     static function roleName( $collaborationID, $roleID )
     {
         if ( $roleID < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
         {
-            $roleNameMap =& $GLOBALS['eZCollaborationParticipantRoleNameMap'];
-            if ( !isset( $roleNameMap ) )
+            if ( empty( $GLOBALS['eZCollaborationParticipantRoleNameMap'] ) )
             {
                 include_once( 'kernel/common/i18n.php' );
-                $roleNameMap = array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
-                                      EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
+                $GLOBALS['eZCollaborationParticipantRoleNameMap'] =
+                    array( EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD => ezi18n( 'kernel/classes', 'Standard' ),
+                           EZ_COLLABORATION_PARTICIPANT_ROLE_OBSERVER => ezi18n( 'kernel/classes', 'Observer' ),
+                           EZ_COLLABORATION_PARTICIPANT_ROLE_OWNER => ezi18n( 'kernel/classes', 'Owner' ),
+                           EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER => ezi18n( 'kernel/classes', 'Approver' ),
+                           EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
             }
+            $roleNameMap = $GLOBALS['eZCollaborationParticipantRoleNameMap'];
             if ( isset( $roleNameMap[$roleID] ) )
-                $retRoleName = $roleNameMap[$roleID];
-            else
-                $retRoleName = null;
+            {
+                return $roleNameMap[$roleID];
+            }
+            return null;
         }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $collaborationID );
-            $itemHandler =& $item->handler();
-            $retRoleName = $itemHandler->roleName( $collaborationID, $roleID );
-        }
-        return $retRoleName;
+
+        $item = eZCollaborationItem::fetch( $collaborationID );
+        return $item->handler()->roleName( $collaborationID, $roleID );
     }
 
     function collaborationItem()
@@ -327,30 +332,22 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     {
         if ( $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
         {
-            $typeString =& eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
+            return  eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
         }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
-            $itemHandler = $item->handler();
-            $typeString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantTypeString( $this->ParticipantType );
-        }
-        return $typeString;
+
+        $item = eZCollaborationItem::fetch( $this->CollaborationID );
+        return $item->attribute( 'type_identifier' ) . '_' . $item->handler()->participantTypeString( $this->ParticipantType );
     }
 
     function participantRoleString()
     {
         if ( $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
         {
-            $roleString =& eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
+            return  eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
         }
-        else
-        {
-            $item = eZCollaborationItem::fetch( $this->CollaborationID );
-            $itemHandler = $item->handler();
-            $roleString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantRoleString( $this->ParticipantRole );
-        }
-        return $roleString;
+
+        $item = eZCollaborationItem::fetch( $this->CollaborationID );
+        return $item->attribute( 'type_identifier' ) . '_' . $item->handler()->participantRoleString( $this->ParticipantRole );
     }
 
     function isBuiltinType()

@@ -218,7 +218,7 @@ class eZUserLoginHandler
                 $handler = null;
                 if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
-                    $handlerName =& $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler = eZUserLoginHandler::instance( $handlerName );
                 }
                 if ( $handler )
@@ -243,7 +243,7 @@ class eZUserLoginHandler
                 $handler = null;
                 if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
-                    $handlerName =& $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler = eZUserLoginHandler::instance( $handlerName );
                 }
 
@@ -283,7 +283,7 @@ class eZUserLoginHandler
                     foreach( $handlerList as $handler )
                     {
                         $userObject = eZUserLoginHandler::instance( $handler );
-                        $user =& $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
+                        $user = $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
                         if ( is_subclass_of( $user, 'eZUser' ) )
                         {
                             eZUserLoginHandler::sessionCleanup();

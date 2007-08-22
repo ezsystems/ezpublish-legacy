@@ -50,15 +50,17 @@ class eZOperationHandler
 
     static function moduleOperationInfo( $moduleName, $useTriggers = true )
     {
-        $globalModuleOperationList =& $GLOBALS['eZGlobalModuleOperationList'];
-        if ( !isset( $globalModuleOperationList ) )
-            $globalModuleOperationList = array();
-        if ( isset( $globalModuleOperationList[$moduleName] ) )
-            return $globalModuleOperationList[$moduleName];
+        if ( !isset( $GLOBALS['eZGlobalModuleOperationList'] ) )
+        {
+            $GLOBALS['eZGlobalModuleOperationList'] = array();
+        }
+        if ( isset( $GLOBALS['eZGlobalModuleOperationList'][$moduleName] ) )
+        {
+            return $GLOBALS['eZGlobalModuleOperationList'][$moduleName];
+        }
         $moduleOperationInfo = new eZModuleOperationInfo( $moduleName, $useTriggers );
         $moduleOperationInfo->loadDefinition();
-        $globalModuleOperationList[$moduleName] =& $moduleOperationInfo;
-        return $moduleOperationInfo;
+        return $GLOBALS['eZGlobalModuleOperationList'][$moduleName] = $moduleOperationInfo;
     }
 
     static function execute( $moduleName, $operationName, $operationParameters, $lastTriggerName = null, $useTriggers = true )

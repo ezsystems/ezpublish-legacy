@@ -127,7 +127,7 @@
       $option->addOption( $newID, "", "Red", "", false );
       $option->addOption( $newID, "", "Blue", "", false );
   // Serialize the class to an XML document
-  $xmlString =& $option->xmlString();
+  $xmlString = $option->xmlString();
   \endcode
 */
 
@@ -234,12 +234,11 @@ class eZMultiOption
     */
     function removeMultiOptions( $array_remove )
     {
-        $options =& $this->Options;
         foreach ( $array_remove as $id )
         {
-            unset( $options[ $id - 1 ] );
+            unset( $this->Options[ $id - 1 ] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $this->changeMultiOptionId();
     }
 
@@ -252,16 +251,15 @@ class eZMultiOption
     */
     function removeOptions( $arrayRemove, $optionId )
     {
-        $options =& $this->Options;
         foreach ( $arrayRemove as  $id )
         {
-            unset( $options[$optionId]['optionlist'][$id - 1] );
+            unset( $this->Options[$optionId]['optionlist'][$id - 1] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $i = 1;
-        foreach ( $options[$optionId]['optionlist'] as $key => $opt )
+        foreach ( $this->Options[$optionId]['optionlist'] as $key => $opt )
         {
-            $options[$optionId]['optionlist'][$key]['id'] = $i;
+            $this->Options[$optionId]['optionlist'][$key]['id'] = $i;
             $i++;
         }
     }
@@ -327,7 +325,7 @@ class eZMultiOption
             $dom = new DOMDocument();
             $success = $dom->loadXML( $xmlString );
 
-            $root =& $dom->documentElement;
+            $root = $dom->documentElement;
             // set the name of the node
             $this->Name = $root->getElementsByTagName( "name" )->item( 0 )->textContent;
             $this->OptionCounter = $root->getAttribute( "option_counter" );

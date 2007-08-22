@@ -81,7 +81,7 @@ class eZMultiOption2
         return $this->OptionCounter;
     }
 
-    function addChildGroup( &$group, $multioptionID = false )
+    function addChildGroup( $group, $multioptionID = false )
     {
         if ( $group->GroupID == 0 )
         {
@@ -94,11 +94,12 @@ class eZMultiOption2
             $this->initCounters( $group );
         }
         if ( $multioptionID === false )
-            $this->ChildGroupList[] =& $group;
+        {
+            $this->ChildGroupList[] = $group;
+        }
         else
         {
-            $option =& $this->Options[$multioptionID];
-            $option['child_group'] =& $group;
+            $this->Options[$multioptionID]['child_group'] = $group;
         }
         return count( $this->ChildGroupList );
     }
@@ -172,7 +173,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
         $this->initCounters( $group );
         return $group->addOption( $searchResult['id'], $OptionID, $optionValue, $optionAdditionalPrice );
     }
@@ -182,7 +183,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
 
         if ( isset( $group->Options[$searchResult['id']]['optionlist'][$optionID] ) )
         {
@@ -195,7 +196,7 @@ class eZMultiOption2
         $searchResult = $this->findMultiOption( $multioptionID );
         if ( !$searchResult )
             return null;
-        $group =& $searchResult['group'];
+        $group = $searchResult['group'];
 
         if ( isset( $group->Options[$searchResult['id']]['optionlist'][$optionID]['object'] ) )
         {
@@ -209,7 +210,7 @@ class eZMultiOption2
         }
     }
 
-    function &findGroup( $groupID, $depth = 0, $groupStack = array() )
+    function findGroup( $groupID, $depth = 0, $groupStack = array() )
     {
         $groupStack[] = array( $this->attribute( 'group_id' ), $depth );
         if ( $depth > 15 )
@@ -225,7 +226,7 @@ class eZMultiOption2
                     return $this->Options[$key]['child_group'];
                 else
                 {
-                    if ( $group =& $this->Options[$key]['child_group']->findGroup( $groupID, $depth + 1, $groupStack ) )
+                    if ( $group = $this->Options[$key]['child_group']->findGroup( $groupID, $depth + 1, $groupStack ) )
                         return $group;
                 }
             }
@@ -238,7 +239,7 @@ class eZMultiOption2
                 return $this->ChildGroupList[$key];
             }
 
-            if ( $group =& $this->ChildGroupList[$key]->findGroup( $groupID, $depth + 1, $groupStack ) )
+            if ( $group = $this->ChildGroupList[$key]->findGroup( $groupID, $depth + 1, $groupStack ) )
                 return $group;
         }
         $dummyGroup = null;
@@ -252,12 +253,12 @@ class eZMultiOption2
             if ( $optionList['multioption_id'] == $multioptionID )
             {
                 $option = $this->Options[$key];
-                return array( "group" => &$this,
+                return array( "group" => $this,
                               "id" => $option['id'] );
             }
             if ( isset( $optionList['child_group'] ) )
             {
-                $group =& $this->Options[$key]['child_group'];
+                $group = $this->Options[$key]['child_group'];
                 $returnArray = $group->findMultiOption( $multioptionID,$depth+1 );
                 if ( $returnArray )
                 {
@@ -414,12 +415,11 @@ class eZMultiOption2
     */
     function removeMultiOptions( $array_remove )
     {
-        $options =& $this->Options;
         foreach ( $array_remove as $id )
         {
-            unset( $options[ $id ] );
+            unset( $this->Options[ $id ] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $this->changeMultiOptionId();
     }
 
@@ -433,16 +433,15 @@ class eZMultiOption2
     */
     function removeOptions( $arrayRemove, $optionId )
     {
-        $options =& $this->Options;
         foreach ( $arrayRemove as  $id )
         {
-            unset( $options[$optionId]['optionlist'][$id - 1] );
+            unset( $this->Options[$optionId]['optionlist'][$id - 1] );
         }
-        $options = array_values( $options );
+        $this->Options = array_values( $this->Options );
         $i = 1;
-        foreach ( $options[$optionId]['optionlist'] as $key => $opt )
+        foreach ( $this->Options[$optionId]['optionlist'] as $key => $opt )
         {
-            $options[$optionId]['optionlist'][$key]['id'] = $i;
+            $this->Options[$optionId]['optionlist'][$key]['id'] = $i;
             $i++;
         }
     }
@@ -464,7 +463,7 @@ class eZMultiOption2
 
     function cleanupRules( )
     {
-        $this->runFunctionForAllGroups( 'getIDsFromMultioptions', array( 'group' => &$this ) );
+        $this->runFunctionForAllGroups( 'getIDsFromMultioptions', array( 'group' => $this ) );
         foreach( $this->Rules as $key => $ruleForOption )
         {
             if ( ! in_array( $key, $this->OptionIDList ) )
@@ -622,9 +621,9 @@ class eZMultiOption2
         if ( $xmlString != "" )
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $xmlString );
+            $dom = $xml->domTree( $xmlString );
 //            var_dump( $xmlString );
-            $root =& $dom->root();
+            $root = $dom->root();
 
             if ( $root->name() == 'ezmultioption' )
             {
@@ -772,7 +771,7 @@ class eZMultiOption2
      Will return the XML string for this MultiOption set.
      \sa decodeXML()
     */
-    function &xmlString()
+    function xmlString()
     {
         $doc = new eZDOMDocument( "MultiOption2" );
         $root = $doc->createElementNode( "ezmultioption2" );
@@ -811,10 +810,10 @@ class eZMultiOption2
         return $xml;
     }
 
-    function createDomElementForGroup( $doc, &$groupNode, $depth = 0 )
+    function createDomElementForGroup( $doc, $groupNode, $depth = 0 )
     {
 
-        $root =& $groupNode;
+        $root = $groupNode;
         $name = $doc->createElementNode( "name" );
         $nameValue = $doc->createTextNode( $this->Name );
         $name->appendChild( $nameValue );

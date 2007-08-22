@@ -46,8 +46,7 @@ class eZDbSchema
     {
         if ( is_object( $params ) )
         {
-            $db =& $params;
-            unset( $params );
+            $db = $params;
             $params = array( 'instance' => $db );
         }
 
@@ -58,8 +57,7 @@ class eZDbSchema
             $params['instance'] = $db;
         }
 
-        unset( $db );
-        $db =& $params['instance'];
+        $db = $params['instance'];
 
         if ( !isset( $params['type'] ) )
             $params['type'] = $db->databaseName();

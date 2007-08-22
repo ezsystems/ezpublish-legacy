@@ -622,13 +622,12 @@ WHERE user_id = '" . $userID . "' AND
     {
         if ( !in_array( $id, $GLOBALS['eZUserBuiltins'] ) )
             $id = EZ_USER_ANONYMOUS_ID;
-        $builtinInstance =& $GLOBALS["eZUserBuilitinInstance-$id"];
-        if ( strtolower( get_class( $builtinInstance ) ) != 'ezuser' )
+        if ( empty( $GLOBALS["eZUserBuilitinInstance-$id"] ) )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $builtinInstance = eZUser::fetch( EZ_USER_ANONYMOUS_ID );
+            $GLOBALS["eZUserBuilitinInstance-$id"] = eZUser::fetch( EZ_USER_ANONYMOUS_ID );
         }
-        return $builtinInstance;
+        return $GLOBALS["eZUserBuilitinInstance-$id"];
     }
 
 
@@ -1034,12 +1033,12 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function instance( $id = false )
     {
-        $currentUser =& $GLOBALS["eZUserGlobalInstance_$id"];
-        if ( strtolower( get_class( $currentUser ) ) == 'ezuser' )
+        if ( !empty( $GLOBALS["eZUserGlobalInstance_$id"] ) )
         {
-            return $currentUser;
+            return $GLOBALS["eZUserGlobalInstance_$id"];
         }
 
+        $currentUser = null;
         $http = eZHTTPTool::instance();
         // If not specified get the current user
         if ( $id === false )
@@ -1196,6 +1195,7 @@ WHERE user_id = '" . $userID . "' AND
             eZDebug::writeWarning( 'Anonymous user not found, returning NoUser' );
         }
 
+        $GLOBALS["eZUserGlobalInstance_$id"] = $currentUser;
         return $currentUser;
     }
 
@@ -1406,9 +1406,10 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function passwordCharacterTable()
     {
-        $table =& $GLOBALS['eZUserPasswordCharacterTable'];
-        if ( isset( $table ) )
-            return $table;
+        if ( !empty( $GLOBALS['eZUserPasswordCharacterTable'] ) )
+        {
+            return $GLOBALS['eZUserPasswordCharacterTable'];
+        }
         $table = array_merge( range( 'a', 'z' ), range( 'A', 'Z' ), range( 0, 9 ) );
 
         $ini = eZINI::instance();
@@ -1425,7 +1426,8 @@ WHERE user_id = '" . $userID . "' AND
         {
             $table[] = $item;
         }
-        return $table;
+
+        return $GLOBALS['eZUserPasswordCharacterTable'] = $table;
     }
 
     /*!

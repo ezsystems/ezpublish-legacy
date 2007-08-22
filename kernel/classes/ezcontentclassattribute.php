@@ -342,7 +342,7 @@ class eZContentClassAttribute extends eZPersistentObject
         if ( $field_filters === null and $asObject and
              isset( $GLOBALS['eZContentClassAttributeCache'][$id][$version] ) )
         {
-            $object =& $GLOBALS['eZContentClassAttributeCache'][$id][$version];
+            $object = $GLOBALS['eZContentClassAttributeCache'][$id][$version];
         }
         if ( $object === null )
         {
@@ -353,7 +353,7 @@ class eZContentClassAttribute extends eZPersistentObject
                                                        $asObject );
             if ( $field_filters === null and $asObject )
             {
-                $GLOBALS['eZContentClassAttributeCache'][$id][$version] =& $object;
+                $GLOBALS['eZContentClassAttributeCache'][$id][$version] = $object;
             }
         }
         return $object;
@@ -371,7 +371,7 @@ class eZContentClassAttribute extends eZPersistentObject
              $dataType === false &&
              $version === false )
         {
-            $objects =& $GLOBALS['eZContentClassAttributeCacheListFull'];
+            $objects = $GLOBALS['eZContentClassAttributeCacheListFull'];
         }
         if ( !isset( $objects ) or
              $objects === null )
@@ -391,16 +391,15 @@ class eZContentClassAttribute extends eZPersistentObject
                                                                 $asObject );
             if ( $asObject )
             {
-                foreach ( array_keys( $objects ) as $objectKey )
+                foreach ( $objects as $objectItem )
                 {
-                    $objectItem =& $objects[$objectKey];
                     $objectID = $objectItem->ID;
                     $objectVersion = $objectItem->Version;
-                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] = $objectItem;
                 }
                 if (  $dataType === false && $version === false )
                 {
-                    $GLOBALS['eZContentClassAttributeCacheListFull'] =& $objects;
+                    $GLOBALS['eZContentClassAttributeCacheListFull'] = $objects;
                 }
             }
         }
@@ -412,7 +411,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $objects = null;
         if ( $asObject )
         {
-            $objects =& $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version];
+            $objects = $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version];
         }
         if ( !isset( $objects ) or
              $objects === null )
@@ -424,15 +423,14 @@ class eZContentClassAttribute extends eZPersistentObject
                                                                 $asObject );
             if ( $asObject )
             {
-                foreach ( array_keys( $objects ) as $objectKey )
+                foreach ( $objects as $objectItem )
                 {
-                    $objectItem =& $objects[$objectKey];
                     $objectID = $objectItem->ID;
                     $objectVersion = $objectItem->Version;
                     if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
-                        $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                        $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] = $objectItem;
                 }
-                $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version] =& $objects;
+                $GLOBALS['eZContentClassAttributeCacheList'][$classID][$version] = $objects;
             }
         }
         return $objects;
@@ -445,13 +443,12 @@ class eZContentClassAttribute extends eZPersistentObject
                                                            $asObject );
         if ( $asObject )
         {
-            foreach ( array_keys( $objectList ) as $objectKey )
+            foreach ( $objectList as $objectItem )
             {
-                $objectItem =& $objectList[$objectKey];
                 $objectID = $objectItem->ID;
                 $objectVersion = $objectItem->Version;
                 if ( !isset( $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] ) )
-                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] =& $objectItem;
+                    $GLOBALS['eZContentClassAttributeCache'][$objectID][$objectVersion] = $objectItem;
             }
         }
         return $objectList;
@@ -511,7 +508,7 @@ class eZContentClassAttribute extends eZPersistentObject
     */
     function setContent( $content )
     {
-        $this->Content =& $content;
+        $this->Content = $content;
     }
 
     /*!
@@ -525,7 +522,7 @@ class eZContentClassAttribute extends eZPersistentObject
             $dataType = $this->dataType();
             if ( is_object( $dataType ) )
             {
-                $this->DisplayInfo =& $dataType->classDisplayInformation( $this, false );
+                $this->DisplayInfo = $dataType->classDisplayInformation( $this, false );
             }
         }
         return $this->DisplayInfo;
@@ -534,10 +531,10 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      Executes the custom HTTP action
     */
-    function customHTTPAction( &$module, $http, $action )
+    function customHTTPAction( $module, $http, $action )
     {
         $dataType = $this->dataType();
-        $this->Module =& $module;
+        $this->Module = $module;
         $dataType->customClassAttributeHTTPAction( $http, $action, $this );
         unset( $this->Module );
         $this->Module = null;
@@ -607,8 +604,8 @@ class eZContentClassAttribute extends eZPersistentObject
             $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
             $phpCache->store();
 
-            $info['sortkey_type_array'] =& $sortKeyTypeArray;
-            $info['attribute_type_array'] =& $attributeTypeArray;
+            $info['sortkey_type_array'] = $sortKeyTypeArray;
+            $info['attribute_type_array'] = $attributeTypeArray;
         }
 
         return $info;

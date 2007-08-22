@@ -59,12 +59,11 @@ class eZWeb
     */
     static function instance()
     {
-        $instance =& $GLOBALS["eZWebInstance"];
-        if ( strtolower( get_class( $instance ) ) != "ezweb" )
+        if ( empty( $GLOBALS["eZWebInstance"] ) )
         {
-            $instance = new eZWeb();
+            $GLOBALS["eZWebInstance"] = new eZWeb();
         }
-        return $instance;
+        return $GLOBALS["eZWebInstance"];
     }
 
     /// \privatesection

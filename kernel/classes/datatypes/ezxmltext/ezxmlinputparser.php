@@ -630,7 +630,7 @@ class eZXMLInputParser
 
     function setAttributes( $element, $attributes )
     {
-        $thisOutputTag =& $this->OutputTags[$element->nodeName];
+        $thisOutputTag = $this->OutputTags[$element->nodeName];
 
         foreach( $attributes as $key => $value )
         {

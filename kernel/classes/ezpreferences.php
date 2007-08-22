@@ -219,7 +219,7 @@ class eZPreferences
         $http = eZHTTPTool::instance();
         $preferencesInSession = array();
         if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
-             $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+             $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
         $preferencesInSession[$name] = $value;
         $http->setSessionVariable( EZ_PREFERENCES_SESSION_NAME, $preferencesInSession );
     }
@@ -233,7 +233,7 @@ class eZPreferences
         $http = eZHTTPTool::instance();
         if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
             return false;
-        $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
         return array_key_exists( $name, $preferencesInSession );
     }
 
@@ -246,7 +246,7 @@ class eZPreferences
         $http = eZHTTPTool::instance();
         if ( !$http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
             return null;
-        $preferencesInSession =& $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
+        $preferencesInSession = $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
         if ( !array_key_exists( $name, $preferencesInSession ) )
             return null;
         return $preferencesInSession[$name];

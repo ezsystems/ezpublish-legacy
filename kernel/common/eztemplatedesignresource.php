@@ -351,12 +351,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $template = "/" . $path;
             // TODO add correct memory cache
 //            $matchFileArray = false;
-            $matchFileArray = $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
-            if ( !is_array( $matchFileArray ) )
+            if ( empty( $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] ) )
             {
-                $matchFileArray = $this->overrideArray( $this->OverrideSiteAccess );
-                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = $matchFileArray;
+                $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess] = $this->overrideArray( $this->OverrideSiteAccess );
             }
+            $matchFileArray = $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
 
             $matchFile = $matchFileArray[$template];
 

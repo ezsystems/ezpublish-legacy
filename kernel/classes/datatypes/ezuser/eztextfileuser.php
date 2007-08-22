@@ -111,9 +111,8 @@ class eZTextFileUser extends eZUser
         $exists = false;
         if ( count( $users ) >= 1 )
         {
-            foreach ( array_keys( $users ) as $key )
+            foreach ( $users as $userRow )
             {
-                $userRow =& $users[$key];
                 $userID = $userRow['contentobject_id'];
                 $hashType = $userRow['password_hash_type'];
                 $hash = $userRow['password_hash'];
@@ -279,13 +278,13 @@ class eZTextFileUser extends eZUser
                                                                                'parent_node' => $defaultUserPlacement,
                                                                                'is_main' => 1 ) );
                             $nodeAssignment->store();
-                            $version =& $contentObject->version( 1 );
+                            $version = $contentObject->version( 1 );
                             $version->setAttribute( 'modified', time() );
                             $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
                             $version->store();
 
                             $contentObjectID = $contentObject->attribute( 'id' );
-                            $contentObjectAttributes =& $version->contentObjectAttributes();
+                            $contentObjectAttributes = $version->contentObjectAttributes();
 
                             $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
                             $contentObjectAttributes[0]->store();
@@ -321,7 +320,7 @@ class eZTextFileUser extends eZUser
                             $currentVersion = $contentObject->attribute( 'current_version' );
 
                             $version = $contentObject->attribute( 'current' );
-                            $contentObjectAttributes =& $version->contentObjectAttributes();
+                            $contentObjectAttributes = $version->contentObjectAttributes();
 
                             $contentObjectAttributes[0]->setAttribute( 'data_text', $firstName );
                             $contentObjectAttributes[0]->store();

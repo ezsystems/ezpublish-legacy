@@ -58,14 +58,12 @@ class eZCurrencyConverter
 
     static function instance()
     {
-        $impl = $_GLOBALS["eZCurrencyConverterGlobalInstance"];
-
-        if ( !is_object( $impl ) || strtolower( get_class( $impl ) ) !== 'ezcurrencyconverter' )
+        if ( empty( $GLOBALS["eZCurrencyConverterGlobalInstance"] ) )
         {
-            $impl = new eZCurrencyConverter();
+            $GLOBALS["eZCurrencyConverterGlobalInstance"] = new eZCurrencyConverter();
         }
 
-        return $impl;
+        return $GLOBALS["eZCurrencyConverterGlobalInstance"];
     }
 
     /*!

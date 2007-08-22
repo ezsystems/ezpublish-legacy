@@ -70,7 +70,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     {
         $fileName = $objectFileNode->getAttribute( 'filename' );
         $filePath = $this->Package->path() . '/' . $this->contentObjectDirectory() . '/' . $fileName;
-        $dom =& $this->Package->fetchDOMFromFile( $filePath );
+        $dom = $this->Package->fetchDOMFromFile( $filePath );
 
         if ( $dom )
         {
@@ -115,7 +115,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function explainInstallItem( $package, $installItem )
     {
-        $this->Package =& $package;
+        $this->Package = $package;
 
         if ( $installItem['filename'] )
         {
@@ -158,8 +158,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( !$realObjectNode )
                         continue;
 
-                    $realObjectNodes[] =& $realObjectNode;
-                    unset( $realObjectNode );
+                    $realObjectNodes[] = $realObjectNode;
                 }
             }
 
@@ -207,7 +206,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         if ( $isSubtree )
         {
-            $nodeArray =& eZContentObjectTreeNode::subtree( array( 'AsObject' => false ), $nodeID );
+            $nodeArray = eZContentObjectTreeNode::subtree( array( 'AsObject' => false ), $nodeID );
             foreach( $nodeArray as $node )
             {
                 $this->NodeIDArray[] = $node['node_id'];
@@ -223,7 +222,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function generatePackage( $package, $options )
     {
-        $this->Package =& $package;
+        $this->Package = $package;
         $remoteIDArray = array();
         $this->NodeIDArray = array_unique( $this->NodeIDArray );
         foreach( $this->NodeIDArray as $nodeID )
@@ -242,7 +241,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         if ( $options['include_classes'] )
         {
             $remoteIDArray['class'] = array();
-            $classIDArray =& $this->generateClassIDArray();
+            $classIDArray = $this->generateClassIDArray();
 
             include_once( 'kernel/classes/packagehandlers/ezcontentclass/ezcontentclasspackagehandler.php' );
             foreach ( $classIDArray as $classID )
@@ -411,19 +410,18 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function generateObjectArray( $nodeAssignment )
     {
-        foreach( array_keys( $this->NodeObjectArray ) as $key )
+        foreach( $this->NodeObjectArray as $contentNode )
         {
-            $contentNode =& $this->NodeObjectArray[$key];
             if ( $nodeAssignment == 'main' )
             {
                 if ( $contentNode->attribute( 'main_node_id' ) == $contentNode->attribute( 'node_id' ) )
                 {
-                    $this->ObjectArray[(string)$contentNode->attribute( 'contentobject_id' )] =& $contentNode->object();
+                    $this->ObjectArray[(string)$contentNode->attribute( 'contentobject_id' )] = $contentNode->object();
                 }
             }
             else
             {
-                $this->ObjectArray[(string)$contentNode->attribute( 'contentobject_id' )] =& $contentNode->object();
+                $this->ObjectArray[(string)$contentNode->attribute( 'contentobject_id' )] = $contentNode->object();
             }
         }
     }
@@ -612,7 +610,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             {
                 // Extract some information that will be used
                 unset( $contentNode, $contentObject, $contentClass );
-                $contentNode =& $this->NodeObjectArray[$nodeID];
+                $contentNode = $this->NodeObjectArray[$nodeID];
                 $contentObject = $contentNode->attribute( 'object' );
                 $contentClass = $contentObject->attribute( 'content_class' );
                 $attributeList = $contentClass->fetchAttributes( false, false, false );
@@ -624,7 +622,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     {
                         include_once( 'kernel/classes/ezdatatype.php' );
                         $datatype = eZDataType::create( $attribute['data_type_string'] );
-                        $datatypeHash[$attribute['data_type_string']] =& $datatype;
+                        $datatypeHash[$attribute['data_type_string']] = $datatype;
                         if ( !method_exists( $datatype, 'templateList' ) )
                             continue;
                         $templateList = $datatype->templateList();
@@ -829,9 +827,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     function &generateClassIDArray()
     {
         $classIDArray = array();
-        foreach( array_keys( $this->NodeObjectArray ) as $key )
+        foreach( $this->NodeObjectArray as $nodeObject )
         {
-            $contentObject =& $this->NodeObjectArray[$key]->object();
+            $contentObject = $nodeObject->object();
             $classIDArray[] = $contentObject->attribute( 'contentclass_id' );
         }
         $classIDArray = array_unique( $classIDArray );
@@ -847,7 +845,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         $content, &$installParameters,
                         &$installData )
     {
-        $this->Package =& $package;
+        $this->Package = $package;
 
         if ( isset( $installParameters['error']['error_code'] ) )
             $errorCode = $installParameters['error']['error_code'];
@@ -976,7 +974,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                       $content, &$installParameters,
                       &$installData )
     {
-        $this->Package =& $package;
+        $this->Package = $package;
 
         if ( isset( $installParameters['error']['error_code'] ) )
             $errorCode = $installParameters['error']['error_code'];
@@ -1120,7 +1118,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             if ( $parentNode !== null )
             {
-                $nodeInfo =& $suspendedNodeInfo['nodeinfo'];
+                $nodeInfo = $suspendedNodeInfo['nodeinfo'];
                 $nodeInfo['parent_node'] = $parentNode->attribute( 'node_id' );
 
                 $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
@@ -1129,7 +1127,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $nodeInfo['priority'] = $suspendedNodeInfo['priority'];
                 if( !is_object( $existNodeAssignment ) )
                 {
-                    $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
+                    $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
                     $nodeAssignment->store();
                 }
 
@@ -1465,9 +1463,13 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 unset( $node );
                 $node = false;
                 if ( isset( $nodeIDItem['node'] ) )
-                    $node =& $nodeIDItem['node'];
+                {
+                    $node = $nodeIDItem['node'];
+                }
                 else
+                {
                     $node = eZContentObjectTreeNode::fetch( $nodeIDItem['id'] );
+                }
                 $cli->notice( "Adding node /" . $node->pathWithNames() . " to package" );
             }
         }

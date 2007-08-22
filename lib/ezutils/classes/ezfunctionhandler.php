@@ -43,15 +43,18 @@ class eZFunctionHandler
 {
     static function moduleFunctionInfo( $moduleName )
     {
-        $globalModuleFunctionList =& $GLOBALS['eZGlobalModuleFunctionList'];
-        if ( !isset( $globalModuleFunctionList ) )
-            $globalModuleFunctionList = array();
-        if ( isset( $globalModuleFunctionList[$moduleName] ) )
-            return $globalModuleFunctionList[$moduleName];
+        if ( !isset( $GLOBALS['eZGlobalModuleFunctionList'] ) )
+        {
+            $GLOBALS['eZGlobalModuleFunctionList'] = array();
+        }
+        if ( isset( $GLOBALS['eZGlobalModuleFunctionList'][$moduleName] ) )
+        {
+            return $GLOBALS['eZGlobalModuleFunctionList'][$moduleName];
+        }
         $moduleFunctionInfo = new eZModuleFunctionInfo( $moduleName );
         $moduleFunctionInfo->loadDefinition();
-        $globalModuleFunctionList[$moduleName] =& $moduleFunctionInfo;
-        return $moduleFunctionInfo;
+
+        return $GLOBALS['eZGlobalModuleFunctionList'][$moduleName] = $moduleFunctionInfo;
     }
 
     /*!

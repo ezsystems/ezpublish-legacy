@@ -69,7 +69,7 @@ class eZHTTPPersistence
         {
             for ( $i = 0; $i < count( $objects ); ++$i )
             {
-                $object =& $objects[$i];
+                $object = $objects[$i];
                 eZHTTPPersistence::fetchElement( $base_name, $def, $object, $http, $i );
             }
         }
@@ -82,10 +82,10 @@ class eZHTTPPersistence
      Helper function for fetch().
     */
     static function fetchElement( $base_name, $def,
-                           $object, $http, $index )
+                                  $object, $http, $index )
     {
-        $fields =& $def["fields"];
-        $keys =& $def["keys"];
+        $fields = $def["fields"];
+        $keys = $def["keys"];
         foreach ( $fields as $field_name => $field_member )
         {
             if ( !in_array( $field_name, $keys ) )
@@ -118,16 +118,15 @@ class eZHTTPPersistence
     */
     static function handleChecked( $base_name,
                             /*! The definition of the objects, uses the same syntax as eZPersistentObject */
-                            &$def,
+                            $def,
                             $objects,
                             $http,
                             $is_array = true )
     {
         if ( $is_array )
         {
-            for ( $i = 0; $i < count( $objects ); ++$i )
+            foreach( $objects as $object )
             {
-                $object =& $objects[$i];
                 eZHTTPPersistence::handleCheckedElement( $base_name, $def, $object, $http );
             }
         }
@@ -140,11 +139,11 @@ class eZHTTPPersistence
      Helper function for handleChecked().
      \deprecated This function has some serious flaws and will be removed in a future release
     */
-    static function handleCheckedElement( $base_name, &$def,
+    static function handleCheckedElement( $base_name, $def,
                                    $object, $http )
     {
-        $fields =& $def["fields"];
-        $keys =& $def["keys"];
+        $fields = $def["fields"];
+        $keys = $def["keys"];
         $id = $object->attribute( "id" );
         foreach ( $fields as $field_name => $field_member )
         {
@@ -155,11 +154,15 @@ class eZHTTPPersistence
                 {
                     $value = false;
                     $post_value = $http->postVariable( $post_var );
-                    if ( is_array( $post_value ) and
+                    if ( is_array( $post_value ) &&
                          in_array( $id, $post_value ) )
+                    {
                         $value = true;
+                    }
                     else
+                    {
                          $value = false;
+                    }
                     $object->setAttribute( $field_name, $value );
                 }
             }
@@ -185,20 +188,27 @@ class eZHTTPPersistence
             $checks = $http->postVariable( $post_var );
         }
         else
-            return false;
-        for ( $i = 0; $i < count( $objects ); ++$i )
         {
-            $obj =& $objects[$i];
-            if ( $obj->hasAttribute( $cond ) )
+            return false;
+        }
+        foreach( $objects as $object )
+        {
+            if ( $object->hasAttribute( $cond ) )
             {
-                $val = $obj->attribute( $cond );
+                $val = $object->attribute( $cond );
                 if ( in_array( $val, $checks ) )
-                    $rejects[] =& $obj;
+                {
+                    $rejects[] = $object;
+                }
                 else
-                    $keepers[] =& $obj;
+                {
+                    $keepers[] = $object;
+                }
             }
             else
-                $keepers[] =& $obj;
+            {
+                $keepers[] = $object;
+            }
         }
         return true;
     }

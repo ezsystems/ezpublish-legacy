@@ -242,13 +242,12 @@ class eZWorkflow extends eZPersistentObject
         }
     }
 
-    function adjustEventPlacements( &$events )
+    function adjustEventPlacements( $events )
     {
         if ( !is_array( $events ) )
             return;
-        for ( $i = 0; $i < count( $events ); ++$i )
+        foreach( $events as $event )
         {
-            $event =& $events[$i];
             $event->setAttribute( "placement", $i + 1 );
         }
     }

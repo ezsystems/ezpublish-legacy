@@ -220,14 +220,11 @@ class eZDebug
     */
     static function instance( )
     {
-        $impl =& $GLOBALS["eZDebugGlobalInstance"];
-
-        $class = strtolower( get_class( $impl ) );
-        if ( $class != "ezdebug" )
+        if ( empty( $GLOBALS["eZDebugGlobalInstance"] ) )
         {
-            $impl = new eZDebug();
+            $GLOBALS["eZDebugGlobalInstance"] = new eZDebug();
         }
-        return $impl;
+        return $GLOBALS["eZDebugGlobalInstance"];
     }
 
     /*!
@@ -246,7 +243,6 @@ class eZDebug
     static function alwaysLogMessage( $level )
     {
         $instance = eZDebug::instance();
-
         // If there is a global setting for this get the value
         // and unset it globally
         if ( isset( $GLOBALS['eZDebugAlwaysLog'] ) )
@@ -256,7 +252,9 @@ class eZDebug
         }
 
         if ( !isset( $instance->AlwaysLog[$level] ) )
+        {
             return false;
+        }
         return $instance->AlwaysLog[$level];
     }
 
@@ -314,7 +312,9 @@ class eZDebug
         $instance = eZDebug::instance();
 
         if ( $types === false )
+        {
             return $instance->ShowTypes;
+        }
         $old_types = $instance->ShowTypes;
         $instance->ShowTypes = $types;
         return $old_types;
@@ -331,25 +331,27 @@ class eZDebug
         if ( !eZDebug::isDebugEnabled() )
             return;
         $str = "$errstr in $errfile on line $errline";
-        $errnames =& $GLOBALS["eZDebugPHPErrorNames"];
-        if ( !is_array( $errnames ) )
+        if ( empty( $GLOBALS["eZDebugPHPErrorNames"] ) )
         {
-            $errnames = array( E_ERROR => "E_ERROR",
-                               E_PARSE => "E_PARSE",
-                               E_CORE_ERROR => "E_CORE_ERROR",
-                               E_COMPILE_ERROR => "E_COMPILE_ERROR",
-                               E_USER_ERROR => "E_USER_ERROR",
-                               E_WARNING => "E_WARNING",
-                               E_CORE_WARNING => "E_CORE_WARNING",
-                               E_COMPILE_WARNING => "E_COMPILE_WARNING",
-                               E_USER_WARNING => "E_USER_WARNING",
-                               E_NOTICE => "E_NOTICE",
-                               E_USER_NOTICE => "E_USER_NOTICE",
-                               E_STRICT => "E_STRICT" );
+            $GLOBALS["eZDebugPHPErrorNames"] =
+                array( E_ERROR => "E_ERROR",
+                       E_PARSE => "E_PARSE",
+                       E_CORE_ERROR => "E_CORE_ERROR",
+                       E_COMPILE_ERROR => "E_COMPILE_ERROR",
+                       E_USER_ERROR => "E_USER_ERROR",
+                       E_WARNING => "E_WARNING",
+                       E_CORE_WARNING => "E_CORE_WARNING",
+                       E_COMPILE_WARNING => "E_COMPILE_WARNING",
+                       E_USER_WARNING => "E_USER_WARNING",
+                       E_NOTICE => "E_NOTICE",
+                       E_USER_NOTICE => "E_USER_NOTICE",
+                       E_STRICT => "E_STRICT" );
         }
         $errname = "unknown";
-        if ( isset( $errnames[$errno] ) )
-            $errname = $errnames[$errno];
+        if ( isset( $GLOBALS["eZDebugPHPErrorNames"][$errno] ) )
+        {
+            $errname = $GLOBALS["eZDebugPHPErrorNames"][$errno];
+        }
         switch ( $errno )
         {
             case E_ERROR:
@@ -632,8 +634,7 @@ class eZDebug
     */
     static function setUseExternalCSS( $use )
     {
-        $instance = eZDebug::instance();
-        $instance->UseCSS = $use;
+        eZDebug::instance()->UseCSS = $use;
     }
 
     /*!
@@ -642,24 +643,14 @@ class eZDebug
     */
     function setMessageOutput( $output )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
-        $instance->MessageOutput = $output;
+        $this->MessageOutput = $output;
     }
 
     /*!
     */
     function setStoreLog( $store )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
-        $instance->StoreLog = $store;
+        $this->StoreLog = $store;
     }
 
     /*!
@@ -689,7 +680,7 @@ class eZDebug
             if ( $debug->TmpTimePoints[$lvl] === false and
                  $debug->isLogFileEnabled( $lvl ) )
             {
-                $files =& $debug->logFiles();
+                $files = $debug->logFiles();
                 $file = $files[$lvl];
                 $debug->writeFile( $file, $desc, $lvl );
             }
@@ -726,7 +717,7 @@ class eZDebug
         {
             print( "$verbosityLevel: $string ($label)\n" );
         }
-        $files =& $this->logFiles();
+        $files = $this->logFiles();
         $fileName = false;
         if ( isset( $files[$verbosityLevel] ) )
             $fileName = $files[$verbosityLevel];
@@ -778,9 +769,10 @@ class eZDebug
     */
     static function maxLogSize()
     {
-        $maxLogSize =& $GLOBALS['eZDebugMaxLogSize'];
-        if ( isset( $maxLogSize ) )
-            return $maxLogSize;
+        if ( isset( $GLOBALS['eZDebugMaxLogSize'] ) )
+        {
+            return $GLOBALS['eZDebugMaxLogSize'];
+        }
         return EZ_DEBUG_MAX_LOGFILE_SIZE;
     }
 
@@ -799,9 +791,10 @@ class eZDebug
     */
     static function maxLogrotateFiles()
     {
-        $maxLogrotateFiles =& $GLOBALS['eZDebugMaxLogrotateFiles'];
-        if ( isset( $maxLogrotateFiles ) )
-            return $maxLogrotateFiles;
+        if ( isset( $GLOBALS['eZDebugMaxLogrotateFiles'] ) )
+        {
+            return $GLOBALS['eZDebugMaxLogrotateFiles'];
+        }
         return EZ_DEBUG_MAX_LOGROTATE_FILES;
     }
 
@@ -920,18 +913,17 @@ class eZDebug
     */
     static function setLogFileEnabled( $enabled, $types = false )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
         if ( $types === false )
-            $types = $instance->messageTypes();
+        {
+            $types = $this->messageTypes();
+        }
         if ( !is_array( $types ) )
+        {
             $types = array( $types );
+        }
         foreach ( $types as $type )
         {
-            $instance->LogFileEnabled[$type] = $enabled;
+            $this->LogFileEnabled[$type] = $enabled;
         }
     }
 
@@ -993,7 +985,7 @@ class eZDebug
      Returns an associative array of all the log files used by this class
      where each key is the debug level (EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING or EZ_LEVEL_ERROR or EZ_LEVEL_DEBUG).
     */
-    function &logFiles()
+    function logFiles()
     {
         return $this->LogFiles;
     }
@@ -1059,7 +1051,6 @@ class eZDebug
         // Make sure errors are handled by PHP when we read, including our own debug output.
         $oldHandleType = eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
-        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
         if ( isset( $settings['debug-log-files-enabled'] ) )
         {
             $GLOBALS['eZDebugLogFileEnabled'] = $settings['debug-log-files-enabled'];
@@ -1137,6 +1128,7 @@ class eZDebug
             $debugEnabled = true;
         }
 
+        $GLOBALS['eZDebugEnabled'] = $debugEnabled;
         eZDebug::setHandleType( $oldHandleType );
     }
 
@@ -1152,18 +1144,20 @@ class eZDebug
         if ( $debugUserIDList === false )
             return false;
 
-        $debugEnabled =& $GLOBALS['eZDebugEnabled'];
         if ( count( $debugUserIDList ) == 0 )
         {
             // We should set previous value.
-            $debugEnabled = false;
-            return false;
+            return $GLOBALS['eZDebugEnabled'] = false;
         }
 
         if ( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
+        {
             $currentUserID = eZUser::currentUserID();
+        }
 
-        $debugEnabled = $currentUserID ? in_array( $currentUserID, $debugUserIDList ) : $debugEnabled;
+        $GLOBALS['eZDebugEnabled'] = $currentUserID ?
+            in_array( $currentUserID, $debugUserIDList ) :
+            $GLOBALS['eZDebugEnabled'];
 
         unset( $GLOBALS['eZDebugUserIDList'] );
     }
@@ -1324,17 +1318,17 @@ showDebug();
             $debug->createAccumulator( $key, $inGroup, $name );
         }
 
-        $accumulator =& $debug->TimeAccumulatorList[$key];
         if ( $recursive )
         {
-            if ( isset( $accumulator['recursive_counter'] ) )
+            if ( isset( $this->TimeAccumulatorList[$key]['recursive_counter'] ) )
             {
-                $accumulator['recursive_counter']++;
+                $debug->TimeAccumulatorList[$key]['recursive_counter']++;
                 return;
             }
-            $accumulator['recursive_counter'] = 0;
+            $debug->TimeAccumulatorList[$key]['recursive_counter'] = 0;
         }
-        $accumulator['temp_time'] = $debug->timeToFloat( microtime() );
+
+        $debug->TimeAccumulatorList[$key]['temp_time'] = $debug->timeToFloat( microtime() );
     }
 
     /*!
@@ -1352,7 +1346,7 @@ showDebug();
             eZDebug::writeWarning( 'Accumulator $key does not exists, run eZDebug::accumulatorStart first', 'eZDebug::accumulatorStop' );
             return;
         }
-        $accumulator =& $debug->TimeAccumulatorList[$key];
+        $accumulator = $debug->TimeAccumulatorList[$key];
         if ( $recursive )
         {
             if ( isset( $accumulator['recursive_counter'] ) )
@@ -1367,6 +1361,7 @@ showDebug();
         $diffTime = $stopTime - $accumulator['temp_time'];
         $accumulator['time'] = $accumulator['time'] + $diffTime;
         ++$accumulator['count'];
+        $debug->TimeAccumulatorList[$key] = $accumulator;
     }
 
 
@@ -1375,7 +1370,7 @@ showDebug();
       Prints a full debug report with notice, warnings, errors and a timing report.
     */
     function printReportInternal( $as_html = true, $returnReport = true, $allowedDebugLevels = false,
-                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
+                                  $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
         $styles = array( 'warning' => false,
                          'warning-end' => false,
@@ -1800,10 +1795,10 @@ td.timingpoint2
     /*!
      Appends report to 'top' reports list.
     */
-    static function appendTopReport( $reportName, &$reportContent )
+    static function appendTopReport( $reportName, $reportContent )
     {
         $debug = eZDebug::instance();
-        $debug->topReportsList[$reportName] =& $reportContent;
+        $debug->topReportsList[$reportName] = $reportContent;
     }
 
     /*!
@@ -1815,8 +1810,7 @@ td.timingpoint2
         $reportNames = array_keys( $debug->topReportsList );
         foreach ( $reportNames as $reportName )
         {
-            $reportContent =& $debug->topReportsList[$reportName];
-            echo $reportContent;
+            echo $debug->topReportsList[$reportName];
         }
     }
 
@@ -1838,8 +1832,7 @@ td.timingpoint2
         $reportNames = array_keys( $debug->bottomReportsList );
         foreach ( $reportNames as $reportName )
         {
-            $reportContent =& $debug->bottomReportsList[$reportName];
-            echo $reportContent;
+            echo $debug->bottomReportsList[$reportName];
         }
     }
 
