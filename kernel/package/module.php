@@ -144,22 +144,17 @@ $RoleID = array(
     'parameter' => array(  false )
     );
 
+
+$FunctionList = array();
 $FunctionList['read'] = array( 'Type' => $TypeID );
-
 $FunctionList['list'] = array( 'Type' => $TypeID );
-
 $FunctionList['create'] = array( 'Type' => $TypeID,
                                  'CreatorType' => $CreatorTypeID,
                                  'Role' => $RoleID );
 $FunctionList['edit'] = array( 'Type' => $TypeID );
-
 $FunctionList['remove'] = array( 'Type' => $TypeID );
-
-
 $FunctionList['install'] = array( 'Type' => $TypeID );
-
 $FunctionList['import'] = array( 'Type' => $TypeID );
-
 $FunctionList['export'] = array( 'Type' => $TypeID );
 
 ?>

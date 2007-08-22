@@ -30,12 +30,14 @@ $Module = array( 'name' => 'eZSection' );
 
 $ViewList = array();
 $ViewList['list'] = array(
+    'functions' => array( 'view or edit or assign' ),
     'script' => 'list.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     'params' => array( ) );
 
 $ViewList['view'] = array(
+    'functions' => array( 'view or assign' ),
     'script' => 'view.php',
     'ui_context' => 'view',
     'default_navigation_part' => 'ezsetupnavigationpart',
@@ -43,16 +45,23 @@ $ViewList['view'] = array(
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['edit'] = array(
+    'functions' => array( 'edit' ),
     'script' => 'edit.php',
     'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'params' => array( 'SectionID' ) );
 
 $ViewList['assign'] = array(
+    'functions' => array( 'assign' ),
     'script' => 'assign.php',
     'default_navigation_part' => 'ezsetupnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
     'params' => array( 'SectionID' ) );
 
+
+$FunctionList = array();
+$FunctionList['assign'] = array();
+$FunctionList['edit'] = array();
+$FunctionList['view'] = array();
 
 ?>

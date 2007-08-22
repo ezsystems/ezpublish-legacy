@@ -221,6 +221,7 @@ $ViewList["discountruleedit"] = array(
     "params" => array( 'DiscountGroupID', 'DiscountRuleID'  ) );
 
 $ViewList["discountgroupview"] = array(
+    'functions' => array( 'setup' ),
     "script" => "discountgroupmembershipview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
@@ -239,6 +240,7 @@ $ViewList['setstatus'] = array(
     "params" => array(  ) );
 
 $ViewList['currencylist'] = array(
+    'functions' => array( 'setup' ),
     'script' => 'currencylist.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'unordered_params' => array( 'offset' => 'Offset' ),
@@ -255,6 +257,7 @@ $ViewList['currencylist'] = array(
     'params' => array(  ) );
 
 $ViewList['editcurrency'] = array(
+    'functions' => array( 'setup' ),
     'script' => 'editcurrency.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'single_post_actions' => array( 'CancelButton' => 'Cancel',
@@ -267,11 +270,13 @@ $ViewList['editcurrency'] = array(
     'unordered_params' => array( 'currency' => 'Currency' ) );
 
 $ViewList['preferredcurrency'] = array(
+    'functions' => array( 'buy' ),
     'script' => 'preferredcurrency.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'params' => array(  ) );
 
 $ViewList['productsoverview'] = array(
+    'functions' => array( 'administrate' ),
     'script' => 'productsoverview.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'single_post_actions' => array( 'ShowProductsButton' => 'ShowProducts',
@@ -285,6 +290,7 @@ $ViewList['productsoverview'] = array(
                                  'offset' => 'Offset' ) );
 
 $ViewList['setpreferredcurrency'] = array(
+    'functions' => array( 'buy' ),
     'script' => 'setpreferredcurrency.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'single_post_actions' => array( 'SetButton' => 'Set' ),
@@ -293,6 +299,7 @@ $ViewList['setpreferredcurrency'] = array(
     'params' => array(  ) );
 
 $ViewList['setusercountry'] = array(
+    'functions' => array( 'buy' ),
     'script' => 'setusercountry.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'single_post_actions' => array( 'ApplyButton' => 'Set' ),
@@ -319,6 +326,7 @@ $ToStatus = array(
     'function' => 'fetchPolicyList',
     'parameter' => array( false ) );
 
+$FunctionList = array();
 $FunctionList['setup'] = array( );
 $FunctionList['administrate'] = array( );
 $FunctionList['buy'] = array( );

@@ -45,4 +45,7 @@ $ViewList["is_alive"] = array(
     "script" => "isalive.php",
     "params" => array() );
 
+$FunctionList = array();
+$FunctionList['read'] = array();
+
 ?>

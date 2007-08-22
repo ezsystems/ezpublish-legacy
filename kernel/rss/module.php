@@ -68,6 +68,9 @@ $ViewList['feed'] = array(
     'functions' => array( 'feed' ),
     'params' => array ( 'RSSFeed' ) );
 
+
+$FunctionList = array( );
 $FunctionList['feed'] = array();
+$FunctionList['edit'] = array();
 
 ?>

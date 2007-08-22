@@ -623,17 +623,13 @@ while ( $moduleRunRequired )
         }
         if ( !$omitPolicyCheck )
         {
-            if( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
+            if ( include_once( "kernel/classes/datatypes/ezuser/ezuser.php" ) )
             {
                 $currentUser =& eZUser::currentUser();
-
-                $availableViewsInModule = $module->attribute( 'views' );
-                $runningFunctions = false;
-                if ( isset( $availableViewsInModule[$function_name][ 'functions' ] ) )
-                    $runningFunctions = $availableViewsInModule[$function_name][ 'functions' ];
                 $siteAccessResult = $currentUser->hasAccessTo( 'user', 'login' );
 
                 $hasAccessToSite = false;
+
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
                     $policyChecked = false;
@@ -670,22 +666,11 @@ while ( $moduleRunRequired )
 
             if ( $hasAccessToSite )
             {
-                $functionName = $runningFunctions[0];
-                if ( $functionName )
-                    $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), $functionName );
-                else
-                    $accessResult = $currentUser->hasAccessTo( $module->attribute( 'name' ), false );
-
-                if ( $accessResult['accessWord'] == 'limited' )
+                $moduleAccessAllowed = $currentUser->hasAccessToView( $module, $function_name, $params );
+                if ( isset( $params['accessList'] ) )
                 {
-                    $moduleName = $module->attribute( 'name' );
-                    $params['Limitation'] =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list'][$moduleName][$functionName] =& $params['Limitation'];
-                }
-                if ( $accessResult['accessWord'] == 'no' )
-                {
-                    $accessList = $accessResult['accessList'];
-                    $moduleAccessAllowed = false;
+                    $accessList = $params['accessList'];
+                    unset( $params['accessList'] );
                 }
             }
             else
