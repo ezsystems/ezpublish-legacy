@@ -1782,7 +1782,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $allowCustomSorting = false;
-        if ( is_array ( $params['ExtendedAttributeFilter'] ) )
+        if ( isset( $params['ExtendedAttributeFilter'] ) && is_array ( $params['ExtendedAttributeFilter'] ) )
         {
             $allowCustomSorting = true;
         }
