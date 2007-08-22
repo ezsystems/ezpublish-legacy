@@ -165,7 +165,7 @@
 
         {if and( $can_edit, $can_edit_lang )}
           {if eq( $version.status, 5 )}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to do a copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to do copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
           {else}
             <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
