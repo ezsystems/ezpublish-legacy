@@ -173,6 +173,7 @@ $versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' )
                                         ,array( '3.9.0', '3.9.1' )
                                         ,array( '3.9.1', '3.9.2' )
                                         ,array( '3.9.2', '3.9.3' )
+                                        ,array( '3.9.3', '3.9.4' )
                                         ) );
 
 $versions['3.0'] = $versions30;
