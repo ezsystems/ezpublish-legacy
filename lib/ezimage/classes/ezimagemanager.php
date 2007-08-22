@@ -346,8 +346,10 @@ class eZImageManager
                     $this->appendImageAlias( $alias );
                 }
                 else
-                    $debug->Warning( "Failed reading Image Alias $aliasName from $iniFile",
+                {
+                    eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
                                            'eZImageManager::readImageAliasFromINI' );
+                }
             }
         }
     }
