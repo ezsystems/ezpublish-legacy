@@ -85,10 +85,9 @@ class eZContentLanguage extends eZPersistentObject
     static function addLanguage( $locale, $name = null )
     {
         $localeObject = eZLocale::instance( $locale );
-        $debug = eZDebug::instance();
         if ( !$localeObject )
         {
-            $debug->writeError( "No such locale $locale!", 'eZContentLanguage::addLanguage' );
+            eZDebug::writeError( "No such locale $locale!", 'eZContentLanguage::addLanguage' );
             return false;
         }
 
@@ -103,13 +102,13 @@ class eZContentLanguage extends eZPersistentObject
 
         if ( ( $existingLanguage = eZContentLanguage::fetchByLocale( $locale ) ) )
         {
-            $debug->writeWarning( "Language '$locale' already exists!", 'eZContentLanguage::addLanguage' );
+            eZDebug::writeWarning( "Language '$locale' already exists!", 'eZContentLanguage::addLanguage' );
             return $existingLanguage;
         }
 
         if ( count( $languages ) >= CONTENT_LANGUAGES_MAX_COUNT )
         {
-            $debug->writeError( 'Too many languages, cannot add more!', 'eZContentLanguage::addLanguage' );
+            eZDebug::writeError( 'Too many languages, cannot add more!', 'eZContentLanguage::addLanguage' );
             return false;
         }
 
@@ -345,8 +344,7 @@ class eZContentLanguage extends eZPersistentObject
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Language '$localeCode' does not exist or is not used!", 'eZContentLanguage::prioritizedLanguages' );
+                    eZDebug::writeWarning( "Language '$localeCode' does not exist or is not used!", 'eZContentLanguage::prioritizedLanguages' );
                 }
             }
 

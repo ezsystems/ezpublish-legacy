@@ -69,8 +69,7 @@ class eZShopOperationCollection
 
         if ( !$order )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "No such order: $orderID" );
+            eZDebug::writeError( "No such order: $orderID" );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
@@ -119,9 +118,8 @@ class eZShopOperationCollection
         $productCollection = $order->attribute( 'productcollection' );
         if ( !$productCollection )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
-                                "ezshopoperationcollection::handleUserCountry" );
+            eZDebug::writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
+                                 "ezshopoperationcollection::handleUserCountry" );
             return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
         }
 
@@ -157,10 +155,9 @@ class eZShopOperationCollection
 
             // Update item's VAT percentage.
             $vatValue = $priceObj->VATPercent( $productContentObject, $country );
-            $debug = eZDebug::instance();
-            $debug->writeNotice( "Updating product item collection item ('" .
-                                 $productContentObject->attribute( 'name' ) . "'): " .
-                                 "setting VAT $vatValue% according to order's country '$country'." );
+            eZDebug::writeNotice( "Updating product item collection item ('" .
+                                  $productContentObject->attribute( 'name' ) . "'): " .
+                                  "setting VAT $vatValue% according to order's country '$country'." );
             $item->setAttribute( "vat_value", $vatValue );
 
             $item->store();
@@ -353,8 +350,7 @@ class eZShopOperationCollection
 
         if ( !$priceFound )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Attempted to add object without price to basket.' );
+            eZDebug::writeError( 'Attempted to add object without price to basket.' );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
@@ -410,8 +406,7 @@ class eZShopOperationCollection
         $collection = $basket->attribute( 'productcollection' );
         if ( !$collection )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Unable to find product collection.' );
+            eZDebug::writeError( 'Unable to find product collection.' );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
         else

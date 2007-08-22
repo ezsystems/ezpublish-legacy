@@ -574,7 +574,6 @@ class eZURLAliasML extends eZPersistentObject
         }
         else
         {
-            $debug = eZDebug::instance();
             if ( $linkID !== true )
             {
                 $linkID = (int)$linkID;
@@ -585,13 +584,13 @@ class eZURLAliasML extends eZPersistentObject
                 if ( count( $rows ) == 0 )
                 {
                     if ( $reportErrors )
-                        $debug->writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
+                        eZDebug::writeError( "The link ID $linkID does not exist, cannot create the link", 'eZURLAliasML::storePath' );
                     return array( 'status' => EZ_URLALIAS_LINK_ID_NOT_FOUND );
                 }
                 if ( $rows[0]['action'] != $action )
                 {
                     if ( $reportErrors )
-                        $debug->writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
+                        eZDebug::writeError( "The link ID $linkID uses a different action ({$rows[0]['action']}) than the requested action ({$action}) for the link, cannot create the link", 'eZURLAliasML::storePath' );
                     return array( 'status' => EZ_URLALIAS_LINK_ID_WRONG_ACTION );
                 }
                 // If the element which is pointed to is a link, then grab the link id from that instead
@@ -618,8 +617,7 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 if ( $reportErrors )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
+                    eZDebug::writeError( "The link name '{$originalTopElement}' for parent ID {$parentID} is already taken, cannot create link", 'eZURLAliasML::storePath' );
                 }
                 $createdPath[] = $originalTopElement;
                 return array( 'status' => EZ_URLALIAS_LINK_ALREADY_TAKEN,
@@ -825,10 +823,9 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function fetchPathByActionList( $actionName, $actionValues )
     {
-        $debug = eZDebug::instance();
         if ( count( $actionValues ) == 0 )
         {
-            $debug->writeError( "Action value array must not be empty" );
+            eZDebug::writeError( "Action value array must not be empty" );
             return null;
         }
         $db = eZDB::instance();
@@ -858,7 +855,7 @@ class eZURLAliasML extends eZPersistentObject
             $action = $actionName . ":" . $actionValue;
             if ( !isset( $actionMap[$action] ) )
             {
-//                $debug->writeError( "The action '{$action}' was not found in the database for the current language language filter, cannot calculate path." );
+//                eZDebug::writeError( "The action '{$action}' was not found in the database for the current language language filter, cannot calculate path." );
                 return null;
             }
             $actionRows = $actionMap[$action];
@@ -898,7 +895,7 @@ class eZURLAliasML extends eZPersistentObject
                 // Check for a valid path
                 if ( $lastID !== false && $lastID != $paren )
                 {
-                    $debug->writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting" );
+                    eZDebug::writeError( "The parent ID $paren of element with ID $id does not point to the last entry which had ID $lastID, incorrect path would be calculated, aborting" );
                     return null;
                 }
                 $lastID = $id;
@@ -906,7 +903,7 @@ class eZURLAliasML extends eZPersistentObject
             else
             {
                 // No row was found
-                $debug->writeError( "Fatal error, no row was chosen for action " . $actionName . ":" . $actionValue );
+                eZDebug::writeError( "Fatal error, no row was chosen for action " . $actionName . ":" . $actionValue );
                 return null;
             }
         }
@@ -1410,8 +1407,7 @@ class eZURLAliasML extends eZPersistentObject
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
+                        eZDebug::writeError( "Lookup of parent ID $paren failed, cannot perform reverse lookup of alias." );
                         return false;
                     }
                 }
@@ -1673,10 +1669,9 @@ class eZURLAliasML extends eZPersistentObject
      */
     static public function actionToUrl( $action )
     {
-        $debug = eZDebug::instance();
         if ( !preg_match( "#^([a-zA-Z0-9_]+):(.+)?$#", $action, $matches ) )
         {
-            $debug->writeError( "Action is not of valid syntax '{$action}'" );
+            eZDebug::writeError( "Action is not of valid syntax '{$action}'" );
             return false;
         }
 
@@ -1689,7 +1684,7 @@ class eZURLAliasML extends eZPersistentObject
             case 'eznode':
                 if ( !is_numeric( $args ) )
                 {
-                    $debug->writeError( "Arguments to eznode action must be an integer, got '{$args}'" );
+                    eZDebug::writeError( "Arguments to eznode action must be an integer, got '{$args}'" );
                     return false;
                 }
                 $url = 'content/view/full/' . $args;
@@ -1704,8 +1699,7 @@ class eZURLAliasML extends eZPersistentObject
                 break;
 
             default:
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown action type '{$type}', cannot handle it" );
+                eZDebug::writeError( "Unknown action type '{$type}', cannot handle it" );
                 return false;
         }
         return $url;

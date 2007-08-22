@@ -81,8 +81,7 @@ foreach( $iniFiles as $fileName => $settings )
 
     if ( !$ini->save() )
     {
-        $debug = eZDebug::instance();
-        $debug->writeError( "Can't save ini file: $iniPath/$fileName.append" );
+        eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
     }
 
     unset( $baseIni );
@@ -99,8 +98,7 @@ foreach( $iniFiles as $fileName => $settings )
         }
         if ( !$ini->save() )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Can't save ini file: $iniPath/$fileName.append" );
+            eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
         }
 
         unset($ini);

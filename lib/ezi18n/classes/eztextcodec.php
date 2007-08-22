@@ -217,8 +217,7 @@ class eZTextCodec
         if ( !$conversionFunction or
              !$strlenFunction )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
+            eZDebug::writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
                                  " to characterset " . $this->RequestedOutputCharsetCode,
                                  "eZTextCodec" );
             if ( !$conversionFunction )
@@ -316,12 +315,11 @@ class eZTextCodec
 
     function convertString( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
-        //$debug->writeDebug( $this->ConversionFunction, 'conversion function' );
+        eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
+        //eZDebug::writeDebug( $this->ConversionFunction, 'conversion function' );
         $conversionFunction = $this->ConversionFunction;
         $tmp = $this->$conversionFunction( $str );
-        $debug->accumulatorStop( 'textcodec_conversion' );
+        eZDebug::accumulatorStop( 'textcodec_conversion' );
         return $tmp;
     }
 
@@ -341,39 +339,35 @@ class eZTextCodec
 
     function convertCodepageToUnicode( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
+        eZDebug::accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
         $tmp = $this->Codepage->convertStringToUnicode( $str );
-        $debug->accumulatorStop( 'textcodec_codepage_unicode' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_unicode' );
         return $tmp;
     }
 
     function convertUTF8ToUnicode( $str )
     {
         include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ UTF-8 to Unicode' );
+        eZDebug::accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ UTF-8 to Unicode' );
         $tmp = eZUTF8Codec::convertStringToUnicode( $str );
-        $debug->accumulatorStop( 'textcodec_utf8_unicode' );
+        eZDebug::accumulatorStop( 'textcodec_utf8_unicode' );
         return $tmp;
     }
 
     function convertUnicodeToCodepage( $unicodeValues )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_unicode_codepage', false, 'String conversion w/ Unicode to codepage' );
+        eZDebug::accumulatorStart( 'textcodec_unicode_codepage', false, 'String conversion w/ Unicode to codepage' );
         $tmp = $this->Codepage->convertUnicodeToString( $unicodeValues );
-        $debug->accumulatorStop( 'textcodec_unicode_codepage' );
+        eZDebug::accumulatorStop( 'textcodec_unicode_codepage' );
         return $tmp;
     }
 
     function convertUnicodeToUTF8( $unicodeValues )
     {
         include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_unicode_utf8', false, 'String conversion w/ Unicode to UTF8' );
+        eZDebug::accumulatorStart( 'textcodec_unicode_utf8', false, 'String conversion w/ Unicode to UTF8' );
         $tmp = eZUTF8Codec::convertUnicodeToString( $unicodeValues );
-        $debug->accumulatorStop( 'textcodec_unicode_utf8' );
+        eZDebug::accumulatorStop( 'textcodec_unicode_utf8' );
         return $tmp;
     }
 
@@ -384,40 +378,36 @@ class eZTextCodec
 
     function convertCodepage( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
+        eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         $tmp = $this->Codepage->convertString( $str );
-        $debug->accumulatorStop( 'textcodec_codepage', false, 'String conversion w/ codepage' );
+        eZDebug::accumulatorStop( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         return $tmp;
     }
 
     function convertCodepageRev( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
+        eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         $tmp = $this->Codepage->convertStringFromUTF8( $str );
-        $debug->accumulatorStop( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         return $tmp;
     }
 
     function convertCodepageMapper( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
+        eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         $tmp = $this->CodepageMapper->convertString( $str );
-        $debug->accumulatorStop( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
+        eZDebug::accumulatorStop( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         return $tmp;
     }
 
     function convertMBString( $str )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
+        eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
 //        $tmp = $this->MBStringMapper->convertString( $str );
         // NOTE:
         // Uses the mbstring function directly instead of going trough the class
         $tmp = mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
-        $debug->accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
+        eZDebug::accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         return $tmp;
     }
 

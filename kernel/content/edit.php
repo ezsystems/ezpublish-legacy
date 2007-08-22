@@ -120,8 +120,7 @@ if ( $EditLanguage != null )
    $localeObject = eZLocale::instance( $EditLanguage );
        if ( !$localeObject || !$localeObject->isValid() )
        {
-           $debug = eZDebug::instance();
-           $debug->writeError( "No such locale $EditLanguage!", 'Can not find language.' );
+           eZDebug::writeError( "No such locale $EditLanguage!", 'Can not find language.' );
            return $Module->handleError( EZ_ERROR_KERNEL_LANGUAGE_NOT_FOUND, 'kernel',
                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );
        }
@@ -627,7 +626,6 @@ if ( !function_exists( 'checkContentActions' ) )
             {
                 $uri = $module->redirectionURI( 'content', 'edit', array( $object->attribute( 'id'), 'f', $EditLanguage ) );
                 $module->redirectTo( $uri );
-                $debug = eZDebug::instance();
                 eZDebug::writeDebug( $uri, "uri  " .  $object->attribute( 'id')  );
                 $hasRedirected = true;
             }
@@ -692,12 +690,11 @@ if ( !function_exists( 'checkContentActions' ) )
             }
 
             include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'publish', '', 'publish' );
+            eZDebug::accumulatorStart( 'publish', '', 'publish' );
             $oldObjectName = $object->name();
             $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $version->attribute( 'version' ) ) );
-            $debug->accumulatorStop( 'publish' );
+            eZDebug::accumulatorStop( 'publish' );
 
             if ( ( array_key_exists( 'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
             {
@@ -782,7 +779,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     else if ( $futureNodeHiddenState == 'unchanged' )
                         $updateNodeVisibility = true;
                     else
-                        $debug->writeWarning( "Unknown value for the future node hidden state: '$futureNodeHiddenState'" );
+                        eZDebug::writeWarning( "Unknown value for the future node hidden state: '$futureNodeHiddenState'" );
                     $db->commit();
                 }
 

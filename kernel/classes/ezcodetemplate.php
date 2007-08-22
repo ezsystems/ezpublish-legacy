@@ -72,9 +72,8 @@ class eZCodeTemplate
     {
         if ( !file_exists( $filePath ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "File $filePath does not exists",
-                                'eZCodeTemplate::apply' );
+            eZDebug::writeError( "File $filePath does not exists",
+                                 'eZCodeTemplate::apply' );
             return EZ_CODE_TEMPLATE_STATUS_FAILED;
         }
 
@@ -83,9 +82,8 @@ class eZCodeTemplate
         $fd = fopen( $tempFile, 'wb' );
         if ( !$fd )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed to open temporary file $tempFile",
-                                'eZCodeTemplate::apply' );
+            eZDebug::writeError( "Failed to open temporary file $tempFile",
+                                 'eZCodeTemplate::apply' );
             return EZ_CODE_TEMPLATE_STATUS_FAILED;
         }
 
@@ -134,9 +132,8 @@ class eZCodeTemplate
                 $elements = explode( ',', $createText );
                 if ( count( $elements ) < 1 )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "No template name found in file $filePath at offset $offset",
-                                        'eZCodeTemplate::apply' );
+                    eZDebug::writeError( "No template name found in file $filePath at offset $offset",
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -147,9 +144,8 @@ class eZCodeTemplate
                 $templateFile = $this->templateFile( $templateName );
                 if ( $templateFile === false )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "No template file for template $templateName used in file $filePath at offset $offset",
-                                        'eZCodeTemplate::apply' );
+                    eZDebug::writeError( "No template file for template $templateName used in file $filePath at offset $offset",
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -157,9 +153,8 @@ class eZCodeTemplate
 
                 if ( !file_exists( $templateFile ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Template file $templateFile for template $templateName does not exist",
-                                        'eZCodeTemplate::apply' );
+                    eZDebug::writeError( "Template file $templateFile for template $templateName does not exist",
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -173,9 +168,8 @@ class eZCodeTemplate
 
                 if ( !file_exists( $templateFile ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Template file $templateFile was not found while workin on $filePath at offset $offset",
-                                        'eZCodeTemplate::apply' );
+                    eZDebug::writeError( "Template file $templateFile was not found while workin on $filePath at offset $offset",
+                                         'eZCodeTemplate::apply' );
                     $offset = $end;
                     $error = true;
                     continue;
@@ -205,9 +199,8 @@ class eZCodeTemplate
                             $currentTag = $matches[2];
                             if ( $matches[1] == 'END' )
                             {
-                                $debug = eZDebug::instance();
-                                $debug->writeError( "Tag $currentTag was finished before it was started, skipping it",
-                                                    'eZCodeTemplate::apply' );
+                                eZDebug::writeError( "Tag $currentTag was finished before it was started, skipping it",
+                                                     'eZCodeTemplate::apply' );
                                 $currentTag = false;
                                 $error = true;
                             }
@@ -234,17 +227,15 @@ class eZCodeTemplate
                                 }
                                 else
                                 {
-                                    $debug = eZDebug::instance();
-                                    $debug->writeError( "End tag $tag does not match start tag $currentTag, skipping it",
-                                                        'eZCodeTemplate::apply' );
+                                    eZDebug::writeError( "End tag $tag does not match start tag $currentTag, skipping it",
+                                                         'eZCodeTemplate::apply' );
                                     $error = true;
                                 }
                             }
                             else
                             {
-                                $debug = eZDebug::instance();
-                                $debug->writeError( "Start tag $tag found while $currentTag is active, skipping it",
-                                                    'eZCodeTemplate::apply' );
+                                eZDebug::writeError( "Start tag $tag found while $currentTag is active, skipping it",
+                                                     'eZCodeTemplate::apply' );
                                 $error = true;
                             }
                         }

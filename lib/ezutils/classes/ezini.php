@@ -352,18 +352,17 @@ class eZINI
     */
     function loadCache( $reset = true, $placement = false )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'ini', 'ini_load', 'Load cache' );
+        eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
         if ( $reset )
             $this->reset();
         $cachedDir = "var/cache/ini/";
 
-        $debug->accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
+        eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
         $this->findInputFiles( $inputFiles, $iniFile );
-        $debug->accumulatorStop( 'ini_find_files' );
+        eZDebug::accumulatorStop( 'ini_find_files' );
         if ( count( $inputFiles ) == 0 )
         {
-            $debug->accumulatorStop( 'ini' );
+            eZDebug::accumulatorStop( 'ini' );
             return false;
         }
 
@@ -428,7 +427,7 @@ class eZINI
         {
             $useCache = true;
             if ( eZINI::isDebugEnabled() )
-                $debug->writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
+                eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
             $charset = null;
             $blockValues = array();
             include( $cachedFile );
@@ -437,7 +436,7 @@ class eZINI
                  $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
-                    $debug->writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
+                    eZDebug::writeNotice( "Old structure in cache file used, recreating '$cachedFile' to new structure", "eZINI" );
                 $this->reset();
                 $useCache = false;
             }
@@ -458,12 +457,12 @@ class eZINI
         }
         if ( !$useCache )
         {
-            $debug->accumulatorStart( 'ini_files_1', 'ini_load', 'Parse' );
+            eZDebug::accumulatorStart( 'ini_files_1', 'ini_load', 'Parse' );
             $this->parse( $inputFiles, $iniFile, false, $placement );
-            $debug->accumulatorStop( 'ini_files_1' );
-            $debug->accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
+            eZDebug::accumulatorStop( 'ini_files_1' );
+            eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
             $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
-            $debug->accumulatorStop( 'ini_files_2' );
+            eZDebug::accumulatorStop( 'ini_files_2' );
 
             if ( $cacheSaved )
             {
@@ -473,7 +472,7 @@ class eZINI
             }
         }
 
-        $debug->accumulatorStop( 'ini' );
+        eZDebug::accumulatorStop( 'ini' );
     }
 
     /*!
@@ -482,13 +481,12 @@ class eZINI
     */
     function saveCache( $cachedDir, $cachedFile, $data )
     {
-        $debug = eZDebug::instance();
         if ( !file_exists( $cachedDir ) )
         {
             include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
-                $debug->writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
+                eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
                 return false;
             }
         }
@@ -497,7 +495,7 @@ class eZINI
         $fp = @fopen( $tmpCacheFile, "w" );
         if ( $fp === false )
         {
-            $debug->writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
+            eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
             return false;
         }
         fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
@@ -514,7 +512,7 @@ class eZINI
         eZFile::rename( $tmpCacheFile, $cachedFile );
 
         if ( eZINI::isDebugEnabled() )
-            $debug->writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
+            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
 
         return true;
     }
@@ -547,15 +545,14 @@ class eZINI
      */
     function parseFile( $file, $placement = false )
     {
-        $debug = eZDebug::instance();
         if ( eZINI::isDebugEnabled() )
-            $debug->writeNotice( "Parsing file '$file'", 'eZINI' );
+            eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
         include_once( "lib/ezfile/classes/ezfile.php" );
         $contents = eZFile::getContents( $file );
         if ( $contents === false )
         {
-            $debug->writeError( "Failed opening file '$file' for reading", "eZINI" );
+            eZDebug::writeError( "Failed opening file '$file' for reading", "eZINI" );
             return false;
         }
 
@@ -594,9 +591,9 @@ class eZINI
 
             if ( $this->Codec )
             {
-                $debug->accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
+                eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
                 $contents = $this->Codec->convertString( $contents );
-                $debug->accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
+                eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
             }
         }
         else
@@ -628,7 +625,7 @@ class eZINI
                     if ( isset( $this->BlockValuesPlacement[$currentBlock][$varName] ) &&
                          !is_array( $this->BlockValuesPlacement[$currentBlock][$varName] ) )
                     {
-                        $debug->writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
+                        eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
                         continue;
                     }
 
@@ -714,7 +711,6 @@ class eZINI
     function save( $fileName = false, $suffix = false, $useOverride = false,
                    $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
-        $debug = eZDebug::instance();
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
         $pathArray = array();
@@ -772,7 +768,7 @@ class eZINI
         $fp = @fopen( $filePath, "w+");
         if ( !$fp )
         {
-            $debug->writeError( "Failed opening file '$filePath' for writing", "eZINI" );
+            eZDebug::writeError( "Failed opening file '$filePath' for writing", "eZINI" );
             return false;
         }
         $writeOK = true;
@@ -952,7 +948,7 @@ class eZINI
     function prependOverrideDir( $dir, $globalDir = false, $identifier = false )
     {
         if ( eZINI::isDebugEnabled() )
-            $debug->writeNotice( "Changing override dir to '$dir'", "eZINI" );
+            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
 
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
@@ -988,9 +984,8 @@ class eZINI
     */
     function appendOverrideDir( $dir, $globalDir = false, $identifier = false )
     {
-        $debug = eZDebug::instance();
         if ( eZINI::isDebugEnabled() )
-            $debug->writeNotice( "Changing override dir to '$dir'", "eZINI" );
+            eZDebug::writeNotice( "Changing override dir to '$dir'", "eZINI" );
 
         if ( $this->UseLocalOverrides == true )
             $dirs =& $this->LocalOverrideDirArray;
@@ -1039,14 +1034,13 @@ class eZINI
     */
     function variable( $blockName, $varName )
     {
-        $debug = eZDebug::instance();
         $ret = false;
         if ( !isset( $this->BlockValues[$blockName] ) )
-            $debug->writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
         else if ( isset( $this->BlockValues[$blockName][$varName] ) )
             $ret = $this->BlockValues[$blockName][$varName];
         else
-            $debug->writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined variable: '$varName' in group '$blockName' in " . $this->FileName, "eZINI" );
 
         return $ret;
     }
@@ -1061,8 +1055,7 @@ class eZINI
 
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
+            eZDebug::writeError( "Undefined group: '$blockName' in " . $this->FileName, "eZINI" );
             return false;
         }
         foreach ( $varNames as $key => $varName )
@@ -1150,10 +1143,9 @@ class eZINI
      */
     function &group( $blockName )
     {
-        $debug = eZDebug::instance();
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            $debug->writeError( "Unknown group: '$origBlockName'", "eZINI" );
+            eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
             $ret = null;
             return $ret;
         }

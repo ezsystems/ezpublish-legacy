@@ -237,18 +237,17 @@ class eZCharTransform
             return $rules;
 
         $ini = eZINI::instance( 'transform.ini' );
-        $debug = eZDebug::instance();
         $groups = $ini->variable( 'Transformation', 'Groups' );
         if ( !in_array( $group, $groups ) )
         {
-            $debug->writeError( "Transformation group $group is not part of the active group list Groups in transform.ini",
+            eZDebug::writeError( "Transformation group $group is not part of the active group list Groups in transform.ini",
                                  'eZCharTransform::groupCommands' );
             return false;
         }
 
         if ( !$ini->hasGroup( $group ) )
         {
-            $debug->writeError( "Transformation group $group is missing in transform.ini",
+            eZDebug::writeError( "Transformation group $group is missing in transform.ini",
                                  'eZCharTransform::groupCommands' );
             return false;
         }
@@ -309,8 +308,7 @@ class eZCharTransform
             {
                 //var_dump( file_get_contents( $filepath ) );
                 // Execute the PHP file causing $text will be transformed
-                /*$debug = eZDebug::instance();
-                $debug->writeDebug( 'loading cache from: ' . $filepath, 'eZCharTransform::executeCacheFile' );*/
+                eZDebug::writeDebug( 'loading cache from: ' . $filepath, 'eZCharTransform::executeCacheFile' );*/
                 include "$filepath";
                 return true;
             }
@@ -351,8 +349,7 @@ class eZCharTransform
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed to store transformation table $filepath" );
+            eZDebug::writeError( "Failed to store transformation table $filepath" );
         }
     }
 

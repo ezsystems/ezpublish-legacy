@@ -125,8 +125,7 @@ else if ( is_string( $limitIdent ) && !isset( $limitValue ) )
 
         default:
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( 'Unsupported assign limitation: ' . $limitIdent );
+            eZDebug::writeWarning( 'Unsupported assign limitation: ' . $limitIdent );
             $Module->redirectTo( '/role/view/' . $roleID );
         } break;
     }

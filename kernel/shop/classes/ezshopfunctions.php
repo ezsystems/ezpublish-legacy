@@ -266,15 +266,13 @@ class eZShopFunctions
             if ( !$currency->isActive() )
             {
                 $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_INACTIVE;
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Currency '$currencyCode' is inactive.", 'eZShopFunctions::isPreferredCurrencyValid' );
+                eZDebug::writeWarning( "Currency '$currencyCode' is inactive.", 'eZShopFunctions::isPreferredCurrencyValid' );
             }
         }
         else
         {
             $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_DOESNOT_EXIST;
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::isPreferredCurrencyValid' );
+            eZDebug::writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::isPreferredCurrencyValid' );
         }
 
         return $error;
@@ -472,9 +470,8 @@ class eZShopFunctions
 
         if ( $error['code'] !== EZ_EXCHANGE_RATES_HANDLER_OK )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $error['description'],
-                                'eZShopFunctions::updateAutoRates' );
+            eZDebug::writeError( $error['description'],
+                                 'eZShopFunctions::updateAutoRates' );
         }
 
         return $error;

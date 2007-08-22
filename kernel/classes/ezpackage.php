@@ -311,8 +311,7 @@ class eZPackage
             return ( $repositoryInformation['type'] == 'local' );
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
+        eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
         return null;
     }
 
@@ -540,8 +539,7 @@ class eZPackage
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Could not open file $file for md5sum calculation" );
+                eZDebug::writeError( "Could not open file $file for md5sum calculation" );
             }
         }
         else
@@ -1117,10 +1115,9 @@ class eZPackage
     static function &import( $archiveName, $packageName, $dbAvailable = true, $repositoryID = false )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
-        $debug = eZDebug::instance();
         if ( is_dir( $archiveName ) )
         {
-            $debug->writeError( "Importing from directory is not supported." );
+            eZDebug::writeError( "Importing from directory is not supported." );
             $retValue = false;
             return $retValue;
         }
@@ -1139,7 +1136,7 @@ class eZPackage
             $fileList[] = eZPackage::definitionFilename();
             if ( !$archive->extractList( $fileList, $archivePath, '' ) )
             {
-                $debug->writeError( "Failed extracting package definition file from $archivePath" );
+                eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
                 $retValue = false;
                 return $retValue;
             }
@@ -1175,12 +1172,12 @@ class eZPackage
                 $package = eZPackage::fetch( $packageName, $fullRepositoryPath, false, $dbAvailable );
                 if ( !$package )
                 {
-                    $debug->writeError( "Failed loading imported package $packageName from $fullRepositoryPath" );
+                    eZDebug::writeError( "Failed loading imported package $packageName from $fullRepositoryPath" );
                 }
             }
             else
             {
-                $debug->writeError( "Failed loading temporary package $packageName" );
+                eZDebug::writeError( "Failed loading temporary package $packageName" );
             }
 
             return $package;
@@ -1241,8 +1238,7 @@ class eZPackage
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Saving DOM tree to $filename failed", 'eZPackage::storeDOM' );
+            eZDebug::writeError( "Saving DOM tree to $filename failed", 'eZPackage::storeDOM' );
         }
 
         return false;
@@ -1271,8 +1267,7 @@ class eZPackage
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed to write package '$filename'" );
+            eZDebug::writeError( "Failed to write package '$filename'" );
         }
         return false;
     }
@@ -1807,8 +1802,7 @@ class eZPackage
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Failed fetching dom from file $filepath", 'eZPackage::installItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::installItem' );
                     }
                 }
             }
@@ -1834,12 +1828,11 @@ class eZPackage
         if ( !isset( $installParameters['path'] ) )
             $installParameters['path'] = false;
         $installResult = true;
-        $debug = eZDebug::instance();
         foreach ( $installItems as $item )
         {
             if ( !$this->installItem( $item, $installParameters ) )
             {
-                $debug->writeDebug( $item, 'item which failed installing' );
+                eZDebug::writeDebug( $item, 'item which failed installing' );
                 $installResult = false;
             }
         }
@@ -1880,8 +1873,7 @@ class eZPackage
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Failed fetching dom from file $filepath", 'eZPackage::uninstallItem' );
+                        eZDebug::writeError( "Failed fetching dom from file $filepath", 'eZPackage::uninstallItem' );
                     }
                 }
             }
@@ -2109,7 +2101,6 @@ class eZPackage
         $versionRelease = false;
         if ( $versionNode )
         {
-            $debug = eZDebug::instance();
             $versionNumber = $versionNode->getElementsByTagName( 'number' )->item( 0 )->textContent;
             $versionRelease = $versionNode->getElementsByTagName( 'release' )->item( 0 )->textContent;
         }
@@ -2939,8 +2930,7 @@ class eZPackage
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Unable to fetch package '$packageName'", 'eZPackage::languageInfoFromPackageList' );
+                eZDebug::writeWarning( "Unable to fetch package '$packageName'", 'eZPackage::languageInfoFromPackageList' );
             }
         }
 

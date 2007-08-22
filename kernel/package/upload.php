@@ -75,20 +75,17 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Uploaded file is not an eZ publish package" );
+                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
             }
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed fetching upload package file" );
+            eZDebug::writeError( "Failed fetching upload package file" );
         }
     }
     else
     {
-        $debug = eZDebug::instance();
-        $debug->writeError( "No uploaded package file was found" );
+        eZDebug::writeError( "No uploaded package file was found" );
     }
 }
 else if ( $module->isCurrentAction( 'UploadCancel' ) )

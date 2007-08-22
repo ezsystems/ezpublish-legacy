@@ -125,10 +125,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $class = eZContentClass::fetchByRemoteID( $classRemoteID );
 
-        $debug = eZDebug::instance();
         if ( $class == null )
         {
-            $debug->writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
+            eZDebug::writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
             return true;
         }
 
@@ -159,7 +158,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 }
             }
 
-            $debug->writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
+            eZDebug::writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
 
             include_once( 'kernel/classes/ezcontentclassoperations.php' );
             eZContentClassOperations::remove( $class->attribute( 'id' ) );
@@ -229,13 +228,12 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_NON_INTERACTIVE:
             case EZ_PACKAGE_CONTENTCLASS_REPLACE:
                 include_once( 'kernel/classes/ezcontentclassoperations.php' );
-                $debug = eZDebug::instance();
                 if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
                 {
-                    $debug->writeWarning( "Unable to remove class '$className'." );
+                    eZDebug::writeWarning( "Unable to remove class '$className'." );
                     return true;
                 }
-                $debug->writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
+                eZDebug::writeNotice( "Class '$className' will be replaced.", 'eZContentClassPackageHandler' );
                 break;
 
             case EZ_PACKAGE_CONTENTCLASS_SKIP:
@@ -635,8 +633,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
             $attributesNode->appendChild( $attributeNode );
         }
-        $debug = eZDebug::instance();
-        $debug->writeDebug( $dom->saveXML(), 'content class package XML' );
+        eZDebug::writeDebug( $dom->saveXML(), 'content class package XML' );
         return $classNode;
     }
 

@@ -290,8 +290,7 @@ class eZCurrencyData extends eZPersistentObject
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
+            eZDebug::writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
         }
     }
 

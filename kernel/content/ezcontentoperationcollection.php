@@ -273,7 +273,6 @@ class eZContentOperationCollection
     */
     function publishNode( $parentNodeID, $objectID, $versionNum, $mainNodeID )
     {
-        $debug = eZDebug::instance();
         $object         = eZContentObject::fetch( $objectID );
         $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
         $version = $object->version( $versionNum );
@@ -348,7 +347,7 @@ class eZContentOperationCollection
             {
                 if ( $fromNodeID == 0 || $fromNodeID == -1 )
                 {
-                    $debug->writeError( "NodeAssignment '", $nodeAssignment->attribute( 'id' ), "' is marked with op_code='$opCode' but has no data in from_node_id. Cannot use it for moving node." );
+                    eZDebug::writeError( "NodeAssignment '", $nodeAssignment->attribute( 'id' ), "' is marked with op_code='$opCode' but has no data in from_node_id. Cannot use it for moving node." );
                 }
                 else
                 {
@@ -386,7 +385,7 @@ class eZContentOperationCollection
         }
         $existingNode->setAttribute( 'contentobject_is_published', 1 );
 
-        $debug->createAccumulatorGroup( 'nice_urls_total', 'Nice urls' );
+        eZDebug::createAccumulatorGroup( 'nice_urls_total', 'Nice urls' );
 
         if ( $mainNodeID > 0 )
         {
@@ -568,8 +567,7 @@ class eZContentOperationCollection
      */
     function registerSearchObject( $objectID, $versionNum )
     {
-        $debug = eZDebug::instance();
-        $debug->createAccumulatorGroup( 'search_total', 'Search Total' );
+        eZDebug::createAccumulatorGroup( 'search_total', 'Search Total' );
 
         include_once( "lib/ezutils/classes/ezini.php" );
 
@@ -588,12 +586,12 @@ class eZContentOperationCollection
             include_once( "kernel/classes/ezsearch.php" );
             $object = eZContentObject::fetch( $objectID );
             // Register the object in the search engine.
-            $debug->accumulatorStart( 'remove_object', 'search_total', 'remove object' );
+            eZDebug::accumulatorStart( 'remove_object', 'search_total', 'remove object' );
             eZSearch::removeObject( $object );
-            $debug->accumulatorStop( 'remove_object' );
-            $debug->accumulatorStart( 'add_object', 'search_total', 'add object' );
+            eZDebug::accumulatorStop( 'remove_object' );
+            eZDebug::accumulatorStart( 'add_object', 'search_total', 'add object' );
             eZSearch::addObject( $object );
-            $debug->accumulatorStop( 'add_object' );
+            eZDebug::accumulatorStop( 'add_object' );
         }
     }
 

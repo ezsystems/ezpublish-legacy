@@ -245,11 +245,7 @@ class eZDebug
     */
     static function alwaysLogMessage( $level )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
+        $instance = eZDebug::instance();
 
         // If there is a global setting for this get the value
         // and unset it globally
@@ -272,11 +268,8 @@ class eZDebug
     */
     static function setHandleType( $type )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
+        $instance = eZDebug::instance();
+
         if ( $type != EZ_HANDLE_TO_PHP and
              $type != EZ_HANDLE_FROM_PHP )
             $type = EZ_HANDLE_NONE;
@@ -316,13 +309,10 @@ class eZDebug
      $types is one or more of EZ_SHOW_NOTICE, EZ_SHOW_WARNING, EZ_SHOW_ERROR, EZ_SHOW_TIMING_POINT
      or'ed together.
     */
-    function showTypes( $types = false )
+    static function showTypes( $types = false )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
+        $instance = eZDebug::instance();
+
         if ( $types === false )
             return $instance->ShowTypes;
         $old_types = $instance->ShowTypes;
@@ -400,7 +390,7 @@ class eZDebug
       \param $label This label will be associated with the strict message, e.g. to say where the message came from.
       \param $backgroundClass A string defining the class to use in the HTML debug output.
     */
-    function writeStrict( $string, $label = "", $backgroundClass = "" )
+    static function writeStrict( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_STRICT );
         $enabled = eZDebug::isDebugEnabled();
@@ -445,7 +435,7 @@ class eZDebug
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
       \param $backgroundClass A string defining the class to use in the HTML debug output.
     */
-    function writeNotice( $string, $label = "", $backgroundClass = "" )
+    static function writeNotice( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_NOTICE );
         $enabled = eZDebug::isDebugEnabled();
@@ -488,7 +478,7 @@ class eZDebug
       The global variable \c 'eZDebugWarning' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeWarning( $string, $label = "", $backgroundClass = "" )
+    static function writeWarning( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_WARNING );
         $enabled = eZDebug::isDebugEnabled();
@@ -531,7 +521,7 @@ class eZDebug
       The global variable \c 'eZDebugError' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeError( $string, $label = "", $backgroundClass = "" )
+    static function writeError( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_ERROR );
         $enabled = eZDebug::isDebugEnabled();
@@ -574,7 +564,7 @@ class eZDebug
       The global variable \c 'eZDebugDebug' will be set to \c true if the notice is added.
       \param $label This label will be associated with the notice, e.g. to say where the notice came from.
     */
-    function writeDebug( $string, $label = "", $backgroundClass = "" )
+    static function writeDebug( $string, $label = "", $backgroundClass = "" )
     {
         $alwaysLog = eZDebug::alwaysLogMessage( EZ_LEVEL_DEBUG );
         $enabled = eZDebug::isDebugEnabled();
@@ -640,13 +630,9 @@ class eZDebug
      Enables/disables the use of external CSS. If false a <style> tag is output
      before the debug list. Default is to use internal css.
     */
-    function setUseExternalCSS( $use )
+    static function setUseExternalCSS( $use )
     {
-        if ( isset( $this ) and
-             strtolower( get_class( $this ) ) == "ezdebug" )
-            $instance =& $this;
-        else
-            $instance = eZDebug::instance();
+        $instance = eZDebug::instance();
         $instance->UseCSS = $use;
     }
 
@@ -679,7 +665,7 @@ class eZDebug
     /*!
       Adds a new timing point for the benchmark report.
     */
-    function addTimingPoint( $description = "" )
+    static function addTimingPoint( $description = "" )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -790,7 +776,7 @@ class eZDebug
      \static
      \return the maxium size for a log file in bytes.
     */
-    function maxLogSize()
+    static function maxLogSize()
     {
         $maxLogSize =& $GLOBALS['eZDebugMaxLogSize'];
         if ( isset( $maxLogSize ) )
@@ -802,7 +788,7 @@ class eZDebug
      \static
      Sets the maxium size for a log file to \a $size.
     */
-    function setMaxLogSize( $size )
+    static function setMaxLogSize( $size )
     {
         $GLOBALS['eZDebugMaxLogSize'] = $size;
     }
@@ -811,7 +797,7 @@ class eZDebug
      \static
      \return the maxium number of logrotate files to keep.
     */
-    function maxLogrotateFiles()
+    static function maxLogrotateFiles()
     {
         $maxLogrotateFiles =& $GLOBALS['eZDebugMaxLogrotateFiles'];
         if ( isset( $maxLogrotateFiles ) )
@@ -823,7 +809,7 @@ class eZDebug
      \static
      Sets the maxium number of logrotate files to keep to \a $files.
     */
-    function setLogrotateFiles( $files )
+    static function setLogrotateFiles( $files )
     {
         $GLOBALS['eZDebugMaxLogrotateFiles'] = $files;
     }
@@ -835,7 +821,7 @@ class eZDebug
      exceed maxLogrotateFiles() will be removed.
      Rotated files will get the extension .1, .2 etc.
     */
-    function rotateLog( $fileName )
+    static function rotateLog( $fileName )
     {
         $maxLogrotateFiles = eZDebug::maxLogrotateFiles();
         for ( $i = $maxLogrotateFiles; $i > 0; --$i )
@@ -932,7 +918,7 @@ class eZDebug
      Enables or disables logging to file for a given message type.
      If \a $types is not supplied it will do the operation for all types.
     */
-    function setLogFileEnabled( $enabled, $types = false )
+    static function setLogFileEnabled( $enabled, $types = false )
     {
         if ( isset( $this ) and
              strtolower( get_class( $this ) ) == "ezdebug" )
@@ -1267,7 +1253,7 @@ showDebug();
      If \a $mtime is not supplied it gets the current \c microtime().
      This is used to calculate total execution time and percentages.
     */
-    function setScriptStart( $mtime = false )
+    static function setScriptStart( $mtime = false )
     {
         if ( $mtime == false )
             $mtime = microtime();

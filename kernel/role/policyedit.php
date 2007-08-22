@@ -227,7 +227,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
              $functionLimitation['name'] != "Subtree" )
         {
             $limitationValueList = $http->postVariable( $functionLimitation['name'] );
-            eZDebug::instance()->writeNotice( $limitationValueList, 'limitationValues');
+            eZDebug::writeNotice( $limitationValueList, 'limitationValues');
 
             if ( !in_array('-1', $limitationValueList ) )
             {

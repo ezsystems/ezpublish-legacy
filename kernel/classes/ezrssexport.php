@@ -495,8 +495,7 @@ class eZRSSExport extends eZPersistentObject
             if( !$doesMatch )
             {
                 // no match
-                $debug = eZDebug::instance();
-                $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
                 $retValue = null;
                 return $retValue;
             }
@@ -679,8 +678,7 @@ class eZRSSExport extends eZPersistentObject
             if( !$doesMatch )
             {
                 // no match
-                $debug = eZDebug::instance();
-                $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
                 $retValue = null;
                 return $retValue;
             }

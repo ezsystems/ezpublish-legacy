@@ -137,8 +137,7 @@ class eZAuthor
             }break;
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
                 return null;
             }
             break;

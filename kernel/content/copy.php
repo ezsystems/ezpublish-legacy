@@ -81,10 +81,9 @@ function copyObject( &$Module, $object, $allVersions, $newParentNodeID )
     if ( !$newParentNode->checkAccess( 'create', $classID ) )
     {
         $objectID = $object->attribute( 'id' );
-        $debug = eZDebug::instance();
-        $debug->writeError( "Cannot copy object $objectID to node $newParentNodeID, " .
-                              "the current user does not have create permission for class ID $classID",
-                            'content/copy' );
+        eZDebug::writeError( "Cannot copy object $objectID to node $newParentNodeID, " .
+                               "the current user does not have create permission for class ID $classID",
+                             'content/copy' );
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 

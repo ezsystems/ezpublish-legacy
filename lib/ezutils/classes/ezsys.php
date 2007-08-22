@@ -699,8 +699,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
+                eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
             }
             $retVal = null;
             return $retVal;
@@ -737,8 +736,7 @@ class eZSys
         {
             if ( !$quiet )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
+                eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
             }
             $retValue = null;
             return $retValue;
@@ -801,8 +799,7 @@ class eZSys
             return $this->indexDir();
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
         return null;
     }
 
@@ -864,13 +861,12 @@ class eZSys
 
         if ( eZSys::isDebugEnabled() )
         {
-            $debug = eZDebug::instance();
-            $debug->writeNotice( eZSys::serverVariable( 'PHP_SELF' ), 'PHP_SELF' );
-            $debug->writeNotice( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 'SCRIPT_FILENAME' );
-            $debug->writeNotice( eZSys::serverVariable( 'DOCUMENT_ROOT' ), 'DOCUMENT_ROOT' );
-            $debug->writeNotice( eZSys::serverVariable( 'REQUEST_URI' ), 'REQUEST_URI' );
-            $debug->writeNotice( eZSys::serverVariable( 'QUERY_STRING' ), 'QUERY_STRING' );
-            $debug->writeNotice( ini_get( 'include_path' ), 'include_path' );
+            eZDebug::writeNotice( eZSys::serverVariable( 'PHP_SELF' ), 'PHP_SELF' );
+            eZDebug::writeNotice( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 'SCRIPT_FILENAME' );
+            eZDebug::writeNotice( eZSys::serverVariable( 'DOCUMENT_ROOT' ), 'DOCUMENT_ROOT' );
+            eZDebug::writeNotice( eZSys::serverVariable( 'REQUEST_URI' ), 'REQUEST_URI' );
+            eZDebug::writeNotice( eZSys::serverVariable( 'QUERY_STRING' ), 'QUERY_STRING' );
+            eZDebug::writeNotice( ini_get( 'include_path' ), 'include_path' );
         }
 
         $phpSelf = eZSys::serverVariable( 'PHP_SELF' );
@@ -958,8 +954,7 @@ class eZSys
             {
                 if ( eZSys::isDebugEnabled() )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeNotice( "$wwwDir$index", '$wwwDir$index' );
+                    eZDebug::writeNotice( "$wwwDir$index", '$wwwDir$index' );
                 }
                 // Get the right $_SERVER['REQUEST_URI'], when using nVH setup.
                 if ( ereg( "^$wwwDir$index(.*)", $phpSelf, $req ) )
@@ -1029,11 +1024,10 @@ class eZSys
 
         if ( eZSys::isDebugEnabled() )
         {
-            $debug = eZDebug::instance();
-            $debug->writeNotice( $instance->SiteDir, 'SiteDir' );
-            $debug->writeNotice( $instance->WWWDir, 'WWWDir' );
-            $debug->writeNotice( $instance->IndexFile, 'IndexFile' );
-            $debug->writeNotice( eZSys::requestURI(), 'eZSys::requestURI()' );
+            eZDebug::writeNotice( $instance->SiteDir, 'SiteDir' );
+            eZDebug::writeNotice( $instance->WWWDir, 'WWWDir' );
+            eZDebug::writeNotice( $instance->IndexFile, 'IndexFile' );
+            eZDebug::writeNotice( eZSys::requestURI(), 'eZSys::requestURI()' );
         }
 
     }

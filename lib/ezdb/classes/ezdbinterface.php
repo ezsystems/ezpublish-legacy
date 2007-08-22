@@ -219,8 +219,7 @@ class eZDBInterface
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
             return null;
         }
     }
@@ -347,12 +346,11 @@ class eZDBInterface
     */
     function reportQuery( $class, $sql, $numRows, $timeTaken )
     {
-        $debug = eZDebug::instance();
         $rowText = '';
         if ( $numRows !== false ) $rowText = "$numRows rows, ";
 
         $backgroundClass = ($this->TransactionCounter > 0  ? "debugtransaction transactionlevel-$this->TransactionCounter" : "");
-        $debug->writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
+        eZDebug::writeNotice( "$sql", "$class::query($rowText" . number_format( $timeTaken, 3 ) . " ms) query number per page:" . $this->NumQueries++, $backgroundClass );
     }
 
     /*!
@@ -683,12 +681,11 @@ class eZDBInterface
     function commit()
     {
         $ini = eZINI::instance();
-        $debug = eZDebug::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                $debug->writeError( 'No transaction in progress, cannot commit', 'eZDBInterface::commit' );
+                eZDebug::writeError( 'No transaction in progress, cannot commit', 'eZDBInterface::commit' );
                 return false;
             }
 
@@ -768,8 +765,7 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter <= 0 )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
+                eZDebug::writeError( 'No transaction in progress, cannot rollback', 'eZDBInterface::rollback' );
                 return false;
             }
             // Reset the transaction counter
@@ -932,8 +928,7 @@ class eZDBInterface
             // This is the unique ID for this incidence which will also be placed in the error logs.
             $transID = 'TRANSID-' . md5( time() . mt_rand() );
 
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
+            eZDebug::writeError( 'Transaction in progress failed due to DB error, transaction was rollbacked. Transaction ID is ' . $transID . '.', 'eZDBInterface::commit ' . $transID );
 
             $oldRecordError = $this->RecordError;
             // Turn off error handling while we rollback

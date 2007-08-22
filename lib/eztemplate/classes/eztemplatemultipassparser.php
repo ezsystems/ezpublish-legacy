@@ -59,7 +59,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     */
     function parse( $tpl, $sourceText, &$rootElement, $rootNamespace, &$resourceData )
     {
-        $debug = eZDebug::instance();
         $relatedResource = $resourceData['resource'];
         $relatedTemplateName = $resourceData['template-filename'];
 
@@ -69,20 +68,20 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $sourceLength = strlen( $sourceText );
         $sourcePosition = 0;
 
-        $debug->accumulatorStart( 'template_multi_parser_1', 'template_total', 'Template parser: create text elements' );
+        eZDebug::accumulatorStart( 'template_multi_parser_1', 'template_total', 'Template parser: create text elements' );
         $textElements = $this->parseIntoTextElements( $tpl, $sourceText, $sourcePosition,
                                                       $leftDelimiter, $rightDelimiter, $sourceLength,
                                                       $relatedTemplateName );
-        $debug->accumulatorStop( 'template_multi_parser_1' );
+        eZDebug::accumulatorStop( 'template_multi_parser_1' );
 
-        $debug->accumulatorStart( 'template_multi_parser_2', 'template_total', 'Template parser: remove whitespace' );
+        eZDebug::accumulatorStart( 'template_multi_parser_2', 'template_total', 'Template parser: remove whitespace' );
         $textElements = $this->parseWhitespaceRemoval( $tpl, $textElements );
-        $debug->accumulatorStop( 'template_multi_parser_2' );
+        eZDebug::accumulatorStop( 'template_multi_parser_2' );
 
-        $debug->accumulatorStart( 'template_multi_parser_3', 'template_total', 'Template parser: construct tree' );
+        eZDebug::accumulatorStart( 'template_multi_parser_3', 'template_total', 'Template parser: construct tree' );
         $this->parseIntoTree( $tpl, $textElements, $currentRoot,
                               $rootNamespace, $relatedResource, $relatedTemplateName );
-        $debug->accumulatorStop( 'template_multi_parser_3' );
+        eZDebug::accumulatorStop( 'template_multi_parser_3' );
     }
 
     function gotoEndPosition( $text, $line, $column, &$endLine, &$endColumn )
@@ -108,9 +107,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                      $leftDelimiter, $rightDelimiter, $sourceLength,
                                      $relatedTemplateName )
     {
-        $debug = eZDebug::instance();
         if ( $tpl->ShowDetails )
-            $debug->addTimingPoint( "Parse pass 1 (simple tag parsing)" );
+            eZDebug::addTimingPoint( "Parse pass 1 (simple tag parsing)" );
         $currentLine = 1;
         $currentColumn = 0;
         $textElements = array();
@@ -187,7 +185,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $sourcePosition = $blockEnd;
                     $currentLine = $endLine;
                     $currentColumn = $endColumn;
-//                     $debug->writeDebug( "eZTemplate: Comment: $comment" );
+//                     eZDebug::writeDebug( "eZTemplate: Comment: $comment" );
                 }
                 else
                 {
@@ -336,9 +334,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
     function parseWhitespaceRemoval( $tpl, &$textElements )
     {
-        $debug = eZDebug::instance();
         if ( $tpl->ShowDetails )
-            $debug->addTimingPoint( "Parse pass 2 (whitespace removal)" );
+            eZDebug::addTimingPoint( "Parse pass 2 (whitespace removal)" );
         $tempTextElements = array();
         $textElements[] = null;
 
@@ -429,10 +426,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     {
         $outerElseTags = array( 'else' => array( 'if', 'elseif' ), 'section-else' => array( 'section' ) );
 
-        $debug = eZDebug::instance();
         $currentRoot =& $treeRoot;
         if ( $tpl->ShowDetails )
-            $debug->addTimingPoint( "Parse pass 3 (build tree)" );
+            eZDebug::addTimingPoint( "Parse pass 3 (build tree)" );
 
         $tagStack = array();
 
@@ -821,7 +817,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
 
         if ( $tpl->ShowDetails )
-            $debug->addTimingPoint( "Parse pass 3 done" );
+            eZDebug::addTimingPoint( "Parse pass 3 done" );
     }
 
     /*!

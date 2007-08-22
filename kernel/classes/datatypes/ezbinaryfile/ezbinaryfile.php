@@ -198,7 +198,6 @@ class eZBinaryFile extends eZPersistentObject
     */
     function metaData()
     {
-        $debug = eZDebug::instance();
         $metaData = "";
         $binaryINI = eZINI::instance( 'binaryfile.ini' );
 
@@ -239,12 +238,12 @@ class eZBinaryFile extends eZPersistentObject
             }
             else
             {
-                $debug->writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
+                eZDebug::writeWarning( "Plugin for $this->MimeType was not found", 'eZBinaryFile' );
             }
         }
         else
         {
-            $debug->writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
+            eZDebug::writeWarning( "Mimetype $this->MimeType not supported for indexing", 'eZBinaryFile' );
         }
 
         return $metaData;

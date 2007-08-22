@@ -1080,8 +1080,7 @@ class eZOrder extends eZPersistentObject
 
         if ( !is_object( $user ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot check status access without a user", 'eZOrder::canModifyStatus' );
+            eZDebug::writeError( "Cannot check status access without a user", 'eZOrder::canModifyStatus' );
             return false;
         }
 
@@ -1137,8 +1136,7 @@ class eZOrder extends eZPersistentObject
 
         if ( !is_object( $user ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot calculate status access list without a user", 'eZOrder::canModifyStatus' );
+            eZDebug::writeError( "Cannot calculate status access list without a user", 'eZOrder::canModifyStatus' );
             return false;
         }
 

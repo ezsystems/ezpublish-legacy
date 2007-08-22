@@ -99,8 +99,7 @@ class eZContentObjectAssignmentHandler
             }
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown node type '$name'", 'eZContentObjectAssignmentHandler::nodeID' );
+                eZDebug::writeError( "Unknown node type '$name'", 'eZContentObjectAssignmentHandler::nodeID' );
             } break;
         }
         return false;
@@ -175,17 +174,16 @@ class eZContentObjectAssignmentHandler
             if ( isset( $assignmentRules[1] ) )
                 $mainID = $assignmentRules[1];
         }
-        $debug = eZDebug::instance();
-        $debug->writeDebug( $assignments, 'assignments' );
+        eZDebug::writeDebug( $assignments, 'assignments' );
         if ( $assignments )
         {
             if ( $mainID )
                 $mainID = $this->nodeID( $mainID );
             $nodeList = $this->nodeIDList( $assignments );
-            $debug->writeDebug( $nodeList, 'nodeList' );
+            eZDebug::writeDebug( $nodeList, 'nodeList' );
             $assignmentCount = 0;
-            $debug->writeDebug( $this->CurrentObject->attribute( 'id' ), 'current object' );
-            $debug->writeDebug( $this->CurrentVersion->attribute( 'version' ), 'current version' );
+            eZDebug::writeDebug( $this->CurrentObject->attribute( 'id' ), 'current object' );
+            eZDebug::writeDebug( $this->CurrentVersion->attribute( 'version' ), 'current version' );
             foreach ( $nodeList as $nodeID )
             {
                 $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -193,12 +191,12 @@ class eZContentObjectAssignmentHandler
                     continue;
                 $parentContentObject = $node->attribute( 'object' );
 
-                $debug->writeDebug( "Checking for '$nodeID'" );
+                eZDebug::writeDebug( "Checking for '$nodeID'" );
                 if ( $parentContentObject->checkAccess( 'create',
                                                         $contentClassID,
                                                         $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
                 {
-                    $debug->writeDebug( "Adding to '$nodeID' and main = '$mainID'" );
+                    eZDebug::writeDebug( "Adding to '$nodeID' and main = '$mainID'" );
                     if ( $mainID === false )
                     {
                         $isMain = ( $assignmentCount == 0 );

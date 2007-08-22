@@ -41,8 +41,7 @@ class eZModuleManager
 {
     static function aviableModules()
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( 'The function eZModuleManager::aviableModules is deprecated, use eZModuleManager::availableModules instead' );
+        eZDebug::writeWarning( 'The function eZModuleManager::aviableModules is deprecated, use eZModuleManager::availableModules instead' );
         return eZModuleManager::availableModules();
     }
 

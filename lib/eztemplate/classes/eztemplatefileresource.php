@@ -289,15 +289,14 @@ class eZTemplateFileResource
                     setlocale( LC_CTYPE, $locales );
                 }
 
-                $debug = eZDebug::instance();
                 if ( eZTemplate::isDebugEnabled() )
-                    $debug->writeNotice( "$path, $charset" );
+                    eZDebug::writeNotice( "$path, $charset" );
                 $codec = eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
-                    $debug->accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                     $text = $codec->convertString( $text );
-                    $debug->accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                 }
                 $result = true;
             }

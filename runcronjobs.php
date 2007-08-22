@@ -322,10 +322,9 @@ foreach ( $scripts as $cronScript )
         if ( !$isQuiet )
             $cli->output( "Running " . $cli->stylize( 'emphasize', $scriptFile ) );
 
-        $debug = eZDebug::instance();
-        $debug->addTimingPoint( "Script $scriptFile starting" );
+        eZDebug::addTimingPoint( "Script $scriptFile starting" );
         eZRunCronjobs::runScript( $cli, $scriptFile );
-        $debug->addTimingPoint( "Script $scriptFile done" );
+        eZDebug::addTimingPoint( "Script $scriptFile done" );
         ++$index;
         // The transaction check
         $transactionCounterCheck = eZDB::checkTransactionCounter();

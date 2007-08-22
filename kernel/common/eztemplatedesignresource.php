@@ -190,11 +190,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function designSetting( $type = 'standard' )
     {
-        $debug = eZDebug::instance();
         if ( $type != 'standard' and
              $type != 'site' )
         {
-            $debug->writeWarning( "Cannot retrieve designsetting for type '$type'", 'eZTemplateDesignResource::designSetting' );
+            eZDebug::writeWarning( "Cannot retrieve designsetting for type '$type'", 'eZTemplateDesignResource::designSetting' );
             return null;
         }
         if ( $type == 'site' )
@@ -229,11 +228,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function setDesignSetting( $designSetting, $type = 'standard' )
     {
-        $debug = eZDebug::instance();
         if ( $type != 'standard' and
              $type != 'site' )
         {
-            $debug->writeWarning( "Cannot set designsetting '$designSetting' for type '$type'", 'eZTemplateDesignResource::setDesignSetting' );
+            eZDebug::writeWarning( "Cannot set designsetting '$designSetting' for type '$type'", 'eZTemplateDesignResource::setDesignSetting' );
             return;
         }
         if ( !isset( $GLOBALS['eZTemplateDesignSetting'] ) )
@@ -248,8 +246,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     static function fileMatchingRules( $element, $path, $onlyStandard = false )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'matching_rules', 'override', 'Matching rules' );
+        eZDebug::accumulatorStart( 'matching_rules', 'override', 'Matching rules' );
 
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
         if ( !$onlyStandard )
@@ -301,7 +298,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matches[] = array( 'file' => "$designStartPath/$design/$elementText$path",
                                 'type' => 'normal' );
         }
-        $debug->accumulatorStop( 'matching_rules' );
+        eZDebug::accumulatorStop( 'matching_rules' );
         return $matches;
     }
 
@@ -328,8 +325,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $this->KeyStack[] = $this->Keys;
         $this->Keys = $matchKeys;
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'override_cache', 'override', 'Cache load' );
+        eZDebug::accumulatorStart( 'override_cache', 'override', 'Cache load' );
 
         $overrideCacheFile = $this->createOverrideCache();
 
@@ -430,7 +426,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                 $match['file'] = $matchFile['base_dir'] . $matchFile['template'];
             }
         }
-        $debug->accumulatorStop( 'override_cache' );
+        eZDebug::accumulatorStop( 'override_cache' );
         if ( !isset( $match ) or $match === null )
             return false;
 
@@ -617,8 +613,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             {
                 if ( $useOverrideCache )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
+                    eZDebug::writeError( "Could not write template override cache file, check permissions in $cacheDir/override/.\nRunning eZ publish without this cache will have a performance impact.", "eZTemplateDesignResource::createOverrideCache" );
                 }
                 $eZTemplateOverrideCacheNoPermission = 'nocache';
                 $overrideCacheFile = false;
@@ -916,10 +911,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
             if ( ! $overrideMatchFilePath )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
+                eZDebug::writeError( "Custom match file: path '$overrideMatchFile' not found in any resource. Check template settings in settings/override.ini",
                                      "eZTemplateDesignResource::overrideArray" );
-                $debug->writeError( implode( ', ', $triedFiles ),
+                eZDebug::writeError( implode( ', ', $triedFiles ),
                                      "eZTemplateDesignResource::overrideArray, tried files" );
             }
 

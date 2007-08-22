@@ -996,15 +996,13 @@ class eZContentObjectVersion extends eZPersistentObject
         $checkIntersect = array_intersect( $versionStatus, $statuses );
         if ( count( $checkIntersect ) != count( $versionStatus ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
+            eZDebug::writeError( 'Invalid version status was passed in.', 'eZContentObjectVersion::removeVersions()' );
             return false;
         }
 
         if ( !is_numeric( $limit ) or $limit < 0 )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
+            eZDebug::writeError( '$limit must be either false or positive numeric value.', 'eZContentObjectVersion::removeVersions()' );
             return false;
         }
 
@@ -1245,7 +1243,6 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     static function unserialize( $domNode, $contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, $package, $handlerType = 'ezcontentobject' )
     {
-        $debug = eZDebug::instance();
 
         $oldVersion = $domNode->getAttribute( 'version' );
         $status = $domNode->getAttribute( 'status' );
@@ -1490,11 +1487,10 @@ class eZContentObjectVersion extends eZPersistentObject
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( sprintf( "Name for object %s of version %s in translation %s not found",
-                                               $contentObject->attribute( 'id' ),
-                                               $this->Version,
-                                               $language ) );
+                eZDebug::writeWarning( sprintf( "Name for object %s of version %s in translation %s not found",
+                                                $contentObject->attribute( 'id' ),
+                                                $this->Version,
+                                                $language ) );
             }
 
             $attributes = $this->contentObjectAttributes( $language );
@@ -1588,8 +1584,7 @@ class eZContentObjectVersion extends eZPersistentObject
             }
             if ( count( $parentNodeIDList ) == 0 )
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( $this, "unable to get parent nodes for version" );
+                eZDebug::writeWarning( $this, "unable to get parent nodes for version" );
                 return;
             }
             $parentNodeIDString = implode( ',' , $parentNodeIDList );
@@ -1605,8 +1600,7 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( $this, "trying to unpublish non published version" );
+            eZDebug::writeWarning( $this, "trying to unpublish non published version" );
         }
 
     }

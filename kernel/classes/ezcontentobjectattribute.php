@@ -447,10 +447,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function contentClassAttribute()
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
+        eZDebug::accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
         $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-        $debug->accumulatorStop( 'instantiate_class_attribute' );
+        eZDebug::accumulatorStop( 'instantiate_class_attribute' );
         return $classAttribute;
     }
 
@@ -487,12 +486,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIsRequired === null )
         {
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
+            eZDebug::accumulatorStart( 'class_a_is_req', 'Sytem overhead', 'Fetch class attribute is_required' );
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsRequired = $classAttribute->attribute( 'is_required' );
-            $debug->accumulatorStop( 'class_a_is_req' );
+            eZDebug::accumulatorStop( 'class_a_is_req' );
         }
 
         return $this->ContentClassAttributeIsRequired;
@@ -507,12 +505,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIsInformationCollector === null )
         {
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
+            eZDebug::accumulatorStart( 'class_a_is_ic', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsInformationCollector = $classAttribute->attribute( 'is_information_collector' );
-            $debug->accumulatorStop( 'class_a_is_ic' );
+            eZDebug::accumulatorStop( 'class_a_is_ic' );
         }
 
         return $this->ContentClassAttributeIsInformationCollector;
@@ -527,12 +524,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeName === null )
         {
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
+            eZDebug::accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeName = $classAttribute->attribute( 'name' );
-            $debug->accumulatorStop( 'class_a_name' );
+            eZDebug::accumulatorStop( 'class_a_name' );
         }
 
         return $this->ContentClassAttributeName;
@@ -547,8 +543,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeCanTranslate === null )
         {
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
+            eZDebug::accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
@@ -560,7 +555,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                 $this->ContentClassAttributeCanTranslate = 1;
             else
                 $this->ContentClassAttributeCanTranslate = 0;
-            $debug->accumulatorStop( 'class_a_can_translate' );
+            eZDebug::accumulatorStop( 'class_a_can_translate' );
         }
 
         return $this->ContentClassAttributeCanTranslate;
@@ -575,12 +570,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->ContentClassAttributeIdentifier === null )
         {
-            $debug = eZDebug::instance();
-            $debug->accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
+            eZDebug::accumulatorStart( 'class_a_id', 'Sytem overhead', 'Fetch class attribute identifier' );
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIdentifier = $classAttribute->attribute( 'identifier' );
-            $debug->accumulatorStop( 'class_a_id' );
+            eZDebug::accumulatorStop( 'class_a_id' );
         }
 
         return $this->ContentClassAttributeIdentifier;

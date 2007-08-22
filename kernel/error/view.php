@@ -37,7 +37,6 @@ $extraErrorParameters = $Params['ExtraParameters'];
 
 $tpl->setVariable( 'parameters', $extraErrorParameters );
 
-$debug = eZDebug::instance();
 
 $siteBasics = $GLOBALS['eZSiteBasics'];
 $userObjectRequired = $siteBasics['user-object-required'];
@@ -62,7 +61,7 @@ else
 $embedContent = false;
 
 $GLOBALS["eZRequestError"] = true;
-$debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
+eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "error/view.php" );
 
 // if ( $errorType == 'kernel' )
 {
@@ -173,7 +172,7 @@ $debug->writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "err
                 }
             }
 
-            $debug->writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
+            eZDebug::writeWarning($accessMessage, "Insufficient permissions", "kernel/error/view.php");
         }
 
     }

@@ -290,8 +290,7 @@ class eZBinaryFileType extends eZDataType
             $binaryFile->setMimeType( $mime );
             if ( !$binaryFile->store( "original", $extension ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Failed to store http-file: " . $binaryFile->attribute( "original_filename" ),
+                eZDebug::writeError( "Failed to store http-file: " . $binaryFile->attribute( "original_filename" ),
                                      "eZBinaryFileType" );
                 return false;
             }
@@ -670,7 +669,6 @@ class eZBinaryFileType extends eZDataType
     */
     function unserializeContentObjectAttribute( $package, $objectAttribute, $attributeNode )
     {
-        $debug = eZDebug::instance();
 
         $fileNode = $attributeNode->getElementsByTagName( 'binary-file' )->item( 0 );
         if ( !is_object( $fileNode ) or !$fileNode->hasAttributes() )
@@ -684,7 +682,7 @@ class eZBinaryFileType extends eZDataType
 
         if ( !file_exists( $sourcePath ) )
         {
-            $debug->writeError( "The file '$sourcePath' does not exist, cannot initialize file attribute with it",
+            eZDebug::writeError( "The file '$sourcePath' does not exist, cannot initialize file attribute with it",
                                  'eZBinaryFileType::unserializeContentObjectAttribute' );
             return false;
         }
@@ -713,7 +711,7 @@ class eZBinaryFileType extends eZDataType
 
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $sourcePath, $destinationPath . $basename );
-        $debug->writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
+        eZDebug::writeNotice( 'Copied: ' . $sourcePath . ' to: ' . $destinationPath . $basename,
                               'eZBinaryFileType::unserializeContentObjectAttribute()' );
 
         $binaryFile->setAttribute( 'contentobject_attribute_id', $objectAttribute->attribute( 'id' ) );

@@ -124,7 +124,6 @@ $maxColumn = 72 - $percentLength - $timeLength;
 $totalChangedNodes = 0;
 $totalNodeCount = 0;
 
-$debug = eZDebug::instance();
 
 function microtimeFloat()
 {
@@ -398,18 +397,18 @@ if ( $urlCount > 0 )
                 if ( count( $rows2 ) == 0 )
                 {
                     // Did not find forwarded item, mark as error
-                    $debug->writeError( "Could not find urlalias entry with ID $forwardToID which was referenced by ID " . $row['id'] );
+                    eZDebug::writeError( "Could not find urlalias entry with ID $forwardToID which was referenced by ID " . $row['id'] );
                     list( $column, $counter ) = displayProgress( 'F', $urlImportStartTime, $counter, $urlCount, $column );
                     continue;
                 }
             }
             $redirectedSource = $rows2[0]['source_url'];
-            $debug->writeNotice( $redirectedSource, "redirectedSource" );
+            eZDebug::writeNotice( $redirectedSource, "redirectedSource" );
             $elements = eZURLAliasML::fetchByPath( $redirectedSource );
             if ( count( $elements ) == 0 )
             {
                 // Referenced url does not exist
-                $debug->writeError( "The referenced path '$redirectedSource' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
+                eZDebug::writeError( "The referenced path '$redirectedSource' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
                 list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
                 continue;
             }
@@ -448,14 +447,14 @@ if ( $urlCount > 0 )
             // Validate the wildcards
             if ( !preg_match( "#^(.*)\*$#", $sourceWildcard, $matches ) )
             {
-                $debug->writeError( "Invalid source wildcard '$sourceWildcard', item is skipped, URL entry ID is " . $row['id'] );
+                eZDebug::writeError( "Invalid source wildcard '$sourceWildcard', item is skipped, URL entry ID is " . $row['id'] );
                 list( $column, $counter ) = displayProgress( 'S', $urlImportStartTime, $counter, $urlCount, $column );
                 continue;
             }
             $fromPath = $matches[1];
             if ( !preg_match( "#^(.*)\{1\}$#", $destinationWildcard, $matches ) )
             {
-                $debug->writeError( "Invalid destination wildcard '$destinationWildcard', item is skipped, URL entry ID is " . $row['id'] );
+                eZDebug::writeError( "Invalid destination wildcard '$destinationWildcard', item is skipped, URL entry ID is " . $row['id'] );
                 list( $column, $counter ) = displayProgress( 'D', $urlImportStartTime, $counter, $urlCount, $column );
                 continue;
             }
@@ -465,7 +464,7 @@ if ( $urlCount > 0 )
             if ( count( $elements ) == 0 )
             {
                 // Referenced url does not exist
-                $debug->writeError( "The referenced path '$toPath' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
+                eZDebug::writeError( "The referenced path '$toPath' can not be found among the new URL alias entries, url entry ID is " . $row['id'] );
                 list( $column, $counter ) = displayProgress( 'E', $urlImportStartTime, $counter, $urlCount, $column );
                 continue;
             }

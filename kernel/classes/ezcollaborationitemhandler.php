@@ -99,8 +99,7 @@ class eZCollaborationItemHandler
             return $this->notificationTypes();
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
+        eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
         return null;
     }
 
@@ -266,9 +265,8 @@ class eZCollaborationItemHandler
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unknown collaboration notification collection handling type '$collectionHandling', skipping notification",
-                                'eZCollaborationItemHandler::handleCollaborationEvent' );
+            eZDebug::writeError( "Unknown collaboration notification collection handling type '$collectionHandling', skipping notification",
+                                 'eZCollaborationItemHandler::handleCollaborationEvent' );
         }
         $db->commit();
 
@@ -563,13 +561,11 @@ class eZCollaborationItemHandler
         }
         if ( !$foundHandlerFile )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Collaboration file '$handlerFile' could not be found in " . implode( ', ', $repositories ), 'eZCollaborationItemHandler::fetchList' );
+            eZDebug::writeWarning( "Collaboration file '$handlerFile' could not be found in " . implode( ', ', $repositories ), 'eZCollaborationItemHandler::fetchList' );
         }
         else if ( !$foundHandler )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Collaboration class '$handlerClass' does not exist", 'eZCollaborationItemHandler::fetchList' );
+            eZDebug::writeWarning( "Collaboration class '$handlerClass' does not exist", 'eZCollaborationItemHandler::fetchList' );
         }
         return $handlerInstance;
     }

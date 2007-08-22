@@ -99,8 +99,7 @@ class eZContentBrowse
             return $this->Parameters[$attributeName];
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
         return null;
     }
 
@@ -224,8 +223,7 @@ class eZContentBrowse
 
         if ( !isset( $parameters['from_page'] ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
+            eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
         }
 
         $http = eZHTTPTool::instance();
@@ -297,8 +295,7 @@ class eZContentBrowse
             {
                 if ( !is_numeric( $value ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Non-numeric value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                    eZDebug::writeError( "Non-numeric value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
                                          'eZContentBrowse::result' );
                     continue;
                 }
@@ -306,8 +303,7 @@ class eZContentBrowse
                 $intValue = (int)$value;
                 if ( $value != $intValue )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Non-integer value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                    eZDebug::writeError( "Non-integer value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
                                          'eZContentBrowse::result' );
                     continue;
                 }

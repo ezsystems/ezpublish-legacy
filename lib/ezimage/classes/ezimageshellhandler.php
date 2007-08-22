@@ -66,7 +66,6 @@ class eZImageShellHandler extends eZImageHandler
     */
     function convert( $manager, $sourceMimeData, &$destinationMimeData, $filters = false )
     {
-        $debug = eZDebug::instance();
         $argumentList = array();
         $executable = $this->Executable;
         if ( eZSys::osType() == 'win32' and $this->ExecutableWin32 )
@@ -127,7 +126,7 @@ class eZImageShellHandler extends eZImageHandler
         {
             if ( !file_exists( $destinationMimeData['url'] ) )
             {
-                $debug->writeError( 'Unknown destination file: ' . $destinationMimeData['url'] . " when executing '$systemString'", 'eZImageShellHandler(' . $this->HandlerName . ')' );
+                eZDebug::writeError( 'Unknown destination file: ' . $destinationMimeData['url'] . " when executing '$systemString'", 'eZImageShellHandler(' . $this->HandlerName . ')' );
                 return false;
             }
             $this->changeFilePermissions( $destinationMimeData['url'] );
@@ -135,7 +134,7 @@ class eZImageShellHandler extends eZImageHandler
         }
         else
         {
-            $debug->writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
+            eZDebug::writeWarning( "Failed executing: $systemString, Error code: $returnCode", 'eZImageShellHandler::convert' );
             return false;
         }
 
@@ -151,13 +150,12 @@ class eZImageShellHandler extends eZImageHandler
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
 
-        $debug = eZDebug::instance();
         $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini = eZINI::instance( $iniFilename );
         if ( !$ini )
         {
-            $debug->writeError( "Failed loading ini file $iniFilename",
+            eZDebug::writeError( "Failed loading ini file $iniFilename",
                                  'eZImageShellHandler::createFromINI' );
             return $handler;
         }
@@ -218,7 +216,7 @@ class eZImageShellHandler extends eZImageHandler
                 $path = $ini->variable( $iniGroup, 'ExecutablePath' );
             if ( !$ini->hasVariable( $iniGroup, 'Executable' ) )
             {
-                $debug->writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
+                eZDebug::writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
                                      'eZImageShellHandler::createFromINI' );
                 return $handler;
             }

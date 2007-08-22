@@ -104,8 +104,7 @@ switch ( $classRedirect )
 
     default:
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Invalid ClassRedirect value '$classRedirect', use one of: grouplist, classlist, classedit or classview" );
+        eZDebug::writeWarning( "Invalid ClassRedirect value '$classRedirect', use one of: grouplist, classlist, classedit or classview" );
     }
 
     case 'classedit':

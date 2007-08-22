@@ -54,16 +54,14 @@ case "down":
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Missing parameter EventID for function: " . $params["Function"] );
+                eZDebug::writeError( "Missing parameter EventID for function: " . $params["Function"] );
                 $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
                 return;
             }
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Missing parameter WorkfowID for function: " . $params["Function"] );
+            eZDebug::writeError( "Missing parameter WorkfowID for function: " . $params["Function"] );
             $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
             return;
         }
@@ -73,8 +71,7 @@ case "edit":
     } break;
 default:
     {
-        $debug = eZDebug::instance();
-        $debug->writeError( "Undefined function: " . $params["Function"] );
+        eZDebug::writeError( "Undefined function: " . $params["Function"] );
         $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
         return;
     }
@@ -109,8 +106,7 @@ if ( is_numeric( $WorkflowID ) )
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot fetch workflow with WorkfowID = " . $WorkflowID );
+            eZDebug::writeError( "Cannot fetch workflow with WorkfowID = " . $WorkflowID );
             $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
             return;
         }

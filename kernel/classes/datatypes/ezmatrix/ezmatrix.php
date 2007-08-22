@@ -664,7 +664,7 @@ class eZMatrix
             }break;
             default:
             {
-                eZDebug::instance()->writeError( "Attribute '$name' does not exist", 'eZMatrix::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZMatrix::attribute' );
                 return null;
             }break;
         }

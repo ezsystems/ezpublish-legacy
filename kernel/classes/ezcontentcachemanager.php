@@ -555,8 +555,7 @@ class eZContentCacheManager
     */
     static function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", 'eZContentCacheManager::clearViewCache' );
+        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", 'eZContentCacheManager::clearViewCache' );
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
     }
 
@@ -598,8 +597,7 @@ class eZContentCacheManager
 
         include_once( 'kernel/classes/ezcontentcache.php' );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
+        eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );
 
         eZContentObject::expireComplexViewModeCache();
         $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
@@ -609,7 +607,7 @@ class eZContentCacheManager
         else
             eZContentObject::expireAllViewCache();
 
-        $debug->accumulatorStop( 'node_cleanup' );
+        eZDebug::accumulatorStop( 'node_cleanup' );
         return true;
     }
 
@@ -675,8 +673,7 @@ class eZContentCacheManager
         $user = eZUser::currentUser();
 
         include_once( 'kernel/classes/eznodeviewfunctions.php' );
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'generate_cache', '', 'Generating view cache' );
+        eZDebug::accumulatorStart( 'generate_cache', '', 'Generating view cache' );
         if ( $ini->variable( 'ContentSettings', 'PreViewCache' ) == 'enabled' )
         {
             $preCacheSiteaccessArray = $ini->variable( 'ContentSettings', 'PreCacheSiteaccessArray' );
@@ -821,7 +818,7 @@ class eZContentCacheManager
                 $staticCache->generateAlwaysUpdatedCache();
             }
         }
-        $debug->accumulatorStop( 'generate_cache' );
+        eZDebug::accumulatorStop( 'generate_cache' );
     }
 
     /*!
@@ -847,8 +844,7 @@ class eZContentCacheManager
     */
     static function clearContentCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'check_cache', '', 'Check cache' );
+        eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
         eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $objectID );
@@ -857,7 +853,7 @@ class eZContentCacheManager
         include_once( 'kernel/classes/ezsslzone.php' );
         eZSSLZone::clearCacheIfNeeded();
 
-        $debug->accumulatorStop( 'check_cache' );
+        eZDebug::accumulatorStop( 'check_cache' );
         return true;
     }
 
@@ -868,8 +864,7 @@ class eZContentCacheManager
     */
     static function clearContentCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'check_cache', '', 'Check cache' );
+        eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
         eZContentCacheManager::clearTemplateBlockCache( $objectID );
@@ -878,7 +873,7 @@ class eZContentCacheManager
         include_once( 'kernel/classes/ezsslzone.php' );
         eZSSLZone::clearCache();
 
-        $debug->accumulatorStop( 'check_cache' );
+        eZDebug::accumulatorStop( 'check_cache' );
         return true;
     }
 

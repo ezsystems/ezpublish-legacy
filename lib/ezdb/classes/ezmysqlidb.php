@@ -107,8 +107,7 @@ class eZMySQLiDB extends eZDBInterface
             }
         }
 
-        $debug = eZDebug::instance();
-        $debug->createAccumulatorGroup( 'mysqli_total', 'Mysql Total' );
+        eZDebug::createAccumulatorGroup( 'mysqli_total', 'Mysql Total' );
     }
 
     /*!
@@ -117,7 +116,6 @@ class eZMySQLiDB extends eZDBInterface
     */
     function connect( $server, $db, $user, $password, $socketPath, $charset = null )
     {
-        $debug = eZDebug::instance();
         $connection = false;
 
         if ( $socketPath !== false )
@@ -127,7 +125,7 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( $this->UsePersistentConnection == true )
         {
-            $debug->writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
+            eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
         }
 
         $connection = mysqli_connect( $server, $user, $password );
@@ -141,7 +139,7 @@ class eZMySQLiDB extends eZDBInterface
             sleep( $waitTime );
             if ( $this->UsePersistentConnection == true )
             {
-                $debug->writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
+                eZDebug::writeWarning( 'mysqli does not support persistent connections', 'eZMySQLiDB::connect' );
             }
 
             $connection = mysqli_connect( $this->Server, $this->User, $this->Password );
@@ -154,7 +152,7 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( !is_object( $connection ) )
         {
-            $debug->writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLiDB" );
+            eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLiDB" );
             $this->IsConnected = false;
         }
 
@@ -164,7 +162,7 @@ class eZMySQLiDB extends eZDBInterface
             //$this->setError();
             if ( !$ret )
             {
-                $debug->writeError( "Connection error: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
+                eZDebug::writeError( "Connection error: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
                 $this->IsConnected = false;
             }
         }
@@ -194,7 +192,7 @@ class eZMySQLiDB extends eZDBInterface
                 if ( !$status )
                 {
                     $this->setError();
-                    $debug->writeWarning( "Connection warning: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
+                    eZDebug::writeWarning( "Connection warning: " . mysqli_errno( $connection ) . ": " . mysqli_error( $connection ), "eZMySQLiDB" );
                 }
             }
         }
@@ -275,9 +273,8 @@ class eZMySQLiDB extends eZDBInterface
         $this->reportQuery( 'eZMySQLiDB', $query, false, false );
         if ( !$status )
         {
-            $debug = eZDebug::instance();
             $this->setError();
-            $debug->writeWarning( "Connection warning: " . mysqli_errno( $this->DBConnection ) . ": " . mysqli_error( $this->DBConnection ), "eZMySQLiDB" );
+            eZDebug::writeWarning( "Connection warning: " . mysqli_errno( $this->DBConnection ) . ": " . mysqli_error( $this->DBConnection ), "eZMySQLiDB" );
             return false;
         }
 
@@ -325,17 +322,16 @@ class eZMySQLiDB extends eZDBInterface
     */
     function query( $sql )
     {
-        $debug = eZDebug::instance();
         if ( $this->IsConnected )
         {
-            $debug->accumulatorStart( 'mysqli_query', 'mysqli_total', 'Mysqli_queries' );
+            eZDebug::accumulatorStart( 'mysqli_query', 'mysqli_total', 'Mysqli_queries' );
             $orig_sql = $sql;
             // The converted sql should not be output
             if ( $this->InputTextCodec )
             {
-                $debug->accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
+                eZDebug::accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
                 $sql = $this->InputTextCodec->convertString( $sql );
-                $debug->accumulatorStop( 'mysqli_conversion' );
+                eZDebug::accumulatorStop( 'mysqli_conversion' );
             }
 
             if ( $this->OutputSQL )
@@ -472,14 +468,14 @@ class eZMySQLiDB extends eZDBInterface
                     $this->reportQuery( 'eZMySQLiDB', $text, $num_rows, $this->timeTaken() );
                 }
             }
-            $debug->accumulatorStop( 'mysqli_query' );
+            eZDebug::accumulatorStop( 'mysqli_query' );
             if ( $result )
             {
                 return $result;
             }
             else
             {
-                $debug->writeError( "Query error: " . mysqli_error( $connection ) . ". Query: ". $sql, "eZMySQLiDB"  );
+                eZDebug::writeError( "Query error: " . mysqli_error( $connection ) . ". Query: ". $sql, "eZMySQLiDB"  );
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
                 $this->RecordError = false;
@@ -493,7 +489,7 @@ class eZMySQLiDB extends eZDBInterface
         }
         else
         {
-            $debug->writeError( "Trying to do a query without being connected to a database!", "eZMySQLiDB"  );
+            eZDebug::writeError( "Trying to do a query without being connected to a database!", "eZMySQLiDB"  );
         }
 
 
@@ -504,7 +500,6 @@ class eZMySQLiDB extends eZDBInterface
     */
     function arrayQuery( $sql, $params = array() )
     {
-        $debug = eZDebug::instance();
         $retArray = array();
         if ( $this->IsConnected )
         {
@@ -545,7 +540,7 @@ class eZMySQLiDB extends eZDBInterface
             {
                 if ( !is_string( $column ) )
                 {
-                    $debug->accumulatorStart( 'mysqli_loop', 'mysqli_total', 'Looping result' );
+                    eZDebug::accumulatorStart( 'mysqli_loop', 'mysqli_total', 'Looping result' );
                     for ( $i=0; $i < $numRows; $i++ )
                     {
                         if ( $this->InputTextCodec )
@@ -554,34 +549,34 @@ class eZMySQLiDB extends eZDBInterface
                             $convRow = array();
                             foreach( $tmpRow as $key => $row )
                             {
-                                $debug->accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
+                                eZDebug::accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
                                 $convRow[$key] = $this->OutputTextCodec->convertString( $row );
-                                $debug->accumulatorStop( 'mysqli_conversion' );
+                                eZDebug::accumulatorStop( 'mysqli_conversion' );
                             }
                             $retArray[$i + $offset] = $convRow;
                         }
                         else
                             $retArray[$i + $offset] = mysqli_fetch_array( $result, MYSQLI_ASSOC );
                     }
-                    $debug->accumulatorStop( 'mysqli_loop' );
+                    eZDebug::accumulatorStop( 'mysqli_loop' );
 
                 }
                 else
                 {
-                    $debug->accumulatorStart( 'mysqli_loop', 'mysqli_total', 'Looping result' );
+                    eZDebug::accumulatorStart( 'mysqli_loop', 'mysqli_total', 'Looping result' );
                     for ( $i=0; $i < $numRows; $i++ )
                     {
                         $tmp_row = mysqli_fetch_array( $result, MYSQLI_ASSOC );
                         if ( $this->InputTextCodec )
                         {
-                            $debug->accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
+                            eZDebug::accumulatorStart( 'mysqli_conversion', 'mysqli_total', 'String conversion in mysqli' );
                             $retArray[$i + $offset] = $this->OutputTextCodec->convertString( $tmp_row[$column] );
-                            $debug->accumulatorStop( 'mysqli_conversion' );
+                            eZDebug::accumulatorStop( 'mysqli_conversion' );
                         }
                         else
                             $retArray[$i + $offset] =& $tmp_row[$column];
                     }
-                    $debug->accumulatorStop( 'mysqli_loop' );
+                    eZDebug::accumulatorStop( 'mysqli_loop' );
                 }
             }
         }
@@ -644,8 +639,7 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $relationType != EZ_DB_RELATION_TABLE )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationCount' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationCount' );
             return false;
         }
         $count = false;
@@ -665,8 +659,7 @@ class eZMySQLiDB extends eZDBInterface
     {
         if ( $relationType != EZ_DB_RELATION_TABLE )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationList' );
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLiDB::relationList' );
             return false;
         }
         $tables = array();
@@ -720,8 +713,7 @@ class eZMySQLiDB extends eZDBInterface
         $relationTypeName = $this->relationName( $relationType );
         if ( !$relationTypeName )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unknown relation type '$relationType'", 'eZMySQLiDB::removeRelation' );
+            eZDebug::writeError( "Unknown relation type '$relationType'", 'eZMySQLiDB::removeRelation' );
             return false;
         }
 
@@ -824,8 +816,7 @@ class eZMySQLiDB extends eZDBInterface
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeDebug( 'escapeString called before connection is made', 'eZMySQLiDB::escapeString' );
+            eZDebug::writeDebug( 'escapeString called before connection is made', 'eZMySQLiDB::escapeString' );
             return mysqli_escape_string( $this->DBConnection, $str );
         }
     }

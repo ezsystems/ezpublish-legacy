@@ -99,8 +99,7 @@ class eZXMLInputType
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "No XML editor available." );
+            eZDebug::writeError( "No XML editor available." );
         }
         return $impl;
     }
@@ -155,8 +154,7 @@ class eZXMLInputType
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "No XML editor available." );
+            eZDebug::writeError( "No XML editor available." );
         }
         return $editorName;
     }

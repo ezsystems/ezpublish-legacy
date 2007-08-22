@@ -315,7 +315,6 @@ class eZImageManager
     */
     function readImageAliasesFromINI( $iniFile = false )
     {
-        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         $ini = eZINI::instance( $iniFile );
@@ -330,7 +329,7 @@ class eZImageManager
                 $this->appendImageAlias( $alias );
             }
             else
-                $debug->writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
+                eZDebug::writeWarning( "Failed reading Image Alias $aliasName from $iniFile",
                                        'eZImageManager::readImageAliasFromINI' );
         }
         $aliasName = 'original';
@@ -678,7 +677,6 @@ class eZImageManager
     */
     function readImageHandlersFromINI( $iniFile = false )
     {
-        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         $ini = eZINI::instance( $iniFile );
@@ -701,13 +699,13 @@ class eZImageManager
                 }
                 else
                 {
-                    $debug->writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
+                    eZDebug::writeWarning( "INI group $handlerName does not have a Handler setting, cannot instantiate handler without it",
                                            'eZImageManager::readImageHandlersFromINI' );
                 }
             }
             else
             {
-                $debug->writeWarning( "No INI group $handlerName for Image Handler $handlerName, cannot instantiate",
+                eZDebug::writeWarning( "No INI group $handlerName for Image Handler $handlerName, cannot instantiate",
                                        'eZImageManager::readImageHandlersFromINI' );
             }
         }
@@ -719,7 +717,6 @@ class eZImageManager
     */
     function factoryFor( $factoryName, $iniFile = false )
     {
-        $debug = eZDebug::instance();
         if ( !$iniFile )
             $iniFile = 'image.ini';
         if ( isset( $this->Factories[$factoryName] ) )
@@ -751,13 +748,13 @@ class eZImageManager
                 }
                 else
                 {
-                    $debug->writeWarning( "The Image Factory class $className was not found, cannot create factory",
+                    eZDebug::writeWarning( "The Image Factory class $className was not found, cannot create factory",
                                            'eZImageManager::factoryFor' );
                 }
             }
             else
             {
-                $debug->writeWarning( "Could not locate Image Factory for $factoryName",
+                eZDebug::writeWarning( "Could not locate Image Factory for $factoryName",
                                        'eZImageManager::factoryFor' );
             }
         }
@@ -794,8 +791,7 @@ class eZImageManager
         $ini = eZINI::instance( 'image.ini' );
         if ( !$ini->hasGroup( $iniGroup ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "No such group $iniGroup in ini file image.ini",
+            eZDebug::writeError( "No such group $iniGroup in ini file image.ini",
                                  'eZImageManager::createAliasFromINI' );
             return false;
         }
@@ -829,19 +825,18 @@ class eZImageManager
     */
     function createImageAlias( $aliasName, &$existingAliasList, $parameters = array() )
     {
-        $debug = eZDebug::instance();
-        //$debug->writeDebug( $existingAliasList, 'eZImageManager::createImageAlias existing alias list' );
+        //eZDebug::writeDebug( $existingAliasList, 'eZImageManager::createImageAlias existing alias list' );
         $aliasList = $this->aliasList();
         if ( !isset( $aliasList[$aliasName] ) )
         {
-            $debug->writeWarning( "Alias name $aliasName does not exist, cannot create it" );
+            eZDebug::writeWarning( "Alias name $aliasName does not exist, cannot create it" );
             return false;
         }
         $currentAliasInfo = $aliasList[$aliasName];
         $referenceAlias = $currentAliasInfo['reference'];
         if ( $referenceAlias and !$this->hasAlias( $referenceAlias ) )
         {
-            $debug->writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
+            eZDebug::writeError( "The referenced alias '$referenceAlias' for image alias '$aliasName' does not exist, cannot use it for reference.\n" .
                                  "Will use 'original' alias instead.",
                                  'eZImageManager::createImageAlias' );
             $referenceAlias = false;
@@ -849,7 +844,7 @@ class eZImageManager
         if ( !$referenceAlias )
             $referenceAlias = 'original';
         $hasReference = false;
-        //$debug->writeDebug( 'alias ' . $referenceAlias, 'eZImageManager::createImageAlias' );
+        //eZDebug::writeDebug( 'alias ' . $referenceAlias, 'eZImageManager::createImageAlias' );
         if ( array_key_exists( $referenceAlias, $existingAliasList ) )
         {
             // VS-DBFILE
@@ -862,11 +857,11 @@ class eZImageManager
             }
             else
             {
-                $debug->writeDebug( 'cluster file handler could not find ' . $existingAliasList[$referenceAlias]['url'], 'eZImageManager::createImageAlias' );
+                eZDebug::writeDebug( 'cluster file handler could not find ' . $existingAliasList[$referenceAlias]['url'], 'eZImageManager::createImageAlias' );
                 //$backtrace = debug_backtrace();
                 /*var_dump( count( $backtrace ) );
                 var_dump( $backtrace[3] );*/
-                $debug->writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
+                eZDebug::writeError( "The reference alias $referenceAlias file " . $existingAliasList[$referenceAlias]['url'] . " does not exist",
                                      'eZImageManager::createImageAlias' );
             }
         }
@@ -874,12 +869,12 @@ class eZImageManager
         {
             if ( $referenceAlias == 'original' )
             {
-                $debug->writeError( "Original alias does not exists, cannot create other aliases without it" );
+                eZDebug::writeError( "Original alias does not exists, cannot create other aliases without it" );
                 return false;
             }
             if ( !$this->createImageAlias( $referenceAlias, $existingAliasList, $parameters ) )
             {
-                $debug->writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName",
+                eZDebug::writeError( "Failed creating the referenced alias $referenceAlias, cannot create alias $aliasName",
                                      'eZImageManager::createImageAlias' );
                 return false;
             }
@@ -911,7 +906,7 @@ class eZImageManager
                 {
                     $sourceFile = $sourceMimeData['url'];
                     $destinationDir = $destinationMimeData['dirpath'];
-                    $debug->writeError( "Failed converting $sourceFile to alias '$referenceAlias' in directory '$destinationDir'",
+                    eZDebug::writeError( "Failed converting $sourceFile to alias '$referenceAlias' in directory '$destinationDir'",
                                          'eZImageManager::createImageAlias' );
                     // VS-DBFILE
                     $aliasFile->deleteLocal();
@@ -964,11 +959,11 @@ class eZImageManager
                     }
                     else
                     {
-                        $debug->writeError( "The destination image " . $destinationMimeData['url'] . " does not exist, cannot figure out image size", 'eZImageManager::createImageAlias' );
+                        eZDebug::writeError( "The destination image " . $destinationMimeData['url'] . " does not exist, cannot figure out image size", 'eZImageManager::createImageAlias' );
                     }
                 }
                 else
-                    $debug->writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
+                    eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
                 $existingAliasList[$aliasName] = $currentAliasData;
                 // VS-DBFILE
                 $aliasFile->deleteLocal();
@@ -1014,7 +1009,6 @@ class eZImageManager
     {
         // VS-DBFILE
 
-        $debug = eZDebug::instance();
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
         $sourceFile = eZClusterFileHandler::instance( $sourceMimeData['url'] );
         $sourceFile->fetch();
@@ -1065,7 +1059,7 @@ class eZImageManager
             $wantedFilter = $wantedFilters[$wantedFilterKey];
             if ( !$this->isFilterSupported( $wantedFilter['name'] ) )
             {
-                $debug->writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
+                eZDebug::writeWarning( "The filter '" . $wantedFilter['name'] . "' is not supported by any of the image handlers, will ignore this filter",
                                        'eZImageManager::convert' );
                 continue;
             }
@@ -1155,7 +1149,7 @@ class eZImageManager
                 }
                 if ( !$nextMimeData )
                 {
-                    $debug->writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
+                    eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
                                          'eZImageManager::convert' );
                     // VS-DBFILE
                     $sourceFile->deleteLocal();
@@ -1252,7 +1246,7 @@ class eZImageManager
         {
             if ( !@unlink( $tempFile ) )
             {
-                $debug->writeError( "Failed to unlink temporary image file $tempFile",
+                eZDebug::writeError( "Failed to unlink temporary image file $tempFile",
                                      'eZImageManager::convert' );
             }
         }

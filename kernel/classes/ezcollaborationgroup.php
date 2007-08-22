@@ -259,8 +259,7 @@ class eZCollaborationGroup extends eZPersistentObject
                         } break;
                         default:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaboration::subTree' );
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZCollaboration::subTree' );
                             continue;
                         };
                     }

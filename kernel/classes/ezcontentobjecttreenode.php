@@ -779,8 +779,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             }
                             else
                             {
-                                $debug = eZDebug::instance();
-                                $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::createSortingSQLStrings' );
+                                eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::createSortingSQLStrings' );
                                 continue;
                             }
                         };
@@ -1231,8 +1230,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             default :
                             {
                                 $hasFilterOperator = false;
-                                $debug = eZDebug::instance();
-                                $debug->writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
                             }break;
 
                         }
@@ -1256,8 +1254,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 if( $totalAttributesFiltersCount == $invalidAttributesFiltersCount )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeNotice( "Attribute filter returned false" );
+                    eZDebug::writeNotice( "Attribute filter returned false" );
                     $filterSQL = $invalidFilterSQL;
                 }
                 else
@@ -1774,8 +1771,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
         {
-            $debug = eZDebug::instance();
-            $debug->writeNotice( "Class filter returned false" );
+            eZDebug::writeNotice( "Class filter returned false" );
             return null;
         }
 
@@ -1927,10 +1923,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function subTreeMultiPaths( $nodesParams, $listParams = NULL )
     {
-        $debug = eZDebug::instance();
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
-            $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+            eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
             return null;
         }
 
@@ -1961,7 +1956,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
             {
-                $debug->writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
                 $retValue = null;
                 return $retValue;
             }
@@ -2139,8 +2134,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             } break;
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown field type $type",
+                eZDebug::writeError( "Unknown field type $type",
                                      'eZContentObjectTreeNode::subTreeGroupByDateField' );
             }
         }
@@ -2157,7 +2151,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function subTreeCountByNodeID( $params = array(), $nodeID )
     {
-        $debug = eZDebug::instance();
         $language = ( isset( $params['Language'] ) ) ? $params['Language'] : false;
 
         if ( $language )
@@ -2619,7 +2612,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             default :
                             {
                                 $hasFilterOperator = false;
-                                $debug->writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
+                                eZDebug::writeError( "Unknown attribute filter type: $filterType", "eZContentObjectTreeNode::subTree()" );
                             }break;
 
                         }
@@ -2645,7 +2638,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $attributeFilterFromSQL = "";
                     $attributeFilterWhereSQL = "";
 
-                    $debug->writeNotice( "Attribute filter returned false" );
+                    eZDebug::writeNotice( "Attribute filter returned false" );
                     return 0;
                 }
                 else
@@ -3026,8 +3019,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         switch ( $sortOrder )
         {
             default:
-                $debug = eZDebug::instance();
-                $debug->writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
+                eZDebug::writeWarning( 'Unknown sort order: ' . $sortOrder, 'eZContentObjectTreeNode::sortFieldName' );
             case 1:
                 return 'path';
             case 2:
@@ -3060,8 +3052,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         switch ( $sortFieldName )
         {
             default:
-                $debug = eZDebug::instance();
-                $debug->writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
+                eZDebug::writeWarning( 'Unknown sort order: ' . $sortFieldName, 'eZContentObjectTreeNode::sortFieldID()' );
             case 'path':
                 return 1;
             case 'published':
@@ -3237,8 +3228,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function fetchByCRC( $pathStr )
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
+        eZDebug::writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
         return null;
     }
 
@@ -3271,8 +3261,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( $pathString == "" )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
+            eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
             return null;
         }
 
@@ -3324,8 +3313,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else if ( count( $nodeListArray ) > 1 )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
+            eZDebug::writeError( $nodeListArray , "There are more then one main_node for objectID: $objectID" );
         }
 
         return null;
@@ -3439,8 +3427,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $sqlCondition == '' )
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
+                eZDebug::writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
                 return $returnValue;
             }
 
@@ -3757,8 +3744,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     return '';
                 }
 
-                $debug = eZDebug::instance();
-                $debug->writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
+                eZDebug::writeError( __CLASS__ . "::" . __FUNCTION__ . "() failed to fetch path of node " . $this->attribute( 'node_id' ) . ", falling back to generated url entries. Run updateniceurls.php to fix the problem." );
                 $paren = $this->fetchParent();
                 $path = $paren->pathWithNames();
                 // Return a perma-link when the path lookup failed, this link will always work
@@ -3846,8 +3832,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      */
     function updateURLAlias()
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
+        eZDebug::writeWarning( __CLASS__ . "::" . __FUNCTION__ . " is deprecated, use updateSubTreePath() instead" );
         return $this->updateSubTreePath();
     }
 
@@ -5624,8 +5609,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'New parent node not set ' . $contentNodeDOMNode->getAttribute( 'name' ),
+                eZDebug::writeError( 'New parent node not set ' . $contentNodeDOMNode->getAttribute( 'name' ),
                                      'eZContentObjectTreeNode::unserialize()' );
             }
         }
@@ -6037,16 +6021,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     static function updateNodeVisibility( $node, $parentNode, $recursive = true )
     {
-        $debug = eZDebug::instance();
         if ( !$node )
         {
-            $debug->writeWarning( 'No such node to update visibility for.' );
+            eZDebug::writeWarning( 'No such node to update visibility for.' );
             return;
         }
 
         if ( !$parentNode )
         {
-            $debug->writeWarning( 'No parent node found when updating node visibility' );
+            eZDebug::writeWarning( 'No parent node found when updating node visibility' );
             return;
         }
 
@@ -6084,8 +6067,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( !$node )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "No such subtree to clear view cache for" );
+            eZDebug::writeWarning( "No such subtree to clear view cache for" );
             return false;
         }
 

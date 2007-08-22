@@ -49,8 +49,7 @@ if ( strtolower( get_class( $order ) ) == 'ezorder' )
             $startTime = time();
             while( ( time() - $startTime ) < 25 )
             {
-                $debug = eZDebug::instance();
-                $debug->writeDebug( "next iteration", "checkout" );
+                eZDebug::writeDebug( "next iteration", "checkout" );
                 $order = eZOrder::fetch( $orderID );
                 if ( $order->attribute( 'is_temporary' ) == 0 )
                 {

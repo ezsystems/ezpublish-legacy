@@ -239,8 +239,7 @@ $result['summary'] = $summary->summary();
 $result['progress'] = $stepData->progress( $step );
 
 // Print debug information and exit.
-$debug = eZDebug::instance();
-$debug->addTimingPoint( "End" );
+eZDebug::addTimingPoint( "End" );
 
 return $result;
 

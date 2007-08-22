@@ -137,14 +137,13 @@ class eZIniSettingType extends eZDataType
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeNotice( 'Could not validate parameters: ' . "\n" .
-                             $fileParam . ': ' .  $http->postVariable( $fileParam ) . "\n" .
-                             $sectionParam . ': ' .  $http->postVariable( $sectionParam ) . "\n" .
-                             $parameterParam . ': ' .  $http->postVariable( $parameterParam ) . "\n" .
-                             $typeParam . ': ' .  $http->postVariable( $typeParam ). "\n" .
-                             $iniInstanceParam. ': '. $http->postVariable( $iniInstanceParam ), 'eZIniSettingType::validateClassAttributeHTTPInput',
-                             'eZIniSettingType::validateClassAttributeHTTPInput' );
+        eZDebug::writeNotice( 'Could not validate parameters: ' . "\n" .
+                              $fileParam . ': ' .  $http->postVariable( $fileParam ) . "\n" .
+                              $sectionParam . ': ' .  $http->postVariable( $sectionParam ) . "\n" .
+                              $parameterParam . ': ' .  $http->postVariable( $parameterParam ) . "\n" .
+                              $typeParam . ': ' .  $http->postVariable( $typeParam ). "\n" .
+                              $iniInstanceParam. ': '. $http->postVariable( $iniInstanceParam ), 'eZIniSettingType::validateClassAttributeHTTPInput',
+                              'eZIniSettingType::validateClassAttributeHTTPInput' );
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
@@ -206,10 +205,9 @@ class eZIniSettingType extends eZDataType
                 else
                 {
                     $objectAttribute->setAttribute( 'data_text', $configValue );
-                    $debug = eZDebug::instance();
-                    $debug->writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
-                                         '    ' . $configValue,
-                                         'eZIniSettingType::initializeObjectAttribute');
+                    eZDebug::writeNotice( 'Loaded following values from ' . $path . '/' . $filename . ":\n" .
+                                          '    ' . $configValue,
+                                          'eZIniSettingType::initializeObjectAttribute');
                 }
             }
 
@@ -331,8 +329,7 @@ class eZIniSettingType extends eZDataType
 
             if ( $config == null )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Could not open ' . $path . '/' . $filename );
+                eZDebug::writeError( 'Could not open ' . $path . '/' . $filename );
                 continue;
             }
             if ( $contentClassAttribute->attribute( EZ_DATATYPEINISETTING_CLASS_TYPE_FIELD ) == EZ_DATATYPEINISETTING_CLASS_TYPE_ARRAY )
@@ -351,11 +348,10 @@ class eZIniSettingType extends eZDataType
             else
             {
                 $config->setVariable( $section, $parameter, $contentObjectAttribute->attribute( 'data_text' ) );
-                $debug = eZDebug::instance();
-                $debug->writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
-                                     '                            ['. $section . ']' . "\n" .
-                                     '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ),
-                                     'eZIniSettingType::onPublish' );
+                eZDebug::writeNotice( 'Saved ini settings to file: ' . $path . '/' . $filename . "\n" .
+                                      '                            ['. $section . ']' . "\n" .
+                                      '                            ' . $parameter . '=' . $contentObjectAttribute->attribute( 'data_text' ),
+                                      'eZIniSettingType::onPublish' );
             }
             $config->save();
         }

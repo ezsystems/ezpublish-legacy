@@ -374,8 +374,7 @@ class eZTemplate
         include_once('kernel/common/i18n.php');
         $this->MaxLevelWarning = ezi18n( 'lib/template',
                                          'The maximum nesting level of 40 has been reached. The execution is stopped to avoid infinite recursion.' );
-        $debug = eZDebug::instance();
-        $debug->createAccumulatorGroup( 'template_total', 'Template Total' );
+        eZDebug::createAccumulatorGroup( 'template_total', 'Template Total' );
 
         $this->TemplatesUsageStatistics = array();
         // Array of templates which are used in a single fetch()
@@ -539,9 +538,8 @@ class eZTemplate
         // Reset fetch list when a new fetch is started
         $this->TemplateFetchList = array();
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'template_total' );
-        $debug->accumulatorStart( 'template_load', 'template_total', 'Template load' );
+        eZDebug::accumulatorStart( 'template_total' );
+        eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
         $root = null;
         if ( is_string( $template ) )
         {
@@ -550,7 +548,7 @@ class eZTemplate
                  $resourceData['root-node'] !== null )
                 $root =& $resourceData['root-node'];
         }
-        $debug->accumulatorStop( 'template_load' );
+        eZDebug::accumulatorStop( 'template_load' );
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
             $savedLocale = setlocale( LC_CTYPE, null );
@@ -563,8 +561,8 @@ class eZTemplate
              $resourceData['compiled-template'] )
         {
             if ( $this->ShowDetails )
-                $debug->addTimingPoint( "Process" );
-            $debug->accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
+                eZDebug::addTimingPoint( "Process" );
+            eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
 
             $templateCompilationUsed = false;
             if ( $resourceData['compiled-template'] )
@@ -581,19 +579,19 @@ class eZTemplate
                 if ( eZTemplate::isDebugEnabled() )
                 {
                     $fname = $resourceData['template-filename'];
-                    $debug->writeDebug( "FETCH START URI: $template, $fname" );
+                    eZDebug::writeDebug( "FETCH START URI: $template, $fname" );
                 }
                 $this->process( $root, $text, "", "" );
                 if ( eZTemplate::isDebugEnabled() )
-                    $debug->writeDebug( "FETCH END URI: $template, $fname" );
+                    eZDebug::writeDebug( "FETCH END URI: $template, $fname" );
             }
 
-            $debug->accumulatorStop( 'template_processing' );
+            eZDebug::accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
-                $debug->addTimingPoint( "Process done" );
+                eZDebug::addTimingPoint( "Process done" );
         }
 
-        $debug->accumulatorStop( 'template_total' );
+        eZDebug::accumulatorStop( 'template_total' );
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {
@@ -625,7 +623,6 @@ class eZTemplate
 
     function processNode( $node, &$textElements, $rootNamespace, $currentNamespace )
     {
-        $debug = eZDebug::instance();
         $rslt = null;
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -637,7 +634,7 @@ class eZTemplate
                 {
                     $this->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
                     if ( !is_array( $textElements ) )
-                        $debug->writeError( "Textelements is no longer array: '$textElements'",
+                        eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                              'eztemplate::processNode::root' );
                 }
             }
@@ -652,7 +649,7 @@ class eZTemplate
             $variablePlacement = $node[3];
             $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                $debug->writeError( "Textelements is no longer array: '$textElements'",
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
         }
         else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
@@ -663,7 +660,7 @@ class eZTemplate
             $functionPlacement = $node[4];
             $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
-                $debug->writeError( "Textelements is no longer array: '$textElements'",
+                eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
         }
 
@@ -681,7 +678,6 @@ class eZTemplate
         // Note: This code piece is replicated in the eZTemplateCompiler,
         //       if this code is changed the replicated code must be updated as well.
         $func = $this->Functions[$functionName];
-        $debug = eZDebug::instance();
         if ( is_array( $func ) )
         {
             $this->loadAndRegisterFunctions( $this->Functions[$functionName] );
@@ -691,10 +687,10 @@ class eZTemplate
              is_object( $func ) )
         {
             if ( eZTemplate::isMethodDebugEnabled() )
-                $debug->writeDebug( "START FUNCTION: $functionName" );
+                eZDebug::writeDebug( "START FUNCTION: $functionName" );
             $value = $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isMethodDebugEnabled() )
-                $debug->writeDebug( "END FUNCTION: $functionName" );
+                eZDebug::writeDebug( "END FUNCTION: $functionName" );
             return $value;
         }
         else
@@ -847,11 +843,10 @@ class eZTemplate
     function processURI( $uri, $displayErrors = true, &$extraParameters,
                          &$textElements, $rootNamespace, $currentNamespace )
     {
-        $debug = eZDebug::instance();
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
         {
-            $debug->writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
+            eZDebug::writeError( $this->MaxLevelWarning,  "eZTemplate:processURI Level: $this->Level @ $uri" );
             $textElements[] = $this->MaxLevelWarning;
             $this->Level--;
             return;
@@ -884,11 +879,11 @@ class eZTemplate
             if ( eZTemplate::isDebugEnabled() )
             {
                 $fname = $resourceData['template-filename'];
-                $debug->writeDebug( "START URI: $uri, $fname" );
+                eZDebug::writeDebug( "START URI: $uri, $fname" );
             }
             $this->process( $resourceData['root-node'], $text, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isDebugEnabled() )
-                $debug->writeDebug( "END URI: $uri, $fname" );
+                eZDebug::writeDebug( "END URI: $uri, $fname" );
             $this->setIncludeOutput( $uri, $text );
             $textElements[] = $text;
         }
@@ -1057,8 +1052,7 @@ class eZTemplate
             $template = $uri;
         if ( eZTemplate::isDebugEnabled() )
         {
-            $debug = eZDebug::instance();
-            $debug->writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
+            eZDebug::writeNotice( "eZTemplate: Loading template \"$template\" with resource \"$res\"" );
         }
         if ( isset( $this->Resources[$res] ) and is_object( $this->Resources[$res] ) )
         {
@@ -1390,14 +1384,13 @@ class eZTemplate
         {
             if ( is_object( $op ) and method_exists( $op, 'modify' ) )
             {
-                $debug = eZDebug::instance();
                 $value = $valueData['value'];
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    $debug->writeDebug( "START OPERATOR: $operatorName" );
+                    eZDebug::writeDebug( "START OPERATOR: $operatorName" );
                 $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters,
                              $placement );
                 if ( eZTemplate::isMethodDebugEnabled() )
-                    $debug->writeDebug( "END OPERATOR: $operatorName" );
+                    eZDebug::writeDebug( "END OPERATOR: $operatorName" );
                 $valueData['value'] = $value;
             }
             else
@@ -1816,8 +1809,7 @@ class eZTemplate
 
     function loadAndRegisterFunctions( $functionDefinition )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
+        eZDebug::accumulatorStart( 'template_register_function', 'template_total', 'Template load and register function' );
         $functionObject = null;
         if ( isset( $functionDefinition['function'] ) )
         {
@@ -1835,7 +1827,7 @@ class eZTemplate
             if ( class_exists( $class ) )
                 $functionObject = new $class();
         }
-        $debug->accumulatorStop( 'template_register_function' );
+        eZDebug::accumulatorStop( 'template_register_function' );
         if ( is_object( $functionObject ) )
         {
             $this->registerFunctionsInternal( $functionObject, true );
@@ -2138,11 +2130,10 @@ class eZTemplate
         else
             $placementText = $placement;
         $placementText = $this->placementText( $placement );
-        $debug = eZDebug::instance();
         if ( $name != "" )
-            $debug->writeWarning( $txt, "eZTemplate:$name" . $placementText );
+            eZDebug::writeWarning( $txt, "eZTemplate:$name" . $placementText );
         else
-            $debug->writeWarning( $txt, "eZTemplate" . $placementText );
+            eZDebug::writeWarning( $txt, "eZTemplate" . $placementText );
     }
 
     /*!
@@ -2162,8 +2153,7 @@ class eZTemplate
             $nameText = "eZTemplate:$name";
         else
             $nameText = "eZTemplate";
-        $debug = eZDebug::instance();
-        $debug->writeError( $txt, $nameText . $placementText );
+        eZDebug::writeError( $txt, $nameText . $placementText );
         $hasAppendWarning =& $GLOBALS['eZTemplateHasAppendWarning'];
         $ini = $this->ini();
         if ( $ini->variable( 'ControlSettings', 'DisplayWarnings' ) == 'enabled' )

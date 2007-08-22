@@ -482,7 +482,7 @@ $str
 
             include_once( 'lib/ezfile/classes/ezdir.php' );
             if ( ! eZDir::mkdir( $cache_dir, $permissionArray['dir_permission'], true ) )
-                eZDebug::instance()->writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
+                eZDebug::writeError( "Couldn't create cache directory $cache_dir, perhaps wrong permissions", "eZCodepage" );
 
             // Restore the old umask.
             umask( $oldPermissionSetting );
@@ -491,7 +491,7 @@ $str
         $fd = @fopen( $filename, "w+" );
         if ( ! $fd )
         {
-            eZDebug::instance()->writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodepage" );
+            eZDebug::writeError( "Couldn't write cache file $filename, perhaps wrong permissions or leading directories not created", "eZCodepage" );
         }
         else
         {
@@ -572,8 +572,7 @@ $str
                 $min_char =& $this->MinCharValue;
                 $max_char =& $this->MaxCharValue;
                 $read_extra =& $this->ReadExtraMap;
-                /*$debug = eZDebug::instance();
-                $debug->writeDebug( 'loading cache from: ' . $cache, 'eZCodePage::load' );*/
+                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePage::load' );*/
                 include( $cache );
                 unset( $umap );
                 unset( $utf8map );

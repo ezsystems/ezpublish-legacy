@@ -405,11 +405,10 @@ class eZDBFileHandlerMysqlBackend
 
     function _fetch( $filePath, $uniqueName = false )
     {
-        $debug = eZDebug::instance();
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
         {
-            $debug->writeError( "File '$filePath' does not exists while trying to fetch." );
+            eZDebug::writeError( "File '$filePath' does not exists while trying to fetch." );
             return false;
         }
         $contentLength = $metaData['size'];
@@ -417,13 +416,13 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT filedata, offset FROM " . TABLE_DATA . " WHERE name_hash=" . $this->_md5( $filePath ) . " ORDER BY offset";
         if ( !$res = $this->_query( $sql, "_fetch($filePath)" ) )
         {
-            $debug->writeError( $filePath, "Failed to fetch file data." );
+            eZDebug::writeError( $filePath, "Failed to fetch file data." );
             return false;
         }
 
         if( !mysql_num_rows( $res ) )
         {
-            $debug->writeError( "No rows in file '$filePath' being fetched." );
+            eZDebug::writeError( "No rows in file '$filePath' being fetched." );
             mysql_free_result( $res );
             return false;
         }
@@ -435,7 +434,7 @@ class eZDBFileHandlerMysqlBackend
 
         if ( !( $fp = fopen( $tmpFilePath, 'wb' ) ) )
         {
-            $debug->writeError( "Cannot write to '$tmpFilePath' while fetching file." );
+            eZDebug::writeError( "Cannot write to '$tmpFilePath' while fetching file." );
             return false;
         }
 
@@ -467,7 +466,7 @@ class eZDBFileHandlerMysqlBackend
         clearstatcache();
         if ( filesize( $tmpFilePath ) != $metaData['size'] )
         {
-            $debug->writeError( "Size (" . filesize( $tmpFilePath ) . ") of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'] );
+            eZDebug::writeError( "Size (" . filesize( $tmpFilePath ) . ") of written data for file '$tmpFilePath' does not match expected size " . $metaData['size'] );
             return false;
         }
 
@@ -585,7 +584,6 @@ class eZDBFileHandlerMysqlBackend
 
     function _rename( $srcFilePath, $dstFilePath )
     {
-        $debug = eZDebug::instance();
         if ( strcmp( $srcFilePath, $dstFilePath ) == 0 )
             return;
 
@@ -606,7 +604,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "SELECT * FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr') FOR UPDATE";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            $debug->writeError( "Failed locking file '$srcFilePath'" );
+            eZDebug::writeError( "Failed locking file '$srcFilePath'" );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -618,7 +616,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "INSERT INTO " . TABLE_METADATA . " (name, name_hash, datatype, scope, size, mtime, expired) SELECT '$dstFilePathStr' AS name, MD5('$dstFilePathStr') AS name_hash, datatype, scope, size, mtime, expired FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            $debug->writeError( "Failed making new file entry '$dstFilePath'" );
+            eZDebug::writeError( "Failed making new file entry '$dstFilePath'" );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -627,7 +625,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "UPDATE " . TABLE_DATA . " SET name_hash=MD5('$dstFilePathStr') WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            $debug->writeError( "Failed renaming file '$srcFilePath' to '$dstFilePath'" );
+            eZDebug::writeError( "Failed renaming file '$srcFilePath' to '$dstFilePath'" );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -636,7 +634,7 @@ class eZDBFileHandlerMysqlBackend
         $sql = "DELETE FROM " . TABLE_METADATA . " WHERE name_hash=MD5('$srcFilePathStr')";
         if ( !$this->_query( $sql, "_rename($srcFilePath, $dstFilePath)" ) )
         {
-            $debug->writeError( "Failed removing old file '$srcFilePath'" );
+            eZDebug::writeError( "Failed removing old file '$srcFilePath'" );
             $this->_query( 'ROLLBACK');
             return false;
         }
@@ -650,8 +648,7 @@ class eZDBFileHandlerMysqlBackend
     {
         if ( !is_readable( $filePath ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbfilehandlermysqlbackend' );
+            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbfilehandlermysqlbackend' );
             return;
         }
         if ( $fname )
@@ -809,14 +806,13 @@ class eZDBFileHandlerMysqlBackend
 
     function _die( $msg, $sql = null )
     {
-        $debug = eZDebug::instance();
         if ( $this->db )
         {
-            $debug->writeError( $sql, "$msg" . mysql_error( $this->db ) );
+            eZDebug::writeError( $sql, "$msg" . mysql_error( $this->db ) );
         }
         else
         {
-            $debug->writeError( $sql, "$msg: " . mysql_error() );
+            eZDebug::writeError( $sql, "$msg: " . mysql_error() );
         }
 
         if( @include_once( '../bt.php' ) )
@@ -927,15 +923,14 @@ class eZDBFileHandlerMysqlBackend
      */
     function _selectOne( $query, $fname, $error = false, $debug = false, $fetchCall )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
         $time = array_sum( split( " ", microtime() ) );
 
         $res = mysql_query( $query, $this->db );
         if ( !$res )
         {
             $this->_error( $query, $fname, $error );
-            $debug->accumulatorStop( 'mysql_cluster_query' );
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
             return false;
         }
 
@@ -943,7 +938,7 @@ class eZDBFileHandlerMysqlBackend
         if ( $nRows > 1 )
         {
             $this->_error( $query, $fname, "Duplicate entries found." );
-            $debug->accumulatorStop( 'mysql_cluster_query' );
+            eZDebug::accumulatorStop( 'mysql_cluster_query' );
             // For PHP 5 throw an exception.
         }
 
@@ -953,7 +948,7 @@ class eZDBFileHandlerMysqlBackend
             $query = "SQL for _selectOneAssoc:\n" . $query . "\n\nRESULT:\n" . var_export( $row, true );
 
         $time = array_sum( split( " ", microtime() ) ) - $time;
-        $debug->accumulatorStop( 'mysql_cluster_query' );
+        eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time );
         return $row;
@@ -1155,8 +1150,7 @@ class eZDBFileHandlerMysqlBackend
             }
             elseif ( strtolower( get_class( $result ) ) == 'ezmysqlbackenderror' )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( $result->errorValue, $result->errorText );
+                eZDebug::writeError( $result->errorValue, $result->errorText );
                 $this->transactionCount--;
                 if ( $this->transactionCount == 0 )
                     $this->_query( 'ROLLBACK', $fname );
@@ -1174,14 +1168,13 @@ class eZDBFileHandlerMysqlBackend
 
     function _handleErrorType( $res )
     {
-        $debug = eZDebug::instance();
         if ( $res === false )
         {
-            $debug->writeError( "SQL failed" );
+            eZDebug::writeError( "SQL failed" );
         }
         elseif ( strtolower( get_class( $res ) ) == 'ezmysqlbackenderror' )
         {
-            $debug->writeError( $res->errorValue, $res->errorText );
+            eZDebug::writeError( $res->errorValue, $res->errorText );
         }
     }
 
@@ -1241,8 +1234,7 @@ class eZDBFileHandlerMysqlBackend
      */
     function _query( $query, $fname = false, $reportError = true )
     {
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
+        eZDebug::accumulatorStart( 'mysql_cluster_query', 'mysql_cluster_total', 'Mysql_cluster_queries' );
         $time = array_sum( split( " ", microtime() ) );
 
         $res = mysql_query( $query, $this->db );
@@ -1254,7 +1246,7 @@ class eZDBFileHandlerMysqlBackend
         $numRows = mysql_affected_rows( $this->db );
 
         $time = array_sum( split( " ", microtime() ) ) - $time;
-        $debug->accumulatorStop( 'mysql_cluster_query' );
+        eZDebug::accumulatorStop( 'mysql_cluster_query' );
 
         $this->_report( $query, $fname, $time, $numRows );
         return $res;
@@ -1292,18 +1284,17 @@ class eZDBFileHandlerMysqlBackend
      */
     function _error( $query, $fname, $error )
     {
-        $debug = eZDebug::instance();
         if ( $error === false )
         {
-            $debug->writeError( "Failed to execute SQL for function:\n $query\n" . mysql_error( $this->db ), "$fname" );
+            eZDebug::writeError( "Failed to execute SQL for function:\n $query\n" . mysql_error( $this->db ), "$fname" );
         }
         else if ( is_array( $error ) )
         {
-            $debug->writeError( $error[0] . "\n" . mysql_error( $this->db ), $error[1] );
+            eZDebug::writeError( $error[0] . "\n" . mysql_error( $this->db ), $error[1] );
         }
         else
         {
-            $debug->writeError( $error . "\n" . mysql_error( $this->db ), "$fname" );
+            eZDebug::writeError( $error . "\n" . mysql_error( $this->db ), "$fname" );
         }
     }
 
@@ -1326,8 +1317,7 @@ class eZDBFileHandlerMysqlBackend
         if ( strlen( $fname ) == 0 )
             $fname = "_query";
         $backgroundClass = ($this->transactionCount > 0  ? "debugtransaction transactionlevel-$this->transactionCount" : "");
-        $debug = eZDebug::instance();
-        $debug->writeNotice( "$query", "cluster::mysql::{$fname}[{$rowText}" . number_format( $timeTaken, 3 ) . " ms] query number per page:" . $numQueries++, $backgroundClass );
+        eZDebug::writeNotice( "$query", "cluster::mysql::{$fname}[{$rowText}" . number_format( $timeTaken, 3 ) . " ms] query number per page:" . $numQueries++, $backgroundClass );
     }
 
     var $db   = null;

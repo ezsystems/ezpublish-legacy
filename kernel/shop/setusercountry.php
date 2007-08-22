@@ -45,15 +45,14 @@ else
     $country = null;
 }
 
-$debug = eZDebug::instance();
 if ( $country !== null )
 {
     eZShopFunctions::setPreferredUserCountry( $country );
-    $debug->writeNotice( "Set user country to <$country>" );
+    eZDebug::writeNotice( "Set user country to <$country>" );
 }
 else
 {
-    $debug->writeWarning( "No country chosen to set." );
+    eZDebug::writeWarning( "No country chosen to set." );
 }
 
 include_once( 'kernel/classes/ezredirectmanager.php' );

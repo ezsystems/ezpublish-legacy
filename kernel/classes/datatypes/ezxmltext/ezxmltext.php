@@ -121,8 +121,7 @@ class eZXMLText
 
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$name' does not exist", 'eZXMLText::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLText::attribute' );
                 $retValue = null;
                 return $retValue;
             }break;
@@ -217,9 +216,8 @@ class eZXMLText
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Could not instantiate class '$class', it is not defined",
-                                    'eZXMLText::fetchHandler' );
+                eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                     'eZXMLText::fetchHandler' );
             }
 
             if ( !$handlerValid and
@@ -244,9 +242,8 @@ class eZXMLText
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Could not instantiate class '$class', it is not defined",
-                                            'eZXMLText::fetchHandler' );
+                        eZDebug::writeError( "Could not instantiate class '$class', it is not defined",
+                                             'eZXMLText::fetchHandler' );
                     }
 
                     if ( !$handlerValid )

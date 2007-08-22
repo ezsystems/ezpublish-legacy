@@ -82,8 +82,7 @@ class eZWaitUntilDate
             }
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
                 return null;
             }break;
         }
@@ -120,8 +119,7 @@ class eZWaitUntilDate
 
     function removeEntry( $workflowEventID, $id, $version )
     {
-        $debug = eZDebug::instance();
-        $debug->writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
+        eZDebug::writeDebug( "$workflowEventID - $id - $version ", 'remove params 2' );
 
        eZWaitUntilDateValue::removeByID( $id, $version );
        $this->Entries = eZWaitUntilDateValue::fetchAllElements( $workflowEventID, $version );

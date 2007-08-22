@@ -60,8 +60,7 @@ class eZSiteInstaller
 
     function &instance( $params )
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Your installer doesn't implement 'instance' function", "eZSiteInstaller::instance" );
+        eZDebug::writeWarning( "Your installer doesn't implement 'instance' function", "eZSiteInstaller::instance" );
         return false;
     }
 
@@ -71,8 +70,7 @@ class eZSiteInstaller
     */
     function initSettings( $parameters )
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Your installer doesn't implement 'initSettings' function", "eZSiteInstaller::initSettings" );
+        eZDebug::writeWarning( "Your installer doesn't implement 'initSettings' function", "eZSiteInstaller::initSettings" );
     }
 
     /*!
@@ -111,8 +109,7 @@ class eZSiteInstaller
     */
     function initSteps()
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Your installer doesn't implement 'initSteps' function", "eZSiteInstaller::initSteps" );
+        eZDebug::writeWarning( "Your installer doesn't implement 'initSteps' function", "eZSiteInstaller::initSteps" );
     }
 
     /*!
@@ -135,8 +132,7 @@ class eZSiteInstaller
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Setting '$name' doesn't exist", "eZSiteInstaller::setting" );
+            eZDebug::writeWarning( "Setting '$name' doesn't exist", "eZSiteInstaller::setting" );
         }
 
         return $value;
@@ -267,7 +263,7 @@ class eZSiteInstaller
     */
     function reportError( $text, $caption, $errCode = EZSITE_INSTALLER_ERR_ABORT )
     {
-        eZDebug::instance()->writeError( $text, $caption );
+        eZDebug::writeError( $text, $caption );
 
         $this->setLastErrorCode( $errCode );
     }
@@ -345,8 +341,7 @@ class eZSiteInstaller
         $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
         if( !is_object( $contentClass ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Content class with identifier '$classIdentifier' doesn't exist.", 'eZSiteInstaller::classByIdentifier' );
+            eZDebug::writeWarning( "Content class with identifier '$classIdentifier' doesn't exist.", 'eZSiteInstaller::classByIdentifier' );
         }
 
         return $contentClass;
@@ -696,8 +691,7 @@ class eZSiteInstaller
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Object with name '" . $params['name'] . "' doesn't exist", "eZSiteInstaller::removeContentObject" );
+            eZDebug::writeWarning( "Object with name '" . $params['name'] . "' doesn't exist", "eZSiteInstaller::removeContentObject" );
         }
     }
 
@@ -1432,8 +1426,7 @@ class eZSiteInstaller
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "'Package' object is not set", 'eZSiteInstaller::packageFileItemPath' );
+            eZDebug::writeWarning( "'Package' object is not set", 'eZSiteInstaller::packageFileItemPath' );
         }
 
         return $filePath;
@@ -1589,14 +1582,12 @@ class eZSiteInstaller
 
     function solutionVersion()
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Your installer doesn't implement 'solutionVersion' function", "eZSiteInstaller::initSettings" );
+        eZDebug::writeWarning( "Your installer doesn't implement 'solutionVersion' function", "eZSiteInstaller::initSettings" );
     }
 
     function solutionName()
     {
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Your installer doesn't implement 'solutionName' function", "eZSiteInstaller::initSettings" );
+        eZDebug::writeWarning( "Your installer doesn't implement 'solutionName' function", "eZSiteInstaller::initSettings" );
     }
 
     /*!

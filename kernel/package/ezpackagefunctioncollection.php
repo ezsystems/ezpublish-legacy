@@ -98,8 +98,7 @@ class eZPackageFunctionCollection
                         } break;
                         default:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( 'Unknown package filter name: ' . $filterName );
+                            eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
                             continue;
                         };
                     }
@@ -192,8 +191,7 @@ class eZPackageFunctionCollection
                         } break;
                         default:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( 'Unknown package filter name: ' . $filterName );
+                            eZDebug::writeWarning( 'Unknown package filter name: ' . $filterName );
                             continue;
                         };
                     }

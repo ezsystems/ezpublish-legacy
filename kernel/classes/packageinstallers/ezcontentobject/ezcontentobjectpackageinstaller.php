@@ -212,8 +212,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     */
     function finalize( $package, $http, &$persistentData )
     {
-        $debug = eZDebug::instance();
-        $debug->writeDebug( 'finalize is called', 'eZContentObjectPackageInstaller::finalize' );
+        eZDebug::writeDebug( 'finalize is called', 'eZContentObjectPackageInstaller::finalize' );
         $package->installItem( $this->InstallItem, $persistentData );
     }
 

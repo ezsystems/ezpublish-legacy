@@ -393,7 +393,6 @@ class eZTemplateCompiler
     static function executeCompilation( $tpl, &$textElements, $key, &$resourceData,
                                  $rootNamespace, $currentNamespace )
      {
-        $debug = eZDebug::instance();
         if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
         if ( !eZTemplateCompiler::isExecutionEnabled() )
@@ -415,10 +414,10 @@ class eZTemplateCompiler
                 return true;
             }
             else
-                $debug->writeError( "Failed executing compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
+                eZDebug::writeError( "Failed executing compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
         }
         else
-            $debug->writeError( "Unknown compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
+            eZDebug::writeError( "Unknown compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
         return false;
     }
 
@@ -552,7 +551,7 @@ class eZTemplateCompiler
 
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
         {
-            $php->addCodePiece( "eZDebug::instance()->accumulatorStart( 'template_compiled_execution', 'template_total', 'Template compiled execution', true );\n" );
+            $php->addCodePiece( "eZDebug::accumulatorStart( 'template_compiled_execution', 'template_total', 'Template compiled execution', true );\n" );
         }
         if ( eZTemplateCompiler::isTimingPointsEnabled() )
         {
@@ -613,7 +612,7 @@ class eZTemplateCompiler
         if ( eZTemplateCompiler::isTimingPointsEnabled() )
             $php->addCodePiece( "eZDebug::addTimingPoint( 'Script end $cacheFileName' );\n" );
         if ( eZTemplateCompiler::isAccumulatorsEnabled() )
-            $php->addCodePiece( "eZDebug::instance()->accumulatorStop( 'template_compiled_execution', true );\n" );
+            $php->addCodePiece( "eZDebug::accumulatorStop( 'template_compiled_execution', true );\n" );
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
         {

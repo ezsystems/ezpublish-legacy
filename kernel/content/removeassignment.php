@@ -52,8 +52,7 @@ if ( $http->hasSessionVariable( 'AssignmentRemoveData' ) )
 }
 else
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( "No assignments passed to content/removeassignment" );
+    eZDebug::writeError( "No assignments passed to content/removeassignment" );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 

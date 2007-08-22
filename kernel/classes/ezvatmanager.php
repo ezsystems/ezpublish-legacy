@@ -53,8 +53,7 @@ class eZVATManager
         {
             if ( $handler === true )
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "No VAT handler specified but dynamic VAT charging is used." );
+                eZDebug::writeWarning( "No VAT handler specified but dynamic VAT charging is used." );
             }
 
             return null;
@@ -69,8 +68,7 @@ class eZVATManager
 
         if ( !$country && $requireUserCountry )
         {
-            $debug = eZDebug::instance();
-            $debug->writeNotice( "User country is not specified." );
+            eZDebug::writeNotice( "User country is not specified." );
         }
 
         return $handler->getVatPercent( $object, $country );
@@ -105,10 +103,9 @@ class eZVATManager
         {
             if ( $requireUserCountry )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Cannot find user country: please specify its attribute identifier " .
-                                    "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
-                                    'getUserCountryAttributeName' );
+                eZDebug::writeError( "Cannot find user country: please specify its attribute identifier " .
+                                       "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
+                                     'getUserCountryAttributeName' );
             }
             return null;
         }
@@ -118,10 +115,9 @@ class eZVATManager
         {
             if ( $requireUserCountry )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Cannot find user country: empty attribute name specified " .
-                                    "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
-                                    'getUserCountryAttributeName' );
+                eZDebug::writeError( "Cannot find user country: empty attribute name specified " .
+                                       "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
+                                     'getUserCountryAttributeName' );
             }
 
             return null;
@@ -148,8 +144,7 @@ class eZVATManager
             $country = eZShopFunctions::getPreferredUserCountry();
             if ( $country )
             {
-                $debug = eZDebug::instance();
-                $debug->writeDebug( "Applying user's preferred country <$country> while charging VAT" );
+                eZDebug::writeDebug( "Applying user's preferred country <$country> while charging VAT" );
                 return $country;
             }
         }
@@ -173,12 +168,11 @@ class eZVATManager
         {
             if ( $requireUserCountry )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Cannot find user country: there is no attribute '$countryAttributeName' in object '" .
-                                      $userObject->attribute( 'name' ) .
-                                      "' of class '" .
-                                      $userObject->attribute( 'class_name' ) . "'.",
-                                    'eZVATManager::getUserCountry' );
+                eZDebug::writeError( "Cannot find user country: there is no attribute '$countryAttributeName' in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'.",
+                                     'eZVATManager::getUserCountry' );
             }
             return null;
         }
@@ -190,12 +184,11 @@ class eZVATManager
         {
             if ( $requireUserCountry )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "User country is not specified in object '" .
-                                      $userObject->attribute( 'name' ) .
-                                      "' of class '" .
-                                      $userObject->attribute( 'class_name' ) . "'." ,
-                                    'eZVATManager::getUserCountry' );
+                eZDebug::writeError( "User country is not specified in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'." ,
+                                     'eZVATManager::getUserCountry' );
             }
             return null;
         }
@@ -221,12 +214,11 @@ class eZVATManager
         {
             if ( $requireUserCountry )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "User country is not specified or specified incorrectly in object '" .
-                                      $userObject->attribute( 'name' ) .
-                                      "' of class '" .
-                                      $userObject->attribute( 'class_name' ) . "'." ,
-                                    'eZVATManager::getUserCountry' );
+                eZDebug::writeError( "User country is not specified or specified incorrectly in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'." ,
+                                     'eZVATManager::getUserCountry' );
             }
             return null;
         }
@@ -251,24 +243,23 @@ class eZVATManager
             return false;
         }
 
-        $debug = eZDebug::instance();
         $userDataMap = $userObject->attribute( 'data_map' );
         if ( !isset( $userDataMap[$countryAttributeName] ) )
         {
             if ( $requireUserCountry )
             {
-                $debug->writeError( "Cannot set user country: there is no attribute '$countryAttributeName' in object '" .
-                                      $userObject->attribute( 'name' ) .
-                                      "' of class '" .
-                                      $userObject->attribute( 'class_name' ) . "'.",
-                                    'eZVATManager::getUserCountry' );
+                eZDebug::writeError( "Cannot set user country: there is no attribute '$countryAttributeName' in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'.",
+                                     'eZVATManager::getUserCountry' );
             }
 
             return false;
         }
 
-        $debug->writeNotice( sprintf( "Saving country '%s' for user '%s'",
-                                      $country, $user->attribute( 'login' )  ) );
+        eZDebug::writeNotice( sprintf( "Saving country '%s' for user '%s'",
+                                       $country, $user->attribute( 'login' ) ) );
 
         $countryAttribute = $userDataMap[$countryAttributeName];
         $countryAttributeContent = $countryAttribute->content();
@@ -341,11 +332,10 @@ class eZVATManager
 
         if ( !$foundHandler )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "VAT handler '$handlerName' not found, " .
-                                  "searched in these directories: " .
-                                  implode( ', ', $repositoryDirectories ),
-                                'eVATManager::loadVATHandler' );
+            eZDebug::writeError( "VAT handler '$handlerName' not found, " .
+                                   "searched in these directories: " .
+                                   implode( ', ', $repositoryDirectories ),
+                                 'eVATManager::loadVATHandler' );
             return false;
         }
 

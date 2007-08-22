@@ -230,12 +230,11 @@ class eZPackageHandler
 
     function errorChoosenAction( $errorCode, &$installParameters, $description = false, $handlerType = false, $resetError = true )
     {
-        $debug = eZDebug::instance();
         if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] )
         {
             if ( $description )
             {
-                $debug->writeNotice( $description, 'Package installation conflict' );
+                eZDebug::writeNotice( $description, 'Package installation conflict' );
             }
             return EZ_PACKAGE_NON_INTERACTIVE;
         }

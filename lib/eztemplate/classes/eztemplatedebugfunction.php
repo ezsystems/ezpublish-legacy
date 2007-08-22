@@ -193,17 +193,17 @@ class eZTemplateDebugFunction
 
             if ( $name )
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::instance()->accumulatorStart( " . var_export( $id, true ) . ", 'Debug-Accumulator', " . var_export( $name, true ) . " );" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::accumulatorStart( " . var_export( $id, true ) . ", 'Debug-Accumulator', " . var_export( $name, true ) . " );" );
             }
             else
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::instance()->accumulatorStart( " . var_export( $id, true ) . ", 'Debug-Accumulator' );" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::accumulatorStart( " . var_export( $id, true ) . ", 'Debug-Accumulator' );" );
             }
 
             $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
             $newNodes = array_merge( $newNodes, $children );
 
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::instance()->accumulatorStop( " . var_export( $id, true ) . " );" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::accumulatorStop( " . var_export( $id, true ) . " );" );
 
             return $newNodes;
         }
@@ -342,8 +342,7 @@ class eZTemplateDebugFunction
                 // To uniquely identify this accumulator.
                 $id = $id === false ? uniqID( $functionName . '_' ): $id;
 
-                $debug = eZDebug::instance();
-                $debug->accumulatorStart( $id, 'Debug-Accumulator', $name );
+                eZDebug::accumulatorStart( $id, 'Debug-Accumulator', $name );
 
                 if ( is_array( $children ) )
                 {
@@ -354,7 +353,7 @@ class eZTemplateDebugFunction
                     }
                 }
 
-                $debug->accumulatorStop( $id, 'Debug-Accumulator', $name );
+                eZDebug::accumulatorStop( $id, 'Debug-Accumulator', $name );
 
             } break;
 

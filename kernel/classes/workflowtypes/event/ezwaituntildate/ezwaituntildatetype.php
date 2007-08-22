@@ -68,8 +68,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         $modifyPublishDate = $event->attribute( 'data_int1' );
 
-        $debug = eZDebug::instance();
-        $debug->writeDebug( 'executing publish on time event' );
+        eZDebug::writeDebug( 'executing publish on time event' );
 
         foreach ( array_keys( $objectAttributes ) as $key )
         {
@@ -184,34 +183,31 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 $version = $workflowEvent->attribute( "version" );
                 $postvarname = "WorkflowEvent" . "_data_waituntildate_remove_" . $workflowEvent->attribute( "id" );
                 $arrayRemove = $http->postVariable( $postvarname );
-                $debug = eZDebug::instance();
-                $debug->writeDebug( $arrayRemove, 'remove params 0' );
+                eZDebug::writeDebug( $arrayRemove, 'remove params 0' );
 
                 foreach( $arrayRemove as $entryID )
                 {
-                    $debug->writeDebug( "$id - $entryID - $version ", 'remove params' );
+                    eZDebug::writeDebug( "$id - $entryID - $version ", 'remove params' );
                     eZWaitUntilDate::removeEntry( $id, $entryID, $version );
                 }
             }break;
             case "load_class_attribute_list" :
             {
                 $postvarname = 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' );
-                $debug = eZDebug::instance();
                 if ( $http->hasPostVariable( $postvarname ) )
                 {
                     $classIDList = $http->postVariable( 'WorkflowEvent' . '_event_ezwaituntildate_' .'class_' . $workflowEvent->attribute( 'id' ) );
-                    $debug->writeDebug($classIDList, "classIDLIst" );
+                    eZDebug::writeDebug($classIDList, "classIDLIst" );
                     $GLOBALS['eZWaitUntilDateSelectedClass'] = $classIDList[0];
                 }
                 else
                 {
-                    $debug->writeDebug( "no class selected" );
+                    eZDebug::writeDebug( "no class selected" );
                 }
             }break;
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown custom HTTP action: " . $action, "eZEnumType" );
+                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZEnumType" );
             }break;
         }
 

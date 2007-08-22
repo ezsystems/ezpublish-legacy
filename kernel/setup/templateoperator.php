@@ -94,8 +94,7 @@ if ( $currentStep )
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( 'Unknown pre step function ' . $preFunctionName );
+            eZDebug::writeWarning( 'Unknown pre step function ' . $preFunctionName );
         }
     }
     if ( isset( $currentStep['function'] ) )
@@ -107,8 +106,7 @@ if ( $currentStep )
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( 'Unknown step function ' . $functionName );
+            eZDebug::writeWarning( 'Unknown step function ' . $functionName );
         }
     }
     if ( isset( $currentStep['template'] ) )

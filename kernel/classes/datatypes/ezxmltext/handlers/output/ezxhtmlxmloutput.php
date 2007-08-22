@@ -234,8 +234,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Node #$nodeID doesn't exist", "XML output handler: link" );
+                eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: link" );
             }
         }
         elseif ( $element->getAttribute( 'object_id' ) != null )
@@ -257,14 +256,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
+                    eZDebug::writeWarning( "Object #$objectID doesn't have assigned nodes", "XML output handler: link" );
                 }
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Object #$objectID doesn't exist", "XML output handler: link" );
+                eZDebug::writeWarning( "Object #$objectID doesn't exist", "XML output handler: link" );
             }
         }
         elseif ( $element->getAttribute( 'href' ) != null )
@@ -311,8 +308,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Node #$nodeID doesn't exist", "XML output handler: embed" );
+                    eZDebug::writeWarning( "Node #$nodeID doesn't exist", "XML output handler: embed" );
                     return $ret;
                 }
             }
@@ -320,14 +316,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         if ( !isset( $object ) || !$object || strtolower( get_class( $object ) ) != "ezcontentobject" )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
+            eZDebug::writeWarning( "Can't fetch object #$objectID", "XML output handler: embed" );
             return $ret;
         }
         if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Object #$objectID is not published", "XML output handler: embed" );
+            eZDebug::writeWarning( "Object #$objectID is not published", "XML output handler: embed" );
             return $ret;
         }
 

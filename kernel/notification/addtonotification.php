@@ -49,8 +49,7 @@ $viewMode = $http->hasPostVariable( 'ViewMode' ) ? $http->postVariable( 'ViewMod
 
 if ( !$user->isLoggedIn() )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
+    eZDebug::writeError( 'User not logged in trying to subscribe for notification, node ID: ' . $nodeID,
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;
@@ -59,16 +58,14 @@ if ( !$user->isLoggedIn() )
 $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$contentNode )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'The nodeID parameter was empty, user ID: ' . $user->attribute( 'contentobject_id' ),
+    eZDebug::writeError( 'The nodeID parameter was empty, user ID: ' . $user->attribute( 'contentobject_id' ),
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;
 }
 if ( !$contentNode->attribute( 'can_read' ) )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
+    eZDebug::writeError( 'User does not have access to subscribe for notification, node ID: ' . $nodeID . ', user ID: ' . $user->attribute( 'contentobject_id' ),
                          'kernel/content/action.php' );
     $module->redirectTo( $redirectURI );
     return;

@@ -121,8 +121,7 @@ class eZContentUpload
             return $this->Parameters[$attributeName];
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
+        eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
         return null;
     }
 
@@ -990,7 +989,6 @@ class eZContentUpload
         {
             if ( $location == 'auto' or !is_numeric( $location ) )
             {
-                $debug = eZDebug::instance();
                 $contentINI = eZINI::instance( 'content.ini' );
 
                 $classPlacementMap = $contentINI->variable( 'RelationAssignmentSettings', 'ClassSpecificAssignment' );
@@ -1025,7 +1023,7 @@ class eZContentUpload
 
                             if ( !eZContentUpload::checkAccess( $parentNodeID, $class ) )
                             {
-                                $debug->writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
+                                eZDebug::writeNotice( "Upload assignment setting '$classData' skipped - no permissions", 'eZContentUpload::detectLocations' );
                                 $parentNodes = false;
                                 break;
                             }
@@ -1033,7 +1031,7 @@ class eZContentUpload
 
                         if ( $parentNodes )
                         {
-                            $debug->writeNotice( "Matched assignment for upload :'$classData'", 'eZContentUpload::detectLocations' );
+                            eZDebug::writeNotice( "Matched assignment for upload :'$classData'", 'eZContentUpload::detectLocations' );
                             break;
                         }
                     }
@@ -1050,7 +1048,7 @@ class eZContentUpload
                         }
                         else
                         {
-                            $debug->writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
+                            eZDebug::writeNotice( "No create permission for default upload location: node #$defaultNodeID", 'eZContentUpload::detectLocations' );
                             return null;
                         }
 
@@ -1068,7 +1066,7 @@ class eZContentUpload
                     }
                     else
                     {
-                        $debug->writeNotice( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
+                        eZDebug::writeNotice( "No create permission for upload location: node #$locationID", 'eZContentUpload::detectLocations' );
                         return null;
                     }
                 }
@@ -1328,7 +1326,7 @@ class eZContentUpload
                 $handler = new $handlerClass();
                 if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
                 {
-                    eZDebug::instance()->writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
+                    eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
                     return false;
                 }
                 return $handler;

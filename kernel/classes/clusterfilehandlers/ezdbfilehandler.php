@@ -84,8 +84,7 @@ class eZDBFileHandler
 
             if ( !isset( $GLOBALS['eZDBFileHandler_chosen_backend_class'] ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Cannot find ezdb cluster file backend: '$backendName'" );
+                eZDebug::writeError( "Cannot find ezdb cluster file backend: '$backendName'" );
                 return;
             }
         }
@@ -413,8 +412,7 @@ class eZDBFileHandler
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Failed to retrieve data from callback", 'eZDBFileHandler::processCache' );
+                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZDBFileHandler::processCache' );
                     return null;
                 }
                 $message = $retval->message();
@@ -551,8 +549,7 @@ class eZDBFileHandler
         if ( $binaryData === null &&
              $fileContent === null )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
+            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
             $this->backend->_rollback( 'storeCache' );
             return null;
         }
@@ -742,8 +739,7 @@ class eZDBFileHandler
     {
         $dir = eZDBFileHandler::cleanPath( $dir );
         $fileRegex = eZDBFileHandler::cleanPath( $fileRegex );
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
+        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByRegex is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
         $regex = '^' . ( $dir ? $dir . '/' : '' ) . $fileRegex;
@@ -758,8 +754,7 @@ class eZDBFileHandler
     function fileDeleteByWildcard( $wildcard )
     {
         $wildcard = eZDBFileHandler::cleanPath( $wildcard );
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
+        eZDebug::writeWarning( "Using eZDBFileHandler::fileDeleteByWildcard is not recommended since it has some severe performance issues" );
         eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByWildcard( '$wildcard' )" );
 
         $this->backend->_deleteByWildcard( $wildcard );

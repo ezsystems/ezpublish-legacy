@@ -33,7 +33,6 @@ $Module = $Params['Module'];
 $NodeID = $Params['NodeID'];
 
 $http = eZHTTPTool::instance();
-$debug = eZDebug::instance();
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -74,8 +73,8 @@ function copyPublishContentObject( &$sourceObject,
     $key = array_search( $sourceObjectID, $syncObjectIDListSrc );
     if ( $key !== false )
     {
-        $debug->writeDebug( "Object (ID = $sourceObjectID) has been already copied.",
-                            "Subtree copy: copyPublishContentObject()" );
+        eZDebug::writeDebug( "Object (ID = $sourceObjectID) has been already copied.",
+                             "Subtree copy: copyPublishContentObject()" );
         return 1; // object already copied
     }
 
@@ -149,8 +148,8 @@ function copyPublishContentObject( &$sourceObject,
         {
             // if parent node is not copied yet and not in black list,
             // then just skip sourceObject from copying for next time
-            $debug->writeDebug( "Parent node (ID = $srcParentNodeID) for contentobject (ID = $sourceObjectID) is not published yet.",
-                                "Subtree copy: copyPublishContentObject()" );
+            eZDebug::writeDebug( "Parent node (ID = $srcParentNodeID) for contentobject (ID = $sourceObjectID) is not published yet.",
+                                 "Subtree copy: copyPublishContentObject()" );
             return 2;
         }
         else
@@ -159,8 +158,8 @@ function copyPublishContentObject( &$sourceObject,
             $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             if ( $newParentNode === null )
             {
-                $debug->writeError( "Cannot fetch one of parent nodes. Error are somewhere above",
-                                    "Subtree copy error: copyPublishContentObject()" );
+                eZDebug::writeError( "Cannot fetch one of parent nodes. Error are somewhere above",
+                                     "Subtree copy error: copyPublishContentObject()" );
                 return 3;
             }
 
@@ -225,8 +224,8 @@ function copyPublishContentObject( &$sourceObject,
         $key = array_search( $parentNodeID, $syncNodeIDListSrc );
         if ( $key === false )
         {
-            $debug->writeError( "Cannot publish contentobject (ID=$sourceObjectID). Parent is not published yet.",
-                                "Subtree Copy error: copyPublishContentObject()" );
+            eZDebug::writeError( "Cannot publish contentobject (ID=$sourceObjectID). Parent is not published yet.",
+                                 "Subtree Copy error: copyPublishContentObject()" );
             return 4;
         }
 
@@ -263,8 +262,8 @@ function copyPublishContentObject( &$sourceObject,
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
-        $debug->writeError( "Cannot publish contentobject.",
-                            "Subtree Copy Error!" );
+        eZDebug::writeError( "Cannot publish contentobject.",
+                             "Subtree Copy Error!" );
         $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
                                                "Cannot publish object (ID = %1).",
                                                null, array( $sourceObjectID) );
@@ -280,8 +279,8 @@ function copyPublishContentObject( &$sourceObject,
         $keyA = array_search( $newParentNodeID, $syncNodeIDListNew );
         if ( $keyA === false )
         {
-            $debug->writeError( "Algoritm ERROR! Cannot find new parent node ID in new ID's list",
-                                "Subtree Copy Error!" );
+            eZDebug::writeError( "Algoritm ERROR! Cannot find new parent node ID in new ID's list",
+                                 "Subtree Copy Error!" );
             return -2;
         }
 
@@ -309,8 +308,8 @@ function copyPublishContentObject( &$sourceObject,
         }
         if ( $bSrcParentFound == false )
         {
-            $debug->writeError( "Cannot find source parent node in list of nodes already copied.",
-                                "Subtree Copy Error!" );
+            eZDebug::writeError( "Cannot find source parent node in list of nodes already copied.",
+                                 "Subtree Copy Error!" );
         }
         // Create unique remote_id
         $newRemoteID = md5( (string)mt_rand() . (string)time() );
@@ -417,8 +416,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
 
     if ( !$sourceSubTreeMainNode )
     {
-        $debug->writeError( "Cannot get subtree main node (nodeID = $srcNodeID).",
-                            "Subtree copy Error!" );
+        eZDebug::writeError( "Cannot get subtree main node (nodeID = $srcNodeID).",
+                             "Subtree copy Error!" );
         $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
                                             "Fatal error: cannot get subtree main node (ID = %1).",
                                             null, array( $srcNodeID ) );
@@ -426,8 +425,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     }
     if ( !$destinationNode )
     {
-        $debug->writeError( "Cannot get destination node (nodeID = $dstNodeID).",
-                            "Subtree copy Error!" );
+        eZDebug::writeError( "Cannot get destination node (nodeID = $dstNodeID).",
+                             "Subtree copy Error!" );
         $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
                                             "Fatal error: cannot get destination node (ID = %1).",
                                             null, array( $dstNodeID ) );
@@ -464,8 +463,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     foreach ( $sourceNodeList as $sourceNode )
         $sourceNodeIDList[] = $sourceNode->attribute( 'node_id' );
 
-    $debug->writeDebug( "Source NodeID = $srcNodeID, destination NodeID = $dstNodeID",
-                        "Subtree copy: START!" );
+    eZDebug::writeDebug( "Source NodeID = $srcNodeID, destination NodeID = $dstNodeID",
+                         "Subtree copy: START!" );
 
     // 1. copying and publishing source subtree
     $k = 0;
@@ -473,8 +472,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     {
         if ( $k > $countNodeList )
         {
-            $debug->writeError( "Too many loops while copying nodes.",
-                                "Subtree Copy Error!" );
+            eZDebug::writeError( "Too many loops while copying nodes.",
+                                 "Subtree Copy Error!" );
             break;
         }
 
@@ -527,8 +526,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
     if ( $key === false )
     {
-        $debug->writeDebug( "Root node of given subtree was not copied.",
-                            "Subtree copy:" );
+        eZDebug::writeDebug( "Root node of given subtree was not copied.",
+                             "Subtree copy:" );
         $notifications['Notifacations'][] = ezi18n( 'kernel/content/copysubtree',
                                                     "Subtree was not copied." );
         return $notifications;
@@ -541,11 +540,11 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
                                                 "Number of copied contentobjects - %1",
                                                 null, array( $countNewObjects ) );
 
-    $debug->writeDebug( count( $syncNodeIDListNew ), "Number of copied nodes: " );
-    $debug->writeDebug( count( $syncObjectIDListNew ), "Number of copied contentobjects: " );
+    eZDebug::writeDebug( count( $syncNodeIDListNew ), "Number of copied nodes: " );
+    eZDebug::writeDebug( count( $syncObjectIDListNew ), "Number of copied contentobjects: " );
 
-    $debug->writeDebug( $objectIDBlackList, "Copy subtree: Not copied object IDs list:" );
-    $debug->writeDebug( $nodeIDBlackList, "Copy subtree: Not copied node IDs list:" );
+    eZDebug::writeDebug( $objectIDBlackList, "Copy subtree: Not copied object IDs list:" );
+    eZDebug::writeDebug( $nodeIDBlackList, "Copy subtree: Not copied node IDs list:" );
 
     // 2. fetch all new subtree
 
@@ -557,14 +556,14 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
                                                   eZContentObjectTreeNode::subTreeByNodeID( false, $newSubTreeMainNodeID ) );
 
     // 3. fix local links (in ezcontentobject_link)
-    $debug->writeDebug( "Fixing global and local links...",
-                        "Subtree copy:" );
+    eZDebug::writeDebug( "Fixing global and local links...",
+                         "Subtree copy:" );
 
     $db = eZDB::instance();
     if ( !$db )
     {
-        $debug->writeError( "Cannot create instance of eZDB for fixing local links (related objects).",
-                            "Subtree Copy Error!" );
+        eZDebug::writeError( "Cannot create instance of eZDB for fixing local links (related objects).",
+                             "Subtree Copy Error!" );
         $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
                                              "Cannot create instance of eZDB to fix local links (related objects)." );
         return $notifications;
@@ -761,8 +760,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         }
     }
 
-    $debug->writeDebug( "Successfuly DONE.",
-                        "Copy subtree:" );
+    eZDebug::writeDebug( "Successfuly DONE.",
+                         "Copy subtree:" );
 
     $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
                                                 "Successfuly DONE." );

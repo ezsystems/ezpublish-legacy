@@ -129,8 +129,7 @@ class eZSimplePrice
 
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unspecified attribute: " . $attr, 'eZSimplePrice::setAttribute' );
+                eZDebug::writeError( "Unspecified attribute: " . $attr, 'eZSimplePrice::setAttribute' );
             } break;
         }
     }
@@ -206,8 +205,7 @@ class eZSimplePrice
 
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$attr' does not exist", 'eZSimplePrice::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSimplePrice::attribute' );
                 return null;
             } break;
         }
@@ -228,8 +226,7 @@ class eZSimplePrice
         $this->VATType = eZVatType::fetch( $VATID );
         if ( !$this->VATType )
         {
-            $debug = eZDebug::instance();
-            $debug->writeDebug( "VAT type with id '$VATID' is unavailable", 'eZSimplePrice::setVATType');
+            eZDebug::writeDebug( "VAT type with id '$VATID' is unavailable", 'eZSimplePrice::setVATType');
             $this->VATType = eZVatType::create();
         }
     }

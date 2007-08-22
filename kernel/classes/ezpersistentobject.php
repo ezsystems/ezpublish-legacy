@@ -341,8 +341,7 @@ class eZPersistentObject
                  strlen( $value ) > $field_def['max_length'] )
             {
                 $obj->setAttribute( $field_name, substr( $value, 0, $field_def['max_length'] ) );
-                $debug = eZDebug::instance();
-                $debug->writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
+                eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
             }
             $bindDataTypes = array( 'text' );
             if ( $db->bindingType() != EZ_DB_BINDING_NO &&
@@ -595,8 +594,7 @@ class eZPersistentObject
                                   } break;
                               default:
                                   {
-                                      $debug = eZDebug::instance();
-                                      $debug->writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                      eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
                                   } break;
                           }
 
@@ -1167,7 +1165,6 @@ static function definition()
     */
     function attribute( $attr, $noFunction = false )
     {
-        $debug = eZDebug::instance();
         $def = $this->definition();
         $fields = $def["fields"];
         $functions = isset( $def["functions"] ) ? $def["functions"] : null;
@@ -1182,8 +1179,8 @@ static function definition()
             }
             else
             {
-                $debug->writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
-                                    'eZPersistentObject::attribute()' );
+                eZDebug::writeError( 'Could not find function : "' . strtolower( get_class( $this ) ) . '::' . $functionName . '()".',
+                                     'eZPersistentObject::attribute()' );
             }
             return $retVal;
         }
@@ -1203,7 +1200,7 @@ static function definition()
         }
         else
         {
-            $debug->writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
+            eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
             $attrValue = null;
             return $attrValue;
         }
@@ -1243,9 +1240,8 @@ static function definition()
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Undefined attribute '$attr', cannot set",
-                                $def['class_name'] );
+            eZDebug::writeError( "Undefined attribute '$attr', cannot set",
+                                 $def['class_name'] );
         }
     }
 

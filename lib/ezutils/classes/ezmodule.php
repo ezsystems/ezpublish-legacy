@@ -298,8 +298,7 @@ class eZModule
     {
         if ( !$errorType )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.",
+            eZDebug::writeWarning( "No error type specified for error code $errorCode, assuming kernel.\nA specific error type should be supplied, please check your code.",
                                    'eZModule::handleError' );
             $errorType = 'kernel';
         }
@@ -341,8 +340,7 @@ class eZModule
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirect' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirect' );
         }
         return false;
     }
@@ -387,8 +385,7 @@ class eZModule
                                                    $unorderedParameters, $userParameters, $anchor );
         }
         else
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirectionURI' );
+            eZDebug::writeError( 'Undefined module: ' . $moduleName, 'eZModule::redirectionURI' );
         return false;
     }
 
@@ -631,8 +628,7 @@ class eZModule
                 return $this->FunctionList;
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
                 return null;
             }
             break;
@@ -710,8 +706,7 @@ class eZModule
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( 'Unknown default action type: ' . $type, 'eZModule::currentAction' );
+                    eZDebug::writeWarning( 'Unknown default action type: ' . $type, 'eZModule::currentAction' );
                 }
             }
         }
@@ -768,8 +763,7 @@ class eZModule
             {
                 return $http->postVariable( $postParameters[$parameterName] );
             }
-            $debug = eZDebug::instance();
-            $debug->writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+            eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
         }
         if ( isset( $this->Functions[$view]['post_value_action_parameters'][$currentAction] ) )
         {
@@ -788,8 +782,7 @@ class eZModule
                         return $parameterValue;
                     }
                 }
-                $debug = eZDebug::instance();
-                $debug->writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
+                eZDebug::writeError( "No such action parameter: $parameterName", 'eZModule::actionParameter' );
             }
         }
         return null;
@@ -918,8 +911,7 @@ class eZModule
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Unknown hook function '$functionName' in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Unknown hook function '$functionName' in hook: $hookName", 'eZModule::runHooks' );
                     }
                 }
                 else if ( is_array( $function ) )
@@ -946,20 +938,17 @@ class eZModule
                         }
                         else
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", 'eZModule::runHooks' );
+                            eZDebug::writeError( "Unknown hook method '$functionName' in class '" . strtolower( get_class( $object ) ) . "' in hook: $hookName", 'eZModule::runHooks' );
                         }
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Missing data for method handling in hook: $hookName", 'eZModule::runHooks' );
+                        eZDebug::writeError( "Missing data for method handling in hook: $hookName", 'eZModule::runHooks' );
                     }
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
+                    eZDebug::writeError( 'Unknown entry type ' . gettype( $function ) . 'in hook: ' . $hookName, 'eZModule::runHooks' );
                 }
 
                 switch( $retVal )
@@ -970,8 +959,7 @@ class eZModule
 
                     case EZ_MODULE_HOOK_STATUS_FAILED:
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
+                        eZDebug::writeWarning( 'Hook execution failed in hook: ' . $hookName, 'eZModule::runHooks' );
                     } break;
 
                     case EZ_MODULE_HOOK_STATUS_CANCEL_RUN:
@@ -1064,8 +1052,7 @@ class eZModule
         if ( count( $this->Functions ) > 0 and
              !isset( $this->Functions[$functionName] ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
+            eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
             $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
             $Return = null;
@@ -1452,8 +1439,7 @@ class eZModule
             if ( count( $triedDirList ) > 0 )
                 $msg.= "\nThese directories were tried but none of them exists:\n" . implode( ", ", $triedDirList );
         }
-        $debug = eZDebug::instance();
-        $debug->writeWarning( $msg );
+        eZDebug::writeWarning( $msg );
 
         $retValue = null;
         return $retValue;

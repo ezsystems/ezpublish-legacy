@@ -98,8 +98,7 @@ foreach( $workflowProcessList as $process )
         $bodyMemento = eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
         if ( is_null( $bodyMemento ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $bodyMemento, "Empty body memento in workflow.php" );
+            eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );
             continue;
         }
         $bodyMementoData = $bodyMemento->data();

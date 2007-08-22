@@ -72,8 +72,7 @@ class eZImageAliasHandler
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
+            eZDebug::writeWarning( 'Invalid eZContentObjectAttribute', 'eZImageAliasHandler::eZImageAliasHandler' );
         }
     }
 
@@ -510,8 +509,7 @@ class eZImageAliasHandler
             return $this->ContentObjectAttributeData['DataTypeCustom']['alias_list'];
         }
 
-        $debug = eZDebug::instance();
-        $debug->AccumulatorStart('imageparse', 'XML', 'Image XML parsing' );
+        eZDebug::accumulatorStart('imageparse', 'XML', 'Image XML parsing' );
 
         $domTree = new DOMDocument();
 
@@ -664,7 +662,7 @@ class eZImageAliasHandler
             }
         }
         $this->setAliasList( $aliasList );
-        $debug->AccumulatorStop( 'imageparse' );
+        eZDebug::accumulatorStop( 'imageparse' );
         return $aliasList;
     }
 
@@ -768,8 +766,7 @@ class eZImageAliasHandler
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
+                        eZDebug::writeError( "Image file $filepath for alias $aliasName does not exist, could not remove from disk",
                                              'eZImageAliasHandler::removeAliases' );
                     }
                 }
@@ -1128,8 +1125,7 @@ class eZImageAliasHandler
     {
         if ( !file_exists( $filename ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
+            eZDebug::writeError( "The image '$filename' does not exist, cannot initialize image attribute with it",
                                  'eZImageAliasHandler::initializeFromFile' );
             return false;
         }
@@ -1441,8 +1437,7 @@ class eZImageAliasHandler
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Invalid objectAttribute: id = " . $this->ContentObjectAttributeData['id'] .
+                eZDebug::writeError( "Invalid objectAttribute: id = " . $this->ContentObjectAttributeData['id'] .
                                     " version = " . $this->ContentObjectAttributeData['version'] ,
                                     "eZImageAliasHandler::storeDOMTree" );
             }

@@ -362,10 +362,10 @@ class eZContentObject extends eZPersistentObject
     function versionLanguageName( $version, $lang = false )
     {
         $name = false;
-        $debug = eZDebug::instance();
         if ( !$version > 0 )
         {
-            $debug->writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)",
+                                  'eZContentObject::versionLanguageName' );
             return $name;
         }
         $db = eZDb::instance();
@@ -408,7 +408,8 @@ class eZContentObject extends eZPersistentObject
         $resCount = count( $result );
         if( $resCount < 1 )
         {
-            $debug->writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
+            eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)",
+                                  'eZContentObject::versionLanguageName' );
         }
         else if( $resCount > 1 )
         {
@@ -713,8 +714,7 @@ class eZContentObject extends eZPersistentObject
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Object not found ($id)", 'eZContentObject::fetch()' );
+                eZDebug::writeError( "Object not found ($id)", 'eZContentObject::fetch()' );
                 $retValue = null;
                 return $retValue;
             }
@@ -830,8 +830,7 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Object not found', 'eZContentObject::fetch()' );
+            eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
             $retValue = null;
             return $retValue;
         }
@@ -1726,9 +1725,8 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                'eZContentObject::cleanupInternalDrafts()' );
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                 'eZContentObject::cleanupInternalDrafts()' );
             return;
         }
 
@@ -1761,9 +1759,8 @@ class eZContentObject extends eZPersistentObject
         if ( !is_numeric( $timeDuration ) ||
              $timeDuration < 0 )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
-                                'eZContentObject::cleanupAllInternalDrafts()' );
+            eZDebug::writeError( "The time duration must be a positive numeric value (timeDuration = $timeDuration)",
+                                 'eZContentObject::cleanupAllInternalDrafts()' );
             return;
         }
 
@@ -2407,7 +2404,6 @@ class eZContentObject extends eZPersistentObject
                                        $attributeID = 0,
                                        $relationType = EZ_CONTENT_OBJECT_RELATION_COMMON )
     {
-        $debug = eZDebug::instance();
         if ( $attributeID !== 0 )
         {
             $relationType = EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE;
@@ -2417,7 +2413,7 @@ class eZContentObject extends eZPersistentObject
         if ( ( $relationType & EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE ) != 0 &&
              $relationType != EZ_CONTENT_OBJECT_RELATION_ATTRIBUTE )
         {
-            $debug->writeWarning( "Object relation type conflict", "eZContentObject::addContentObjectRelation");
+            eZDebug::writeWarning( "Object relation type conflict", "eZContentObject::addContentObjectRelation");
         }
 
         $db = eZDB::instance();
@@ -2429,8 +2425,8 @@ class eZContentObject extends eZPersistentObject
 
         if ( !is_numeric( $toObjectID ) )
         {
-            $debug->writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
-                                "eZContentObject::addContentObjectRelation" );
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
+                                 "eZContentObject::addContentObjectRelation" );
             return false;
         }
         $fromObjectID =(int) $fromObjectID;
@@ -4935,8 +4931,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( ! $contentObject->name( $versionNum, $translation ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)" );
+                    eZDebug::writeNotice( "Setting name '$objectName' for version ($versionNum) of the content object ($objectID) in language($translation)" );
                     $contentObject->setName( $objectName, $versionNum, $translation );
                 }
             }

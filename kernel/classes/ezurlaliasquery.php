@@ -230,8 +230,7 @@ class eZURLAliasQuery
     {
         if ( !in_array( $this->type, array( 'name', 'alias', 'all' ) ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Parameter \$type must be one of name, alias or all. The value which was used was '{$this->type}'." );
+            eZDebug::writeError( "Parameter \$type must be one of name, alias or all. The value which was used was '{$this->type}'." );
             return null;
         }
 

@@ -242,17 +242,12 @@ class eZImageType extends eZDataType
     */
     function storeObjectAttribute( $contentObjectAttribute )
     {
-        $debug = eZDebug::instance();
-        //$debug->writeDebug( 'storing ezimage attribute' , 'eZImageType::storeObjectAttribute' );
         $imageHandler = $contentObjectAttribute->attribute( 'content' );
         if ( $imageHandler )
         {
-            //$debug->writeDebug( 'image handler class: ' . get_class( $imageHandler ), 'eZImageType::storeObjectAttribute' );
             $httpFile = $imageHandler->httpFile( true );
             if ( $httpFile )
             {
-                //$debug->writeDebug( 'type of http file: ' . gettype( $httpFile ), 'eZImageType::storeObjectAttribute' );
-
                 $imageAltText = $imageHandler->attribute( 'alternative_text' );
 
                 $imageHandler->initializeFromHTTPFile( $httpFile, $imageAltText );

@@ -137,23 +137,20 @@ class eZSSLZone
                     $elements = eZURLAliasML::fetchByPath( $uri );
                     if ( count( $elements ) == 0 )
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Cannot fetch URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "Cannot fetch URI '$uri'", 'eZSSLZone::getSSLZones' );
                         continue;
                     }
                     $action = $elements[0]->attribute( 'action' );
                     if ( !preg_match( "#^eznode:(.+)#", $action, $matches ) )
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Cannot decode action '$action' for URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "Cannot decode action '$action' for URI '$uri'", 'eZSSLZone::getSSLZones' );
                         continue;
                     }
                     $nodeID = (int)$matches[1];
                     $node =& eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !is_object( $node ) )
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
                         continue;
                     }
                     $pathStringsArray[$uri] = $node->attribute( 'path_string' );
@@ -314,8 +311,7 @@ class eZSSLZone
 
         if ( !$pathStrings )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Node #$nodeID not found", "eZSSLZone::checkNodeID" );
+            eZDebug::writeError( "Node #$nodeID not found", "eZSSLZone::checkNodeID" );
             return;
         }
 
@@ -432,9 +428,8 @@ class eZSSLZone
             $nodes = $object->parentNodes( $object->attribute( 'current' ) );
             if ( !is_array( $nodes ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Object ' . $object->attribute( 'is' ) .
-                                    'does not have neither assigned nor parent nodes.' );
+                eZDebug::writeError( 'Object ' . $object->attribute( 'is' ) .
+                                     'does not have neither assigned nor parent nodes.' );
             }
             else
             {
@@ -479,9 +474,8 @@ class eZSSLZone
 
         if ( $sslPriority && $keepModePriority && $sslPriority == $keepModePriority )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Configuration error: view $module/$view is defined both as 'ssl' and 'keep'",
-                                'eZSSLZone' );
+            eZDebug::writeError( "Configuration error: view $module/$view is defined both as 'ssl' and 'keep'",
+                                 'eZSSLZone' );
             return;
         }
 

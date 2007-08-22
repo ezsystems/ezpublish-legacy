@@ -236,7 +236,7 @@ class eZTemplateCacheBlock
                     $nodes = $db->arrayQuery( $nodePathStringSQL );
                     if ( count( $nodes ) != 1 )
                     {
-                        eZDebug::instance()->writeError( "Could not find path_string '$subtree' for 'subtree_expiry' node.", 'eZTemplateCacheBlock::subtreeExpiryCacheDir()' );
+                        eZDebug::writeError( "Could not find path_string '$subtree' for 'subtree_expiry' node.", 'eZTemplateCacheBlock::subtreeExpiryCacheDir()' );
                     }
                     else
                     {
@@ -301,8 +301,7 @@ class eZTemplateCacheBlock
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Unable to determine cacheDir for nodeID = $nodeID", 'eZtemplateCacheFunction::subtreeCacheSubDirForNode' );
+            eZDebug::writeWarning( "Unable to determine cacheDir for nodeID = $nodeID", 'eZtemplateCacheFunction::subtreeCacheSubDirForNode' );
         }
 
         $cacheDir .= '/cache';

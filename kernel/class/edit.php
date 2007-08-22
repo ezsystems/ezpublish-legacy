@@ -41,7 +41,6 @@ $EditLanguage = $Params['Language'];
 $FromLanguage = false;
 $ClassVersion = null;
 
-$debug = eZDebug::instance();
 
 switch ( $Params['FunctionName'] )
 {
@@ -50,7 +49,7 @@ switch ( $Params['FunctionName'] )
     } break;
     default:
     {
-        $debug->writeError( 'Undefined function: ' . $params['Function'] );
+        eZDebug::writeError( 'Undefined function: ' . $params['Function'] );
         $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
         return;
     };
@@ -127,7 +126,7 @@ else
         }
         else
         {
-            $debug->writeError( 'Undefined default language', 'class/edit.php' );
+            eZDebug::writeError( 'Undefined default language', 'class/edit.php' );
             $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
             return;
         }
@@ -153,7 +152,7 @@ else
     {
         $errorResponseGroupName = ( $GroupName == '' ) ? '<Empty name>' : $GroupName;
         $errorResponseGroupID = ( !is_numeric( $GroupID ) ) ? '<Empty ID>' : $GroupID;
-        $debug->writeError( "Unknown class group: {$errorResponseGroupName} (ID: {$errorResponseGroupID})", 'Kernel - Class - Edit' );
+        eZDebug::writeError( "Unknown class group: {$errorResponseGroupName} (ID: {$errorResponseGroupID})", 'Kernel - Class - Edit' );
         $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }

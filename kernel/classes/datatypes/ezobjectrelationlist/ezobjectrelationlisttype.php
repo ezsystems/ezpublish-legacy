@@ -211,8 +211,7 @@ class eZObjectRelationListType extends eZDataType
                 // Check if the given object ID has a numeric value, if not go to the next object.
                 if ( !is_numeric( $objectID ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
+                    eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
                                          "eZObjectRelationListType::fetchObjectAttributeHTTPInput" );
 
                     continue;
@@ -294,7 +293,6 @@ class eZObjectRelationListType extends eZDataType
 
     function createNewObject( $contentObjectAttribute, $name )
     {
-        $debug = eZDebug::instance();
         $classAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
         $classContent = $classAttribute->content();
         $classID = $classContent['object_class'];
@@ -304,7 +302,7 @@ class eZObjectRelationListType extends eZDataType
         $defaultPlacementNode = ( is_array( $classContent['default_placement'] ) and isset( $classContent['default_placement']['node_id'] ) ) ? $classContent['default_placement']['node_id'] : false;
         if ( !$defaultPlacementNode )
         {
-            $debug->writeError( 'Default placement is missing', 'eZObjectRelationListType::createNewObject' );
+            eZDebug::writeError( 'Default placement is missing', 'eZObjectRelationListType::createNewObject' );
             return false;
         }
 
@@ -312,7 +310,7 @@ class eZObjectRelationListType extends eZDataType
         // Check if current user can create a new node as child of this node.
         if ( !$node or !$node->canCreate() )
         {
-            $debug->writeError( 'Default placement is wrong or the current user can\'t create a new node as child of this node.', 'eZObjectRelationListType::createNewObject' );
+            eZDebug::writeError( 'Default placement is wrong or the current user can\'t create a new node as child of this node.', 'eZObjectRelationListType::createNewObject' );
             return false;
         }
 
@@ -329,7 +327,7 @@ class eZObjectRelationListType extends eZDataType
         }
         if ( !$canCreate )
         {
-            $debug->writeError( 'The current user is not allowed to create objects of class (ID=' . $classID . ')', 'eZObjectRelationListType::createNewObject' );
+            eZDebug::writeError( 'The current user is not allowed to create objects of class (ID=' . $classID . ')', 'eZObjectRelationListType::createNewObject' );
             return false;
         }
 
@@ -834,7 +832,6 @@ class eZObjectRelationListType extends eZDataType
     */
     function customObjectAttributeHTTPAction( $http, $action, $contentObjectAttribute, $parameters )
     {
-        $debug = eZDebug::instance();
         $contentobjectID = false;
         if ( eZDataType::fetchActionValue( $action, 'new_class', $classID ) or
              $action == 'new_class' )
@@ -918,7 +915,7 @@ class eZObjectRelationListType extends eZDataType
             }
             else
 
-                $debug->writeError( "Unknown class ID $classID, cannot instantiate object",
+                eZDebug::writeError( "Unknown class ID $classID, cannot instantiate object",
                                      'eZObjectRelationListType::customObjectAttributeHTTPAction' );
         }
         else if ( eZDataType::fetchActionValue( $action, 'edit_objects', $contentobjectID ) or
@@ -1047,8 +1044,8 @@ class eZObjectRelationListType extends eZDataType
                     // Check if the given object ID has a numeric value, if not go to the next object.
                     if ( !is_numeric( $objectID ) )
                     {
-                        $debug->writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
-                            "eZObjectRelationListType::customObjectAttributeHTTPAction" );
+                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
+                                             "eZObjectRelationListType::customObjectAttributeHTTPAction" );
 
                         continue;
                     }
@@ -1078,7 +1075,7 @@ class eZObjectRelationListType extends eZDataType
         }
         else
         {
-            $debug->writeError( "Unknown custom HTTP action: " . $action,
+            eZDebug::writeError( "Unknown custom HTTP action: " . $action,
                                  'eZObjectRelationListType' );
         }
     }
@@ -1180,8 +1177,7 @@ class eZObjectRelationListType extends eZDataType
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Cleanup of subobject-version failed. Could not fetch object from relation list.\n' .
+                eZDebug::writeError( 'Cleanup of subobject-version failed. Could not fetch object from relation list.\n' .
                                      'Requested subobject id: ' . $relationItem['contentobject_id'] . '\n' .
                                      'Requested Subobject version: ' . $relationItem['contentobject_version'],
                                      'eZObjectRelationListType::removeRelationObject' );
@@ -1433,8 +1429,7 @@ class eZObjectRelationListType extends eZDataType
             } break;
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
+                eZDebug::writeError( "Unknown objectrelationlist action '$action'", 'eZContentObjectRelationListType::customClassAttributeHTTPAction' );
             } break;
         }
     }
@@ -1505,8 +1500,7 @@ class eZObjectRelationListType extends eZDataType
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( $objectID, "Can not create relation because object is missing" );
+                eZDebug::writeWarning( $objectID, "Can not create relation because object is missing" );
             }
         }
         $contentObjectAttribute->setContent( $content );
@@ -1622,11 +1616,10 @@ class eZObjectRelationListType extends eZDataType
     */
     function serializeContentObjectAttribute( $package, $objectAttribute )
     {
-        $debug = eZDebug::instance();
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $dom = new DOMDocument();
-        $debug->writeDebug( $objectAttribute->attribute( 'data_text' ), 'xml string from data_text field' );
+        eZDebug::writeDebug( $objectAttribute->attribute( 'data_text' ), 'xml string from data_text field' );
         $success = $dom->loadXML( $objectAttribute->attribute( 'data_text' ) );
         $rootNode = $dom->documentElement;
         $relationList = $rootNode->getElementsByTagName( 'relation-list' )->item( 0 );
@@ -1651,20 +1644,20 @@ class eZObjectRelationListType extends eZDataType
                     $attribute = $attributes->item( $j );
                     $attrName = $attribute->localName;
 
-                    $debug->writeDebug( $attrName );
+                    eZDebug::writeDebug( $attrName );
                     if ( $attrName != 'priority' && $attrName != 'contentobject-remote-id' )
                     {
                         $success = $relationItem->removeAttribute( $attribute->localName );
                         if ( !$success )
                         {
-                            $debug->writeError( 'failed removing attribute ' . $attrName . ' from relation-item element' );
+                            eZDebug::writeError( 'failed removing attribute ' . $attrName . ' from relation-item element' );
                         }
                     }
                 }
             }
         }
 
-        $debug->writeDebug( $dom->saveXML(), 'old xml doc' );
+        eZDebug::writeDebug( $dom->saveXML(), 'old xml doc' );
 
         $importedRootNode = $node->ownerDocument->importNode( $rootNode, true );
         $node->appendChild( $importedRootNode );
@@ -1701,8 +1694,7 @@ class eZObjectRelationListType extends eZDataType
 
             if ( $object === null )
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Object with remote id '$relatedObjectRemoteID' not found: removing the link.",
+                eZDebug::writeWarning( "Object with remote id '$relatedObjectRemoteID' not found: removing the link.",
                                        'eZObjectRelationListType::unserializeContentObjectAttribute()' );
                 unset( $relationItems[$i] );
                 continue;

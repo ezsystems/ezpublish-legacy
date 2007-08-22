@@ -458,9 +458,8 @@ class eZSearch
             }
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
-        $debug->writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
+        eZDebug::writeDebug( 'Unable to find the search engine:' . $searchEngineString, 'eZSearch' );
+        eZDebug::writeDebug( 'Tried paths: ' . implode( ', ', $directoryList ), 'eZSearch' );
         return false;
     }
 

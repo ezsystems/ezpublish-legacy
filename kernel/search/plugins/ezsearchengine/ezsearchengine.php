@@ -69,9 +69,8 @@ class eZSearchEngine
         {
             $errCurrentVersion = $contentObject->attribute( 'current_version');
             include_once( "lib/ezutils/classes/ezdebug.php" );
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
-                                " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
+            eZDebug::writeError( "Failed to fetch \"current version\" ({$errCurrentVersion})" .
+                                 " of content object (ID: {$contentObjectID})", 'eZSearchEngine' );
             return;
         }
 
@@ -430,9 +429,8 @@ class eZSearchEngine
     {
         if ( isset( $this->CreatedTempTablesNames[$index] ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "CreatedTempTablesNames[\$index] already exists " .
-                                  "and contains '" . $this->CreatedTempTablesNames[$index] . "'" );
+            eZDebug::writeWarning( "CreatedTempTablesNames[\$index] already exists " .
+                                   "and contains '" . $this->CreatedTempTablesNames[$index] . "'" );
         }
         $this->CreatedTempTablesNames[$index] = $tableName;
     }
@@ -1250,8 +1248,7 @@ class eZSearchEngine
 
                         default:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
                             continue;
                         };
                     }
@@ -2220,8 +2217,7 @@ class eZSearchEngine
     {
         if ( !method_exists( $this, $methodName ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $methodName, "Method does not exist in ez search engine" );
+            eZDebug::writeError( $methodName, "Method does not exist in ez search engine" );
             return false;
         }
 

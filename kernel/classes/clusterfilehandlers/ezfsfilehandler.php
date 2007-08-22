@@ -72,8 +72,7 @@ class eZFSFileHandler
             {
                 if ( !$mutex->lock() )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Failed to acquire lock for file " . $this->filePath );
+                    eZDebug::writeWarning( "Failed to acquire lock for file " . $this->filePath );
                     return false;
                 }
                 $mutex->setMeta( 'pid', getmypid() );
@@ -94,8 +93,7 @@ class eZFSFileHandler
             }
             if ( !$mutex->steal() )
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "Failed to steal lock for file " . $this->filePath . " from PID $oldPid" );
+                eZDebug::writeWarning( "Failed to steal lock for file " . $this->filePath . " from PID $oldPid" );
                 return false;
             }
             $mutex->setMeta( 'pid', getmypid() );
@@ -136,12 +134,11 @@ class eZFSFileHandler
     {
         if ( $this->filePath !== false )
         {
-            $debug = eZDebug::instance();
             // fill $this->metaData
             $filePath = $this->filePath;
-            $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+            eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
             $this->metaData = @stat( $filePath );
-            $debug->accumulatorStop( 'dbfile' );
+            eZDebug::accumulatorStop( 'dbfile' );
 //            $this->metaData['name'] = $filePath;
         }
     }
@@ -212,24 +209,23 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileStoreContents( '$filePath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         if ( !( $fh = fopen( $filePath, 'w' ) ) )
         {
-            $debug->writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            eZDebug::writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
             return false;
         }
 
         if ( fwrite( $fh, $contents ) === false )
         {
-            $debug->writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            eZDebug::writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
             return false;
         }
 
         fclose( $fh );
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -246,13 +242,12 @@ class eZFSFileHandler
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::storeContents( '$filePath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         include_once( 'lib/ezfile/classes/ezfile.php' );
         eZFile::create( basename( $filePath ), dirname( $filePath ), $contents, true );
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -266,10 +261,9 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileFetchContents( '$filePath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         $rslt = file_get_contents( $filePath );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
 
         return $rslt;
     }
@@ -285,10 +279,9 @@ class eZFSFileHandler
         $filePath = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fetchContents( '$filePath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         $rslt = file_get_contents( $filePath );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
 
         return $rslt;
     }
@@ -387,8 +380,7 @@ class eZFSFileHandler
             {
                 if ( $retval->errno() != 1 ) // check for non-expiry error codes
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
+                    eZDebug::writeError( "Failed to retrieve data from callback", 'eZFSFileHandler::processCache' );
                     return null;
                 }
                 $message = $retval->message();
@@ -511,13 +503,12 @@ class eZFSFileHandler
         if ( !$storeCache )
             $store = false;
 
-        $debug = eZDebug::instance();
         $mtime = false;
         $result = null;
         if ( $binaryData === null &&
              $fileContent === null )
         {
-            $debug->writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
+            eZDebug::writeError( "Write callback need to set the 'content' or 'binarydata' entry" );
             return null;
         }
 
@@ -619,21 +610,20 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         if ( !file_exists( $dir ) )
         {
             //eZDebugSetting::writeDebug( 'kernel-clustering', "Dir '$dir' does not exist", 'dir' );
-            $debug->accumulatorStop( 'dbfile' );
+            eZDebug::accumulatorStop( 'dbfile' );
             return;
         }
 
         $dirHandle = opendir( $dir );
         if ( !$dirHandle )
         {
-            $debug->writeError( "opendir( '$dir' ) failed." );
-            $debug->accumulatorStop( 'dbfile' );
+            eZDebug::writeError( "opendir( '$dir' ) failed." );
+            eZDebug::accumulatorStop( 'dbfile' );
             return;
         }
 
@@ -656,7 +646,7 @@ class eZFSFileHandler
         }
         closedir( $dirHandle );
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -672,10 +662,9 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByWildcard( '$wildcard' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
 
@@ -694,10 +683,9 @@ class eZFSFileHandler
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByDirList( '$dirList', '$commonPath', '$commonSuffix' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -708,8 +696,7 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDelete( '$path' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         $list = array();
         if ( $fnamePart !== false )
@@ -729,7 +716,7 @@ class eZFSFileHandler
                 $handler = eZFileHandler::instance( false );
                 $handler->unlink( $path );
                 if ( file_exists( $path ) )
-                    $debug->writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+                    eZDebug::writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
             }
             else
             {
@@ -738,7 +725,7 @@ class eZFSFileHandler
             }
         }
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -754,8 +741,7 @@ class eZFSFileHandler
         $path = $this->filePath;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::delete( '$path' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         if ( is_file( $path ) )
         {
@@ -763,7 +749,7 @@ class eZFSFileHandler
             $handler = eZFileHandler::instance( false );
             $handler->unlink( $path );
             if ( file_exists( $path ) )
-                $debug->writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
+                eZDebug::writeError( "File still exists after removal: '$path'", 'fs::fileDelete' );
         }
         elseif ( is_dir( $path ) )
         {
@@ -771,7 +757,7 @@ class eZFSFileHandler
             eZDir::recursiveDelete( $path );
         }
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -850,10 +836,9 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileExists( '$path' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         $rc = file_exists( $path );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
 
         return $rc;
     }
@@ -886,8 +871,7 @@ class eZFSFileHandler
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::passthrough()" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $path );
@@ -902,7 +886,7 @@ class eZFSFileHandler
 
         readfile( $path );
 
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -915,11 +899,10 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileCopy( '$srcPath', '$dstPath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::copy( $srcPath, $dstPath );
-        $debug->accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
     }
 
     /**
@@ -932,11 +915,10 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileLinkCopy( '$srcPath', '$dstPath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::linkCopy( $srcPath, $dstPath, $symLink );
-        $debug->accumulatorStop( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile', false, 'dbfile' );
     }
 
     /**
@@ -949,11 +931,10 @@ class eZFSFileHandler
     {
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileMove( '$srcPath', '$dstPath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::move( $srcPath, $dstPath );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -967,11 +948,10 @@ class eZFSFileHandler
 
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::move( '$srcPath', '$dstPath' )" );
 
-        $debug = eZDebug::instance();
-        $debug->accumulatorStart( 'dbfile', false, 'dbfile' );
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         require_once( 'lib/ezfile/classes/ezfilehandler.php' );
         eZFileHandler::move( $srcPath, $dstPath );
-        $debug->accumulatorStop( 'dbfile' );
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     public $metaData = null;

@@ -119,8 +119,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         if ( $fromEmail != null )
             if ( !eZMail::validate( $fromEmail ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "The email < $fromEmail > specified in [TipAFriend].FromEmail setting in site.ini is not valid",'tipafriend' );
+                eZDebug::writeError( "The email < $fromEmail > specified in [TipAFriend].FromEmail setting in site.ini is not valid",'tipafriend' );
                 $fromEmail = null;
             }
     }

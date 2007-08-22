@@ -92,8 +92,7 @@ class eZCodeMapper
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( $str, 'eZCodeMapper::error' );
+            eZDebug::writeError( $str, 'eZCodeMapper::error' );
         }
     }
 
@@ -118,8 +117,7 @@ class eZCodeMapper
         }
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( $str, 'eZCodeMapper::warning' );
+            eZDebug::writeWarning( $str, 'eZCodeMapper::warning' );
         }
     }
 
@@ -1023,8 +1021,7 @@ class eZCodeMapper
                 $subTable = $this->mappingTable( $identifier );
                 if ( !$subTable )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Failed to fetch mapping table for identifier: '$identifier'" );
+                    eZDebug::writeError( "Failed to fetch mapping table for identifier: '$identifier'" );
                 }
                 else
                 {
@@ -1431,8 +1428,7 @@ class eZCodeMapper
         $codec = eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Failed to create textcodec for charset '$charset'" );
+            eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
             return false;
         }
 
@@ -1537,8 +1533,7 @@ class eZCodeMapper
                 {
                     break;
                 }
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown command '$name'",
+                eZDebug::writeError( "Unknown command '$name'",
                                      'eZCharTransform::decodeCommand' );
             } break;
         }
@@ -1683,8 +1678,7 @@ class eZCodeMapper
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
                 }
             }
         }
@@ -1828,8 +1822,7 @@ class eZCodeMapper
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
+                    eZDebug::writeError( "Could not locate include file '$path' for transformation '" . $command['command'] . "'" );
                 }
             }
         }

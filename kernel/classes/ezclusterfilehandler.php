@@ -67,8 +67,7 @@ class eZClusterFileHandler
 
             if ( !isset( $GLOBALS['eZClusterFileHandler_chosen_handler_class'] ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Cannot find cluster file handler '$handlerName'." );
+                eZDebug::writeError( "Cannot find cluster file handler '$handlerName'." );
                 return null;
             }
         }

@@ -30,9 +30,8 @@ $module = $Params['Module'];
 
 if ( !$module->hasActionParameter( 'NodeID' ) )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'Missing NodeID parameter for action ' . $module->currentAction(),
-                        'content/translation' );
+    eZDebug::writeError( 'Missing NodeID parameter for action ' . $module->currentAction(),
+                         'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 
@@ -40,9 +39,8 @@ $nodeID = $module->actionParameter( 'NodeID' );
 
 if ( !$module->hasActionParameter( 'LanguageCode' ) )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
-                        'content/translation' );
+    eZDebug::writeError( 'Missing LanguageCode parameter for action ' . $module->currentAction(),
+                         'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 
@@ -61,9 +59,8 @@ if ( $module->isCurrentAction( 'Cancel' ) )
 
 if ( !$module->hasActionParameter( 'ObjectID' ) )
 {
-    $debug = eZDebug::instance();
-    $debug->writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(),
-                        'content/translation' );
+    eZDebug::writeError( 'Missing ObjectID parameter for action ' . $module->currentAction(),
+                         'content/translation' );
     return $module->redirectToView( 'view', array( 'full', 2 ) );
 }
 $objectID = $module->actionParameter( 'ObjectID' );
@@ -153,9 +150,8 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
         {
             if ( !$object->removeTranslation( $languageID ) )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
-                                    'content/translation' );
+                eZDebug::writeError( "Object with id $objectID: cannot remove the translation with language id $languageID!",
+                                     'content/translation' );
             }
         }
 

@@ -80,8 +80,7 @@ class eZKeyword
             }break;
             default:
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
                 return null;
             }break;
         }

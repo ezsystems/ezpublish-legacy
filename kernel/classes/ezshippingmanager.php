@@ -170,11 +170,10 @@ class eZShippingManager
 
         if ( !$foundHandler )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Shipping handler '$handlerName' not found, " .
-                                "searched in these directories: " .
-                                implode( ', ', $repositoryDirectories ),
-                                'eZShippingManager::loadShippingHandler' );
+            eZDebug::writeError( "Shipping handler '$handlerName' not found, " .
+                                   "searched in these directories: " .
+                                   implode( ', ', $repositoryDirectories ),
+                                 'eZShippingManager::loadShippingHandler' );
             return false;
         }
 
@@ -182,9 +181,8 @@ class eZShippingManager
         $className = $handlerName . 'ShippingHandler';
         if ( !class_exists ( $className ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot instantiate non-existent class: '$className'",
-                                'eZShippingManager::loadShippingHandler' );
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
+                                 'eZShippingManager::loadShippingHandler' );
             return null;
         }
 
@@ -233,11 +231,10 @@ class eZShippingManager
 
         if ( !$foundHandler )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Basketinfo handler '$handlerName' not found, " .
-                                "searched in these directories: " .
-                                implode( ', ', $repositoryDirectories ),
-                                'eZShippingManager::loadBasketInfoHandler' );
+            eZDebug::writeError( "Basketinfo handler '$handlerName' not found, " .
+                                   "searched in these directories: " .
+                                   implode( ', ', $repositoryDirectories ),
+                                 'eZShippingManager::loadBasketInfoHandler' );
             return false;
         }
 
@@ -245,9 +242,8 @@ class eZShippingManager
         $className = $handlerName . 'BasketInfoHandler';
         if ( !class_exists ( $className ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "Cannot instantiate non-existent class: '$className'",
-                                'eZShippingManager::loadBasketInfoHandler' );
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
+                                 'eZShippingManager::loadBasketInfoHandler' );
             return null;
         }
 

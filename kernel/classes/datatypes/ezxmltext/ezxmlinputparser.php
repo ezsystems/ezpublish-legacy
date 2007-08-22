@@ -671,8 +671,7 @@ class eZXMLInputParser
                     }
                     else
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML input parser' );
+                        eZDebug::writeWarning( "No namespace defined for prefix '$prefix'.", 'eZXML input parser' );
                     }
                 }
                 else
@@ -1108,8 +1107,7 @@ class eZXMLInputParser
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "'$handlerName' input handler for tag <$tagName> doesn't exist: '" . $thisInputTag[$handlerName] . "'.", 'eZXML input parser' );
+                eZDebug::writeWarning( "'$handlerName' input handler for tag <$tagName> doesn't exist: '" . $thisInputTag[$handlerName] . "'.", 'eZXML input parser' );
             }
         }
         return $result;
@@ -1128,8 +1126,7 @@ class eZXMLInputParser
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML input parser' );
+                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML input parser' );
             }
         }
 

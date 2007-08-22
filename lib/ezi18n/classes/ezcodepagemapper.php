@@ -187,8 +187,7 @@ class eZCodePageMapper
                 unset( $eZCodePageMapperCacheCodeDate );
                 $in_out_map =& $this->InputOutputMap;
                 $out_in_map =& $this->OutputInputMap;
-                /*$debug = eZDebug::instance();
-                $debug->writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );*/
+                eZDebug::writeDebug( 'loading cache from: ' . $cache, 'eZCodePageMapper::load' );*/
                 include( $cache );
                 if ( isset( $eZCodePageMapperCacheCodeDate ) or
                      $eZCodePageMapperCacheCodeDate == EZ_CODEPAGE_MAPPER_CACHE_CODE_DATE )

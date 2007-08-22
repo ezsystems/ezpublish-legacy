@@ -170,8 +170,7 @@ if ( $useTextTranslation || eZTranslatorManager::dynamicTranslationsEnabled() )
             return ezinsertarguments( $trans, $arguments );
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
+        eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
         return ezinsertarguments( $source, $arguments );
     }
 }

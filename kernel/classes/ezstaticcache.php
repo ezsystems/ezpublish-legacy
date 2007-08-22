@@ -155,8 +155,7 @@ class eZStaticCache
             {
                 if ( !isset( $uri['node_id'] ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "node_id is not set for uri entry " . var_export( $uri ) . ", will need to perform extra query to get node_id" );
+                    eZDebug::writeError( "node_id is not set for uri entry " . var_export( $uri ) . ", will need to perform extra query to get node_id" );
                     $node = eZContentObjectTreeNode::fetchByURLPath( $uri['path_identification_string'] );
                     $nodeID = (int)$node->attribute( 'node_id' );
                 }
@@ -371,9 +370,8 @@ class eZStaticCache
                         }
                         if ( $content === false )
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
-                                                 'Static Cache' );
+                            eZDebug::writeNotice( "Could not grab content (from $fileName), is the hostname correct and Apache running?",
+                                                  'Static Cache' );
                         }
                         else
                         {
@@ -512,8 +510,7 @@ class eZStaticCache
                         }
                         if ( $fileContentCache[$source] === false )
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                            eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
                         }
                         else
                         {

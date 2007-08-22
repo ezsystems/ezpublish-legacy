@@ -134,8 +134,7 @@ function eZUpdateDebugSettings()
     {
         $settings['always-log'][$level] = in_array( $name, $logList );
     }
-    $debug = eZDebug::instance();
-    $debug->updateSettings( $settings );
+    eZDebug::updateSettings( $settings );
 }
 
 /*!
@@ -238,8 +237,7 @@ function eZFatalError()
 eZExecution::addCleanupHandler( 'eZDBCleanup' );
 eZExecution::addFatalErrorHandler( 'eZFatalError' );
 
-$debug = eZDebug::instance();
-$debug->setScriptStart( $scriptStartTime );
+eZDebug::setScriptStart( $scriptStartTime );
 
 // Enable this line to get eZINI debug output
 // eZINI::setIsDebugEnabled( true );
@@ -346,7 +344,7 @@ $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 
 eZSys::init( 'index.php', $ini->variable( 'SiteAccessSettings', 'ForceVirtualHost' ) == 'true' );
 
-$debug->addTimingPoint( "Script start" );
+eZDebug::addTimingPoint( "Script start" );
 
 include_once( "lib/ezutils/classes/ezuri.php" );
 
@@ -602,7 +600,7 @@ while ( $moduleRunRequired )
          strtolower( get_class( $module ) ) == "ezmodule" )
     {
         // Run the module/function
-        $debug->addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
+        eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );
 
         $moduleAccessAllowed = true;
         $omitPolicyCheck = true;
@@ -737,7 +735,7 @@ while ( $moduleRunRequired )
     }
     else if ( $moduleCheck['result'] )
     {
-        $debug->writeError( "Undefined module: $module_name", "index" );
+        eZDebug::writeError( "Undefined module: $module_name", "index" );
         $module = new eZModule( "", "", $module_name );
         $GLOBALS['eZRequestedModule'] = $module;
         $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MODULE_NOT_FOUND, 'kernel', array( 'module' => $module_name ) );
@@ -745,9 +743,9 @@ while ( $moduleRunRequired )
     else
     {
         if ( $moduleCheck['view_checked'] )
-            $debug->writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
+            eZDebug::writeError( "View '" . $moduleCheck['view'] . "' in module '" . $moduleCheck['module'] . "' is disabled", "index" );
         else
-            $debug->writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
+            eZDebug::writeError( "Module '" . $moduleCheck['module'] . "' is disabled", "index" );
         $module = new eZModule( "", "", $moduleCheck['module'] );
         $GLOBALS['eZRequestedModule'] = $module;
         $moduleResult = $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
@@ -761,7 +759,7 @@ while ( $moduleRunRequired )
             $moduleRunRequired = true;
         }
         else
-            $debug->writeError( 'No rerun URI specified, cannot continue', 'index.php' );
+            eZDebug::writeError( 'No rerun URI specified, cannot continue', 'index.php' );
     }
 
     if ( is_array( $moduleResult ) )
@@ -929,8 +927,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $tpl->setVariable( 'redirect_uri', $redirectURI );
         $templateResult = $tpl->fetch( 'design:redirect.tpl' );
 
-        $debug = eZDebug::instance();
-        $debug->addTimingPoint( "End" );
+        eZDebug::addTimingPoint( "End" );
 
         eZDisplayResult( $templateResult );
     }
@@ -977,10 +974,10 @@ if ( is_object( $db ) and $db->isConnected() and
 }
 
 
-$debug->addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
+eZDebug::addTimingPoint( "Module end '" . $module->attribute( 'name' ) . "'" );
 if ( !is_array( $moduleResult ) )
 {
-    $debug->writeError( 'Module did not return proper result: ' . $module->attribute( 'name' ), 'index.php' );
+    eZDebug::writeError( 'Module did not return proper result: ' . $module->attribute( 'name' ), 'index.php' );
     $moduleResult = array();
     $moduleResult['content'] = false;
 }
@@ -993,7 +990,7 @@ $moduleResult['ui_component'] = $module->uiComponentName();
 
 $templateResult = null;
 
-$debug->setUseExternalCSS( $use_external_css );
+eZDebug::setUseExternalCSS( $use_external_css );
 if ( $show_page_layout )
 {
     include_once( "kernel/common/template.php" );
@@ -1146,7 +1143,7 @@ else
 }
 
 
-$debug->addTimingPoint( "End" );
+eZDebug::addTimingPoint( "End" );
 
 ob_end_flush();
 

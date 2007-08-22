@@ -114,8 +114,7 @@ class eZDB
     */
     private function __construct()
     {
-        $debug = eZDebug::instance();
-        $debug->writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
+        eZDebug::writeError( 'This class should not be instantiated', 'eZDB::eZDB' );
     }
 
     /*!
@@ -327,8 +326,7 @@ class eZDB
                 $impl->ErrorNumber = -1;
                 if ( $databaseParameters['show_errors'] )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
+                    eZDebug::writeError( 'Database implementation not supported: ' . $databaseImplementation, 'eZDB::instance' );
                 }
             }
 
@@ -358,12 +356,11 @@ class eZDB
         {
             $result = array();
             $result['error'] = "Internal transaction counter mismatch : " . $db->transactionCounter() . ". Should be zero.";
-            $debug = eZDebug::instance();
-            $debug->writeError( $result['error'] );
+            eZDebug::writeError( $result['error'] );
             $stack = $db->generateFailedTransactionStack();
             if ( $stack !== false )
             {
-                $debug->writeError( $stack, 'Transaction stack' );
+                eZDebug::writeError( $stack, 'Transaction stack' );
             }
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini = eZINI::instance();

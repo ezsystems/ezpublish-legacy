@@ -130,8 +130,7 @@ class eZPackageInstallationHandler
             return $this->Attributes[$name];
         }
 
-        $debug = eZDebug::instance();
-        $debug->writeError( "Attribute '$name' does not exist", 'eZPackageInstallationHandler::attribute' );
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageInstallationHandler::attribute' );
         return null;
     }
 

@@ -74,8 +74,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
     {
         $errMsg = ezi18n( 'design/standard/user', 'The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!', null, array( $defaultUserPlacement ) );
         $checkErrNodeId = true;
-        $debug = eZDebug::instance();
-        $debug->writeError( "$errMsg" );
+        eZDebug::writeError( "$errMsg" );
         $tpl->setVariable( 'errMsg', $errMsg );
         $tpl->setVariable( 'checkErrNodeId', $checkErrNodeId );
     }
@@ -250,8 +249,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     } break;
                     default:
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
+                        eZDebug::writeWarning( "Unknown feedback type '$feedbackType'", 'user/register' );
                     }
                 }
             }

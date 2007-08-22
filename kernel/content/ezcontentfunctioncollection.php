@@ -907,12 +907,10 @@ class eZContentFunctionCollection
                         $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $limitationArray['Section'] ) . ')';
                         break;
                     case 'Owner':
-                        $debug = eZDebug::instance();
-                        $debug->writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
+                        eZDebug::writeWarning( $limitationArray, 'System is not configured to check Assigned in objects' );
                         break;
                     case 'Group':
-                        $debug = eZDebug::instance();
-                        $debug->writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
+                        eZDebug::writeWarning( $limitationArray, "System is not configured to check 'Group' limitation" );
                         break;
                     case 'Node':
                         $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $limitationArray['Node'] ) . ')';
@@ -1085,8 +1083,7 @@ class eZContentFunctionCollection
              $type = "data_text";
         else
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
+            eZDebug::writeError( "DatatypeString not supported in fetch same_classattribute_node, use int, float or text" );
             return false;
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
@@ -1168,8 +1165,7 @@ class eZContentFunctionCollection
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Unknown relation type: '$relationType'.", "eZContentFunctionCollection::contentobjectRelationTypeMask()" );
+                    eZDebug::writeWarning( "Unknown relation type: '$relationType'.", "eZContentFunctionCollection::contentobjectRelationTypeMask()" );
                 }
             }
         }
@@ -1253,10 +1249,9 @@ class eZContentFunctionCollection
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
-        $debug = eZDebug::instance();
         if ( !$objectID )
         {
-            $debug->writeError( "ObjectID is missing" );
+            eZDebug::writeError( "ObjectID is missing" );
             return false;
         }
         $params = array();
@@ -1268,8 +1263,7 @@ class eZContentFunctionCollection
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchRelatedObjects' );
             }
         }
         if ( !$attributeID )
@@ -1299,7 +1293,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                $debug->writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1314,10 +1308,9 @@ class eZContentFunctionCollection
         // Fetches count of reverse related objects
     function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
-        $debug = eZDebug::instance();
         if ( !$objectID )
         {
-            $debug->writeError( "ObjectID is missing" );
+            eZDebug::writeError( "ObjectID is missing" );
             return false;
         }
 
@@ -1349,7 +1342,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                $debug->writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1372,8 +1365,7 @@ class eZContentFunctionCollection
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
+                eZDebug::writeError( "Function parameter 'SortBy' should be an array.", 'content/fetchReverseRelatedObjects' );
             }
         }
         if ( isset( $ignoreVisibility ) )
@@ -1407,8 +1399,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }
@@ -1452,8 +1443,7 @@ class eZContentFunctionCollection
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
             if ( !$attributeID )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Can't get class attribute ID by identifier" );
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
                 return false;
             }
         }

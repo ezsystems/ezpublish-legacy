@@ -380,8 +380,7 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_RUN_SUB_EVENT:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Run sub event not supported yet", "eZWorkflowProcess::run" );
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED:
                         {
@@ -397,13 +396,11 @@ class eZWorkflowProcess extends eZPersistentObject
                         } break;
                         case EZ_WORKFLOW_TYPE_STATUS_NONE:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( "Workflow executing status is EZ_WORKFLOW_TYPE_STATUS_NONE", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Workflow executing status is EZ_WORKFLOW_TYPE_STATUS_NONE", "eZWorkflowProcess::run" );
                         } break;
                         default:
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeWarning( "Unknown status '$currentEventStatus'", "eZWorkflowProcess::run" );
+                            eZDebug::writeWarning( "Unknown status '$currentEventStatus'", "eZWorkflowProcess::run" );
                         } break;
                     }
                     $eventLog[] = array( "status" => $currentEventStatus,
@@ -415,8 +412,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "Expected an eZWorkFlowType object", "eZWorkflowProcess::run" );
+                    eZDebug::writeError( "Expected an eZWorkFlowType object", "eZWorkflowProcess::run" );
                 }
             }
             else

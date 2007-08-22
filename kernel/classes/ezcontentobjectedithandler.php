@@ -96,8 +96,7 @@ class eZContentObjectEditHandler
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Cound not find content object edit handler ( defined in content.ini ) : ' . $fileName );
+                eZDebug::writeError( 'Cound not find content object edit handler ( defined in content.ini ) : ' . $fileName );
             }
         }
     }

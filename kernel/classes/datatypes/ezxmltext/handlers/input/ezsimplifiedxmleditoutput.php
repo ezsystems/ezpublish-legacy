@@ -320,8 +320,7 @@ class eZSimplifiedXMLEditOutput
             }
             else
             {
-                $debug = eZDebug::instance();
-                $debug->writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
+                eZDebug::writeWarning( "'$handlerName' output handler for tag <$element->nodeName> doesn't exist: '" . $thisOutputTag[$handlerName] . "'.", 'eZXML converter' );
             }
         }
         return $result;

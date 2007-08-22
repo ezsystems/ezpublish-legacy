@@ -71,8 +71,7 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $fileName = $outDir . "/" . ( $forcedFileName ? $forcedFileName : basename( $url ) );
 
-        $debug = eZDebug::instance();
-        $debug->writeNotice( "Downloading file '$fileName' from $url" );
+        eZDebug::writeNotice( "Downloading file '$fileName' from $url" );
 
         // Create the out directory if not exists.
         if ( !file_exists( $outDir ) )
@@ -168,7 +167,6 @@ class eZStepSiteTypes extends eZStepInstaller
         include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, false, false );
 
-        $debug = eZDebug::instance();
         if ( is_object( $package ) )
         {
             if ( $forceDownload )
@@ -177,7 +175,7 @@ class eZStepSiteTypes extends eZStepInstaller
             }
             else
             {
-                $debug->writeNotice( "Skipping download of package '$packageName': package already exists." );
+                eZDebug::writeNotice( "Skipping download of package '$packageName': package already exists." );
                 return $package;
             }
         }
@@ -185,7 +183,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $archiveName = $this->downloadFile( $packageUrl, /* $outDir = */ eZStepSiteTypes::tempDir() );
         if ( $archiveName === false )
         {
-            $debug->writeWarning( "Download of package '$packageName' from '$packageUrl' failed: $this->ErrorMsg" );
+            eZDebug::writeWarning( "Download of package '$packageName' from '$packageUrl' failed: $this->ErrorMsg" );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                       'Download of package \'%pkg\' failed. You may upload the package manually.',
                                       false, array( '%pkg' => $packageName ) );
@@ -201,7 +199,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( !is_object( $package ) )
         {
-            $debug->writeNotice( "Invalid package" );
+            eZDebug::writeNotice( "Invalid package" );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' );
             return false;
         }
@@ -268,8 +266,7 @@ class eZStepSiteTypes extends eZStepInstaller
             {
                 if ( !isset( $remotePackagesInfo[$requiredPackageName]['url'] ) )
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeWarning( "Download of package '$requiredPackageName' failed: the URL is unknown." );
+                    eZDebug::writeWarning( "Download of package '$requiredPackageName' failed: the URL is unknown." );
                     $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                               'Download of package \'%pkg\' failed. You may upload the package manually.',
                                               false, array( '%pkg' => $requiredPackageName ) );
@@ -335,8 +332,7 @@ class eZStepSiteTypes extends eZStepInstaller
         }
         elseif ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
         {
-            $debug = eZDebug::instance();
-            $debug->writeWarning( "Package '$packageName' already exists." );
+            eZDebug::writeWarning( "Package '$packageName' already exists." );
         }
         else
         {
@@ -599,14 +595,13 @@ class eZStepSiteTypes extends eZStepInstaller
         // Download index file.
         $idxFileName = $this->downloadFile( $this->XMLIndexURL, /* $outDir = */ eZStepSiteTypes::tempDir(), 'index.xml' );
 
-        $debug = eZDebug::instance();
         if ( $idxFileName === false )
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                       'Retreiving remote site packages list failed. ' .
                                       'You may upload packages manually.' );
 
-            $debug->writeNotice( "Cannot download remote packages index file from '$this->XMLIndexURL'." );
+            eZDebug::writeNotice( "Cannot download remote packages index file from '$this->XMLIndexURL'." );
             return false;
         }
 
@@ -621,7 +616,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( !$success )
         {
-            $debug->writeError( "Malformed index file." );
+            eZDebug::writeError( "Malformed index file." );
             return false;
         }
 
@@ -629,7 +624,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( $root->localName != 'packages' )
         {
-            $debug->writeError( "Malformed index file." );
+            eZDebug::writeError( "Malformed index file." );
             return false;
         }
 

@@ -285,8 +285,7 @@ class eZFloatType extends eZDataType
                     else
                     {
                         $state = EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE;
-                        $debug = eZDebug::instance();
-                        $debug->writeNotice( "Integer minimum value great than maximum value." );
+                        eZDebug::writeNotice( "Integer minimum value great than maximum value." );
                         return $state;
                     }
                 }

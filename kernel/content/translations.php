@@ -60,8 +60,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     $localeID = $Module->actionParameter( 'LocaleID' );
     $translationName = '';
     $translationLocale = '';
-    $debug = eZDebug::instance();
-    $debug->writeDebug( $localeID, 'localeID' );
+    eZDebug::writeDebug( $localeID, 'localeID' );
     if ( $localeID != '' and
          $localeID != -1 )
     {
@@ -73,8 +72,8 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     {
         $translationName = $Module->actionParameter( 'TranslationName' );
         $translationLocale = $Module->actionParameter( 'TranslationLocale' );
-        $debug->writeDebug( $translationName, 'translationName' );
-        $debug->writeDebug( $translationLocale, 'translationLocale' );
+        eZDebug::writeDebug( $translationName, 'translationName' );
+        eZDebug::writeDebug( $translationLocale, 'translationLocale' );
     }
 
     include_once( 'lib/ezlocale/classes/ezlocale.php' );

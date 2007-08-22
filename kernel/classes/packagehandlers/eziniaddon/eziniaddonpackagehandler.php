@@ -148,17 +148,15 @@ class eZINIAddonPackageHandler extends eZPackageHandler
 
                 default:
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( 'Unknown remote id type ' . $remoteIDType,
-                                        'eZINIAddonPackageHandler::currentID()' );
+                    eZDebug::writeError( 'Unknown remote id type ' . $remoteIDType,
+                                         'eZINIAddonPackageHandler::currentID()' );
                 } break;
             }
 
             if ( count( $result ) != 1 )
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( 'Invalid result fetching id from ' . $remoteIDType . ', remote_id: ' . $value,
-                                    'eZINIAddonPackageHandler::currentID()' );
+                eZDebug::writeError( 'Invalid result fetching id from ' . $remoteIDType . ', remote_id: ' . $value,
+                                     'eZINIAddonPackageHandler::currentID()' );
             }
             else
             {
@@ -263,9 +261,8 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                             }
                             else
                             {
-                                $debug = eZDebug::instance();
-                                $debug->writeNotice( 'Could not interpetit ' . $valueName . ': ' . $value,
-                                                     'eZINIAddonPackageHandler::iniDOMTree()' );
+                                eZDebug::writeNotice( 'Could not interpetit ' . $valueName . ': ' . $value,
+                                                      'eZINIAddonPackageHandler::iniDOMTree()' );
                             }
                         }
                         if ( $remoteID )
@@ -297,9 +294,8 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                         }
                         else
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeNotice( 'Could not interpetit ' . $blockVariable . ': ' . $variableValue,
-                                                 'eZINIAddonPackageHandler::iniDOMTree()' );
+                            eZDebug::writeNotice( 'Could not interpetit ' . $blockVariable . ': ' . $variableValue,
+                                                  'eZINIAddonPackageHandler::iniDOMTree()' );
                         }
                     }
                     unset( $valueNode );

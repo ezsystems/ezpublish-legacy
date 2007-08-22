@@ -48,8 +48,7 @@ else
     $section = eZSection::fetch( $SectionID );
     if ( !is_object( $section ) )
     {
-        $debug = eZDebug::instance();
-        $debug->writeError( "Cannot fetch section (ID = $SectionID).", 'section/assign' );
+        eZDebug::writeError( "Cannot fetch section (ID = $SectionID).", 'section/assign' );
     }
     else
     {

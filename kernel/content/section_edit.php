@@ -76,8 +76,7 @@ function sectionEditActionCheck( &$module, &$class, $object, &$version, $content
                 }
                 else
                 {
-                    $debug = eZDebug::instance();
-                    $debug->writeError( "You do not have permissions to assign the section <" . $selectedSection->attribute( 'name' ) .
+                    eZDebug::writeError( "You do not have permissions to assign the section <" . $selectedSection->attribute( 'name' ) .
                                          "> to the object <" . $object->attribute( 'name' ) . ">." );
                 }
                 $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ) );

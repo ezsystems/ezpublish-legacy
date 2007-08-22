@@ -265,8 +265,7 @@ class eZOptionType extends eZDataType
             }break;
             default :
             {
-                $debug = eZDebug::instance();
-                $debug->writeError( "Unknown custom HTTP action: " . $action, "eZOptionType" );
+                eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZOptionType" );
             }break;
         }
     }

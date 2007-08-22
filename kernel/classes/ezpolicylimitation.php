@@ -242,8 +242,7 @@ class eZPolicyLimitation extends eZPersistentObject
         $mod = eZModule::exists( $currentModule );
         if ( !is_object( $mod ) )
         {
-            $debug = eZDebug::instance();
-            $debug->writeError( 'Failed to fetch instance for module ' . $currentModule );
+            eZDebug::writeError( 'Failed to fetch instance for module ' . $currentModule );
             return $returnValue;
         }
         $functions = $mod->attribute( 'available_functions' );

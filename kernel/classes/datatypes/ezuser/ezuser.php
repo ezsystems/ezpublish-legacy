@@ -379,8 +379,7 @@ class eZUser extends eZPersistentObject
 
                     default:
                     {
-                        $debug = eZDebug::instance();
-                        $debug->writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
+                        eZDebug::writeError( "Unkown sort column '$sortColumn'", 'eZUser::fetchLoggedInList' );
                         $sortColumn = false;
                     } break;
                 }
@@ -1184,18 +1183,17 @@ WHERE user_id = '" . $userID . "' AND
             }
         }
 
-        $debug = eZDebug::instance();
         if ( !$currentUser )
         {
             $currentUser = eZUser::fetch( EZ_USER_ANONYMOUS_ID );
-            $debug->writeWarning( 'User not found, returning anonymous' );
+            eZDebug::writeWarning( 'User not found, returning anonymous' );
         }
 
         if ( !$currentUser )
         {
             $currentUser = new eZUser( array( 'id' => -1, 'login' => 'NoUser' ) );
 
-            $debug->writeWarning( 'Anonymous user not found, returning NoUser' );
+            eZDebug::writeWarning( 'Anonymous user not found, returning NoUser' );
         }
 
         return $currentUser;
@@ -2038,17 +2036,15 @@ WHERE user_id = '" . $userID . "' AND
                             // if we get any error while evaluating then set result to false
                             if ( !empty( $buffer ) or $ret === false )
                             {
-                                $debug = eZDebug::instance();
-                                $debug->writeError( "There was error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
-                                                    "Please check the '$moduleName/module.php' file." );
+                                eZDebug::writeError( "There was error while evaluating the policy functions value of the '$moduleName/$viewName' view. " .
+                                                     "Please check the '$moduleName/module.php' file." );
                                 $accessAllowed = false;
                             }
                         }
                         else
                         {
-                            $debug = eZDebug::instance();
-                            $debug->writeError( "There is mistake in the functions array data of the '$moduleName/$viewName' view. " .
-                                                "Please check the '$moduleName/module.php' file." );
+                            eZDebug::writeError( "There is mistake in the functions array data of the '$moduleName/$viewName' view. " .
+                                                 "Please check the '$moduleName/module.php' file." );
                             $accessAllowed = false;
                         }
                     }

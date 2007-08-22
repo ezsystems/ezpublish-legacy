@@ -73,8 +73,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
                                                                    null,
                                                                    null,
                                                                    true );
-                $debug = eZDebug::instance();
-                $debug->writeNotice( $deleteID, "deleteID" );
+                eZDebug::writeNotice( $deleteID, "deleteID" );
                 foreach ( $objectList as $object )
                 {
                     $object->purge();
