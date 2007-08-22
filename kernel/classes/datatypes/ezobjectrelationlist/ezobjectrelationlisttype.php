@@ -1160,6 +1160,7 @@ class eZObjectRelationListType extends eZDataType
             if ( get_class( $subObjectVersion ) == 'ezcontentobjectversion' )
             {
                 $subObjectVersion->remove();
+                eZDebug::writeDebug($subObjectVersion);
             }
             else
             {
