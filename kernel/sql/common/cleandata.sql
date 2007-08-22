@@ -22371,14 +22371,14 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-version',
-  '3.10.0alpha1'
+  '3.10.0beta1'
 );
 INSERT INTO ezsite_data (
   name,
   value
 ) VALUES (
   'ezpublish-release',
-  '1'
+  '2'
 );
 
 INSERT INTO ezurl (
