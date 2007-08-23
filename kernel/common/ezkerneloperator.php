@@ -104,7 +104,7 @@ class eZKernelOperator
                                                                   $values ) );
     }
 
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         switch ( $operatorName )
         {

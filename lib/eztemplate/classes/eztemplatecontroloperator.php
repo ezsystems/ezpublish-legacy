@@ -215,7 +215,7 @@ class eZTemplateControlOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters,
                      $placement )
     {
         switch ( $operatorName )

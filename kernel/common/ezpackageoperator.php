@@ -71,7 +71,7 @@ class eZPackageOperator
     /*!
      \reimp
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $package = $operatorValue;
         $class = $namedParameters['class'];

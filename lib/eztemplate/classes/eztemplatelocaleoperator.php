@@ -372,7 +372,7 @@ class eZTemplateLocaleOperator
      - clean_currency
      - number
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         if ( $operatorName == $this->LocaleFetchName )

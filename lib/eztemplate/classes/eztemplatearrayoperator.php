@@ -1588,8 +1588,8 @@ class eZTemplateArrayOperator
     }
 
     function modify( $tpl, $operatorName, $operatorParameters,
-                     &$rootNamespace, &$currentNamespace, &$operatorValue,
-                     &$namedParameters, $placement )
+                     $rootNamespace, $currentNamespace, &$operatorValue,
+                     $namedParameters, $placement )
     {
         switch( $operatorName )
         {

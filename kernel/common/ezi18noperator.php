@@ -175,7 +175,7 @@ class eZi18nOperator
     /*!
      \reimp
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$value, $namedParameters )
     {
         include_once( 'kernel/common/i18n.php' );
         switch ( $operatorName )

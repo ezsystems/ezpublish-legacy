@@ -530,10 +530,10 @@ class eZTemplateStringOperator
     function modify( $tpl,
                      $operatorName,
                      $operatorParameters,
-                     &$rootNamespace,
-                     &$currentNamespace,
+                     $rootNamespace,
+                     $currentNamespace,
                      &$operatorValue,
-                     &$namedParameters,
+                     $namedParameters,
                      $placement )
     {
         switch ( $operatorName )

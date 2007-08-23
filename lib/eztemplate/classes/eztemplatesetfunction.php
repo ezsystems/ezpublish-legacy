@@ -331,9 +331,9 @@ class eZTemplateSetFunction
                       $oldCurrentNamespace );
     }
 
-    function cleanupVariables( $tpl, $rootNamespace, &$currentNamespace, &$setData )
+    function cleanupVariables( $tpl, $rootNamespace, &$currentNamespace, $setData )
     {
-        $definedVariables =& $setData[0];
+        $definedVariables = $setData[0];
         foreach ( $definedVariables as $variable )
         {
             $tpl->unsetVariable( $variable, $currentNamespace );

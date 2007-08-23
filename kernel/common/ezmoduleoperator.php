@@ -69,7 +69,7 @@ class eZModuleOperator
     /*!
      \reimp
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $uri = new eZURI( $namedParameters[ 'uri' ] );
         $check = accessAllowed( $uri );

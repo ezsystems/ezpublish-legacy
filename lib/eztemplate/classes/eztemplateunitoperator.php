@@ -385,7 +385,7 @@ class eZTemplateUnitOperator
     /*!
      Performs unit conversion.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         $unit = $namedParameters["unit"];

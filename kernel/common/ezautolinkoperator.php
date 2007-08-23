@@ -81,7 +81,7 @@ class eZAutoLinkOperator
     /*!
      \reimp
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $ini = $tpl->ini();
         $max = $ini->variable( 'AutoLinkOperator', 'MaxCharacters' );

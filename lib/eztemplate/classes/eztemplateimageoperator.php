@@ -122,7 +122,7 @@ class eZTemplateImageOperator
      Performs image conversion using Image GD and returns the html
      text for the image.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$inputValue, $namedParameters,
                      $placement )
     {
         if ( !$this->ImageGDSupported )

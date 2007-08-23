@@ -345,7 +345,7 @@ class eZTemplateExecuteOperator
      Calls a specified module function and returns the result.
     */
     function modify( $tpl, $operatorName, $operatorParameters,
-                     &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+                     $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters )
     {
         $functionName = $namedParameters['function_name'];
         $functionParameters = $namedParameters['function_parameters'];

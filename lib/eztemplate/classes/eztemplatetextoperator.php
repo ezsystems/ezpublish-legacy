@@ -229,7 +229,7 @@ class eZTemplateTextOperator
     /*!
      Handles concat and indent operators.
     */
-    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, &$operatorValue, $namedParameters,
                      $placement )
     {
         switch ( $operatorName )
