@@ -376,7 +376,7 @@ CODEPIECE;
 
                     if ( !$imageFound )
                     {
-                        $tpl->warning( $operatorName, "Image '$operatorValue' does not exist in any design" );
+                        $tpl->warning( $operatorName, "Image '$path' does not exist in any design" );
                         $siteDesign = eZTemplateDesignResource::designSetting( 'site' );
                         $path = "design/$siteDesign/images/$path";
                     }
