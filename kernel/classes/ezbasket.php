@@ -291,9 +291,9 @@ class eZBasket extends eZPersistentObject
     */
     function &fetch( $sessionKey )
     {
-        $basket =& eZPersistentObject::fetchObject( eZBasket::definition(),
-                                                    null, array( "session_id" => $sessionKey ),
-                                                    true );
+        $basket = eZPersistentObject::fetchObject( eZBasket::definition(),
+                                                   null, array( "session_id" => $sessionKey ),
+                                                   true );
         return $basket;
     }
 
