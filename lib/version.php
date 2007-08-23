@@ -35,12 +35,12 @@ class eZPublishSDK
     const VERSION_MAJOR = 3;
     const VERSION_MINOR = 10;
     const VERSION_RELEASE = 0;
-    const VERSION_STATE = 'alpha1';
+    const VERSION_STATE = 'beta1';
     const VERSION_DEVELOPMENT = true;
     const VERSION_REVISION_STRING = '$Rev$';
     const VERSION_ALIAS = '3.10';
-    const VERSION_REVISION = 17807;
-    
+    const VERSION_REVISION = 18555;
+
     /*!
       \return the SDK version as a string
       \param withRelease If true the release version is appended

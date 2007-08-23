@@ -170,7 +170,8 @@ $versions39 = array( 'unstable' => array( array( '3.8.0', '3.9.0alpha1' )
                      'stable' => array( array( '3.8.0', '3.9.0' ) ) );
 
 $versions310 = array( 'unstable' => array( array( '3.9.0', '3.10.0alpha1' )
-                                        ),
+                                           , array( '3.10.0alpha1', '3.10.0beta1' )
+                                         ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );
 

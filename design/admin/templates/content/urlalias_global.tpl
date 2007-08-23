@@ -117,7 +117,7 @@
 <table class="list" cellspacing="0" >
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" title="{'Invert selection.'|i18n( 'design/admin/content/urlalias_global' )}" onclick="ezjs_toggleCheckboxes( document.aliasform, 'ElementList[]' ); return false;"/></th>
-    <th>{'Path'|i18n( 'design/admin/content/urlalias_global' )}</th>
+    <th>{'URL alias'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
 </tr>
@@ -208,13 +208,13 @@
 
 <div class="block">
 {* Alias name field. *}
-    <label>{'Name/Path of alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <label>{'New URL alias'|i18n( 'design/admin/content/urlalias_global' )}:</label>
     <input class="box" type="text" name="AliasSourceText" value="{$aliasSourceText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 
 <div class="block">
 {* Destination field. *}
-    <label>{'Path to existing funtionality or resource'|i18n( 'design/admin/content/urlalias_global' )}:</label>
+    <label>{'Destination (path to existing funtionality or resource)'|i18n( 'design/admin/content/urlalias_global' )}:</label>
     <input class="box" type="text" name="AliasDestinationText" value="{$aliasDestinationText|wash}" title="{'Enter the destination URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias_global' )}" />
 </div>
 

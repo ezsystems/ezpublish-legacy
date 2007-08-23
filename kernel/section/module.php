@@ -71,8 +71,8 @@ $ClassID = array(
     'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
     );
 
-$SectionID = array(
-    'name'=> 'Section',
+$NewSectionID = array(
+    'name'=> 'NewSection',
     'values'=> array(),
     'path' => 'classes/',
     'file' => 'ezsection.php',
@@ -81,8 +81,8 @@ $SectionID = array(
     'parameter' => array( false )
     );
 
-$CurrentSectionID = array(
-    'name'=> 'CurrentSection',
+$SectionID = array(
+    'name'=> 'Section',
     'values'=> array(),
     'path' => 'classes/',
     'file' => 'ezsection.php',
@@ -102,9 +102,9 @@ $Assigned = array(
 
 $FunctionList = array();
 $FunctionList['assign'] = array( 'Class' => $ClassID,
-                                 'CurrentSection' => $CurrentSectionID,
+                                 'Section' => $SectionID,
                                  'Owner' => $Assigned,
-                                 'Section' => $SectionID );
+                                 'NewSection' => $NewSectionID );
 $FunctionList['edit'] = array();
 $FunctionList['view'] = array();
 

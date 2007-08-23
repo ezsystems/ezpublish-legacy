@@ -1,10 +1,15 @@
 UPDATE ezsite_data SET value='3.10.0alpha1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
+-- START: from 3.9.1
 -- extend length of 'serialized_name_list'
 ALTER TABLE ezcontentclass CHANGE COLUMN serialized_name_list serialized_name_list longtext default NULL;
 ALTER TABLE ezcontentclass_attribute CHANGE COLUMN serialized_name_list serialized_name_list longtext NOT NULL;
+-- END: from 3.9.1
 
+-- START: from 3.9.3
+ALTER TABLE ezvatrule CHANGE country country_code varchar(255) DEFAULT '' NOT NULL;
+-- END: from 3.9.3
 
 -- Enhanced ISBN datatype.
 CREATE TABLE ezisbn_group (
@@ -69,4 +74,3 @@ ALTER TABLE ezurlalias ADD KEY ezurlalias_imp_wcard_fwd (is_imported, is_wildcar
 ALTER TABLE ezurlalias ADD KEY ezurlalias_wcard_fwd (is_wildcard, forward_to_id);
 ALTER TABLE ezurlalias DROP KEY ezurlalias_is_wildcard;
 
-ALTER TABLE ezvatrule CHANGE country country_code varchar(255) DEFAULT '' NOT NULL;

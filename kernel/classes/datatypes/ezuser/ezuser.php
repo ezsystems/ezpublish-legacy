@@ -1733,20 +1733,20 @@ WHERE user_id = '" . $userID . "' AND
             $userID = $this->attribute( 'contentobject_id' );
             $classID = $contentObject->attribute( 'contentclass_id' );
             $ownerID = $contentObject->attribute( 'owner_id' );
-            $currentSectionID = $contentObject->attribute( 'section_id' );
+            $sectionID = $contentObject->attribute( 'section_id' );
 
             $allowedSectionIDList = array();
             foreach ( $access['policies'] as $policy )
             {
                 if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
                      ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
-                     ( isset( $policy['CurrentSection'] ) and !in_array( $currentSectionID, $policy['CurrentSection'] ) ) )
+                     ( isset( $policy['Section'] ) and !in_array( $sectionID, $policy['Section'] ) ) )
                 {
                     continue;
                 }
-                if ( isset( $policy['Section'] ) and count( $policy['Section'] > 0 ) )
+                if ( isset( $policy['NewSection'] ) and count( $policy['NewSection'] > 0 ) )
                 {
-                    $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['Section'] );
+                    $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['NewSection'] );
                 }
                 else
                 {
@@ -1762,7 +1762,7 @@ WHERE user_id = '" . $userID . "' AND
     /*
      Checks whether user can assign the section to the given content object or not.
     */
-    function canAssignSectionToObject( $sectionID, $contentObject )
+    function canAssignSectionToObject( $checkSectionID, $contentObject )
     {
         $access = $this->hasAccessTo( 'section', 'assign' );
 
@@ -1775,19 +1775,19 @@ WHERE user_id = '" . $userID . "' AND
             $userID = $this->attribute( 'contentobject_id' );
             $classID = $contentObject->attribute( 'contentclass_id' );
             $ownerID = $contentObject->attribute( 'owner_id' );
-            $currentSectionID = $contentObject->attribute( 'section_id' );
+            $sectionID = $contentObject->attribute( 'section_id' );
 
             foreach ( $access['policies'] as $policy )
             {
                 if ( ( isset( $policy['Class'] ) and !in_array( $classID, $policy['Class'] ) ) or
                      ( isset( $policy['Owner']  ) and in_array( 1, $policy['Owner'] ) and $userID != $ownerID ) or
-                     ( isset( $policy['CurrentSection'] ) and !in_array( $currentSectionID, $policy['CurrentSection'] ) ) )
+                     ( isset( $policy['Section'] ) and !in_array( $sectionID, $policy['Section'] ) ) )
                 {
                     continue;
                 }
-                if ( isset( $policy['Section'] ) )
+                if ( isset( $policy['NewSection'] ) )
                 {
-                    if ( is_array( $policy['Section'] ) and in_array( $sectionID, $policy['Section'] ) )
+                    if ( is_array( $policy['NewSection'] ) and in_array( $checkSectionID, $policy['NewSection'] ) )
                     {
                         return true;
                     }
@@ -1804,7 +1804,7 @@ WHERE user_id = '" . $userID . "' AND
     /*
      Checks whether user has privileges to assign the section or not at all.
     */
-    function canAssignSection( $sectionID )
+    function canAssignSection( $checkSectionID )
     {
         $access = $this->hasAccessTo( 'section', 'assign' );
 
@@ -1816,9 +1816,9 @@ WHERE user_id = '" . $userID . "' AND
         {
             foreach ( $access['policies'] as $policy )
             {
-                if ( isset( $policy['Section'] ) )
+                if ( isset( $policy['NewSection'] ) )
                 {
-                    if ( in_array( $sectionID, $policy['Section'] ) )
+                    if ( in_array( $checkSectionID, $policy['NewSection'] ) )
                     {
                         return true;
                     }
@@ -1848,11 +1848,11 @@ WHERE user_id = '" . $userID . "' AND
             $allowedSectionIDList = array();
             foreach ( $access['policies'] as $policy )
             {
-                if ( isset( $policy['Section'] ) )
+                if ( isset( $policy['NewSection'] ) )
                 {
-                    if ( is_array( $policy['Section'] ) and count( $policy['Section'] ) > 0 )
+                    if ( is_array( $policy['NewSection'] ) and count( $policy['NewSection'] ) > 0 )
                     {
-                        $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['Section'] );
+                        $allowedSectionIDList = array_merge( $allowedSectionIDList, $policy['NewSection'] );
                     }
                 }
                 else
@@ -1869,7 +1869,7 @@ WHERE user_id = '" . $userID . "' AND
     /*
      Returns list of classes allowed to assign to the given section for the user.
     */
-    function canAssignSectionToClassList( $sectionID )
+    function canAssignSectionToClassList( $checkSectionID )
     {
         $access = $this->hasAccessTo( 'section', 'assign' );
 
@@ -1882,7 +1882,7 @@ WHERE user_id = '" . $userID . "' AND
             $allowedClassList = array();
             foreach ( $access['policies'] as $policy )
             {
-                if ( !isset( $policy['Section'] ) or in_array( $sectionID, $policy['Section'] ) )
+                if ( !isset( $policy['NewSection'] ) or in_array( $checkSectionID, $policy['NewSection'] ) )
                 {
                     if ( isset( $policy['Class'] ) )
                     {

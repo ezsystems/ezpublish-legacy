@@ -169,7 +169,7 @@
 
     {section show=and( $can_edit, $can_edit_lang )}
         {section show=eq( $Versions.item.status, 5 )}
-            <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'There is no need to do a copies of untouched drafts.'|i18n( 'design/admin/content/versions' )}" />
+            <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'There is no need to do copies of untouched drafts.'|i18n( 'design/admin/content/versions' )}" />
         {section-else}
         <select name="CopyVersionLanguage[{$Versions.item.version}]">
             {section var=Languages loop=$Versions.item.language_list}
