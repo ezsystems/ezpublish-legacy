@@ -40,7 +40,7 @@ define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
  Goes trough the access matching rules and returns the access match.
  The returned match is an associative array with \a name and \c type.
 */
-function accessType( &$uri, $host, $port, $file )
+function accessType( $uri, $host, $port, $file )
 {
     $ini = eZINI::instance();
     if ( $ini->hasVariable( 'SiteAccessSettings', 'StaticMatch' ) )
@@ -415,14 +415,16 @@ function accessAllowed( $uri )
     return $check;
 }
 
-function precheckAllowed( &$prechecks )
+/*!
+ */
+function precheckAllowed( $prechecks )
 {
     $ini = eZINI::instance();
 
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SitePrecheckRules' ) )
         return true;
-    $items =& $ini->variableArray( 'SitePrecheckRules', 'Rules' );
+    $items = $ini->variableArray( 'SitePrecheckRules', 'Rules' );
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );
@@ -454,6 +456,8 @@ function precheckAllowed( &$prechecks )
             } break;
         }
     }
+
+    return $prechecks;
 }
 
 function accessDebugEnabled()

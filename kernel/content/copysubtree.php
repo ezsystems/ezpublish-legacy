@@ -60,8 +60,8 @@ if ( $Module->isCurrentAction( 'Cancel' ) )
 }
 
 ///// functions START =============================================================================
-function copyPublishContentObject( &$sourceObject,
-                                   &$sourceSubtreeNodeIDList,
+function copyPublishContentObject( $sourceObject,
+                                   $sourceSubtreeNodeIDList,
                                    &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
                                    $objectIDBlackList, &$nodeIDBlackList,
@@ -771,7 +771,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
 /*!
 Browse for node to place the object copy into
 */
-function browse( &$Module, &$srcNode )
+function browse( $Module, $srcNode )
 {
     if ( $Module->hasActionParameter( 'LanguageCode' ) )
         $languageCode = $Module->actionParameter( 'LanguageCode' );
@@ -826,7 +826,7 @@ function browse( &$Module, &$srcNode )
 Redirect to the page that lets a user to choose which versions to copy:
 either all version or the current one.
 */
-function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $chooseCreator, $chooseTime )
+function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $chooseCreator, $chooseTime )
 {
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
@@ -847,7 +847,7 @@ function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $c
                                         'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
 }
 
-function showNotificationAfterCopying( $http, &$Module, &$Result, &$Notifications, &$srcNode )
+function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications, $srcNode )
 {
     include_once( 'kernel/common/template.php' );
     $tpl = templateInit();

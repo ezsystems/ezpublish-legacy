@@ -281,7 +281,7 @@ function contentPDFPassthrough( $cacheFile )
   generate PDF, and output stream.
 */
 function contentPDFGenerate( $cacheFile,
-                             &$node,
+                             $node,
                              $object = false,
                              $viewCacheEnabled = true,
                              $languageCode = false,

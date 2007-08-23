@@ -60,7 +60,7 @@ class eZURLFunctionCollection
             $result = array( 'error' => array( 'error_type' => 'kernel',
                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         else
-            $result = array( 'result' => &$list );
+            $result = array( 'result' => $list );
         return $result;
     }
 
@@ -74,7 +74,7 @@ class eZURLFunctionCollection
             $result = array( 'error' => array( 'error_type' => 'kernel',
                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         else
-            $result = array( 'result' => &$listCount );
+            $result = array( 'result' => $listCount );
         return $result;
     }
 

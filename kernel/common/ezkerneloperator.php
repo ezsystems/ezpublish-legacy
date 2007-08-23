@@ -84,7 +84,7 @@ class eZKernelOperator
     }
 
     function preferencesTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                        $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( count( $parameters[0] ) == 0 )
             return false;
@@ -104,7 +104,7 @@ class eZKernelOperator
                                                                   $values ) );
     }
 
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {

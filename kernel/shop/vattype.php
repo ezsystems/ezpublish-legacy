@@ -37,11 +37,14 @@ $http = eZHTTPTool::instance();
 $tpl = templateInit();
 $errors = false;
 
-/**
- * Apply changes made to VAT types' names and/or percentages.
+/*!
+  Apply changes made to VAT types' names and/or percentages.
+
+  \return errors array
  */
-function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
+function applyChanges( $module, $http, $vatTypeArray = false )
 {
+    $errors = array();
     if ( $vatTypeArray === false )
         $vatTypeArray = eZVatType::fetchList( true, true );
 
@@ -78,6 +81,8 @@ function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
         $vatType->store();
     }
     $db->commit();
+
+    return $errors;
 }
 
 /**
@@ -149,7 +154,7 @@ function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
 if ( $module->isCurrentAction( 'Add' ) )
 {
     $vatTypeArray = eZVatType::fetchList( true, true );
-    applyChanges( $module, $http, $errors, $vatTypeArray );
+    $errors = applyChanges( $module, $http, $vatTypeArray );
 
     $vatType = eZVatType::create();
     $vatType->setAttribute( 'name', generateUniqueVatTypeName( $vatTypeArray ) );
@@ -159,7 +164,7 @@ if ( $module->isCurrentAction( 'Add' ) )
 // Save changes made to names and percentages.
 elseif ( $module->isCurrentAction( 'SaveChanges' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 }
 // Remove checked VAT types [with or without confirmation].
 elseif ( $module->isCurrentAction( 'Remove' ) )
@@ -226,7 +231,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     }
 
     if ( !$afterConfirmation )
-        applyChanges( $module, $http, $errors );
+        $errors = applyChanges( $module, $http );
 
     $db = eZDB::instance();
     $db->begin();

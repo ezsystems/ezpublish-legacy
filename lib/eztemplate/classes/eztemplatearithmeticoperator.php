@@ -225,7 +225,7 @@ class eZTemplateArithmeticOperator
     }
 
     function basicTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -365,7 +365,7 @@ class eZTemplateArithmeticOperator
     }
 
     function minMaxTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -415,7 +415,7 @@ class eZTemplateArithmeticOperator
     }
 
     function modTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 2 )
@@ -438,7 +438,7 @@ class eZTemplateArithmeticOperator
     }
 
     function roundTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -462,7 +462,7 @@ class eZTemplateArithmeticOperator
     }
 
     function decIncTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -486,7 +486,7 @@ class eZTemplateArithmeticOperator
     }
 
     function castTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 1 )
@@ -508,7 +508,7 @@ class eZTemplateArithmeticOperator
     }
 
     function randTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $paramCount = count( $parameters );
         if ( $paramCount != 0 ||
@@ -535,7 +535,7 @@ class eZTemplateArithmeticOperator
     }
 
     function romanTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                  $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                  $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( count( $parameters ) != 1 )
@@ -603,7 +603,7 @@ class eZTemplateArithmeticOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
                      $placement )
     {
         switch ( $operatorName )

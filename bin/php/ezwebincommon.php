@@ -113,10 +113,11 @@ function showPackageActions( $actionList )
 /*!
  add extra actions to default package item's actions
 */
-function getExtraActions( &$actionList )
+function getExtraActions( $actionList )
 {
     $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_SKIP_PACKAGE] = "Skipt rest of the package";
     $actionList[EZ_INSTALL_PACKAGE_EXTRA_ACTION_QUIT] = "Quit";
+    return $actionList;
 }
 
 /*!
@@ -146,7 +147,7 @@ function handlePackageError( $error )
     showWarning( $error['description'] );
 
     $actionList = $error['actions'];
-    getExtraActions( $actionList );
+    $actionList = getExtraActions( $actionList );
 
     showPackageActions( $actionList );
 

@@ -74,7 +74,7 @@ class eZInfocollectorFunctionCollection
             $userIdentifier = eZInformationCollection::currentUserIdentifier();
             $collection = eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
         }
-        return array( 'result' => &$collection );
+        return array( 'result' => $collection );
     }
 
     function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
@@ -87,7 +87,7 @@ class eZInfocollectorFunctionCollection
                                                                      array( 'limit' => $limit, 'offset' => $offset ),
                                                                      $sortBy
                                                                    );
-        return array( 'result' => &$collection );
+        return array( 'result' => $collection );
      }
 
 

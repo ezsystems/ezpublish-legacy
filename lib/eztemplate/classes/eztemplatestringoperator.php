@@ -285,8 +285,8 @@ class eZTemplateStringOperator
                                                                              "default" => false ) ) );
     }
 
-    function phpMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
+    function phpMapTransformation( $operatorName, $node, $tpl, $resourceData,
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $phpFunctionList = explode( ',', $this->phpMap[$operatorName] );
@@ -322,8 +322,8 @@ class eZTemplateStringOperator
         return $newElements;
     }
 
-    function customMapTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                       $element, &$lastElement, $elementList, $elementTree, &$parameters )
+    function customMapTransformation( $operatorName, $node, $tpl, $resourceData,
+                                       $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $newElements = array();
@@ -442,8 +442,8 @@ class eZTemplateStringOperator
         return $operatorValue;
     }
 
-    function washTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                 $element, &$lastElement, $elementList, $elementTree, &$parameters )
+    function washTransformation( $operatorName, $node, $tpl, $resourceData,
+                                 $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $tmpVarCount = 0;
@@ -528,8 +528,8 @@ class eZTemplateStringOperator
      The modify function takes care of the various operations.
     */
     function modify( $tpl,
-                     &$operatorName,
-                     &$operatorParameters,
+                     $operatorName,
+                     $operatorParameters,
                      &$rootNamespace,
                      &$currentNamespace,
                      &$operatorValue,

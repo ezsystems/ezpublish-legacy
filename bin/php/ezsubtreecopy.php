@@ -66,11 +66,11 @@ $keepTime    = $scriptOptions[ 'keep-time' ];
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
-function copyPublishContentObject( &$sourceObject,
-                                    &$sourceSubtreeNodeIDList,
-                                    &$syncNodeIDListSrc, &$syncNodeIDListNew,
-                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                    $allVersions = false, $keepCreator = false, $keepTime = false )
+function copyPublishContentObject( $sourceObject,
+                                   $sourceSubtreeNodeIDList,
+                                   &$syncNodeIDListSrc, &$syncNodeIDListNew,
+                                   &$syncObjectIDListSrc, &$syncObjectIDListNew,
+                                   $allVersions = false, $keepCreator = false, $keepTime = false )
 {
     global $cli;
 

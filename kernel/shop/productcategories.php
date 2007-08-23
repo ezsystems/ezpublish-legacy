@@ -30,11 +30,14 @@ include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezproductcategory.php" );
 
-/**
- * Apply changes made to categories' names.
+/*!
+  Apply changes made to categories' names.
+
+  \return errors, empty array if none exists
  */
-function applyChanges( $module, $http, &$errors, $productCategories = false )
+function applyChanges( $module, $http, $productCategories = false )
 {
+    $errors = array();
     if ( $productCategories === false )
         $productCategories = eZProductCategory::fetchList();
 
@@ -59,6 +62,8 @@ function applyChanges( $module, $http, &$errors, $productCategories = false )
         $cat->store();
     }
     $db->commit();
+
+    return $errors;
 }
 
 /**
@@ -98,7 +103,7 @@ $errors = false;
 // Otherwise shows confirmation dialog with the dependencies displayed.
 if ( $module->isCurrentAction( 'Remove' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 
     if ( !$module->hasActionParameter( 'CategoryIDList' ) )
         $catIDList = array();
@@ -178,7 +183,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 elseif ( $module->isCurrentAction( 'Add' ) )
 {
     $productCategories = eZProductCategory::fetchList( true );
-    applyChanges( $module, $http, $errors, $productCategories );
+    $errors = applyChanges( $module, $http, $productCategories );
 
     $category = eZProductCategory::create();
     $category->setAttribute( 'name', generateUniqueCategoryName( $productCategories ) );
@@ -188,7 +193,7 @@ elseif ( $module->isCurrentAction( 'Add' ) )
 // Apply changes made to categories' names.
 elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $errors = applyChanges( $module, $http );
 }
 
 // (re-)fetch product categoried list to display them in the template

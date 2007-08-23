@@ -77,7 +77,7 @@ function eZSetupConfigVariableArray( $type, $name )
     return $config->variableArray( $type, $name );
 }
 
-function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList )
+function eZSetupRunTests( $testList, $client, &$givenPersistentList )
 {
     eZSetupPrvtExtractExtraPaths( $givenPersistentList );
 
@@ -108,7 +108,7 @@ function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList
         $testFunction = $testInfo[0];
         if ( !function_exists( $testFunction ) )
             continue;
-        $testResultArray = $testFunction( $testName, $arguments );
+        $testResultArray = $testFunction( $testName );
         if ( $testResultArray['result'] )
         {
             $testElement[0] = EZ_SETUP_TEST_SUCCESS;
@@ -134,13 +134,13 @@ function eZSetupRunTests( $testList, &$arguments, $client, &$givenPersistentList
                   'success_count' => $successCount );
 }
 
-function eZSetupCheckTestFunctions( $type, &$arguments )
+function eZSetupCheckTestFunctions( $type )
 {
     $testList = eZSetupConfigVariableArray( $type, 'TestList' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
 
     $dummy = null;
-    $runResult = eZSetupRunTests( $testList, $arguments, 'eZSetupCheckTestFunctions', $dummy );
+    $runResult = eZSetupRunTests( $testList, 'eZSetupCheckTestFunctions', $dummy );
     $testResults = $runResult['results'];
     $testResult = $runResult['result'];
     $successCount = $runResult['success_count'];
@@ -159,7 +159,7 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
                   'test_results' => $testResults );
 }
 
-function eZSetupTestFileUpload( $type, &$arguments )
+function eZSetupTestFileUpload( $type )
 {
     $uploadEnabled = ini_get( 'file_uploads' ) != 0;
     $uploadDir = ini_get( 'upload_tmp_dir' );
@@ -251,7 +251,7 @@ function eZSetupTestFileUpload( $type, &$arguments )
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
-function eZSetupCheckMagicQuotesRuntime( $type, &$arguments )
+function eZSetupCheckMagicQuotesRuntime( $type )
 {
     $magicQuote = get_magic_quotes_runtime();
     $result = ( $magicQuote == 0 );
@@ -259,7 +259,7 @@ function eZSetupCheckMagicQuotesRuntime( $type, &$arguments )
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ) );
 }
 
-function eZSetupCheckMagicQuotes( $type, &$arguments )
+function eZSetupCheckMagicQuotes( $type )
 {
     $magicQuote = get_magic_quotes_gpc();
     $result = ( $magicQuote == 0 );
@@ -270,7 +270,7 @@ function eZSetupCheckMagicQuotes( $type, &$arguments )
 /*!
     Test if PHP version is equal or greater than required version
 */
-function eZSetupTestPhpVersion( $type, &$arguments )
+function eZSetupTestPhpVersion( $type )
 {
     $minVersion = eZSetupConfigVariable( $type, 'MinimumVersion' );
     $unstableVersionArray = eZSetupConfigVariableArray( $type, 'UnstableVersions' );
@@ -325,7 +325,7 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 /*!
   Test if allowed to open URLs using fopen
 */
-function eZSetupTestAllowURLFOpen( $type, &$arguments )
+function eZSetupTestAllowURLFOpen( $type )
 {
     $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
     return array( 'result' => $allowFOpen,
@@ -335,7 +335,7 @@ function eZSetupTestAllowURLFOpen( $type, &$arguments )
 /*!
   Test if Apache setting for AcceptPathInfo is enabled
 */
-function eZSetupTestAcceptPathInfo( $type, &$arguments )
+function eZSetupTestAcceptPathInfo( $type )
 {
     // rl: this one works only if 'allow_url_fopen' is On
     // $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
@@ -355,7 +355,7 @@ function eZSetupTestAcceptPathInfo( $type, &$arguments )
                   'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );
 }
 
-function eZSetupTestFunctionExists( $type, &$arguments )
+function eZSetupTestFunctionExists( $type )
 {
     $functionList = eZSetupConfigVariableArray( $type, 'Functions' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
@@ -399,7 +399,7 @@ function eZSetupTestFunctionExists( $type, &$arguments )
 /*!
     Test if the extensios are loaded
 */
-function eZSetupTestExtension( $type, &$arguments )
+function eZSetupTestExtension( $type )
 {
     $extensionList = eZSetupConfigVariableArray( $type, 'Extensions' );
     $requireType = eZSetupConfigVariable( $type, 'Require' );
@@ -444,7 +444,7 @@ function eZSetupTestExtension( $type, &$arguments )
     Test file permissions
 */
 
-function eZSetupTestDirectoryPermissions( $type, &$arguments )
+function eZSetupTestDirectoryPermissions( $type )
 {
     include_once( 'lib/ezfile/classes/ezdir.php' );
 
@@ -520,7 +520,7 @@ function eZSetupTestDirectoryPermissions( $type, &$arguments )
                   'result_elements_by_error_code' => $resultElementsByErrorCode );
 }
 
-function eZSetupTestFilePermissions( $type, &$arguments )
+function eZSetupTestFilePermissions( $type )
 {
     $fileList = eZSetupConfigVariableArray( $type, 'CheckList' );
     include_once( 'lib/ezfile/classes/ezdir.php' );
@@ -538,12 +538,6 @@ function eZSetupTestFilePermissions( $type, &$arguments )
 
         $resultElement = array();
         $resultElement['file'] = $file;
-        unset( $fileResult );
-        $fileResult =& $resultElement['result'];
-        $fileResult = true;
-        unset( $filePerm );
-        $filePerm =& $resultElement['permission'];
-        $filePerm = false;
         $resultElements[] = $resultElement;
 
         $file = eZDir::cleanPath( $file );
@@ -553,23 +547,23 @@ function eZSetupTestFilePermissions( $type, &$arguments )
         }
         if ( is_dir( $file ) )
         {
-            $filePerm = $dirPermission;
+            $resultElement['permission'] = $dirPermission;
             $dir = $file;
 
             if ( !eZSetupPrvtAreDirAndFilesWritable( $dir ) )
             {
                 $result     = false;
-                $fileResult = false;
+                $resultElement['result'] = false;
             }
         }
         else if ( is_file( $file ) )
         {
-            $filePerm = $filePermission;
+            $resultElement['permission'] = $filePermission;
 
             if ( !eZFile::isWriteable( $file ) )
             {
                 $result = false;
-                $fileResult = false;
+                $resultElement['result'] = false;
             }
         }
     }
@@ -613,7 +607,7 @@ function eZSetupPrvPosixExtension()
 /*!
     Test if a program can be found in our path and is executable
 */
-function eZSetupCheckExecutable( $type, &$arguments )
+function eZSetupCheckExecutable( $type )
 {
     include_once( 'lib/ezutils/classes/ezsys.php' );
     include_once( 'lib/ezfile/classes/ezdir.php' );
@@ -770,7 +764,7 @@ function testPHPIni( $parameters )
 /*!
   Test GD version
 */
-function eZSetupCheckGDVersion( $type, &$arguments )
+function eZSetupCheckGDVersion( $type )
 {
     $result = function_exists( 'imagegd2' );
     return array( 'result' => $result,
@@ -780,7 +774,7 @@ function eZSetupCheckGDVersion( $type, &$arguments )
 /*!
     Test if mbstring is available
 */
-function eZSetupMBStringExtension( $type, &$arguments )
+function eZSetupMBStringExtension( $type )
 {
     include_once( "lib/ezi18n/classes/ezmbstringmapper.php" );
     $result = eZMBStringMapper::hasMBStringExtension();
@@ -791,7 +785,7 @@ function eZSetupMBStringExtension( $type, &$arguments )
 }
 
 
-function eZSetupCheckRegisterGlobals( $type, &$arguments )
+function eZSetupCheckRegisterGlobals( $type )
 {
     $registerGlobals = ini_get( 'register_globals' ) != 0;
     $result = !$registerGlobals;
@@ -802,7 +796,7 @@ function eZSetupCheckRegisterGlobals( $type, &$arguments )
 /*!
  Check the php.ini file to get timeout limit
 */
-function eZSetupTestExecutionTime( $type, &$arguments )
+function eZSetupTestExecutionTime( $type )
 {
     $minExecutionTime = eZSetupConfigVariable( $type, 'MinExecutionTime' );
     $execTimeLimit = ini_get( 'max_execution_time' );
@@ -826,7 +820,7 @@ function eZSetupTestExecutionTime( $type, &$arguments )
 /*!
  Checks the php.ini file to see if the memory limit is set high enough
 */
-function eZSetupTestMemLimit( $type, &$arguments )
+function eZSetupTestMemLimit( $type )
 {
     $minMemory = eZSetupConfigVariable( $type, 'MinMemoryLimit' );
     $memoryLimit = ini_get( 'memory_limit' );
@@ -868,7 +862,7 @@ function eZSetupTestMemLimit( $type, &$arguments )
                   'current_memory' => $memoryLimit );
 }
 
-function eZSetupTestOpenBasedir( $type, &$arguments )
+function eZSetupTestOpenBasedir( $type )
 {
     $openBasedir = ini_get( 'open_basedir' );
     $returnData = array( 'result' => true,
@@ -903,7 +897,7 @@ function eZSetupTestInstaller()
     return false;
 }
 
-function eZSetupTestSafeMode( $type, &$arguments )
+function eZSetupTestSafeMode( $type )
 {
     $safeMode = ini_get( 'safe_mode' ) != 0;
     $result = !$safeMode;

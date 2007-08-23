@@ -64,7 +64,7 @@ class eZAlphabetOperator
     /*!
      \reimp
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
     {
         switch ( $operatorName )
         {

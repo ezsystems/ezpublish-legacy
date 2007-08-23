@@ -81,8 +81,9 @@ replace "&\$element" "\$element" -- `find * -name "*.php"`
 replace "&\$doc" "\$doc" -- `find * -name "*.php"`
 replace "=& \$path" "= \$path" -- `find * -name "*.php"`
 
-
-
+replace "&\$operatorName" "\$operatorName" -- `find * -name "*.php"`
+replace "&\$lastElement" "\$lastElement" -- `find * -name "*.php"`
+replace "&\$operatorParameters" "\$operatorParameters" -- `find * -name "*.php"`
 
 
 

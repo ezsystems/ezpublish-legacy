@@ -41,7 +41,7 @@ class eZRSSEditFunction
      \param HTTP
      \param publish ( true/false )
     */
-    function storeRSSExport( &$Module, $http, $publish = false )
+    function storeRSSExport( $Module, $http, $publish = false )
     {
         // VS-DBFILE
 

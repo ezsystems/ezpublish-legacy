@@ -78,7 +78,7 @@ if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 
 
-function handleContextNode( $context, $cli, &$data )
+function handleContextNode( $context, $cli, $data )
 {
     $contextName = null;
     $messages = array();
@@ -105,21 +105,20 @@ function handleContextNode( $context, $cli, &$data )
     if ( $contextName === null )
     {
         $cli->warning( "No context name found, skipping context" );
-        return false;
     }
-
-    if ( !in_array( $contextName, $data['ignored_context_list'] ) )
+    else if ( !in_array( $contextName, $data['ignored_context_list'] ) )
     {
         foreach( $messages as $message )
         {
             $data['element_count']++;
-            handleMessageNode( $contextName, $message, $cli, $data, true );
+            $data = handleMessageNode( $contextName, $message, $cli, $data, true );
         }
     }
-    return true;
+
+    return $data;
 }
 
-function handleMessageNode( $contextName, &$message, $cli, &$data, $requireTranslation )
+function handleMessageNode( $contextName, $message, $cli, $data, $requireTranslation )
 {
     $source = null;
     $translation = null;
@@ -168,13 +167,9 @@ function handleMessageNode( $contextName, &$message, $cli, &$data, $requireTrans
     if ( $source === null )
     {
         $cli->warning( "No source name found, skipping message" );
-        return false;
     }
-    if ( $translation === null )
-    {
-        return false;
-    }
-    return true;
+
+    return $data;
 }
 
 $data = array( 'element_count' => 0,
@@ -204,7 +199,7 @@ foreach( $children as $child )
     {
         if ( $child->localName == "context" )
         {
-            handleContextNode( $child, $cli, $data );
+            $data = handleContextNode( $child, $cli, $data );
         }
         else
         {

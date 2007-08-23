@@ -131,7 +131,7 @@ class eZURLOperator
     }
 
     function iniTrans( $operatorName, &$node, $tpl, &$resourceData,
-                       $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                       $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         if ( count ( $parameters ) < 2 )
             return false;
@@ -234,7 +234,7 @@ class eZURLOperator
     }
 
     function urlTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $newElements = array();
         $values = array();
@@ -602,7 +602,7 @@ CODEPIECE;
 
     /*!
      */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         switch ( $operatorName )
         {

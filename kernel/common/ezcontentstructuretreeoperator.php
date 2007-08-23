@@ -85,7 +85,7 @@ class eZContentStructureTreeOperator
     /*!
      \reimp
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $sortArray = false;
         $fetchHidden = false;

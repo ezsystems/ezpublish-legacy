@@ -75,7 +75,7 @@ $siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 
 if ( $siteAccess )
 {
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
+    changeSiteAccessSetting( $siteAccess );
 }
 
 
@@ -117,20 +117,19 @@ else
     }
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for flattening" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 

@@ -300,7 +300,7 @@ function eZDisplayResult( $templateResult )
     }
 }
 
-function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, &$params )
+function fetchModule( $uri, $check, &$module, &$module_name, &$function_name, &$params )
 {
     $module_name = $uri->element();
     if ( $check !== null and isset( $check["module"] ) )
@@ -308,8 +308,10 @@ function fetchModule( &$uri, &$check, &$module, &$module_name, &$function_name, 
 
     // Try to fetch the module object
     $module = eZModule::exists( $module_name );
-    if ( strtolower( get_class( $module ) ) != "ezmodule" )
+    if ( !( $module instanceof eZModule ) )
+    {
         return false;
+    }
 
     $uri->increase();
     $function_name = "";
@@ -595,9 +597,9 @@ while ( $moduleRunRequired )
             $displayMissingModule = true;
     }
 
-    if ( !$displayMissingModule and
-         $moduleCheck['result'] and
-         strtolower( get_class( $module ) ) == "ezmodule" )
+    if ( !$displayMissingModule &&
+         $moduleCheck['result'] &&
+         $module instanceof eZModule )
     {
         // Run the module/function
         eZDebug::addTimingPoint( "Module start '" . $module->attribute( 'name' ) . "'" );

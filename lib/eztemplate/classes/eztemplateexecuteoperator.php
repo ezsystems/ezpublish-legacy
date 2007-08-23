@@ -85,7 +85,7 @@ class eZTemplateExecuteOperator
     }
 
     function fetchTransform( $operatorName, &$node, $tpl, &$resourceData,
-                             $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                             $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $parameterTranslation = false;
         $constParameters = array();
@@ -344,7 +344,7 @@ class eZTemplateExecuteOperator
     /*!
      Calls a specified module function and returns the result.
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters,
+    function modify( $tpl, $operatorName, $operatorParameters,
                      &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $functionName = $namedParameters['function_name'];

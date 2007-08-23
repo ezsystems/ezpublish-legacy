@@ -254,7 +254,7 @@ class eZTemplateLogicOperator
 
 
     function logicalComparisonTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                               $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                               $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -498,7 +498,7 @@ class eZTemplateLogicOperator
     }
 
     function negateTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -517,7 +517,7 @@ class eZTemplateLogicOperator
     }
 
     function trueFalseTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                      $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                      $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         if ( ( count( $parameters ) != 0 ) )
@@ -534,7 +534,7 @@ class eZTemplateLogicOperator
     }
 
     function chooseTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                   $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                   $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -648,7 +648,7 @@ class eZTemplateLogicOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
                      $placement )
     {
         if ( $operatorName == $this->LtName or $operatorName == $this->GtName or

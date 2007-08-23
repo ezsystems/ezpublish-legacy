@@ -100,7 +100,7 @@ class eZTemplateAttributeOperator
     /*!
      Display the variable.
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $max = $namedParameters["max_val"];
         $as_html = $namedParameters["as_html"];

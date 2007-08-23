@@ -85,7 +85,7 @@ class eZCollaborationFunctionCollection
         }
         else
         {
-            $resultArray = array( 'result' => &$children );
+            $resultArray = array( 'result' => $children );
         }
         return $resultArray;
     }
@@ -127,7 +127,7 @@ class eZCollaborationFunctionCollection
         }
         else
         {
-            $resultArray = array( 'result' => &$children );
+            $resultArray = array( 'result' => $children );
         }
         return $resultArray;
     }
@@ -147,7 +147,7 @@ class eZCollaborationFunctionCollection
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
+        return array( 'result' => $children );
     }
 
     function fetchItemCount( $isRead, $isActive, $parentGroupID, $status )
@@ -194,7 +194,7 @@ class eZCollaborationFunctionCollection
         }
         else
         {
-            $resultArray = array( 'result' => &$childrenCount );
+            $resultArray = array( 'result' => $childrenCount );
         }
         return $resultArray;
     }

@@ -88,7 +88,7 @@ class eZTemplatePHPOperator
     }
 
     function phpOperatorTransformation( $operatorName, &$node, $tpl, &$resourceData,
-                                        $element, &$lastElement, $elementList, $elementTree, &$parameters )
+                                        $element, $lastElement, $elementList, $elementTree, &$parameters )
     {
         $values = array();
         $function = $operatorName;
@@ -110,7 +110,7 @@ class eZTemplatePHPOperator
     /*!
      Executes the PHP function for the operator $op_name.
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, $namedParameters, $placement )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$value, $namedParameters, $placement )
     {
         $phpname = $this->PHPNames[$operatorName];
         if ( $value !== null )

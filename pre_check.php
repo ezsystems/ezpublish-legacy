@@ -116,7 +116,7 @@ function eZCheckOrder()
 function eZHandlePreChecks( &$siteBasics, &$uri )
 {
     $checks = eZCheckList();
-    precheckAllowed( $checks );
+    $checks = precheckAllowed( $checks );
     $checkOrder = eZCheckOrder();
     foreach( $checkOrder as $checkItem )
     {

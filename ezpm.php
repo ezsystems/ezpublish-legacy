@@ -208,20 +208,19 @@ function helpHelp()
                   );
 }
 
-function changeSiteAccessSetting( &$siteaccess, $optionData )
+function changeSiteAccessSetting( $siteAccess )
 {
     global $isQuiet;
     $cli = eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
+    if ( file_exists( 'settings/siteaccess/' . $siteAccess) )
     {
-        $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for package creating" );
+            $cli->notice( "Using siteaccess $siteAccess for nice url update" );
     }
     else
     {
         if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
+            $cli->notice( "Siteaccess $siteAccess does not exist, using default siteaccess" );
     }
 }
 
@@ -257,9 +256,8 @@ $dbName = false;
 // $packageFile = false;
 
 $commandList = array();
-$commandItem = array();
 
-function resetCommandItem( &$commandItem )
+function resetCommandItem()
 {
     $commandItem = array( 'command' => false,
                           'name' => false,
@@ -273,12 +271,7 @@ function resetCommandItem( &$commandItem )
                           'file' => false );
 }
 
-function appendCommandItem( &$commandList, &$commandItem )
-{
-    $commandList[] = $commandItem;
-}
-
-resetCommandItem( $commandItem );
+$commandItem = resetCommandItem();
 
 $optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
 $longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos',
@@ -305,8 +298,8 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     $arg = $argv[$i];
     if ( $arg == '--' )
     {
-        appendCommandItem( $commandList, $commandItem );
-        resetCommandItem( $commandItem );
+        $commandList[]= $commandItem;
+        $commandItem = resetCommandItem();
     }
     else if ( $readOptions and
          strlen( $arg ) > 0 and
@@ -333,7 +326,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 'siteaccess' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                changeSiteAccessSetting( $optionData );
             }
             else if ( $flag == 'debug' )
             {
@@ -471,7 +464,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             }
             else if ( $flag == 's' )
             {
-                changeSiteAccessSetting( $siteaccess, $optionData );
+                changeSiteAccessSetting( $optionData );
             }
             else if ( $flag == 'l' )
             {
@@ -622,7 +615,7 @@ $script->setUseDebugTimingPoints( $useDebugTimingpoints );
 $script->setUseIncludeFiles( $useIncludeFiles );
 
 
-appendCommandItem( $commandList, $commandItem );
+$commandList[] = $commandItem;
 
 // Check all commands
 foreach ( $commandList as $commandItem )

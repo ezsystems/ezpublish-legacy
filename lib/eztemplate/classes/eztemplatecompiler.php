@@ -911,7 +911,7 @@ class eZTemplateCompiler
      combined tree will be present in \a $newNode.
      \sa processNodeCombiningChildren
     */
-    static function processNodeCombining( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
+    static function processNodeCombining( $useComments, $php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -932,7 +932,7 @@ class eZTemplateCompiler
      Does node combining on the children \a $nodeChildren.
      \sa processNodeCombining
     */
-    static function processNodeCombiningChildren( $useComments, &$php, $tpl, &$nodeChildren, &$resourceData, &$parentNode )
+    static function processNodeCombiningChildren( $useComments, $php, $tpl, &$nodeChildren, &$resourceData, &$parentNode )
     {
         $newNodeChildren = array();
         $lastNode = false;
@@ -1134,7 +1134,7 @@ class eZTemplateCompiler
      Iterates over the items in the tree \a $node and tries to extract static data
      from operators which supports it.
     */
-    static function processStaticOptimizations( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
+    static function processStaticOptimizations( $useComments, $php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -1234,7 +1234,7 @@ class eZTemplateCompiler
      tree in \a $newNode.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processNodeTransformation( $useComments, &$php, $tpl, &$node, &$resourceData, &$newNode )
+    static function processNodeTransformation( $useComments, $php, $tpl, &$node, &$resourceData, &$newNode )
     {
         $newNode = eZTemplateCompiler::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
     }
@@ -1256,7 +1256,7 @@ class eZTemplateCompiler
      Iterates over the children \a $children and does transformation on them.
      \sa processNodeTransformation, processNodeTransformationChild
     */
-    static function processNodeTransformationChildren( $useComments, &$php, $tpl, &$node, &$children, &$resourceData )
+    static function processNodeTransformationChildren( $useComments, $php, $tpl, &$node, &$children, &$resourceData )
     {
         if ( $children )
         {
@@ -1279,7 +1279,7 @@ class eZTemplateCompiler
      Iterates over the children of the root node \a $node and does transformation on them.
      \sa processNodeTransformation, processNodeTransformationChild
     */
-    static function processNodeTransformationRoot( $useComments, &$php, $tpl, &$node, &$resourceData )
+    static function processNodeTransformationRoot( $useComments, $php, $tpl, &$node, &$resourceData )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
@@ -1313,7 +1313,7 @@ class eZTemplateCompiler
      If the node is not a function it will return \c false.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processNodeTransformationChild( $useComments, &$php, $tpl, &$node, &$resourceData )
+    static function processNodeTransformationChild( $useComments, $php, $tpl, &$node, &$resourceData )
     {
         $nodeType = $node[0];
         if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
@@ -1394,7 +1394,7 @@ class eZTemplateCompiler
                     }
 
                     $privateData = array( 'use-comments' => $useComments,
-                                          'php-creator' => &$php,
+                                          'php-creator' => $php,
                                           'resource-data' => &$resourceData );
                     $newNodes = $functionObject->templateNodeTransformation( $functionName, $node,
                                                                              $tpl, $functionParameters, $privateData );
@@ -1461,7 +1461,7 @@ class eZTemplateCompiler
      If the node is not a function it will return \c false.
      \sa processNodeTransformationRoot, processNodeTransformationChild
     */
-    static function processElementTransformationChild( $useComments, &$php, $tpl, &$node,
+    static function processElementTransformationChild( $useComments, $php, $tpl, &$node,
                                                 $elementTree, $elementList, &$resourceData )
     {
         $count = count( $elementList );
@@ -2052,7 +2052,7 @@ $rbracket
      The code is generated using the php creator specified in \a $php.
     */
 
-    static function generatePHPCode( $useComments, &$php, $tpl, &$node, &$resourceData )
+    static function generatePHPCode( $useComments, $php, $tpl, &$node, &$resourceData )
     {
         $parameters = array();
         $currentParameters = array( 'spacing' => 0 );
@@ -2074,7 +2074,7 @@ $rbracket
      Generates the PHP code for all node children specified in \a $nodeChildren.
      \sa generatePHPCode
     */
-    static function generatePHPCodeChildren( $useComments, &$php, $tpl, &$nodeChildren, &$resourceData, &$parameters, $currentParameters )
+    static function generatePHPCodeChildren( $useComments, $php, $tpl, &$nodeChildren, &$resourceData, &$parameters, $currentParameters )
     {
         foreach ( $nodeChildren as $node )
         {
@@ -2926,7 +2926,7 @@ else
      The namespace to merge with is specified in \a $namespace and
      the scope of the merging is defined by \a $namespaceScope.
     */
-    static function generateMergeNamespaceCode( &$php, $tpl, $namespace, $namespaceScope, $parameters = array(), $skipSimpleAssignment = false )
+    static function generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope, $parameters = array(), $skipSimpleAssignment = false )
     {
         if ( $namespace != '' )
         {
@@ -2981,7 +2981,7 @@ else
      Generates PHP code for the variable node \a $node.
      Use generateVariableDataCode if you want to create code for arbitrary variable data structures.
     */
-    static function generateVariableCode( &$php, $tpl, $node, &$knownTypes, $dataInspection, $parameters, &$resourceData )
+    static function generateVariableCode( $php, $tpl, $node, &$knownTypes, $dataInspection, $parameters, &$resourceData )
     {
         $variableData = $node[2];
         $persistence = array();
@@ -2994,7 +2994,7 @@ else
      variable lookup, attribute lookup and operator execution.
      Use generateVariableCode if you want to create code for a variable tree node.
     */
-    static function generateVariableDataCode( &$php, $tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters, &$resourceData )
+    static function generateVariableDataCode( $php, $tpl, $variableData, &$knownTypes, $dataInspection, &$persistence, $parameters, &$resourceData )
     {
         $staticTypeMap = array( EZ_TEMPLATE_TYPE_STRING => 'string',
                                 EZ_TEMPLATE_TYPE_NUMERIC => 'numeric',

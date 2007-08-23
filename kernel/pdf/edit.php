@@ -213,7 +213,7 @@ $Result['path'] = array( array( 'url' => false,
  \param toFile, false if generate to stream, $
                 filename if generate to file
 */
-function generatePDF( &$pdfExport, $toFile = false )
+function generatePDF( $pdfExport, $toFile = false )
 {
     if ( $pdfExport == null )
         return;

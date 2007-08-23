@@ -98,7 +98,7 @@ class eZTopMenuOperator
     /*!
      \reimp
     */
-    function modify( $tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
 
         $ini = eZINI::instance( 'menu.ini' );

@@ -42,7 +42,7 @@ include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 
-function checkNodeAssignments( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
+function checkNodeAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
     $http = eZHTTPTool::instance();
 
@@ -134,7 +134,7 @@ function checkNodeAssignments( &$module, &$class, $object, &$version, $contentOb
     }
 }
 
-function checkNodeMovements( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
+function checkNodeMovements( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $FromLanguage, &$validation )
 {
     $http = eZHTTPTool::instance();
 
@@ -247,7 +247,7 @@ function checkNodeMovements( &$module, &$class, $object, &$version, $contentObje
     }
 }
 
-function storeNodeAssignments( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage )
+function storeNodeAssignments( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage )
 {
     $http = eZHTTPTool::instance();
 
@@ -393,7 +393,7 @@ function storeNodeAssignments( &$module, &$class, $object, &$version, $contentOb
     $db->commit();
 }
 
-function checkNodeActions( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
+function checkNodeActions( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
@@ -685,7 +685,7 @@ function checkNodeActions( &$module, &$class, $object, &$version, $contentObject
     }
 }
 
-function handleNodeTemplate( &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $tpl )
+function handleNodeTemplate( $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $tpl )
 {
     // When the object has been published we will use the nodes as
     // node-assignments by faking the list, this is required since new
@@ -799,7 +799,7 @@ function handleNodeTemplate( &$module, &$class, $object, &$version, $contentObje
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );
 }
 
-function initializeNodeEdit( &$module )
+function initializeNodeEdit( $module )
 {
     $module->addHook( 'post_fetch', 'checkNodeAssignments' );
     $module->addHook( 'post_fetch', 'checkNodeMovements' );

@@ -512,7 +512,7 @@ if ( !$isAccessChecked )
 
 if ( !function_exists( 'checkContentActions' ) )
 {
-    function checkContentActions( &$module, &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result )
+    function checkContentActions( $module, $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
         {
@@ -588,7 +588,7 @@ if ( !function_exists( 'checkContentActions' ) )
 
         // helper function which computes the redirect after
         // publishing and final store of a draft.
-        function computeRedirect( &$module, $object, &$version, $EditLanguage = false )
+        function computeRedirect( $module, $object, $version, $EditLanguage = false )
         {
             $http = eZHTTPTool::instance();
 

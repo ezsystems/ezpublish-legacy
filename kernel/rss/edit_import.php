@@ -170,7 +170,7 @@ $Result['path'] = array( array( 'url' => false,
 
 
 
-function storeRSSImport( &$rssImport, $http, $publish = false )
+function storeRSSImport( $rssImport, $http, $publish = false )
 {
     $rssImport->setAttribute( 'name', $http->postVariable( 'name' ) );
     $rssImport->setAttribute( 'url', $http->postVariable( 'url' ) );
@@ -226,7 +226,7 @@ function storeRSSImport( &$rssImport, $http, $publish = false )
     }
 }
 
-function checkTimeout( &$rssImport )
+function checkTimeout( $rssImport )
 {
     include_once( 'lib/ezlocale/classes/ezdatetime.php' );
     $user = eZUser::currentUser();

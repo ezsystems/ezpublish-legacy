@@ -135,7 +135,7 @@ eZStaticCache::executeActions();
   \param RSS Import item
   \param cli
 */
-function rssImport1( &$root, &$rssImport, $cli )
+function rssImport1( $root, $rssImport, $cli )
 {
     global $isQuiet;
 
@@ -165,7 +165,7 @@ function rssImport1( &$root, &$rssImport, $cli )
   \param RSS Import item
   \param cli
 */
-function rssImport2( &$root, &$rssImport, $cli )
+function rssImport2( $root, $rssImport, $cli )
 {
     global $isQuiet;
 
@@ -197,7 +197,7 @@ function rssImport2( &$root, &$rssImport, $cli )
 
  \return 1 if object added, 0 if not
 */
-function importRSSItem( $item, &$rssImport, $cli, $channel )
+function importRSSItem( $item, $rssImport, $cli, $channel )
 {
     global $isQuiet;
     $rssImportID = $rssImport->attribute( 'id' );
@@ -462,7 +462,7 @@ function setObjectAttributeValue( $objectAttribute, $value )
     $objectAttribute->store();
 }
 
-function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
+function setEZXMLAttribute( $attribute, $attributeValue, $link = false )
 {
     include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
     $contentObjectID = $attribute->attribute( "contentobject_id" );

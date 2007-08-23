@@ -69,7 +69,7 @@ if ( !isset( $FromLanguage ) or
      strlen( $FromLanguage ) == 0 )
     $FromLanguage = false;
 
-if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage, &$FromLanguage ) ) )
+if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, $EditVersion, $EditLanguage, $FromLanguage ) ) )
     return;
 
 $object = eZContentObject::fetch( $ObjectID );
@@ -113,7 +113,7 @@ $validation = array( 'processed' => false,
                      'attributes' => array(),
                      'placement' => array( ) );
 
-if ( $Module->runHooks( 'post_fetch', array( &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
+if ( $Module->runHooks( 'post_fetch', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
     return;
 
 // Checking if user chose placement of object from browse page (when restoring from the TRASH),
@@ -270,7 +270,7 @@ if ( $storingAllowed && $hasObjectInput)
 
     $fetchResult = $object->fetchInput( $contentObjectAttributes, $attributeDataBaseName,
                                         $customActionAttributeArray,
-                                        array( 'module' => &$Module,
+                                        array( 'module' => $Module,
                                                'current-redirection-uri' => $currentRedirectionURI ) );
     $attributeInputMap = $fetchResult['attribute-input-map'];
     if ( $Module->isCurrentAction( 'Discard' ) )
@@ -282,7 +282,7 @@ if ( $storingAllowed && $hasObjectInput)
 
     if ( $inputValidated and count( $attributeInputMap ) > 0 )
     {
-        if ( $Module->runHooks( 'pre_commit', array( &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
+        if ( $Module->runHooks( 'pre_commit', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage ) ) )
             return;
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
@@ -314,7 +314,7 @@ elseif ( $storingAllowed )
     {
         $object->handleCustomHTTPActions( $contentObjectAttribute,  $attributeDataBaseName,
                                           $customActionAttributeArray,
-                                          array( 'module' => &$Module,
+                                          array( 'module' => $Module,
                                                  'current-redirection-uri' => $currentRedirectionURI ) );
         $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
     }
@@ -371,7 +371,7 @@ if ( $inputValidated == true )
 {
     if ( $validatedAttributes == null )
     {
-        if ( $Module->runHooks( 'action_check', array( &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
+        if ( $Module->runHooks( 'action_check', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
             return;
     }
 }
@@ -463,7 +463,7 @@ if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
 $tpl->setVariable( "location_ui_enabled", $locationUIEnabled );
 
 
-if ( $Module->runHooks( 'pre_template', array( &$class, $object, &$version, $contentObjectAttributes, $EditVersion, $EditLanguage, $tpl, $FromLanguage ) ) )
+if ( $Module->runHooks( 'pre_template', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $tpl, $FromLanguage ) ) )
     return;
 
 $templateName = 'design:content/edit.tpl';
