@@ -172,7 +172,7 @@ class eZDateType extends eZDataType
     /*!
      Fetches the http post variables for collected information
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and

@@ -90,7 +90,7 @@ class eZMailNotificationTransport extends eZNotificationTransport
     }
 
 
-    function prepareAddressString( $addressList, &$mail )
+    function prepareAddressString( $addressList, $mail )
     {
         if ( is_array( $addressList ) )
         {

@@ -162,7 +162,7 @@ class eZTimeType extends eZDataType
     \reimp
     Fetches the http post variables for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )

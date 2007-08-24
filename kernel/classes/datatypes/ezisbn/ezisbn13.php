@@ -96,18 +96,16 @@ class eZISBN13
 
             case "groups":
             {
-                $count = 0;
-                $groupList = eZISBNGroup::fetchList( $count );
+                $groupList = eZISBNGroup::fetchList();
                 return array( 'group_list' => $groupList,
-                              'count' => $count );
+                              'count' => count(  $groupList ) );
             }break;
 
             case "group_ranges":
             {
-                $count = 0;
-                $groupList = eZISBNGroupRange::fetchList( $count );
+                $groupList = eZISBNGroupRange::fetchList();
                 return array( 'group_list' => $groupList,
-                              'count' => $count );
+                              'count' => count( $groupList ) );
             }break;
         }
         return null;
@@ -264,9 +262,14 @@ class eZISBN13
                 $publicationValue = false;
                 $checkDigit = false;
 
-                $groupRange = eZISBNGroupRange::extractGroup( $ean, $groupLength );
+                $groupRange = eZISBNGroupRange::extractGroup( $ean );
+                $groupLength = false;
+                if ( $groupRange )
+                {
+                    $groupLength = $groupRange->attribute( 'group_length' );
+                }
 
-                if ( $groupLength > 0 )
+                if ( $groupLength )
                 {
                     $groupValue = substr( $ean, EZ_DATATYPESTRING_ISBN_13_PREFIX_LENGTH, $groupLength );
                     $this->RegistrationGroup = $groupValue;

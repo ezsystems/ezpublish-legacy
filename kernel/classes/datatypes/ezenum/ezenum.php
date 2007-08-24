@@ -202,7 +202,7 @@ class eZEnum
     /*!
      Adds the enumeration value object \a $enumValue to the enumeration list.
     */
-    function addEnumerationValue( &$enumValue )
+    function addEnumerationValue( $enumValue )
     {
         $this->Enumerations[] = $enumValue;
     }

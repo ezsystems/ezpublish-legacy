@@ -185,7 +185,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             }
             else
             {
-                $limitedPolicyIDArray[] = array( 'user_id' => &$userIDArray[(string)$result['user_id']],
+                $limitedPolicyIDArray[] = array( 'user_id' => $userIDArray[(string)$result['user_id']],
                                                  'limitation' => $result['limitation'],
                                                  'value' => $result['value'],
                                                  'policyID' => $result['policy_id'] );

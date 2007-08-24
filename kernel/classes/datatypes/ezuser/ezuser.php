@@ -2358,7 +2358,7 @@ WHERE user_id = '" . $userID . "' AND
 
      \return null, user login not required.
     */
-    function checkUser( &$siteBasics, &$uri )
+    function checkUser( &$siteBasics, $uri )
     {
         $ini = eZINI::instance();
         $http = eZHTTPTool::instance();

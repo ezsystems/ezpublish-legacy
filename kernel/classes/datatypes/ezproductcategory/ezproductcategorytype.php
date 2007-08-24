@@ -111,7 +111,7 @@ class eZProductCategoryType extends eZDataType
     \reimp
     Fetches the http post variable for collected information
    */
-    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $contentObjectAttribute )
     {
         if ( $http->hasPostVariable( $base . "_category_id_" . $contentObjectAttribute->attribute( "id" ) ))
         {

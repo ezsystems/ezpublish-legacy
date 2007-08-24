@@ -168,7 +168,7 @@ class eZSearchEngine
 
       \return wordIDArray
     */
-    function buildWordIDArray( &$indexArrayOnlyWords )
+    function buildWordIDArray( $indexArrayOnlyWords )
     {
         $db = eZDB::instance();
 
@@ -271,7 +271,7 @@ class eZSearchEngine
       \return last placement
       Index wordIndex
     */
-    function indexWords( $contentObject, $indexArray, &$wordIDArray, $placement = 0 )
+    function indexWords( $contentObject, $indexArray, $wordIDArray, $placement = 0 )
     {
         $db = eZDB::instance();
 
@@ -1921,18 +1921,17 @@ class eZSearchEngine
                 $phraseText = substr( $searchText, $quotePosStart + 1, $quotePosEnd - $quotePosStart - 1 );
 
                 $phraseTextArray[] = $phraseText;
-//                    $fullText .= $prePhraseText;
                 $nonPhraseText .= $prePhraseText;
                 $pos = $quotePosEnd + 1;
             }
         }
         $nonPhraseText .= $postPhraseText;
-        return array( 'phrases' => &$phraseTextArray,
+        return array( 'phrases' => $phraseTextArray,
                       'nonPhraseText' => $nonPhraseText,
                       'fullText' => $fullText );
     }
 
-    function buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray,
+    function buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray,
                                    $identifier = false )
     {
         $searchPartsArrayForPhrases = $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash,
@@ -1943,7 +1942,7 @@ class eZSearchEngine
         return $searchPartsArray;
     }
 
-    function buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash, &$wildIDArray, $identifier = false )
+    function buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray, $identifier = false )
     {
         $searchPartsArray = array();
         $nonPhraseWordArray = $this->splitString( $nonPhraseText );
@@ -1987,7 +1986,7 @@ class eZSearchEngine
         return $searchPartsArray;
     }
 
-    function buildSearchPartArrayForPhrases( $phraseTextArray, &$wordIDHash, $identifier = false )
+    function buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash, $identifier = false )
     {
         // build an array of the word id's for each phrase
         $phraseIDArrayArray = array();
@@ -2089,9 +2088,9 @@ class eZSearchEngine
         }
 
 
-        return array( 'wordIDArray' => &$wordIDArray,
-                      'wordIDHash' => &$wordIDHash,
-                      'patternWordIDHash' => &$patternWordIDHash );
+        return array( 'wordIDArray' => $wordIDArray,
+                      'wordIDHash' => $wordIDHash,
+                      'patternWordIDHash' => $patternWordIDHash );
     }
 
     function prepareWordIDArrays( $searchText )
@@ -2188,9 +2187,9 @@ class eZSearchEngine
                 }
             }
         }
-        return array( 'wordIDArray' => &$wordIDArray,
-                      'wordIDHash' => &$wordIDHash,
-                      'wildIDArray' => &$wildIDArray,
+        return array( 'wordIDArray' => $wordIDArray,
+                      'wordIDHash' => $wordIDHash,
+                      'wildIDArray' => $wildIDArray,
                       'wildCardCount' => $wildCardCount );
     }
 

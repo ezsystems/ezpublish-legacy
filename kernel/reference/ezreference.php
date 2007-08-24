@@ -79,7 +79,7 @@ function referenceReadFile( $file, $htmlRoot, $base )
     return $data;
 }
 
-function eZReferenceDocument( &$module, $referenceBaseURI, $referenceType, $parameters )
+function eZReferenceDocument( $module, $referenceBaseURI, $referenceType, $parameters )
 {
     $content = "";
 

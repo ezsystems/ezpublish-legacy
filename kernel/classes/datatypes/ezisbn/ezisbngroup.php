@@ -108,14 +108,12 @@ class eZISBNGroup extends eZPersistentObject
      \param $asObject Whether if the result should be sent back as objects or an array.
      \return the group range list for isbn groups.
     */
-    static function fetchList( &$count, $asObject = true )
+    static function fetchList( $asObject = true )
     {
         $sortArray = array( 'id' => 'asc' );
-        $groupArray = eZPersistentObject::fetchObjectList( eZISBNGroup::definition(),
-                                                           null, null, $sortArray, null,
-                                                           $asObject );
-        $count = count( $groupArray );
-        return $groupArray;
+        return eZPersistentObject::fetchObjectList( eZISBNGroup::definition(),
+                                                    null, null, $sortArray, null,
+                                                    $asObject );
     }
 
     /*!

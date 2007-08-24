@@ -93,12 +93,12 @@ class eZNotificationEventHandler
     {
     }
 
-    function fetchHttpInput( $http, &$module )
+    function fetchHttpInput( $http, $module )
     {
         return true;
     }
 
-    function storeSettings( $http, &$module )
+    function storeSettings( $http, $module )
     {
         return true;
     }

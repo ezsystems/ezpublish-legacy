@@ -66,7 +66,7 @@ class eZSearchFunctionCollection
         $parameters = array( 'offset' => $offset, 'limit'  => $limit );
         $mostFrequentPhraseArray = eZSearchLog::mostFrequentPhraseArray( $parameters );
 
-        return array( 'result' => &$mostFrequentPhraseArray );
+        return array( 'result' => $mostFrequentPhraseArray );
     }
 
 }

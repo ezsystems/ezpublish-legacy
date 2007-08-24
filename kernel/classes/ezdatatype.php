@@ -787,7 +787,7 @@ class eZDataType
 
      \return true if variable was successfully fetched.
     */
-    function fetchCollectionAttributeHTTPInput( &$collection, $collectionAttribute, $http, $base, $objectAttribute )
+    function fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $objectAttribute )
     {
     }
 

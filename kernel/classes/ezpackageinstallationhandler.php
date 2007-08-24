@@ -180,7 +180,7 @@ class eZPackageInstallationHandler
      and can be used to fill in values in the \a $persistentData variable
      for use in the template or later retrieval.
     */
-    function initializeStep( $package, $http, $step, &$persistentData, $tpl, &$module )
+    function initializeStep( $package, $http, $step, &$persistentData, $tpl, $module )
     {
         $methodMap = $this->initializeStepMethodMap();
         if ( count( $methodMap ) > 0 )

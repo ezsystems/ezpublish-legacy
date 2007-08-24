@@ -150,15 +150,13 @@ class eZISBNRegistrantRange extends eZPersistentObject
      \param $asObject If the result should be returned as object or an array.
      \return the registrant list for a isbn registration group id.
     */
-    static function fetchListByGroupID( $groupID, &$count, $asObject = true )
+    static function fetchListByGroupID( $groupID, $asObject = true )
     {
         $conditions = array( 'isbn_group_id' => $groupID );
         $sortArray = array( array( 'from_number' => 'asc' ) );
-        $registrantRangeArray = eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
+        return eZPersistentObject::fetchObjectList( eZISBNRegistrantRange::definition(),
                                                     null, $conditions, $sortArray, null,
                                                     $asObject );
-        $count = count( $sortArray );
-        return $registrantRangeArray;
     }
 
     /*!

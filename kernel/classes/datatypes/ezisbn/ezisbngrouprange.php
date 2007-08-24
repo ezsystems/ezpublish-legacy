@@ -131,14 +131,12 @@ class eZISBNGroupRange extends eZPersistentObject
                    back in the reference variable.
      \return the group range list for isbn groups.
     */
-    static function fetchList( &$count, $asObject = true )
+    static function fetchList( $asObject = true )
     {
         $sortArray = array( 'from_number' => 'asc' );
-        $groupRangeArray = eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
-                                                                null, null, $sortArray, null,
-                                                                $asObject );
-        $count = count( $groupRangeArray );
-        return $groupRangeArray;
+        return eZPersistentObject::fetchObjectList( eZISBNGroupRange::definition(),
+                                                    null, null, $sortArray, null,
+                                                    $asObject );
     }
 
     /*!
@@ -150,7 +148,7 @@ class eZISBNGroupRange extends eZPersistentObject
                          Is sent back in the reference variable.
      \return the group range object if found and false if not found.
     */
-    static function extractGroup( $isbnNr, &$groupLength )
+    static function extractGroup( $isbnNr )
     {
         $groupRange = false;
         $testSegment = substr( $isbnNr, 3, 5 );
@@ -163,9 +161,6 @@ class eZISBNGroupRange extends eZPersistentObject
             if ( count( $groupRangeArray ) == 1 )
             {
                 $groupRange = $groupRangeArray[0];
-                $length = $groupRange->attribute( 'group_length' );
-
-                $groupLength = $length;
             }
         }
         return $groupRange;

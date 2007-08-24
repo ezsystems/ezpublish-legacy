@@ -731,7 +731,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Collects the information entered by the user from http post vars
     */
-    function collectInformation( &$collection, &$collectionAttribute, $http, $base )
+    function collectInformation( $collection, &$collectionAttribute, $http, $base )
     {
         $dataType = $this->dataType();
         if ( $dataType )
