@@ -77,7 +77,7 @@ class eZTSTranslator extends eZTranslatorHandler
         $file = $locale . '/' . $filename;
         if ( !empty( $GLOBALS['eZTSTranslationTables'][$file] ) )
         {
-            $instance = $tables[$file];
+            $instance = $GLOBALS['eZTSTranslationTables'][$file];
             if ( $instance->hasInitializedContext( $context ) )
             {
                 return $instance;
