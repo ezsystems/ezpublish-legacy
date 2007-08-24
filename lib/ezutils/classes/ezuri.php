@@ -342,17 +342,23 @@ class eZURI
      not shorter.
      \note $uri must be a ezuri object
     */
-    function matchBase( &$uri )
+    function matchBase( $uri )
     {
-        if ( strtolower( get_class( $uri ) ) != 'ezuri' )
+        if ( !( $uri instanceof eZURI ) )
+        {
             return false;
+        }
         if ( count( $this->URIArray ) == 0 or
              count( $uri->URIArray ) == 0 )
+        {
             return false;
+        }
         for ( $i = 0; $i < count( $this->URIArray ); ++$i )
         {
             if ( $this->URIArray[$i] != $uri->URIArray[$i] )
+            {
                 return false;
+            }
         }
         return true;
     }

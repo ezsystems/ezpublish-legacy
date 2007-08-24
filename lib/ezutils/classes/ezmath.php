@@ -52,11 +52,11 @@ class eZMath
 
      Normalize RGB color array to 0..1 range
 
-     \param array to normalize (changes values in array)
+     \param array to normalize
 
      \return normalized array
     */
-    function &normalizeColorArray( &$array )
+    function normalizeColorArray( $array )
     {
         foreach ( array_keys( $array ) as $key )
         {

@@ -518,7 +518,7 @@ class eZXMLInputParser
             // wordmatch.ini support
             if ( $attributeString )
             {
-                $this->wordMatchSupport( $newTagName, $attributes, $attributeString );
+                $attributes = $this->wordMatchSupport( $newTagName, $attributes, $attributeString );
             }
         }
 
@@ -780,7 +780,10 @@ class eZXMLInputParser
         return $domString;
     }
 
-    function wordMatchSupport( $newTagName, &$attributes, $attributeString )
+    /*!
+     Returns modified attributes parameter
+     */
+    protected function wordMatchSupport( $newTagName, $attributes, $attributeString )
     {
         $ini = eZINI::instance( 'wordmatch.ini' );
         if ( $ini->hasVariable( $newTagName, 'MatchString' ) )
@@ -799,6 +802,7 @@ class eZXMLInputParser
                 }
             }
         }
+        return $attributes;
     }
 
 

@@ -679,7 +679,7 @@ class eZPDF
 
                 if ( isset( $params['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $params['rgb'] );
+                    $params['rgb'] = eZMath::normalizeColorArray( $params['rgb'] );
                     $params['cmyk'] = eZMath::rgbToCMYK2( $params['rgb'][0]/255,
                                                           $params['rgb'][1]/255,
                                                           $params['rgb'][2]/255 );
@@ -751,7 +751,7 @@ class eZPDF
 
                 if ( isset( $options['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $options['rgb'] );
+                    $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                     $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                            $options['rgb'][1]/255,
                                                            $options['rgb'][2]/255 );
@@ -799,7 +799,7 @@ class eZPDF
                 {
                     if ( $key == 'rgb' )
                     {
-                        eZMath::normalizeColorArray( $options['rgb'] );
+                        $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                         $operatorValue .= ':cmyk:' . implode( ',',  eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                                                         $options['rgb'][1]/255,
                                                                                         $options['rgb'][2]/255 ) );
@@ -841,7 +841,7 @@ class eZPDF
 
                 if ( isset( $options['rgb'] ) )
                 {
-                    eZMath::normalizeColorArray( $options['rgb'] );
+                    $options['rgb'] = eZMath::normalizeColorArray( $options['rgb'] );
                     $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
                                                            $options['rgb'][1]/255,
                                                            $options['rgb'][2]/255 );
@@ -857,7 +857,7 @@ class eZPDF
                 {
                     if ( isset( $options['rgbTop'] ) )
                     {
-                        eZMath::normalizeColorArray( $options['rgbTop'] );
+                        $options['rgbTop'] = eZMath::normalizeColorArray( $options['rgbTop'] );
                         $options['cmykTop'] = eZMath::rgbToCMYK2( $options['rgbTop'][0]/255,
                                                                   $options['rgbTop'][1]/255,
                                                                   $options['rgbTop'][2]/255 );
@@ -872,7 +872,7 @@ class eZPDF
                 {
                     if ( isset( $options['rgbBottom'] ) )
                     {
-                        eZMath::normalizeColorArray( $options['rgbBottom'] );
+                        $options['rgbBottom'] = eZMath::normalizeColorArray( $options['rgbBottom'] );
                         $options['cmykBottom'] = eZMath::rgbToCMYK2( $options['rgbBottom'][0]/255,
                                                                      $options['rgbBottom'][1]/255,
                                                                      $options['rgbBottom'][2]/255 );

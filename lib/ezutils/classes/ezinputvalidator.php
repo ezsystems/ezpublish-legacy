@@ -62,7 +62,7 @@ class IntegerValidator
         return is_numeric( $text ) ? EZ_INPUT_VALIDATOR_STATE_ACCEPTED : EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
-    function fixup( &$text )
+    function fixup( $text )
     {
     }
 }
@@ -86,7 +86,7 @@ class BooleanValidator
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
-    function fixup( &$text )
+    function fixup( $text )
     {
         $text = ( $text == 0 ? "false" : "true" );
     }
