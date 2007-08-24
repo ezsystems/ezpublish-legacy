@@ -71,23 +71,25 @@ class eZTSTranslator extends eZTranslatorHandler
      \static
      Initialize the ts translator and context if this is not already done.
     */
-    static function &initialize( $context, $locale, $filename, $useCache = true )
+    static function initialize( $context, $locale, $filename, $useCache = true )
     {
-        $tables =& $GLOBALS["eZTSTranslationTables"];
         $instance = false;
         $file = $locale . '/' . $filename;
-        if ( isset( $tables[$file] ) and
-             strtolower( get_class( $tables[$file] ) ) == "eztstranslator" )
-            $instance =& $tables[$file];
-        if ( $instance and
-             $instance->hasInitializedContext( $context ) )
-            return $instance;
+        if ( !empty( $GLOBALS['eZTSTranslationTables'][$file] ) )
+        {
+            $instance = $tables[$file];
+            if ( $instance->hasInitializedContext( $context ) )
+            {
+                return $instance;
+            }
+        }
+
         eZDebug::createAccumulatorGroup( 'tstranslator', 'TS translator' );
         eZDebug::accumulatorStart( 'tstranslator_init', 'tstranslator', 'TS init' );
         if ( !$instance )
         {
             $instance = new eZTSTranslator( $locale, $filename, $useCache );
-            $tables[$file] =& $instance;
+            $GLOBALS['eZTSTranslationTables'][$file] = $instance;
             $manager = eZTranslatorManager::instance();
             $manager->registerHandler( $instance );
         }
@@ -392,7 +394,7 @@ class eZTSTranslator extends eZTranslatorHandler
         return true;
     }
 
-    function handleMessageNode( $contextName, &$message )
+    function handleMessageNode( $contextName, $message )
     {
         $source = null;
         $translation = null;
@@ -443,7 +445,7 @@ class eZTSTranslator extends eZTranslatorHandler
             return false;
         }
         /* we need to convert ourselves if we're using libxml stuff here */
-        if ( strtolower( get_class( $message ) ) == 'domelement' )
+        if ( $message instanceof DOMElement )
         {
             $codec = eZTextCodec::instance( "utf8" );
             $source = $codec->convertString( $source );

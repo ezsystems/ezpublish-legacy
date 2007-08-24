@@ -69,22 +69,28 @@ class eZCharTransform
     */
     function transform( $text, $rule, $charset = false, $useCache = true )
     {
+        if ( $text === '' )
+        {
+            return $text;
+        }
+
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
             include_once( 'lib/ezutils/classes/ezsys.php' );
             $key = eZSys::ezcrc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
+            $filepath = $this->cacheFilePath( 'rule-',
+                                              '-' . $charsetName,
+                                              $key );
 
             $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated
-            if ( $this->executeCacheFile( $text,
-                                          'rule-', '-' . $charsetName,
-                                          $key, false, $filepath ) )
+            $retText = $this->executeCacheFile( $text, $filepath );
+            if ( $retText !== false )
             {
-//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
-                return $text;
+                return $retText;
             }
         }
 
@@ -127,6 +133,10 @@ class eZCharTransform
     */
     function transformByGroup( $text, $group, $charset = false, $useCache = true )
     {
+        if ( $text === '' )
+        {
+            return $text;
+        }
         $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
         if ( $useCache )
         {
@@ -135,15 +145,16 @@ class eZCharTransform
 
             $keyText = 'Group:' . $group;
             $key = eZSys::ezcrc32( $keyText . '-' . $charset );
+            $filepath = $this->cacheFilePath( 'g-' . $group . '-',
+                                              '-' . $charsetName,
+                                              $key);
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated
-            if ( $this->executeCacheFile( $text,
-                                          'g-' . $group . '-', '-' . $charsetName,
-                                          $key, false, $filepath ) )
+            $retText = $this->executeCacheFile( $text, $filepath );
+            if ( $retText !== false )
             {
-//                 eZDebug::writeDebug( 'executed cache file ' . $filepath );
-                return $text;
+                return $retText;
             }
         }
 
@@ -273,6 +284,26 @@ class eZCharTransform
     }
 
     /*!
+     Get cache file path.
+
+     \param $prefix
+     \param $suffix
+     \param $key
+
+     \return cache file path.
+    */
+    function cacheFilePath( $prefix, $suffix, $key )
+    {
+        $path = eZCharTransform::cachedTransformationPath();
+        if ( !file_exists( $path ) )
+        {
+            include_once( 'lib/ezfile/classes/ezdir.php' );
+            eZDir::mkdir( $path, false, true );
+        }
+        return $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
+    }
+
+    /*!
      \private
      \param $text The text that should be transformed
      \param $key The unique key for the cache, this should be a CRC32 or MD5 of
@@ -283,19 +314,8 @@ class eZCharTransform
                            this can be used for the storeCacheFile() method.
      \return The restored transformation data or \c false if there is no cached data.
     */
-    function executeCacheFile( &$text, $prefix, $suffix, $key, $timestamp = false, &$filepath )
+    protected function executeCacheFile( $text, $filepath, $timestamp = false )
     {
-        // temporarely hide the cache display problem
-        // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
-        //return false;
-
-        $path = eZCharTransform::cachedTransformationPath();
-        if ( !file_exists( $path ) )
-        {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::mkdir( $path, false, true );
-        }
-        $filepath = $path . '/' . $prefix . sprintf( "%u", $key ) . $suffix . '.ctt.php'; // ctt=charset transform table
         if ( file_exists( $filepath ) )
         {
             $time = filemtime( $filepath );
@@ -308,7 +328,7 @@ class eZCharTransform
             {
                 // Execute the PHP file causing $text will be transformed
                 include "$filepath";
-                return true;
+                return $text;
             }
         }
         return false;

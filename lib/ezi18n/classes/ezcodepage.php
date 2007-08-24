@@ -57,7 +57,7 @@ class eZCodePage
         $this->load( $use_cache );
     }
 
-    function convertString( &$str )
+    function convertString( $str )
     {
         $len = strlen( $str );
         $chars = '';
@@ -75,7 +75,7 @@ class eZCodePage
         return $chars;
     }
 
-    function convertStringToUnicode( &$str )
+    function convertStringToUnicode( $str )
     {
         $len = strlen( $str );
         $unicodeValues = array();
@@ -103,11 +103,11 @@ class eZCodePage
         return $text;
     }
 
-    function convertStringFromUTF8( &$multi_char )
+    function convertStringFromUTF8( $multi_char )
     {
         $strlen = strlen( $multi_char );
         $text = '';
-        $codeMap =& $this->CodeMap;
+        $codeMap = $this->CodeMap;
         $subChar = $this->SubstituteChar;
         for ( $offs = 0; $offs < $strlen; )
         {
@@ -226,7 +226,7 @@ class eZCodePage
         return $text;
     }
 
-    function strlen( &$str )
+    function strlen( $str )
     {
         if ( $this->CharsetEncodingScheme == "doublebyte" )
         {
@@ -247,13 +247,12 @@ class eZCodePage
             return strlen( $str );
     }
 
-    function strlenFromUTF8( &$str )
+    function strlenFromUTF8( $str )
     {
-        $utf8_codec = eZUTF8Codec::instance();
-        return $utf8_codec->strlen( $str );
+        return eZUTF8Codec::instance()->strlen( $str );
     }
 
-    function charToUtf8( &$str, $pos, &$charLen )
+    function charToUtf8( $str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -267,7 +266,7 @@ class eZCodePage
         return null;
     }
 
-    function charToUnicode( &$str, $pos, &$charLen )
+    function charToUnicode( $str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -281,12 +280,12 @@ class eZCodePage
         return null;
     }
 
-    function codeToUtf8( &$code )
+    function codeToUtf8( $code )
     {
         return $this->UTF8Map[$code];
     }
 
-    function codeToUnicode( &$code )
+    function codeToUnicode( $code )
     {
         if ( isset( $this->UnicodeMap[$code] ) )
         {
@@ -295,7 +294,7 @@ class eZCodePage
         return null;
     }
 
-    function utf8ToChar( &$ucode )
+    function utf8ToChar( $ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
         {
@@ -309,7 +308,7 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function unicodeToChar( &$ucode )
+    function unicodeToChar( $ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
         {
@@ -323,14 +322,14 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function utf8ToCode( &$ucode )
+    function utf8ToCode( $ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
             return $this->UTF8CodeMap[$ucode];
         return null;
     }
 
-    function unicodeToCode( &$ucode )
+    function unicodeToCode( $ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
             return $this->CodeMap[$ucode];
@@ -420,14 +419,14 @@ class eZCodePage
         reset( $this->UnicodeMap );
         while ( ( $key = key( $this->UnicodeMap ) ) !== null )
         {
-            $item =& $this->UnicodeMap[$key];
+            $item = $this->UnicodeMap[$key];
             $str .= "\$umap[$key] = $item;\n";
             next( $this->UnicodeMap );
         }
         reset( $this->UTF8Map );
         while ( ( $key = key( $this->UTF8Map ) ) !== null )
         {
-            $item =& $this->UTF8Map[$key];
+            $item = $this->UTF8Map[$key];
             $val = str_replace( array( "\\", "'" ),
                                 array( "\\\\", "\\'" ),
                                 $item );
@@ -437,14 +436,14 @@ class eZCodePage
         reset( $this->CodeMap );
         while ( ( $key = key( $this->CodeMap ) ) !== null )
         {
-            $item =& $this->CodeMap[$key];
+            $item = $this->CodeMap[$key];
             $str .= "\$cmap[$key] = $item;\n";
             next( $this->CodeMap );
         }
         reset( $this->UTF8CodeMap );
         while ( ( $key = key( $this->UTF8CodeMap ) ) !== null )
         {
-            $item =& $this->UTF8CodeMap[$key];
+            $item = $this->UTF8CodeMap[$key];
             if ( $item == 0 )
             {
                 $str .= "\$utf8cmap[chr(0)] = 0;\n";
@@ -461,7 +460,7 @@ class eZCodePage
         reset( $this->ReadExtraMap );
         while ( ( $key = key( $this->ReadExtraMap ) ) !== null )
         {
-            $item =& $this->ReadExtraMap[$key];
+            $item = $this->ReadExtraMap[$key];
             $str .= "\$read_extra[$key] = $item;\n";
             next( $this->ReadExtraMap );
         }
@@ -565,22 +564,15 @@ $str
             if ( $file_m <= $cache_m )
             {
                 unset( $eZCodePageCacheCodeDate );
-                $umap =& $this->UnicodeMap;
-                $utf8map =& $this->UTF8Map;
-                $cmap =& $this->CodeMap;
-                $utf8cmap =& $this->UTF8CodeMap;
-                $min_char =& $this->MinCharValue;
-                $max_char =& $this->MaxCharValue;
-                $read_extra =& $this->ReadExtraMap;
-
                 include( $cache );
-                unset( $umap );
-                unset( $utf8map );
-                unset( $cmap );
-                unset( $utf8map );
-                unset( $min_char );
-                unset( $max_char );
-                unset( $read_extra );
+                $this->UnicodeMap = $umap;
+                $this->UTF8Map = $utf8map;
+                $this->CodeMap = $cmap;
+                $this->UTF8CodeMap = $utf8cmap;
+                $this->MinCharValue = $min_char;
+                $this->MaxCharValue = $max_char;
+                $this->ReadExtraMap = $read_extra;
+
                 if ( isset( $eZCodePageCacheCodeDate ) and
                      $eZCodePageCacheCodeDate == EZ_CODEPAGE_CACHE_CODE_DATE )
                 {
@@ -678,7 +670,7 @@ $str
                 }
 
                 // The array already exists; we simply append to it.
-                $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][] =& $this;
+                $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][] = $this;
             }
             // Else: a permission setting exists:
             else
@@ -738,12 +730,11 @@ $str
     */
     static function instance( $charset_code, $use_cache = true )
     {
-        $cp =& $GLOBALS["eZCodePage-$charset_code"];
-        if ( strtolower( get_class( $cp ) ) != "ezcodepage" )
+        if ( empty( $GLOBALS["eZCodePage-$charset_code"] ) )
         {
-            $cp = new eZCodePage( $charset_code, $use_cache );
+            $GLOBALS["eZCodePage-$charset_code"] = new eZCodePage( $charset_code, $use_cache );
         }
-        return $cp;
+        return $GLOBALS["eZCodePage-$charset_code"];
     }
 
     /*!
@@ -813,7 +804,7 @@ $str
             // For all the cache objects:
             foreach( array_keys( $GLOBALS['EZCODEPAGECACHEOBJECTLIST'] ) as $codePageKey )
             {
-                $codePage =& $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
+                $codePage = $GLOBALS['EZCODEPAGECACHEOBJECTLIST'][$codePageKey];
 
                 $filename = $codePage->cacheFilepath();
 

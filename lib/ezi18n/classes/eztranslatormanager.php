@@ -152,25 +152,21 @@ class eZTranslatorManager
     */
     static function instance()
     {
-        $instance =& $GLOBALS["eZTranslatorManagerInstance"];
-        if ( strtolower( get_class( $instance ) ) != "eztranslatormanager" )
+        if ( empty( $GLOBALS['eZTranslatorManagerInstance'] ) )
         {
-            $instance = new eZTranslatorManager();
+            $GLOBALS['eZTranslatorManagerInstance'] = new eZTranslatorManager();
         }
-        return $instance;
+        return $GLOBALS['eZTranslatorManagerInstance'];
     }
 
     /*!
      \static
      Registers the handler object \a $handler.
     */
-    function registerHandler( &$handler )
+    static function registerHandler( $handler )
     {
-        if ( isset( $this ) and strtolower( get_class( $this ) ) == "eztranslatormanager" )
-            $instance =& $this;
-        else
-            $instance =& eZTranslatorManager::instance();
-        $instance->Handlers[] =& $handler;
+        $instance = eZTranslatorManager::instance();
+        $instance->Handlers[] = $handler;
     }
 
     /*!
