@@ -85,8 +85,9 @@ replace "&\$operatorName" "\$operatorName" -- `find * -name "*.php"`
 replace "&\$lastElement" "\$lastElement" -- `find * -name "*.php"`
 replace "&\$operatorParameters" "\$operatorParameters" -- `find * -name "*.php"`
 
-
-
+replace "=& eZScript::instance(" "= eZScript::instance(" -- `find * -name "*.php"`
+replace "=& eZCLI::instance(" "= eZCLI::instance(" -- `find * -name "*.php"`
+replace "=& eZDB::instance(" "= eZDB::instance(" -- `find * -name "*.php"`
 
 
 

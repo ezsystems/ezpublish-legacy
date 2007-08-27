@@ -968,9 +968,8 @@ class eZTemplate
         if ( !$resourceHandler )
             return false;
         $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
-        $keyData = $resourceData['key-data'];
-        $keyData = "file:" . $file;
-        $key = md5( $keyData );
+        $resourceData['key-data'] = "file:" . $file;
+        $key = md5( $resourceData['key-data'] );
         $extraParameters = array();
         $resourceHandler->handleResource( $this, $resourceData, EZ_RESOURCE_FETCH, $extraParameters );
 

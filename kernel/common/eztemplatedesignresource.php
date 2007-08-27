@@ -198,12 +198,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         }
         if ( $type == 'site' )
         {
-            if ( isset( $GLOBALS['eZSiteBasics'] ) )
+            if ( !empty( $GLOBALS['eZSiteBasics']['site-design-override'] ) )
             {
-                if ( is_string( $GLOBALS['eZSiteBasics']['site-design-override'] ) )
-                {
-                    return $GLOBALS['eZSiteBasics']['site-design-override'];
-                }
+                return $GLOBALS['eZSiteBasics']['site-design-override'];
             }
         }
         if ( isset( $GLOBALS['eZTemplateDesignSetting'][$type] ) )

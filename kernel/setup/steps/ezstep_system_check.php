@@ -71,7 +71,7 @@ class eZStepSystemCheck extends eZStepInstaller
         $optionalTests = eZSetupOptionalTests();
         $testTable = eZSetupTestTable();
 
-        $runResult = eZSetupRunTests( $criticalTests 'eZSetup:init:system_check', $this->PersistenceList );
+        $runResult = eZSetupRunTests( $criticalTests, 'eZSetup:init:system_check', $this->PersistenceList );
         $optionalRunResult = eZSetupRunTests( $optionalTests, 'eZSetup:init:system_check', $this->PersistenceList );
         $this->Results = $runResult['results'];
         $this->Result = $runResult['result'];

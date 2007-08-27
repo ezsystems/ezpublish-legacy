@@ -423,7 +423,7 @@ function precheckAllowed( $prechecks )
 
     $tmp_allow = true;
     if ( !$ini->hasGroup( 'SitePrecheckRules' ) )
-        return true;
+        return $prechecks;
     $items = $ini->variableArray( 'SitePrecheckRules', 'Rules' );
     foreach( $items as $item )
     {

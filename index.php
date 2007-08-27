@@ -432,7 +432,6 @@ if ( !$useCronjob )
 }
 
 $check = eZHandlePreChecks( $siteBasics, $uri );
-
 include_once( 'kernel/common/i18n.php' );
 
 if ( $sessionRequired )
