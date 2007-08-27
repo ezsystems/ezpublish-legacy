@@ -564,6 +564,7 @@ $str
             if ( $file_m <= $cache_m )
             {
                 unset( $eZCodePageCacheCodeDate );
+                $umap = $utf8map = $cmap = $utf8cmap = $min_char = $max_char = $read_extra = null;
                 include( $cache );
                 $this->UnicodeMap = $umap;
                 $this->UTF8Map = $utf8map;
