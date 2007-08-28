@@ -60,14 +60,14 @@ class eZSiteAccess
         foreach ( array_keys( $siteAccessArray ) as $key )
         {
             $siteAccessItem = array();
-            $siteAccessItem['name'] =& $siteAccessArray[$key];
+            $siteAccessItem['name'] = $siteAccessArray[$key];
             $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessArray[$key] );
             $siteAccessList[] = $siteAccessItem;
         }
         if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) and !in_array( $serversiteaccess, $siteAccessArray ) )
         {
             $siteAccessItem = array();
-            $siteAccessItem['name'] =& $serversiteaccess;
+            $siteAccessItem['name'] = $serversiteaccess;
             $siteAccessItem['id'] = eZSys::ezcrc32( $serversiteaccess );
             $siteAccessList[] = $siteAccessItem;
         }
