@@ -40,7 +40,6 @@
 
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( 'lib/ezsoap/classes/ezsoapcodec.php' );
-include_once( "lib/ezxml/classes/ezxml.php" );
 include_once( "lib/ezsoap/classes/ezsoapenvelope.php" );
 
 class eZSOAPResponse extends eZSOAPEnvelope
@@ -62,35 +61,39 @@ class eZSOAPResponse extends eZSOAPEnvelope
     */
     function decodeStream( $request, $stream )
     {
-        $stream = $this->stripHTTPHeader( $stream );
-
-        $xml = new eZXML();
-
-        $dom = $xml->domTree( $stream );
+        $dom = new DOMDocument( "1.0" );
+        var_dump( $stream );
+        $dom->loadXML( $this->stripHTTPHeader( $stream ) );
         $this->DOMDocument = $dom;
 
-        if ( strtolower( get_class( $dom ) ) == "ezdomdocument" )
+        if ( !empty( $dom ) )
         {
             // check for fault
-            $response = $dom->elementsByNameNS( 'Fault', EZ_SOAP_ENV );
+            $response = $dom->getElementsByTagNameNS( EZ_SOAP_ENV, 'Fault' );
 
             if ( count( $response ) == 1 )
             {
                 $this->IsFault = 1;
-                $faultStringArray = $dom->elementsByName( "faultstring" );
-                $this->FaultString = $faultStringArray[0]->textContent();
+                foreach( $dom->getElementsByTagName( "faultstring" ) as $faultNode )
+                {
+                    $this->FaultString = $faultNode->textContent;
+                    break;
+                }
 
-                $faultCodeArray = $dom->elementsByName( "faultcode" );
-                $this->FaultCode = $faultCodeArray[0]->textContent();
+                foreach( $dom->getElementsByTagName( "faultcode" ) as $faultNode )
+                {
+                    $this->FaultCode = $faultNode->textContent;
+                    break;
+                }
                 return;
             }
 
             // get the response
-            $response = $dom->elementsByNameNS( $request->name() . "Response", $request->namespace() );
+            $response = $dom->getElementsByTagNameNS( $request->namespace(), $request->name() . "Response" );
 
             $response = $response[0];
 
-            if ( strtolower( get_class( $response ) ) == "ezdomnode" )
+            if ( !empty( $response ) )
             {
                 /* Cut from the SOAP spec:
                 The method response is viewed as a single struct containing an accessor
@@ -106,7 +109,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
                 with the string "Response" appended.
                 */
 
-                $responseAccessors = $response->children();
+                $responseAccessors = $response->childNodes;
                 if ( count($responseAccessors) > 0 )
                 {
                     $returnObject = $responseAccessors[0];
@@ -132,15 +135,16 @@ class eZSOAPResponse extends eZSOAPEnvelope
     {
         $returnValue = false;
 
-        $attr = $node->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
-
-        if ( !$attr )
+        $attributeValue = '';
+        $attribute = $node->getAttributeNodeNS( EZ_SOAP_SCHEMA_INSTANCE, 'type' );
+        if ( !$attribute )
         {
-            $attr = $node->attributeValueNS( "type", "http://www.w3.org/1999/XMLSchema-instance" );
+            $attribute = $node->getAttributeNodeNS( 'http://www.w3.org/1999/XMLSchema-instance', 'type' );
         }
+        $attributeValue = $attribute->value;
 
         $dataType = $type;
-        $attrParts = explode( ":", $attr );
+        $attrParts = explode( ":", $attributeValue );
         if ( $attrParts[1] )
         {
             $dataType = $attrParts[1];
@@ -163,12 +167,12 @@ TODO: add encoding checks with schema validation.
             case "float" :
             case 'double' :
             {
-                $returnValue = $node->textContent();
+                $returnValue = $node->textContent;
             } break;
 
             case "boolean" :
             {
-                if ( $node->textContent() == "true" )
+                if ( $node->textContent == "true" )
                     $returnValue = true;
                 else
                     $returnValue = false;
@@ -176,14 +180,13 @@ TODO: add encoding checks with schema validation.
 
             case "base64" :
             {
-                $returnValue = base64_decode( $node->textContent() );
+                $returnValue = base64_decode( $node->textContent );
             } break;
 
             case "Array" :
             {
                 // Get array type
-                $arrayType = $node->attributeValueNS( "arrayType", EZ_SOAP_ENC );
-
+                $attayType = $node->getAttributeNodeNS( EZ_SOAP_ENC, 'arrayType' )->value;
                 $arrayTypeParts = explode( ":", $arrayType );
 
                 preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
@@ -213,7 +216,7 @@ TODO: add encoding checks with schema validation.
                 foreach ( $node->children() as $childNode )
                 {
                     // check data type for child
-                    $attr = $childNode->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
+                    $attr = $childNode->getAttributeNodeNS( EZ_SOAP_SCHEMA_INSTANCE, 'type' )->value;
 
                     $dataType = false;
                     $attrParts = explode( ":", $attr );
@@ -234,36 +237,28 @@ TODO: add encoding checks with schema validation.
     */
     function payload( )
     {
-        $doc = new eZDOMDocument();
-        $doc->setName( "eZSOAP message" );
+        $doc = new DOMDocument();
+        $doc->name = "eZSOAP message";
 
-        $root = $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
+        $root = $doc->createElementNS( EZ_SOAP_ENV, EZ_SOAP_ENV_PREFIX . ':Envelope' );
 
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE ) );
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA ) );
-        $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_ENC_PREFIX, EZ_SOAP_ENC ) );
-        $root->setPrefix( EZ_SOAP_ENV_PREFIX );
+        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE );
+        $root->setAttribute( 'xmlns:' . EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA );
+        $root->setAttribute( 'xmlns:' . EZ_SOAP_ENC_PREFIX, EZ_SOAP_ENC );
 
         // add the body
-        $body = $doc->createElementNode( "Body" );
-
-        $body->setPrefix( EZ_SOAP_ENV_PREFIX );
+        $body = $doc->createElement(  EZ_SOAP_ENV_PREFIX . ':Body' );
         $root->appendChild( $body );
 
         // Check if it's a fault
-        if ( strtolower( get_class( $this->Value ) ) == 'ezsoapfault' )
+        if ( $this->Value instanceof eZSOAPFault )
         {
-            $fault = $doc->createElementNode( "Fault" );
-            $fault->setPrefix( EZ_SOAP_ENV_PREFIX );
+            $fault = $doc->createElement( EZ_SOAP_ENV_PREFIX . ':Fault' );
 
-            $faultCodeNode = $doc->createElementNode( "faultcode" );
-            $faultCodeNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultCode() ) );
-
+            $faultCodeNode = $doc->createElement( "faultcode", $this->Value->faultCode() );
             $fault->appendChild( $faultCodeNode );
 
-            $faultStringNode = $doc->createElementNode( "faultstring" );
-            $faultStringNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultString() ) );
-
+            $faultStringNode = $doc->createElement( "faultstring", $this->Value->faultString() );
             $fault->appendChild( $faultStringNode );
 
             $body->appendChild( $fault );
@@ -272,12 +267,12 @@ TODO: add encoding checks with schema validation.
         {
             // add the request
             $responseName = $this->Name . "Response";
-            $response = $doc->createElementNode( $responseName );
-            $response->setPrefix( "resp" );
-            $response->appendAttribute( $doc->createAttributeNamespaceDefNode( "resp", $this->Namespace ) );
+            $response = $doc->createElement( $responseName );
+            $response->prefix = "resp";
+            $response->setAttribute( 'xmlns:' . "resp", $this->Namespace );
 
-            $return = $doc->createElementNode( "return" );
-            $return->setPrefix( "resp" );
+            $return = $doc->createElement( "return" );
+            $return->prefix = "resp";
 
             $value = eZSOAPCodec::encodeValue( "return", $this->Value );
 
@@ -286,9 +281,9 @@ TODO: add encoding checks with schema validation.
             $response->appendChild( $value );
         }
 
-        $doc->setRoot( $root );
+        $doc->appendChild( $root );
 
-        return $doc->toString();
+        return $doc->saveXML();
     }
 
     /*!

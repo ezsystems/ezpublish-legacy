@@ -70,7 +70,6 @@ class Collection
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
 include_once( "lib/ezsoap/classes/ezsoapfault.php" );
 include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
-include_once( "lib/ezxml/classes/ezxml.php" );
 
 class eZSOAPServer
 {
@@ -144,12 +143,11 @@ class eZSOAPServer
 
         $xmlData = $this->stripHTTPHeader( $this->RawPostData );
 
-        $xml = new eZXML();
-
-        $dom = $xml->domTree( $xmlData );
+        $dom = new DOMDocument();
+        $dom->loadXML( $xmlData );
 
         // Check for non-parsing XML, to avoid call to non-object error.
-        if ( !is_object( $dom ) )
+        if ( empty( $dom ) )
         {
             $this->showResponse( 'unknown_function_name', 'unknown_namespace_uri',
                                  new eZSOAPFault( 'Server Error',
@@ -159,7 +157,7 @@ class eZSOAPServer
 
         // add namespace fetching on body
         // get the SOAP body
-        $body = $dom->elementsByName( "Body" );
+        $body = $dom->getElementsByTagName( "Body" );
 
         $children = $body[0]->children();
 
@@ -167,12 +165,12 @@ class eZSOAPServer
         {
             $requestNode = $children[0];
             // get target namespace for request
-            $functionName = $requestNode->name();
-            $namespaceURI = $requestNode->namespaceURI();
+            $functionName = $requestNode->name;
+            $namespaceURI = $requestNode->namespaceURI;
 
             $params = array();
             // check parameters
-            foreach ( $requestNode->children() as $parameterNode )
+            foreach ( $requestNode->childNodes as $parameterNode )
             {
                 $params[] = eZSOAPResponse::decodeDataTypes( $parameterNode );
             }
@@ -198,13 +196,13 @@ class eZSOAPServer
                     if ( !method_exists( $object, $objectFunctionName ) )
                     {
                         $this->showResponse( $functionName, $namespaceURI,
-                                     new eZSOAPFault( 'Server Error',
-                                                      'Objectmethod not found' ) );
+                                             new eZSOAPFault( 'Server Error',
+                                                              'Objectmethod not found' ) );
                     }
                     else
                     {
                         $this->showResponse( $functionName, $namespaceURI,
-                                     call_user_func_array( array( $object, $objectFunctionName ), $params ) );
+                                             call_user_func_array( array( $object, $objectFunctionName ), $params ) );
                     }
                 }
             }
