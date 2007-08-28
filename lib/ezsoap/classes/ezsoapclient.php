@@ -169,7 +169,7 @@ class eZSOAPClient
                     curl_setopt( $ch, CURLOPT_TIMEOUT, $this->TimeOut );
                 }
                 $payload = $request->payload();
-                var_dump( $request, $payload );
+
                 if ( $ch != 0 )
                 {
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .

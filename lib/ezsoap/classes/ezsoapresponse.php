@@ -62,7 +62,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
     function decodeStream( $request, $stream )
     {
         $dom = new DOMDocument( "1.0" );
-        var_dump( $stream );
+
         $dom->loadXML( $this->stripHTTPHeader( $stream ) );
         $this->DOMDocument = $dom;
 
