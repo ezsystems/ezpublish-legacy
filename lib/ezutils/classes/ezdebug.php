@@ -913,9 +913,10 @@ class eZDebug
     */
     static function setLogFileEnabled( $enabled, $types = false )
     {
+        $instance = eZDebug::instance();
         if ( $types === false )
         {
-            $types = $this->messageTypes();
+            $types = $instance->messageTypes();
         }
         if ( !is_array( $types ) )
         {
@@ -923,7 +924,7 @@ class eZDebug
         }
         foreach ( $types as $type )
         {
-            $this->LogFileEnabled[$type] = $enabled;
+            $instance->LogFileEnabled[$type] = $enabled;
         }
     }
 
