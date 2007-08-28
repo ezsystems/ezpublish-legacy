@@ -2,7 +2,7 @@
 //
 // Definition of eZSiteAccess class
 //
-// Created on: <22-ñÎ×-2003 16:23:14 sp>
+// Created on: <22-ï¿½ï¿½ï¿½-2003 16:23:14 sp>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -64,7 +64,7 @@ class eZSiteAccess
             $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessArray[$key] );
             $siteAccessList[] = $siteAccessItem;
         }
-        if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
+        if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) and !in_array( $serversiteaccess, $siteAccessArray ) )
         {
             $siteAccessItem = array();
             $siteAccessItem['name'] =& $serversiteaccess;

@@ -856,3 +856,24 @@ Datatype branch:
 - Revision=19448
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0alpha1
 - Date 18-Jul-2007
+
+3.8.9:
+- Release branch=release/3.8.9
+- Release branch start=19740
+- Release date 22-Aug-2007
+- Revision=19766
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.9
+- Date 22-Aug-2007
+
+3.9.3:
+- Release branch=release/3.9.3
+- Release branch start=19742
+- Release date 22-Aug-2007
+- Revision=19765
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.9.3
+- Date 22-Aug-2007
+
+3.10.0beta1:
+- Revision=19767
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.10.0beta1
+- Date 22-Aug-2007

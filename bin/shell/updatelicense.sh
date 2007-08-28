@@ -175,7 +175,7 @@ LICENSE_INFO="$LICENSE_DIR/ezinfo.txt"
 LICENSE_NOTICE_FILE="$LICENSE_DIR/$LICENSE_NOTICE_FILE"
 LICENSE_NOTICE_TMP_FILE="$LICENSE_DIR/$LICENSE_NOTICE_TMP_FILE"
 
-EZINFO_FILE='kernel/ezinfo/about.php'
+EZINFO_FILE="$DEST_DIR/kernel/ezinfo/about.php"
 CONTRIBUTORS_TMP_FILE='contributors.tmp'
 CONTRIBUTORS_DIR="$DEST_DIR/var/storage/contributors"
 THIRDSOFT_FILE="$DEST_DIR/var/storage/third_party_software.php"
