@@ -317,10 +317,10 @@ class eZDateTimeType extends eZDataType
     {
         $xmlText = $classAttribute->attribute( 'data_text5' );
         if ( trim( $xmlText ) == '' )
-        {  
+        {
             $classAttrContent = eZDateTimeType::defaultClassAttributeContent();
             return $classAttrContent;
-        }  
+        }
         $doc =& eZDateTimeType::parseXML( $xmlText );
         $root =& $doc->root();
         $type = $root->elementByName( 'year' );

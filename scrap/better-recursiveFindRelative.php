@@ -7,7 +7,7 @@
         $entries = array();
         if ( $subdir != '' )
         {
-            $path .= '/'. $subdir; 
+            $path .= '/'. $subdir;
         }
         $dir = glob( $path. '/*' );
         if ( $dir )

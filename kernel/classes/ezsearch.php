@@ -99,7 +99,7 @@ class eZSearch
         if ( is_object( $searchEngine ) )
         {
             $normalizedText =& $searchEngine->normalizeText( $text );
-            
+
         }
 
         return $normalizedText;

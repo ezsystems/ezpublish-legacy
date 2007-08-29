@@ -44,7 +44,7 @@ class eZPaymentGateway
         Constructor.
     */
     function eZPaymentGateway()
-    {                     
+    {
         $this->logger = eZPaymentLogger::CreateForAdd( "var/log/eZPaymentGateway.log" );
     }
 
@@ -58,7 +58,7 @@ class eZPaymentGateway
     {
         return false;
     }
-    
+
     function cleanup( &$process, &$event )
     {
     }
@@ -72,7 +72,7 @@ class eZPaymentGateway
         //__DEBUG__
             $this->logger->writeTimedString("createShortDescription");
         //___end____
-            
+
         $descText       = '';
         $productItems   = $order->productItems();
 
@@ -81,7 +81,7 @@ class eZPaymentGateway
             $descText .= $item['object_name'] . ',';
         }
         $descText   = rtrim( $descText, "," );
-        
+
         $descLen    = strlen( $descText );
         if( ($maxDescLen > 0) && ($descLen > $maxDescLen) )
         {

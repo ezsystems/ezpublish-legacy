@@ -1,7 +1,7 @@
 <!-- Browser check / Hellstrøm 6.8.2002 -->
 
 <?
-if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Windows' ) ) 
+if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Windows' ) )
 {
 $browser_os = "Windows";
 }
@@ -16,7 +16,7 @@ $browser_os = "Mac";
 ?>
 
 <?
-if ( strstr( getenv( 'HTTP_USER_AGENT' ), '/1' ) ) 
+if ( strstr( getenv( 'HTTP_USER_AGENT' ), '/1' ) )
 {
 $browser_version = 1;
 }
@@ -43,7 +43,7 @@ $browser_version = 6;
 ?>
 
 <?
-if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Opera' ) ) 
+if ( strstr( getenv( 'HTTP_USER_AGENT' ), 'Opera' ) )
 {
 $browser_name = "Opera";
 }
@@ -84,7 +84,7 @@ if ( $browser_os == "Windows" )
     {
     ?>
         <link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
-    <?    
+    <?
     }
 }
 else if ( $browser_os == "Mac" )
@@ -93,7 +93,7 @@ else if ( $browser_os == "Mac" )
     {
     ?>
         <link rel="stylesheet" type="text/css" href="<? print $GlobalSiteIni->WWWDir; ?>/sitedesign/oneworld/style-larger.css" />
-    <?    
+    <?
     }
 }
 ?>

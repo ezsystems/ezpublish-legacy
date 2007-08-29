@@ -15,7 +15,7 @@ $totalKeywords = count ( $keywordIDArray );
 if ( $totalKeywords > 0 )
 {
     eZDebug::writeDebug ( "Deleting $totalKeywords keywords which aren't used by any attribute ...", "keyword-check" );
-    
+
     $keywordString = implode ( ",", $keywordIDArray );
     $sql = "DELETE FROM ezkeyword WHERE id IN ( $keywordString )";
     $db->query ( $sql );
@@ -39,7 +39,7 @@ $totalUrls = count ( $urlIDArray );
 if ( $totalUrls > 0 )
 {
     eZDebug::writeDebug ( "Deleting $totalUrls url-links which aren't used by any attribute ...", "url-check" );
-    
+
     $urlString = implode ( ",", $urlIDArray );
     $sql = "DELETE FROM ezurl_object_link WHERE contentobject_attribute_id IN ( $urlString )";
     $db->query ( $sql );

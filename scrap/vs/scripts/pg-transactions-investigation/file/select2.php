@@ -38,7 +38,7 @@ for( $i=0; $i<1000; $i++ )
     $result = pg_query($query) or die('Query failed: ' . pg_last_error());
 #    $row = pg_fetch_row($result);
 #    echo $row[0] . "\n";
-}    
+}
 $end_time = microtime_float();
 
 $elapsed = $end_time - $start_time;

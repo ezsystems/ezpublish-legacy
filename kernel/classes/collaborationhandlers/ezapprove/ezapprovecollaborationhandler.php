@@ -257,7 +257,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             $user =& eZUser::currentUser();
             $userID = $user->attribute( 'contentobject_id' );
             $participantList = eZCollaborationItemParticipantLink::fetchParticipantList( array( 'item_id' => $collaborationItem->attribute( 'id' ) ) );
-    
+
             $approveAllowed = false;
             foreach( $participantList as $participant )
             {

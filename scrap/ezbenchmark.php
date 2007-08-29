@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id: ezbenchmark.php,v 1.7.2.1 2002/04/05 08:10:04 bf Exp $
 //
 // Definition of eZTextTool class
@@ -39,12 +39,12 @@
 
   $bench = new eZBenchmark();
   $bench->start();
-  
+
   // do something here
 
   $bench->stop();
   $bench->printResults();
-  \endcode  
+  \endcode
 */
 
 class eZBenchmark
@@ -85,13 +85,13 @@ class eZBenchmark
         ereg( "0\.([0-9]+)", "" . $time_2[0], $t2 );
 
         $Start = $time_1[1] . "." . $t1[1];
-        $Stop = $time_2[1] . "." . $t2[1];    
-        
+        $Stop = $time_2[1] . "." . $t2[1];
+
         $elapsed = $Stop - $Start;
         $elapsed = number_format( ( $elapsed ), 2 );
         return $elapsed;
     }
-    
+
     /*!
       Prints the benchmark results.
     */
@@ -106,10 +106,10 @@ class eZBenchmark
         {
             return "Time elapsed: " . $elapsed . " seconds.<br>";
         }
-        
+
     }
 
-    
+
     var $StartTime;
     var $StopTime;
 }

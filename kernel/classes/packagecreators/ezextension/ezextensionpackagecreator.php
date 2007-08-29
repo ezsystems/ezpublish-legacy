@@ -70,7 +70,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
 
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        
+
         $fileList = array();
         $sourceDir = $extensionDir . '/' . $persistentData['extensionname'];
         $targetDir = $package->path() . '/ezextension';
@@ -79,7 +79,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         eZDir::copy( $sourceDir, $targetDir );
 
         eZDir::recursiveList( $targetDir, '', $fileList );
-        
+
         $doc = new eZDOMDocument;
 
         $packageRoot =& $doc->createElement( 'extension' );
@@ -178,7 +178,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     function generatePackageInformation( &$packageInformation, &$package, &$http, $step, &$persistentData )
     {
         $extensionName = $persistentData['extensionname'];
-        
+
         if ( $extensionName )
         {
             $packageInformation['name'] = $extensionName;

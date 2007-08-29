@@ -125,7 +125,7 @@ if ( $doItemInstall )
     {
         $uninstallItem = $uninstallItems[$currentItem];
         $result = $package->uninstallItem( $uninstallItem, $persistentData );
-    
+
         if ( !$result )
         {
             $templateName = "design:package/uninstall_error.tpl";

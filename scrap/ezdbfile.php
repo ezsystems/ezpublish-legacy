@@ -2,23 +2,23 @@
 
 /*
 
-CREATE TABLE file ( 
- id mediumint(8) unsigned NOT NULL auto_increment, 
- datatype varchar(60) NOT NULL default 'application/octet-stream', 
- name varchar(255) NOT NULL default '', 
- name_hash varchar(34) NOT NULL default '', 
- scope varchar(20) NOT NULL default '', 
- size bigint(20) unsigned NOT NULL default '1024', 
- mtime int(11) NOT NULL default '0', 
+CREATE TABLE file (
+ id mediumint(8) unsigned NOT NULL auto_increment,
+ datatype varchar(60) NOT NULL default 'application/octet-stream',
+ name varchar(255) NOT NULL default '',
+ name_hash varchar(34) NOT NULL default '',
+ scope varchar(20) NOT NULL default '',
+ size bigint(20) unsigned NOT NULL default '1024',
+ mtime int(11) NOT NULL default '0',
  PRIMARY KEY (id) ) TYPE=MyISAM;
 create index name on file(name);
 create index name_hash on file(name_hash);
 
- CREATE TABLE filedata ( 
- id mediumint(8) unsigned NOT NULL auto_increment, 
- masterid mediumint(8) unsigned NOT NULL default '0', 
- filedata blob NOT NULL, 
- PRIMARY KEY (id), 
+ CREATE TABLE filedata (
+ id mediumint(8) unsigned NOT NULL auto_increment,
+ masterid mediumint(8) unsigned NOT NULL default '0',
+ filedata blob NOT NULL,
+ PRIMARY KEY (id),
  KEY master_idx (masterid) ) TYPE=MyISAM;
 
 
@@ -26,22 +26,22 @@ create index name_hash on file(name_hash);
 
 
 
-CREATE TABLE file ( 
- id mediumint(8) unsigned NOT NULL auto_increment, 
- datatype varchar(60) NOT NULL default 'application/octet-stream', 
- name varchar(255) NOT NULL default '', 
- name_hash varchar(34) NOT NULL default '', 
- size bigint(20) unsigned NOT NULL default '1024', 
- filedate datetime NOT NULL default '0000-00-00 00:00:00', 
+CREATE TABLE file (
+ id mediumint(8) unsigned NOT NULL auto_increment,
+ datatype varchar(60) NOT NULL default 'application/octet-stream',
+ name varchar(255) NOT NULL default '',
+ name_hash varchar(34) NOT NULL default '',
+ size bigint(20) unsigned NOT NULL default '1024',
+ filedate datetime NOT NULL default '0000-00-00 00:00:00',
  PRIMARY KEY (id) ) TYPE=InnoDB;
 create index name on file(name);
 create index name_hash on file(name_hash);
 
- CREATE TABLE filedata ( 
- id mediumint(8) unsigned NOT NULL auto_increment, 
- masterid mediumint(8) unsigned NOT NULL default '0', 
- filedata blob NOT NULL, 
- PRIMARY KEY (id), 
+ CREATE TABLE filedata (
+ id mediumint(8) unsigned NOT NULL auto_increment,
+ masterid mediumint(8) unsigned NOT NULL default '0',
+ filedata blob NOT NULL,
+ PRIMARY KEY (id),
  KEY master_idx (masterid) ) TYPE=InnoDB;
 
 
@@ -66,7 +66,7 @@ class eZDBFile
         $this->Storage_Port = 3306;
         $this->Storage_User = "cluster";
         $this->Storage_Passwd = "cluster";
-        $this->Storage_DB = "cluster"; 
+        $this->Storage_DB = "cluster";
 
 
         $connectto = $this->Storage_IP . ":" . $this->Storage_Port;
@@ -82,7 +82,7 @@ class eZDBFile
 
     }
 
-    
+
     function uploadHttpFile($postVariable)
     {
 // Init values - these are used incase you want to upload multiple files, you just
@@ -338,7 +338,7 @@ class eZDBFile
         return true;
     }
 
-    
+
 
     /* fetch file form db, returns filecontent */
     function fetchFile ( $realfilename)
@@ -362,7 +362,7 @@ class eZDBFile
         $FileObj = mysql_fetch_object($RES);
 //        mysql_free_result($RES);
         // Pull the list of file inodes
-        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id";
 
         if (!$RES = mysql_query($SQL, $this->linkid))
         {
@@ -389,7 +389,7 @@ class eZDBFile
             $DataObj = mysql_fetch_object($RESX);
             $result.=$DataObj->filedata;
 //            unset ($DataObj);
-//            mysql_free_result($RESX); 
+//            mysql_free_result($RESX);
         }
 
         return $result;
@@ -417,7 +417,7 @@ class eZDBFile
         $FileObj = mysql_fetch_object($RES);
 //        mysql_free_result($RES);
         // Pull the list of file inodes
-        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id";
 
         if (!$RES = mysql_query($SQL, $this->linkid))
         {
@@ -478,7 +478,7 @@ class eZDBFile
         $FileObj = mysql_fetch_object($RES);
 //        mysql_free_result($RES);
         // Pull the list of file inodes
-        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id";
 
         if (!$RES = mysql_query($SQL, $this->linkid))
         {
@@ -508,7 +508,7 @@ class eZDBFile
             fwrite( $fp, $DataObj->filedata) ;
 
 //            unset ($DataObj);
-//            mysql_free_result($RESX); 
+//            mysql_free_result($RESX);
         }
 
         fclose( $fp );
@@ -550,7 +550,7 @@ class eZDBFile
 
 
 /*        $dirs = implode( "/", dirname ( $filenameOnFileSystem ) );
-        for 
+        for
         if ( ! file_exists( dirname ( $filenameOnFileSystem ) ) )
         {
             echo ("dirname : " . dirname ( $filenameOnFileSystem));
@@ -580,7 +580,7 @@ class eZDBFile
         $FileObj = mysql_fetch_object($RES);
 //        mysql_free_result($RES);
         // Pull the list of file inodes
-        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id";
 
         if (!$RES = mysql_query($SQL, $this->linkid))
         {
@@ -610,7 +610,7 @@ class eZDBFile
             fwrite( $fp, $DataObj->filedata) ;
 
 //            unset ($DataObj);
-//            mysql_free_result($RESX); 
+//            mysql_free_result($RESX);
         }
 
         fclose( $fp );

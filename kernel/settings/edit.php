@@ -175,7 +175,7 @@ function parseArrayToStr( $value, $separator )
 {
     if ( !is_array( $value ) )
         return $value;
-    
+
     $valueArray = array();
 
     foreach( $value as $param=>$key )
@@ -189,7 +189,7 @@ function parseArrayToStr( $value, $separator )
             $valueArray[] = "=$key";
         }
     }
-    
+
     $value = implode( $separator, $valueArray );
     return $value;
 }

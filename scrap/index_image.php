@@ -24,7 +24,7 @@ class eZDBImageServer
             header( "X-Powered-By: eZ publish" );
             header( "Content-disposition: attachment; filename=\"$originalFileName\"" );
             header( "Content-Transfer-Encoding: binary" );
-            header( "Accept-Ranges: bytes" ); 
+            header( "Accept-Ranges: bytes" );
 
 /*   Header ( "Content-Type: $FileObj->datatype" );
    Header ( "Content-Length: " . $FileObj->size );
