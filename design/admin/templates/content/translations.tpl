@@ -17,14 +17,16 @@
 	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
 	<th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
+	<th class="tight">{'Classes translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
 {def $object_count=$Translations.item.object_count}
+{def $class_count=$Translations.item.class_count}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
 	<td>
-    {if $object_count}
+    {if or($object_count, $class_count)}
         <input type="checkbox" name="DeleteIDArray[]" value="" title="{'The language can not be removed because it is in use.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" />
     {else}
         <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" />
@@ -33,7 +35,7 @@
 
     {* Language. *}
 	<td>
-    <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" /> 
+    <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" />
     <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>
     {section show=$Translations.item.translation.name|wash}
         {$Translations.item.translation.name|wash}
@@ -50,8 +52,12 @@
 
     {* Object count *}
 	<td class="number" align="right">{$object_count}</td>
+
+    {* Class count *}
+	<td class="number" align="right">{$class_count}</td>
 </tr>
 {undef $object_count}
+{undef $class_count}
 {/section}
 </table>
 
