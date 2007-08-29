@@ -184,7 +184,7 @@ if ( $useSearchCode )
     $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
     $tpl->setVariable( "search_count", $searchResult["SearchCount"] );
     $tpl->setVariable( "stop_word_array", $searchResult["StopWordArray"] );
-    if ( isset( $searchResult["SearchExtras"] ) ) 
+    if ( isset( $searchResult["SearchExtras"] ) )
     {
         $tpl->setVariable( "search_extras", $searchResult["SearchExtras"] );
     }

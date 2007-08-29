@@ -16,3 +16,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 
 *Bugfixes:
 - Fixed bug #11327: prevent double listing of siteaccess in siteaccess array if servar is used
+- Fixed bug #11335: search_extras not set in advancedsearch.php.
