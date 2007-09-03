@@ -25,3 +25,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
   error in certain circumstances.
 - Fixed bug #011338: RSS Crashes if selected class doesn't have the selected field values to export.
 - Fixed bug #11330: updateniceurls.php is missing in eZ Publish 3.10.0beta1 package.
+- Fixed bug #011340: RSS cache doesn't get emptied out.
