@@ -7,3 +7,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk(3.10.0rc1) rev.19792)
 - Fixed bug #010250: Hidden node still displayed when embedded.
   (Merged from stable/3.9 (3.9.4) rev.19797)
+- Fixed bug #011338: RSS Crashes if selected class doesn't have the selected field values to export.
+  (Merged from trunk (3.10.0rc1) rev. 19802 ).

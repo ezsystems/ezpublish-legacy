@@ -38,7 +38,9 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 $http =& eZHTTPTool::instance();
 
-$validated = false;
+$valid = true;
+$validationErrors = array();
+
 if ( isset( $Params['RSSExportID'] ) )
     $RSSExportID = $Params['RSSExportID'];
 else
@@ -49,14 +51,15 @@ if ( $http->hasPostVariable( 'RSSExport_ID' ) )
 
 if ( $Module->isCurrentAction( 'Store' ) )
 {
-    if( $_POST['active'] == "on" and strlen( trim( $_POST['Access_URL'] ) ) == 0 )
+
+    $storeResult = eZRSSEditFunction::storeRSSExport( $Module, $http, true );
+
+    if ( $storeResult['valid'] && $storeResult['published'] )
+        return $Module->redirectTo( '/rss/list' );
+    if ( !$storeResult['valid'] )
     {
-         eZRSSEditFunction::storeRSSExport( $Module, $http );
-         $validated = true;
-    }
-    else
-    {
-        return eZRSSEditFunction::storeRSSExport( $Module, $http, true );
+        $valid = false;
+        $validationErrors = $storeResult['validation_errors'];
     }
 }
 else if ( $Module->isCurrentAction( 'UpdateItem' ) )
@@ -72,7 +75,8 @@ else if ( $Module->isCurrentAction( 'AddItem' ) )
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
     $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
-    $rssExport->remove();
+    if ( $rssExport )
+        $rssExport->remove();
     return $Module->redirectTo( '/rss/list' );
 }
 else if ( $Module->isCurrentAction( 'BrowseImage' ) )
@@ -254,7 +258,12 @@ $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_export', $rssExport );
 $tpl->setVariable( 'rss_export_id', $rssExportID );
 
-$tpl->setVariable( 'validaton', $validated );
+// BC for old templates
+$tpl->setVariable( 'validaton', !$valid );
+// New validation handling
+$tpl->setVariable( 'valid', $valid );
+$tpl->setVariable( 'validation_errors', $validationErrors );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:rss/edit_export.tpl" );
 $Result['path'] = array( array( 'url' => false,
