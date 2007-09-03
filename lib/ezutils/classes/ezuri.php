@@ -59,7 +59,7 @@ class eZURI
 
      More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
      */
-    function decodeIRI( $str )
+    static function decodeIRI( $str )
     {
         $str = urldecode( $str ); // Decode %xx entries, we now have a utf-8 string
         $codec = eZTextCodec::instance( 'utf-8' ); // Make sure string is converted from utf-8 to internal encoding
@@ -72,7 +72,7 @@ class eZURI
 
      More info on IRI here: http://www.w3.org/International/O-URL-and-ident.html
      */
-    function encodeIRI( $str )
+    static function encodeIRI( $str )
     {
         $codec = eZTextCodec::instance( false, 'utf-8' );
         $str = $codec->convertString( $str ); // Make sure the string is in utf-8
