@@ -5,3 +5,5 @@ Changes from 3.8.9 to 3.8.10
 *Bugfixes:
 - Fixed bug #011292: Clean up of a contentclass is not done when you remove a language.
   (Merged from trunk(3.10.0rc1) rev.19792)
+- Fixed bug #010250: Hidden node still displayed when embedded.
+  (Merged from stable/3.9 (3.9.4) rev.19797)
