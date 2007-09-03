@@ -23,3 +23,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #011353: Correction in text for ISBN datatype in class edit
 - Fixed bug #11307: Setup wizard fails with fatal error / database transaction
   error in certain circumstances.
+- Fixed bug #011338: RSS Crashes if selected class doesn't have the selected field values to export.
