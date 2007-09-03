@@ -43,6 +43,16 @@ class eZRSSEditFunction
     */
     function storeRSSExport( $Module, $http, $publish = false )
     {
+        $valid = true;
+        $validationErrors = array();
+        if ( $http->hasPostVariable( 'active' ) && $http->postVariable( 'active' )  == 'on'
+             && $http->hasPostVariable( 'Access_URL' ) && strlen( trim( $http->postVariable( 'Access_URL' ) ) ) == 0 )
+        {
+            $valid = false;
+            $publish = false;
+            $validationErrors[] =ezi18n( 'design/admin/rss/edit_export',
+                                         'If RSS Export is Active then a valid Access URL is required.'  );
+        }
         // VS-DBFILE
 
         /* Kill the RSS cache */
@@ -79,9 +89,39 @@ class eZRSSEditFunction
             }
 
             $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
+            $class = eZContentClass::fetch(  $http->postVariable( 'Item_Class_'.$itemCount ) );
+
+            $titleClassAttributeIdentifier = $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount );
+            $descriptionClassAttributeIdentifier = $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount );
+
+            if ( !$class )
+            {
+                $validated = false;
+                $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                                              'Selected class does not exists' );
+            }
+            else
+            {
+                $dataMap = $class->attribute( 'data_map' );
+                if ( !isset( $dataMap[$titleClassAttributeIdentifier] ) )
+                {
+                    $valid = false;
+                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                                                  'Invalid selection for title class %1 does not have attribute "%2"', null,
+                                                  array( $class->attribute( 'name'), $titleClassAttributeIdentifier ) );
+                }
+                if ( !isset( $dataMap[$descriptionClassAttributeIdentifier] ) )
+                {
+                    $valid = false;
+                    $validationErrors[] = ezi18n( 'kernel/rss/edit_export',
+                                                  'Invalid selection for description class %1 does not have attribute "%2"', null,
+                                                  array( $class->attribute( 'name'), $descriptionClassAttributeIdentifier ) );
+                }
+            }
+
             $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
             $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
-            if( $publish )
+            if( $publish && $valid )
             {
                 $rssExportItem->setAttribute( 'status', 1 );
                 $rssExportItem->store();
@@ -120,19 +160,22 @@ class eZRSSEditFunction
             $rssExport->setAttribute( 'main_node_only', 0 );
         }
 
-        if ( $publish )
+        $published = false;
+        if ( $publish && $valid )
         {
             $rssExport->store( true );
             // remove draft
             $rssExport->remove();
-            $db->commit();
-            return $Module->redirectTo( '/rss/list' );
+            $published = true;
         }
         else
         {
             $rssExport->store();
         }
         $db->commit();
+        return array( 'valid' => $valid,
+                      'published' => $published,
+                      'validation_errors' => $validationErrors );
     }
 }
 ?>

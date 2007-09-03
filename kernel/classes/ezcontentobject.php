@@ -4669,6 +4669,13 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
+        $initialLanguage = eZContentObject::mapLanguage( $domNode->getAttribute( 'initial_language' ), $options );
+        if( $initialLanguage === 'skip' )
+        {
+            $retValue = true;
+            return $retValue;
+        }
+
         $sectionID = $domNode->getAttribute( 'section_id' );
         if ( $ownerID === false )
         {
@@ -4678,7 +4685,6 @@ class eZContentObject extends eZPersistentObject
         $name = $domNode->getAttribute( 'name' );
         $classRemoteID = $domNode->getAttribute( 'class_remote_id' );
         $classIdentifier = $domNode->getAttribute( 'class_identifier' );
-        $initialLanguage = eZContentObject::mapLanguage( $domNode->getAttribute( 'initial_language' ), $options );
         $alwaysAvailable = ( $domNode->getAttribute( 'always_available' ) == '1' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
