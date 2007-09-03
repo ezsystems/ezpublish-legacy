@@ -13,11 +13,14 @@
 
 <div class="context-attributes">
 
-    {section show=$validaton}
+    {section show=not($valid)}
         <div class="warning">
             <h2>{'Invalid Input'|i18n( 'design/admin/rss/edit_export' )}</h2>
             <ul>
-                <li>{'If RSS Export is Active then a valid Access URL is required.'|i18n( 'design/admin/rss/edit_export' )}</li>
+{section var=Errors loop=$validation_errors}
+             <li>{$Errors.item}</li>
+{/section}
+{*                <li>{'If RSS Export is Active then a valid Access URL is required.'|i18n( 'design/admin/rss/edit_export' )}</li>*}
             </ul>
         </div>
     {/section}
