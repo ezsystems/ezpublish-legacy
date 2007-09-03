@@ -9,11 +9,6 @@
     <p>{'You can load the definition that follows the standard distribution here:'|i18n( 'design/standard/class/datatype' )}</p>
     <input type="submit" name="CustomActionButton[{$class_attribute.id}_ImportISBN13Data]" value="{'Import Isbn range data'|i18n( 'design/standard/class/datatype' )}" />
   </div>
-  <div class="block">
-    <h3>{'Import newest version of the Isbn ranges'|i18n( 'design/standard/class/datatype' )}</h3>
-    <p>{"It's possible to import the data with the script: bin/php/updateisbn13.php --file=ranges.js"|i18n( 'design/standard/class/datatype' )}</p>
-    <p>{"Please read the documentation in the file doc/specifications/3.10/isbn/technical_specifications.txt for how to proceed."|i18n( 'design/standard/class/datatype' )}</p>
-  </div>
 </div>
 {/if}
 <div class="block">
