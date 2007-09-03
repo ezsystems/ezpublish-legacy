@@ -55,16 +55,21 @@ class eZRSSEditFunction
         }
         // VS-DBFILE
 
-        /* Kill the RSS cache */
+        /* Kill the RSS cache in all siteaccesses */
         $config =& eZINI::instance( 'site.ini' );
         $cacheDir = eZSys::cacheDirectory();
-        $cacheFilePath = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
-        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
-        if ( $cacheFile->exists() )
+
+        $availableSiteAccessList = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        foreach ( $availableSiteAccessList as $siteAccess )
         {
-            // VS-DBFILE : FIXME: optimize not to use recursive delete.
-            $cacheFile->delete();
+            $cacheFilePath = $cacheDir . '/rss/' . md5( $siteAccess . $http->postVariable( 'Access_URL' ) ) . '.xml';
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+            if ( $cacheFile->exists() )
+            {
+                // VS-DBFILE : FIXME: optimize not to use recursive delete.
+                $cacheFile->delete();
+            }
         }
 
         $db =& eZDB::instance();

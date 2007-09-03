@@ -11,3 +11,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev. 19802 ).
 - Fixed bug #11330: updateniceurls.php is missing in eZ Publish 3.10.0beta1 package.
   (Manually merged from trunk (3.10.0rc1) rev. 19806)
+- Fixed bug #011340: RSS cache doesn't get emptied out.
+  (Merged from trunk (3.10.0rc1) rev. 19809).
