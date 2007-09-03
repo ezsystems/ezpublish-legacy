@@ -261,7 +261,7 @@
             /* normalize the from field */
             if ( !preg_match( "/<.+>/", $from ) )
                 $from = '<' . $from .'>';
-            
+
             /* return the result of the MAIL FROM command */
             return ( $this->send_cmd('MAIL FROM:' . $from . '', '250' ) );
         }
@@ -275,7 +275,7 @@
             /* normalize the to field */
             if ( !preg_match( "/<.+>/", $to ) )
                 $to = '<' . $to .'>';
-                
+
             /* return the result of the RCPT TO command */
             return ( $this->send_cmd( 'RCPT TO:' . $to . '', '250' ) );
         }
@@ -348,7 +348,7 @@
             $this->$var = $value;
             return TRUE;
         }
-    
+
         /********************************************************
         ** Function to simply send a command to the smtp socket
         *********************************************************/
@@ -362,7 +362,7 @@
                 {
                     /* Wait for server answer */
                     $error = $this->get_data();
-                
+
                     /* return TRUE if the server answered the expected tag */
                     if( substr( trim( $error ), 0, 3 ) === $answer )
                     {

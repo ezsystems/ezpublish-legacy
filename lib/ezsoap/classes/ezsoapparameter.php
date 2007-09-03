@@ -1,5 +1,5 @@
 <?php
-// 
+//
 // $Id$
 //
 // Definition of eZSOAPParameter class

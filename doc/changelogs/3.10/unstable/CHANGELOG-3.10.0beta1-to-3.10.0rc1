@@ -17,3 +17,6 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 *Bugfixes:
 - Fixed bug #11327: prevent double listing of siteaccess in siteaccess array if servar is used
 - Fixed bug #11335: search_extras not set in advancedsearch.php.
+- Fixed bug #011292: Clean up of a contentclass is not done when you remove a language.
+- Fixed bug #011331: #1101 - BLOB/TEXT column 'text' can't have a default value.
+- Fixed bug #011348: Trailing whitespaces in eZ publish code.

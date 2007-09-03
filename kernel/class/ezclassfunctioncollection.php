@@ -51,7 +51,7 @@ class eZClassFunctionCollection
     function fetchClassList( $classFilter, $sortBy )
     {
         $sorts = null;
-        if ( $sortBy && 
+        if ( $sortBy &&
              is_array( $sortBy ) &&
              count( $sortBy ) == 2 &&
              in_array( $sortBy[0], array( 'id', 'name' ) ) )

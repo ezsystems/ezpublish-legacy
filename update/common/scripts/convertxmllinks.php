@@ -154,15 +154,15 @@ while( count( $xmlFieldsArray ) )
     {
         $text = $xmlField['data_text'];
         $textLen = strlen ( $text );
-    
+
         $isTextModified = false;
         $pos = 1;
-    
+
         if ( $textLen == 0 )
         {
             continue;
         }
-    
+
         $oldPos = false;
         do
         {
@@ -172,11 +172,11 @@ while( count( $xmlFieldsArray ) )
                 break;
             }
             $oldPos = $pos;
-    
+
             $literalTagBegin = strpos( $text, "<literal", $pos );
             if ( $literalTagBegin )
             {
-    
+
                 $preLiteralText = substr( $text, $pos, $literalTagBegin - $pos );
                 $preLiteralLen = strlen( $preLiteralText );
                 $tmpPos = 0;
@@ -186,11 +186,11 @@ while( count( $xmlFieldsArray ) )
                     // We found some link tags, now replace the text and adjust position
                     $diff = strlen( $preLiteralText ) - $preLiteralLen;
                     $text = substr_replace( $text, $preLiteralText, $pos, $literalTagBegin - $pos );
-    
+
                     // Adjust begin position with the changes in text
                     $literalTagBegin += $diff;
                 }
-    
+
                 $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
                 if ( !$literalTagEnd )
                 {
@@ -203,21 +203,21 @@ while( count( $xmlFieldsArray ) )
                 if ( !findLinkTags( $text, $pos, $isTextModified ) )
                     break;
             }
-    
+
         } while ( $pos < $textLen );
-    
+
         if ( $isTextModified )
         {
             $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $text .
                "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
             $db->query( $sql );
-    
+
             if ( !$isQuiet )
                 $cli->notice( "Attribute converted. Object ID: " . $xmlField['contentobject_id'] . ", version: ". $xmlField['version'] .
                               ", attribute ID :" . $xmlField['id'] );
             $totalCount++;
         }
-    }    
+    }
     $xmlFieldsArray = $db->arrayQuery( $xmlFieldsQuery, array( "limit" => QUERY_LIMIT, "offset" => $pass * QUERY_LIMIT ) );
     $pass++;
 }

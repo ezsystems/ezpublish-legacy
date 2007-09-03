@@ -133,7 +133,7 @@ class eZTemplateDigestOperator
                     $code = "include_once( 'lib/ezutils/classes/ezsys.php' );\n";
                     $function = "eZSys::ezcrc32";
                 } break;
-        
+
             case 'rot13':
                 {
                     $function = 'str_rot13';

@@ -322,7 +322,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
             }
             $this->_close();
         }
-        
+
         if (!$this->_openAppend())
             return false;
 
@@ -638,7 +638,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
       if ($this->_file) {
           if ($p_len === null)
               $p_len = 512;
-              
+
           if ($this->_compress_type == 'gz')
               $v_block = @gzread($this->_file, 512);
           else if ($this->_compress_type == 'bz2')
@@ -1487,7 +1487,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
     {
         if (filesize($this->_tarname) == 0)
           return $this->_openWrite();
-          
+
         if ($this->_compress)
         {
             // Rename to temporary file.
@@ -1566,7 +1566,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
     {
         if (!$this->_openAppend())
             return false;
-            
+
         if ($this->_addList($p_filelist, $p_add_dir, $p_remove_dir))
            $this->_writeFooter();
 

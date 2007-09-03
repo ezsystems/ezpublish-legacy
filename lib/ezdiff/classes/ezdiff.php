@@ -38,7 +38,7 @@ include_once( 'lib/ezutils/classes/ezdebug.php' );
   \class eZDiff ezdiff.php
   \ingroup eZDiff
   \brief eZDiff provides an access point the diff system
-  
+
   The eZDiff class is responsible for accessing and loading the correct
   diff engine when a datatype makes a call to eZDiff library.
 */

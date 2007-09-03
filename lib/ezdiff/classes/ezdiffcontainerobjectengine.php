@@ -36,7 +36,7 @@
   \class eZDiffContainerObjectEngine ezdiffcontainerobjectengine.php
   \ingroup eZDiff
   \brief Creates an object containing two versions of a content object.
-  
+
   The eZDiffEngine class is an abstract class, providing interface and shared code
   for the different available DiffEngine.
 */

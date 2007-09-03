@@ -37,7 +37,7 @@
   \abstract
   \ingroup eZDiff
   \brief eZDiff provides an access point the diff system
-  
+
   The eZDiffEngine class is an abstract class, providing interface and shared code
   for the different available DiffEngine.
 */

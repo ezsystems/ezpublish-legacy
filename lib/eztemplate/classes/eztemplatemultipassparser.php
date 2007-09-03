@@ -611,7 +611,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $args = array();
                         }
                     }
-            
+
                     if ( $type == EZ_ELEMENT_NORMAL_TAG )
                     {
                         $ignoreCurrentTag = false;
