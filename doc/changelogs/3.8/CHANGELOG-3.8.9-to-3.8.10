@@ -15,3 +15,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev. 19809).
 - Fixed bug #11329: Kernel error 1 on System information page.
   (Merged from trunk (3.10.0rc1) rev. 19813)
+- Fixed bug #11305: Flash/media binaries are not versioned.
+  (Merged from trunk (3.10.0rc1) rev. 19817)

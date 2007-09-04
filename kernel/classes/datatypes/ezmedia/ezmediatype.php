@@ -471,7 +471,18 @@ class eZMediaType extends eZDataType
             return false;
         }
         umask( $oldumask );
-        $destination = $destination . '/' . $fileName;
+
+        // create dest filename in the same manner as eZHTTPFile::store()
+        // grab file's suffix
+        $fileSuffix = eZFile::suffix( $fileName );
+        // prepend dot
+        if( $fileSuffix )
+            $fileSuffix = '.' . $fileSuffix;
+        // grab filename without suffix
+        $fileBaseName = basename( $fileName, $fileSuffix );
+        // create dest filename
+        $destination = $destination . '/' . md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+
         copy( $filePath, $destination );
         // SP-DBFILE
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -484,7 +495,7 @@ class eZMediaType extends eZDataType
 
         $media->setAttribute( "contentobject_attribute_id", $attributeID );
         $media->setAttribute( "version", $objectVersion );
-        $media->setAttribute( "filename", $fileName );
+        $media->setAttribute( "filename", basename( $destination ) );
         $media->setAttribute( "original_filename", $fileName );
         $media->setAttribute( "mime_type", $mimeData['name'] );
 
