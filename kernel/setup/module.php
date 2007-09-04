@@ -208,5 +208,6 @@ $FunctionList['administrate'] = array();
 $FunctionList['install'] = array();
 $FunctionList['managecache'] = array();
 $FunctionList['setup'] = array();
+$FunctionList['system_info'] = array();
 
 ?>
