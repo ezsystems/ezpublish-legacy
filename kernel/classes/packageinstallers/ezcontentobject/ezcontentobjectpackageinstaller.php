@@ -33,7 +33,7 @@
 
 /*!
   \ingroup package
-  \class eZContentObjectPackageInstaller ezcontentclasspackageinstaller.php
+  \class eZContentObjectPackageInstaller ezcontentobjectpackageinstaller.php
   \brief A package creator for content objects
 */
 
