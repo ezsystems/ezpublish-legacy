@@ -290,7 +290,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $tplSuffix = '';
         $objectID = $element->getAttribute( 'object_id' );
-        if ( $objectID )
+        if ( $objectID &&
+             !empty( $this->ObjectArray["$objectID"] ) )
         {
             $object = $this->ObjectArray["$objectID"];
         }
