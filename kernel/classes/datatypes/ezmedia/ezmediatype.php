@@ -389,7 +389,7 @@ class eZMediaType extends eZDataType
         $httpFile->setMimeType( $mimeData['name'] );
         if ( !$httpFile->store( "original", false, false ) )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezmedia',
+            $errors[] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezmedia',
                                                         'Failed to store media file %filename. Please contact the site administrator.', null,
                                                         array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;
