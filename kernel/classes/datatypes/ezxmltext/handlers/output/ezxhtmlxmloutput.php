@@ -294,7 +294,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
-
+                
                 default :
                 {
                     eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
@@ -806,11 +806,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                    $attrName = $attribute->name();
                    if ( $attrName != 'view' && $attrName != 'class' && $attrName != 'node_id' && $attrName != 'object_id' )
                        $objectParameters[$attribute->name()] = $attribute->content();
-                }
-
-                if ( $object->attribute( 'has_visible_nodes' ) === false )
-                {
-                    break;
                 }
 
                 if ( $object->attribute( 'can_read' ) ||
