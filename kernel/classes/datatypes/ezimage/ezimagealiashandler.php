@@ -373,7 +373,9 @@ class eZImageAliasHandler
             {
                 $ini =& eZINI::instance( 'image.ini' );
                 $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-                $pathString = $contentImageSubtree . '/' . $mainNode->pathWithNames();
+                $pathString = $mainNode->pathWithNames();
+                $pathString = function_exists( 'mb_strtolower' ) ? mb_strtolower( $pathString ) : strtolower( $pathString );
+                $pathString = $contentImageSubtree . '/' . $pathString;
             }
         }
         else
