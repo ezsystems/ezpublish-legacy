@@ -78,7 +78,7 @@
 
 {def $aliasList=$filter.items}
 
-<form name="aliasform" method="post" action={concat('content/urltranslator/', $node.node_id)|ezurl}>
+<form name="aliasform" method="post" action={"content/urltranslator/"|ezurl}>
 
 <div class="context-block">
 
@@ -158,10 +158,9 @@
 <div class="context-toolbar">
     {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat('content/urltranslator/', $node.node_id)
+         page_uri='content/urltranslator/'
          item_count=$filter.count
          view_parameters=$view_parameters
-         node_id=$node.node_id
          item_limit=$filter.limit}
 </div>
 {/if}
@@ -225,7 +224,7 @@
 <div class="block">
     <select name="LanguageCode" title="{'Choose the language for the new URL alias.'|i18n( 'design/admin/content/urlalias_global' )}">
     {foreach $languages as $language}
-               <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+               <option value="{$language.locale}">{$language.name|wash}</option>
     {/foreach}
     </select>
 </div>
