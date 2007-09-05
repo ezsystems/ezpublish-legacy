@@ -29,3 +29,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #11329: Kernel error 1 on System information page.
 - Fixed bug #11305: Flash/media binaries are not versioned.
 - Fixed bug #011306: updateniceurls.php isn't working for hidden nodes
+- Fixed bug #11309: preferences: wrong redirection at nodes with special characters

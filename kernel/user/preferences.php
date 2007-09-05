@@ -59,7 +59,10 @@ if ( $url )
 else
 {
     include_once( 'kernel/classes/ezredirectmanager.php' );
-    $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : false;
+    include_once( 'lib/ezutils/classes/ezuri.php' );
+
+    $preferredRedirectionURI = isset( $_SERVER['HTTP_REFERER'] ) ? eZURI::decodeURL( $_SERVER['HTTP_REFERER'] ) : false;
+
     // We should exclude OFFSET from $preferredRedirectionURI
     $exploded = explode( '/', $preferredRedirectionURI );
     foreach ( array_keys( $exploded ) as $itemKey )
