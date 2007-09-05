@@ -220,8 +220,7 @@ class eZContentObject extends eZPersistentObject
                                                       'languages' => 'languages',
                                                       'can_edit_languages' => 'canEditLanguages',
                                                       'can_create_languages' => 'canCreateLanguages',
-                                                      'always_available' => 'isAlwaysAvailable',
-                                                      'has_visible_nodes' => 'hasVisibleNodes' ),
+                                                      'always_available' => 'isAlwaysAvailable' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
@@ -5553,27 +5552,6 @@ class eZContentObject extends eZPersistentObject
         $version->setAlwaysAvailableLanguageID( $languageID );
 
         $db->commit();
-    }
-
-    /*!
-     Determines: has the object any visible location.
-
-     \returns boolean, false if object has no locations or all the locations are hidden, true ifat least one location is visible
-    */
-    function &hasVisibleNodes()
-    {
-        $retValue = true;
-        $assignedNodeList =& $this->assignedNodes();
-        foreach ( $assignedNodeList as $assignedNode )
-        {
-            if ( $assignedNode->attribute( 'is_invisible' ) == 0 )
-            {
-                return $retValue;
-            }
-        }
-
-        $retValue = false;
-        return $retValue;
     }
 
     var $ID;

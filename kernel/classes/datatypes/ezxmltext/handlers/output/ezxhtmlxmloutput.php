@@ -321,11 +321,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             return $ret;
         }
 
-        if ( $object->attribute( 'has_visible_nodes' ) === false )
-        {
-            return $ret;
-        }
-
         if ( $object->attribute( 'can_read' ) ||
              $object->attribute( 'can_view_embed' ) )
         {
