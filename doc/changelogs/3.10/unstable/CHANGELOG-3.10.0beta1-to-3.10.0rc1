@@ -32,3 +32,5 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #11309: preferences: wrong redirection at nodes with special characters
 - Fixed bug #11293: Inconsistent image directories after upgrading to 3.10.
 - Fixed bug #11263: Typo in kernel/content/copysubtree.php
+- Fixed bug #11272: Typo (ger-DE): "Die Klasse ... ist nicht konfiguriert Unterelmente zu enthalten."
+  (trunk/share/translations rev. 619)
