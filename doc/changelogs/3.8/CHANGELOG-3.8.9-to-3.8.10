@@ -23,3 +23,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev. 19835)
 - Fixed bug #11272: Typo (ger-DE): "Die Klasse ... ist nicht konfiguriert Unterelmente zu enthalten."
   (Merged from trunk/share/translations rev. 619)
+- Fixed bug #11372: Typos in context of debug messages
+  (Merged from trunk (3.10.0rc1) rev. 19840)

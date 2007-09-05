@@ -293,7 +293,7 @@ class eZImageType extends eZDataType
         $handler =& $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
+            $errors[] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
                                                         'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
@@ -318,7 +318,7 @@ class eZImageType extends eZDataType
         $handler =& $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
+            $errors[] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
                                                         'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
