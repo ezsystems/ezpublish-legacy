@@ -17,3 +17,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev. 19817)
 - Fixed bug #011306: updateniceurls.php isn't working for hidden nodes
   (Manually merged from trunk (3.10.0rc1) rev.19823)
+- Fixed bug #11263: Typo in kernel/content/copysubtree.php
+  (Merged from trunk (3.10.0rc1) rev. 19830)

@@ -524,7 +524,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     {
         eZDebug::writeDebug( "Root node of given subtree was not copied.",
                              "Subtree copy:" );
-        $notifications['Notifacations'][] = ezi18n( 'kernel/content/copysubtree',
+        $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
                                                     "Subtree was not copied." );
         return $notifications;
     }
