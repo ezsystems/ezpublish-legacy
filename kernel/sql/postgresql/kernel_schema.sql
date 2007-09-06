@@ -3188,6 +3188,14 @@ CREATE INDEX ezsearch_object_word_link_word ON ezsearch_object_word_link USING b
 
 
 
+CREATE INDEX ezsearch_word_obj_count ON ezsearch_word USING btree (object_count);
+
+
+
+
+
+
+
 CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
 
 
