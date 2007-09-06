@@ -5976,9 +5976,8 @@ $schema = array (
       ),
       'url' => 
       array (
-        'length' => 255,
-        'type' => 'varchar',
-        'default' => NULL,
+        'type' => 'longtext',
+        'default' => false,
       ),
     ),
     'indexes' => 
