@@ -1495,7 +1495,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         // Set the href attribute (note that it doesn't just equal the name).
         if ( !isset( $entry['href'] ) )
-            $entry["href"] = $scriptURL . $entry['name'];
+            $entry["href"] = $scriptURL . $node->urlAlias();
 
         // Return array of attributes/properties (name, size, mime, times, etc.).
         return $entry;
