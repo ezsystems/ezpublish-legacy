@@ -1271,9 +1271,9 @@ CREATE TABLE ezurl (
   last_checked int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   original_url_md5 varchar(32) NOT NULL default '',
-  url varchar(255) default NULL,
+  url longtext,
   PRIMARY KEY  (id),
-  KEY ezurl_url (url)
+  KEY ezurl_url (url(255))
 ) TYPE=MyISAM;
 
 

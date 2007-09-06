@@ -28,6 +28,8 @@ Changes from 3.8.9 to 3.8.10
 - Fixed bug #11373: Wrong doxygen API doc for class eZContentObjectPackageInstaller
   (Merged from trunk (3.10.0rc1) rev. 19843)
 - Fixed bug #11321: multiple results of nodes in fetch tree if using Role policy 'content -> read -> group -> self'.
-  (Merged from trunk (3.10.0rc1) rev. 19847)>>>>>>> .r19851
+  (Merged from trunk (3.10.0rc1) rev. 19847)
 - Fixed bug #011276: ezsearch - mysql index.
   (Manualy merged from trunk (3.10.0rc1) rev. 19850)
+- Fixed bug #011284: Varchar(255) is not enough for ezurl.url.
+  (Manualy merged from trunk (3.10.0rc1) rev. 19853,19854).
