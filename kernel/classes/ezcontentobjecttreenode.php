@@ -1823,7 +1823,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
-        $query = "SELECT ezcontentobject.*,
+        $query = "SELECT DISTINCT
+                       ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier,
@@ -2052,7 +2053,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groupByText        = '';
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
-        $query = "SELECT ezcontentobject.*,
+        $query = "SELECT DISTINCT
+                       ezcontentobject.*,
                        ezcontentobject_tree.*,
                        ezcontentclass.serialized_name_list as class_serialized_name_list,
                        ezcontentclass.identifier as class_identifier
@@ -2779,7 +2781,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $sqlPermissionChecking = array( 'from' => $sqlPermissionCheckingFrom,
                                             'where' => $sqlPermissionCheckingWhere );
 
-            $query = "SELECT count(*) as count
+            $query = "SELECT
+                            count( DISTINCT ezcontentobject_tree.node_id ) as count
                       FROM
                            ezcontentobject_tree,
                            ezcontentobject,ezcontentclass
@@ -2807,7 +2810,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $query="SELECT
-                           count(*) AS count
+                          count( DISTINCT ezcontentobject_tree.node_id ) as count
                     FROM
                           ezcontentobject_tree,
                           ezcontentobject,
@@ -2892,7 +2895,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // Determine whether we should show invisible nodes.
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
-        $query = "SELECT ezcontentobject.published as published
+        $query = "SELECT DISTINCT
+                         ezcontentobject.published as published
                          $groupBySelectText
                    FROM
                       ezcontentobject_tree,
