@@ -224,7 +224,6 @@ class eZXMLOutputHandler
         $this->Document->cleanup();
 
         unset( $this->Document );
-        unset( $this->XMLData );
 
         $this->Res->removeKey( 'attribute_identifier' );
         return $this->Output;
@@ -400,7 +399,7 @@ class eZXMLOutputHandler
             // Initialize sibiling parameters array for the next level children
             // Parent parameters for the children may be modified in the current tag handler.
             $nextSibilingParams = array();
-            
+
             $this->NestingLevel++;
             foreach( array_keys( $element->Children ) as $key )
             {
