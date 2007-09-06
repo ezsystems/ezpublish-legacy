@@ -1264,6 +1264,7 @@ CREATE TABLE ezsearch_word (
   object_count int(11) NOT NULL default '0',
   word varchar(150) default NULL,
   PRIMARY KEY  (id),
+  KEY ezsearch_word_obj_count (object_count),
   KEY ezsearch_word_word_i (word)
 ) TYPE=MyISAM;
 
