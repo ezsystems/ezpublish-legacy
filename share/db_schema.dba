@@ -5571,6 +5571,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezsearch_word_obj_count' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'object_count',
+        ),
+      ),
       'ezsearch_word_word_i' => 
       array (
         'type' => 'non-unique',

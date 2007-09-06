@@ -3308,6 +3308,14 @@ CREATE UNIQUE INDEX ezsearch_search_phrase_phrase ON ezsearch_search_phrase USIN
 
 
 
+CREATE INDEX ezsearch_word_obj_count ON ezsearch_word USING btree (object_count);
+
+
+
+
+
+
+
 CREATE INDEX ezsearch_word_word_i ON ezsearch_word USING btree (word);
 
 
