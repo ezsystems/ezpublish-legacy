@@ -40,3 +40,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #11314: GUI problem in "Setup -> URL translator" in 3.10
 - Fixed bug #11321: multiple results of nodes in fetch tree if using Role policy 'content -> read -> group -> self'.
 - Fixed bug #011276: ezsearch - mysql index.
+- Fixed bug #011284: Varchar(255) is not enough for ezurl.url.

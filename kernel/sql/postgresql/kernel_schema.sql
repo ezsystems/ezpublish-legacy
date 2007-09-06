@@ -2410,7 +2410,7 @@ CREATE TABLE ezurl (
     last_checked integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     original_url_md5 character varying(32) DEFAULT ''::character varying NOT NULL,
-    url character varying(255)
+    url text
 );
 
 
