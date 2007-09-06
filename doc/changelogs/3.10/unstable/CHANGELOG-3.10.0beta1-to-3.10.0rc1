@@ -42,3 +42,5 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #011276: ezsearch - mysql index.
 - Fixed bug #011284: Varchar(255) is not enough for ezurl.url.
 - Fixed bug #11323: WebDAV does not open folders for wich custom URL alias name pattern defined.
+- Fixed bug #11356: Template reference issue loss of xml information.
+  (Merged from stable/3.9 (3.9.4) rev. 19858)

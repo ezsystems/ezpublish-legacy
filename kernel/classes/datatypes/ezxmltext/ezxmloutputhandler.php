@@ -224,7 +224,6 @@ class eZXMLOutputHandler
         $this->Document->cleanup();
 
         unset( $this->Document );
-        unset( $this->XMLData );
 
         $this->Res->removeKey( 'attribute_identifier' );
         return $this->Output;
