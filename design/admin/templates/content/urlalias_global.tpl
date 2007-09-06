@@ -120,6 +120,7 @@
     <th>{'URL alias'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Destination'|i18n( 'design/admin/content/urlalias_global' )}</th>
     <th>{'Language'|i18n( 'design/admin/content/urlalias_global' )}</th>
+    <th>{'Always available'|i18n( 'design/admin/content/urlalias_global' )}</th>
 </tr>
 {foreach $aliasList as $element sequence array('bglight', 'bgdark') as $seq}
     <tr class="{$seq}">
@@ -150,6 +151,13 @@
             <img src="{$element.language_object.locale|flag_icon}" alt="{$element.language_object.locale|wash}" />
             &nbsp;
             {$element.language_object.name|wash}
+        </td>
+        <td>
+            {if $element.always_available}
+                yes
+            {else}
+                no
+            {/if}
         </td>
     </tr>
 {/foreach}

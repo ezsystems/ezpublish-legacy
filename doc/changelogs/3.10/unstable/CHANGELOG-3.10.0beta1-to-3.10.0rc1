@@ -37,3 +37,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #11262: Typo in eZINIAddonPackageHandler
 - Fixed bug #11372: Typos in context of debug messages
 - Fixed bug #11373: Wrong doxygen API doc for class eZContentObjectPackageInstaller
+- Fixed bug #011314: GUI problem in "Setup -> URL translator" in 3.10

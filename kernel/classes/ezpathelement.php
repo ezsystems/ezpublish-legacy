@@ -54,6 +54,10 @@ class eZPathElement extends eZPersistentObject
     {
         $this->Path = null;
         $this->PathArray = null;
+        if ( array_key_exists( 'always_available', $row )  )
+        {
+            $this->AlwaysAvailable = $row['always_available'];
+        }
         $this->eZPersistentObject( $row );
     }
 
@@ -106,6 +110,7 @@ class eZPathElement extends eZPersistentObject
                       "function_attributes" => array( "language_object" => "getLanguage",
                                                       "action_url" => "actionURL",
                                                       "path" => "getPath",
+                                                      "always_available" => "alwaysAvailable",
                                                       "path_array" => "getPathArray" ),
                       "class_name" => "eZURLAliasML",
                       "name" => "ezurlalias_ml" );
@@ -225,6 +230,14 @@ class eZPathElement extends eZPersistentObject
         $this->PathArray = $path;
         return $this->PathArray;
     }
+
+    // Calculates always_available attribute from language mask
+    function alwaysAvailable()
+    {
+        return $this->AlwaysAvailable;
+    }
+
+    var $AlwaysAvailable;
 }
 
 ?>
