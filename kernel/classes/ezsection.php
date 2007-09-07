@@ -214,6 +214,35 @@ class eZSection extends eZPersistentObject
         eZPersistentObject::removeObject( $def, array( "id" => $this->ID ) );
     }
 
+    /*
+     Check if this section is allowed to remove from the system
+    */
+    function canBeRemoved( $sectionID = false )
+    {
+        if ( $sectionID === false )
+        {
+            $sectionID = $this->attribute( 'id' );
+        }
+
+        $objects = eZPersistentObject::fetchObjectList( eZContentObject::definition(), null,
+                                                        array( 'section_id' => $sectionID ) );
+        include_once( 'kernel/classes/ezpolicylimitation.php' );
+        $limitations = eZPolicyLimitation::findByType( 'Section', $sectionID, true, false );
+        include_once( 'kernel/classes/ezrole.php' );
+        $userRoles = eZRole::fetchRolesByLimitation( 'section', $sectionID );
+
+        if ( count( $objects ) > 0 or
+             count( $limitations ) > 0 or
+             count( $userRoles ) > 0 )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
 }
 
 ?>

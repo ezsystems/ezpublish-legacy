@@ -46,3 +46,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
   (Merged from stable/3.9 (3.9.4) rev. 19858)
 - Fixed bug #11322: WebDAV does not show Media VirtualFolder Content
 - Fixed bug #11395: updateniceurls.php does not handle all names
+- Fixed bug #9350: Policies with section limitations seem not to be updated when removing section.
