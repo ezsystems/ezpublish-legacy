@@ -1146,7 +1146,8 @@ else
 
 eZDebug::addTimingPoint( "End" );
 
-ob_end_flush();
+$out = ob_get_clean();
+echo trim( $out );
 
 eZDB::checkTransactionCounter();
 
