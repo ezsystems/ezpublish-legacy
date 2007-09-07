@@ -16,9 +16,9 @@
 
 {if $unallowed_sections|count()}
 {if $allowed_sections_count}
-<p>{'The following sections cannot be removed because they are assigned to either objects, policies or user role limitations'|i18n( 'design/admin/section/confirmremove' )}:</p>
+<p>{'The following sections cannot be removed because they are either assigned to objects or used in role and policy limitations'|i18n( 'design/admin/section/confirmremove' )}:</p>
 {else}
-<p>{'No one of the chosen sections can be removed because they are assigned to either objects, policies or user role limitations'|i18n( 'design/admin/section/confirmremove' )}:</p>
+<p>{'None of the selected sections can be removed because they are either assigned to objects or used in role and policy limitations'|i18n( 'design/admin/section/confirmremove' )}:</p>
 {/if}
 <ul>
 {foreach $unallowed_sections as $section}
