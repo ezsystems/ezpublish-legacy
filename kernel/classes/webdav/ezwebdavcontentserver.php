@@ -1086,18 +1086,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
             $nodePathString = eZURLAliasML::convertPathToAlias( $nodePathString );
         }
 
-        // Attempt to translate the URL to something like "/content/view/full/84".
-        $translateResult = eZURLAliasML::translate( $nodePathString );
-
-        if ( !$translateResult )
+        // Attempt to get nodeID from the URL.
+        $nodeID = eZURLAliasML::fetchNodeIDByPath( $nodePathString );
+        if ( $nodeID )
         {
-            $this->appendLogEntry( "Node translation failed: $nodePathString", 'CS:fetchNodeByTranslation' );
-        }
-
-        // Get the ID of the node (which is the last part of the translated path).
-        if ( preg_match( "#^content/view/full/([0-9]+)$#", $nodePathString, $matches ) )
-        {
-            $nodeID = $matches[1];
             $this->appendLogEntry( "NodeID: $nodeID", 'CS:fetchNodeByTranslation' );
         }
         else

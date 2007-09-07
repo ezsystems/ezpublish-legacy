@@ -1095,6 +1095,23 @@ class eZURLAliasML extends eZPersistentObject
 
     /*!
      \static
+     The same as 'fetchByPath' but extracting nodeID from action.
+     Only first entry will be processed if 'fetchByPath' returns multiple result(e.g. $glob is wildcard).
+     \return nodeID on success or \c false otherwise.
+     */
+    function fetchNodeIDByPath( $uriString, $glob = false )
+    {
+        $nodeID = false;
+
+        $urlAliasMLList = eZURLAliasML::fetchByPath( $uriString, $glob );
+        if ( is_array( $urlAliasMLList ) && count( $urlAliasMLList ) > 0 )
+            $nodeID = eZURLAliasML::nodeIDFromAction( $urlAliasMLList[0]->Action );
+
+        return $nodeID;
+    }
+
+    /*!
+     \static
      Transforms the URI if there exists an alias for it, the new URI is replaced in $uri.
      \return \c true is if successful, \c false otherwise
      \return The eZURLAliasML object of the new url is returned if the translation was found, but the resource has moved.
@@ -1910,6 +1927,21 @@ class eZURLAliasML extends eZPersistentObject
         }
 
         return implode( '/', $result );
+    }
+
+    /*!
+     \static
+     Grabs nodeID from action string.
+     \return nodeID on success, \c false otherwise.
+     */
+    function nodeIDFromAction( $action )
+    {
+        $nodeID = false;
+        $pos = strpos( $action, 'eznode:' );
+        if ( $pos === 0 ) // make sure $action starts from 'eznode:'
+            $nodeID = substr( $action, strlen( 'eznode:' ) );
+
+        return $nodeID;
     }
 
 }
