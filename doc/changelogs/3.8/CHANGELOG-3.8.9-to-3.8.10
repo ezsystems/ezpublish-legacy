@@ -33,3 +33,5 @@ Changes from 3.8.9 to 3.8.10
   (Manualy merged from trunk (3.10.0rc1) rev. 19850)
 - Fixed bug #011284: Varchar(255) is not enough for ezurl.url.
   (Manualy merged from trunk (3.10.0rc1) rev. 19853,19854).
+- Fixed bug #9350: Policies with section limitations seem not to be updated when removing section.
+  (Merged from trunk (3.10.0rc1) rev. 19869)
