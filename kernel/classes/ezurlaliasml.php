@@ -529,6 +529,20 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitOr} WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
                 $db->query( $query );
+                foreach ( $rows as $row )
+                {
+                    $rowText = $row['text'];
+                    $rowTextLower = eZURLAliasML::strtolower( $rowText );
+                    $topElementLower = eZURLAliasML::strtolower( $topElement );
+                    if ( strcmp( $topElement, $rowText ) != 0 &&
+                         strcmp( $topElementLower, $rowTextLower ) == 0 )
+                    {
+                        // Only the case differs, so update it
+                        $sqlText = $db->escapeString( $topElement );
+                        $query = "UPDATE ezurlalias_ml SET text = '{$sqlText}' WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
+                        $db->query( $query );
+                    }
+                }
             }
             else
             {
