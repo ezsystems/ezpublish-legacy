@@ -14,7 +14,7 @@
 
 <div class="block">
 <p>{'Use the radio buttons to select an item that should have the <%section_name> section assigned.'|i18n( 'design/admin/section/browse_assign',, hash( '%section_name', $section.name ) )|wash}</p>
-<p>{'Keep in mind that the section assignment of the sub items will also be changed.'|i18n( 'design/admin/section/browse_assign' )}</p>
+<p>{'Note that the section assignment of the sub items will also be changed.'|i18n( 'design/admin/section/browse_assign' )}</p>
 <p>{'Navigate using the available tabs (above), the tree menu (left) and the content list (middle).'|i18n( 'design/admin/section/browse_assign' )}</p>
 </div>
 

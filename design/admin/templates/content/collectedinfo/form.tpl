@@ -5,7 +5,7 @@
 
 {section show=and( $error, $error_existing_data )}
 <div class="message-warning">
-    <p>{'You have already submitted data to this form. The previously submitted data was the following.'|i18n( 'design/admin/content/collectedinfo/form' )}</p>
+    <p>{'You have already submitted this form. The previously submitted data was:'|i18n( 'design/admin/content/collectedinfo/form' )}</p>
 </div>
 {/section}
 

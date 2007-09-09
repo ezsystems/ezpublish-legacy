@@ -40,7 +40,7 @@
 
 <p><b>{'Warning'|i18n( 'design/admin/section/confirmremove' )}:</b></p>
 <p>{'Removing a section may corrupt template output and other things in the system.'|i18n( 'design/admin/section/confirmremove' )}</p>
-<p>{'Proceed only if you know what you are doing.'|i18n( 'design/admin/section/confirmremove' )}</p>
+<p>{'Proceed only if you are sure that it is safe.'|i18n( 'design/admin/section/confirmremove' )}</p>
 {/if}
 
 </div>

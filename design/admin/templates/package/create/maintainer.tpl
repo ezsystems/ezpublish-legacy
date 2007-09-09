@@ -10,7 +10,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please provide information on the maintainer of the package.'|i18n('design/admin/package')}</p>
+    <p>{'Provide information about the maintainer of the package.'|i18n('design/admin/package')}</p>
 
     <div class="block">
         <label>{'Name'|i18n('design/admin/package','Maintainer name')}</label>

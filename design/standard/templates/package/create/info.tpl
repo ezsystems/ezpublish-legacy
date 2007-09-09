@@ -8,7 +8,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please provide some basic information for your package.'|i18n('design/standard/package')}</p>
+    <p>{'Provide some basic information for your package.'|i18n('design/standard/package')}</p>
 
     <table>
     <tr>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="licence">
-            <label>{'Licence'|i18n('design/standard/package')}</label>
+            <label>{'License'|i18n('design/standard/package')}</label>
             <input type="hidden" name="PackageLicence" value="{$persistent_data.licence|wash}" />
             <p>{$persistent_data.licence|wash}</p>
         </div>

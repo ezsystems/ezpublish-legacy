@@ -79,7 +79,7 @@ $tpl->setVariable( "month_list", $monthList );
 $tpl->setVariable( "statistic_result", $statisticArray );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statistics' ),
+$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Statisticsss' ),
                  'url' => false );
 
 $Result = array();

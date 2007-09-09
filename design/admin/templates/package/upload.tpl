@@ -24,7 +24,7 @@
 
 <form enctype="multipart/form-data" method="post" action={'package/upload'|ezurl}>
 
-    <p>{'Select the file containing your package and click the upload button'|i18n('design/admin/package')}</p>
+    <p>{'Select the file containing the package and click the upload button'|i18n('design/admin/package')}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input name="PackageBinaryFile" type="file" />

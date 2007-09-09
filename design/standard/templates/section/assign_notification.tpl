@@ -6,7 +6,7 @@
 {switch match=$error_number}
 {case match=1}
 <h3>
-{"The section < %1 > was not assigned to the nodes listed below because of insufficient permissions:"|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
+{"The section < %1 > was not assigned to the nodes listed below because of insufficient permission:"|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
 </h3><p>
 {foreach $denied_node_list as $node}
 {delimiter}<br />{/delimiter}
@@ -15,12 +15,12 @@
 {/case}
 {case match=2}
 <h3>
-{"There is no objects in the system which you could assign the section < %1 > to."|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
+{"There are no objects in the system that you could assign the section < %1 > to."|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
 </h3>
 {/case}
 {case match=3}
 <h3>
-{"You don't have permissions to assign the section < %1 > to any object."|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
+{"You do not have permission to assign the section < %1 > to any object."|i18n( 'design/admin/section/assign_notification', '', hash( '%1', $section_name ) )}
 <h3/>
 {/case}
 {/switch}

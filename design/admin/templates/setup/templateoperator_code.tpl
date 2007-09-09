@@ -126,10 +126,10 @@ class {$full_class_name}
 {/section}
 
 {section show=$single_operator}
-        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
+        // {'Example code. This code must be modified to do what the operator should do. Currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
         {section show=$use_output}$operatorValue = {/section}trim({section show=$use_input} $operatorValue {/section});
 {section-else}
-        // {'Example code, this code must be modified to do what the operator should do, currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
+        // {'Example code. This code must be modified to do what the operator should do. Currently it only trims text.'|i18n('design/admin/setup/operatorcode')}
         switch ( $operatorName )
         {literal}{{/literal}
             case '{$operator_name}':

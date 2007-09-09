@@ -3,7 +3,7 @@
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Copy Subtree Notification'|i18n( 'design/standard/content/copy_subtree_notification')}</h1>
+<h1 class="context-title">{'Copy subtree Notification'|i18n( 'design/standard/content/copy_subtree_notification')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

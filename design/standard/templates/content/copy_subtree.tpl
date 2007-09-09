@@ -20,11 +20,11 @@
     <tr><td></td><td><hr></td></tr>
     <tr>
       <td><input type="radio" name="CreatorChoice" value="1"/></td>
-      <td><label>{"Keep creators of contentobjects being copied unchaged."|i18n("design/standard/content/copy_subtree")}</label></td>
+      <td><label>{"Keep creators of content objects being copied unchanged."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
     <tr>
       <td><input type="radio" name="CreatorChoice" value="2" checked="checked"/></td>
-      <td><label>{"Set new creator for contentobjects being copied."|i18n("design/standard/content/copy_subtree")}</label></td>
+      <td><label>{"Set new creator for content objects being copied."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
     </table>
     </div>
@@ -33,11 +33,11 @@
     <tr><td></td><td><hr></td></tr>
     <tr>
       <td><input type="radio" name="TimeChoice" value="1"/></td>
-      <td><label>{"Keep time of creation and modification of contentobjects being copied unchanged."|i18n("design/standard/content/copy_subtree")}</label></td>
+      <td><label>{"Keep time of creation and modification of content objects being copied unchanged."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
     <tr>
       <td><input type="radio" name="TimeChoice" value="2" checked="checked"/></td>
-      <td><label>{"Copy and publish contentobjects at current time."|i18n("design/standard/content/copy_subtree")}</label></td>
+      <td><label>{"Copy and publish content objects at current time."|i18n("design/standard/content/copy_subtree")}</label></td>
     </tr>
 {/section}
 </table>

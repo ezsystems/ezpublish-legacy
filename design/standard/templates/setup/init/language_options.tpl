@@ -14,7 +14,7 @@
   <p>{"The database server you connected to does not support Unicode which means that you cannot choose all the languages as you did.
 To fix this problem you must do one of the following:"|i18n('design/standard/setup/init')}</p>
   <ul>
-    <li>{"Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian won't work."|i18n('design/standard/setup/init')}</li>
+    <li>{"Choose only languages that use similar characters, for instance: English and Norwegian will work together while English and Russian will not work."|i18n('design/standard/setup/init')}</li>
     <li>{"Make sure the database server is configured to use Unicode or that it has the latest software which supports Unicode."|i18n('design/standard/setup/init')}</li>
   </ul>
 </div>

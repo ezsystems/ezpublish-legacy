@@ -137,7 +137,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-<p>{'Choose a file from your local machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n( 'design/admin/content/upload' )}</p>
+<p>{'Choose a file from your local machine then click the "Upload" button. An object will be created according to file type and placed in the specified location.'|i18n( 'design/admin/content/upload' )}</p>
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -204,7 +204,7 @@
 
 <div class="block">
     <label>{'File'|i18n( 'design/admin/content/upload' )}:</label>
-    <input class="halfbox" name="UploadFile" type="file" title="{'Select the file that you wish to upload.'|i18n( 'design/admin/content/upload' )}" />
+    <input class="halfbox" name="UploadFile" type="file" title="{'Select the file that you want to upload.'|i18n( 'design/admin/content/upload' )}" />
     <input type="hidden" name="MAX_FILE_SIZE" value="50000000" />
 </div>
 
@@ -216,7 +216,7 @@
 <div class="block">
 
 <input class="button" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/admin/content/upload' )}" title="{'Proceed with uploading the selected file.'|i18n( 'design/admin/content/upload' )}" />
-<input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" title="{'Abort the upload operation and go back to where you came from.'|i18n( 'design/admin/content/upload' )}" />
+<input class="button" type="submit" name="CancelUploadButton" value="{'Cancel'|i18n( 'design/admin/content/upload' )}" title="{'Abort the upload operation.'|i18n( 'design/admin/content/upload' )}" />
 
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>

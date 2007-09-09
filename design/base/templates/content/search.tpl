@@ -45,9 +45,9 @@
     <p>{'Search tips'|i18n('design/base')}</p>
     <ul>
         <li>{'Check spelling of keywords.'|i18n('design/base')}</li>
-        <li>{'Try changing some keywords eg. car instead of cars.'|i18n('design/base')}</li>
+        <li>{'Try changing some keywords eg. &quot;car&quot; instead of &quot;cars&quot;.'|i18n('design/base')}</li>
         <li>{'Try more general keywords.'|i18n('design/base')}</li>
-        <li>{'Fewer keywords gives more results, try reducing keywords until you get a result.'|i18n('design/base')}</li>
+        <li>{'Fewer keywords result in more matches. Try reducing keywords until you get a result.'|i18n('design/base')}</li>
     </ul>
   {/case}
   {case}

@@ -237,7 +237,7 @@ function ContentStructureMenu()
                 + '" alt="" title="['
                 + this.classes[item.class_id].name
 {/literal}
-                + '] {"Click on the icon to get a context sensitive menu."|i18n('design/admin/contentstructuremenu')}" /></a>';
+                + '] {"Click on the icon to display a context-sensitive menu."|i18n('design/admin/contentstructuremenu')}" /></a>';
 {literal}
         }
         else

@@ -29,7 +29,7 @@
 
 {section show=and($has_own_drafts,$has_other_drafts)}
 <p>
-   {"This object is already being edited by someone else including you.
+   {"This object is already being edited by yourself or someone else.
     You can either continue editing one of your drafts or you can create a new draft."|i18n('design/standard/content/edit')}    
 </p>
 {section-else}

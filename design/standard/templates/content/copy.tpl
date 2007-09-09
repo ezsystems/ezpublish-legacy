@@ -8,7 +8,7 @@
 </div>
 
 <div class="block">
-<p>{"Version count is %1, and current version is %2."|i18n("design/standard/content/copy",,array($object_versions|count,$object.current_version))}</p>
+<p>{"Version count is %1 and current version is %2."|i18n("design/standard/content/copy",,array($object_versions|count,$object.current_version))}</p>
 </div>
 
 <div class="block">

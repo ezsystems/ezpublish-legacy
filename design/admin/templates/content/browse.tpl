@@ -47,7 +47,7 @@
 <div class="block">
 
 <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Select" button.'|i18n( 'design/admin/content/browse' )}</p>
-<p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n( 'design/admin/content/browse' )}</p>
+<p>{'To select an object that is a child of one of the displayed objects, click the object name for a list of the children of the object.'|i18n( 'design/admin/content/browse' )}</p>
 
 </div>
 

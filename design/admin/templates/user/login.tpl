@@ -4,11 +4,11 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The system could not log you in.'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
     {if and( is_set( $User:user_is_not_allowed_to_login ), eq( $User:user_is_not_allowed_to_login, true() ) )}
-         <li>{'"%user_login" is not allowed to login because count of failed login attempts for this user exceeded max number of failed login attempts!'|i18n( 'design/admin/user/login',, hash( '%user_login', $User:login ) )}</li>
+         <li>{'"%user_login" is not allowed to log in because failed login attempts by this user exceeded allowable number of failed login attempts!'|i18n( 'design/admin/user/login',, hash( '%user_login', $User:login ) )}</li>
          <li>{'Please contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
     {else}
          <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
-         <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
+         <li>{'All letters must be entered in the correct case.'|i18n( 'design/admin/user/login' )}</li>
          <li>{'Please try again or contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
     {/if}
 </ul>
@@ -18,7 +18,7 @@
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Access denied!'|i18n( 'design/admin/user/login' )}</h2>
 <ul>
-    <li>{'You do not have permissions to access <%siteaccess_name>.'|i18n( 'design/admin/user/login',, hash( '%siteaccess_name', $site_access.name ) )|wash}</li>
+    <li>{'You do not have permission to access <%siteaccess_name>.'|i18n( 'design/admin/user/login',, hash( '%siteaccess_name', $site_access.name ) )|wash}</li>
     <li>{'Please contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
 </ul>
 </div>
@@ -32,7 +32,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Log in to the administration interface of eZ publish'|i18n( 'design/admin/user/login' )}</h1>
+<h1 class="context-title">{'Log in to the administration interface of eZ Publish'|i18n( 'design/admin/user/login' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -52,12 +52,12 @@
 
 <div class="block">
     <label for="id1">{'Username'|i18n( 'design/admin/user/login' )}:</label>
-    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login|wash}" tabindex="1" title="{'Enter a valid username into this field.'|i18n( 'design/admin/user/login' )}" />
+    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login|wash}" tabindex="1" title="{'Enter a valid username in this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 
 <div class="block">
     <label for="id2">{'Password'|i18n( 'design/admin/user/login' )}:</label>
-    <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" title="{'Enter a valid password into this field.'|i18n( 'design/admin/user/login' )}" />
+    <input class="halfbox" type="password" size="10" name="Password" id="id2" value="" tabindex="1" title="{'Enter a valid password in this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 
 {if and( ezini_hasvariable( 'Session', 'RememberMeTimeout' ), ezini( 'Session', 'RememberMeTimeout' ) )}

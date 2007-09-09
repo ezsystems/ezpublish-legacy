@@ -18,7 +18,7 @@
         {"Include class definitions."|i18n("design/admin/package")}<br />
 
     <input class="checkbox" type="checkbox" Name="IncludeTemplates" value="1" {section show=$options.include_templates}checked="checked"{/section} />
-        {"Include templates related exported objects."|i18n("design/admin/package")}<br />
+        {"Include templates related to exported objects."|i18n("design/admin/package")}<br />
 </div>
 <div class="block">
 	{"Select templates from the following siteaccesses"|i18n("design/admin/package")}<br />

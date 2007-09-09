@@ -15,7 +15,7 @@
 <div class="feedback">
 <p>
 {'Your account was successfully created. An email will be sent to the specified
-email address. You need to follow the instructions in that mail to activate
+email address. Follow the instructions in that mail to activate
 your account.'|i18n('design/admin/user')}
 </p>
 </div>

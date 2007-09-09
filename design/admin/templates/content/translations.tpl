@@ -27,7 +27,7 @@
     {* Remove. *}
 	<td>
     {if or($object_count, $class_count)}
-        <input type="checkbox" name="DeleteIDArray[]" value="" title="{'The language can not be removed because it is in use.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" />
+        <input type="checkbox" name="DeleteIDArray[]" value="" title="{'The language cannot be removed because it is in use.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" />
     {else}
         <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" />
     {/if}

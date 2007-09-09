@@ -13,7 +13,7 @@
 
 {section show=eq($regional_info.language_type,1)}
  <p>
-  {"It's time to select the language this site should support."|i18n("design/standard/setup/init")}
+  {"Select the language this site should support."|i18n("design/standard/setup/init")}
   {section show=$has_variations}
    {"Select your language and click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
   {section-else}
@@ -22,11 +22,11 @@
  </p>
 {section-else}
  <p>
-  {"It's time to select the languages this site should support. Select your primary language and check any additional languages."|i18n("design/standard/setup/init")}
+  {"Select the languages this site should support. Select your primary language and check any additional languages."|i18n("design/standard/setup/init")}
   {section show=$has_variations}
-   {"Once you're done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
+   {"Once you are done, click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
   {section-else}
-   {"Once you're done click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
+   {"Once you are done, click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
   {/section}
  </p>
  {section show=eq($regional_info.language_type,3)}

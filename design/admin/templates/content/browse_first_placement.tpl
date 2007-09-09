@@ -13,7 +13,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-<p>{'Choose a location for the new <%classname> using the radiobuttons and click "Select".'|i18n( 'design/admin/content/browse_first_placement' )|wash}</p>
+<p>{'Choose a location for the new <%classname> using the radio buttons then click "Select".'|i18n( 'design/admin/content/browse_first_placement' )|wash}</p>
 <p>{'Navigate using the available tabs (above), the tree menu (left) and the content list (middle).'|i18n( 'design/admin/content/browse_first_placement' )}</p>
 </div>
 

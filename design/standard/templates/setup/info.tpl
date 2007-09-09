@@ -10,13 +10,13 @@
         <td><p><b>{'Site'|i18n('design/standard/setup')}:</b></p></td><td><p>{ezini('SiteSettings','SiteURL')}</p></td>
     </tr>
     <tr>
-        <td><p><b>{'Version'|i18n('design/standard/setup','eZ publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>
+        <td><p><b>{'Version'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_version}</p></td>
     </tr>
     <tr>
-        <td><p><b>{'SVN revision'|i18n('design/standard/setup','eZ publish version')}</b></p></td><td><p>{$ezpublish_revision}</p></td>
+        <td><p><b>{'SVN revision'|i18n('design/standard/setup','eZ Publish version')}</b></p></td><td><p>{$ezpublish_revision}</p></td>
     </tr>
     <tr>
-        <td><p><b>{'Extensions'|i18n('design/standard/setup','eZ publish extensions')}</b></p></td>
+        <td><p><b>{'Extensions'|i18n('design/standard/setup','eZ Publish extensions')}</b></p></td>
         <td>
             <p>
                 {section loop=$ezpublish_extensions}{$:item}{delimiter}, {/delimiter}{/section}
@@ -71,7 +71,7 @@
 </div>
 
 <div class="objectheader">
-    <h2>{'Webserver'|i18n( 'design/standard/setup', 'Webserver title' )}</h2>
+    <h2>{'Web server'|i18n( 'design/standard/setup', 'Web server title' )}</h2>
 </div>
 <div class="object">
     {section show=$webserver_info}

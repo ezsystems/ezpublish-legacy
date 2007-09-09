@@ -19,7 +19,7 @@
   {"The system check found some issues that, when resolved, may give improved performance or more features. Please have a look through the results below for more information on what might be done. Each issue will give you instructions on how to do the finetuning."|i18n("design/standard/setup/init")}
   </p>
   <p>
-   {"After you have fixed the problems click the"|i18n("design/standard/setup/init")} <i>{"Rerun System Check"|i18n("design/standard/setup/init")}</i> {"button to re-run the system checking. This is recommended after system changes to check for critical failures. You can also click the"|i18n("design/standard/setup/init")} <i>{"Check Again"|i18n("design/standard/setup/init")}</i> {"button to rerun the finetuning checks. However if you wish you can skip straight to the next step by clicking the"|i18n("design/standard/setup/init")} <i>{"Next"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
+   {"After you have fixed the problems click the"|i18n("design/standard/setup/init")} <i>{"Rerun System Check"|i18n("design/standard/setup/init")}</i> {"button to re-run the system checking. This is recommended after system changes to check for critical failures. You can also click the"|i18n("design/standard/setup/init")} <i>{"Check Again"|i18n("design/standard/setup/init")}</i> {"button to rerun the finetuning checks. However if you want you can skip straight to the next step by clicking the"|i18n("design/standard/setup/init")} <i>{"Next"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
   </p>
 
   <h1>{"Issues"|i18n("design/standard/setup/init")}</h1>

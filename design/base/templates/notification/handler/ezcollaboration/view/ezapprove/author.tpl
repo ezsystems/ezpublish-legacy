@@ -8,13 +8,13 @@
                                                hash( '%sitename', ezini( "SiteSettings", "SiteURL" ),
                                                      '%objectname', $objectversion.version_name|wash ) )}{/set-block}
 {'This email is to inform you that "%objectname" awaits approval at %sitename before it is published.
-If you wish to send comments to the approver or view the status use the URL below.'
+If you want to send comments to the approver or view the status use the URL below.'
  |i18n( 'design/standard/collaboration/approval',,
         hash( '%sitename', ezini( "SiteSettings", "SiteURL" ),
               '%objectname', $objectversion.version_name|wash ) )}
 http://{ezini( "SiteSettings", "SiteURL" )}{concat( "collaboration/item/full/", $collaboration_item.id )|ezurl( no )}
 
-{"If you do not wish to continue receiving these notifications,
+{"If you do not want to continue receiving these notifications,
 change your settings at:"|i18n( 'design/standard/notification' )}
 http://{ezini( "SiteSettings", "SiteURL" )}{concat( "notification/settings/" )|ezurl( no )}
 
