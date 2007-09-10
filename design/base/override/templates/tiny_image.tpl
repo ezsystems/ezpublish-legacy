@@ -12,4 +12,4 @@
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
 {section show=is_set($link_parameters.href)}</a>{/section}
 {/let}
-
+{/default}

@@ -209,4 +209,4 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
-
+{/let}
