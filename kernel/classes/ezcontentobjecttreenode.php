@@ -1757,6 +1757,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
 
+        if ( $offset < 0 )
+        {
+            $offset = ABS( $offset );
+        }
+
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
@@ -4390,7 +4395,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID, false, false );
             $tempPathString = $contentObjectTreeNode['path_string'];
 
-            // Create WHERE section 
+            // Create WHERE section
             $pathStringArray[] = "tree.path_string like '$tempPathString%'";
             $path2StringArray[] = "tree2.path_string like '$tempPathString%'";
         }
