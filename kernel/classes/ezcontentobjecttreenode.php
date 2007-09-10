@@ -1677,6 +1677,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $groupBy          = ( isset( $params['GroupBy']           ) )                         ? $params['GroupBy']            : false;
         $mainNodeOnly     = ( isset( $params['MainNodeOnly']      ) )                         ? $params['MainNodeOnly']       : false;
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
+
+        if ( $offset < 0 )
+        {
+            $offset = ABS( $offset );
+        }
+
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
