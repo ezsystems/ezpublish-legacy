@@ -24,3 +24,4 @@
 </div>
 
 {/let}
+{/default}
