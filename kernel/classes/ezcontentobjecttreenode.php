@@ -1767,6 +1767,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
 
+        if ( $offset < 0 )
+        {
+            $offset = ABS( $offset );
+        }
+
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
