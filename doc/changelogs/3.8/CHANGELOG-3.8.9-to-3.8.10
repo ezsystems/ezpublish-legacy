@@ -37,3 +37,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev. 19869)
 - Fixed bug #011399: fetch operator creates invalid sql with negative offset
   (Manually merged from stable/3.9 (3.9.4) rev.19877)
+- Fixed bug #011224: removeSubtrees: hardcoded user class identifier
+  (Manually merged from trunk (3.10.0rc1) rev.19882)
