@@ -4256,8 +4256,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $canRemove )
             {
-                if ( $moveToTrashAllowed and
-                     $class->attribute( 'identifier' ) == 'user' )
+                $isUserClass = false;
+
+                $attributes = eZContentClass::fetchAttributes( $class->attribute( 'id' ) );
+                foreach ( $attributes as $attribute )
+                {
+                    if ( $attribute->attribute( 'data_type_string' ) == 'ezuser' )
+                    {
+                        $isUserClass = true;
+                        break;
+                    }
+                }
+
+                if ( $moveToTrashAllowed and $isUserClass )
                 {
                     $moveToTrashAllowed = false;
                 }
