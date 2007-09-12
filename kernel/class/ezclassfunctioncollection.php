@@ -94,7 +94,11 @@ class eZClassFunctionCollection
     function fetchClassAttributeList( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
-        $contentClassAttributeList = eZContentClass::fetch( $classID )->fetchAttributes();
+        $contentClassAttributeList = array();
+        if ( $contentClass = eZContentClass::fetch( $classID ) )
+        {
+            $contentClassAttributeList = $contentClass->fetchAttributes();
+        }
         if ( $contentClassAttributeList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
