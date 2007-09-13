@@ -2283,7 +2283,7 @@ class eZTemplate
                 {
                     eZAppendWarningItem( array( 'error' => array( 'type' => 'template',
                                                                   'number' => EZ_ERROR_TEMPLATE_FILE_ERRORS ),
-                                                'text' => ezi18n( 'lib/eztemplate', 'Some template errors occurred, see debug for more information.' ) ) );
+                                                'text' => ezi18n( 'lib/eztemplate', 'Some template errors occured, see debug for more information.' ) ) );
                     $hasAppendWarning = true;
                 }
             }

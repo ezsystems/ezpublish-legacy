@@ -8,7 +8,7 @@
   </div>
 
   <p>
-    {"Please choose one or more of the demo sites you would like to test or base your sites on. Use Plain if you want to start from scratch."|i18n("design/standard/setup/init")}
+    {"Please choose one or more of the demo sites you would like to test or base your sites on. Use Plain if you wish to start from scratch."|i18n("design/standard/setup/init")}
   </p>
   
   <table border="0" cellspacing="2" cellpadding="0">

@@ -5,7 +5,7 @@
 <ul>
     <li>{'The name of the view was misspelled. Try changing the URL.'|i18n( 'design/admin/error/kernel' )}</li>
     <li>{'The <%module> module does not have a <%view> view.'|i18n( 'design/admin/error/kernel',, hash( '%module', $parameters.module, '%view', $parameters.view ) )|wash}</li>
-    <li>{'The site is using URL matching to determine which siteaccess to use, but the name of the siteaccess is missing from the URL. Try to add the name of the siteaccess; it should be specified before the name of the module.'|i18n( 'design/admin/error/kernel' )}</li>
+    <li>{'The site is using URL matching to determine which siteaccess to use, but the name of the siteaccess is missing from the URL. Try to add the name of the siteaccess, it should be specified before the name of the module.'|i18n( 'design/admin/error/kernel' )}</li>
 </ul>
 </div>
 

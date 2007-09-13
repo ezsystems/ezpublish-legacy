@@ -8,14 +8,14 @@
     {/case}
     {case match='variable_exists'}
         <p>{'Variable %valfield already exists in section %block'|i18n( 'design/admin/settings',, hash( '%valfield', $validation_field, '%block', $block ) )|wash}</p>
-        <p>{'Choose another name that is not already in use'|i18n( 'design/admin/settings' )}</p>
+        <p>{'Please choose another name that is not already taken'|i18n( 'design/admin/settings' )}</p>
     {/case}
     {case match='contain_spaces'}
         <p>{'%valfield is not allowed to contain spaces'|i18n( 'design/admin/settings' ,, hash( '%valfield', $validation_field ) )|wash}</p>
     {/case}
     {case match='write_error'}
         <p>{'Writing setting: %setting_name to file: %filename failed.'|i18n( 'design/admin/settings',, hash( '%setting_name', $setting_name, '%filename', $filename ) )|wash}</p>
-        <p>{'Make sure you have permission to %path and try again.'|i18n( 'design/admin/settings',, hash( '%path', $path) )|wash}</p>
+        <p>{'Make sure you have proper permissions to %path and try again.'|i18n( 'design/admin/settings',, hash( '%path', $path) )|wash}</p>
     {/case}
     {case match='not_valid_name'}
         <p>{'Name contains illegal character(s).'|i18n( 'design/admin/settings' )} </p>

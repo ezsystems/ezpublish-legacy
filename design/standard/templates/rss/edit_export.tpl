@@ -21,7 +21,7 @@
     {*{include uri="design:gui/lineedit.tpl" id_name=url value=$rss_export.url}*}
 	<input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
     <div class="context-attributes">
-    <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ Publish configuration.'|i18n( 'design/standard/rss/edit')}</p>
+    <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ publish configuration.'|i18n( 'design/standard/rss/edit')}</p>
 	</div>
     <br/>
 
@@ -67,7 +67,7 @@
     <br/>
     <div class="block">
     <label>{'Number of objects'|i18n( 'design/standard/rss/edit' )}:</label>
-    <select name="NumberOfObjects" title="{'Use this drop-down to select the maximum number of objects included in the RSS feed.'|i18n('design/standard/rss/edit')}">
+    <select name="NumberOfObjects" title="{'Use this drop-down menu to select the maximum number of objects included in the RSS feed.'|i18n('design/standard/rss/edit')}">
     {section name=Number loop=$number_of_objects_array}
     <option
     {section name=DefaultSet show=eq( $rss_export.number_of_objects, 0 )}
@@ -119,7 +119,7 @@
 
 	   <label>{'Subnodes'|i18n( 'design/standard/rss/edit' )}:</label>
        <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section}
-	   title="{'Activate this checkbox if objects from the subnodes of the source should also be fed.'|i18n('design/standard/rss/edit')}"/>
+	   title="{'Activate this checkbox if also objects from the subnodes of the source should be feeded.'|i18n('design/standard/rss/edit')}"/>
 
        <label>{"Class"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
        <select name="Item_Class_{$Source:index}">

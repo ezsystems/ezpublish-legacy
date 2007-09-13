@@ -5,5 +5,5 @@
 </div>
 {"Please contact the owner of the webshop and provide your order ID" | i18n("design/standard/shop")}:<b>{$OrderID}</b><br/>
 {section-else}
-{"Payment was canceled for an unknown reason. Please try to buy again."|i18n("design/standard/shop")}
+{"Payment was cancelled for an unknown reason. Please try to buy again."|i18n("design/standard/shop")}
 {/section}

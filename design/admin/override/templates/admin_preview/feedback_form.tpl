@@ -11,7 +11,7 @@
 
         {* Email address (information collector). *}
         <div class="attribute-email">
-            <label>{'Your email address'|i18n( 'design/admin/preview/feedbackform' )}:</label>
+            <label>{'Your Email address'|i18n( 'design/admin/preview/feedbackform' )}:</label>
             {attribute_view_gui attribute=$node.data_map.email}
         </div>
 

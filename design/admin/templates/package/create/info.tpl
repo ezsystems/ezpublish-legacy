@@ -8,7 +8,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Provide some basic information for your package.'|i18n('design/admin/package')}</p>
+    <p>{'Please provide some basic information for your package.'|i18n('design/admin/package')}</p>
     <div class="block">
             <label>{'Package name'|i18n('design/admin/package')}</label>
             <input class="box" type="text" name="PackageName" value="{$persistent_data.name|wash}" />
@@ -30,7 +30,7 @@
     </div>
 
     <div class="block">
-            <label>{'License'|i18n('design/admin/package')}</label>
+            <label>{'Licence'|i18n('design/admin/package')}</label>
             <input type="hidden" name="PackageLicence" value="{$persistent_data.licence|wash}" />
             <p>{$persistent_data.licence|wash}</p>
     </div>

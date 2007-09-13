@@ -149,7 +149,7 @@
         {section show=eq( $Drafts.item.creator_id, $current_creator.contentobject_id )}
             <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" {section show=eq( $Drafts.item.id, $draft_checked )}checked="checked"{/section} title="{'Select draft version #%version for editing.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
         {section-else}
-            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" disabled="disabled" title="{'You cannot select draft version #%version for editing because it belongs to another user. Please select a draft that belongs to you or create a new draft and then edit it.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
+            <input type="radio" name="SelectedVersion" value="{$Drafts.item.version}" disabled="disabled" title="{'You can not select draft version #%version for editing because it belongs to another user. Please select a draft that belongs to you or create a new draft and then edit it.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version ) )}" />
         {/section}
     </td>
 
@@ -184,10 +184,10 @@
 {section show=$has_own_drafts}
 <input class="button" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" disabled="disabled" title="{'You cannot edit any of the drafts because none of them belong to you. You can create a new draft, select it and then edit it.'|i18n( 'design/admin/content/edit_draft' )}" />
+<input class="button-disabled" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" disabled="disabled" title="{'You can not edit any of the drafts because none of them belong to you. Hint: Create a new draft, select it and edit it.'|i18n( 'design/admin/content/edit_draft' )}" />
 {/section}
 
-<input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n( 'design/admin/content/edit_draft' )}" title="{'Create a new draft. The contents of the new draft will be copied from the published version.'|i18n( 'design/admin/content/edit_draft' )}" />
+<input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n( 'design/admin/content/edit_draft' )}" title="{'Create a new draft. The contents of the new draft will copied from the published version.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input class="button" type="submit" name="CancelDraftButton" value="{'Cancel'|i18n( 'design/admin/content/edit_draft' )}" title="{'Cancel the edit operation.'|i18n( 'design/admin/content/edit_draft' )}" />
 <input type="hidden" name="DoNotEditAfterNewDraft" value="1" />
 </div>

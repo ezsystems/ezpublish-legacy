@@ -28,7 +28,7 @@ http://{ezini("SiteSettings","SiteURL")}{cond( $use_url_translation, $object.mai
                                                true(), concat( "/content/view/full/", $object.main_node_id )|ezurl(no) )}
 
 
-{"If you do not want to continue receiving these notifications,
+{"If you do not wish to continue receiving these notifications,
 change your settings at:"|i18n('design/standard/notification')}
 http://{ezini("SiteSettings","SiteURL")}{concat("notification/settings/")|ezurl(no)}
 

@@ -28,14 +28,14 @@
 
 {if or($class|not,$class.can_instantiate_languages|not)}
 
-<p>{'You do not have permission to create an object of the requested class in any language.'|i18n( 'design/admin/content/create_languages' )}</p>
+<p>{'You do not have permissions to create an object of the requested class in any language.'|i18n( 'design/admin/content/create_languages' )}</p>
 
 {else}
 
     {set $can_create=true()}
     {def $language_codes=$class.can_instantiate_languages}
 
-    <p>{'Select the language in which you want to create the object.'|i18n( 'design/admin/content/create_languages' )}:</p>
+    <p>{'Select the language in which you want to create the object'|i18n( 'design/admin/content/create_languages' )}:</p>
 
     {foreach $languages as $language}
         {if $language_codes|contains($language.locale)}

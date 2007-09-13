@@ -20,7 +20,7 @@
 
 {/section}
 
-{"Subtotal inc. VAT"|i18n("design/base/shop")}: {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
+{"Subtotal Inc. VAT"|i18n("design/base/shop")}: {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
 
 {foreach $order.order_info.additional_info as $order_item_type => $additional_info}
 {if $order_item_type|eq('ezcustomshipping')}
@@ -36,11 +36,11 @@
 
 {"Order summary"|i18n("design/base/shop")}:
 
-{"Subtotal of items Ex. VAT"|i18n("design/base/shop")}: {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
+{"Subtotal of items Ex VAT"|i18n("design/base/shop")}: {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
 
 {foreach $order.order_info.additional_info as $order_item_type => $additional_info}
 {if $order_item_type|eq('ezcustomshipping')}
-{"Shipping total ex VAT"|i18n("design/base/shop")}: {$additional_info.total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
+{"Shipping total Ex VAT"|i18n("design/base/shop")}: {$additional_info.total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
 {else}
 {"Item total Ex. VAT"|i18n("design/base/shop")}: {$additional_info.total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
 {/if}

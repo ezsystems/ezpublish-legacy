@@ -29,7 +29,7 @@
 	    {"Discount"|i18n("design/base/shop")}
         </th>
         <th>
-     	{"Total price"|i18n("design/base/shop")}
+     	{"Total Price"|i18n("design/base/shop")}
         </th>
     </tr>
     {section var=product_item loop=$order.product_items sequence=array(bglight,bgdark)}
@@ -75,7 +75,7 @@
      {/section}
      <tr>
          <td class="product-subtotal" colspan="4">
-         <strong>{"Subtotal inc. VAT"|i18n("design/base/shop")}:</strong>
+         <strong>{"Subtotal Inc. VAT"|i18n("design/base/shop")}:</strong>
          </td>
          <td class="product-subtotal">
          <strong>{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
@@ -112,7 +112,7 @@
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="bgdark product-subtotal">
-    {"Subtotal of items Ex. VAT"|i18n("design/base/shop")}:
+    {"Subtotal of items Ex VAT"|i18n("design/base/shop")}:
     </td>
     <td class="bgdark product-subtotal">
     {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
@@ -122,7 +122,7 @@
 <tr>
     <td class="bgdark product-subtotal">
     {if $order_item_type|eq('ezcustomshipping')}
-    {"Shipping total ex VAT"|i18n("design/base/shop")}:
+    {"Shipping total Ex VAT"|i18n("design/base/shop")}:
     {else}
     {"Item total Ex. VAT"|i18n("design/base/shop")}:
     {/if}

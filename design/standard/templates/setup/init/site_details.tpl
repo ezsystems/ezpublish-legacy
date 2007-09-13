@@ -8,7 +8,7 @@
   </div>
 
   <p>
-      {"This page lets you modify information about the site you have chosen to install. In addition, it also lets you choose a database for the site."|i18n("design/standard/setup/init")}
+      {"This page lets you modify information about the site you've chosen to install. In addition, it also lets you choose a database for the site."|i18n("design/standard/setup/init")}
   </p>
 
 
@@ -140,7 +140,7 @@ The setup can continue with the initialization but may damage the present data."
             <option value="1"{section show=eq($site_type.existing_database, 1)} selected="selected"{/section}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
             <option value="2"{section show=eq($site_type.existing_database, 2)} selected="selected"{/section}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
             <option value="3"{section show=eq($site_type.existing_database, 3)} selected="selected"{/section}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
-            <option value="4"{section show=ge($site_type.existing_database, 4)} selected="selected"{/section}>{"I have chosen a new database"|i18n("design/standard/setup/init")}</option>
+            <option value="4"{section show=ge($site_type.existing_database, 4)} selected="selected"{/section}>{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
             </select>
             </td>
        </tr>

@@ -4,13 +4,13 @@
 
 {section show=$error_anonymous_user}
 <div class="message-warning">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote in this poll. Please login.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
 {/section}
 
 {section show=$error_existing_data}
 <div class="message-warning">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'You have already voted in this poll.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'You have already voted for this poll.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
 {/section}
 

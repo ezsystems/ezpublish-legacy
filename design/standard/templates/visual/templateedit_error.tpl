@@ -1,6 +1,6 @@
 <div class="message-warning">
 
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The template cannot be edited.'|i18n( 'design/standard/visual/templateedit' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The template can not be edited.'|i18n( 'design/standard/visual/templateedit' )}</h2>
 
 {section show=$template_exists}
     {section show=$is_readable}
@@ -49,7 +49,7 @@
 
 {section show=$original_template}
 <div class="block">
-<label>{'Override template'|i18n( 'design/standard/visual/templateedit' )}:</label>
+<label>{'Overrides template'|i18n( 'design/standard/visual/templateedit' )}:</label>
 <a href={concat( 'visual/templateview', $original_template )|ezurl}>{$original_template|wash}</a>
 </div>
 {/section}

@@ -9,12 +9,12 @@
 {section show=$error}
 
 {section show=$error_existing_data}
-<p>{'You have already submitted feedback. The previously submitted data was:'|i18n('design/standard/content/feedback')}</p>
+<p>{'You have already submitted data to this feedback. The previously submitted data was the following.'|i18n('design/standard/content/feedback')}</p>
 {/section}
 
 {section-else}
 
-<p>{'Thanks for your feedback. The following information was collected.'|i18n('design/standard/content/feedback')}</p>
+<p>{'Thanks for your feedback, the following information was collected.'|i18n('design/standard/content/feedback')}</p>
 
 {/section}
 

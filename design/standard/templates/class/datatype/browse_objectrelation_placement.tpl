@@ -8,7 +8,7 @@
 </div>
 
 <p>
-    {"Please choose where you want to the default selection of object relation to start from.
+    {"Please choose where you want to the default selection of objectrelation to start from.
 
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.

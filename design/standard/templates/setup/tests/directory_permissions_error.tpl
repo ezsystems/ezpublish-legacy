@@ -32,7 +32,7 @@ chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name
 chmod -R a+rwx {$dir_list}</pre>
 {else}
 <p>{"eZ publish could not detect the user and group of the webserver.
-If you know the user and group of the web server it is recommended to change the ownership of the files to match this user and group.
+If you know the user and group of the webserver it's recommended to change the ownership of the files to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}</p>
 
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
@@ -68,9 +68,9 @@ mkdir -p {$dir_list}</pre>
 {if and( is_set( $res_elements_by_err.4 ), count( $res_elements_by_err.4 ) )}
 <h3>{'Files instead necessary directories'|i18n( 'design/standard/setup/tests' )}</h3>
 {set-block variable=dir_list scope=root}{foreach $res_elements_by_err.4 as $res}{delimiter} {/delimiter}<i>{$res.file}</i>{/foreach}{/set-block}
-<p>{'eZ Publish cannot create some important directories, because there are an files instead of these directories in the same places with the same names.
+<p>{'eZ publish cannot create some important directories, because there are an files instead of these directories in the same places with the same names.
 You should replace these files with appropriate directories and give necessary permissions to them.
-Without this the setup cannot finish and parts of eZ Publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
+Without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
 {'The affected directories (files) are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
 {/if}
 

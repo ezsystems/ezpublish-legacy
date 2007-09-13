@@ -33,7 +33,7 @@
         <p>Element with ID '{$error.element_id}' will not be uninstalled.</p>
     {/if}
 {else}
-    <h3>{'Unhandled uninstallation error has occurred.'|i18n('design/standard/package')}</h3>
+    <h3>{'Unhandled uninstallation error has occured.'|i18n('design/standard/package')}</h3>
 {/if}
 {* DESIGN: Content END *}</div></div></div>
 

@@ -9,7 +9,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please choose the content classes you want to be included in the package.'|i18n('design/standard/package')}</p>
+    <p>{'Please choose the content classes you wish to be included in the package.'|i18n('design/standard/package')}</p>
 
     <div class="block">
         <label>{'Class list'|i18n('design/standard/package')}</label>

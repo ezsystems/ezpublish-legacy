@@ -5,8 +5,8 @@
                                  4, 'Section'|i18n( 'design/admin/content/edit' ),
                                  5, 'Depth'|i18n( 'design/admin/content/edit' ),
                                  9, 'Name'|i18n( 'design/admin/content/edit' ),
-                                 6, 'Class identifier'|i18n( 'design/admin/content/edit' ),
-                                 7, 'Class name'|i18n( 'design/admin/content/edit' ),
+                                 6, 'Class Identifier'|i18n( 'design/admin/content/edit' ),
+                                 7, 'Class Name'|i18n( 'design/admin/content/edit' ),
                                  8, 'Priority'|i18n( 'design/admin/content/edit' ) )
                has_top_levels=false()
                existingParentNodes=$object.parent_nodes}
@@ -52,18 +52,18 @@
     {section-exclude match=$:item.parent_node|le( 0 )}
     {section-exclude match=and($:exclude_remote_assignments,$:item.remote_id|gt(0))}
     {let parent_node=$Node:item.parent_node_obj
-         nameStart=concat( '<span title="', 'This location will remain unchanged when the object is published.'|i18n( 'design/admin/content/edit' ), '">' )
+         nameStart=concat( '<span title="', 'This location will remain unchanged when object is published.'|i18n( 'design/admin/content/edit' ), '">' )
          nameEnd='</span>'}
     {if $Node:item.is_create_operation}
-        {set nameStart=concat( '<ins title="', 'This location will be created when the object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
+        {set nameStart=concat( '<ins title="', 'This location will be created when object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
         {set nameEnd='</ins>'}
     {/if}
     {if $Node:item.is_move_operation}
-        {set nameStart=concat( '<span title="', 'This location will be moved when the object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
+        {set nameStart=concat( '<span title="', 'This location will be moved when object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
         {set nameEnd='</span>'}
     {/if}
     {if $Node:item.is_remove_operation}
-        {set nameStart=concat( '<del title="', 'This location will be removed when the object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
+        {set nameStart=concat( '<del title="', 'This location will be removed when object is published.'|i18n( 'design/admin/content/edit' ), '">' )}
         {set nameEnd='</del>'}
     {/if}
     <tr class="{$Node:sequence}">
@@ -71,7 +71,7 @@
 	{* Remove. *}
     <td>
     {section show=or( $location_ui_enabled|not, and( $Node:item.node, $Node:item.node.can_remove|not ) )}
-	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permission to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'You do not have permissions to remove this location.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
     {section-else}
 	<input type="checkbox" name="AssignmentIDSelection[]" value="{$Node:item.parent_node}" title="{'Select location for removal.'|i18n( 'design/admin/content/edit' )}" />
     {/section}
@@ -105,12 +105,12 @@
 
     {* Sorting. *}
     <td>
-    <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortFieldMap[{$Node:item.id}]" title="{'Use this menu to set the sorting method for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
+    <select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortFieldMap[{$Node:item.id}]" title="{'Use this menu to set the sorting method for the sub items of the respective location.'|i18n( 'design/admin/content/edit' )}">
     {section name=Sort loop=$Node:sort_fields}
     <option value="{$Node:Sort:key}" {section show=eq($Node:Sort:key,$Node:item.sort_field)}selected="selected"{/section}>{$Node:Sort:item}</option>
     {/section}
     </select>
-	<select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items in this location.'|i18n( 'design/admin/content/edit' )}">
+	<select {if $location_ui_enabled|not}disabled="disabled" {/if}name="SortOrderMap[{$Node:item.id}]" title="{'Use this menu to set the sorting direction for the sub items of the respective location.'|i18n( 'design/admin/content/edit' )}">
     <option value="1" {section show=eq( $Node:item.sort_order, 1)}selected="selected"{/section}>{'Asc.'|i18n( 'design/admin/content/edit' )}</option>
     <option value="0" {section show=eq( $Node:item.sort_order, 0)}selected="selected"{/section}>{'Desc.'|i18n( 'design/admin/content/edit' )}</option>
     </select>
@@ -190,8 +190,8 @@
     <input {if $location_ui_enabled|not}disabled="disabled" class="button-disabled"{else}class="button"{/if} type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" title="{'Add one or more locations for the object being edited.'|i18n( 'design/admin/content/edit' )}" />
 
 {section-else}
-    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled"  title="{'You cannot add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
-    <input class="button-disabled" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'You cannot add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled"  title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button-disabled" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 {/section}
 

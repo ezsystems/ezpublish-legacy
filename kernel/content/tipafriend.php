@@ -128,7 +128,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
     include_once( "kernel/classes/eztipafriendrequest.php" );
     if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
-        $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximum number of tipafriend mails the last hours' );
+        $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximimum number of tipafriend mails the last hours' );
 
     // no validation errors
     if ( count( $error_strings ) == 0 )

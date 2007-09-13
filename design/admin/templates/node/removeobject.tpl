@@ -30,7 +30,7 @@
     {section show=eq( $exceeded_limit, true() )}
         <hr />
     <h4>Warnings:</h4>
-        <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removal and will not be deleted. You can remove this subtree using the Subtree Remove script.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'The lines marked with red contain more than the maximum possible nodes for subtree removing and will not be deleted. You can remove this subtree using Subtree Remove script.'|i18n( 'design/admin/node/removeobject' )}</p>
     <hr />
     {/section}
 
@@ -38,7 +38,7 @@
         <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
         <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/node/removeobject' )}</p>
     {section-else}
-        <p>{'The lines marked with red contain items that you do not have permission to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'The lines marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
         <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
 </div>
@@ -115,7 +115,7 @@
     {section show=and( $remove_info.can_remove_all, eq( $delete_items_exist, true() ) )}
         <input class="button" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You cannot continue because you do not have permission to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="ConfirmButton" value="{'OK'|i18n( 'design/admin/node/removeobject' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/node/removeobject' )}" disabled="disabled" />
     {/section}
 
     <input type="submit" class="button" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/node/removeobject' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/node/removeobject' )}" />

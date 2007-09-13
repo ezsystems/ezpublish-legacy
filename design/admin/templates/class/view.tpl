@@ -167,7 +167,7 @@
             {if and( eq( $availableLanguages|count, 1 ), eq( $languages|count, 1 ), is_set( $languages[$availableLanguages[0].locale] ) )}
                 <input type="hidden" name="EditLanguage" value="{$availableLanguages[0].locale|wash()}" />
             {else}
-                <select name="EditLanguage" title="{'Use this menu to select the language you want to use for editing and click the "Edit" button.'|i18n( 'design/admin/class/view' )|wash()}">
+                <select name="EditLanguage" title="{'Use this menu to select the language you wish use for the editing and click the "Edit" button.'|i18n( 'design/admin/class/view' )|wash()}">
                     {foreach $languages as $language}
                         <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
                     {/foreach}

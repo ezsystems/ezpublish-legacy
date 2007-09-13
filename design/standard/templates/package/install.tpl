@@ -6,7 +6,7 @@
     <h2>{'Install package'|i18n('design/standard/package')}</h2>
 
     <p>{'The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
-If you do not wish to install the package at this time, you can do so later on the view page for the package.'|i18n('design/standard/package')|break}</p>
+If you do not wish to install the package at this time you can do so later on the view page for the package.'|i18n('design/standard/package')|break}</p>
 
     <h3>{'Install items'|i18n('design/standard/package')|break}</h3>
     <ul>

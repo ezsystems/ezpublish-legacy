@@ -84,7 +84,7 @@
             {if $products_count|eq( 1 )}
                 <li>{"Removing VAT type <%1> will result in resetting VAT type for 1 product to its default value."|i18n( 'design/admin/shop/removevattypes',, array( $vat_name|wash ) )|wash}</li>
             {else}
-                <li>{'Removing VAT type <%1> will result in resetting VAT type for %2 products to their default value.'|i18n( 'design/admin/shop/removevattypes',, array( $vat_name|wash, $products_count ) )|wash}</li>
+                <li>{'Removing VAT type <%1> will result in resetting VAT type for %2 products to its default value.'|i18n( 'design/admin/shop/removevattypes',, array( $vat_name|wash, $products_count ) )|wash}</li>
             {/if}
         {/if}
     {/if}

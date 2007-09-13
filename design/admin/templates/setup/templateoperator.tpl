@@ -13,7 +13,7 @@
 <div class="context-attributes">
 
 <p>
-{'Welcome to the template operator wizard. Template operators are usually used for manipulating template variables. However, they can also be used to generate or fetch data. This wizard will take you through a couple of steps with some basic choices. When finished, eZ Publish will generate a PHP framework for the a new operator (which will be available for download).'|i18n( 'design/admin/setup/rad' )}
+{'Welcome to the template operator wizard. Template operators are usually used for manipulating template variables. However, they can also be used to generate or fetch data. This wizard will take you through a couple of steps with some basic choices. When finished, eZ publish will generate a PHP framework for the a new operator (which will be available for download).'|i18n( 'design/admin/setup/rad' )}
 </p>
 
 </div>

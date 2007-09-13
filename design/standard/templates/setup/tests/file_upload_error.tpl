@@ -74,7 +74,7 @@ chmod ug+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{
 {section-else}
 <p>
 {"eZ publish could not detect the user and group of the webserver.
-If you know the user and group of the web server it is recommended to change the ownership of the upload directory to match this user and group.
+If you know the user and group of the webserver it's recommended to change the ownership of the upload directory to match this user and group.
 To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}
 </p>
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>

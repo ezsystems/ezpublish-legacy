@@ -4,7 +4,7 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Required information is missing...'|i18n( 'design/admin/shop/userregister' )}</h2>
 <ul>
 <li>
-{'Fill in the fields that are marked with a star.'|i18n( 'design/admin/shop/userregister' )}
+{'Please please fill in the fields that are marked with a star.'|i18n( 'design/admin/shop/userregister' )}
 </li>
 </ul>
 </div>
@@ -26,7 +26,7 @@
 
 <div class="context-attributes">
 
-<p>{'Fill in the necessary information. Required fields are marked with a star.'|i18n( 'design/admin/shop/userregister' )}</p>
+<p>{'Please fill in the necessary information. Required fields are marked with a star.'|i18n( 'design/admin/shop/userregister' )}</p>
 
 {* First name. *}
 <div class="block">

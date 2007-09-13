@@ -3,7 +3,7 @@
 <ul>
 {/section}
 <li class="toolbar-item {$placement}">
-<a href={"/notification/settings"|ezurl}>{"My notifications"|i18n("design/standard/toolbar")}</a>
+<a href={"/notification/settings"|ezurl}>{"My Notifications"|i18n("design/standard/toolbar")}</a>
 </li>
 {section show=$last}
 </ul>

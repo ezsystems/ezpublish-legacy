@@ -66,7 +66,7 @@
     {$module_result.content}
     </td>
     <td width="50%" bgcolor="#ffffff" valign="top">
-    <h2>{"Welcome to eZ Publish administration"|i18n("design/standard/layout")}</h2>
+    <h2>{"Welcome to eZ publish administration"|i18n("design/standard/layout")}</h2>
     <p>{"To log in enter a valid login and password."|i18n("design/standard/layout")}</p>
     </td>
 </tr>

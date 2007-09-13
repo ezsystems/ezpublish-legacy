@@ -34,8 +34,8 @@
 	<th>{'Price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 	<th>{'Price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 	<th>{'Discount'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Total price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
-	<th>{'Total price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+	<th>{'Total Price ex. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
+	<th>{'Total Price inc. VAT'|i18n( 'design/admin/shop/orderview' )}</th>
 </tr>
 {section name=ProductItem loop=$order.product_items show=$order.product_items sequence=array(bglight,bgdark)}
 <tr>
@@ -147,7 +147,7 @@
 	<td><strong>{$history.status_name|wash}</strong></td>
 
     {let modifier=$history.modifier}
-    <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}"><strong>{$modifier.name|wash}</strong></a></td>
+    <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person which modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}"><strong>{$modifier.name|wash}</strong></a></td>
     {/let}
 
     {section-else}
@@ -156,7 +156,7 @@
 	<td>{$history.status_name|wash}</td>
 
     {let modifier=$history.modifier}
-    <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person who modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}">{$modifier.name|wash}</a></td>
+    <td><a href={$modifier.main_node.url|ezurl} title="{'This is the person which modified the status of the order. Click to view the user information.'|i18n( 'design/admin/shop/orderview' )}">{$modifier.name|wash}</a></td>
     {/let}
 
     {/section}

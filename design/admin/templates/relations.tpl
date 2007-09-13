@@ -125,7 +125,7 @@
         {/foreach}
     {/foreach}
 {else}
-    <tr><td>{'The item being viewed is not used by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
+    <tr><td>{'The item being viewed is not in use by any other objects.'|i18n( 'design/admin/node/view/full' )}</td></tr>
 {/if}
 </table>
 

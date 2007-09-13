@@ -5,9 +5,9 @@
 <div class="block">
 <label>{'Selection method'|i18n( 'design/standard/class/datatype' )}</label><div class="labelbreak"></div>
     <p>{$content.selection_type|choose( 'Browse'|i18n( 'design/standard/class/datatype' ),
-                                        'Drop-down list'|i18n( 'design/standard/class/datatype' ),
+                                        'Dropdown list'|i18n( 'design/standard/class/datatype' ),
                                         'List with radio buttons'|i18n( 'design/standard/class/datatype' ),
-                                        'List with checkboxes'|i18n( 'design/standard/class/datatype' ),
+                                        'List with Check boxes'|i18n( 'design/standard/class/datatype' ),
                                         'Multiple selection list'|i18n( 'design/standard/class/datatype' ),
                                         'Template based, multi'|i18n( 'design/standard/class/datatype' ),
                                         'Template based, single'|i18n( 'design/standard/class/datatype' ),

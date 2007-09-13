@@ -127,7 +127,7 @@
         <p>{'Removing the locations will also result in the removal of the sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
         <p>{'Are you sure you want to remove the locations along with their contents?'|i18n( 'design/admin/content/removeassignment' )}</p>
     {section-else}
-        <p>{'The locations marked with red contain items that you do not have permission to remove.'|i18n( 'design/admin/content/removeassignment' )}</p>
+        <p>{'The locations marked with red contain items that you do not have permissions to remove.'|i18n( 'design/admin/content/removeassignment' )}</p>
         <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/content/removeassignment' )}</p>
     {/section}
 
@@ -178,7 +178,7 @@
     {section show=$remove_info.can_remove_all}
         <input class="button" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removeassignment' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'You cannot continue because you do not have permission to remove some of the selected locations.'|i18n( 'design/admin/content/removeassignment' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'You can not continue because you do not have permissions to remove some of the selected locations.'|i18n( 'design/admin/content/removeassignment' )}" disabled="disabled" />
     {/section}
     <input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel'|i18n( 'design/admin/content/removeassignment' )}" title="{'Cancel the removal of locations.'|i18n( 'design/admin/content/removeassignment' )}" />
 </div>

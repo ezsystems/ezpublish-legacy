@@ -29,7 +29,7 @@
 <div class="message-confirmation">
 
 <h2>{'Removal of packages'|i18n('design/admin/package/list')}</h2>
-<p>{'Are you sure you want to remove the following packages?
+<p>{'Are you sure you wish to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|break}</p>
 <ul>

@@ -8,7 +8,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{"Specify export properties. Default settings will probably be suitable for your needs."|i18n("design/standard/package/creators/ezcontentobject")}</p>
+    <p>{"Specify export properties. Default settings will most likely be suitable for your needs."|i18n("design/standard/package/creators/ezcontentobject")}</p>
 
 
     <label>{"Miscellaneous"|i18n("design/standard/package/creators/ezcontentobject")}</label>
@@ -17,7 +17,7 @@
         {"Include class definitions."|i18n("design/standard/package/creators/ezcontentobject")}<br />
 
     <input class="checkbox" type="checkbox" Name="IncludeTemplates" value="1" {section show=$options.include_templates}checked="checked"{/section} />
-        {"Include templates related to exported objects."|i18n("design/standard/package/creators/ezcontentobject")}<br />
+        {"Include templates related exported objects."|i18n("design/standard/package/creators/ezcontentobject")}<br />
 	{"Select templates from the following siteaccesses"|i18n("design/standard/package/creators/ezcontentobject")}<br />
 	<select size="3" name="SiteAccesses[]" multiple="multiple">
 	    {section loop=$available_site_accesses}

@@ -40,7 +40,7 @@
 
 {* Affected versions option *}
 <div class="element">
-    <label>{'Affected versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
+    <label>{'Affected Versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezmultiplexer_version_option_{$event.id}[]" size="3" multiple="multiple">
     <option value="0"{section show=or( lt($event.version_option, 1), gt($event.version_option, 2) )} selected="selected"{/section}>{'All versions'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
     <option value="1"{section show=eq( $event.version_option, 1)} selected="selected"{/section}>{'Publishing new object'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>

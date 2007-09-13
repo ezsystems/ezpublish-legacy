@@ -14,7 +14,7 @@
 <table class="list" cellspacing="0">
 
 <tr>
-    <th><label>{'eZ Publish'|i18n( 'design/admin/setup/info' )}</label></th>
+    <th><label>{'eZ publish'|i18n( 'design/admin/setup/info' )}</label></th>
 </tr>
 <tr>
 <td>
@@ -24,17 +24,17 @@
     </div>
 
     <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'eZ Publish version' )}:</label>
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'eZ publish version' )}:</label>
         {$ezpublish_version}
     </div>
 
     <div class="block">
-        <label>{'SVN revision'|i18n( 'design/admin/setup/info', 'eZ Publish version' )}:</label>
+        <label>{'SVN revision'|i18n( 'design/admin/setup/info', 'eZ publish version' )}:</label>
         {$ezpublish_revision}
     </div>
 
     <div class="block">
-        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ Publish extensions' )}:</label>
+        <label>{'Extensions'|i18n( 'design/admin/setup/info', 'eZ publish extensions' )}:</label>
         {section show=$ezpublish_extensions}
             {section var=Extensions loop=$ezpublish_extensions}
                 {$Extensions.item}{delimiter}, {/delimiter}
@@ -89,7 +89,7 @@
         {section show=and( is_set( $php_ini.memory_limit ), $php_ini.memory_limit )}
             {'Script memory limit is %1.'|i18n( 'design/admin/setup/info' ,,array( $php_ini.memory_limit ) )}<br/>
         {section-else}
-            {'Script memory limit is unlimited.'|i18n( 'design/admin/setup/info' )}<br/>
+            {'Script memory limit is Unlimited.'|i18n( 'design/admin/setup/info' )}<br/>
         {/section}
         {'Maximum execution time is %1 seconds.'|i18n( 'design/admin/setup/info',, array( $php_ini.max_execution_time ) )}<br/>
     </div>
@@ -130,7 +130,7 @@
 
 {section-else}
 <div class="block">
-    {'A known and active PHP Accelerator could not be found.'|i18n( 'design/admin/setup/info' )}
+    {'A known and active PHP accelerator could not be found.'|i18n( 'design/admin/setup/info' )}
 </div>
 {/section}
 </td>
@@ -138,7 +138,7 @@
 </table>
 <table class="list" cellspacing="0">
 <tr>
-    <th><label>{'Web server (software)'|i18n( 'design/admin/setup/info', 'Web server title' )}</label></th>
+    <th><label>{'Webserver (software)'|i18n( 'design/admin/setup/info', 'Webserver title' )}</label></th>
 </tr>
 <tr>
 <td>
@@ -164,7 +164,7 @@
     </div>
 
     {section-else}
-        {'eZ Publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
+        {'eZ publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
     {/section}
 </td>
 </tr>

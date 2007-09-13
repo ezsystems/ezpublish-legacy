@@ -14,7 +14,7 @@
 
 <div class="context-attributes">
 <p>
-{'Welcome to the policy wizard. This three-step wizard will help you create a new policy that will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep1' )}
+{'Welcome to the policy wizard. This three step wizard will help you create a new policy which will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep1' )}
 </p>
 
 <hr />
@@ -24,7 +24,7 @@
 {'Instructions'|i18n( 'design/admin/role/createpolicystep1' )}:
 </p>
 <ol>
-<li>{'Use the drop-down menu to select the module that you want to grant access to.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
+<li>{'Use the drop-down menu to select the module that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
 <li>{'Click one of the "Grant.." buttons (explained below) in order to go to the next step.'|i18n( 'design/admin/role/createpolicystep1' )}</li>
 </ol>
 <p>

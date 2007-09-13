@@ -13,20 +13,20 @@
 </div>
 {/section}
 
-<h2>{"Congratulations, eZ Publish should now run on your system."|i18n("design/standard/setup/init")}</h2>
+<h2>{"Congratulations, eZ publish should now run on your system."|i18n("design/standard/setup/init")}</h2>
 <p>
-{"If you need help with eZ Publish, you can go to %ezlink and get help in the forums.
+{"If you need help with eZ publish, you can go to %ezlink and get help in the forums.
   If you find a bug (error), please go to %buglink and report it.
-  With your help we can fix the errors eZ Publish might have and implement new features."
+  With your help we can fix the errors eZ publish might have and implement new features."
  |i18n("design/standard/setup/init",,
-       hash('%buglink',concat('<a target="_other" href="http://ez.no/developer/ez_publish_3/bug_reports">',"eZ Publish bug reports"|i18n("design/standard/setup/init"),'</a>'),
+       hash('%buglink',concat('<a target="_other" href="http://ez.no/developer/ez_publish_3/bug_reports">',"eZ publish bug reports"|i18n("design/standard/setup/init"),'</a>'),
             '%ezlink',concat('<a target="_other" href="http://ez.no/developer/ez_publish_3/forum">',"ez.no"|i18n("design/standard/setup/init"),'</a>')))}
 </p>
 
 <p>
 {"Click on the URL to access your new %ezlink or click the %donebutton button. Enjoy one of the most successful web content management systems!"
  |i18n("design/standard/setup/init",,
-       hash('%ezlink',concat('<a href="',$site_info.url,'">',"eZ Publish website"|i18n("design/standard/setup/init"),'</a>'),
+       hash('%ezlink',concat('<a href="',$site_info.url,'">',"eZ publish website"|i18n("design/standard/setup/init"),'</a>'),
             '%donebutton',concat('<i>',"Done"|i18n("design/standard/setup/init"),'</i>')))}
 </p>
 

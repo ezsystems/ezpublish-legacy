@@ -28,7 +28,7 @@
 		     page, "odd|even|all",
 		     pageOffset, 0 ) )  *}
 
-{pdf(footer, hash( text, "eZ Publish PDF export"|i18n( "design/standard/content/pdf" )|wash(pdf),
+{pdf(footer, hash( text, "eZ publish PDF export"|i18n( "design/standard/content/pdf" )|wash(pdf),
                    size, 10,
 	           align, "left" ) ) }
 {pdf(footer, hash( text, "#page of #total"|i18n( "design/standard/content/pdf" )|wash(pdf),

@@ -15,7 +15,7 @@
 <div class="context-attributes">
 
 <p>
-{'Welcome to the policy wizard. This three-step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep3' )}
+{'Welcome to the policy wizard. This three step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep3' )}
 </p>
 
 <hr />

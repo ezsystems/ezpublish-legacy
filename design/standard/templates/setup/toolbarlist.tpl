@@ -3,7 +3,7 @@
 <h1>{'Toolbar management'|i18n( 'design/standard/setup' )}</h1>
 
 <div class="objectheader">
-    <h2>{'Siteaccess'|i18n( 'design/standard/setup' )}</h2>
+    <h2>{'SiteAccess'|i18n( 'design/standard/setup' )}</h2>
 </div>
 <div class="object">
     {section show=$current_siteaccess}

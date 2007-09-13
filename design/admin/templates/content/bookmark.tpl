@@ -31,7 +31,7 @@
     {section show=$Bookmarks.item.node.object.can_edit}
         <a href={concat( 'content/edit/', $Bookmarks.item.node.contentobject_id )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'Edit <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" /></a>
     {section-else}
-        <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'You do not have permission to edit the contents of <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" />
+        <img src={'edit-disabled.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/content/bookmark' )}" title="{'You do not have permissions to edit the contents of <%bookmark_name>.'|i18n( 'design/admin/content/bookmark',, hash( '%bookmark_name', $Bookmarks.item.node.name ) )|wash}" />
     {/section}
     </td>
 </tr>

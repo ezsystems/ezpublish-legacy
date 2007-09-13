@@ -16,7 +16,7 @@
     <p>{$what_is_ez_publish}</p>
 {/if}
 
-<h3>{'License'|i18n( 'design/admin/ezinfo/about' )}</h3>
+<h3>{'Licence'|i18n( 'design/admin/ezinfo/about' )}</h3>
 {if is_set( $license )}
     <p>{$license}</p>
 {/if}

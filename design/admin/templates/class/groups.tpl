@@ -31,7 +31,7 @@
     </div>
     <div class="block">
     {section show=sub( count( $class.group_list ),count( $class.ingroup_list ) )}
-        <select name="ContentClass_group" title="{'Select a group that the <%class_name> class should be added to.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}">
+        <select name="ContentClass_group" title="{'Select a group which the <%class_name> class should be added to.'|i18n( 'design/admin/class/view',, hash( '%class_name', $class.name ) )|wash}">
         {section name=AllGroup loop=$class.group_list}
             {section show=$class.ingroup_id_list|contains( $AllGroup:item.id )|not}
                 <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>

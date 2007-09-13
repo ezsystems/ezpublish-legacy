@@ -38,10 +38,10 @@
 	{"Discount"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total price ex. VAT"|i18n("design/standard/shop")}
+	{"Total Price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total price inc. VAT"|i18n("design/standard/shop")}
+	{"Total Price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;

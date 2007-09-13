@@ -11,7 +11,7 @@
     <p>{'Please select where you want to place the imported items.'|i18n('design/standard/package')}</p>
 
 
-    <label>{'If you want to change the placement click the browse button.'|i18n('design/standard/package')}</label>
+    <label>{'If you wish to change the placement click the browse button.'|i18n('design/standard/package')}</label>
 
     {section loop=$top_nodes_map}
     <div class="block">

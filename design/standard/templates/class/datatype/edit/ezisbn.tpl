@@ -3,11 +3,11 @@
 {if $content.ranges.has_content|eq(false())}
 <div class="message-warning">
   <h2>{'Range data for the ISBN-13 does not exist'|i18n( 'design/standard/class/datatype' )}</h2>
-  <p>{'Please follow the instructions for the ISBN datatype to install the valid ranges.'|i18n( 'design/standard/class/datatype' )}</p>
+  <p>{'Please follow the instructions for the isbn datatype to install the valid ranges.'|i18n( 'design/standard/class/datatype' )}</p>
   <div class="block">
     <h3>{'Definition from distribution'|i18n( 'design/standard/class/datatype' )}</h3>
-    <p>{'Load the definition that follows the standard distribution here:'|i18n( 'design/standard/class/datatype' )}</p>
-    <input type="submit" name="CustomActionButton[{$class_attribute.id}_ImportISBN13Data]" value="{'Import ISBN range data'|i18n( 'design/standard/class/datatype' )}" />
+    <p>{'You can load the definition that follows the standard distribution here:'|i18n( 'design/standard/class/datatype' )}</p>
+    <input type="submit" name="CustomActionButton[{$class_attribute.id}_ImportISBN13Data]" value="{'Import Isbn range data'|i18n( 'design/standard/class/datatype' )}" />
   </div>
 </div>
 {/if}

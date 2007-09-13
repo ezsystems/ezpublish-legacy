@@ -22,7 +22,7 @@
 
 {* Navigation part. *}
 <div class="block">
-<label>{'Navigation part'|i18n( 'design/admin/section/edit' )}:</label>
+<label>{'Navigation Part'|i18n( 'design/admin/section/edit' )}:</label>
 <select name="NavigationPartIdentifier">
 {section var=part loop=fetch( content, navigation_parts )}
     <option value="{$part.identifier|wash}" {section show=eq( $section.navigation_part_identifier, $part.identifier )}selected="selected"{/section}>{$part.name|wash}</option>

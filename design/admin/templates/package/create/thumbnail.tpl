@@ -10,7 +10,7 @@
     {include uri="design:package/header.tpl"}
     <div class="block">
     <p>{'Please select a thumbnail file to be included in the package,
-if you do not want to have a thumbnail simply click Next.'|i18n('design/standard/package')|break}</p>
+if you do not wish to have a thumbnail simply click Next.'|i18n('design/standard/package')|break}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input class="box" name="PackageThumbnail" type="file" />

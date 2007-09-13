@@ -902,7 +902,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
                                                               'number' => 1,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezi18n( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => ezi18n( 'index.php', 'Some errors occured, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and
@@ -1053,7 +1053,7 @@ if ( $show_page_layout )
                                                               'number' => 1 ,
                                                               'count' => $GLOBALS['eZDebugErrorCount'] ),
                                             'identifier' => 'ezdebug-first-error',
-                                            'text' => ezi18n( 'index.php', 'Some errors occurred, see debug for more information.' ) ) );
+                                            'text' => ezi18n( 'index.php', 'Some errors occured, see debug for more information.' ) ) );
             }
 
             if ( isset( $GLOBALS['eZDebugWarning'] ) and

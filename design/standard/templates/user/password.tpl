@@ -14,7 +14,7 @@
     {/section}
     {section show=$newPasswordNotMatch}
         <div class="warning">
-            <h2>{"Password did not match. Please retype your new password."|i18n('design/standard/user')}</h2>
+            <h2>{"Password didn't match, please retype your new password."|i18n('design/standard/user')}</h2>
         </div>
     {/section}
 

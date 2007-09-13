@@ -25,7 +25,7 @@
 {* User who functions as approver *}
 <div class="block">
 <fieldset>
-<legend>{'Users who approve content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+<legend>{'Users who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
 {section show=$event.approve_users}
     <table class="list" cellspacing="0">
     <tr>
@@ -55,7 +55,7 @@
 {* User groups who functions as approver *}
 <div class="block">
 <fieldset>
-<legend>{'Groups who approve content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+<legend>{'Groups who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
 {section show=$event.approve_groups}
     <table class="list" cellspacing="0">
     <tr>

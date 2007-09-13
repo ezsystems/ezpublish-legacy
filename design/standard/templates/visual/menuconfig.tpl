@@ -14,7 +14,7 @@
 
 <div class="context-attributes">
 
-<label>{'Siteaccess'|i18n( 'design/standard/visual/menuconfig' )}:</label>
+<label>{'SiteAccess'|i18n( 'design/standard/visual/menuconfig' )}:</label>
 
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}

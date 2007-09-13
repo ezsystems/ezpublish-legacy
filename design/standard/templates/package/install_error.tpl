@@ -26,7 +26,7 @@
         <p>Element with ID '{$error.element_id}' will not be installed.</p>
     {/if}
 {else}
-    <h3>{'Unhandled installation error has occurred.'|i18n('design/standard/package')}</h3>
+    <h3>{'Unhandled installation error has occured.'|i18n('design/standard/package')}</h3>
 {/if}
     <div class="buttonblock">
         <input class="button" type="submit" name="HandleError" value="{'Continue'|i18n('design/standard/package')}" />

@@ -15,7 +15,7 @@
 
 <div class="context-attributes">
 
-<label>{'Siteaccess'|i18n( 'design/standard/menuconfig' )}:</label>
+<label>{'SiteAccess'|i18n( 'design/standard/menuconfig' )}:</label>
 
     {section show=$current_siteaccess}
 {*        <p>{'Current siteaccess'|i18n( 'design/standard/menuconfig' )}: <strong>{$current_siteaccess}</strong></p> *}

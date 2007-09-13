@@ -5,7 +5,7 @@
 </div>
 
 <p>
-  {"This section is used to configure how eZ Publish delivers its outgoing Email."|i18n("design/standard/setup/init")}
+  {"This section is used to configure how eZ publish delivers its outgoing Email."|i18n("design/standard/setup/init")}
 </p>
 
 {section show=eq($system.type,"unix")}

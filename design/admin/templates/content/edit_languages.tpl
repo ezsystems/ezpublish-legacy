@@ -151,7 +151,7 @@
 {else}
     {if $show_existing_languages|not}
         {set $can_edit=false()}
-        <p>{'You do not have permission to create a translation in another language.'|i18n('design/admin/content/edit_languages')}</p>
+        <p>{'You do not have sufficient permissions to create a translation in another language.'|i18n('design/admin/content/edit_languages')}</p>
 
         {* Translation a user is able to edit *}
         {set-block variable=$existing_languages_output}
@@ -168,7 +168,7 @@
             <fieldset>
             {set $can_edit=true()}
             <legend>{'Existing languages'|i18n('design/admin/content/edit_languages')}</legend>
-            <p>{'However you can select one of the following languages for editing.'|i18n('design/admin/content/edit_languages')}:</p>
+            <p>{'However you can select one of the following languages for editing'|i18n('design/admin/content/edit_languages')}:</p>
 
             <div class="indent">
                 {$existing_languages_output}

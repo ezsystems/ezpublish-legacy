@@ -2,7 +2,7 @@
 <div class="warning">
 <h2>{"Invalid preferred currency"|i18n("design/standard/error/shop")}</h2>
 {def $preferred_currency = fetch( 'shop', 'preferred_currency_code' )}
-<p>{"'%1' currency does not exist."|i18n( 'design/standard/error/shop',, array( $preferred_currency ) )}</p>
+<p>{"'%1' currency doesn't exist."|i18n( 'design/standard/error/shop',, array( $preferred_currency ) )}</p>
 {undef}
 
 </div>

@@ -14,7 +14,7 @@
 {/section}
 
 {section show=$ini_not_saved}
-<p>{'The override.ini file could not be modified because of insufficient permission.'|i18n( 'design/standard/visual/templateview' )}</p>
+<p>{'The override.ini file could not be modified because of insufficient permissions.'|i18n( 'design/standard/visual/templateview' )}</p>
 {/section}
 
 </div>

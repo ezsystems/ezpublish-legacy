@@ -6,7 +6,7 @@
 
     {section show=$removed_items}
     <div class="warning">
-        <h2>{"The following items were removed from your basket because the products were changed"|i18n("design/base/shop",,)}</h2>
+        <h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/base/shop",,)}</h2>
         <ul>
         {section name=RemovedItem loop=$removed_items}
             <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name|wash}</a></li>
@@ -67,7 +67,7 @@
 	    {"Discount"|i18n("design/base/shop")}
         </th>
         <th>
-     	{"Total price"|i18n("design/base/shop")}
+     	{"Total Price"|i18n("design/base/shop")}
         </th>
         <th>
        {* <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/base/shop')}" /> &nbsp; *}
@@ -124,7 +124,7 @@
      {/section}
      {/section}
      <tr>
-         <td class="product-subtotal" colspan="4"><b>{"Subtotal inc. VAT"|i18n("design/base/shop")}:</b></td> 
+         <td class="product-subtotal" colspan="4"><b>{"Subtotal Inc. VAT"|i18n("design/base/shop")}:</b></td> 
          <td class="product-subtotal"><b>{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}</b></td>
          <td class="product-subtotal">&nbsp;</td>
      </tr>
@@ -150,7 +150,7 @@
 
     <h2>{"Basket summary"|i18n("design/base/shop")}:</h2>
     <table cellspacing="0">
-    <td class="product-subtotal" colspan="4">{'Subtotal ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal" colspan="4">{'Sub total Ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
     <td class="product-subtotal">{$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
     </td>
     <td class="product-subtotal">
@@ -158,7 +158,7 @@
     </td>
     </tr>
     <tr>
-    <td class="product-subtotal" colspan="4">{'Shipping total ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal" colspan="4">{'Shipping total Ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
     <td class="product-subtotal">{$basket.items_info.additional_info.shipping_total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
     </td>
     <td class="product-subtotal">

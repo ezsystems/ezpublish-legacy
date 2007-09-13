@@ -32,7 +32,7 @@ By using %operatorname you can ...'|i18n('design/standard/setup','Template opera
 <h2>{'Example code'|i18n('design/standard/setup','Template operator')}</h2>
 </div>
 <div class="object">
-<p>{'If you want you can add some example code to explain how your operator should work.
+<p>{'If you wish you can add some example code to explain how your operator should work.
 The default code was made from the basic parameters you chose.'|i18n('design/standard/setup','Template operator')}</p>
 <textarea class="box" name="ExampleCode" cols="60" rows="3">{$example_code|wash}</textarea>
 

@@ -3,7 +3,7 @@
 <h3>{"Introduction"|i18n("design/standard/setup/db")}</h3>
 <p>
   {"MySQL is a database management system created by MySQL AB."|i18n("design/standard/setup/db")}
-  {"It is one of the most popular databases in the Open Source community and most often on by default in PHP."|i18n("design/standard/setup/db")}
+  {"It's currently one of the most popular databases in the Open Source community and most often on by default in PHP."|i18n("design/standard/setup/db")}
 </p>
 <p>{"From their homepage"|i18n("design/standard/setup/db")}:</p>
 <div class="quote">{"MySQL is the world's most popular Open Source Database, designed for speed, power and precision in mission critical, heavy load use."|i18n("design/standard/setup/db")}</div>

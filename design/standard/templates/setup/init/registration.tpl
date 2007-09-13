@@ -6,7 +6,7 @@
 </div>
 
 <p>
- {"If you want, you can register this installation by sending some information to eZ Systems. No confidential data will be transmitted and eZ Systems will not use or sell your details for unsolicited emails."|i18n("design/standard/setup/init")}
+ {"If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited emails."|i18n("design/standard/setup/init")}
 </p>
 
 <table cellpadding="0" cellspacing="0" border="0" class="full">
@@ -15,7 +15,7 @@
 </table>
 
 <p>
- {"If you want, you can also add some comments, which will be included in the registration email."|i18n("design/standard/setup/init")}
+ {"If you wish, you can also add some comments, which will be included in the registration email."|i18n("design/standard/setup/init")}
 </p>
 
 

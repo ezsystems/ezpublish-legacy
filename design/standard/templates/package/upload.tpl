@@ -15,7 +15,7 @@
     </div>
     {/section}
 
-    <p>{'Select the file containing the package and click the upload button'|i18n('design/standard/package')}</p>
+    <p>{'Select the file containing your package and click the upload button'|i18n('design/standard/package')}</p>
 
     <input type="hidden" name="MAX_FILE_SIZE" value="32000000" />
     <input class="file" name="PackageBinaryFile" type="file" />

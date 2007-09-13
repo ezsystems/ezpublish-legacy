@@ -2,7 +2,7 @@
 <div class="message-error">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Invalid preferred currency. (3)'|i18n( 'design/admin/error/shop' )}</h2>
 {def $preferred_currency = fetch( 'shop', 'preferred_currency_code' )}
-<p>{"'%1' currency does not exist."|i18n( 'design/admin/error/shop',, array( $preferred_currency ) )}</p>
+<p>{"'%1' currency doesn't exist."|i18n( 'design/admin/error/shop',, array( $preferred_currency ) )}</p>
 {undef}
 </div>
 

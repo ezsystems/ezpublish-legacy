@@ -152,7 +152,7 @@
 
 <h2>{"Override templates"|i18n("design/standard/class/view")}</h2>
 <table class="list" cellspacing="0" cellpadding="0" width="100%">
-<tr><th>{"Siteaccess"|i18n("design/standard/class/view")}</th><th>{"Override"|i18n("design/standard/class/view")}</th><th>{"Source template"|i18n("design/standard/class/view")}</th><th>{"Override template"|i18n("design/standard/class/view")}</th><th>{"Edit"|i18n("design/standard/class/view")}</th></tr>
+<tr><th>{"SiteAccess"|i18n("design/standard/class/view")}</th><th>{"Override"|i18n("design/standard/class/view")}</th><th>{"Source template"|i18n("design/standard/class/view")}</th><th>{"Override template"|i18n("design/standard/class/view")}</th><th>{"Edit"|i18n("design/standard/class/view")}</th></tr>
 {let test=fetch( class, override_template_list, hash( class_id, $class.id ) )}
 
 {section loop=$test}

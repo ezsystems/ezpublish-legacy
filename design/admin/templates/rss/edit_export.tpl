@@ -15,7 +15,7 @@
 
     {section show=not($valid)}
         <div class="warning">
-            <h2>{'Invalid input'|i18n( 'design/admin/rss/edit_export' )}</h2>
+            <h2>{'Invalid Input'|i18n( 'design/admin/rss/edit_export' )}</h2>
             <ul>
 {section var=Errors loop=$validation_errors}
              <li>{$Errors.item}</li>
@@ -27,7 +27,7 @@
 
     <div class="block">
     <label>{'Name'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <input class="halfbox" id="exportName" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the Administration Interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
+    <input class="halfbox" id="exportName" type="text" name="title" value="{$rss_export.title|wash}" title="{'Name of the RSS export. This name is used in the administration interface only, to distinguish the different exports from each other.'|i18n('design/admin/rss/edit_export')}" />
     </div>
 
     <div class="block">
@@ -39,7 +39,7 @@
     <label>{'Site URL'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
     <div class="context-attributes">
-        <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ Publish configuration.'|i18n( 'design/admin/rss/edit_export')}</p>
+        <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ publish configuration.'|i18n( 'design/admin/rss/edit_export')}</p>
     </div>
     </div>
 
@@ -78,7 +78,7 @@
 
     <div class="block">
     <label>{'Number of objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <select name="NumberOfObjects" title="{'Use this drop-down to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
+    <select name="NumberOfObjects" title="{'Use this drop-down menu to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
     {section name=Number loop=$number_of_objects_array}
     <option
     {section name=DefaultSet show=eq( $rss_export.number_of_objects, 0 )}
@@ -126,12 +126,12 @@
        <div class="block">
        <label>{'Source path'|i18n( 'design/admin/rss/edit_export' )}:</label>
        <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" />
-       <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select the source node for the RSS export source. Objects of the type selected in the drop down below published as sub items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
+       <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select the source node for RSS export source. Objects of the type selected in the drop down below published as sub-items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
        </div>
        
         <div class="block">
         <label>{'Subnodes'|i18n( 'design/admin/rss/edit_export' )}:</label>
-        <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section} title="{'Activate this checkbox if objects from the subnodes of the source should also be fed.'|i18n('design/admin/rss/edit_export')}"/>
+        <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section} title="{'Activate this checkbox if also objects from the subnodes of the source should be feeded.'|i18n('design/admin/rss/edit_export')}"/>
         </div>
     
        <div class="block">
@@ -144,14 +144,14 @@
        {/section} value="{$:item.id}">{$:item.name|wash}</option>
        {/section}
        </select>
-       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the class type.'|i18n('design/admin/rss/edit_export')}" />
+       <input class="button" type="submit" name="Update_Item_Class" value="{'Set'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to load the correct values into the drop-down fields below. Use the drop-down menu on the left to select the correct class type.'|i18n('design/admin/rss/edit_export')}" />
        </div>
 
        {section name=Attribute show=count( $rss_export.item_list[$Source:index] )|gt( 0 )}
 
          <div class="block">
          <label>{'Title'|i18n( 'design/admin/rss/edit_export' )}:</label>
-         <select name="Item_Class_Attribute_Title_{$Source:index}" title="{'Use this drop down to select the attribute that should be exported as the title of the RSS export entry.'|i18n('design/admin/rss/edit_export')}">
+         <select name="Item_Class_Attribute_Title_{$Source:index}" title="{'Use this drop-down to select which attribute that should be exported as the title of the RSS export entry.'|i18n('design/admin/rss/edit_export')}">
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier}"
              {section name=ShowSelected show=eq( $Source:item.title, $:item.identifier )}
@@ -163,7 +163,7 @@
 
        <div class="block">
          <label>{'Description'|i18n( 'design/admin/rss/edit_export' )}:</label>
-         <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this drop down to select the attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" >
+         <select name="Item_Class_Attribute_Description_{$Source:index}" title="{'Use this drop-down to select which attribute that should be exported as the description of the RSS export entry.'|i18n('design/admin/rss/edit_export')}" >
          {section name=ClassAttribute loop=$rss_export.item_list[$Source:index].class_attributes}
          <option value="{$:item.identifier|wash}"
              {section name=ShowSelected show=eq( $Source:item.description, $:item.identifier )}

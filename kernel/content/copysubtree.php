@@ -847,7 +847,7 @@ function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $c
         $Result['path'] = array( array( 'url' => false,
                                         'text' => ezi18n( 'kernel/content', 'Content' ) ),
                                  array( 'url' => false,
-                                        'text' => ezi18n( 'kernel/content', 'Copy subtree' ) ) );
+                                        'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
 }
 
 function showNotificationAfterCopying( &$http, &$Module, &$Result, &$Notifications, &$srcNode )
@@ -886,7 +886,7 @@ function showNotificationAfterCopying( &$http, &$Module, &$Result, &$Notificatio
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/content', 'Content' ) ),
                              array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/content', 'Copy subtree' ) ) );
+                                    'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
 }
 /////////// functions END ==================================================================
 

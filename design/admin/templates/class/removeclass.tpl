@@ -19,7 +19,7 @@
         <h2>{'Are you sure you want to remove this class?'|i18n( 'design/admin/class/removeclass' )}</h2>
     {/section}
 {section-else}
-    <h2>{'You do not have permission to remove classes.'|i18n( 'design/admin/class/removeclass' )}</h2>
+    <h2>{'You do not have permissions to remove classes.'|i18n( 'design/admin/class/removeclass' )}</h2>
 {/section}
 
 {section show=$already_removed}
@@ -40,9 +40,9 @@
     <ul>
     {section show=$Classes.item.objectCount|gt( 0 )}
         {section show=$Classes.item.objectCount|eq( 1 )}
-            <li>{"Removing class <%1> will result in the removal of %2 object and all its sub items."|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
+            <li>{"Removing class <%1> will result in the removal of %2 object and all it's sub-items."|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {section-else}
-            <li>{'Removing class <%1> will result in the removal of %2 objects and all their sub items.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
+            <li>{'Removing class <%1> will result in the removal of %2 objects and all their sub-items.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {/section}
     {/section}
 

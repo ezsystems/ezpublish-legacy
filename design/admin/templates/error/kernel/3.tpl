@@ -3,7 +3,7 @@
 <p>{'The requested object is not available.'|i18n( 'design/admin/error/kernel' )}</p>
 <p>{'Possible reasons'|i18n( 'design/admin/error/kernel' )}:</p>
 <ul>
-    <li>{'The ID number of the object is incorrect. Check the URL for spelling mistakes.'|i18n( 'design/admin/error/kernel' )}</li>
+    <li>{'The ID number of the object is incorrect. Please check the URL for spelling mistakes.'|i18n( 'design/admin/error/kernel' )}</li>
     <li>{'The object is no longer available.'|i18n( 'design/admin/error/kernel' )}</li>
 </ul>
 </div>

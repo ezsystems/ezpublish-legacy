@@ -15,7 +15,7 @@
 
 <div class="warning">
 <h2>{'Removal of packages'|i18n('design/standard/package')}</h2>
-<p>{'Are you sure you want to remove the following packages?
+<p>{'Are you sure you wish to remove the following packages?
 The packages will be lost forever.
 Note: The packages will not be uninstalled.'|i18n('design/standard/package')|break}</p>
 <ul>
@@ -39,7 +39,7 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
 
 {section show=$module_action|eq( 'CancelRemovePackage' )}
 <div class="feedback">
-    <p>{'Package removal was canceled.'|i18n('design/standard/package')}</p>
+    <p>{'Package removal was cancelled.'|i18n('design/standard/package')}</p>
 </div>
 {/section}
 

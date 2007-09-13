@@ -64,25 +64,25 @@
 {* Template cache. *}
 <tr class="bglight">
 <th width="60%">{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</th>
-<td width="40%"><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to slower site performance until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td width="40%"><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to weaker performance until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* Content cache. *}
 <tr class="bgdark">
 <th>{'Content views and template blocks'|i18n( 'design/admin/setup/cache' )}:</th>
-<td><input class="button" type="submit" name="ClearContentCacheButton" value="{'Clear content caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have made changes inside a cache block.'|i18n( 'design/admin/setup/cache' )}"/></td>
+<td><input class="button" type="submit" name="ClearContentCacheButton" value="{'Clear content caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have changed something inside a cache block.'|i18n( 'design/admin/setup/cache' )}"/></td>
 </tr>
 
 {* Configuration cache. *}
 <tr class="bglight">
 <th>{'Configuration (ini) caches'|i18n( 'design/admin/setup/cache' )}:</th>
-<td><input class="button" type="submit" name="ClearINICacheButton" value="{'Clear ini caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed settings.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td><input class="button" type="submit" name="ClearINICacheButton" value="{'Clear ini caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed some settings.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* All caches. *}
 <tr class="bgdark">
 <th>{'Everything'|i18n( 'design/admin/setup/cache' )}:</th>
-<td><input class="button" type="submit" name="ClearAllCacheButton" value="{'Clear all caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the caches and may lead to slow site response times until the caches are recreated.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td><input class="button" type="submit" name="ClearAllCacheButton" value="{'Clear all caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear ALL the caches and may lead to long response times until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 </table>
@@ -121,7 +121,7 @@
 {section show=$cache_enabled.list[$Caches.item.id]}
 <td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" title="{'Select the <%cache_name> for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
 {section-else}
-<td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" disabled="disabled" title="{'The <%cache_name> is disabled and thus it cannot be marked for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
+<td><input type="checkbox" name="CacheList[]" value="{$Caches.item.id}" disabled="disabled" title="{'The <%cache_name> is disabled and thus it can not be marked for clearing.'|i18n( 'design/admin/setup/cache',, hash( '%cache_name', $Caches.item.name ) )|wash}" /></td>
 {/section}
 
 {* Name *}
@@ -166,7 +166,7 @@
 {* Static content cache. *}
 <tr class="bgdark">
 <th width="60%">{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}:</th>
-<td width="40%"><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Create new'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take  some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td width="40%"><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Create new'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 </table>

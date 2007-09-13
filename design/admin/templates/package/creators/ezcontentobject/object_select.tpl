@@ -8,7 +8,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Choose the objects to include in the package.'|i18n('design/admin/package')}</p>
+    <p>{'Please choose objects you wish to include in the package.'|i18n('design/admin/package')}</p>
 
     {section show=$node_list|count}
 
@@ -29,7 +29,7 @@
 
     {section-else}
     <div class="block">
-    <p>{'There are currently no objects selected for export'|i18n('design/admin/package')}</p>
+    <p>{'There are currently no objects selected for exportation'|i18n('design/admin/package')}</p>
     </div>
     {/section}
 

@@ -42,7 +42,7 @@ class eZEmailType extends eZDataType
 {
     function eZEmailType()
     {
-        $this->eZDataType( EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "Email", 'Datatype name' ),
+        $this->eZDataType( EZ_DATATYPESTRING_EMAIL, ezi18n( 'kernel/classes/datatypes', "E-mail", 'Datatype name' ),
                            array( 'serialize_supported' => true,
                                   'object_serialize_map' => array( 'data_text' => 'email' ) ) );
     }
