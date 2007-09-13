@@ -50,3 +50,4 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #011399: fetch operator creates invalid sql with negative offset
   (Merged from stable/3.9 (3.9.4) rev.19877)
 - Fixed bug #011224: removeSubtrees: hardcoded user class identifier
+- Fixed bug #011238: ezinfo/copyright out of date
