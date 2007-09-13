@@ -22,3 +22,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011336: typo in eZContentObject API documentation
 - Fixed bug #8019: Translations in extension ignored if language does not exist in main share/translations.
 - Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
+- Fixed bug #011319: Collaboration summary view of standard design has wrong page navigation
