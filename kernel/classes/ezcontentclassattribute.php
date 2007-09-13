@@ -49,7 +49,11 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->DisplayInfo = null;
         $this->Module = null;
 
-        $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
+        $this->NameList = new eZContentClassNameList();
+        if ( isset( $row['serialized_name_list'] ) )
+            $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
+        else
+            $this->NameList->initDefault();
     }
 
     function definition()
