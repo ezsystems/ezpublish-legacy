@@ -3,7 +3,7 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Class edit conflict'|i18n( 'design/admin/class/edit_denied' )}</h2>
 
     <p>{'This class is already being edited by someone else.'|i18n( 'design/admin/class/edit_denied' )|wash}</p>
-    <p>{'The class is temporarly locked and thus it can not be edited by you.'|i18n( 'design/admin/class/edit_denied' )}</p>
+    <p>{'The class is temporarily locked and thus it cannot be edited by you.'|i18n( 'design/admin/class/edit_denied' )}</p>
     <p>{'Possible actions'|i18n( 'design/admin/class/edit_denied' )}:</p>
 <ul>
     <li>{'Contact the person who is editing the class.'|i18n( 'design/admin/class/edit_denied' )}</li>
@@ -44,7 +44,7 @@
 {sum( $class.modified, $lock_timeout )|l10n( shortdatetime )}
 </div>
 
-<p>{'The class will be available for editing once it has been stored by the current modifier or when it is unlocked by the system.'|i18n( 'design/admin/class/edit_denied' )}</p>
+<p>{'The class will be available for editing after it has been stored by the current modifier or when it is unlocked by the system.'|i18n( 'design/admin/class/edit_denied' )}</p>
 
 </div>
 

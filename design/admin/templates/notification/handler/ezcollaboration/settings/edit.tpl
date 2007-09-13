@@ -6,7 +6,7 @@
 <fieldset>
     <legend>{"Collaboration notification"|i18n("design/admin/notification/collaboration")}</legend>
 
-<p>{"Choose which collaboration items you wish to get notifications for."|i18n("design/admin/notification/collaboration")}</p>
+<p>{"Choose which collaboration items you want to get notifications for."|i18n("design/admin/notification/collaboration")}</p>
 
 <input type="hidden" name="CollaborationHandlerSelection" value="1" />
 

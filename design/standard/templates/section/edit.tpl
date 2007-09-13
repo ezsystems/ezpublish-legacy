@@ -13,7 +13,7 @@
 </div>
 
 <div class="block">
-<label>{"Navigation Part"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
+<label>{"Navigation part"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <select name="NavigationPartIdentifier">
 {section var=part loop=fetch( content, navigation_parts )}
     <option value="{$part.identifier|wash}" {section show=eq( $section.navigation_part_identifier, $part.identifier )}selected="selected"{/section}>{$part.name}</option>
@@ -34,7 +34,7 @@
 </form>
 
 <br/>
-<label>{"About Navigation Parts"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
+<label>{"About Navigation parts"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <p>
-{"The eZ publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed."|i18n("design/standard/section")}
+{"The eZ Publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed."|i18n("design/standard/section")}
 </p>

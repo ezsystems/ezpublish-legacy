@@ -1767,6 +1767,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ignoreVisibility = ( isset( $params['IgnoreVisibility']  ) )                         ? $params['IgnoreVisibility']   : false;
         $objectNameFilter = ( isset( $params['ObjectNameFilter']  ) )                         ? $params['ObjectNameFilter']   : false;
 
+        if ( $offset < 0 )
+        {
+            $offset = ABS( $offset );
+        }
+
         if ( !isset( $params['SortBy'] ) )
             $params['SortBy'] = false;
         if ( !isset( $params['ClassFilterType'] ) )
@@ -4229,8 +4234,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( $canRemove )
             {
-                if ( $moveToTrashAllowed and
-                     $class->attribute( 'identifier' ) == 'user' )
+                $isUserClass = false;
+
+                $attributes = eZContentClass::fetchAttributes( $class->attribute( 'id' ) );
+                foreach ( $attributes as $attribute )
+                {
+                    if ( $attribute->attribute( 'data_type_string' ) == 'ezuser' )
+                    {
+                        $isUserClass = true;
+                        break;
+                    }
+                }
+
+                if ( $moveToTrashAllowed and $isUserClass )
                 {
                     $moveToTrashAllowed = false;
                 }

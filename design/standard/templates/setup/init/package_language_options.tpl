@@ -11,7 +11,7 @@
 <fieldset>
   <legend>{"Language mapping"|i18n("design/standard/setup/init")}</legend>
 <p>
-{"The languages you have chose for site don't match languages in chosen packages. To resolve conflict please select language mapping:"|i18n("design/standard/setup/init")}
+{"The languages you have chose for site do not match languages in chosen packages. To resolve conflict please select language mapping:"|i18n("design/standard/setup/init")}
 </p>
 
   <table class="list" cellspacing="0">

@@ -28,7 +28,7 @@
 {section show=$is_writable}
 <input class="button" type="submit" name="SaveButton" value="{'Apply changes'|i18n( 'design/standard/visual/templateedit' )}" title="{'Click this button to save the contents of the text field above to the template file.'|i18n( 'design/standard/visual/templateedit' )}" />
 {section-else}
-<input class="button-disabled" disabled="disabled" type="submit" name="SaveButton" value="{'Apply changes'|i18n( 'design/standard/visual/templateedit' )}" title="{'You do not have permissions to save the contents of the text field above to the template file.'|i18n( 'design/standard/visual/templateedit' )}" />
+<input class="button-disabled" disabled="disabled" type="submit" name="SaveButton" value="{'Apply changes'|i18n( 'design/standard/visual/templateedit' )}" title="{'You do not have permission to save the contents of the text field above to the template file.'|i18n( 'design/standard/visual/templateedit' )}" />
 {/section}
 
 <input class="button" type="submit" name="DiscardButton" value="{'Back to overrides'|i18n( 'design/standard/visual/templateedit' )}" title="{'Back to override overview.'|i18n( 'design/standard/visual/templateedit' )}" />

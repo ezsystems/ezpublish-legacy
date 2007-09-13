@@ -2,7 +2,7 @@
 <h3>{"Introduction"|i18n("design/standard/setup/db")}</h3>
 <p>
   {"PostgreSQL is a database management system developed at the University of California at Berkeley Computer Science Department."|i18n("design/standard/setup/db")}
-  {"It's a very popular database in the Open Source community and provides highly advanced database functionality."|i18n("design/standard/setup/db")}
+  {"It is a very popular database in the Open Source community and provides highly advanced database functionality."|i18n("design/standard/setup/db")}
 </p>
 <p>{"From their homepage"|i18n("design/standard/setup/db")}:</p>
 <div class="quote">{"PostgreSQL is a sophisticated Object-Relational DBMS, supporting almost all SQL constructs, including subselects, transactions, and user-defined types and functions. It is the most advanced open-source database available anywhere."|i18n("design/standard/setup/db")}</div>

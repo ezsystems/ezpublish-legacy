@@ -33,7 +33,7 @@
   \ingroup eZKernel
   \brief Handles eZ publish content objects
 
-  It encapsulates the date for an object and provides lots of functions
+  It encapsulates the data for an object and provides lots of functions
   for dealing with versions, translations and attributes.
 
   \sa eZContentClass

@@ -6,7 +6,7 @@
 </div>
 {section show=$removed_items}
 <div class="warning">
-    <h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/shop",,)}</h2>
+    <h2>{"The following items were removed from your basket because the products were changed"|i18n("design/standard/shop",,)}</h2>
     <ul>
     {section name=RemovedItem loop=$removed_items}
         <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name|wash}</a></li>
@@ -36,7 +36,7 @@
        <h2>{"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
     {/case}
     {case match="options"}
-       <h2>{"You have chosen invalid combnation of options"|i18n("design/standard/shop",,)}</h2>
+       <h2>{"You have chosen invalid combination of options"|i18n("design/standard/shop",,)}</h2>
         <ul>
           {section var=UnvalidatedOptions loop=$error_data}
             <li>{$UnvalidatedOptions.item.name}</li>
@@ -84,10 +84,10 @@
 	{"Discount"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price ex. VAT"|i18n("design/standard/shop")}
+	{"Total price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price inc. VAT"|i18n("design/standard/shop")}
+	{"Total price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;
@@ -167,7 +167,7 @@
      <b>{"Subtotal Ex. VAT"|i18n("design/standard/shop")}</b>:
      </td>
      <td>
-     <b>{"Subtotal Inc. VAT"|i18n("design/standard/shop")}</b>:
+     <b>{"Subtotal inc. VAT"|i18n("design/standard/shop")}</b>:
      </td>
      <td>
      </td>

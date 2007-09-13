@@ -17,9 +17,9 @@
 <label>{'Interface'|i18n( 'design/standard/class/datatype' )}:</label>
 <p>
 {section show=$class_attribute.data_int2}
-    {'Dropdown menu / multiselect'|i18n( 'design/standard/class/datatype' )}
+    {'Drop-down menu / multi select'|i18n( 'design/standard/class/datatype' )}
 {section-else}
-    {'Radiobuttons / checkboxes'|i18n( 'design/standard/class/datatype' )}
+    {'Radio buttons / checkboxes'|i18n( 'design/standard/class/datatype' )}
 {/section}
 </p>
 </div>

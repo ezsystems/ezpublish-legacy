@@ -9,13 +9,13 @@
                                                      '%objectname', $objectversion.version_name|wash ) )}{/set-block}
 {'This email is to inform you that "%objectname" awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
-The approval can viewed by using the URL below.'
+The approval can be viewed by using the URL below.'
  |i18n( 'design/standard/collaboration/approval',,
         hash( '%sitename', ezini( "SiteSettings", "SiteURL" ),
               '%objectname', $objectversion.version_name|wash ) )}
 http://{ezini( "SiteSettings", "SiteURL" )}{concat( "collaboration/item/full/", $collaboration_item.id )|ezurl( no )}
 
-{"If you do not wish to continue receiving these notifications,
+{"If you do not want to continue receiving these notifications,
 change your settings at:"|i18n( 'design/standard/notification' )}
 http://{ezini( "SiteSettings", "SiteURL" )}{concat( "notification/settings/" )|ezurl( no )}
 

@@ -7,13 +7,13 @@
 
 {section show=$error_anonymous_user}
 <div class="warning">
-    <p>{'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/standard/content/poll')}</p>
+    <p>{'Anonymous users are not allowed to vote in this poll. Please login.'|i18n('design/standard/content/poll')}</p>
 </div>
 {/section}
 
 {section show=$error_existing_data}
 <div class="warning">
-    <p>{'You have already voted for this poll.'|i18n('design/standard/content/poll')}</p>
+    <p>{'You have already voted in this poll.'|i18n('design/standard/content/poll')}</p>
 </div>
 {/section}
 

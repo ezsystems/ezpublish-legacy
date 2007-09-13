@@ -33,7 +33,7 @@
             {section show=eq( $#ui_context, 'browse' )}
                 <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize )}</a>
             {section-else}
-                <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "[%classname] Click on the icon to get a context sensitive menu."|i18n( 'design/standard/contentstructuremenu',, hash( '%classname', $:parentNode.object.class_name ) ) )}</a>
+                <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "[%classname] Click on the icon to display a context-sensitive menu."|i18n( 'design/standard/contentstructuremenu',, hash( '%classname', $:parentNode.object.class_name ) ) )}</a>
             {/section}
             {* Label *}
                 {* Tooltip *}

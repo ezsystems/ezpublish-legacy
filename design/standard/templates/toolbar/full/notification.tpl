@@ -4,7 +4,7 @@
         <div class="toolbox-design">
             <h2>{'Notification'|i18n( 'design/standard/toolbar' )}</h2>
             <div class="toolbox-content">
-            <a href={"/notification/settings"|ezurl}>{'My Notifications'|i18n( 'design/standard/toolbar' )}</a>
+            <a href={"/notification/settings"|ezurl}>{'My notifications'|i18n( 'design/standard/toolbar' )}</a>
             </div>
         </div>
     </div>

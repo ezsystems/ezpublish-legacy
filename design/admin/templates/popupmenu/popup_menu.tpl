@@ -137,7 +137,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {/if}
     <hr />
     <a id="menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy"|i18n("design/admin/popupmenu")}</a>
-    <a id="menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy Subtree"|i18n("design/admin/popupmenu")}</a>
+    <a id="menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy subtree"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-advanced" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'Advanced', 'menu-advanced' ); return false;">{'Advanced'|i18n( 'design/admin/popupmenu' )}</a>
@@ -179,7 +179,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {/if}
     <hr />
     <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/admin/popupmenu")}</a>
-    <a id="child-menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy Subtree"|i18n("design/admin/popupmenu")}</a>
+    <a id="child-menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy subtree"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
@@ -287,7 +287,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {let siteAccessList=ezini('SiteAccessSettings','RelatedSiteAccessList')|unique}
 
 <div class="popupmenu" id="OverrideSiteAccess">
-    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose Siteaccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 
@@ -300,7 +300,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 <!-- Site access for override by class popup menu -->
 <div class="popupmenu" id="OverrideByClassSiteAccess">
-    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose Siteaccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 
@@ -314,7 +314,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
 <!-- Site access for override by node popup menu -->
 <div class="popupmenu" id="OverrideByNodeSiteAccess">
-    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose SiteAccess"|i18n("design/admin/popupmenu")}</h3>
+    <div class="popupmenuheader"><h3 class="override-site-access-menu-header">{"Choose Siteaccess"|i18n("design/admin/popupmenu")}</h3>
         <div class="break"></div>
     </div>
 

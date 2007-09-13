@@ -14,7 +14,7 @@
 
 {section show=$basic_class_attributes_initialized|not()}
 <div class="warning">
-<h2>{"The class should have at least one attribute and nonempty 'Name' attribute"|i18n("design/standard/class/edit")}</h2>
+<h2>{"The class should have at least one attribute and a nonempty 'Name' attribute"|i18n("design/standard/class/edit")}</h2>
 </div>
 {/section}
 
@@ -34,7 +34,7 @@
     <div class="block">
     <label>{"Object name pattern"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <input type="text" name="ContentClass_contentobject_name" size="30" value="{$class.contentobject_name|wash}" />
-    <label>{"Is Container Class"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <label>{"Is container class"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
     {section show=$class.is_container|eq(1)}
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" checked />
@@ -226,6 +226,6 @@
 <div class="buttonblock">
 {include uri="design:gui/defaultbutton.tpl" name=Store id_name=StoreButton value="Store"|i18n("design/standard/class/edit")}
 {include uri="design:gui/button.tpl" name=Apply id_name=ApplyButton value="Apply"|i18n("design/standard/class/edit")}
-{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard Changes"|i18n("design/standard/class/edit")}
+{include uri="design:gui/button.tpl" name=Discard id_name=DiscardButton value="Discard changes"|i18n("design/standard/class/edit")}
 </div>
 </form>

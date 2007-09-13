@@ -6,13 +6,13 @@
 </div>
 
 <p>
-  {"eZ publish has been installed with your select site setup. You will find the username mentioned in the details below."|i18n("design/standard/setup/init")}
+  {"eZ Publish has been installed with your select site setup. You will find the username mentioned in the details below."|i18n("design/standard/setup/init")}
 </p>
 
 <blockquote class="note">
 <p>
  <b>{"Note"|i18n("design/standard/setup/init")}:</b>
- {"The first time the user or admin site is accessed it will take some time (30 to 60 seconds). This is because eZ publish prepares the site for your machine."|i18n("design/standard/setup/init")}
+ {"The first time the user or admin site is accessed it will take some time (30 to 60 seconds). This is because eZ Publish prepares the site for your machine."|i18n("design/standard/setup/init")}
  {if $custom_text}
     {foreach $custom_text as $text}
         <p>{$text.note}</p>

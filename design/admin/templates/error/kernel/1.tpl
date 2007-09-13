@@ -6,7 +6,7 @@
     {section show=ne( $current_user.contentobject_id, $anonymous_user_id )}
     <li>{'Your account does not have the proper privileges to access the requested page.'|i18n( 'design/admin/error/kernel' )}</li>
     {section-else}
-    <li>{'You are not logged into the system. Please log in.'|i18n( 'design/admin/error/kernel' )}</li>
+    <li>{'You are not logged in to the system. Please log in.'|i18n( 'design/admin/error/kernel' )}</li>
     {/section}
     <li>{'The requested page does not exist. Try changing the URL.'|i18n( 'design/admin/error/kernel' )}</li>
 </ul>

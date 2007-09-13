@@ -14,7 +14,7 @@
 {/section}
 
 
-{"If you do not wish to continue receiving these notifications,
+{"If you do not want to continue receiving these notifications,
 change your settings at:"|i18n('design/standard/notification')}
 http://{ezini("SiteSettings","SiteURL")}{concat("notification/settings/")|ezurl(no)}
 
