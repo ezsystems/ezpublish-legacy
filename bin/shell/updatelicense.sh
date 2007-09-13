@@ -9,7 +9,7 @@ function show_help
     echo
     echo "Options: -h"
     echo "         --help                     This message"
-    echo "         --license-type=<type>      What license should be used: gpl(default), pl_v2, pul_v1"
+    echo "         --license-type=<type>      What license should be used: gpl(default), pul_v1"
     echo "         --licenses-dir=<dir>       Location of licenses files"
     echo "         --target-dir=<dir>         Location of phps to update"
     #echo "         --name=<name>              Name: eZ publish"
@@ -87,6 +87,24 @@ function parse_cl_parameters
 }
 
 
+# Updates ezinfo/copyright.php file,
+# Changes copyright and license content
+function update_ezinfo_copyright()
+{
+    local EZINFO=$1
+    local COPYRIGHT_INFO=$2
+    local BEGIN_COPYRIGHT_BLOCK="## BEGIN COPYRIGHT INFO ##"
+    local END_COPYRIGHT_BLOCK="## END COPYRIGHT INFO ##"
+    echo '"' > $COPYRIGHT_INFO.tmp
+    sed -e 's/"/\\"/; ' "$COPYRIGHT_INFO" >> "$COPYRIGHT_INFO.tmp"
+    echo '";' >> $COPYRIGHT_INFO.tmp
+    sed -i -e '/'"$BEGIN_COPYRIGHT_BLOCK"'/,/'"$END_COPYRIGHT_BLOCK"'/{
+    /'"$END_COPYRIGHT_BLOCK"'/r '$COPYRIGHT_INFO.tmp'
+    d
+    }' "$EZINFO";
+    rm -f  "$COPYRIGHT_INFO.tmp"
+}
+
 ## main ################################################
 
 # "Declare" all the variables used in the script.
@@ -109,9 +127,24 @@ parse_cl_parameters $*
 LICENSE_DIR="$LICENSES_DIR/$LICENSE_TYPE"
 
 LICENSE_FILE="$LICENSE_DIR/$LICENSE_FILE"
+COPYRIGHT_INFO="$LICENSE_DIR/ezcopyright.txt"
 LICENSE_NOTICE_FILE="$LICENSE_DIR/$LICENSE_NOTICE_FILE"
 LICENSE_NOTICE_TMP_FILE="$LICENSE_DIR/$LICENSE_NOTICE_TMP_FILE"
 
+EZINFO_FILE="$DEST_DIR/kernel/ezinfo/about.php"
+EZINFO_COPYRIGHT_FILE="$DEST_DIR/kernel/ezinfo/copyright.php"
+CONTRIBUTORS_TMP_FILE='contributors.tmp'
+CONTRIBUTORS_DIR="$DEST_DIR/var/storage/contributors"
+THIRDSOFT_FILE="$DEST_DIR/var/storage/third_party_software.php"
+
+# Prepare contributor`s dir
+[ -d "$CONTRIBUTORS_DIR" ] && rm -rf "$CONTRIBUTORS_DIR"
+mkdir -p "$CONTRIBUTORS_DIR"
+
+RELEASE="// SOFTWARE RELEASE: $VERSION"
+BUILD_REV="// BUILD VERSION: $REV"
+NOTICE_TMP_FILE="$LICENSE_DIR/notice.tmp"
+MAXLENGTH="35"
 if [ ! -e "$LICENSE_FILE" ]; then
     echo "License file '$LICENSE_FILE' doesn't exist."
     exit 1;
@@ -134,6 +167,7 @@ find "$DEST_DIR" \( -name "*.js" -o -name "*.php" \) -exec sed -i -e '/'"$BEGIN_
 /'"$END_LICENSE_BLOCK"'/r '$LICENSE_NOTICE_TMP_FILE'
 d
 }' '{}' \;
+update_ezinfo_copyright "$EZINFO_COPYRIGHT_FILE" "$COPYRIGHT_INFO"
 
 rm -f "$LICENSE_NOTICE_TMP_FILE"
 cp -f "$LICENSE_FILE" "$DEST_DIR"

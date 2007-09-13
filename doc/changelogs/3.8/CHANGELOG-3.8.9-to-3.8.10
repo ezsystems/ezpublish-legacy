@@ -39,3 +39,5 @@ Changes from 3.8.9 to 3.8.10
   (Manually merged from stable/3.9 (3.9.4) rev.19877)
 - Fixed bug #011224: removeSubtrees: hardcoded user class identifier
   (Manually merged from trunk (3.10.0rc1) rev.19882)
+- Fixed bug #011238: ezinfo/copyright out of date
+  (Merged from trunk (3.10.0rc1) rev.19887)
