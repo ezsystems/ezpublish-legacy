@@ -93,7 +93,7 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
         {
             foreach ( $translationExtensions as $translationExtension )
             {
-                $extensionPath = $extensionBase . '/' . $translationExtension . '/translations/' . $fallbacks[$language] . '/translation.ts';
+                $extensionPath = $extensionBase . '/' . $translationExtension . '/translations' . $fallbacks[$language] . '/translation.ts';
                 if ( file_exists( $extensionPath ) )
                 {
                     $hasFallback = true;
@@ -110,7 +110,7 @@ if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
     {
         foreach ( $translationExtensions as $translationExtension )
         {
-            $extensionPath = $extensionBase . '/' . $translationExtension . '/translations/' . $language . '/translation.ts';
+            $extensionPath = $extensionBase . '/' . $translationExtension . '/translations' . $language . '/translation.ts';
             if ( file_exists( $extensionPath ) )
             {
                 $useTextTranslation = true;
