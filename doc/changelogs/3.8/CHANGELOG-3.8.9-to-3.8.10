@@ -45,3 +45,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev.19891)
 - Fixed bug #8019: Translations in extension ignored if language does not exist in main share/translations.
   (Merged from trunk (3.10.0) rev.19896)
+- Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
+  (Merged from trunk (3.10.0) rev.19908)
