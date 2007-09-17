@@ -24,3 +24,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
 - Fixed bug #011319: Collaboration summary view of standard design has wrong page navigation
 - Fixed bug #011239: error when viewing a product item
+- Fixed bug #010792: node_id on objectrelations are not updated on trash / restore
