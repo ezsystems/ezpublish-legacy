@@ -4492,7 +4492,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     $db->begin();
                     $trashNode->storeToTrash();
                     $db->commit();
-
                     $object->remove();
                 }
                 else
