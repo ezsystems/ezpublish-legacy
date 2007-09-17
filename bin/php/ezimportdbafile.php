@@ -71,9 +71,23 @@ if ( $dataTypeName !== null and
         }
         else
         {
-            $cli->error( "Failed importing datatype related data into database: \n" .
-                          '  datatype - ' . $dataType->DataTypeString . ", \n" .
-                          '  dba-data file - ' . $dataType->getDBAFilePath() );
+            include_once( 'lib/ezutils/classes/ezextension.php' );
+            $activeExtensions = eZExtension::activeExtensions();
+            $errorString = "Failed importing datatype related data into database: \n" .
+                           '  datatype - ' . $dataType->DataTypeString . ", \n" .
+                           '  checked dba-data file - ' . $dataType->getDBAFilePath( false );
+            foreach ( $activeExtensions as $activeExtension )
+            {
+                $fileName = eZExtension::baseDirectory() . '/' . $activeExtension .
+                            '/datatypes/' . $dataType->DataTypeString . '/' . $dataType->getDBAFileName();
+                $errorString .= "\n" . str_repeat( ' ', 23 ) . ' - ' . $fileName;
+                if ( file_exists( $fileName ) )
+                {
+                    $errorString .= " (found, but not successfully imported)";
+                }
+            }
+
+            $cli->error( $errorString );
         }
     }
     else

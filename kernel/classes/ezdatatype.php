@@ -1298,9 +1298,39 @@ class eZDataType
     /*!
       Returns dba-data file path (relative to the system root folder) for the specific datatype.
     */
-    function getDBAFilePath()
+    function getDBAFilePath( $checkExtensions = true )
     {
-        return 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
+         $fileName = 'kernel/classes/datatypes/' . $this->DataTypeString . '/' . $this->getDBAFileName();
+         if ( !file_exists( $fileName ) and $checkExtensions === true )
+         {
+             $fileName = $this->getDBAExtensionFilePath();
+         }
+         return $fileName;
+    }
+
+    /*!
+      Returns dba-data file extension path (relative to the system root folder) for the specific datatype.
+      \return the first path that is found for the datatype. If not found, it will return false.
+    */
+    function getDBAExtensionFilePath()
+    {
+        include_once( 'lib/ezutils/classes/ezextension.php' );
+
+        $activeExtensions = eZExtension::activeExtensions();
+        $dataTypeString = $this->DataTypeString;
+        $dbaFileName = $this->getDBAFileName();
+        $fileName = false;
+        foreach ( $activeExtensions as $activeExtension )
+        {
+            $extesionFileName = eZExtension::baseDirectory() . '/' . $activeExtension .
+                                '/datatypes/' . $dataTypeString . '/' . $dbaFileName;
+            if ( file_exists( $extesionFileName ) )
+            {
+                $fileName = $extesionFileName;
+                break;
+            }
+        }
+        return $fileName;
     }
 
     /*!
@@ -1312,11 +1342,16 @@ class eZDataType
     function importDBDataFromDBAFile( $dbaFilePath = false )
     {
         // If no file path is passed then get the common dba-data file name for the datatype
-        if ( !$dbaFilePath )
+        if ( $dbaFilePath === false )
             $dbaFilePath = $this->getDBAFilePath();
 
+        $fileExist = true;
+        if ( !file_exists( $dbaFilePath ) )
+        {
+            $fileExist = false;
+        }
         $result = true;
-        if ( file_exists( $dbaFilePath ) )
+        if ( $fileExist === true )
         {
             include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
             $dataArray = eZDBSchema::read( $dbaFilePath, true );
@@ -1326,8 +1361,6 @@ class eZDataType
                 $dataArray['type'] = strtolower( $db->databaseName() );
                 $dataArray['instance'] =& $db;
                 $dbSchema = eZDBSchema::instance( $dataArray );
-
-                $name = get_class( $dbSchema );
 
                 $result = false;
                 if ( $dbSchema )
