@@ -304,6 +304,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
                              'content/action' );
     }
 
+    eZContentObject::fixReverseRelations( $objectID, 'move' );
+
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
 else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
@@ -514,6 +516,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
                                                              $changedTargetObject->attribute( 'section_id' ) );
         }
     }
+
+    eZContentObject::fixReverseRelations( $objectID, 'swap' );
+    eZContentObject::fixReverseRelations( $selectedObjectID, 'swap' );
 
     $db->commit();
 

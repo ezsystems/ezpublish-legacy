@@ -1056,6 +1056,87 @@ class eZObjectRelationListType extends eZDataType
         return $relationItem;
     }
 
+
+    function fixRelatedObjectItem ( &$contentObjectAttribute, $objectID, $mode = false )
+    {
+        switch ( $mode )
+        {
+            case 'move':
+                eZObjectRelationListType::fixRelationsMove( $objectID, $contentObjectAttribute );
+                break;
+
+            case 'trash':
+                eZObjectRelationListType::fixRelationsTrash( $objectID, $contentObjectAttribute );
+                break;
+
+            case 'restore':
+                eZObjectRelationListType::fixRelationsRestore( $objectID, $contentObjectAttribute );
+                break;
+
+            case 'remove':
+                eZObjectRelationListType::fixRelationsRemove( $objectID, $contentObjectAttribute );
+                break;
+
+            case 'swap':
+                eZObjectRelationListType::fixRelationsSwap( $objectID, $contentObjectAttribute );
+                break;
+        }
+    }
+
+    function fixRelationsMove ( $objectID, &$contentObjectAttribute )
+    {
+        $this->fixRelationsSwap( $objectID, $contentObjectAttribute );
+    }
+
+    function fixRelationsTrash ( $objectID, &$contentObjectAttribute )
+    {
+        $content =& $contentObjectAttribute->attribute( 'content' );
+        foreach ( array_keys( $content['relation_list'] ) as $key )
+        {
+            if ( $content['relation_list'][$key]['contentobject_id'] == $objectID )
+            {
+                unset($content['relation_list'][$key]);
+            }
+        }
+        eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
+        $contentObjectAttribute->setContent( $content );
+        $contentObjectAttribute->storeData();
+    }
+
+    function fixRelationsRestore ( $objectID, &$contentObjectAttribute )
+    {
+        $content =& $contentObjectAttribute->content();
+        $content['relation_list'][] = $this->appendObject( $objectID, 0, $contentObjectAttribute);
+        eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
+        $contentObjectAttribute->setContent( $content );
+        $contentObjectAttribute->storeData();
+    }
+
+    function fixRelationsRemove ( $objectID, $contentObjectAttribute )
+    {
+        $this->removeRelatedObjectItem( $contentObjectAttribute, $objectID );
+        $contentObjectAttribute->storeData();
+    }
+
+    function fixRelationsSwap ( $objectID, &$contentObjectAttribute )
+    {
+        $content =& $contentObjectAttribute->content();
+
+        foreach ( array_keys( $content['relation_list'] ) as $key )
+        {
+            $relatedObject =& $content['relation_list'][$key];
+            if ( $relatedObject['contentobject_id'] == $objectID )
+            {
+                $content['relation_list'][$key] = $this->appendObject($objectID, 0, $contentObjectAttribute );
+            }
+        }
+
+        eZObjectRelationListType::storeObjectAttributeContent( $contentObjectAttribute, $content );
+        $contentObjectAttribute->setContent( $content );
+        $contentObjectAttribute->storeData();
+    }
+
+
     /*!
      Returns the content.
     */

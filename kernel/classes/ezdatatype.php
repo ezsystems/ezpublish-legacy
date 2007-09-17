@@ -1215,6 +1215,13 @@ class eZDataType
     {
     }
 
+    /*!
+    Fixes objects with given ID in the relations list according to what is done with object
+     \note Default implementation does nothing.
+    */
+    function fixRelatedObjectItem( &$contentObjectAttribute, $objectID, $mode )
+    {
+    }
     /**
      * Create empty content object attribute DOM node.
      *
