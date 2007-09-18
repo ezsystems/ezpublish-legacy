@@ -263,9 +263,24 @@ class eZPaymentCallbackChecker
     */
     function checkCurrency( $currency )
     {
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $locale         =& eZLocale::instance();
-        $orderCurrency  =  $locale->currencyShortName();
+        //get the order currency
+        $productCollection = $this->order->productCollection();
+        $orderCurrency = $productCollection->CurrencyCode;
+
+        //if no order currency is set match against the preferred currency
+        if ( !$orderCurrency )
+        {
+            $ini = eZINI::instance( 'shop.ini' );
+            $orderCurrency = $ini->variable( 'CurrencySettings', 'PreferredCurrency' );
+        }
+
+        //if no preferred currency is set match against the current local
+        if ( !$orderCurrency )
+        {
+            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            $locale         =& eZLocale::instance();
+            $orderCurrency  =  $locale->currencyShortName();
+        }
 
         if ( $orderCurrency == $currency )
         {
