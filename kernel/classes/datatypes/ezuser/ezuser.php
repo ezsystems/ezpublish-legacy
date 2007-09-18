@@ -997,8 +997,7 @@ WHERE user_id = '" . $userID . "' AND
     function loginCurrent()
     {
         eZHTTPTool::setSessionVariable( 'eZUserLoggedInID', $this->ContentObjectID );
-        eZSessionSetUserID( $this->ContentObjectID );
-        $this->cleanup();
+        $this->setCurrentlyLoggedInUser( $this, $this->ContentObjectID );
     }
 
     /*!
