@@ -3,18 +3,18 @@ Changes from 3.9.3 to 3.9.4
 *Kernel:
 
 *Bugfixes:
-- Fixed bug #011292: Clean up of a contentclass is not done when you remove a language.
-- Fixed bug #011338: RSS Crashes if selected class doesn't have the selected field values to export.
+- Fixed bug #11292: Clean up of a contentclass is not done when you remove a language.
+- Fixed bug #11338: RSS Crashes if selected class doesn't have the selected field values to export.
   (Merged from trunk (3.10.0rc1) rev. 19802 ).
 - Fixed bug #11330: updateniceurls.php is missing in eZ Publish 3.10.0beta1 package.
   (Manually merged from trunk (3.10.0rc1) rev. 19806)
-- Fixed bug #011340: RSS cache doesn't get emptied out.
+- Fixed bug #11340: RSS cache doesn't get emptied out.
   (Merged from trunk (3.10.0rc1) rev. 19809).
 - Fixed bug #11329: Kernel error 1 on System information page.
   (Merged from trunk (3.10.0rc1) rev. 19813)
 - Fixed bug #11305: Flash/media binaries are not versioned.
   (Merged from trunk (3.10.0rc1) rev. 19817)
-- Fixed bug #011306: updateniceurls.php isn't working for hidden nodes
+- Fixed bug #11306: updateniceurls.php isn't working for hidden nodes
   (Manually merged from trunk (3.10.0rc1) rev.19823)
 - Fixed bug #11263: Typo in kernel/content/copysubtree.php
   (Merged from trunk (3.10.0rc1) rev. 19830)
@@ -28,36 +28,37 @@ Changes from 3.9.3 to 3.9.4
   (Merged from trunk (3.10.0rc1) rev. 19843)
 - Fixed bug #11321: multiple results of nodes in fetch tree if using Role policy 'content -> read -> group -> self'.
   (Merged from trunk (3.10.0rc1) rev. 19847)
-- Fixed bug #011276: ezsearch - mysql index.
+- Fixed bug #11276: ezsearch - mysql index.
   (Manualy merged from trunk (3.10.0rc1) rev. 19850)
-- Fixed bug #011284: Varchar(255) is not enough for ezurl.url.   
+- Fixed bug #11284: Varchar(255) is not enough for ezurl.url.   
   (Manualy merged from trunk (3.10.0rc1) rev. 19853,19854).
 - Fixed bug #11356: Template reference issue loss of xml information.
 - Fixed bug #9350: Policies with section limitations seem not to be updated when removing section.
   (Merged from trunk (3.10.0rc1) rev. 19869)
-- Fixed bug #011399: fetch operator creates invalid sql with negative offset
-- Fixed bug #011224: removeSubtrees: hardcoded user class identifier
+- Fixed bug #11399: fetch operator creates invalid sql with negative offset
+- Fixed bug #11224: removeSubtrees: hardcoded user class identifier
   (Manually merged from trunk (3.10.0rc1) rev.19882)
-- Fixed bug #011238: ezinfo/copyright out of date
+- Fixed bug #11238: ezinfo/copyright out of date
   (Merged from trunk (3.10.0rc1) rev.19887)
-- Fixed bug #011336: typo in eZContentObject API documentation
+- Fixed bug #11336: typo in eZContentObject API documentation
   (Merged from trunk (3.10.0) rev.19891)
 - Fixed bug #8019: Translations in extension ignored if language does not exist in main share/translations.
   (Merged from trunk (3.10.0) rev. 19896).
-- Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
+- Fixed bug #11313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
   (Merged from trunk (3.10.0) rev.19908)
-- Fixed bug #011319: Collaboration summary view of standard design has wrong page navigation
+- Fixed bug #11319: Collaboration summary view of standard design has wrong page navigation
   (Merged from trunk (3.10.0) rev.19912)
-- Fixed bug #011387: Select all icon in My account - My Drafts doesn't work
+- Fixed bug #11387: Select all icon in My account - My Drafts doesn't work
   (Reverted rev. 19016)
-- Fixed bug #010792: node_id on objectrelations are not updated on trash / restore
+- Fixed bug #10792: node_id on objectrelations are not updated on trash / restore
   (Merged from trunk (3.10.0) rev.19918)
-- Fixed bug #011253: Log in a user with method loginCurrent doesn't update global user cache.
+- Fixed bug #11253: Log in a user with method loginCurrent doesn't update global user cache.
   (Merged from trunk (3.10.0) rev.19923)
-- Fixed bug #011454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
+- Fixed bug #11454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
   (Merged from trunk (3.10.0) rev.19928)
-- Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
+- Fixed bug #11286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
   (Merged from trunk (3.10.0) rev.19935)
 - Fixed bug #11402: PHP Warning displayed when creating new workflow of 
   payment gateway type and no payment gateway exist.
   (Merged from trunk (3.10.0) rev.19941)
+- Fixed bug #10610: Complete hang after cache expiration.

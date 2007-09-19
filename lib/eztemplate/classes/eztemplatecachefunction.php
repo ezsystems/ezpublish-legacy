@@ -239,14 +239,17 @@ ENDADDCODE;
 
         // Check if cache gen file exists, and wait
         // for eZTemplateFunction_FileGenerateTimeout seconds if it does.
+
+
+        $myRndVal = md5( mt_rand() );
         $code =
             "\$phpPathGen = $filepathText . '.gen';\n" .
-            "\$cacheGenFile = eZClusterFileHandler::instance( \$phpPathGen );\n" .
-            "while( \$cacheGenFile->fileExists( \$cacheGenFile->name() ) &&\n" .
-            "\$cacheGenFile->mtime() + " . eZTemplateCacheFunction_FileGenerateTimeout . " > mktime() )\n" .
+            "\$cacheGenFile$myRndVal = eZClusterFileHandler::instance( \$phpPathGen );\n" .
+            "while( \$cacheGenFile$myRndVal"."->fileExists( \$cacheGenFile$myRndVal"."->name() ) &&\n" .
+            "\$cacheGenFile$myRndVal"."->mtime() + " . eZTemplateCacheFunction_FileGenerateTimeout . " > mktime() )\n" .
             "{\n" .
             "sleep( 1 );\n" .
-            "\$cacheGenFile->loadMetaData();\n" .
+            "\$cacheGenFile$myRndVal"."->loadMetaData();\n" .
             "}\n";
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
 
@@ -271,7 +274,7 @@ ENDADDCODE;
                                                                "{" );
 
         // Create tmp cache file
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$cacheGenFile->storeContents( '1' );" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$cacheGenFile$myRndVal"."->storeContents( '1' );" );
 
 
         $newNodes[] = eZTemplateNodeTool::createOutputVariableIncreaseNode( array( 'spacing' => 4 ) );
@@ -300,10 +303,10 @@ ENDADDCODE;
             $code .= "@unlink( $filepathText );\n";
         }
         $code .= "rename( $filedirText. '/'. \$uniqid, $filepathText );\n" .
-            "if ( isset( \$cacheGenFile ) and is_object( \$cacheGenFile ) )\n" .
+            "if ( isset( \$cacheGenFile$myRndVal ) and is_object( \$cacheGenFile$myRndVal ) )\n" .
             "{\n" .
-            "   \$cacheGenFile->delete();\n" .
-            "   unset( \$cacheGenFile );\n" .
+            "   \$cacheGenFile$myRndVal"."->delete();\n" .
+            "   unset( \$cacheGenFile$myRndVal );\n" .
             "}\n";
 
         // VS-DBFILE
