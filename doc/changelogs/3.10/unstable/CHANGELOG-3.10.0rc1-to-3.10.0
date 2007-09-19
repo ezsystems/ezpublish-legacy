@@ -28,3 +28,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #011457: dba files in datatypes does not support extensions.
 - Fixed bug #011253: Log in a user with method loginCurrent doesn't update global user cache.
 - Fixed bug #011454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
+- Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
