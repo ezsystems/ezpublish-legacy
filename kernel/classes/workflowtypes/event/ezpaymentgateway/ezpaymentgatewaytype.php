@@ -254,6 +254,9 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $gateways           = array();
         $availableGateways  =& $GLOBALS[ 'eZPaymentGateways' ];
+        if ( !is_array( $availableGateways ) ){
+            return $gateways;
+        }
 
         if ( in_array( '-1', $gatewaysTypes ) )
         {
