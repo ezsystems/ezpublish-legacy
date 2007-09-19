@@ -225,7 +225,7 @@ class eZPaymentCallbackChecker
         $remoteHostIP   = eZSys::serverVariable( 'REMOTE_ADDR' );
         $serverIPList   = $this->ini->variable( 'ServerSettings', 'ServerIP');
 
-        if ($serverIPList === false)
+        if ( $serverIPList === false )
         {
             $this->logger->writeTimedString( "Skipped the IP check because ServerIP is not set in the settings. Remote host is: $remoteHostIP.", 'checkServerIP' );
             return true;
@@ -249,7 +249,11 @@ class eZPaymentCallbackChecker
     function checkAmount( $amount )
     {
         $orderAmount = $this->order->attribute( 'total_inc_vat' );
-        if ( $orderAmount == $amount )
+
+        // To avoid floating errors, round the value down before checking.
+        $shopINI =& eZINI::instance( 'shop.ini' );
+        $precisionValue = (int)$shopINI->variable( 'MathSettings', 'RoundingPrecision' );
+        if ( round( $orderAmount, $precisionValue ) === round( $amount, $precisionValue ) )
         {
             return true;
         }
