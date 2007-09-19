@@ -59,3 +59,6 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0rc1) rev.19928)
 - Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
   (Merged from trunk (3.10.0rc1) rev.19935)
+- Fixed bug #11402: PHP Warning displayed when creating new workflow of 
+  payment gateway type and no payment gateway exist.
+  (Merged from trunk (3.10.0) rev.19941)
