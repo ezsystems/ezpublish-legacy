@@ -18,7 +18,6 @@
 //
 // $Id: Tar.php,v 1.20 2004/01/08 17:33:09 sniper Exp $
 
-// require_once 'kernel/setup/PEAR.php';
 include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
 
 /**
