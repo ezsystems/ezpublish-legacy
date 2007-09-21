@@ -359,7 +359,9 @@ class eZImageAliasHandler
             {
                 $ini = eZINI::instance( 'image.ini' );
                 $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-                $pathString = $contentImageSubtree . '/' . $mainNode->pathWithNames();
+                $pathString = $mainNode->pathWithNames();
+                $pathString = function_exists( 'mb_strtolower' ) ? mb_strtolower( $pathString ) : strtolower( $pathString );
+                $pathString = $contentImageSubtree . '/' . $pathString;
             }
         }
         else
@@ -389,6 +391,8 @@ class eZImageAliasHandler
     function imagePathByNode( $contentObjectAttribute, $mainNode )
     {
         $pathString = $mainNode->pathWithNames();
+        $pathString = function_exists( 'mb_strtolower' ) ? mb_strtolower( $pathString ) : strtolower( $pathString );
+
         $ini = eZINI::instance( 'image.ini' );
         $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
         $attributeData = $this->originalAttributeData();
@@ -1047,7 +1051,8 @@ class eZImageAliasHandler
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = eZCharTransform::instance();
 
-        return $trans->transformByGroup( $imageName, 'identifier' );
+        $imageName = eZURLAliasML::convertToAlias( $imageName );
+        return $imageName;
     }
 
     /*!

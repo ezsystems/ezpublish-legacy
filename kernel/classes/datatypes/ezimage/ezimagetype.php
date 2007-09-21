@@ -287,13 +287,12 @@ class eZImageType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors = $result['errors'];
 
         $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+                                                                  'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 
@@ -312,13 +311,12 @@ class eZImageType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => false );
-        $errors = $result['errors'];
 
         $handler = $objectAttribute->content();
         if ( !$handler )
         {
-            $errors[] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezimage',
-                                                        'Failed to fetch Image Handler. Please contact the site administrator.' ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezimage',
+                                                                  'Failed to fetch Image Handler. Please contact the site administrator.' ) );
             return false;
         }
 

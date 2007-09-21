@@ -11,7 +11,7 @@
 	 {section-else}
 	    <br/>
 		<div class="error">
-	 	{"There are no payment Gateway extensions installed."|i18n('design/admin/workflow/eventtype/edit')}
+	 	{"There are no payment gateway extensions installed."|i18n('design/admin/workflow/eventtype/edit')}
 	 	{"Please install a payment extension first."|i18n('design/admin/workflow/eventtype/edit')}
 	 	</div>
 	 {/section}

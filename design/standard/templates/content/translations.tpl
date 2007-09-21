@@ -3,7 +3,7 @@
 
 <h1>{"Content translations"|i18n("design/standard/content")}</h1>
 
-<p>{"Below you'll find a list of active translations which content objects may be translated into."|i18n("design/standard/content")}</p>
+<p>{"Below you will find a list of active translations that content objects may be translated into."|i18n("design/standard/content")}</p>
 
 <table width="100%" cellspacing="0" cellpadding="2">
 <tr>

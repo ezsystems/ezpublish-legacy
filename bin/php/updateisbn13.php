@@ -1,10 +1,11 @@
 <?php
+//
 // Created on: <17-Apr-2007 15:47:58 bjorn>
 //
+// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: n.n.n
-// BUILD VERSION: nnnnn
-// COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
+// SOFTWARE RELEASE: 3.10.x
+// COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
@@ -22,6 +23,9 @@
 //   MA 02110-1301, USA.
 //
 //
+// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+//
+
 
 /*! \file updateisbn13.php
   \brief Updates the different ranges used by the ISBN standard to

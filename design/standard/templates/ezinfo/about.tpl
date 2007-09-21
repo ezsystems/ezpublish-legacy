@@ -11,7 +11,7 @@
 </div>
 
 <div class="objectheader">
-    <h2>{'Licence'|i18n( 'design/standard/ezinfo/about' )}</h2>
+    <h2>{'License'|i18n( 'design/standard/ezinfo/about' )}</h2>
 </div>
 <div class="object">
     {if is_set( $license )}

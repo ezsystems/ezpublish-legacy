@@ -528,7 +528,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     {
         eZDebug::writeDebug( "Root node of given subtree was not copied.",
                              "Subtree copy:" );
-        $notifications['Notifacations'][] = ezi18n( 'kernel/content/copysubtree',
+        $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
                                                     "Subtree was not copied." );
         return $notifications;
     }
@@ -844,7 +844,7 @@ function chooseOptionsToCopy( $Module, &$Result, $srcNode, $chooseVersions, $cho
         $Result['path'] = array( array( 'url' => false,
                                         'text' => ezi18n( 'kernel/content', 'Content' ) ),
                                  array( 'url' => false,
-                                        'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
+                                        'text' => ezi18n( 'kernel/content', 'Copy subtree' ) ) );
 }
 
 function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications, $srcNode )
@@ -883,7 +883,7 @@ function showNotificationAfterCopying( $http, $Module, &$Result, &$Notifications
     $Result['path'] = array( array( 'url' => false,
                                     'text' => ezi18n( 'kernel/content', 'Content' ) ),
                              array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
+                                    'text' => ezi18n( 'kernel/content', 'Copy subtree' ) ) );
 }
 /////////// functions END ==================================================================
 

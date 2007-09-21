@@ -527,6 +527,20 @@ class eZURLAliasML extends eZPersistentObject
                 }
                 $query = "UPDATE ezurlalias_ml SET lang_mask = {$bitOr} WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
                 $db->query( $query );
+                foreach ( $rows as $row )
+                {
+                    $rowText = $row['text'];
+                    $rowTextLower = eZURLAliasML::strtolower( $rowText );
+                    $topElementLower = eZURLAliasML::strtolower( $topElement );
+                    if ( strcmp( $topElement, $rowText ) != 0 &&
+                         strcmp( $topElementLower, $rowTextLower ) == 0 )
+                    {
+                        // Only the case differs, so update it
+                        $sqlText = $db->escapeString( $topElement );
+                        $query = "UPDATE ezurlalias_ml SET text = '{$sqlText}' WHERE parent = {$parentID} AND text_md5 = {$textMD5} AND is_original = 1 AND is_alias = 0";
+                        $db->query( $query );
+                    }
+                }
             }
             else
             {
@@ -1090,6 +1104,23 @@ class eZURLAliasML extends eZPersistentObject
         }
         $objectList = eZPersistentObject::handleRows( $rows, 'eZURLAliasML', true );
         return $objectList;
+    }
+
+    /*!
+     \static
+     The same as 'fetchByPath' but extracting nodeID from action.
+     Only first entry will be processed if 'fetchByPath' returns multiple result(e.g. $glob is wildcard).
+     \return nodeID on success or \c false otherwise.
+     */
+    function fetchNodeIDByPath( $uriString, $glob = false )
+    {
+        $nodeID = false;
+
+        $urlAliasMLList = eZURLAliasML::fetchByPath( $uriString, $glob );
+        if ( is_array( $urlAliasMLList ) && count( $urlAliasMLList ) > 0 )
+            $nodeID = eZURLAliasML::nodeIDFromAction( $urlAliasMLList[0]->Action );
+
+        return $nodeID;
     }
 
     /*!
@@ -1909,6 +1940,21 @@ class eZURLAliasML extends eZPersistentObject
         }
 
         return implode( '/', $result );
+    }
+
+    /*!
+     \static
+     Grabs nodeID from action string.
+     \return nodeID on success, \c false otherwise.
+     */
+    function nodeIDFromAction( $action )
+    {
+        $nodeID = false;
+        $pos = strpos( $action, 'eznode:' );
+        if ( $pos === 0 ) // make sure $action starts from 'eznode:'
+            $nodeID = substr( $action, strlen( 'eznode:' ) );
+
+        return $nodeID;
     }
 
 }

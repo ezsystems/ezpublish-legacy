@@ -514,7 +514,8 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $counter = 0;
     $column = 0;
     $changedNodes = 0;
-    $nodeCount = $rootNode->subTreeCount( array( 'Limitation' => array() ) );
+    $nodeCount = $rootNode->subTreeCount( array( 'Limitation' => array(),
+                                                 'IgnoreVisibility' => true ) );
     $totalNodeCount += $nodeCount + 1;
     $cli->output( "Starting updates for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) . ", $nodeCount nodes" );
     $nodeStartTime = microtimeFloat();
@@ -522,6 +523,7 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     {
         $nodeList = $rootNode->subTree( array( 'Offset' => $offset,
                                              'Limit' => $fetchLimit,
+                                             'IgnoreVisibility' => true,
                                              'Limitation' => array() ) );
         foreach ( array_keys( $nodeList ) as $key )
         {

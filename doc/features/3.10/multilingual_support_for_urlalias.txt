@@ -78,14 +78,14 @@ Step 3
 
 The transformation type has been chosen but the database still
 contains the old aliases. To update the aliases and transfer old urls
-as history the script *update/common/scripts/updateniceurls.php* must
+as history the script *bin/php/updateniceurls.php* must
 be used. It will first transfer the old aliases to the new system, then
 it will go over all objects in the system and create new aliases for
 them, the old aliases will then become history entries.
 
 Run the script with::
 
-  update/common/scripts/updateniceurls.php
+  bin/php/updateniceurls.php
 
 Note: The script will use all the languages of your site, and not just
       the ones defined in the chosen siteaccess. This is needed to

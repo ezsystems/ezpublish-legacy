@@ -64,20 +64,45 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
     {
-        $sectionIDArray = $http->postVariable( 'SectionIDArray' );
-        $http->setSessionVariable( 'SectionIDArray', $sectionIDArray );
-        $sections = array();
-        foreach ( $sectionIDArray as $sectionID )
+        if ( $http->hasPostVariable( 'SectionIDArray' ) )
         {
-            $section = eZSection::fetch( $sectionID );
-            $sections[] = $section;
+            $sectionIDArray = $http->postVariable( 'SectionIDArray' );
+
+            $sections = array();
+            $sectionIDs = array();
+            $sectionsUnallowed = array();
+            foreach ( $sectionIDArray as $sectionID )
+            {
+                $section = eZSection::fetch( $sectionID );
+                if ( is_object( $section ) )
+                {
+                    if ( $section->canBeRemoved() )
+                    {
+                        $sections[] = $section;
+                        $sectionIDs[] = $sectionID;
+                    }
+                    else
+                    {
+                        $sectionsUnallowed[] = $section;
+                    }
+                }
+            }
+
+            if ( count( $sections) > 0 or
+                 count( $sectionsUnallowed ) > 0 )
+            {
+                $http->setSessionVariable( 'SectionIDArray', $sectionIDs );
+                $tpl->setVariable( 'delete_result', $sections ); // deprecated, left for BC
+                $tpl->setVariable( 'allowed_sections', $sections );
+                $tpl->setVariable( 'unallowed_sections', $sectionsUnallowed );
+
+                $Result = array();
+                $Result['content'] = $tpl->fetch( "design:section/confirmremove.tpl" );
+                $Result['path'] = array( array( 'url' => false,
+                                                'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
+                return;
+            }
         }
-        $tpl->setVariable( 'delete_result', $sections );
-        $Result = array();
-        $Result['content'] = $tpl->fetch( "design:section/confirmremove.tpl" );
-        $Result['path'] = array( array( 'url' => false,
-                                        'text' => ezi18n( 'kernel/section', 'Sections' ) ) );
-        return;
     }
     else
     {
@@ -92,21 +117,26 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     $accessResult = $currentUser->hasAccessTo( 'section', 'edit' );
     if ( $accessResult['accessWord'] == 'yes' )
     {
-        $sectionIDArray = $http->sessionVariable( 'SectionIDArray' );
-
-        $db = eZDB::instance();
-        $db->begin();
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
-        foreach ( $sectionIDArray as $sectionID )
+        if ( $http->hasSessionVariable( 'SectionIDArray' ) )
         {
-            $section = eZSection::fetch( $sectionID );
-            if( $section === null )
-                continue;
-            // Clear content cache if needed
-            eZContentCacheManager::clearContentCacheIfNeededBySectionID( $sectionID );
-            $section->remove( );
+            $sectionIDArray = $http->sessionVariable( 'SectionIDArray' );
+
+            $db = eZDB::instance();
+            $db->begin();
+            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            foreach ( $sectionIDArray as $sectionID )
+            {
+                $section = eZSection::fetch( $sectionID );
+                if ( is_object( $section ) and
+                     $section->canBeRemoved() )
+                {
+                    // Clear content cache if needed
+                    eZContentCacheManager::clearContentCacheIfNeededBySectionID( $sectionID );
+                    $section->remove();
+                }
+            }
+            $db->commit();
         }
-        $db->commit();
     }
     else
     {

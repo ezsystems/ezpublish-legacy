@@ -11,19 +11,19 @@
 {switch match=$edit_warning}
 {case match=1}
 <div class="warning">
-<h2>{"Version not a draft"|i18n("design/standard/content/version")}</h2>
+<h2>{"Version is not a draft"|i18n("design/standard/content/version")}</h2>
 <ul>
     <li>{"Version %1 is not available for editing any more, only drafts can be edited."|i18n("design/standard/content/version",,array($edit_version))}</li>
-    <li>{"To edit this version create a copy of it."|i18n("design/standard/content/version")}</li>
+    <li>{"To edit this version, first create a copy of it."|i18n("design/standard/content/version")}</li>
 </ul>
 </div>
 {/case}
 {case match=2}
 <div class="warning">
-<h2>{"Version not yours"|i18n("design/standard/content/version")}</h2>
+<h2>{"Version is not yours"|i18n("design/standard/content/version")}</h2>
 <ul>
-    <li>{"Version %1 was not created by you, only your own drafts can be edited."|i18n("design/standard/content/version",,array($edit_version))}</li>
-    <li>{"To edit this version create a copy of it."|i18n("design/standard/content/version")}</li>
+    <li>{"Version %1 was not created by you. You can only edit your own drafts."|i18n("design/standard/content/version",,array($edit_version))}</li>
+    <li>{"To edit this version, first create a copy of it."|i18n("design/standard/content/version")}</li>
 </ul>
 </div>
 {/case}

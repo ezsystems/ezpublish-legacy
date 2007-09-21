@@ -9,7 +9,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Select an image file to be included in the package and click Next.
+    <p>{'Select an image file to be included in the package then click Next.
 Click "Next" without choosing an image to continue to the next step.'|i18n('design/admin/package')|break}</p>
 
     {section show=$persistent_data.imagefiles}

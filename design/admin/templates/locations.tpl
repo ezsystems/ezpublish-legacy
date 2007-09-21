@@ -50,7 +50,7 @@
         <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
         {set can_remove_location=true()}
     {else}
-        <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+        <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" disabled="disabled" title="{'This location cannot be removed either because you do not have permission to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
     {/if}
     </td>
 
@@ -94,12 +94,12 @@
     {section show=$assignment_count|gt( 1 ) }
     <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" title="{'Use these radio buttons to select the desired main location.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location and thus it does not make sense to set it.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'The item being displayed has only one location. It is not necessary to set the main location.'|i18n( 'design/admin/node/view/full' )}" />
     {/section}
 
     {section-else}
 
-    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'You can not set the main location because you do not have permissions to edit the item being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+    <input type="radio" {section show=$assignment_node.is_main}checked="checked"{/section} name="MainAssignmentCheck" value="{$assignment_node.node_id}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the item being displayed.'|i18n( 'design/admin/node/view/full' )}" />
 
     {/section}
 
@@ -136,8 +136,8 @@
     {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
-    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot remove any locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot add new locations because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 
@@ -145,13 +145,13 @@
 {if $can_edit_node}
 
 {if $assignment_count|gt( 1 )}
-    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above and click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above then click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
 {else}
-    <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You cannot set the main location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 

@@ -131,7 +131,7 @@
 
 {/section}
 {section-else}
-<p>{'The function limitations of this policy can not be edited. This is either because the function simply does not support limitations or because the function was assigned without limitations when the policy was created.'|i18n( 'design/admin/role/policyedit' )}</p>
+<p>{'The function limitations of this policy cannot be edited. This is either because the function does not support limitations or because the function was assigned without limitations when the policy was created.'|i18n( 'design/admin/role/policyedit' )}</p>
 {/section}
 
 </div>

@@ -20,7 +20,7 @@
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Text is missing for the URL alias'|i18n( 'design/admin/content/urlalias' )}</h2>
 <ul>
-    <li>{'You will need to fill in some text in the input box to create a new alias.'|i18n( 'design/admin/content/urlalias' )}</li>
+    <li>{'Enter text in the input box to create a new alias.'|i18n( 'design/admin/content/urlalias' )}</li>
 </ul>
 </div>
 {/case}
@@ -29,7 +29,7 @@
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias was successfully created, but was modified by the system to <%new_alias>'|i18n( 'design/admin/content/urlalias',, hash('%new_alias', $info_data['new_alias'] ) )|wash}</h2>
 <ul>
     <li>{'Invalid characters will be removed or transformed to valid characters.'|i18n( 'design/admin/content/urlalias' )}</li>
-    <li>{'Existing objects or functionality with the same name will get precedence on the name.'|i18n( 'design/admin/content/urlalias' )}</li>
+    <li>{'Existing objects or functionality with the same name take precedence on the name.'|i18n( 'design/admin/content/urlalias' )}</li>
 </ul>
 </div>
 {/case}
@@ -40,7 +40,7 @@
 {/case}
 {case match='feedback-alias-exists'}
 <div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias %new_alias already exists, and it points to %action_url'|i18n( 'design/admin/content/urlalias',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The URL alias &lt;%new_alias&gt; already exists, and it points to &lt;%action_url&gt;'|i18n( 'design/admin/content/urlalias',, hash( '%new_alias', concat( "<"|wash, '<a href=', $info_data['url']|ezurl, '>', $info_data['new_alias'], '</a>', ">"|wash ), '%action_url', concat( "<"|wash, '<a href=', $info_data['action_url']|ezurl, '>', $info_data['action_url']|wash, '</a>', ">"|wash ) ) )}</h2>
 </div>
 {/case}
 {case}
@@ -133,8 +133,8 @@
     <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'There are no removable aliases.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" )}' );" />
     {/if}
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" title="{'You can not remove any aliases because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" />
-    <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'You can not remove any aliases because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" title="{'You cannot remove any aliases because you do not have permission to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" />
+    <input class="button-disabled" type="submit" name="RemoveAllAliasesButton" value="{'Remove all'|i18n( 'design/admin/content/urlalias' )}" title="{'You cannot remove any aliases because you do not have permission to edit the current item.'|i18n( 'design/admin/content/urlalias' )}" disabled="disabled" />
 {/if}
 </div>
 <div class="break"></div>
@@ -161,7 +161,7 @@
     <input class="text" type="text" name="AliasText" value="{$aliasText|wash}" title="{'Enter the URL for the new alias. Use forward slashes (/) to create subentries.'|i18n( 'design/admin/content/urlalias' )}" />
 
 {* Relative flag. *}
-    <input type="checkbox" name="RelativeAlias" id="relative-alias" value="{$node.node_id}" checked="checked" /><label for="relative-alias" title="{'Relative aliases start from the parent of the current node while non-relative ones starts from the root of the site.'|i18n( 'design/admin/content/urlalias' )}">{'Relative to parent'|i18n( 'design/admin/content/urlalias' )}</label>
+    <input type="checkbox" name="RelativeAlias" id="relative-alias" value="{$node.node_id}" checked="checked" /><label for="relative-alias" title="{'Relative aliases start from the parent of the current node while non-relative aliases start from the root of the site.'|i18n( 'design/admin/content/urlalias' )}">{'Relative to parent'|i18n( 'design/admin/content/urlalias' )}</label>
 
 {* Create button. *}
     <input class="button" type="submit" name="NewAliasButton" value="{'Create'|i18n( 'design/admin/content/urlalias' )}" title="{'Create a new URL alias for this node.'|i18n( 'design/admin/content/urlalias' )}" />
@@ -190,7 +190,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-<p>{"Note: These entries are automatically generated from the name of the object. To change these names you will need to edit the object in the specific language and publish the changes."|i18n( 'design/admin/content/urlalias' )}</p>
+<p>{"Note that these entries are automatically generated from the name of the object. To change these names you must edit the object in the specific language and publish the changes."|i18n( 'design/admin/content/urlalias' )}</p>
 </div>
 
 <table class="list" cellspacing="0" >
@@ -230,7 +230,7 @@
             {if fetch( content, access, hash( access, 'edit', contentobject, $node, language, $locale ) )}
     			<a href={concat('/content/edit/', $node.contentobject_id, '/f/', $locale)|ezurl}><img src={'edit.gif'|ezimage} alt="{$img_title}" title="{$img_title}" /></a>
             {else}
-    			<img src={'edit-disabled.gif'|ezimage} title="{'You can not edit the contents for language %language because you do not have permissions to edit the object.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}" />
+    			<img src={'edit-disabled.gif'|ezimage} title="{'You cannot edit the contents for language %language because you do not have permission to edit the object.'|i18n( 'design/admin/content/urlalias',, hash( '%language', $language_obj.name ) )}" />
             {/if}
         </td>
     </tr>

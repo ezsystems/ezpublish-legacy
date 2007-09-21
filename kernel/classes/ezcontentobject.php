@@ -33,7 +33,7 @@
   \ingroup eZKernel
   \brief Handles eZ publish content objects
 
-  It encapsulates the date for an object and provides lots of functions
+  It encapsulates the data for an object and provides lots of functions
   for dealing with versions, translations and attributes.
 
   \sa eZContentClass
@@ -1487,6 +1487,32 @@ class eZContentObject extends eZPersistentObject
         return $versionObject->attribute( 'version' );
     }
 
+    static function fixReverseRelations( $objectID, $mode = false )
+    {
+        $db = eZDB::instance();
+        $objectID = (int) $objectID;
+
+        // Finds all the attributes that store relations to the given object.
+        $result = $db->arrayQuery( "SELECT attr.*
+                                    FROM ezcontentobject_link link,
+                                         ezcontentobject_attribute attr
+                                    WHERE link.from_contentobject_id=attr.contentobject_id AND
+                                          link.from_contentobject_version=attr.version AND
+                                          link.contentclassattribute_id=attr.contentclassattribute_id AND
+                                          link.to_contentobject_id=$objectID" );
+        if ( count( $result ) > 0 )
+        {
+            include_once( "kernel/classes/ezcontentcachemanager.php" );
+            foreach( $result as $row )
+            {
+                $attr = new eZContentObjectAttribute( $row );
+                $dataType = $attr->dataType();
+                $dataType->fixRelatedObjectItem( $attr, $objectID, $mode );
+                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
+            }
+        }
+    }
+
     function removeReverseRelations( $objectID )
     {
         $db = eZDB::instance();
@@ -1583,7 +1609,8 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezuser_discountrule
              WHERE contentobject_id = '$delID'" );
 
-        eZContentObject::removeReverseRelations( $delID );
+        eZContentObject::fixReverseRelations( $delID, 'remove' );
+
         include_once( "kernel/classes/ezsearch.php" );
         eZSearch::removeObject( $this );
 
@@ -1681,6 +1708,7 @@ class eZContentObject extends eZPersistentObject
             $this->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
             eZSearch::removeObject( $this );
             $this->store();
+            eZContentObject::fixReverseRelations( $delID, 'trash' );
             // Delete stored attribute from other tables
             $db->commit();
 
@@ -1701,6 +1729,7 @@ class eZContentObject extends eZPersistentObject
                     $this->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_ARCHIVED );
                     eZSearch::removeObject( $this );
                     $this->store();
+                    eZContentObject::fixReverseRelations( $delID, 'trash' );
                     $db->commit();
                 }
                 else

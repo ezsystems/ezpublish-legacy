@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
-    <title>{'eZ publish redirection - %url'|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
+    <title>{'eZ Publish redirection - %url'|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
 </head>
 <body onload="document.forms.Redirect.RedirectButton.focus()">
   <form action="{$redirect_uri}" method="post" name="Redirect">

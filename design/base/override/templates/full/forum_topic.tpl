@@ -75,7 +75,7 @@
         </form>
         {section-else}
            <p>
-            {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
+            {"You need to be logged in to get access to the forums. Log in"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
            </p>
         {/section}
         {/section}

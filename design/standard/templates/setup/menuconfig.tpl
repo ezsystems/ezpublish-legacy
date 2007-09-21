@@ -3,7 +3,7 @@
 <h1>{"Menu management"|i18n("design/standard/menuconfig")}</h1>
 
 <div class="objectheader">
-    <h2>{'SiteAccess'|i18n( 'design/standard/menuconfig' )}</h2>
+    <h2>{'Siteaccess'|i18n( 'design/standard/menuconfig' )}</h2>
 </div>
 <div class="object">
     {section show=$current_siteaccess}

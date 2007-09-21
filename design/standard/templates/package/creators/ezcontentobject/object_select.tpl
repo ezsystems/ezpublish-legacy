@@ -8,7 +8,7 @@
 
     {include uri="design:package/header.tpl"}
 
-    <p>{'Please choose objects you wish to include in the package.'|i18n('design/standard/package')}</p>
+    <p>{'Choose the objects to include in the package.'|i18n('design/standard/package')}</p>
 
 
     <label>{'Selected nodes'|i18n('design/standard/package')}</label>

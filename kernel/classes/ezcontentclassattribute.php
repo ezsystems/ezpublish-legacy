@@ -48,9 +48,12 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->Content = null;
         $this->DisplayInfo = null;
         $this->Module = null;
-        $serializedNameList = isset( $row['serialized_name_list'] ) ? $row['serialized_name_list'] : '';
 
-        $this->NameList = new eZContentClassAttributeNameList( $serializedNameList );
+        $this->NameList = new eZContentClassNameList();
+        if ( isset( $row['serialized_name_list'] ) )
+            $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
+        else
+            $this->NameList->initDefault();
     }
 
     static function definition()

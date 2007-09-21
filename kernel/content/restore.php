@@ -231,6 +231,9 @@ if ( $module->isCurrentAction( 'AddLocation' ) )
             eZUser::cleanupCache();
         }
     }
+
+    eZContentObject::fixReverseRelations( $objectID, 'restore' );
+
     $db->commit();
     $module->redirectToView( 'view', array( 'full', $mainNodeID ) );
     return;

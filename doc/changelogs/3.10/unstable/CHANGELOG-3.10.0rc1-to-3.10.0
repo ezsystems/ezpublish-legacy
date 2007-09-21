@@ -1,0 +1,33 @@
+Changes from 3.10.0rc1 to 3.10.0
+
+*Kernel:
+
+*Design:
+
+*eZTemplate:
+
+*Package system:
+
+*Scripts:
+
+*Cronjobs:
+
+*Translations:
+
+*Bugfixes:
+- Fixed bug #011399: fetch operator creates invalid sql with negative offset
+  (Merged from stable/3.9 (3.9.4) rev.19877)
+- Fixed bug #011224: removeSubtrees: hardcoded user class identifier
+- Fixed bug #011238: ezinfo/copyright out of date
+- Fixed bug #011336: typo in eZContentObject API documentation
+- Fixed bug #8019: Translations in extension ignored if language does not exist in main share/translations.
+- Fixed bug #011313: eZContentClassAttribute constructor does not check if $row['serialized_name_list'] is set
+- Fixed bug #011319: Collaboration summary view of standard design has wrong page navigation
+- Fixed bug #011239: error when viewing a product item
+- Fixed bug #010792: node_id on objectrelations are not updated on trash / restore
+- Fixed bug #011457: dba files in datatypes does not support extensions.
+- Fixed bug #011253: Log in a user with method loginCurrent doesn't update global user cache.
+- Fixed bug #011454: PaymentCallbackChecker can't handle multiple currencies per siteaccess.
+- Fixed bug #011286: Paypal - checkAmount failed - floating point number comparrison is unsafe.
+- Fixed bug #11402: PHP Warning displayed when creating new workflow of 
+  payment gateway type and no payment gateway exist.

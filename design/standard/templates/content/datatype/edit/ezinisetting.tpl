@@ -3,11 +3,11 @@
 
 {section show=count( $attribute.content.modified )}
 <div class="message-warning">
-<p>{'Warning, the ini file settings value and object value does not match.'|i18n( 'design/standard/class/datatype' )}</p>
+<p>{'Warning: the ini file settings value and object value does not match.'|i18n( 'design/standard/class/datatype' )}</p>
 <p>{'The ini file has probably been modified manually since last time.'|i18n( 'design/standard/class/datatype' )}</p>
 {section var=modified loop=$attribute.content.modified}
 <ul>
-<li>{'Ini File : '|i18n( 'design/standard/class/datatype' )}{$modified.item.file|wash}</li>
+<li>{'Ini File: '|i18n( 'design/standard/class/datatype' )}{$modified.item.file|wash}</li>
 <li>{'Ini Value: '|i18n( 'design/standard/class/datatype' )}{$modified.item.ini_value|wash}</li>
 </ul>
 {/section}

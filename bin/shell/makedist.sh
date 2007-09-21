@@ -410,6 +410,23 @@ function ezdist_dbname_read_info
     done
 }
 
+function ezdist_check_isbn13_data
+{
+    ISBN13_DBA_FILE="kernel/classes/datatypes/ezisbn/share/db_data.dba"
+
+    LAST_MOD_DATE=`stat -c "%Y" "$ISBN13_DBA_FILE"`
+    DATE=`date +"%s"`
+    EXPIRY_DATE=$(($LAST_MOD_DATE+604800))  # 604800 = 7*24*60*60 = one week
+
+    if [ $EXPIRY_DATE -lt $DATE ] ; then
+        echo "You need to update ISBN13 data"
+        echo "run ./bin/shell/updateisbn13.sh"
+        exit 1
+    fi
+}
+
+ezdist_check_isbn13_data
+
 ezdist_svn_read_info
 ezdist_dbname_read_info
 

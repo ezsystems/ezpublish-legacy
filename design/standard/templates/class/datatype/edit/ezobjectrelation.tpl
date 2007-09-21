@@ -5,9 +5,9 @@
 <label>{'Selection method'|i18n( 'design/standard/class/datatype' )}:</label>
 <select name="ContentClass_ezobjectrelation_selection_type_{$class_attribute.id}">
     <option value="0" {eq( $content.selection_type, 0 )|choose( '', 'selected="selected"' )}>{'Browse'|i18n( 'design/standard/class/datatype' )}</option>
-    <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Dropdown list'|i18n( 'design/standard/class/datatype' )}</option>
+    <option value="1" {eq( $content.selection_type, 1 )|choose( '', 'selected="selected"' )}>{'Drop-down list'|i18n( 'design/standard/class/datatype' )}</option>
 {* Commented out because somebody forgot to implement this functionality... *}
-{*    <option value="2" {eq( $content.selection_type, 2 )|choose( '', 'selected="selected"' )}>{'Dropdown tree'|i18n( 'design/standard/class/datatype' )}</option> *}
+{*    <option value="2" {eq( $content.selection_type, 2 )|choose( '', 'selected="selected"' )}>{'Drop-down tree'|i18n( 'design/standard/class/datatype' )}</option> *}
 </select>
 </div>
 

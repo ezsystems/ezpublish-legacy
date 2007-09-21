@@ -85,6 +85,77 @@ class eZURI
     }
 
     /*!
+     \static
+     Parse URL and encode/decode its path string.
+     */
+    static function codecURL( $url, $encode )
+    {
+        // Parse URL and encode the path.
+        $data = parse_url( $url );
+        if ( isset( $data['path'] ) )
+        {
+            if ( $encode )
+                $data['path'] = eZURI::encodeIRI( $data['path'] ); // Make sure it is encoded to IRI format
+            else
+                $data['path'] = eZURI::decodeIRI( $data['path'] ); // Make sure it is dencoded to internal encoding
+        }
+
+        // Reconstruct the URL
+        $host    = '';
+        $preHost = '';
+        if ( isset( $data['user'] ) )
+        {
+            if ( isset( $data['pass'] ) )
+                $preHost .= $data['user'] . ':' . $data['pass'] . '@';
+            else
+                $preHost .= $data['user'] . '@';
+        }
+        if ( isset( $data['host'] ) )
+        {
+            if ( isset( $data['port'] ) )
+                $host = $preHost . $data['host'] . ':' . $data['port'];
+            else
+                $host = $preHost . $data['host'];
+        }
+        $url = '';
+        if ( isset( $data['scheme'] ) )
+            $url = $data['scheme'] . '://' . $host;
+        else if ( strlen( $host ) > 0 )
+            $url = '//' . $host;
+        if ( isset( $data['path'] ) )
+        {
+            $url .= $data['path'];
+        }
+        if ( isset( $data['query'] ) )
+        {
+            $url .= '?' . $data['query'];
+        }
+        if ( isset( $data['fragment'] ) )
+        {
+            $url .= '#' . $data['fragment'];
+        }
+
+        return $url;
+    }
+
+    /*!
+     \static
+     Encodes path string of URL in internal encoding to a new string which conforms to the IRI specification.
+     */
+    static function encodeURL( $url )
+    {
+        return eZURI::codecURL( $url, true );
+    }
+
+    /*!
+     Decodes URL which has path string is in IRI format and returns the new URL with path in the internal encoding.
+     */
+    static function decodeURL( $url )
+    {
+        return eZURI::codecURL( $url, false );
+    }
+
+    /*!
      Sets the current URI string to $uri, the URI is then split into array elements
      and index reset to 1.
     */

@@ -387,9 +387,9 @@ class eZMediaType extends eZDataType
         $httpFile->setMimeType( $mimeData['name'] );
         if ( !$httpFile->store( "original", false, false ) )
         {
-            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezmedia',
-                                                                  'Failed to store media file %filename. Please contact the site administrator.', null,
-                                                                  array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezmedia',
+                                                        'Failed to store media file %filename. Please contact the site administrator.', null,
+                                                        array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;
         }
 
@@ -468,7 +468,18 @@ class eZMediaType extends eZDataType
             return false;
         }
         umask( $oldumask );
-        $destination = $destination . '/' . $fileName;
+
+        // create dest filename in the same manner as eZHTTPFile::store()
+        // grab file's suffix
+        $fileSuffix = eZFile::suffix( $fileName );
+        // prepend dot
+        if( $fileSuffix )
+            $fileSuffix = '.' . $fileSuffix;
+        // grab filename without suffix
+        $fileBaseName = basename( $fileName, $fileSuffix );
+        // create dest filename
+        $destination = $destination . '/' . md5( $fileBaseName . microtime() . mt_rand() ) . $fileSuffix;
+
         copy( $filePath, $destination );
         // SP-DBFILE
         require_once( 'kernel/classes/ezclusterfilehandler.php' );
@@ -481,7 +492,7 @@ class eZMediaType extends eZDataType
 
         $media->setAttribute( "contentobject_attribute_id", $attributeID );
         $media->setAttribute( "version", $objectVersion );
-        $media->setAttribute( "filename", $fileName );
+        $media->setAttribute( "filename", basename( $destination ) );
         $media->setAttribute( "original_filename", $fileName );
         $media->setAttribute( "mime_type", $mimeData['name'] );
 

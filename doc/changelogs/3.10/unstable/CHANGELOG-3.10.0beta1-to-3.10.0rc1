@@ -24,3 +24,26 @@ Changes from 3.10.0beta1 to 3.10.0rc1
 - Fixed bug #11307: Setup wizard fails with fatal error / database transaction
   error in certain circumstances.
 - Fixed bug #011338: RSS Crashes if selected class doesn't have the selected field values to export.
+- Fixed bug #11330: updateniceurls.php is missing in eZ Publish 3.10.0beta1 package.
+- Fixed bug #011340: RSS cache doesn't get emptied out.
+- Fixed bug #11329: Kernel error 1 on System information page.
+- Fixed bug #11305: Flash/media binaries are not versioned.
+- Fixed bug #011306: updateniceurls.php isn't working for hidden nodes
+- Fixed bug #11309: preferences: wrong redirection at nodes with special characters
+- Fixed bug #11293: Inconsistent image directories after upgrading to 3.10.
+- Fixed bug #11263: Typo in kernel/content/copysubtree.php
+- Fixed bug #11272: Typo (ger-DE): "Die Klasse ... ist nicht konfiguriert Unterelmente zu enthalten."
+  (trunk/share/translations rev. 619)
+- Fixed bug #11262: Typo in eZINIAddonPackageHandler
+- Fixed bug #11372: Typos in context of debug messages
+- Fixed bug #11373: Wrong doxygen API doc for class eZContentObjectPackageInstaller
+- Fixed bug #11314: GUI problem in "Setup -> URL translator" in 3.10
+- Fixed bug #11321: multiple results of nodes in fetch tree if using Role policy 'content -> read -> group -> self'.
+- Fixed bug #011276: ezsearch - mysql index.
+- Fixed bug #011284: Varchar(255) is not enough for ezurl.url.
+- Fixed bug #11323: WebDAV does not open folders for wich custom URL alias name pattern defined.
+- Fixed bug #11356: Template reference issue loss of xml information.
+  (Merged from stable/3.9 (3.9.4) rev. 19858)
+- Fixed bug #11322: WebDAV does not show Media VirtualFolder Content
+- Fixed bug #11395: updateniceurls.php does not handle all names
+- Fixed bug #9350: Policies with section limitations seem not to be updated when removing section.

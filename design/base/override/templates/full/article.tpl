@@ -4,7 +4,6 @@
     <div class="class-article">
 
         <h1>{$node.data_map.title.content|wash()}</h1>
-
         {section show=$node.data_map.author.content.is_empty|not()}
         <div class="attribute-byline">
         <p class="author">

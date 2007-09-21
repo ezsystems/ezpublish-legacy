@@ -59,19 +59,19 @@
 {switch match=$edit_warning}
 {case match=1}
 <div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version not a draft'|i18n( 'design/admin/content/history' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version is not a draft'|i18n( 'design/admin/content/history' )}</h2>
 <ul>
-    <li>{'Version %1 is not available for editing anymore, only drafts can be edited.'|i18n( 'design/admin/content/history',, array( $edit_version ) )}</li>
-    <li>{'To edit this version create a copy of it.'|i18n( 'design/admin/content/history' )}</li>
+    <li>{'Version %1 is not available for editing anymore. Only drafts can be edited.'|i18n( 'design/admin/content/history',, array( $edit_version ) )}</li>
+    <li>{'To edit this version, first create a copy of it.'|i18n( 'design/admin/content/history' )}</li>
 </ul>
 </div>
 {/case}
 {case match=2}
 <div class="message-warning">
-<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version not yours'|i18n( 'design/admin/content/history' )}</h2>
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Version is not yours'|i18n( 'design/admin/content/history' )}</h2>
 <ul>
-    <li>{'Version %1 was not created by you, only your own drafts can be edited.'|i18n( 'design/admin/content/history',, array( $edit_version ) )}</li>
-    <li>{'To edit this version create a copy of it.'|i18n( 'design/admin/content/history' )}</li>
+    <li>{'Version %1 was not created by you. You can only edit your own drafts.'|i18n( 'design/admin/content/history',, array( $edit_version ) )}</li>
+    <li>{'To edit this version, first create a copy of it.'|i18n( 'design/admin/content/history' )}</li>
 </ul>
 </div>
 {/case}
@@ -130,7 +130,7 @@
         {if and( $version.can_remove, array( 0, 3, 4, 5 )|contains( $version.status ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number cannot be removed because it is either the published version of the object or because you do not have permission to remove it.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
@@ -165,13 +165,13 @@
 
         {if and( $can_edit, $can_edit_lang )}
           {if eq( $version.status, 5 )}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to do copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'There is no need to make copies of untouched drafts.'|i18n( 'design/admin/content/history' )}" />
           {else}
             <input type="hidden" name="CopyVersionLanguage[{$version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
           {/if}
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
     {undef $can_edit_lang}
     </td>
@@ -181,7 +181,7 @@
         {if and( array(0, 5)|contains($version.status), $version.creator_id|eq( $user_id ), $can_edit ) }
             <input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {else}
-            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" disabled="disabled" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
+            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$version.version}]" value="" disabled="disabled" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $version.version ) )}" />
         {/if}
     </td>
 
@@ -333,7 +333,7 @@
         {if and( $can_edit, $can_edit_lang )}
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$published_item.version}]" value="" />
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
         {undef $can_edit_lang}
     </td>
@@ -402,7 +402,7 @@
             <input type="hidden" name="CopyVersionLanguage[{$draft_version.version}]" value="{$initial_language.locale}" />
             <input type="image" src={'copy.gif'|ezimage} name="HistoryCopyVersionButton[{$draft_version.version}]" value="" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {else}
-            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history' )}" />
+            <input type="image" src={'copy-disabled.gif'|ezimage} name="" value="" disabled="disabled" title="{'You cannot make copies of versions because you do not have permission to edit the object.'|i18n( 'design/admin/content/history' )}" />
         {/if}
     {undef $can_edit_lang}
     </td>
@@ -412,7 +412,7 @@
         {if and( array(0, 5)|contains($draft_version.status), $draft_version.creator_id|eq( $user_id ), $can_edit ) }
             <input type="image" src={'edit.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" value="" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {else}
-            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" disabled="disabled" value="" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
+            <input type="image" src={'edit-disabled.gif'|ezimage} name="HistoryEditButton[{$draft_version.version}]" disabled="disabled" value="" title="{'You cannot edit the contents of version #%version_number either because it is not a draft or because you do not have permission to edit the object.'|i18n( 'design/admin/content/history',, hash( '%version_number', $draft_version.version ) )}" />
         {/if}
     </td>
 

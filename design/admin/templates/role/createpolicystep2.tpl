@@ -15,7 +15,7 @@
 <div class="context-attributes">
 
 <p>
-{'Welcome to the policy wizard. This three step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep2' )}
+{'Welcome to the policy wizard. This three-step wizard will help you set up a new policy. The policy will be added to the role that is currently being edited. The wizard can be aborted at any stage by using the "Cancel" button.'|i18n( 'design/admin/role/createpolicystep2' )}
 </p>
 
 <hr />
@@ -46,11 +46,11 @@
 {'Instructions'|i18n( 'design/admin/role/createpolicystep2' )}:
 </p>
 <ul>
-<li>{'Use the drop-down menu to select the function that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
+<li>{'Use the drop-down menu to select the function that you want to grant access to.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
 <li>{'Click on one of the "Grant.." buttons (explained below) in order to go to the next step.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
 </ul>
 <p>
-{'The "Grant full access" button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you wish to limit the access method in some way, click the "Grant limited access" button. Function limitation is only supported by some functions. If unsupported, eZ publish will simply set up a policy with unlimited access to the selected function.'|i18n( 'design/admin/role/createpolicystep2' )}
+{'The "Grant full access" button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you want to limit the access method, click the "Grant limited access" button. Function limitation is only supported by some functions. If unsupported, eZ Publish will set up a policy with unlimited access to the selected function.'|i18n( 'design/admin/role/createpolicystep2' )}
 </p>
 
 <div class="block">
@@ -72,7 +72,7 @@
 
 <p>
 {section show=$current_module|eq( '*' )}
-{'It is unfortunately not possible to grant limited access to all modules at once. To grant unlimited access to all modules and their functions, go back to step one and select "Grant access to all functions". In order to grant limited access to different functions within different modules, you need to set up a collection of policies.'|i18n( 'design/admin/role/createpolicystep2',, hash( '%module_name', $current_module ) )}
+{'It is not possible to grant limited access to all modules at once. To grant unlimited access to all modules and their functions, go back to step one and select "Grant access to all functions". To grant limited access to different functions within different modules, you must set up a collection of policies.'|i18n( 'design/admin/role/createpolicystep2',, hash( '%module_name', $current_module ) )}
 {section-else}
 {'The selected module (%module_name) does not support limitations on the function level. Please go back to step one and use the "Grant access to all functions" option instead.'|i18n( 'design/admin/role/createpolicystep2',, hash( '%module_name', $current_module ) )}
 {/section}

@@ -2410,7 +2410,7 @@ CREATE TABLE ezurl (
     last_checked integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     original_url_md5 character varying(32) DEFAULT ''::character varying NOT NULL,
-    url character varying(255)
+    url text
 );
 
 
@@ -3404,6 +3404,14 @@ CREATE INDEX ezsearch_search_phrase_count ON ezsearch_search_phrase USING btree 
 
 
 CREATE UNIQUE INDEX ezsearch_search_phrase_phrase ON ezsearch_search_phrase USING btree (phrase);
+
+
+
+
+
+
+
+CREATE INDEX ezsearch_word_obj_count ON ezsearch_word USING btree (object_count);
 
 
 

@@ -26,7 +26,7 @@
     {"Incorrect quantity! The quantity of the product(s) must be numeric and not less than 1."|i18n("design/standard/shop",,)}</h2>
 {/section}
     {section show=eq( $error, "options")}
-       <h2>{"You have chosen invalid combnation of options"|i18n("design/standard/shop",,)}</h2>
+       <h2>{"You have chosen invalid combination of options"|i18n("design/standard/shop",,)}</h2>
         <ul>
           {section var=UnvalidatedOptions loop=$error_data}
             <li>{$UnvalidatedOptions.item.name}</li>
@@ -164,12 +164,12 @@
     </div>
     {section-else}
     <div class="button-left">
-        <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not remove any items because there are no items in the basket.'|i18n( 'design/admin/shop/basket' )}" />
-        <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not store any changes because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button-disabled" type="submit" name="RemoveProductItemButton" value="{'Remove selected'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot remove any items because there are no items in the basket.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button-disabled" type="submit" name="StoreChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot store any changes because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     <div class="button-right">
         <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n( 'design/admin/shop/basket' )}" title="{'Leave the basket and continue shopping.'|i18n( 'design/admin/shop/basket' )}" />
-        <input class="button-disabled" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You can not check out because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
+        <input class="button-disabled" type="submit" name="CheckoutButton" value="{'Checkout'|i18n( 'design/admin/shop/basket' )}" disabled="disabled" title="{'You cannot check out because the basket is empty.'|i18n( 'design/admin/shop/basket' )}" />
     </div>
     {/section}
     <div class="break"></div>

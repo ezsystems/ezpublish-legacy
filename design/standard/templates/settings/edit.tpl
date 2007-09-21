@@ -15,15 +15,15 @@
 
 <div class="object">
     <h2>{'Ini setting'|i18n( 'design/admin/settings')}</h2>
-    <p><strong>{'INI File'|i18n( 'design/admin/settings' )}:</strong> {$ini_file}</p>
+    <p><strong>{'Ini File'|i18n( 'design/admin/settings' )}:</strong> {$ini_file}</p>
     <p><strong>{'Block'|i18n( 'design/admin/settings')}:</strong> {$block}</p>
     {section show=$setting_name}
         <p><strong>{'Setting'|i18n( 'design/admin/settings' )}:</strong> {$setting_name}</p>
         {section-else}
         <p><strong>{'Setting: <new setting>'|i18n( 'design/admin/settings' )|wash}</strong></p>
     {/section}
-    <p><strong>{'SiteAccess'|i18n( 'design/admin/settings' )}:</strong> {$current_siteaccess}</p>
-    <p>{'Values for each location setting are shown. The first values are lowest priority, and the values towards the end will have higher priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
+    <p><strong>{'Siteaccess'|i18n( 'design/admin/settings' )}:</strong> {$current_siteaccess}</p>
+    <p>{'Values for each location setting are shown. The first values are lowest priority; the values toward the end have higher priority than the first ones.'|i18n( 'design/admin/settings' )|wash}</p>
     <p><strong>{'Tip'|i18n( 'design/admin/settings' )}:</strong>{'To create an empty array leave the first line empty'|i18n( 'design/admin/settings' )} </p>
     <div class="block">
         <div class="element">

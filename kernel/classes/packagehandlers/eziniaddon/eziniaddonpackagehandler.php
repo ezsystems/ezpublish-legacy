@@ -261,7 +261,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                             }
                             else
                             {
-                                eZDebug::writeNotice( 'Could not interpetit ' . $valueName . ': ' . $value,
+                                eZDebug::writeNotice( 'Could not interpret ' . $valueName . ': ' . $value,
                                                       'eZINIAddonPackageHandler::iniDOMTree()' );
                             }
                         }
@@ -294,7 +294,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                         }
                         else
                         {
-                            eZDebug::writeNotice( 'Could not interpetit ' . $blockVariable . ': ' . $variableValue,
+                            eZDebug::writeNotice( 'Could not interpret ' . $blockVariable . ': ' . $variableValue,
                                                   'eZINIAddonPackageHandler::iniDOMTree()' );
                         }
                     }

@@ -26,6 +26,9 @@ allow from all
 #</Files>
 
 RewriteEngine On
+RewriteRule content/treemenu/?$ index_treemenu.php
+RewriteRule index_treemenu.php - [L]
+
 RewriteRule !\.(gif|jpe?g|png|css|js|html)|var(.+)storage.pdf(.+)\.pdf$ index.php
 
 DirectoryIndex index.php

@@ -157,7 +157,7 @@
     {section show=$can_remove}
         <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove the selected items from the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to remove any of the items from the list above.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
     </div>
 
@@ -166,7 +166,7 @@
     {section show=and( eq( $node.sort_array[0][0], 'priority' ), $node.can_edit, $children_count )}
         <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'Apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/node/view/full' )}" />
     {section-else}
-        <input class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You can not update the priorities because you do not have permissions to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+        <input class="button-disabled" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n( 'design/admin/node/view/full' )}" title="{'You cannot update the priorities because you do not have permission to edit the current item or because a non-priority sorting method is used.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/section}
     </div>
 
@@ -271,9 +271,9 @@
     {/if}
 
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
-        <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select id="ClassID" name="ClassID" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
     {else}
-        <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select id="ClassID" name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you want to create then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
     {/if}
         {section var=CanCreateClasses loop=$can_create_classes}
         {if $CanCreateClasses.item.can_instantiate_languages}
@@ -285,7 +285,7 @@
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
         <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
     {else}
-        <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {foreach $can_create_languages as $tmp_language}
                 <option value="{$tmp_language.locale|wash()}">{$tmp_language.name|wash()}</option>
             {/foreach}
@@ -294,7 +294,7 @@
     {undef $can_create_languages}
     {/let}
 
-    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item within the current location. Use the menu on the left to select the type of the item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item within the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
     <input type="hidden" name="ViewMode" value="full" />
@@ -304,7 +304,7 @@
     <select id="ClassID" name="ClassID" disabled="disabled">
     <option value="">{'Not available'|i18n( 'design/admin/node/view/full' )}</option>
     </select>
-    <input class="button-disabled" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to create new items within the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permission to create new items in the current location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     </div>
     {/section}
 
@@ -320,7 +320,7 @@
                        8, 'Priority'|i18n( 'design/admin/node/view/full' ),
                        2, 'Published'|i18n( 'design/admin/node/view/full' ),
                        4, 'Section'|i18n( 'design/admin/node/view/full' ) )
-    title='You can not set the sorting method for the current location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )
+    title='You cannot set the sorting method for the current location because you do not have permission to edit the current item.'|i18n( 'design/admin/node/view/full' )
     disabled=' disabled="disabled"' }
 
 {section show=$node.can_edit}

@@ -817,8 +817,8 @@ class eZPackageCreationHandler
         }
         if ( trim( $changelogEmail ) == '' )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'E-Mail' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must enter an e-mail for the changelog' ) );
+            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Email' ),
+                                  'description' => ezi18n( 'kernel/package', 'You must enter an email for the changelog' ) );
             $result = false;
         }
         if ( trim( $changelogText ) == '' )
@@ -912,8 +912,8 @@ class eZPackageCreationHandler
         }
         if ( trim( $maintainerEmail ) == '' )
         {
-            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'E-Mail' ),
-                                  'description' => ezi18n( 'kernel/package', 'You must enter an e-mail address of the maintainer' ) );
+            $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Email' ),
+                                  'description' => ezi18n( 'kernel/package', 'You must enter an email address of the maintainer' ) );
             $result = false;
         }
         return $result;

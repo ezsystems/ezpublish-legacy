@@ -380,7 +380,7 @@ class eZBinaryFileType extends eZDataType
 
         if ( !$httpFile->store( "original", false, false ) )
         {
-            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classe/datatypes/ezbinaryfile',
+            $result['errors'][] = array( 'description' => ezi18n( 'kernel/classes/datatypes/ezbinaryfile',
                                                         'Failed to store file %filename. Please contact the site administrator.', null,
                                                         array( '%filename' => $httpFile->attribute( "original_filename" ) ) ) );
             return false;

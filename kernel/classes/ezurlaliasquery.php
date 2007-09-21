@@ -342,6 +342,7 @@ class eZURLAliasQuery
         $list = array();
         foreach ( $rows as $row )
         {
+            $row['always_available'] = $row['lang_mask'] % 2;
             $mask = $row['lang_mask'] & ~1;
             for ( $i = 1; $i < 30; ++$i )
             {

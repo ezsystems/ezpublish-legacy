@@ -74,7 +74,7 @@
 {def $auto_rate_value = ''}
 {foreach $currency_list as $currency sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{if eq( $currency.status, 2 ) }object-cannot-remove{else}{$bg_class_style}{/if}">
-        <td><input type="checkbox" name="DeleteCurrencyList[]" value="{$currency.code}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/shop/currencylist' )|wash()}" /></td>
+        <td><input type="checkbox" name="DeleteCurrencyList[]" value="{$currency.code}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to  remove the selected items.'|i18n( 'design/admin/shop/currencylist' )|wash()}" /></td>
         <td>
             {if is_set( $currency_names[$currency.code] )}
     	        {$currency_names[$currency.code]}

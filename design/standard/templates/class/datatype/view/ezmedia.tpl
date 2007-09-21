@@ -5,8 +5,8 @@
     {switch match=$class_attribute.data_text1}
     {case match='flash'}{'Flash'|i18n( 'design/standard/class/datatype' )}{/case}
     {case match='quick_time'}{'QuickTime'|i18n( 'design/standard/class/datatype' )}{/case}
-    {case match='real_player'}{'Real player'|i18n( 'design/standard/class/datatype' )}{/case}
-    {case match='windows_media_player'}{'Windows media player'|i18n( 'design/standard/class/datatype' )}{/case}
+    {case match='real_player'}{'RealPlayer'|i18n( 'design/standard/class/datatype' )}{/case}
+    {case match='windows_media_player'}{'Windows Media Player'|i18n( 'design/standard/class/datatype' )}{/case}
     {case}<i>{'Empty'|i18n( 'design/standard/class/datatype' )}</i>{/case}
     {/switch}
     </p>

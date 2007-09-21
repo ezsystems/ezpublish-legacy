@@ -34,7 +34,7 @@
 
 {* Affected versions option *}
 <div class="element">
-    <label>{'Affected Versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
+    <label>{'Affected versions'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezapprove_version_option_{$event.id}[]" size="3" multiple="multiple">
     <option value="0"{section show=or( lt($event.version_option, 1), gt($event.version_option, 2) )} selected="selected"{/section}>{'All versions'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
     <option value="1"{section show=eq( $event.version_option, 1)} selected="selected"{/section}>{'Publishing new object'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
@@ -45,7 +45,7 @@
 {* User who functions as approver *}
 <div class="block">
 <fieldset>
-<legend>{'Users who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+<legend>{'Users who approve content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
 {section show=$event.approve_users}
     <table class="list" cellspacing="0">
     <tr>
@@ -74,7 +74,7 @@
 {* User groups who functions as approver *}
 <div class="block">
 <fieldset>
-<legend>{'Groups who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+<legend>{'Groups who approve content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
 {section show=$event.approve_groups}
     <table class="list" cellspacing="0">
     <tr>

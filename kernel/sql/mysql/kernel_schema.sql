@@ -1264,6 +1264,7 @@ CREATE TABLE ezsearch_word (
   object_count int(11) NOT NULL default '0',
   word varchar(150) default NULL,
   PRIMARY KEY  (id),
+  KEY ezsearch_word_obj_count (object_count),
   KEY ezsearch_word_word_i (word)
 ) TYPE=MyISAM;
 
@@ -1365,9 +1366,9 @@ CREATE TABLE ezurl (
   last_checked int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   original_url_md5 varchar(32) NOT NULL default '',
-  url varchar(255) default NULL,
+  url longtext,
   PRIMARY KEY  (id),
-  KEY ezurl_url (url)
+  KEY ezurl_url (url(255))
 ) TYPE=MyISAM;
 
 

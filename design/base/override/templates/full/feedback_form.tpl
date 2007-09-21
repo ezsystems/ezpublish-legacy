@@ -14,7 +14,7 @@
         </div>
         <form method="post" action={"content/action"|ezurl}>
 
-        <h2>{"Your Email address"|i18n("design/base")}</h2>
+        <h2>{"Your email address"|i18n("design/base")}</h2>
         <div class="attribute-email">
                 {attribute_view_gui attribute=$node.data_map.email}
         </div>

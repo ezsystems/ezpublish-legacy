@@ -13,16 +13,16 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-    <p>{'The system will let you restore the object <%name>. Please choose where you wish to restore it to.'|i18n( 'design/admin/node/removeobject',, hash( '%name', $object.name ) )|wash}</p>
+    <p>{'The system will let you restore the object <%name>. Specify where you wish to restore it.'|i18n( 'design/admin/node/removeobject',, hash( '%name', $object.name ) )|wash}</p>
 </div>
 
 <div class="block">
     {if $location}
         <p><input type="radio" id="restore-type-1" name="RestoreType" value="1" checked="checked" title="{'The system will restore the original location of the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio" for="restore-type-1" title="{'The system will restore the original location of the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Restore original location <%nodeName>'|i18n( 'design/admin/content/restore',, hash( '%nodeName', $location.parent_node_obj.name ) )|wash}</p>
-        <p><input type="radio" id="restore-type-2" name="RestoreType" value="2" title="{'The system will let you browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio" for="restore-type-2" title="{'The system will let you browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Browse for location'|i18n( 'design/admin/content/restore' )}</p>
+        <p><input type="radio" id="restore-type-2" name="RestoreType" value="2" title="{'The system will prompt you to browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio" for="restore-type-2" title="{'The system will prompt you to browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Browse for location'|i18n( 'design/admin/content/restore' )}</p>
     {else}
         <p><input type="radio" class="disabled" disabled="disabled" id="restore-type-1" name="RestoreType" value="1" title="{'The system will restore the original location of the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio disabled" for="restore-type-1" title="{'The system will restore the original location of the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Restore original locations'|i18n( 'design/admin/content/restore' )}</p>
-        <p><input type="radio" id="restore-type-2" name="RestoreType" value="2" checked="checked" title="{'The system will let you browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio" for="restore-type-2" title="{'The system will let you browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Browse for location'|i18n( 'design/admin/content/restore' )}</p>
+        <p><input type="radio" id="restore-type-2" name="RestoreType" value="2" checked="checked" title="{'The system will prompt you to browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}" /><label class="radio" for="restore-type-2" title="{'The system will prompt you to browse for a location for the object.'|i18n( 'design/admin/content/restore' )|wash}">{'Browse for location'|i18n( 'design/admin/content/restore' )}</p>
     {/if}
 </div>
 
