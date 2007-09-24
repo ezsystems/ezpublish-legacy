@@ -63,11 +63,17 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
      Returns an explanation for the content class install item.
+     Use $requestedInfo to request portion of info.
     */
-    function explainInstallItem( &$package, $installItem )
+    function explainInstallItem( &$package, $installItem, $requestedInfo = array( 'name', 'identifier', 'description', 'language_info' ) )
     {
         if ( $installItem['filename'] )
         {
+            $explainClassName = in_array( 'name', $requestedInfo );
+            $explainClassIdentitier = in_array( 'identifier', $requestedInfo );;
+            $explainDescription = in_array( 'description', $requestedInfo );;
+            $explainLanguageInfo = in_array( 'language_info', $requestedInfo );;
+
             $filename = $installItem['filename'];
             $subdirectory = $installItem['sub-directory'];
             if ( $subdirectory )
@@ -83,10 +89,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 $languageInfo = array();
 
                 $content =& $dom->root();
-                $classIdentifier = $content->elementTextContentByName( 'identifier' );
+                $classIdentifier = $explainClassIdentitier ? $content->elementTextContentByName( 'identifier' ) : '';
 
                 // BC ( <= 3.8 )
-                $className = $content->elementTextContentByName( 'name' );
+                $className = $explainClassName ? $content->elementTextContentByName( 'name' ) : '';
 
                 if( !$className )
                 {
@@ -95,14 +101,15 @@ class eZContentClassPackageHandler extends eZPackageHandler
                     if( $serializedNameList )
                     {
                         $nameList = new eZContentClassNameList( $serializedNameList );
-                        $languageInfo = $nameList->languageLocaleList();
-                        $className = $nameList->name();
+                        $languageInfo = $explainLanguageInfo ? $nameList->languageLocaleList() : array();
+                        $className = $explainClassName ? $nameList->name() : '';
                     }
                 }
 
-                $explainInfo = array( 'description' => ezi18n( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
+                $description = $explainDescription ? ezi18n( 'kernel/package', "Content class '%classname' (%classidentifier)", false,
                                                        array( '%classname' => $className,
-                                                              '%classidentifier' => $classIdentifier ) ),
+                                                              '%classidentifier' => $classIdentifier ) ) : '';
+                $explainInfo = array( 'description' => $description,
                                       'language_info' => $languageInfo );
                 return $explainInfo;
             }
