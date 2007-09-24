@@ -62,3 +62,5 @@ Changes from 3.8.9 to 3.8.10
 - Fixed bug #11402: PHP Warning displayed when creating new workflow of 
   payment gateway type and no payment gateway exist.
   (Merged from trunk (3.10.0) rev.19941)
+- Fixed bug #11050: Upload related content in OnlineEditor doesn't work.
+  (Merged from trunk (3.10.0) rev.19953)
