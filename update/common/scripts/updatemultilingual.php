@@ -176,6 +176,18 @@ if ( $draftCount )
         if ( ( $count % 100 ) == 0 )
             $cli->warning( "Processed: $count of $draftCount " );
 
+        // Check object consistensy
+        $object = $db->arrayQuery( 'SELECT *
+                                    FROM ezcontentobject
+                                    WHERE id=' . $row[ 'contentobject_id' ] );
+        $object = $object[0];
+
+        if ( $object[ 'current_version' ] == $row[ 'version' ] && $object[ 'status' ] == 1 )
+        {
+            $db->query( 'UPDATE ezcontentobject_version SET status = 1 WHERE id=' . $row['id'] );
+            continue;
+        }
+
         $draft = new eZContentObjectVersion( $row );
         $draft->remove();
         eZContentObject::clearCache();
