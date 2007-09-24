@@ -19,10 +19,10 @@
 <table class="list" cellspacing="0">
 <tr class="bglight">
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" onclick="ezjs_toggleCheckboxes( document.editform, '{$attribute_base}_selection[{$attribute.id}][]' ); return false;" title="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" /></th>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Section</th>
-    <th class="tight">Order</th>
+    <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Type'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Section'|i18n( 'design/standard/content/datatype' )}</th>
+    <th class="tight">{'Order'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 {section name=Relation loop=$attribute.content.relation_list sequence=array( bglight, bgdark )}
 
@@ -142,10 +142,11 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" onclick="ezjs_toggleCheckboxes( document.editform, '{$attribute_base}_selection[{$attribute.id}][]' ); return false;" title="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" /></th>
-    <th>Name</th>
-    <th>Type</th>
-    <th>Section</th>
-    <th class="tight">Order</th>
+    <th>{'Name'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Type'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Section'|i18n( 'design/standard/content/datatype' )}</th>
+    <th>{'Published'|i18n( 'design/standard/content/datatype' )}</th>
+    <th class="tight">{'Order'|i18n( 'design/standard/content/datatype' )}</th>
 </tr>
 {section var=Objects loop=$attribute.content.relation_list sequence=array( bglight, bgdark )}
 {let object=fetch( content, object, hash( object_id, $Objects.item.contentobject_id ) )}
@@ -162,6 +163,14 @@
 
 {* Section *}
 <td>{fetch( section, object, hash( section_id, $object.section_id ) ).name|wash()}</td>
+
+{* Published *}
+<td>{if $Objects.item.in_trash|not() }
+        {'Yes'|i18n( 'design/standard/content/datatype' )}
+        {else}
+            {'No'|i18n( 'design/standard/content/datatype' )}
+    {/if}
+</td>
 
 {* Order. *}
 <td><input size="2" type="text" name="{$attribute_base}_priority[{$attribute.id}][]" value="{$Objects.item.priority}" /></td>
