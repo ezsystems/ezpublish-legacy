@@ -288,7 +288,8 @@ class eZContentObjectVersion extends eZPersistentObject
             $contentObject =& $this->contentObject();
             if ( $contentObject )
             {
-                return $contentObject->name( $lang );
+                $tmpVar = $contentObject->name( $lang ); //avoiding Notice "Only variable references should be returned by reference"
+                return $tmpVar;
             }
         }
         if ( $this->VersionName === false )
