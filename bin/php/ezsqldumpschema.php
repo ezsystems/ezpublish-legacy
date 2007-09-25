@@ -225,7 +225,6 @@ if ( file_exists( $database ) and is_file( $database ) )
     {
         eZDebug::writeError( "Error reading schema from file $database" );
         $script->shutdown( 1 );
-        exit( 1 );
     }
     $schemaArray['type'] = $type;
     $dbSchema = eZDBSchema::instance( $schemaArray );
@@ -282,7 +281,6 @@ if ( $dbSchema === false )
 {
     $cli->error( "Error instantiating the appropriate schema handler" );
     $script->shutdown( 1 );
-    exit( 1 );
 }
 
 if ( $outputType == 'serialized' )
