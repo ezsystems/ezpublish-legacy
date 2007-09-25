@@ -21,7 +21,7 @@
 
 {if $file_results.user_info.has_extension}
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
-<p>{"These shell commands will give proper permission to the webserver."|i18n( 'design/standard/setup/tests' )}</p>
+<p>{"These shell commands will give proper permission to the web server."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
 chmod -R ug+rwx {$dir_list}
 chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name} {$dir_list}</pre>
@@ -36,17 +36,17 @@ If you know the user and group of the web server it is recommended to change the
 To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}</p>
 
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
-<p>{"These shell commands will give proper permission to the webserver."|i18n( 'design/standard/setup/tests' )}</p>
+<p>{"These shell commands will give proper permission to the web server."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
 chmod -R a+rwx {$dir_list}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
-<p>{"These commands will setup the permission more correctly, but require knowledge about the running webserver."|i18n( 'design/standard/setup/tests' )}</p>
+<p>{"These commands will setup the permission more correctly, but require knowledge about the running web server."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">chmod -R og+rwx {$dir_list}
 chown -R nouser:nouser {$dir_list}</pre>
 
 <blockquote class="note">
-<p><b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b> {'The %user_expr must be changed to your webserver username and groupname.'|i18n( 'design/standard/setup/tests',, hash( '%user_expr', '<tt>nouser:nouser</tt>' ) )}</p>
+<p><b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b> {'The %user_expr must be changed to your web server username and groupname.'|i18n( 'design/standard/setup/tests',, hash( '%user_expr', '<tt>nouser:nouser</tt>' ) )}</p>
 </blockquote>
 {/if}
 {/if}

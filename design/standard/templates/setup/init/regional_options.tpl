@@ -15,9 +15,9 @@
  <p>
   {"Select the language this site should support."|i18n("design/standard/setup/init")}
   {section show=$has_variations}
-   {"Select your language and click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
+   {"Select your language then click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button, or the"|i18n("design/standard/setup/init")} <i>{"Language Details"|i18n("design/standard/setup/init")}</i> {"button to select language variations."|i18n("design/standard/setup/init")}
   {section-else}
-   {"Select your language and click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
+   {"Select your language then click the"|i18n("design/standard/setup/init")} <i>{"Summary"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
   {/section}
  </p>
 {section-else}

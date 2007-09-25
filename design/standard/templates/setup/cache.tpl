@@ -79,12 +79,12 @@
     </tr>
 
     <tr>
-        <td><p>{"INI caches."|i18n("design/standard/setup")}</p></td>
+        <td><p>{"Ini caches."|i18n("design/standard/setup")}</p></td>
         <td>
         {section show=$cache_enabled.ini}
-        <input type="submit" name="ClearINICacheButton" value="{"INI caches"|i18n("design/standard/setup")}" />
+        <input type="submit" name="ClearINICacheButton" value="{"Ini caches"|i18n("design/standard/setup")}" />
         {section-else}
-            <p>{"INI cache is disabled"|i18n("design/standard/setup")}</p>
+            <p>{"Ini cache is disabled"|i18n("design/standard/setup")}</p>
         {/section}
         </td>
     </tr>

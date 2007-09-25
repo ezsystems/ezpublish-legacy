@@ -150,7 +150,7 @@
 
     <h2>{"Basket summary"|i18n("design/base/shop")}:</h2>
     <table cellspacing="0">
-    <td class="product-subtotal" colspan="4">{'Subtotal ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal" colspan="4">{'Subtotal ex. VAT'|i18n( 'design/admin/shop/basket' )}:</td>
     <td class="product-subtotal">{$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
     </td>
     <td class="product-subtotal">
@@ -158,7 +158,7 @@
     </td>
     </tr>
     <tr>
-    <td class="product-subtotal" colspan="4">{'Shipping total ex VAT'|i18n( 'design/admin/shop/basket' )}:</td>
+    <td class="product-subtotal" colspan="4">{'Shipping total ex. VAT'|i18n( 'design/admin/shop/basket' )}:</td>
     <td class="product-subtotal">{$basket.items_info.additional_info.shipping_total.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
     </td>
     <td class="product-subtotal">

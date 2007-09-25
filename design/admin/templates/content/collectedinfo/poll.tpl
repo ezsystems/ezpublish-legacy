@@ -4,7 +4,7 @@
 
 {section show=$error_anonymous_user}
 <div class="message-warning">
-    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote in this poll. Please login.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
+    <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Anonymous users are not allowed to vote in this poll. Please log in.'|i18n('design/admin/content/collectedinfo/poll')}</h2>
 </div>
 {/section}
 

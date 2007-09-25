@@ -35,7 +35,7 @@
     {set $can_create=true()}
     {def $language_codes=$class.can_instantiate_languages}
 
-    <p>{'Select the language in which you want to create the object.'|i18n( 'design/admin/content/create_languages' )}:</p>
+    <p>{'Select the language in which you want to create the object'|i18n( 'design/admin/content/create_languages' )}:</p>
 
     {foreach $languages as $language}
         {if $language_codes|contains($language.locale)}

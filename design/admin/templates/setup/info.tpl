@@ -145,26 +145,26 @@
     {section show=$webserver_info}
 
     <div class="block">
-        <label>{'Name'|i18n( 'design/admin/setup/info', 'Webserver name')}:</label>
+        <label>{'Name'|i18n( 'design/admin/setup/info', 'Web server name')}:</label>
         {$webserver_info.name}
     </div>
 
     <div class="block">
-        <label>{'Version'|i18n( 'design/admin/setup/info', 'Webserver version')}:</label>
+        <label>{'Version'|i18n( 'design/admin/setup/info', 'Web server version')}:</label>
         {$webserver_info.version}
     </div>
 
     <div class="block">
-    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Webserver modules')}:</label>
+    <label>{'Modules'|i18n( 'design/admin/setup/info', 'Web server modules')}:</label>
     {section show=$webserver_info.modules}
         {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
     {section-else}
-        {'The modules of the webserver could not be detected.'|i18n( 'design/admin/setup/info', 'Webserver modules')}
+        {'The modules of the web server could not be detected.'|i18n( 'design/admin/setup/info', 'Web server modules')}
     {/section}
     </div>
 
     {section-else}
-        {'eZ Publish was unable to extract information from the webserver.'|i18n( 'design/admin/setup/info' )}
+        {'eZ Publish was unable to extract information from the web server.'|i18n( 'design/admin/setup/info' )}
     {/section}
 </td>
 </tr>
@@ -172,7 +172,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th><label>{'Webserver (hardware)'|i18n( 'design/admin/setup/info' )}</label></th>
+    <th><label>{'Web server (hardware)'|i18n( 'design/admin/setup/info' )}</label></th>
 </tr>
 <tr>
 <td>

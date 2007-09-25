@@ -12,7 +12,7 @@
     {"Please choose the new placement for %name.
       The previous placement was in %placementname.
 
-      Select the placement and click the %buttonname button.
+      Select the placement then click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing."
     |i18n('design/standard/content/view',,

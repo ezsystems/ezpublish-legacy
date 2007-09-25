@@ -285,7 +285,7 @@
     {if and(eq( $can_create_languages|count, 1 ), is_set( $can_create_languages[0] ) )}
         <input name="ContentLanguageCode" value="{$can_create_languages[0].locale}" type="hidden" />
     {else}
-        <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you want to use for the creation then click the "Create here" button. The item will be created in the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
             {foreach $can_create_languages as $tmp_language}
                 <option value="{$tmp_language.locale|wash()}">{$tmp_language.name|wash()}</option>
             {/foreach}
@@ -294,7 +294,7 @@
     {undef $can_create_languages}
     {/let}
 
-    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item within the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n( 'design/admin/node/view/full' )}" title="{'Create a new item in the current location. Use the menu on the left to select the type of  item.'|i18n( 'design/admin/node/view/full' )}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
     <input type="hidden" name="ViewMode" value="full" />

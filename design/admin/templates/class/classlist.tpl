@@ -107,7 +107,7 @@
 
     {def $languages=fetch( 'content', 'prioritized_languages' )}
     {if gt( $languages|count, 1 )}
-        <select name="ClassLanguageCode" title="{'Use this menu to select the language you want use and click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
+        <select name="ClassLanguageCode" title="{'Use this menu to select the language you to want use then click the "New class" button. The item will be created within the current location.'|i18n( 'design/admin/class/classlist' )|wash()}">
             {foreach $languages as $language}
                 <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
             {/foreach}

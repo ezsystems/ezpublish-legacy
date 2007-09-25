@@ -164,7 +164,7 @@
      <td colspan='6'>
      </td>
      <td>
-     <b>{"Subtotal Ex. VAT"|i18n("design/standard/shop")}</b>:
+     <b>{"Subtotal ex. VAT"|i18n("design/standard/shop")}</b>:
      </td>
      <td>
      <b>{"Subtotal inc. VAT"|i18n("design/standard/shop")}</b>:

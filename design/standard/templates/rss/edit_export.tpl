@@ -21,7 +21,7 @@
     {*{include uri="design:gui/lineedit.tpl" id_name=url value=$rss_export.url}*}
 	<input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
     <div class="context-attributes">
-    <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ Publish configuration.'|i18n( 'design/standard/rss/edit')}</p>
+    <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Web server and eZ Publish configuration.'|i18n( 'design/standard/rss/edit')}</p>
 	</div>
     <br/>
 

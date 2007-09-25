@@ -44,7 +44,7 @@
         <th colspan="2">{'Item'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
         {* Class type column *}
         <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
-        <th>{'Objects referring to this item'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
+        <th>{'Objects referring to this object'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
     </tr>
 
 {section var=children_item loop=$children_list sequence=array( bglight, bgdark )}
