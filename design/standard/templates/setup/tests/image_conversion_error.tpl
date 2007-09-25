@@ -2,7 +2,7 @@
 <h3>{$result_number}. {"Missing image conversion support"|i18n("design/standard/setup/tests")}</h3>
 
 <p>
- {"No image conversion capabilities was detected, this means that eZ publish cannot scale any images or detect their type. This is vital functionality in eZ publish and must be supported."|i18n("design/standard/setup/tests")}
+ {"No image conversion capabilities was detected, this means that eZ Publish cannot scale any images or detect their type. This is vital functionality in eZ Publish and must be supported."|i18n("design/standard/setup/tests")}
 </p>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0">

@@ -3,7 +3,7 @@
 <table class="layout" width="100%" cellpadding="3" cellspacing="0" border="0">
 <tr>
     <td class="topline" width="40%">
-    <h1>eZ publish - plain design</h1>
+    <h1>eZ Publish - plain design</h1>
     </td>
     <td class="topbox" align="right" width="50%" valign="bottom">
        &nbsp;<br />

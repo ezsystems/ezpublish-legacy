@@ -14,7 +14,7 @@
 
 {set-block variable=dir_list scope=root}{foreach $res_elements_by_err.3 as $res}{delimiter} {/delimiter}<i>{$res.file}</i>{/foreach}{/set-block}
 
-<p>{'eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
+<p>{'eZ Publish cannot write to some important directories, without this the setup cannot finish and parts of eZ Publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
 {'The affected directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
 
 {set-block variable=dir_list scope=root}{foreach $res_elements_by_err.3 as $res}{delimiter} {/delimiter}{$res.file}{/foreach}{/set-block}

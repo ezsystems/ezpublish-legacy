@@ -25,7 +25,7 @@
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
 
-<meta name="generator" content="eZ publish" />
+<meta name="generator" content="eZ Publish" />
 
 </head>
 
@@ -39,7 +39,7 @@
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
   <tr>
      <td width="20%" bgcolor="#4987bc">
-     <h1><font color="white">eZ publish 3<sup>TM</sup></font></h1>
+     <h1><font color="white">eZ Publish 3<sup>TM</sup></font></h1>
      </td>
      <td width="70%" bgcolor="#4987bc">
      {section show=$access_type}<h1><font color="white">({$access_type.name})</font></h1>{/section}
@@ -74,7 +74,7 @@
 <br />
 <font color="white">
 <center>
-<a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-{currentdate()|datetime(custom,"%Y")} <a href="http://ez.no">eZ systems as</a>
+<a href="http://ez.no/developer">eZ Publish&trade;</a> copyright &copy; 1999-{currentdate()|datetime(custom,"%Y")} <a href="http://ez.no">eZ systems as</a>
 </center>
 </font>
 <br />
