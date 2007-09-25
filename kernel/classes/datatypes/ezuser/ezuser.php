@@ -1833,7 +1833,7 @@ WHERE user_id = '" . $userID . "' AND
                     if ( $accessResult['accessWord'] == 'limited' )
                     {
                         $params['Limitation'] = $accessResult['policies'];
-                        $GLOBALS['ezpolicylimitation_list'][$moduleName][$match] = $params['Limitation'];
+                        $GLOBALS['ezpolicylimitation_list'][$moduleName]['*'] = $params['Limitation'];
                     }
                 }
             }
