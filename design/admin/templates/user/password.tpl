@@ -18,7 +18,7 @@
     {/section}
     {section show=$newPasswordTooShort}
         <ul>
-            <li>{'The password must be at least 3 characters long.'|i18n( 'design/admin/user/password' )}</li>
+            <li>{'The password must be at least %1 characters long.'|i18n( 'design/admin/user/password','',array( ezini('UserSettings','MinPasswordLength') ) )}</li>
             <li>{'Please retype the new passwords and try again.'|i18n( 'design/admin/user/password' )}</li>
         </ul>
     {/section}
