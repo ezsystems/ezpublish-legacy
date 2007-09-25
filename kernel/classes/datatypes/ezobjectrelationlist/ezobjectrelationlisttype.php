@@ -146,7 +146,7 @@ class eZObjectRelationListType extends eZDataType
                      $requireFixup )
                 {
                     $attributes =& $content['temp'][$subObjectID]['attributes'];
-                    $object->fixupInput( $contentObjectAttributes, $attributeBase );
+                    $object->fixupInput( $attributes, $attributeBase );
                 }
             }
         }
@@ -1000,7 +1000,7 @@ class eZObjectRelationListType extends eZDataType
         if ( $isDeletionAllowed )
         {
             $subObjectVersion = eZContentObjectVersion::fetchVersion( $deletionItem['contentobject_version'],
-                                                                       $deletionItem['contentobject_id'] );
+                                                                      $deletionItem['contentobject_id'] );
             if ( get_class( $subObjectVersion ) == 'ezcontentobjectversion' )
             {
                 $subObjectVersion->remove();
@@ -1008,8 +1008,8 @@ class eZObjectRelationListType extends eZDataType
             else
             {
                 eZDebug::writeError( 'Cleanup of subobject-version failed. Could not fetch object from relation list.\n' .
-                                     'Requested subobject id: ' . $relationItem['contentobject_id'] . '\n' .
-                                     'Requested Subobject version: ' . $relationItem['contentobject_version'],
+                                     'Requested subobject id: ' . $deletionItem['contentobject_id'] . '\n' .
+                                     'Requested Subobject version: ' . $deletionItem['contentobject_version'],
                                      'eZObjectRelationListType::removeRelationObject' );
             }
         }
