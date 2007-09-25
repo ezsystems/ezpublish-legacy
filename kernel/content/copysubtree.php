@@ -93,7 +93,7 @@ function copyPublishContentObject( &$sourceObject,
     {
         $objectIDBlackList[] = $sourceObjectID;
         $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                               "Object (ID = %1) was not copied: you don't have permissions to read object.",
+                                               "Object (ID = %1) was not copied: you do not have permission to read the object.",
                                                null, array( $sourceObjectID ) );
 
         $srcNodeList = $sourceObject->attribute( 'assigned_nodes' );
@@ -107,7 +107,7 @@ function copyPublishContentObject( &$sourceObject,
             {
                 $nodeIDBlackList[] = $srcNodeID;
                 $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                                       "Node (ID = %1) was not copied: you don't have permissions to read object (ID = %2).",
+                                                       "Node (ID = %1) was not copied: you do not have permission to read object (ID = %2).",
                                                        null, array( $srcNodeID, $sourceObjectID ) );
             }
         }
@@ -138,7 +138,7 @@ function copyPublishContentObject( &$sourceObject,
         {
             $nodeIDBlackList[] = $srcNodeID;
             $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                                   "Node (ID = %1) wasn't copied: parent node (ID = %2) wasn't copied.",
+                                                   "Node (ID = %1) was not copied: parent node (ID = %2) was not copied.",
                                                    null, array( $srcNodeID, $srcParentNodeID ) );
             continue;
         }
@@ -167,7 +167,7 @@ function copyPublishContentObject( &$sourceObject,
             {
                 $nodeIDBlackList[] = $srcNodeID;
                 $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                                       "Node (ID = %1) was not copied: you don't have permissions to create.",
+                                                       "Node (ID = %1) was not copied: you do not have permission to create.",
                                                        null, array( $srcNodeID ) );
 
                 continue;
@@ -185,7 +185,7 @@ function copyPublishContentObject( &$sourceObject,
     {
         $objectIDBlackList[] = $sourceObjectID;
         $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                               "Object (ID = %1) was not copied: no one nodes of object wasn't copied.",
+                                               "Object (ID = %1) was not copied: no one nodes of object was not copied.",
                                                null, array( $sourceObjectID) );
         return 0;
     }
@@ -767,7 +767,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
                          "Copy subtree:" );
 
     $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
-                                                "Successfuly DONE." );
+                                                "Successfully DONE." );
     return $notifications;
 } // function copySubtree END
 

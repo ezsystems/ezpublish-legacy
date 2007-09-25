@@ -79,7 +79,7 @@ class eZStepSiteTemplates extends eZStepInstaller
             if ( $siteTemplatesCount == 0)
             {
                 $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                          'No templates choosen.' );
+                                          'No templates chosen.' );
                 return false;
             }
             $this->PersistenceList['site_templates']['count'] = $siteTemplatesCount;
@@ -87,7 +87,7 @@ class eZStepSiteTemplates extends eZStepInstaller
         else
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                      'No templates choosen.' );
+                                      'No templates chosen.' );
             return false;
         }
         return true;

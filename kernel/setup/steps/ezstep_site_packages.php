@@ -70,7 +70,7 @@ class eZStepSitePackages extends eZStepInstaller
         else
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                      'No packages choosen.' );
+                                      'No packages chosen.' );
             return false;
         }
         return true;

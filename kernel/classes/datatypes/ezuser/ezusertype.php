@@ -152,7 +152,7 @@ class eZUserType extends eZDataType
                     if ( strtolower( $password ) == 'password' )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The password mustn\'t be "password".' ) );
+                                                                             'The password must not be "password".' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }
@@ -324,7 +324,7 @@ class eZUserType extends eZDataType
         if ( count( $rows ) > 0 )
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "The account is currenty used the administrator user." ) );
+                                                  "The account is currently used the administrator user." ) );
             if ( !$includeAll )
                 return $result;
         }
@@ -337,7 +337,7 @@ class eZUserType extends eZDataType
         if ( $rows[0]['count'] == 0 )
         {
             $reasons[] = array( 'text' => ezi18n( 'kernel/classes/datatypes',
-                                                  "You can not remove the last class holding user accounts." ) );
+                                                  "You cannot remove the last class holding user accounts." ) );
             if ( !$includeAll )
                 return $result;
         }
