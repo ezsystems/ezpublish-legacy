@@ -2,17 +2,17 @@
 <h3>{$result_number}. {"PHP safe mode is enabled"|i18n("design/standard/setup/tests")}</h3>
 
 <p>
- {"eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are"|i18n("design/standard/setup/tests")}:
+ {"eZ Publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are"|i18n("design/standard/setup/tests")}:
 </p>
 <ul>
  <li>Not possible to extend time limits
   <ul>
-   <li>Some parts of eZ publish relies on cronjobs to handle workflows etc., and may require a longer time to run than normal page loads. With this on the cronjob scripts will not succeed.</li>
+   <li>Some parts of eZ Publish relies on cronjobs to handle workflows etc., and may require a longer time to run than normal page loads. With this on the cronjob scripts will not succeed.</li>
   </ul>
  </li>
  <li>Wrong permissions
   <ul>
-   <li>If the site is not setup correctly eZ publish will not be able to work with files correctly, this could mean file uploads, image handling and cache creation. Safe mode requires that the same owner is set on the index.php script and all other files for the site.</li>
+   <li>If the site is not setup correctly eZ Publish will not be able to work with files correctly, this could mean file uploads, image handling and cache creation. Safe mode requires that the same owner is set on the index.php script and all other files for the site.</li>
   </ul>
  </li>
  <li>File uploading

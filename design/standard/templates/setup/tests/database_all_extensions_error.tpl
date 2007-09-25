@@ -3,8 +3,8 @@
 
 <h3>{$result_number}. {"Missing database handlers"|i18n("design/standard/setup/tests")}</h3>
 <p>
- {"Your PHP does not have support for all databases that eZ publish support."|i18n("design/standard/setup/tests")}
- {"Although eZ publish will work without it, it might be that you want to have support for this database."|i18n("design/standard/setup/tests")}
+ {"Your PHP does not have support for all databases that eZ Publish support."|i18n("design/standard/setup/tests")}
+ {"Although eZ Publish will work without it, it might be that you want to have support for this database."|i18n("design/standard/setup/tests")}
  {"Also some databases has more advanced features, such as charset, than others."|i18n("design/standard/setup/tests")}
 </p>
 <p>

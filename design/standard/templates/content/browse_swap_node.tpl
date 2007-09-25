@@ -2,7 +2,7 @@
 {let content_object=fetch( content, object, hash( object_id, $browse.content.object_id ) )}
 <div class="maincontentheader">
 <h1>
-    {'Choose the exchanging node for %objectname'
+    {'Choose the node to exchange for %objectname'
      |i18n( 'design/standard/content/view',, hash( '%objectname', $content_object.name|wash ) )}
 </h1>
 </div>

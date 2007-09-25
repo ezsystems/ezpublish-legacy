@@ -2,7 +2,7 @@
 <h3>{$result_number}. {"PHP option"|i18n("design/standard/setup/tests")} <i>Magic Quotes Runtime</i> {"is enabled"|i18n("design/standard/setup/tests")}</h3>
 
 <p>
- {"eZ publish will not work properly with this option on."|i18n("design/standard/setup/tests")} <i>{"normal"|i18n("design/standard/setup/tests")}</i>.
+ {"eZ Publish will not work properly with this option on."|i18n("design/standard/setup/tests")} <i>{"normal"|i18n("design/standard/setup/tests")}</i>.
 </p>
 <p>
  {"To turn it off edit your %phpini configuration and set %magic_quotes_runtime to %offtext."
@@ -17,7 +17,7 @@
 magic_quotes_runtime = 0
 </pre>
 <p>
-{"Alternatively you may create a file called %1 in your eZ publish root folder and add the following"|i18n("design/standard/setup/tests",,array(concat("<i>",".htaccess","</i>")))}:
+{"Alternatively you may create a file called %1 in your eZ Publish root folder and add the following"|i18n("design/standard/setup/tests",,array(concat("<i>",".htaccess","</i>")))}:
 </p>
 <label>{".htaccess example"|i18n("design/standard/setup/tests")}:</label><br/>
 <pre class="example">
