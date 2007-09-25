@@ -70,7 +70,6 @@ function showError( $message, $addEOL = true, $bailOut = true )
 
     if( $bailOut )
     {
-        exit();
         $script->shutdown( 1 );
     }
 }
@@ -436,9 +435,7 @@ function checkSiteaccess( $siteAccess, $bailOutOnError = false )
 
     if( !$pathMap && $bailOutOnError )
     {
-        global $script;
         showError( "Siteaccess '" . $siteAccess . "' does not exist. Exiting..." );
-        $script->shutdown( 1 );
     }
 
     return $siteAccessExists;

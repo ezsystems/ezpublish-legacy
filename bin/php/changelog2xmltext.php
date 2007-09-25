@@ -239,8 +239,8 @@ function dumpToText( $nodes )
                 } break;
                 default:
                 {
-                    echo "Unknown type [$type]\n";
-                    exit( 1 );
+                    $cli->error( "Unknown type [$type]\n" );
+                    $script->shutdown( 1 );
                 }
             }
         }
