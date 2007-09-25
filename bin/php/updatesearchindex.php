@@ -35,7 +35,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish search index updater.\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish search index updater.\n\n" .
                                                          "Goes trough all objects and reindexes the meta data to the search engine" .
                                                          "\n" .
                                                          "updatesearchindex.php"),

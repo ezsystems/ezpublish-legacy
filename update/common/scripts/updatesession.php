@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Session Updater\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Session Updater\n\n" .
                                                          "This script will update entries in the session table*.\n" .
                                                          "* This is only required when updating from 3.3 or lower" .
                                                          "\n" .

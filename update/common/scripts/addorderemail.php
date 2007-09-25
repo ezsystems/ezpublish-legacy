@@ -35,9 +35,9 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish add order email.\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish add order email.\n\n" .
                                                          "Fetch email value from eZShopAccountHandler and insert into table ezorder\n" .
-                                                         "This script only need to be run when updating from eZ publish 3.3 to eZ publish 3.4\n" .
+                                                         "This script only need to be run when updating from eZ Publish 3.3 to eZ Publish 3.4\n" .
                                                          "\n" .
                                                          "addorderemail.php"),
                                       'use-session' => true,

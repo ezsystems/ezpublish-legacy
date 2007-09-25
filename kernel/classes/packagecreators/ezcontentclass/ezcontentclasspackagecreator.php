@@ -142,7 +142,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
             {
                 $packageInformation['name'] = $class->attribute( 'name' );
                 $packageInformation['summary'] = 'Export of content class ' . $class->attribute( 'name' );
-                $packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ publish site';
+                $packageInformation['description'] = 'This package contains an exported definition of the content class ' . $class->attribute( 'name' ) . ' which can be imported to another eZ Publish site';
             }
         }
         else if ( count( $classList ) > 1 )

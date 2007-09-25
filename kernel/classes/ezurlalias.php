@@ -33,9 +33,9 @@
 
 /*!
   \class eZURLAlias ezurlalias.php
-  \brief Handles URL aliases in eZ publish
+  \brief Handles URL aliases in eZ Publish
 
-  \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+  \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
 
   \private
 */
@@ -52,7 +52,7 @@ class eZURLAlias extends eZPersistentObject
 {
     /*!
      Initializes a new URL alias.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function eZURLAlias( $row )
     {
@@ -61,7 +61,7 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \reimp
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function definition()
     {
@@ -103,7 +103,7 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \return the url alias object as an associative array with all the attribute values.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function asArray()
     {
@@ -112,7 +112,7 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \return the URL alias object this URL alias points to or \c null if no such URL exists.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &forwardURL()
     {
@@ -124,7 +124,7 @@ class eZURLAlias extends eZPersistentObject
      Creates a new URL alias with the new URL \a $sourceURL and the original URL \a $destinationURL
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
     {
@@ -138,7 +138,7 @@ class eZURLAlias extends eZPersistentObject
      The difference between a forwarding and translation is that forwarding will the browser
      and crawlers that the url is no longer in use and give the new one.
      \return the URL alias object
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &createForForwarding( $forwardURL )
     {
@@ -149,7 +149,7 @@ class eZURLAlias extends eZPersistentObject
      Generates the md5 for the alias and stores the values.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function store()
     {
@@ -160,7 +160,7 @@ class eZURLAlias extends eZPersistentObject
      Removes this url alias as well as all other aliases that relate to it,
      for instance forwarding aliases.
      \note If you want to remove just this alias you must use remove()
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanup()
     {
@@ -173,7 +173,7 @@ class eZURLAlias extends eZPersistentObject
      to have the correct \a $newPathString.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function updateChildAliases( $newPathString, $oldPathString )
     {
@@ -184,7 +184,7 @@ class eZURLAlias extends eZPersistentObject
      Removes all wildcards that matches the base URL \a $baseURL.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanupWildcards( $baseURL )
     {
@@ -195,7 +195,7 @@ class eZURLAlias extends eZPersistentObject
      Removes forwarding urls where source_url match \a $oldURL.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanupForwardingURLs( $oldURL )
     {
@@ -207,7 +207,7 @@ class eZURLAlias extends eZPersistentObject
      to point to correct url \a $newForardID.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function updateForwardID( $newForwardID, $oldForwardID )
     {
@@ -217,7 +217,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
       Fetches the URL alias by ID.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetch( $id, $asObject = true )
     {
@@ -231,7 +231,7 @@ class eZURLAlias extends eZPersistentObject
       \param $noForwardID boolean which controls whether to only fetch urls without forward id
                           or if forward id it should be ignored.
       \return the URL alias object or \c null
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
     {
@@ -243,7 +243,7 @@ class eZURLAlias extends eZPersistentObject
       Fetches the URL alias by destination URL \a $url.
       \param $isInternal boolean which controls whether internal or external urls are fetched.
       \return the URL alias object or \c null
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
@@ -253,7 +253,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
       Fetches non-internal URL alias by offset and limit
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchByOffset( $offset, $limit, $asObject = true )
     {
@@ -263,7 +263,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
       Fetches all wildcards from DB.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function fetchWildcards( $asObject = true )
     {
@@ -278,7 +278,7 @@ class eZURLAlias extends eZPersistentObject
      - file - The filename for the cache
      - path - The entire path (including filename) for the cache
      - keys - Array with key values which is used to uniquely identify the cache
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cacheInfo()
     {
@@ -288,7 +288,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      Sets the various cache information to the parameters.
      \sa cacheInfo
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
     {
@@ -298,7 +298,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      Goes trough all wildcards in the database and creates the wildcard match cache.
      \sa cacheInfo
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function createWildcardMatches()
     {
@@ -307,7 +307,7 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      \return true if the wildcard cache is expired.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &isWildcardExpired( $timestamp )
     {
@@ -317,7 +317,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      Expires the wildcard cache. This causes the wildcard cache to be
      regenerated on the next page load.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function expireWildcards()
     {
@@ -329,7 +329,7 @@ class eZURLAlias extends eZPersistentObject
      Transforms the URI if there exists an alias for it.
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &translateByWildcard( &$uri, $reverse = false )
     {
@@ -339,7 +339,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \static
       Counts the non-internal URL alias
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function &totalCount( )
     {
@@ -360,7 +360,7 @@ class eZURLAlias extends eZPersistentObject
      'myfile.tpl' => 'Myfile-tpl',
      'רזו' => 'oeaeaa'
      \endexample
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function convertToAlias( $urlElement, $defaultValue = false )
     {
@@ -383,7 +383,7 @@ class eZURLAlias extends eZPersistentObject
      \endexample
 
      \note Provided for creating url alias as they were before 3.10. Also used to make path_identification_string.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function convertToAliasCompat( $urlElement, $defaultValue = false )
     {
@@ -396,7 +396,7 @@ class eZURLAlias extends eZPersistentObject
      For more information on the conversion see convertToAlias().
      \note each element in the path (separated by / (slash) ) is converted separately.
      \return the converted path
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function convertPathToAlias( $pathURL )
     {
@@ -408,7 +408,7 @@ class eZURLAlias extends eZPersistentObject
      Transforms the URI if there exists an alias for it.
      \return \c true is if successful, \c false otherwise
      \return The eZURLAlias object of the new url is returned if the translation was found, but the resource has moved.
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function translate( &$uri, $reverse = false )
     {
@@ -419,7 +419,7 @@ class eZURLAlias extends eZPersistentObject
      \static
      Makes sure the URL \a $url does not contain leading and trailing slashes (/).
      \return the clean URL
-     \deprecated This class has been deprecated and disabled in eZ publish 3.10, please use eZURLAliasML for future alias handling.
+     \deprecated This class has been deprecated and disabled in eZ Publish 3.10, please use eZURLAliasML for future alias handling.
     */
     function cleanURL( $url )
     {

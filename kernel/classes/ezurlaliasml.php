@@ -33,14 +33,14 @@
 
 /*!
   \class eZURLAliasML ezurlaliasml.php
-  \brief Handles URL aliases in eZ publish
+  \brief Handles URL aliases in eZ Publish
 
-  URL aliases are different names for existing URLs in eZ publish.
+  URL aliases are different names for existing URLs in eZ Publish.
   Using URL aliases allows for having better looking urls on the webpage
   as well as having fixed URLs pointing to various locations.
 
   This class handles storing, fetching, moving and subtree updates on
-  eZ publish URL aliases, this performed using methods from eZPersistentObject.
+  eZ Publish URL aliases, this performed using methods from eZPersistentObject.
 
   The table used to store path information is designed to keep each element in
   the path (separated by /) in one row, ie. not the entire path.

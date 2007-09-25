@@ -86,7 +86,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             header( "Last-Modified: ". gmdate( 'D, d M Y H:i:s T', $fileModificationTime ) . ' GMT' );
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
-            header( "X-Powered-By: eZ publish" );
+            header( "X-Powered-By: eZ Publish" );
             header( "Content-disposition: attachment; filename=\"$originalFileName\"" );
             header( "Content-Transfer-Encoding: binary" );
             header( "Accept-Ranges: bytes" );

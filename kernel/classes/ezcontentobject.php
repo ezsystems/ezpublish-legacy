@@ -31,7 +31,7 @@
 /*!
   \class eZContentObject ezcontentobject.php
   \ingroup eZKernel
-  \brief Handles eZ publish content objects
+  \brief Handles eZ Publish content objects
 
   It encapsulates the data for an object and provides lots of functions
   for dealing with versions, translations and attributes.

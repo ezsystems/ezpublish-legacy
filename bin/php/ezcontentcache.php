@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Content Cache Handler\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Content Cache Handler\n" .
                                                          "Allows for easy clearing of Content Caches\n" .
                                                          "\n" .
                                                          "Clearing node for content and users tree\n" .

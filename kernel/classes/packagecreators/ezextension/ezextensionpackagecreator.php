@@ -183,7 +183,7 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
         {
             $packageInformation['name'] = $extensionName;
             $packageInformation['summary'] = $extensionName . ' extension';
-            $packageInformation['description'] = $extensionName . ' eZ publish extension';
+            $packageInformation['description'] = $extensionName . ' eZ Publish extension';
         }
     }
 }

@@ -38,7 +38,7 @@ $ini =& eZINI::instance();
 $ini->appendOverrideDir( 'tests/settings', true );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Unit Tester\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Unit Tester\n" .
                                                          "Runs selected unit tests.\n" .
                                                          "\n" .
                                                          "The syntax of SUITE can be one of:\n" .

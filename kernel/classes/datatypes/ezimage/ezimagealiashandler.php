@@ -36,7 +36,7 @@
   Takes care of image conversion and serialization from and to
   the internal XML format.
 
-  \note This handler was introduced in eZ publish 3.3 and will detect older
+  \note This handler was introduced in eZ Publish 3.3 and will detect older
         eZImage structures and convert them on the fly.
 
   \note The XML storage was improved in 3.8, from then it always stores the

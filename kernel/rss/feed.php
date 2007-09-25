@@ -99,7 +99,7 @@ else
 $httpCharset = eZTextCodec::httpCharset();
 header( 'Content-Type: text/xml; charset=' . $httpCharset );
 header( 'Content-Length: '.strlen($rssContent) );
-header( 'X-Powered-By: eZ publish' );
+header( 'X-Powered-By: eZ Publish' );
 
 while ( @ob_end_clean() );
 

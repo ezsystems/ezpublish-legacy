@@ -110,7 +110,7 @@ class eZTemplateCompiler
      - execution - boolean, whether to execute the compiled templates or not
      - generate - boolean, whether to always generate the compiled files, or only when template is changed
      - compilation-directory - string, where to place compiled files, the path will be relative from the
-                               eZ publish directory and not the var/cache directory.
+                               eZ Publish directory and not the var/cache directory.
     */
     function setSettings( $settingsMap )
     {

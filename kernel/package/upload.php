@@ -74,7 +74,7 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
                 $errorList[] = array( 'description' => ezi18n( 'kernel/package', 'Package %packagename already exists, cannot import the package', false, array( '%packagename' => $packageName ) ) );
             }
             else
-                eZDebug::writeError( "Uploaded file is not an eZ publish package" );
+                eZDebug::writeError( "Uploaded file is not an eZ Publish package" );
         }
         else
             eZDebug::writeError( "Failed fetching upload package file" );

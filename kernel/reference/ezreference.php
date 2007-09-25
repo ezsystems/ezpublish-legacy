@@ -30,7 +30,7 @@ include_once( 'kernel/common/template.php' );
 
 /*!
  Reads the doxygen generated HTML file and replaces hrefs and CSS classes
- with eZ publish&trade; SDK related ones.
+ with eZ Publish&trade; SDK related ones.
 */
 function &referenceReadFile( $file, $htmlRoot, $base )
 {

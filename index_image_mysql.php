@@ -90,7 +90,7 @@ if ( $res = mysql_query( $sql, $db ) )
     /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
     header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . ' GMT' );
     header( "Connection: close" );
-    header( "X-Powered-By: eZ publish" );
+    header( "X-Powered-By: eZ Publish" );
     header( "Accept-Ranges: none" );
     header( 'Served-by: ' . $_SERVER["SERVER_NAME"] );
 

@@ -33,7 +33,7 @@ include_once( "lib/ezutils/classes/ezini.php" );
 $cli =& eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish overridesettings generate.".
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish overridesettings generate.".
                                                          "\n" .
                                                          "generateoverridesettings.php" ),
                                       'use-session' => false,

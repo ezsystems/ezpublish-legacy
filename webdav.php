@@ -107,8 +107,8 @@ function eZFatalError()
         include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
     }
     eZWebDAVServer::appendLogEntry( "****************************************" );
-    eZWebDAVServer::appendLogEntry( "Fatal error: eZ publish did not finish its request" );
-    eZWebDAVServer::appendLogEntry( "The execution of eZ publish was abruptly ended, the debug output is present below." );
+    eZWebDAVServer::appendLogEntry( "Fatal error: eZ Publish did not finish its request" );
+    eZWebDAVServer::appendLogEntry( "The execution of eZ Publish was abruptly ended, the debug output is present below." );
     eZWebDAVServer::appendLogEntry( "****************************************" );
 //     $templateResult = null;
 //            eZDisplayResult( $templateResult, eZDisplayDebug() );

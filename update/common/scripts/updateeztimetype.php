@@ -37,7 +37,7 @@ include_once( 'kernel/classes/ezscript.php' );
 
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish eZTimeType update script\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish eZTimeType update script\n\n" .
                                                          "This script will transform all eZTimeType attributes value\n" .
                                                          "from GMT to the server local time.\n Please backup your database" .
                                                          "before to restore your old values if results will something else" .
@@ -60,7 +60,7 @@ $script->initialize();
 
 if ( !$script->validateVersion() )
 {
-    $cli->output( "Unsuitable eZ publish version: " );
+    $cli->output( "Unsuitable eZ Publish version: " );
     $cli->output( eZPublishSDK::version() );
     $script->shutdown( 1 );
 }

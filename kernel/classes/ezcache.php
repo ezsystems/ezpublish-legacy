@@ -33,7 +33,7 @@
 
 /*!
   \class eZCache ezcache.php
-  \brief Main class for dealing with caches in eZ publish.
+  \brief Main class for dealing with caches in eZ Publish.
 
   Has methods for clearing the various caches according
   to tag, id or all caches. It also has information for all the caches.

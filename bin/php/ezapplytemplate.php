@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Code Template Generator\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Code Template Generator\n\n" .
                                                          "This will apply any template blocks it finds in files\n" .
                                                          "and writes back the new file\n" .
                                                          "\n" .

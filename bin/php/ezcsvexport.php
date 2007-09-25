@@ -58,7 +58,7 @@ include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish CSV export script\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish CSV export script\n\n" .
                                                          "\n" .
                                                          "\n" .
                                                          "\n" .

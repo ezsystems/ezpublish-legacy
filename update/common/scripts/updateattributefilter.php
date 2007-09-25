@@ -38,7 +38,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $endl = $cli->endlineString();
 
-$script =& eZScript::instance( array( 'description' => ( "eZ publish attribute filter update.".
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish attribute filter update.".
                                                          "\n" .
                                                          "updateattributefileter.php" ),
                                       'use-session' => true,

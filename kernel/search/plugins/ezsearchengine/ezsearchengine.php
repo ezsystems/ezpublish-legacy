@@ -1380,7 +1380,7 @@ class eZSearchEngine
     /*!
      \static
      \return Returns an array describing the supported search types in thie search engine.
-     \note It has been renamed. In eZ publish 3.4 and older it was (wrongly) named suportedSearchTypes().
+     \note It has been renamed. In eZ Publish 3.4 and older it was (wrongly) named suportedSearchTypes().
     */
     function supportedSearchTypes()
     {

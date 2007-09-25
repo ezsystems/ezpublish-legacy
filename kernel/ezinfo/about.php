@@ -132,30 +132,30 @@ function strReplaceByArray( $searches = array(), $subjects = array() )
 
 $ezinfo = eZPublishSDK::version( true );
 
-$whatIsEzPublish = 'eZ publish 3 is a professional PHP application framework with advanced
+$whatIsEzPublish = 'eZ Publish 3 is a professional PHP application framework with advanced
 CMS (content management system) functionality. As a CMS its most notable
 featureis its revolutionary, fully customizable and extendable content
-model. Thisis also what makes eZ publish suitable as a platform for
+model. Thisis also what makes eZ Publish suitable as a platform for
 general PHP  development,allowing you to rapidly create professional
 web-based applications.
 
 Standard CMS functionality (such as news publishing, e-commerce and
 forums) are already implemented and ready to use. Standalone libraries
 can be used for cross-platform database-independent browser-neutral
-PHP projects. Because eZ publish 3 is a web-based application, it can
+PHP projects. Because eZ Publish 3 is a web-based application, it can
 be accessed from anywhere you have an internet connection.';
 
 $license =
 ## BEGIN LICENSE INFO ##
-'This copy of eZ publish is distributed under the terms and conditions of
+'This copy of eZ Publish is distributed under the terms and conditions of
 the GNU General Public License (GPL). Briefly summarized, the GPL gives
-you the right to use, modify and share this copy of eZ publish. If you
-choose to share eZ publish, you may only share it under the terms and
-conditions of the GPL. If you share a modified version of eZ publish,
+you the right to use, modify and share this copy of eZ Publish. If you
+choose to share eZ Publish, you may only share it under the terms and
+conditions of the GPL. If you share a modified version of eZ Publish,
 these modifications must also be placed under the GPL. Read the
 complete legal terms and conditions of the GPL at
 http://www.gnu.org/licenses/gpl.txt or see the file named LICENSE in
-the root directory of this eZ publish distribution.';
+the root directory of this eZ Publish distribution.';
 ## END LICENSE INFO ##
 
 $contributors = getContributors( EZ_ABOUT_CONTRIBUTORS_DIR );

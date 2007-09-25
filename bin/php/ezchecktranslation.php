@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Translation Checker\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Translation Checker\n\n" .
                                                          "Will display some statistics on a given translation" .
                                                          "\n" .
                                                          "ezchecktranslation.php ita-IT" ),

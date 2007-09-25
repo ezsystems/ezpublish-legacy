@@ -31,7 +31,7 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish Database Converter\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish Database Converter\n\n" .
                                                          "Convert the database to the given type\n".
                                                          "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
                                       'use-session' => false,
@@ -185,7 +185,7 @@ function listTypes( $cli, $db )
         $tableType = getTableType( $db, $tableName );
 
         $spaces = str_pad(' ', 40 - strlen( $tableName ) );
-        $eZpublishTable = strncmp( $tableName, "ez", 2 ) == 0 ? "" : "(non eZ publish)";
+        $eZpublishTable = strncmp( $tableName, "ez", 2 ) == 0 ? "" : "(non eZ Publish)";
         $cli->notice( "$tableName $spaces $tableType $eZpublishTable" );
     }
 }
@@ -232,7 +232,7 @@ function setNewType( $cli, $db, $newType, $usecopy )
         // Checking if it is necessary to convert the table.
         if ( strncmp( $tableName, "ez", 2 ) != 0 )
         {
-            $cli->notice( "Skipping table $tableName because it is not an eZ publish table" );
+            $cli->notice( "Skipping table $tableName because it is not an eZ Publish table" );
         }
         else if ( strcasecmp( getTableType( $db, $tableName ), $newType ) == 0 )
         {

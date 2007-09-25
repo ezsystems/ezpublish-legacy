@@ -1,9 +1,10 @@
 <?php
+//
 // Created on: <27-Jul-2007 09:29:16 bjorn>
 //
+// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
-// SOFTWARE RELEASE: n.n.n
-// BUILD VERSION: nnnnn
+// SOFTWARE RELEASE: 3.10.x
 // COPYRIGHT NOTICE: Copyright (C) 1999-2007 eZ systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
@@ -22,6 +23,8 @@
 //   MA 02110-1301, USA.
 //
 //
+// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+//
 
 /*! \file ezimportdbafile.php
 */
@@ -31,7 +34,7 @@ include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/ezdatatype.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "eZ publish datatype sql update\n\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ Publish datatype sql update\n\n" .
                                                          "Script can be runned as:\n" .
                                                          "bin/php/ezimportdbafile.php --datatype=\n\n" .
                                                          "Example: bin/php/ezimportdbafile.php --datatype=ezisbn" ),

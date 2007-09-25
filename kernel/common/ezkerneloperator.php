@@ -33,7 +33,7 @@
 
 /*!
   \class eZKerneloperator ezkerneloperator.php
-  \brief The class eZKerneloperator does handles eZ publish preferences
+  \brief The class eZKerneloperator does handles eZ Publish preferences
 
 */
 class eZKernelOperator

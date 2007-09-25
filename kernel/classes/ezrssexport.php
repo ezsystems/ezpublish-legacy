@@ -33,7 +33,7 @@
 
 /*!
   \class eZRSSExport ezrssexport.php
-  \brief Handles RSS Export in eZ publish
+  \brief Handles RSS Export in eZ Publish
 
   RSSExport is used to create RSS feeds from published content. See kernel/rss for more files.
 */
@@ -421,7 +421,7 @@ class eZRSSExport extends eZPersistentObject
         $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
 
         $doc = new eZDOMDocument();
-        $doc->setName( 'eZ publish RSS Export' );
+        $doc->setName( 'eZ Publish RSS Export' );
         $root = $doc->createElementNode( 'rss', array( 'version' => '2.0' ) );
         $doc->setRoot( $root );
 
@@ -602,7 +602,7 @@ class eZRSSExport extends eZPersistentObject
         $baseItemURL = $this->attribute( 'url' ).'/'; //.$this->attribute( 'site_access' ).'/';
 
         $doc = new eZDOMDocument();
-        $doc->setName( 'eZ publish RSS Export' );
+        $doc->setName( 'eZ Publish RSS Export' );
         $root = $doc->createElementNode( 'rdf:RDF', array( 'xmlns:rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
                                                            'xmlns:rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
                                                            'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',

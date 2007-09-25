@@ -219,7 +219,7 @@ class eZFile
 
             ob_clean();
 
-            header( 'X-Powered-By: eZ publish' );
+            header( 'X-Powered-By: eZ Publish' );
             header( 'Content-Length: ' . filesize( $file ) );
             header( 'Content-Type: ' . $mimeinfo['name'] );
 

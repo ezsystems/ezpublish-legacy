@@ -78,7 +78,7 @@ class eZSearchLog
         }
 
         /* when breaking BC: delete next lines */
-        /* ezsearch_return_count is not used any more by eZ publish
+        /* ezsearch_return_count is not used any more by eZ Publish
            but perhaps someone else added some functionality... */
         $time = mktime();
         // store the search result
