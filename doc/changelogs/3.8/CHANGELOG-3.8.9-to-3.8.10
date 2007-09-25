@@ -71,3 +71,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 19969)
 - Fixed bug #11257: call to exit( 1 ) after $script->shutdown( 1 ).
   (Merged from trunk (3.10.0) rev. 19972)
+- Fixed bug #11391: reference notices in infocollector/collectionlist/<ID> view.
+  (Merged from trunk (3.10.0) rev. 19981)
