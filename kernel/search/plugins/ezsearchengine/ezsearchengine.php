@@ -874,7 +874,7 @@ class eZSearchEngine
                     $searchPartText = $searchPart['sql_part'];
                     if ( $i == 0 )
                     {
-                        $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                        $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
                         $this->saveCreatedTempTableName( 0, $table );
                         $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                         $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
@@ -901,7 +901,7 @@ class eZSearchEngine
                     }
                     else
                     {
-                        $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+                        $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', $i );
                         $this->saveCreatedTempTableName( $i, $table );
 
                         $tmpTable0 = $this->getSavedTempTableName( 0 );
@@ -941,7 +941,7 @@ class eZSearchEngine
 
             if ( $searchPartsArray === null && $this->TempTablesCount == 0 )
             {
-                 $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                 $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
                  $this->saveCreatedTempTableName( 0, $table );
                  $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                  $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
@@ -1687,7 +1687,7 @@ class eZSearchEngine
         $i = $this->TempTablesCount;
         if ( $i == 0 )
         {
-            $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+            $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
             $this->saveCreatedTempTableName( 0, $table );
             $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
             $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
@@ -1714,7 +1714,7 @@ class eZSearchEngine
         }
         else
         {
-            $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+            $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0', $i );
             $this->saveCreatedTempTableName( $i, $table );
             $tmpTable0 = $this->getSavedTempTableName( 0 );
             $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
@@ -1831,7 +1831,7 @@ class eZSearchEngine
                 $searchPartText = $searchPart['sql_part'];
                 if ( $i == 0 )
                 {
-                    $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                    $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', 0 );
                     $this->saveCreatedTempTableName( 0, $table );
                     $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
                     $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
@@ -1858,7 +1858,7 @@ class eZSearchEngine
                 }
                 else
                 {
-                    $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+                    $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%', $i );
                     $this->saveCreatedTempTableName( $i, $table );
                     $tmpTable0 = $this->getSavedTempTableName( 0 );
                     $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
