@@ -75,5 +75,6 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 19981)
 - Fixed bug #11333: $classID not defined in customObjectAttributeHTTPAction().
   (Merged from stable/3.9 (3.9.4) rev. 19984)
-- Fixed bug #010729: Inconsistency - Translation Button Lost from Admin Content Structure
+- Fixed bug #10729: Inconsistency - Translation Button Lost from Admin Content Structure
   Merged from trunk (3.10.0) rev.19990
+- Fixed bug #11467: Fatal error: Cannot instantiate non-existent class

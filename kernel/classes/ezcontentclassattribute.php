@@ -47,12 +47,6 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->Content = null;
         $this->DisplayInfo = null;
         $this->Module = null;
-
-        $this->NameList = new eZContentClassNameList();
-        if ( isset( $row['serialized_name_list'] ) )
-            $this->NameList = new eZContentClassAttributeNameList( $row['serialized_name_list'] );
-        else
-            $this->NameList->initDefault();
     }
 
     function definition()
@@ -240,7 +234,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
-        
+
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
         global $eZContentClassAttributeCacheList;
@@ -269,7 +263,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             return false;
         }
-        
+
         global $eZContentClassAttributeCacheListFull;
         unset( $eZContentClassAttributeCacheListFull );
         global $eZContentClassAttributeCacheList;
@@ -305,7 +299,7 @@ class eZContentClassAttribute extends eZPersistentObject
             unset( $eZContentClassAttributeCacheList[$this->attribute( 'contentclass_id' )] );
             global $eZContentClassAttributeCache;
             unset( $eZContentClassAttributeCache[$this->ID] );
-            
+
             $db =& eZDB::instance();
             $db->begin();
             $dataType->deleteStoredClassAttribute( $this, $this->Version );
