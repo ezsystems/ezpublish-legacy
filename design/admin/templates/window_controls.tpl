@@ -3,8 +3,8 @@
 
 {def $translations_count=count($node.object.available_languages)
     $li_width="" }
-
-{if le($translations_count, 1) }
+{def $can_create_languages=fetch( content, prioritized_languages )}
+{if le($can_create_languages, 1) }
     {set $li_width="_25"}
 {/if}
 
@@ -41,7 +41,7 @@
 
     {section show=fetch( content, translation_list )|count|gt( 1 )}
     {* Translations. *}
-    {if gt($translations_count, 1) }
+    {if gt($can_create_languages, 1) }
     {section show=ezpreference( 'admin_navigation_translations' )}
     <li class="enabled {$li_width}">
     <div class="button-bc"><div class="button-tl"><div class="button-tr"><div class="button-br">
