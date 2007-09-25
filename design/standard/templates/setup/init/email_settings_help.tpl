@@ -9,4 +9,4 @@
 <p></p>
 {"Most Unix systems support sendmail, while windows users must choose SMTP."|i18n("design/standard/setup/init")}
 <p></p>
-{"<b>SMTP</b>: If you're unsure what to enter, take a look at the settings in your email application."|i18n("design/standard/setup/init")} *}
+{"<b>SMTP</b>: If you are unsure what to enter, refer to the settings in your email application."|i18n("design/standard/setup/init")} *}

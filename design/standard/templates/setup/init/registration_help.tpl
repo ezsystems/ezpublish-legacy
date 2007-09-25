@@ -9,4 +9,4 @@
   <li>{"Languages chosen"|i18n("design/standard/setup/init")}</li>
 </ul>
 <p></p>
-{"This data will help to improve future releases of eZ publish."|i18n("design/standard/setup/init")}
+{"This data will help to improve future releases of eZ Publish."|i18n("design/standard/setup/init")}
