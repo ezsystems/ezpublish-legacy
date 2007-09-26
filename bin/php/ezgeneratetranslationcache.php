@@ -72,7 +72,7 @@ include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
 //
 // 'ts-list' option
 //
-$translations = split( ' ', $scriptOptions['ts-list'] );
+$translations = isset( $scriptOptions['ts-list'] ) ? split( ' ', $scriptOptions['ts-list'] ) : array();
 $translations = eZTSTranslator::fetchList( $translations );
 
 
