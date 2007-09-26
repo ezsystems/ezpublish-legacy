@@ -371,11 +371,11 @@ class eZTimeType extends eZDataType
         {
             case 'empty':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT, EZ_DATATYPESTRING_TIME_DEFAULT_EMTPY );
             } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_TIME_DEFAULT, EZ_DATATYPESTRING_TIME_DEFAULT_CURRENT_DATE );
             } break;
         }
     }
