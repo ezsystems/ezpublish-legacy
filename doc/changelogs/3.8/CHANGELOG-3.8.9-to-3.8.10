@@ -80,3 +80,5 @@ Changes from 3.8.9 to 3.8.10
 - Fixed bug #11467: Fatal error: Cannot instantiate non-existent class.
 - Fixed bug #11358: /content/action module override post variables when merging with session LastPostVars.
   (Merged from trunk (3.10.0) rev. 20006)
+- Fixed bug #11113: Typo in eZMediaType::serializeContentObjectAttribute
+  (Merged from trunk (3.10.0) rev. 20012)
