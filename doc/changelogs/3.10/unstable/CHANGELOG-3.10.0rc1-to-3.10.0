@@ -54,3 +54,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #11071: Wrong usage of chmod in eZPackage
 - Fixed bug #10893: No translation caches generated when ts-list option is omitted
 - Fixed bug #11089: Wrong API documentation for eZContentObjectPackageInstaller::packageType
+- Fixed bug #10917: ezimage.tpl may leave <a> tag unclosed, breaks XHTML
