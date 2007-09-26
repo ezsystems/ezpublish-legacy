@@ -75,7 +75,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     }
 
     /*!
-     \return \c 'contentclass'.
+     \return \c 'contentobject'.
     */
     function packageType( &$package, &$persistentData )
     {

@@ -86,3 +86,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20016)
 - Fixed bug #11071: Wrong usage of chmod in eZPackage
   (Merged from trunk (3.10.0) rev. 20021)
+- Fixed bug #11089: Wrong API documentation for eZContentObjectPackageInstaller::packageType
+  (Merged from trunk (3.10.0) rev. 20026)
