@@ -392,13 +392,13 @@ class eZUserType extends eZDataType
 
         $user = eZUser::create( $contentObjectAttribute->attribute( 'contentobject_id' ) );
 
-        $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
-        $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );
+        $user->setAttribute( 'login', $login );
+        $user->setAttribute( 'email', $email );
         if ( isset( $userData[2] ) )
-            $user->setAttribute( 'password_hash', $userNode->attributeValue( 'password_hash' ) );
+            $user->setAttribute( 'password_hash', $userData[2] );
 
         if ( isset( $userData[3] ) )
-            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userNode->attributeValue( 'passsword_hash_type' ) ) );
+            $user->setAttribute( 'password_hash_type', eZUser::passwordHashTypeID( $userData[3] ) );
         $user->store();
         return $user;
     }
