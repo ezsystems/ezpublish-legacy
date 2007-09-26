@@ -84,3 +84,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20012)
 - Fixed bug #11090: eztimetype uses constants defined for ezdatetype
   (Merged from trunk (3.10.0) rev. 20016)
+- Fixed bug #11071: Wrong usage of chmod in eZPackage
+  (Merged from trunk (3.10.0) rev. 20021)
