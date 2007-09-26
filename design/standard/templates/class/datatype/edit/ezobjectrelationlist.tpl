@@ -19,17 +19,15 @@
 </div>
 
 <div class="block">
-    <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
     {section show=eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
+        <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
         <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
         <option value="0" {section show=eq( $type, 0 )}selected="selected"{/section}>{'New and existing objects'|i18n( 'design/standard/class/datatype' )}</option>
         <option value="1" {section show=eq( $type, 1 )}selected="selected"{/section}>{'Only new objects'|i18n( 'design/standard/class/datatype' )}</option>
         <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
         </select>
     {section-else}
-        <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
-        <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
-    </select>
+        <input type="hidden" name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" value="2" />    
     {/section}
 </div>
 
