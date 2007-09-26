@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) || $http->hasPostVariable( '
 if ( $http->hasSessionVariable( 'LastPostVars' ) )
 {
     $post =& $http->attribute( 'post' );
-    $post = array_merge( $post, $http->sessionVariable( 'LastPostVars' ) );
+    $post = array_merge( $http->sessionVariable( 'LastPostVars' ), $post );
     unset( $post );
     $http->removeSessionVariable( 'LastPostVars' );
 }
