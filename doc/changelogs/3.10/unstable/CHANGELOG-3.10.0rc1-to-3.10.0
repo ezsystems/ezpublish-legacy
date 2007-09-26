@@ -50,3 +50,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #11358: /content/action module override post variables when merging with session LastPostVars.
 - Fixed bug #11113: Typo in eZMediaType::serializeContentObjectAttribute
 - Fixed bug #11090: eztimetype uses constants defined for ezdatetype
+- Fixed bug #11092: eZUser::fromString uses undefined variables
