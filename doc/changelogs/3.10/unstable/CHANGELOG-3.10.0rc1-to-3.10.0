@@ -47,3 +47,4 @@ Changes from 3.10.0rc1 to 3.10.0
 - Fixed bug #11480: A bug in updateniceurls.php prevents upgrading 
   from 3.9.3 to 3.10.0rc1 successfully.
 - Fixed bug #11332: group policy causes sql errors.
+- Fixed bug #11358: /content/action module override post variables when merging with session LastPostVars.
