@@ -88,3 +88,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20021)
 - Fixed bug #11089: Wrong API documentation for eZContentObjectPackageInstaller::packageType
   (Merged from trunk (3.10.0) rev. 20026)
+- Fixed bug #10917: ezimage.tpl may leave <a> tag unclosed, breaks XHTML
+  (Merged from trunk (3.10.0) rev. 20031)
