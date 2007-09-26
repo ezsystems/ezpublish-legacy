@@ -329,7 +329,7 @@ class eZTemplateBlockFunction
         {
             $input = $placement[0][0] . ',' . $placement[0][1] . "\n";
             $input .= $placement[1][0] . ',' . $placement[1][1] . "\n";
-            $input = $placement[2];
+            $input .= $placement[2];
             return md5( $input );
         }
         return false;

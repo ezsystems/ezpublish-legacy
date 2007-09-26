@@ -90,3 +90,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20026)
 - Fixed bug #10917: ezimage.tpl may leave <a> tag unclosed, breaks XHTML
   (Merged from trunk (3.10.0) rev. 20031)
+- Fixed bug #10356: Possible bug in placementKey() in eztemplateblockfunction.php
+  (Merged from trunk (3.10.0) rev. 20034)
