@@ -103,6 +103,9 @@ if ( get_class( $order ) == 'ezorder' )
                     $Result = array();
                     include_once( "kernel/common/template.php" );
                     $tpl =& templateInit();
+
+                    $tpl->setVariable( 'operation_result', $operationResult );
+
                     $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
