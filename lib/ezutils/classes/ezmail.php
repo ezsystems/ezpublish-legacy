@@ -544,7 +544,7 @@ class eZMail
         return $pos;
     }
 
-    function extractEmail( $text, &$email, &$name )
+    static function extractEmail( $text, &$email, &$name )
     {
         if ( preg_match( "/([^<]+)<" . EZ_MAIL_REGEXP . ">/", $text, $matches ) )
         {

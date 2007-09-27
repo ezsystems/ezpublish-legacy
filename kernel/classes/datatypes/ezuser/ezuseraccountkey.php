@@ -64,14 +64,14 @@ class eZUserAccountKey extends eZPersistentObject
                       "name" => "ezuser_accountkey" );
     }
 
-    function createNew( $userID, $hashKey, $time)
+    static function createNew( $userID, $hashKey, $time)
     {
         return new eZUserAccountKey( array( "user_id" => $userID,
                                             "hash_key" => $hashKey,
                                             "time" => $time ) );
     }
 
-    function fetchByKey( $hashKey )
+    static function fetchByKey( $hashKey )
     {
         return eZPersistentObject::fetchObject( eZUserAccountKey::definition(),
                                                 null,
