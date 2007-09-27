@@ -514,6 +514,33 @@ class eZShopOperationCollection
 
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
+
+    /*!
+     Verify that we have a valid currency before the the order can continue.
+    */
+    function checkCurrency( $orderID )
+    {
+        $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        $order = eZOrder::fetch( $orderID );
+        $productCollection =& $order->attribute( 'productcollection' );
+        $currencyCode =& $productCollection->attribute( 'currency_code' );
+        $currencyCode = trim( $currencyCode );
+        if ( $currencyCode == '' )
+        {
+            $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+        }
+
+        $locale =& eZLocale::instance();
+        $localeCurrencyCode = $locale->currencyShortName();
+
+        // Reverse logic to avoid calling eZCurrencyData::currencyExists() if the first expression is true.
+        if ( !( $currencyCode == $localeCurrencyCode or
+                eZCurrencyData::currencyExists( $currencyCode ) ) )
+        {
+            $returnStatus = array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+        }
+        return $returnStatus;
+    }
 }
 
 ?>

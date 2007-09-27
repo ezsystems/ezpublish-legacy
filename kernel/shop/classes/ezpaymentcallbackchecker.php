@@ -263,28 +263,14 @@ class eZPaymentCallbackChecker
     }
 
     /*!
-        Simple currency checking.
+      Simple currency checking. It's up to the payment solution to use the currency that
+      are set in the product collection for the order.
     */
     function checkCurrency( $currency )
     {
         //get the order currency
         $productCollection = $this->order->productCollection();
-        $orderCurrency = $productCollection->CurrencyCode;
-
-        //if no order currency is set match against the preferred currency
-        if ( !$orderCurrency )
-        {
-            $ini = eZINI::instance( 'shop.ini' );
-            $orderCurrency = $ini->variable( 'CurrencySettings', 'PreferredCurrency' );
-        }
-
-        //if no preferred currency is set match against the current local
-        if ( !$orderCurrency )
-        {
-            include_once( 'lib/ezlocale/classes/ezlocale.php' );
-            $locale         =& eZLocale::instance();
-            $orderCurrency  =  $locale->currencyShortName();
-        }
+        $orderCurrency =& $productCollection->attribute( 'currency_code' );
 
         if ( $orderCurrency == $currency )
         {
