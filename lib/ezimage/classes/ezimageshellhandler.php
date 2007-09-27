@@ -75,7 +75,10 @@ class eZImageShellHandler extends eZImageHandler
         else if ( eZSys::osType() == 'unix' and $this->ExecutableUnix )
             $executable = $this->ExecutableUnix;
         if ( $this->Path )
-            $executable = $this->Path . '/' . $executable;
+            $executable = $this->Path . eZSys::fileSeparator() . $executable;
+        if ( eZSys::osType() == 'win32' )
+            $executable = "\"$executable\"";
+
         $argumentList[] = $executable;
 
         if ( $this->PreParameters )
@@ -120,6 +123,9 @@ class eZImageShellHandler extends eZImageHandler
             $argumentList[] = $this->PostParameters;
 
         $systemString = implode( ' ', $argumentList );
+        if ( eZSys::osType() == 'win32' )
+            $systemString = "\"$systemString\"";
+
         system( $systemString, $returnCode );
 
         if ( $returnCode == 0 )
