@@ -4327,14 +4327,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                 if ( $moveToTrash )
                 {
-                    // saving information about this node in ..trash_node table
-                    include_once( 'kernel/classes/ezcontentobjecttrashnode.php' );
-                    $trashNode = eZContentObjectTrashNode::createFromNode( $this );
-                    $db =& eZDB::instance();
-                    $db->begin();
-                    $trashNode->storeToTrash();
-                    $db->commit();
-
                     $object->remove();
                 }
                 else

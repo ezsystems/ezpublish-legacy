@@ -92,3 +92,4 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev. 20031)
 - Fixed bug #10356: Possible bug in placementKey() in eztemplateblockfunction.php
   (Merged from trunk (3.10.0) rev. 20034)
+- Fixed bug #011495: Undefined class name 'ezcontentobjecttrashnode'
