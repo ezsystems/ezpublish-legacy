@@ -269,6 +269,7 @@ function resetCommandItem()
                           'installtype' => false,
                           'version' => false,
                           'file' => false );
+    return $commandItem;
 }
 
 $commandItem = resetCommandItem();
