@@ -99,3 +99,5 @@ Changes from 3.8.9 to 3.8.10
   (Merged from trunk (3.10.0) rev.20050)
 - Fixed bug #011488: eZContentObjectVersion::name calls eZContentObject::name with wrong arguments
   (Merged from trunk (3.10.0) rev.20054)
+- Fixed bug #011492: Error in the template compile code using extract and extract_left
+  (Merged from trunk (3.10.0) rev.20060)
